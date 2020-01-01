@@ -1,5 +1,11 @@
 {{Form::open(array('url'=>'users','method'=>'post'))}}
-<div class="row">
+<div class="modal-header">
+    <h5 class="modal-title"></h5>
+    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+    <i class="material-icons">close</i>
+    </button>
+</div>
+<div class="modal-body">
     <div class="col-md-12">
         <div class="form-group">
             {{Form::label('name',__('Name')) }}
@@ -45,8 +51,9 @@
         </div>
     @endif
 </div>
+
 <div class="modal-footer">
-    <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Create'),array('class'=>'btn blue'))}}
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
+    {{ Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
 </div>
 {{Form::close()}}

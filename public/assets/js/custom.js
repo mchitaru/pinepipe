@@ -4,12 +4,13 @@ $(document).on('click', 'a[data-ajax-popup="true"], button[data-ajax-popup="true
     var title = $(this).data('title');
     var size = ($(this).data('size') == '') ? 'md' : $(this).data('size');
     var url = $(this).data('url');
-    $("#commonModal .modal-title").html(title);
+
     $("#commonModal .modal-dialog").addClass('modal-' + size);
     $.ajax({
         url: url,
         success: function (data) {
-            $('#commonModal .modal-body').html(data);
+            $('#commonModal .modal-content').html(data);
+            $("#commonModal .modal-title").html(title);
             $("#commonModal").modal('show');
             taskCheckbox();
             common_bind("#commonModal");
@@ -34,13 +35,13 @@ $(document).on('click', 'a[data-ajax-popup-over="true"], button[data-ajax-popup-
     var size = ($(this).data('size') == '') ? 'md' : $(this).data('size');
     var url = $(this).data('url');
 
-    $("#commonModalOver .modal-title").html(title);
     $("#commonModalOver .modal-dialog").addClass('modal-' + size);
 
     $.ajax({
         url: url + '?id=' + id,
         success: function (data) {
-            $('#commonModalOver .modal-body').html(data);
+            $('#commonModalOver .modal-content').html(data);
+            $("#commonModalOver .modal-title").html(title);
             $("#commonModalOver").modal('show');
             taskCheckbox();
         },
