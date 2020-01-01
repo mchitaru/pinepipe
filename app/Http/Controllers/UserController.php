@@ -260,11 +260,11 @@ class UserController extends Controller
                         'email' => 'required|email|unique:users,email,' . $userDetail['id'],
                     ]
         );
-        if($request->hasFile('profile'))
+        if($request->hasFile('avatar'))
         {
-            $filenameWithExt = $request->file('profile')->getClientOriginalName();
+            $filenameWithExt = $request->file('avatar')->getClientOriginalName();
             $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension       = $request->file('profile')->getClientOriginalExtension();
+            $extension       = $request->file('avatar')->getClientOriginalExtension();
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
 
             $dir        = storage_path('app/public/avatar/');
@@ -280,11 +280,10 @@ class UserController extends Controller
                 mkdir($dir, 0777, true);
             }
 
-            $path = $request->file('profile')->storeAs('public/avatar/', $fileNameToStore);
-
+            $path = $request->file('avatar')->storeAs('public/avatar', $fileNameToStore);
         }
 
-        if(!empty($request->profile))
+        if(!empty($request->avatar))
         {
             $user['avatar'] = $fileNameToStore;
         }
@@ -292,7 +291,7 @@ class UserController extends Controller
         $user['email'] = $request['email'];
         $user->save();
 
-        return redirect()->route('dashboard')->with(
+        return redirect()->route('home')->with(
             'success', 'Profile successfully updated.'
         );
     }

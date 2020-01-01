@@ -1,6 +1,14 @@
+@php
+    $users=\Auth::user();
+    $profile=asset(Storage::url('avatar/'));
+    $logo=asset(Storage::url('logo/'));
+    $currantLang = $users->currentLanguage();
+    $languages=$users->languages();
+
+@endphp
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
 <a class="navbar-brand" href="{{ route('home') }}">
-    <img alt="Pipeline" width=30 src="assets/img/logo.svg" />
+    <img alt="Pipeline" width=30 src="{{ asset('assets/img/logo.svg') }}" />
 </a>
 <div class="d-flex align-items-center">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,10 +130,14 @@
     <div class="d-none d-lg-block">
         <div class="dropdown">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img alt="Image" src="assets/img/avatar-male-4.jpg" class="avatar" />
+            <img alt="Image" src="{{ asset('assets/img/avatar-male-4.jpg') }}" class="avatar" />
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a href="{{ route('user') }}" class="dropdown-item">Profile</a>
+            @can('manage account')
+            <a href="{{route('profile',$users->id)}}" class="dropdown-item">
+                <i class="icon-user"></i>{{__('Profile')}}
+            </a>
+            @endcan
             <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
             <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                 <i class="icon-key"></i> {{__('Logout')}}
