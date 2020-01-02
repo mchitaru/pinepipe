@@ -31,18 +31,18 @@ $('[data-confirm]').each(function() {
     body: me_data[1],
     buttons: [
       {
-        text: me.data('confirm-text-yes') || 'Yes',
-        class: 'btn btn-danger btn-shadow',
-        handler: function() {
-          eval(me.data('confirm-yes'));
-        }
-      },
-      {
         text: me.data('confirm-text-cancel') || 'Cancel',
         class: 'btn btn-secondary',
         handler: function(modal) {
           $.destroyModal(modal);
           eval(me.data('confirm-no'));
+        }
+      },
+      {
+        text: me.data('confirm-text-yes') || 'Yes',
+        class: 'btn btn-danger btn-shadow',
+        handler: function() {
+          eval(me.data('confirm-yes'));
         }
       }
     ]
