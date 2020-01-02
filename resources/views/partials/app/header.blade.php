@@ -142,19 +142,19 @@
     </div>
     <!-- Profile menu --->
     <div class="dropdown mx-lg-2">
-        <div class="dropdown">
+        <div class="dropdown dropdown-toggle">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img alt="Image" src="{{ asset('assets/img/avatar-male-4.jpg') }}" class="avatar" />
+            <img alt="{{$users->name}}" title="{{$users->name}}" src="{{(!empty($users->avatar)? $profile.'/'.$users->avatar : $profile.'/avatar.png')}}" class="avatar" />
         </a>
         <div class="dropdown-menu dropdown-menu-right">
             @can('manage account')
             <a href="{{route('profile',$users->id)}}" class="dropdown-item">
-                <i class="icon-user"></i>{{__('Profile')}}
+                {{__('Profile')}}
             </a>
             @endcan
             <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
             <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-                <i class="icon-key"></i> {{__('Logout')}}
+                {{__('Logout')}}
             </a>
             <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
                 {{ csrf_field() }}
