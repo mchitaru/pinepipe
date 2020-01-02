@@ -1,4 +1,7 @@
-$('.toast').toast('show');
+$(document).ready(function(){
+    $('.toast').toast({delay: 5000});
+    $('.toast').toast('show');
+});
 
 $(document).on('click', 'a[data-ajax-popup="true"], button[data-ajax-popup="true"], div[data-ajax-popup="true"]', function () {
     var title = $(this).data('title');

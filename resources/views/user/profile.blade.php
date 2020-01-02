@@ -116,30 +116,45 @@
             {{Form::close()}}
         </div>
         <div class="tab-pane fade" role="tabpanel" id="password">
-            <form>
+            {{Form::model($userDetail,array('route' => array('update.password',$userDetail->id), 'method' => 'put'))}}
             <div class="form-group row align-items-center">
-                <label class="col-3">Current Password</label>
+                {{Form::label('current_password',__('Current Password'), array('class'=>'col-3'))}}
                 <div class="col">
-                <input type="password" placeholder="Enter your current password" name="password-current" class="form-control" />
+                    {{Form::password('current_password',array('class'=>'form-control','placeholder'=>_('Enter Current Password')))}}
+                    @error('current_password')
+                    <span class="invalid-current_password" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-group row align-items-center">
-                <label class="col-3">New Password</label>
+                {{Form::label('new_password',__('New Password'), array('class'=>'col-3'))}}
                 <div class="col">
-                <input type="password" placeholder="Enter a new password" name="password-new" class="form-control" />
-                <small>Password must be at least 8 characters long</small>
+                    {{Form::password('new_password',array('class'=>'form-control','placeholder'=>_('Enter New Password')))}}
+                    @error('new_password')
+                    <span class="invalid-new_password" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-group row align-items-center">
-                <label class="col-3">Confirm Password</label>
+                {{Form::label('confirm_password',__('Confirm Password'), array('class'=>'col-3'))}}
                 <div class="col">
-                <input type="password" placeholder="Confirm your new password" name="password-new-confirm" class="form-control" />
+                    {{Form::password('confirm_password',array('class'=>'form-control','placeholder'=>_('Confirm Password')))}}
+                    @error('confirm_password')
+                    <span class="invalid-confirm_password" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
+
             <div class="row justify-content-end">
-                <button type="submit" class="btn btn-primary">Change Password</button>
+                {{Form::submit('Change Password',array('class'=>'btn btn-primary'))}}
             </div>
-            </form>
+            {{Form::close()}}
         </div>
         <div class="tab-pane fade" role="tabpanel" id="notifications">
             <form>
