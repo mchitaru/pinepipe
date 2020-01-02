@@ -175,9 +175,9 @@ function taskCheckbox() {
                 ((options.header == true) ?
                     '         <div class="modal-header">  '  +
                     '           <h5 class="modal-title">'+ options.title +'</h5>  '  +
-                    ((options.closeButton == true) ?
-                        '           <button type="button" class="close" data-dismiss="modal" aria-label="Close">  '  +
-                        '             <span aria-hidden="true">&times;</span>  '  +
+                                    ((options.closeButton == true) ?
+                        '           <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">  '  +
+                        '           <i class="material-icons">close</i> ' +
                         '           </button>  '
                         : '') +
                     '         </div>  '

@@ -17,7 +17,7 @@
 
     <div class="dropdown">
         <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-            <i class="material-icons">settings</i>
+            <i class="material-icons">bookmarks</i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 

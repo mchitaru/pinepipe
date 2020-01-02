@@ -22,6 +22,7 @@
 <script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
 
 <script>
