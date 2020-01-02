@@ -36,7 +36,7 @@
             </div>
             <!--end of content list head-->
             <div class="content-list-body">
-                        <table class="table table-striped table-bordered table-hover" id="dataTable">
+                        <table  class="mdl-data-table" style="width:100%" id="dataTable">
                         <thead>
                         <tr>
                             <th>{{__('Order Id')}}</th>
@@ -73,7 +73,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                </div>
+                </div>                    
             </div>
         </div>
     </div>

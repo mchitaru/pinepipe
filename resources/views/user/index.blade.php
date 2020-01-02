@@ -66,7 +66,7 @@
             <!--end of content list head-->
             <div class="content-list-body">
                 @foreach($users as $user)
-                <div class="card card-task">
+                <div class="card card-contact">
                     <div class="card-body">
                         <a href="#" data-toggle="tooltip" title={{$user->name}}>
                         <img alt={{$user->name}} class="avatar" src="{{(!empty($user->avatar))? asset(Storage::url("avatar/".$user->avatar)): asset(Storage::url("avatar/avatar.png"))}}" />
@@ -77,8 +77,8 @@
                         </a>
                         <span class="text-small">{{$user->type}}</span>
                     </div>
-                    <div class="card-meta">
-                        <span class="d-flex">
+                    <div class="card-title">
+                        <span class="d-flex align-items-center">
                             <i class="material-icons">email</i>
                             <a href="mailto:kenny.tran@example.com">
                                 <h6 data-filter-by="text">{{$user->email}}</h6>

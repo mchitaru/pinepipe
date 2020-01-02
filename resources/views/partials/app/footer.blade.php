@@ -3,6 +3,9 @@
 <!-- Required vendor scripts (Do not remove) -->
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
+<script type="text/javascript" src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/dataTables.material.min.js') }}"></script>
 
 <!-- Autosize - resizes textarea inputs as user types -->
 <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>
@@ -23,7 +26,6 @@
 
 <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
 
 <script>
     var options = {

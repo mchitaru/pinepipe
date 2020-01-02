@@ -4,6 +4,52 @@
 //
 // Place your own custom CSS or SCSS rules below this line, these rules will override any Bootstrap and theme variables.
 
+.card-contact{
+    margin-bottom:2px;
+    .card-body{
+      padding: 0.5rem;
+    }
+    .card-title{
+        padding: 0rem;
+        margin: 0;
+    }
+    .card-meta{
+      float:right;
+      padding: 0rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      i{
+        margin-right: $spacer/6;
+      }
+    }
+}
+  
+@include media-breakpoint-up(lg) {
+.card-contact{
+    .card-title{
+    margin: 0;
+    }
+    .card-body, .card-meta{
+    display: flex;
+    align-items: center;
+    }
+    .card-body{
+    justify-content: space-between;
+    }
+    .card-options{
+    margin-left: $spacer;
+    position: relative;
+    top: 0;
+    right: 0;
+    }
+    .avatars{
+    margin-right: $spacer;
+    }
+}
+}
+  
+
 //workspace info cards
 .card-body .number {
     float: left;

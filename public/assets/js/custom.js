@@ -1,7 +1,17 @@
 $(document).ready(function(){
     $('.toast').toast({delay: 5000});
     $('.toast').toast('show');
+
+    $('#dataTable').DataTable( {
+        columnDefs: [
+            {
+                targets: [ 0, 1, 2 ],
+                className: 'mdl-data-table__cell--non-numeric'
+            }
+        ]
+    } );
 });
+
 
 $(document).on('click', 'a[data-ajax-popup="true"], button[data-ajax-popup="true"], div[data-ajax-popup="true"]', function () {
     var title = $(this).data('title');

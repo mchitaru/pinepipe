@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Gothic+A1" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('assets/css/material.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('assets/css/dataTables.material.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
