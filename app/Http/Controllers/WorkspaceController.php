@@ -139,7 +139,7 @@ WorkspaceController extends Controller
             $user['most_purchese_plan']=(!empty(Plan::most_purchese_plan())?Plan::most_purchese_plan()->total:0);
             $chartData = $this->getOrderChart(['duration'=>'week']);
 
-            return view('workspace.super_admin',compact('user','chartData'));
+            return view('workspace.admin',compact('user','chartData'));
         }
 
     }

@@ -25907,6 +25907,38 @@ pre[class*=language-] {
   }
 }
 
+.card-body .number {
+  float: left;
+}
+
+.card-body .number h3 {
+  margin: 0 0 2px;
+  padding: 0;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.card-body .number h3 > small {
+  font-size: 23px;
+}
+
+.card-body .number small {
+  font-size: 14px;
+  color: #AAB5BC;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.card-body .icon {
+  float: right;
+  padding: 7px 0 0;
+}
+
+.card-body .icon > i {
+  color: #cbd4e0;
+  font-size: 26px;
+}
+
 ol.timeline {
   list-style-type: none;
   position: relative;
@@ -25941,5 +25973,32 @@ ol.timeline > li:before {
   width: 9px;
   height: 9px;
   z-index: 400;
+}
+
+.card .price-ribbon {
+  position: absolute;
+  top: 75px;
+  right: -35px;
+  width: 90px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 400;
+  padding: 6px 20px 6px 15px;
+  color: #fff;
+  background-color: #007bff;
+  text-shadow: 0 1px 2px #bbb;
+  box-shadow: 0 2px 4px #888;
+}
+
+.card .price-ribbon:after {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: 0;
+  top: 100%;
+  border-width: 5px 10px;
+  border-style: solid;
+  border-color: #495057 transparent transparent #495057;
 }
 

@@ -115,19 +115,33 @@
         <a class="dropdown-item" href="#">Task</a>
         </div>
     </div>
+    <!-- Settings menu --->
     <div class="dropdown mx-lg-2">
         <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
             <i class="material-icons">settings</i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="{{ route('users.index') }}">Users</a>
-            <a class="dropdown-item" href="#">Share</a>
+            @if(\Auth::user()->type=='super admin')
+            @can('manage user')
+            <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
+            @endcan
+            @endif
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="#">Leave</a>
+            @if(Gate::check('manage plan'))
+            <a href="{{ route('plans.index') }}" class="dropdown-item">
+                <span class="title">{{__('Price Plans')}}</span>
+            </a>
+            @endif
+            @if(Gate::check('manage order'))
+            <a href="{{ route('order.index') }}" class="dropdown-item">
+                <span class="title">{{__('Orders')}}</span>
+            </a>
+            @endif
         </div>
     </div>
-    <div class="d-none d-lg-block">
+    <!-- Profile menu --->
+    <div class="dropdown mx-lg-2">
         <div class="dropdown">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img alt="Image" src="{{ asset('assets/img/avatar-male-4.jpg') }}" class="avatar" />
