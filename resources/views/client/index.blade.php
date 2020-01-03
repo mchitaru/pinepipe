@@ -44,7 +44,7 @@
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">Clients
-                    <span class="badge badge-secondary">5</span>
+                    <span class="badge badge-secondary">{{ count($clients) }}</span>
                 </a>
             </li>
             <li class="nav-item">

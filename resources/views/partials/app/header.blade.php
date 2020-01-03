@@ -157,7 +157,7 @@
                 {{__('Profile')}}
             </a>
             @endcan
-            <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
+            <div class="dropdown-divider"></div>
             <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                 {{__('Logout')}}
             </a>
