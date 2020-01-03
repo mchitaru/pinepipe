@@ -2,6 +2,7 @@
     $users=\Auth::user();
     $profile=asset(Storage::url('avatar/'));
     $logo=asset(Storage::url('logo/'));
+    
     $currantLang = $users->currentLanguage();
     $languages=$users->languages();
 
@@ -48,7 +49,9 @@
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Projects</a>
         <div class="dropdown-menu">
 
-            <a class="dropdown-item" href="{{ route('team') }}">Team</a>
+            @if(Gate::check('manage project'))
+                <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
+            @endif
 
             <a class="dropdown-item" href="{{ route('project') }}">Project</a>
 
@@ -95,16 +98,15 @@
 
     </ul>
     <div class="d-lg-flex align-items-center">
-    <form class="form-inline my-lg-0 my-2">
+    @if(\Auth::user()->type !='super admin')
+    <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
+        @csrf
         <div class="input-group input-group-dark input-group-round">
-        <div class="input-group-prepend">
-            <span class="input-group-text">
-            <i class="material-icons">search</i>
-            </span>
-        </div>
-        <input type="search" class="form-control form-control-dark" placeholder="Search" aria-label="Search app">
+            <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
         </div>
     </form>
+    @endif
+
     <div class="dropdown mx-lg-2">
         <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Add New

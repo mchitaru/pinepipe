@@ -73,7 +73,7 @@ class Projects extends Model
         return Task::where('project_id', '=', $project_id)->where('assign_to', '=', $user_id)->count();
     }
 
-    public function user_project_comlete_task($project_id, $user_id, $last_stage_id)
+    public function user_project_complete_task($project_id, $user_id, $last_stage_id)
     {
         return Task::where('project_id', '=', $project_id)->where('assign_to', '=', $user_id)->where('stage', '=', $last_stage_id)->count();
     }

@@ -14,6 +14,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" media="all" />
     <link href="{{ asset('assets/css/material.min.css') }}" rel="stylesheet" type="text/css" media="all" />
     <link href="{{ asset('assets/css/dataTables.material.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('assets/css/easy-autocomplete.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('assets/css/easy-autocomplete.themes.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

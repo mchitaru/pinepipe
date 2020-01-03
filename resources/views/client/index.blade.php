@@ -57,7 +57,7 @@
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show active" id="clients" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show active" id="clients" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Clients')}}</h3>
@@ -157,7 +157,7 @@
                 <!--end of content list body-->
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade show" id="contacts" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="contacts" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>Clients</h3>
