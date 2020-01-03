@@ -122,21 +122,24 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            @if(\Auth::user()->type=='super admin')
-            @can('manage user')
-            <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-            @endcan
+            @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
+                @can('manage user')
+                <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
+                @endcan
+            @endif
+            @if(Gate::check('manage role'))
+                <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
             @endif
             <div class="dropdown-divider"></div>
             @if(Gate::check('manage plan'))
-            <a href="{{ route('plans.index') }}" class="dropdown-item">
-                <span class="title">{{__('Price Plans')}}</span>
-            </a>
+                <a href="{{ route('plans.index') }}" class="dropdown-item">
+                    <span class="title">{{__('Price Plans')}}</span>
+                </a>
             @endif
             @if(Gate::check('manage order'))
-            <a href="{{ route('order.index') }}" class="dropdown-item">
-                <span class="title">{{__('Orders')}}</span>
-            </a>
+                <a href="{{ route('order.index') }}" class="dropdown-item">
+                    <span class="title">{{__('Orders')}}</span>
+                </a>
             @endif
         </div>
     </div>

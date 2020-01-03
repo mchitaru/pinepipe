@@ -104,16 +104,16 @@
                                 {{$user->total_company_client($user->id)}}
                             </span>
                             @else
-                            <span class="badge badge-secondary">
+                            <span class="badge badge-secondary mr-2">
                                 <i class="material-icons" title="Projects">folder</i>
                                 {{$user->user_project()}}
                             </span>
-                            <span class="badge badge-secondary">
-                                <i class="material-icons" title="Expenses">payment</i>
+                            <span class="badge badge-secondary mr-2">
+                                <i class="material-icons" title="Expenses">attach_money</i>
                                 {{\Auth::user()->priceFormat($user ->user_expense())}}
                             </span>
-                            <span class="badge badge-secondary">
-                                <i class="material-icons">assignement</i>
+                            <span class="badge badge-secondary mr-2">
+                                <i class="material-icons" title="Tasks">playlist_add_check</i>
                                 {{$user->user_assign_task()}}
                             </span>
                             @endif
@@ -144,8 +144,8 @@
                             @endif
                         </div>
                     </div>
-                    </div>
-                    </div>
+                </div>
+                </div>
                 @endforeach
             </div>
             </div>
