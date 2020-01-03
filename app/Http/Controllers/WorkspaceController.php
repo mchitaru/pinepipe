@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityLog;
 use App\Order;
 use App\Plan;
 use App\Projects;
@@ -39,6 +40,9 @@ WorkspaceController extends Controller
             $lead_percentage         = ($total_lead!=0? intval(($complete_lead / $total_lead) * 100):0);
             $lead['total_lead']      = $total_lead;
             $lead['lead_percentage'] = $lead_percentage;
+
+//            $activities = ActivityLog::all();
+            $activities = ActivityLog::select('activity_logs.*', 'userprojects.id as up_id')->join('userprojects', 'userprojects.project_id', '=', 'activity_logs.project_id')->where('userprojects.user_id', '=', \Auth::user()->authId())->get();
 
             if(\Auth::user()->type == 'company')
             {
@@ -126,7 +130,7 @@ WorkspaceController extends Controller
             $projectData     = \App\Projects::getProjectStatus();
             $taskData        = \App\Projectstages::getChartData();
 
-            return view('workspace.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'project_status', 'projectData', 'taskData'));
+            return view('workspace.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'project_status', 'projectData', 'taskData', 'activities'));
         }
         else
         {

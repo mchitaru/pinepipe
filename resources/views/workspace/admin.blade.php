@@ -5,7 +5,7 @@
 
 @push('scripts')
 <script>
-    var ctx = document.getElementById('order-chart-canvas').getContext('2d');
+    var ctx = document.getElementById('order-chart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -119,7 +119,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{__('Recent Orders')}}</h5>
-                            <canvas id="order-chart-canvas" width="800" height="200"></canvas>
+                            <canvas id="order-chart" width="800" height="200"></canvas>
                         </div>
                     </div>
                 </div>
