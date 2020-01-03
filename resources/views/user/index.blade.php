@@ -73,7 +73,7 @@
                         </a>
                     <div class="card-title">
                         <a href="#">
-                        <h4 data-filter-by="text">{{$user->name}}</h4>
+                        <h6 data-filter-by="text">{{$user->name}}</h6>
                         </a>
                         <span class="text-small">{{$user->type}}</span>
                     </div>

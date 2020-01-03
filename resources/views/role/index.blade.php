@@ -62,52 +62,45 @@
             </div>
             <!--end of content list head-->
             <div class="content-list-body">
-                <div class="container-fluid">
-                    <table  class="mdl-data-table" style="width:100%" id="dataTable">
-                        <thead>
-                        <tr>
-                            <th class="col-sm-3">{{__('Role')}} </th>
-                            <th class="col-sm-5">{{__('Permissions')}} </th>
-                            <th class="text-right" width="200px">{{__('Action')}} </th>
-                        </tr>
-                        </thead>
-                        <tbody class="font-style">
-                        @foreach ($roles as $role)
-                            <tr>
-                                <td>{{ $role->name }}</td>
-                                <td>
-                                    @for($j=0;$j<count($role->permissions()->pluck('name'));$j++)
-                                        <span class="badge badge-secondary">{{$role->permissions()->pluck('name')[$j]}}</span>
-                                    @endfor
-                                </td>
-                                <td class="action">
-                                    <div class="dropdown card-options">
-                                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">more_vert</i>
-                                        </button>
-        
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            @can('edit role')
-                                            <a class="dropdown-item" href="#" data-url="{{  route('roles.edit',$role->id)}}" data-size="lg" data-ajax-popup="true" data-toggle="tooltip" data-original-title="{{__('Edit')}}" data-title="{{__('Update Role')}}">
-                                                <span>{{__('Edit')}}</span>
-                                            </a>
-                                            @endcan
-                                            <div class="dropdown-divider"></div>
-                                            @can('delete role')
-                                                <a class="dropdown-item text-danger" href="#" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$role->id}}').submit();">
-                                                    <span>{{__('Delete')}}</span>
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id],'id'=>'delete-form-'.$role->id]) !!}
-                                                {!! Form::close() !!}
-                                            @endcan
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                @foreach ($roles as $role)
+                <div class="card card-contact">
+                    <div class="card-body">
+                    <div class="card-title mr-3">
+                        <a href="#">
+                        <h6 data-filter-by="text">{{ $role->name }}</h6>
+                        </a>
+                    </div>
+                    <div class="card-meta">
+                        <div class="d-flex flex-wrap">
+                            @for($j=0;$j<count($role->permissions()->pluck('name'));$j++)
+                                <span class="badge badge-secondary">{{$role->permissions()->pluck('name')[$j]}}</span>
+                            @endfor
+                        </div>
+                        <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                @can('edit role')
+                                <a class="dropdown-item" href="#" data-url="{{  route('roles.edit',$role->id)}}" data-size="lg" data-ajax-popup="true" data-toggle="tooltip" data-original-title="{{__('Edit')}}" data-title="{{__('Update Role')}}">
+                                    <span>{{__('Edit')}}</span>
+                                </a>
+                                @endcan
+                                <div class="dropdown-divider"></div>
+                                @can('delete role')
+                                    <a class="dropdown-item text-danger" href="#" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$role->id}}').submit();">
+                                        <span>{{__('Delete')}}</span>
+                                    </a>
+                                    {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id],'id'=>'delete-form-'.$role->id]) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                </div>
+                @endforeach
                 </div>
             </div>
         </div>
