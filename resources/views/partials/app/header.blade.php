@@ -115,6 +115,7 @@
         <a class="dropdown-item" href="#">Task</a>
         </div>
     </div>
+    @if(\Auth::user()->type!='client')
     <!-- Settings menu --->
     <div class="dropdown mx-lg-2">
         <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
@@ -143,6 +144,7 @@
             @endif
         </div>
     </div>
+    @endif
     <!-- Profile menu --->
     <div class="dropdown mx-lg-2">
         <div class="dropdown dropdown-toggle">
