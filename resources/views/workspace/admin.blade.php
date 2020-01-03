@@ -129,47 +129,24 @@
             <div class="row">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Latest activity</h5>
+                      <h5 class="card-title">{{__('Latest Activity')}} </h5>
                         <ol class="timeline small">
+                        @foreach($activities as $activity)
                         <li>
                             <div class="media align-items-center">
                                 <div class="media-body">
-                                <div>
-                                <span class="h6" data-filter-by="text">Peggy</span>
-                                <span data-filter-by="text">added the note</span><a href="#" data-filter-by="text">Client Meeting Notes</a>
-                                </div>
-                                <span class="text-small" data-filter-by="text">Yesterday</span>
+                                    <div>
+                                        <span data-filter-by="text">{!! $activity->remark !!}</span>
+                                    </div>
+                                    <span class="text-small" data-filter-by="text">{{date('d M Y H:i', strtotime($activity->created_at))}}</span>
                                 </div>
                             </div>
                         </li>
-
-                        <li>
-                            <div class="media align-items-center">
-                            <div class="media-body">
-                                <div>
-                                <span class="h6" data-filter-by="text">David</span>
-                                <span data-filter-by="text">added the note</span><a href="#" data-filter-by="text">Aesthetic note</a>
-                                </div>
-                                <span class="text-small" data-filter-by="text">Yesterday</span>
-                            </div>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="media align-items-center">
-                            <div class="media-body">
-                                <div>
-                                <span class="h6" data-filter-by="text">Marcus</span>
-                                <span data-filter-by="text">was assigned to the task</span>
-                                </div>
-                                <span class="text-small" data-filter-by="text">4 days ago</span>
-                            </div>
-                            </div>
-                        </li>
+                        @endforeach
                     </ol>
                 </div>
             </div>
-            </div>
+          </div>
         </div>
     </div>
 </div>

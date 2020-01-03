@@ -41,7 +41,6 @@ WorkspaceController extends Controller
             $lead['total_lead']      = $total_lead;
             $lead['lead_percentage'] = $lead_percentage;
 
-//            $activities = ActivityLog::all();
             $activities = ActivityLog::select('activity_logs.*', 'userprojects.id as up_id')->join('userprojects', 'userprojects.project_id', '=', 'activity_logs.project_id')->where('userprojects.user_id', '=', \Auth::user()->authId())->get();
 
             if(\Auth::user()->type == 'company')
@@ -134,6 +133,8 @@ WorkspaceController extends Controller
         }
         else
         {
+            $activities = ActivityLog::all();
+
             $user=\Auth::user();
             $user['total_user']=$user->countCompany();
             $user['total_paid_user']=$user->countPaidCompany();
@@ -143,7 +144,7 @@ WorkspaceController extends Controller
             $user['most_purchese_plan']=(!empty(Plan::most_purchese_plan())?Plan::most_purchese_plan()->total:0);
             $chartData = $this->getOrderChart(['duration'=>'week']);
 
-            return view('workspace.admin',compact('user','chartData'));
+            return view('workspace.admin',compact('user','chartData','activities'));
         }
 
     }
