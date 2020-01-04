@@ -1,46 +1,13 @@
-@extends('layouts.admin')
+@extends('layouts.app')
+
 @php
     $profile=asset(Storage::url('avatar/'));
 @endphp
-@push('css-page')
-    <link href="{{ asset('assets/default/render/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('assets/default/render/dropzone/basic.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('assets/module/css/custom_project.css') }}" rel="stylesheet" type="text/css"/>
+
+@push('stylesheets')
 @endpush
 
-@push('script-page')
-    <script src="{{ asset('assets/default/render/dropzone/dropzone.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/pages/scripts/form-dropzone.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/default/render/morris/morris.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/default/render/morris/raphael-min.js') }}" type="text/javascript"></script>
-
-    <script src="{{ asset('assets/pages/scripts/dashboard.min.js') }}" type="text/javascript"></script>
-
-    <script>
-
-        var count = document.getElementById('testID').innerHTML.split(' ').length;
-        var html = $("#testID").html();
-        var remain = html.substring(count);
-        if (count > 100) {
-            html = html.substring(0, 500) + '<a id="read-more-btn"  onclick="read_more()" >Read more</a> <p id="read_more">' + remain + '</p>';
-
-        }
-        $("#testID").html(html);
-        $('#read_more').hide();
-
-        function read_more() {
-
-            var x = document.getElementById("read_more");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                $('#read-more-btn').css('display', 'none');
-            } else {
-                x.style.display = "none";
-                $('#read-more-btn').css('display', 'block');
-            }
-        }
-    </script>
-
+@push('scripts')
 @endpush
 
 @section('page-title')
@@ -48,22 +15,49 @@
 @endsection
 
 @section('breadcrumb')
-    <ul class="page-breadcrumb">
-        <li>
-            <i class="fa fa-home"></i>
-            <a href="{{ route('dashboard') }}">{{__('Home')}}</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <a href="{{ route('projects.index') }}">{{__('Project')}}</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <span>{{$project->name}}</span>
-        </li>
+<div class="breadcrumb-bar navbar bg-white sticky-top">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{__('Project')}}</li>
+        </ol>
+    </nav>
 
-    </ul>
+    <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons">bookmarks</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+            @can('manage task')
+            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))
+                <a class="dropdown-item" href="{{ route('project.taskboard',$project->id) }}" data-ajax-popup="true" data-title="{{__('Task Kanban')}}" data-toggle="tooltip" data-original-title="{{__('Task Kanban')}}">
+                    {{__('Kanban Board')}}
+                </a>
+            @endif
+            @endcan
+            @can('edit project')
+                <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                    {{__('Edit Project')}}
+                </a>
+            @endcan
+            <a class="dropdown-item" href="#">Share</a>
+            <a class="dropdown-item" href="#">Mark as Complete</a>
+            <div class="dropdown-divider"></div>
+            @can('delete task')
+                <a class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
+                    {{__('Archive')}}
+                </a>
+                {!! Form::open(['method' => 'DELETE', 'route' => ['projects.destroy', $project->id],'id'=>'delete-form-'.$project->id]) !!}
+                {!! Form::close() !!}
+            @endcan
+
+        </div>
+    </div>
+</div>
 @endsection
+
 @section('content')
     @php
         $permissions=$project->client_project_permission();
@@ -73,7 +67,7 @@
         $total_task = $project->project_total_task($project->id);
         $completed_task=$project->project_complete_task($project->id,$project_last_stage);
 
-         $percentage=0;
+        $percentage=0;
             if($total_task!=0){
                 $percentage = intval(($completed_task / $total_task) * 100);
             }
@@ -91,499 +85,1348 @@
         }
     @endphp
 
-    <div class="custom_project">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12">
-                <div class="portlet light">
-                    <div class="portlet-title">
-                        <div class="row" style="padding: 1.5rem !important">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <h4 class="font-weight-bold uppercase"><b>{{$project->name}}</b>
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-11">
+            <div class="page-header">
+            <h1>{{$project->name}}</h1>
+            <p class="lead">{{ $project->description }}</p>
+            <div class="d-flex align-items-center">
+                <ul class="avatars">
 
-                                </h4>
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Claire Connors">
+                    <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
+                    </a>
+                </li>
 
-                                <span class="custom-widget__desc font-style">
-                                    <div id="testID"> {{ $project->description }}</div>
-                                </span>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <div align="right">
-                                    @can('manage task')
-                                        @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))
-                                            <a href="{{ route('project.taskboard',$project->id) }}" class="btn btn btn-outline btn-md blue-madison" data-ajax-popup="true" data-title="{{__('Task Kanban')}}" data-toggle="tooltip" data-original-title="{{__('Task Kanban')}}">
-                                                &nbsp;<i class="fa fa-tasks"></i>
-                                            </a>
-                                        @endif
-                                    @endcan
-                                    @can('edit project')
-                                        <a href="#" class="btn btn-outline btn-md blue-madison" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    @endcan
-                                    @can('delete task')
-                                        <a href="#" class="btn btn-outline btn-md red" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['projects.destroy', $project->id],'id'=>'delete-form-'.$project->id]) !!}
-                                        {!! Form::close() !!}
-                                    @endcan
-                                </div>
-                                <div>
-                                    <div class="row" style="padding: 1.5rem !important">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <div class="custom-widget__item">
-                                                <span class="custom-widget__date">
-                                                   {{__('Start Date')}}
-                                                </span>
-                                                <div class="custom-widget__label">
-                                                    <span class="btn btn-label-brand btn-md btn-bold btn-upper">{{ \Auth::user()->dateFormat($project->start_date) }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <div class="custom-widget__item">
-                                                <span class="custom-widget__date">
-                                                    {{__('Due Date')}}
-                                                </span>
-                                                <div class="custom-widget__label">
-                                                    <span class="btn btn-label-danger btn-md btn-bold btn-upper">{{ \Auth::user()->dateFormat($project->due_date) }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="custom-widget__item">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <span class="custom-widget__date">
-                                                            <b>{{__('Progress')}}</b>
-                                                </span>
-                                                    </div>
-                                                    <div class="col-md-6 text-right">
-                                                        <span class="custom-widget__stat">
-                                                            <b>{{$percentage}}%</b>
-                                                        </span>
-                                                    </div>
-                                                </div>
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Marcus Simmons">
+                    <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
+                    </a>
+                </li>
 
-                                                <div class="custom-widget__label mt-10">
-                                                    <div class="custom-widget__progress d-flex  align-items-center">
-                                                        <div class="progress" style="height: 5px;width: 100%;">
-                                                            <div class="progress-bar custom-bg-success {{$label}}" role="progressbar" style="width: {{$percentage}}%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Peggy Brown">
+                    <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
+                    </a>
+                </li>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="portlet-footer">
-                        <div class="row">
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" style="display: flex">
-                                <span style="float: left;font-size: 30px;padding:0px 5px"><i class="fa fa-bank"></i></span>
-                                <span style="padding: 2px">
-                                    <span style="padding: 2px;"><b style="font-size: 12px">{{__('Budget')}}</b></span><br>
-                                    <span style="padding: 2px;"><b style="font-size: 15px;">{{ \Auth::user()->priceFormat($project->price) }}</b></span>
-                                </span>
-                                <span style="clear: both"></span>
-                            </div>
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" style="display: flex">
-                                <span style="float: left;font-size: 30px;padding:0px 5px"><i class="fa fa-star"></i></span>
-                                <span style="padding: 2px">
-                                    <span style="padding: 2px;"><b style="font-size: 12px">{{__('Expense')}}</b></span><br>
-                                    <span style="padding: 2px;"><b style="font-size: 15px;">{{ \Auth::user()->priceFormat($project->project_expenses()) }}</b></span>
-                                </span>
-                                <span style="clear: both"></span>
-                            </div>
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" style="display: flex">
-                                <span style="float: left;font-size: 30px;padding:0px 5px"><i class="fa fa-file-text-o"></i></span>
-                                <span style="padding: 2px">
-                                    <span style="padding: 2px;"><b style="font-size: 12px"> {{__('Tasks')}}</b></span><br>
-                                    <span style="padding: 2px;"><b style="font-size: 15px;">{{$project->countTask()}}</b></span>
-                                </span>
-                                <span style="clear: both"></span>
-                            </div>
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" style="display: flex">
-                                <span style="float: left;font-size: 30px;padding:0px 5px"><i class="fa fa-comment"></i></span>
-                                <span style="padding: 2px">
-                                    <span style="padding: 2px;"><b style="font-size: 12px"> {{__('Comments')}}</b></span><br>
-                                    <span style="padding: 2px;"><b style="font-size: 15px;">{{$project->countTaskComments()}}</b></span>
-                                </span>
-                                <span style="clear: both"></span>
-                            </div>
-                            <div class="col-xl-2 col-lg-2 col-md-2" style="display: flex">
-                                <span style="float: left;font-size: 30px;padding:0px 5px"><i class="fa fa-users"></i></span>
-                                <span style="padding: 2px">
-                                    <span style="padding: 2px;"><b style="font-size: 12px">{{__('Members')}}</b></span><br>
-                                    <span style="padding: 2px;"><b style="font-size: 15px;">{{$project->project_user()->count()}}</b></span>
-                                </span>
-                                <span style="clear: both"></span>
-                            </div>
-                            @php
-                                $datetime1 = new DateTime($project->due_date);
-                                $datetime2 = new DateTime(date('Y-m-d'));
-                                $interval = $datetime1->diff($datetime2);
-                                $days = $interval->format('%a')
-                            @endphp
-                            <div class=" col-lg-2 col-md-2" style="display: flex">
-                                <span style="float: left;font-size: 30px;padding:0px 5px"><i class="fa fa-calendar"></i></span>
-                                <span style="padding: 2px">
-                                    <span style="padding: 2px;"><b style="font-size: 12px">{{__('Days Left')}}</b></span><br>
-                                    <span style="padding: 2px;"><b style="font-size: 15px;">{{$days}}</b></span>
-                                </span>
-                                <span style="clear: both"></span>
-                            </div>
-                        </div>
-                    </div>
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Harry Xai">
+                    <img alt="Harry Xai" class="avatar" src="assets/img/avatar-male-2.jpg" />
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Sally Harper">
+                    <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Ravi Singh">
+                    <img alt="Ravi Singh" class="avatar" src="assets/img/avatar-male-3.jpg" />
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Kristina Van Der Stroem">
+                    <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="David Whittaker">
+                    <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
+                    </a>
+                </li>
+
+                </ul>
+                <button class="btn btn-round" data-toggle="modal" data-target="#user-manage-modal">
+                <i class="material-icons">add</i>
+                </button>
+            </div>
+            <div>
+                <div class="progress">
+                <div class="progress-bar bg-success" style="width:25%;"></div>
+                </div>
+                <div class="d-flex justify-content-between text-small">
+                <div class="d-flex align-items-center">
+                    <i class="material-icons">playlist_add_check</i>
+                    <span>3/12</span>
+                </div>
+                <span>Due 9 days</span>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12">
-                <div class="col-lg-8 col-md-8">
-                    <div class="row">
-                        <div class="todo-ui">
-                            <div class="portlet light ">
-                                <div class="portlet-title tabbable-line">
-                                    <div class="caption">
-                                        <i class=" icon-social-twitter font-dark hide"></i>
-                                        <span class="caption-subject font-dark bold">{{__('Staff')}}</span>
-                                    </div>
-                                    @can('invite user project')
-                                        <div class="actions">
-                                            <div class="btn-group">
-                                                <a href="#" class="btn btn btn-outline btn-md blue-madison" data-url="{{ route('project.invite',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add User')}}">
-                                                    <i class="fa fa-users"></i> {{__('Add User')}}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endcan
-                                </div>
-                                <div class="portlet-body">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab_actions_pending">
-                                            <div class="mt-actions">
-                                                <div class="mt-action">
-                                                    <div class="mt-action-body">
-                                                        <div class="mt-action-row">
-                                                            <div class="mt-action-info ">
-                                                                <div class="mt-action-details ">
-                                                                    <a href="#" class="milestone-detail font-style">{{(!empty($project->client())?$project->client()->name:'')}}</a>
-                                                                    <p class="mt-action-desc">{{(!empty($project->client())?$project->client()->email:'')}}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="mt-action-info ">
-                                                                <div class="mt-action-details ">
-                                                                    <span class="mt-action-author"></span>
-                                                                    <p class="mt-action-desc"></p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="mt-action-datetime ">
-                                                                <span class="mt=action-time"><div class="label label-soft-primary">{{__('Client')}}</div></span>
-                                                            </div>
-                                                            <div class="mt-action-buttons ">
-                                                                @can('client permission project')
-                                                                    <a href="#" class="btn btn btn-outline btn-md blue-madison" data-url="{{ route('client.permission',[$project->id,$project->client]) }}" data-ajax-popup="true" data-title="{{__('Client Permission')}}" data-toggle="tooltip" data-original-title="{{__('Client Permission')}}">
-                                                                        <i class="fa fa-lock"></i>
-                                                                    </a>
-                                                                @endcan
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-                                                        @foreach($project->project_user() as $user)
-                                                            @php $totalTask= $project->user_project_total_task($user->project_id,$user->user_id) @endphp
-                                                            @php $completeTask= $project->user_project_complete_task($user->project_id,$user->user_id,($project->project_last_stage())?$project->project_last_stage()->id:'' ) @endphp
-                                                            <div class="mt-action-row mb-10">
-                                                                <div class="mt-action-info user-info">
-                                                                    <div class="mt-action-details ">
-                                                                        <a href="#" class="milestone-detail font-style">{{$user->name}}</a>
-                                                                        <p class="mt-action-desc">{{$user->email}}</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="mt-action-info ">
-                                                                    <div class="mt-action-details ">
-                                                                        <span class="mt-action-author">{{$completeTask.'/'.$totalTask}}</span>
-                                                                        <p class="mt-action-desc"></p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="mt-action-datetime ">
-                                                                    <span class="mt=action-time font-style"><div class="label label-soft-primary">{{$user->type}}</div></span>
-                                                                </div>
-                                                                <div class="mt-action-buttons ">
-
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show milestone',$perArr)))
-                        <div class="row">
-                            <div class="todo-ui">
-                                <div class="portlet light ">
-                                    <div class="portlet-title tabbable-line">
-                                        <div class="caption">
-                                            <i class=" icon-social-twitter font-dark hide"></i>
-                                            <span class="caption-subject font-dark bold">{{__('Milestones')}} ({{count($project->milestones)}}) </span>
-                                        </div>
-                                        @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('create milestone',$perArr)))
-                                            <div class="actions">
-                                                <div class="btn-group">
-                                                    <a href="#" data-url="{{ route('project.milestone',$project->id) }}" data-ajax-popup="true" data-title="{{__('Create New Milestone')}}" class="btn btn-outline btn-sm blue-madison">
-                                                        <i class="fa fa-plus"></i> {{__('Create Milestone')}}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="portlet-body font-style">
-                                        <div class="tab-content">
-                                            <div class="tab-pane active" id="tab_actions_pending">
-                                                @foreach($project->milestones as $milestone)
-                                                    <div class="mt-actions">
-                                                        <div class="mt-action">
-                                                            <div class="mt-action-body">
-                                                                <div class="mt-action-row">
-                                                                    <div class="mt-action-info mile-title">
-                                                                        <div class="mt-action-details ">
-                                                                            <a href="#" class="milestone-detail" data-ajax-popup="true" data-title="{{ __('Milestones Details') }}" data-url="{{route('project.milestone.show',[$milestone->id])}}">{{$milestone->title}}</a>
-                                                                            <p class="mt-action-desc">{{$milestone->created_at}}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="mt-action-info">
-                                                                        <div class="mt-action-details ">
-                                                                            <span class="mt-action-author">{{__('Milestone Cost')}}</span>
-                                                                            <p class="mt-action-desc">$ {{number_format($milestone->cost)}}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="mt-action-datetime ">
-                                                                        @if($milestone->status == 'complete')
-                                                                            <span class="mt=action-time"><div class="label label-soft-success">{{$milestone->status}}</div></span>
-                                                                        @else
-                                                                            <span class="mt=action-time"> <div class="label label-soft-warning">{{$milestone->status}}</div></span>
-                                                                        @endif
-                                                                    </div>
-                                                                    <div class="mt-action-buttons ">
-                                                                        @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('edit milestone',$perArr)))
-                                                                            <a href="#" data-url="{{ route('project.milestone.edit',$milestone->id) }}" data-ajax-popup="true" data-title="Edit Milestone" data-toggle="tooltip" data-original-title="{{__('Edit')}}" class="btn btn-outline btn-sm blue-madison">
-                                                                                <i class="fa fa-pencil"></i>
-                                                                            </a>
-                                                                        @endif
-                                                                        @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('delete milestone',$perArr)))
-                                                                            <a href="#" class="btn btn-outline btn-sm red" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$milestone->id}}').submit();">
-                                                                                <i class="fa fa-trash"></i>
-                                                                                {!! Form::open(['method' => 'DELETE', 'route' => ['project.milestone.destroy', $milestone->id],'id'=>'delete-form-'.$milestone->id]) !!}
-                                                                                {!! Form::close() !!}
-                                                                            </a>
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    @endif
-
-                    @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show uploading',$perArr)))
-                        <div class="row">
-                            <div class="todo-ui">
-                                <div class="portlet light ">
-                                    <div class="portlet-title cust-portlet-title">
-                                        <div class="caption" data-toggle="collapse" data-target=".todo-project-list-content">
-                                            <span class="caption-subject font-black-sharp lab-title"> {{__('Files')}} </span>
-                                        </div>
-                                        <form action="#" class="dropzone dropzone-file-area" id="my-dropzone" style="">
-                                            <h3 class="sbold">Drop files here or click to upload</h3>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-                @if(\Auth::user()->type  == 'company')
-                    <div class="col-lg-4 col-md-4">
-                        <div class="todo-content">
-                            <div class="portlet light ">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <span class="caption-subject font-black-sharp lab-title"> {{__('Project Status')}} </span>
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <div class="row">
-                                        {{ Form::model($project, array('route' => array('projects.update.status', $project->id), 'method' => 'PUT')) }}
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                            <div class="form-group">
-                                                <select class="bs-select form-control" name="status" id="status">
-                                                    <option value="">Select Project Status</option>
-                                                    @foreach($project_status as $key => $value)
-                                                        <option value="{{ $key }}" {{ ($project->status == $key) ? 'selected' : '' }}>{{ $value }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                            <div class="form-group">
-                                                {{Form::submit(__('Change Status'),array('class'=>'btn blue form-control'))}}
-                                            </div>
-                                        </div>
-                                        {{ Form::close() }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show activity',$perArr)))
-                    <div class="col-lg-4 col-md-4">
-                        <div class="todo-content">
-                            <div class="portlet light ">
-                                <div class="portlet-title">
-                                    <div class="caption" data-toggle="collapse" data-target=".todo-project-list-content">
-                                        <span class="caption-subject font-black-sharp lab-title"> {{__('Activity')}} </span>
-                                    </div>
-                                </div>
-                                <div class="container-fluid activity-body">
-                                    @foreach($project->activities as $activity)
-                                        <div class="portlet-body">
-                                            <div class="row todo-row">
-                                                <div class="todo-tasklist">
-                                                    <div class="todo-tasklist-item todo-tasklist-item-border-blue">
-                                                        <div class="todo-tasklist-item-title">{{$activity->log_type}}</div>
-                                                        <div class="todo-tasklist-item-text"> {!! $activity->remark !!}</div>
-                                                        <div class="todo-tasklist-controls pull-left">
-                                                <span class="todo-tasklist-date">
-                                                    <i class="fa fa-calendar"></i> {{date('d M Y H:i', strtotime($activity->created_at))}} </span>
-                                                            <span class="todo-tasklist-badge badge badge-roundless"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
             </div>
+            <ul class="nav nav-tabs nav-fill" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">Activity</a>
+            </li>
+            </ul>
+            <div class="tab-content">
+            <div class="tab-pane fade show active" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+                <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>Tasks</h3>
+                    <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
+                    <i class="material-icons">add</i>
+                    </button>
+                </div>
+                <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Filter tasks" aria-label="Filter Tasks">
+                    </div>
+                </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body">
+                <div class="card-list">
+                    <div class="card-list-head">
+                    <h6>Evaluation</h6>
+                    <div class="dropdown">
+                        <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Rename</a>
+                        <a class="dropdown-item text-danger" href="#">Archive</a>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-list-body">
+
+                    <div class="card card-task">
+                        <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card-body">
+                        <div class="card-title">
+                            <a href="#">
+                            <h6 data-filter-by="text">Client objective meeting</h6>
+                            </a>
+                            <span class="text-small">Today</span>
+                        </div>
+                        <div class="card-meta">
+                            <ul class="avatars">
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Kenny">
+                                <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="David">
+                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Sally">
+                                <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Kristina">
+                                <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Claire">
+                                <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Marcus">
+                                <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
+                                </a>
+                            </li>
+
+                            </ul>
+                            <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <span>3/4</span>
+                            </div>
+                            <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Mark as done</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-task">
+                        <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card-body">
+                        <div class="card-title">
+                            <a href="#">
+                            <h6 data-filter-by="text">Target market trend analysis</h6>
+                            </a>
+                            <span class="text-small">5 days</span>
+                        </div>
+                        <div class="card-meta">
+                            <ul class="avatars">
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Peggy">
+                                <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="David">
+                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
+                                </a>
+                            </li>
+
+                            </ul>
+                            <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <span>2/10</span>
+                            </div>
+                            <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Mark as done</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-task">
+                        <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card-body">
+                        <div class="card-title">
+                            <a href="#">
+                            <h6 data-filter-by="text">Assemble Outcomes Report for client</h6>
+                            </a>
+                            <span class="text-small">7 days</span>
+                        </div>
+                        <div class="card-meta">
+                            <ul class="avatars">
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Marcus">
+                                <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Claire">
+                                <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="David">
+                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
+                                </a>
+                            </li>
+
+                            </ul>
+                            <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <span>0/6</span>
+                            </div>
+                            <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Mark as done</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+                <div class="card-list">
+                    <div class="card-list-head">
+                    <h6>Ideation</h6>
+                    <div class="dropdown">
+                        <button class="btn-options" type="button" id="cardlist-dropdown-button-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Rename</a>
+                        <a class="dropdown-item text-danger" href="#">Archive</a>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-list-body">
+
+                    <div class="card card-task">
+                        <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card-body">
+                        <div class="card-title">
+                            <a href="#">
+                            <h6 data-filter-by="text">Create brand mood boards</h6>
+                            </a>
+                            <span class="text-small">14 days</span>
+                        </div>
+                        <div class="card-meta">
+                            <ul class="avatars">
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Sally">
+                                <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Claire">
+                                <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
+                                </a>
+                            </li>
+
+                            </ul>
+                            <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <span>1/4</span>
+                            </div>
+                            <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Mark as done</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-task">
+                        <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card-body">
+                        <div class="card-title">
+                            <a href="#">
+                            <h6 data-filter-by="text">Produce broad concept directions</h6>
+                            </a>
+                            <span class="text-small">21 days</span>
+                        </div>
+                        <div class="card-meta">
+                            <ul class="avatars">
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Peggy">
+                                <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="David">
+                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Ravi">
+                                <img alt="Ravi Singh" class="avatar" src="assets/img/avatar-male-3.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Sally">
+                                <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
+                                </a>
+                            </li>
+
+                            </ul>
+                            <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <span>0/5</span>
+                            </div>
+                            <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Mark as done</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-task">
+                        <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card-body">
+                        <div class="card-title">
+                            <a href="#">
+                            <h6 data-filter-by="text">Present concepts and establish direction</h6>
+                            </a>
+                            <span class="text-small">28 days</span>
+                        </div>
+                        <div class="card-meta">
+                            <ul class="avatars">
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Kristina">
+                                <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Peggy">
+                                <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Ravi">
+                                <img alt="Ravi Singh" class="avatar" src="assets/img/avatar-male-3.jpg" />
+                                </a>
+                            </li>
+
+                            </ul>
+                            <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <span>0/3</span>
+                            </div>
+                            <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Mark as done</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+                <div class="card-list">
+                    <div class="card-list-head">
+                    <h6>Design</h6>
+                    <div class="dropdown">
+                        <button class="btn-options" type="button" id="cardlist-dropdown-button-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Rename</a>
+                        <a class="dropdown-item text-danger" href="#">Archive</a>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-list-body">
+
+                    <div class="card card-task">
+                        <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card-body">
+                        <div class="card-title">
+                            <a href="#">
+                            <h6 data-filter-by="text">Produce realised brand package</h6>
+                            </a>
+                            <span class="text-small">Unscheduled</span>
+                        </div>
+                        <div class="card-meta">
+                            <ul class="avatars">
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Marcus">
+                                <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Harry">
+                                <img alt="Harry Xai" class="avatar" src="assets/img/avatar-male-2.jpg" />
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="tooltip" title="Kristina">
+                                <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
+                                </a>
+                            </li>
+
+                            </ul>
+                            <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <span>-/-</span>
+                            </div>
+                            <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Mark as done</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+                <!--end of content list body-->
+                </div>
+                <!--end of content list-->
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade" id="files" role="tabpanel" data-filter-list="dropzone-previews">
+                <div class="content-list">
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                    <h3>Files</h3>
+                    </div>
+                    <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                        </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="Filter files" aria-label="Filter Tasks">
+                    </div>
+                    </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body row">
+                    <div class="col">
+                    <ul class="d-none dz-template">
+                        <li class="list-group-item dz-preview dz-file-preview">
+                        <div class="media align-items-center dz-details">
+                            <ul class="avatars">
+                            <li>
+                                <div class="avatar bg-primary dz-file-representation">
+                                <i class="material-icons">attach_file</i>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar" data-title="David Whittaker" data-toggle="tooltip" />
+                            </li>
+                            </ul>
+                            <div class="media-body d-flex justify-content-between align-items-center">
+                            <div class="dz-file-details">
+                                <a href="#" class="dz-filename">
+                                <span data-dz-name></span>
+                                </a>
+                                <br>
+                                <span class="text-small dz-size" data-dz-size></span>
+                            </div>
+                            <img alt="Loader" src="assets/img/loader.svg" class="dz-loading" />
+                            <div class="dropdown">
+                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Download</a>
+                                <a class="dropdown-item" href="#">Share</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#" data-dz-remove>Delete</a>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
+                                Cancel
+                            </button>
+                            </div>
+                        </div>
+                        <div class="progress dz-progress">
+                            <div class="progress-bar dz-upload" data-dz-uploadprogress></div>
+                        </div>
+                        </li>
+                    </ul>
+                    <form class="dropzone" action="https://mediumra.re/dropzone/upload.php">
+                        <span class="dz-message">Drop files here or click here to upload</span>
+                    </form>
+
+                    <ul class="list-group list-group-activity dropzone-previews flex-column-reverse">
+
+                        <li class="list-group-item">
+                        <div class="media align-items-center">
+                            <ul class="avatars">
+                            <li>
+                                <div class="avatar bg-primary">
+                                <i class="material-icons">insert_drive_file</i>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar" data-title="Peggy Brown" data-toggle="tooltip" data-filter-by="data-title" />
+                            </li>
+                            </ul>
+                            <div class="media-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#" data-filter-by="text">client-questionnaire</a>
+                                <br>
+                                <span class="text-small" data-filter-by="text">48kb Text Doc</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Download</a>
+                                <a class="dropdown-item" href="#">Share</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </li>
+
+                        <li class="list-group-item">
+                        <div class="media align-items-center">
+                            <ul class="avatars">
+                            <li>
+                                <div class="avatar bg-primary">
+                                <i class="material-icons">folder</i>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="Harry Xai" src="assets/img/avatar-male-2.jpg" class="avatar" data-title="Harry Xai" data-toggle="tooltip" data-filter-by="data-title" />
+                            </li>
+                            </ul>
+                            <div class="media-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#" data-filter-by="text">moodboard_images</a>
+                                <br>
+                                <span class="text-small" data-filter-by="text">748kb ZIP</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Download</a>
+                                <a class="dropdown-item" href="#">Share</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </li>
+
+                        <li class="list-group-item">
+                        <div class="media align-items-center">
+                            <ul class="avatars">
+                            <li>
+                                <div class="avatar bg-primary">
+                                <i class="material-icons">image</i>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="Ravi Singh" src="assets/img/avatar-male-3.jpg" class="avatar" data-title="Ravi Singh" data-toggle="tooltip" data-filter-by="data-title" />
+                            </li>
+                            </ul>
+                            <div class="media-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#" data-filter-by="text">possible-hero-image</a>
+                                <br>
+                                <span class="text-small" data-filter-by="text">1.2mb JPEG image</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Download</a>
+                                <a class="dropdown-item" href="#">Share</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </li>
+
+                        <li class="list-group-item">
+                        <div class="media align-items-center">
+                            <ul class="avatars">
+                            <li>
+                                <div class="avatar bg-primary">
+                                <i class="material-icons">insert_drive_file</i>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar" data-title="Claire Connors" data-toggle="tooltip" data-filter-by="data-title" />
+                            </li>
+                            </ul>
+                            <div class="media-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#" data-filter-by="text">LandingPrototypes</a>
+                                <br>
+                                <span class="text-small" data-filter-by="text">415kb Sketch Doc</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Download</a>
+                                <a class="dropdown-item" href="#">Share</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </li>
+
+                        <li class="list-group-item">
+                        <div class="media align-items-center">
+                            <ul class="avatars">
+                            <li>
+                                <div class="avatar bg-primary">
+                                <i class="material-icons">insert_drive_file</i>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar" data-title="David Whittaker" data-toggle="tooltip" data-filter-by="data-title" />
+                            </li>
+                            </ul>
+                            <div class="media-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#" data-filter-by="text">Branding-Proforma</a>
+                                <br>
+                                <span class="text-small" data-filter-by="text">15kb Text Document</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Download</a>
+                                <a class="dropdown-item" href="#">Share</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </li>
+
+                    </ul>
+                    </div>
+                </div>
+                </div>
+                <!--end of content list-->
+            </div>
+            <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
+                <div class="content-list">
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                    <h3>Activity</h3>
+                    </div>
+                    <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                        </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity">
+                    </div>
+                    </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body">
+                    <ol class="list-group list-group-activity">
+
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                        <ul class="avatars">
+                            <li>
+                            <div class="avatar bg-primary">
+                                <i class="material-icons">playlist_add_check</i>
+                            </div>
+                            </li>
+                            <li>
+                            <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar" data-filter-by="alt" />
+                            </li>
+                        </ul>
+                        <div class="media-body">
+                            <div>
+                            <span class="h6" data-filter-by="text">Claire</span>
+                            <span data-filter-by="text">completed the task</span><a href="#" data-filter-by="text">Set up client chat channel</a>
+                            </div>
+                            <span class="text-small" data-filter-by="text">Just now</span>
+                        </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                        <ul class="avatars">
+                            <li>
+                            <div class="avatar bg-primary">
+                                <i class="material-icons">person_add</i>
+                            </div>
+                            </li>
+                            <li>
+                            <img alt="Ravi" src="assets/img/avatar-male-3.jpg" class="avatar" data-filter-by="alt" />
+                            </li>
+                        </ul>
+                        <div class="media-body">
+                            <div>
+                            <span class="h6" data-filter-by="text">Ravi</span>
+                            <span data-filter-by="text">joined the project</span>
+                            </div>
+                            <span class="text-small" data-filter-by="text">5 hours ago</span>
+                        </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                        <ul class="avatars">
+                            <li>
+                            <div class="avatar bg-primary">
+                                <i class="material-icons">playlist_add</i>
+                            </div>
+                            </li>
+                            <li>
+                            <img alt="Kristina" src="assets/img/avatar-female-4.jpg" class="avatar" data-filter-by="alt" />
+                            </li>
+                        </ul>
+                        <div class="media-body">
+                            <div>
+                            <span class="h6" data-filter-by="text">Kristina</span>
+                            <span data-filter-by="text">added the task</span><a href="#" data-filter-by="text">Produce broad concept directions</a>
+                            </div>
+                            <span class="text-small" data-filter-by="text">Yesterday</span>
+                        </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                        <ul class="avatars">
+                            <li>
+                            <div class="avatar bg-primary">
+                                <i class="material-icons">playlist_add</i>
+                            </div>
+                            </li>
+                            <li>
+                            <img alt="Marcus" src="assets/img/avatar-male-1.jpg" class="avatar" data-filter-by="alt" />
+                            </li>
+                        </ul>
+                        <div class="media-body">
+                            <div>
+                            <span class="h6" data-filter-by="text">Marcus</span>
+                            <span data-filter-by="text">added the task</span><a href="#" data-filter-by="text">Present concepts and establish direction</a>
+                            </div>
+                            <span class="text-small" data-filter-by="text">Yesterday</span>
+                        </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                        <ul class="avatars">
+                            <li>
+                            <div class="avatar bg-primary">
+                                <i class="material-icons">person_add</i>
+                            </div>
+                            </li>
+                            <li>
+                            <img alt="Sally" src="assets/img/avatar-female-3.jpg" class="avatar" data-filter-by="alt" />
+                            </li>
+                        </ul>
+                        <div class="media-body">
+                            <div>
+                            <span class="h6" data-filter-by="text">Sally</span>
+                            <span data-filter-by="text">joined the project</span>
+                            </div>
+                            <span class="text-small" data-filter-by="text">2 days ago</span>
+                        </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                        <ul class="avatars">
+                            <li>
+                            <div class="avatar bg-primary">
+                                <i class="material-icons">date_range</i>
+                            </div>
+                            </li>
+                            <li>
+                            <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar" data-filter-by="alt" />
+                            </li>
+                        </ul>
+                        <div class="media-body">
+                            <div>
+                            <span class="h6" data-filter-by="text">Claire</span>
+                            <span data-filter-by="text">rescheduled the task</span><a href="#" data-filter-by="text">Target market trend analysis</a>
+                            </div>
+                            <span class="text-small" data-filter-by="text">2 days ago</span>
+                        </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                        <ul class="avatars">
+                            <li>
+                            <div class="avatar bg-primary">
+                                <i class="material-icons">add</i>
+                            </div>
+                            </li>
+                            <li>
+                            <img alt="David" src="assets/img/avatar-male-4.jpg" class="avatar" data-filter-by="alt" />
+                            </li>
+                        </ul>
+                        <div class="media-body">
+                            <div>
+                            <span class="h6" data-filter-by="text">David</span>
+                            <span data-filter-by="text">started the project</span>
+                            </div>
+                            <span class="text-small" data-filter-by="text">12 days ago</span>
+                        </div>
+                        </div>
+                    </li>
+
+                    </ol>
+                </div>
+                </div>
+                <!--end of content list-->
+            </div>
+            </div>
+            <form class="modal fade" id="user-manage-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage Users</h5>
+                    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                    </button>
+                </div>
+                <!--end of modal head-->
+                <div class="modal-body">
+                    <div class="users-manage" data-filter-list="form-group-users">
+                    <div class="mb-3">
+                        <ul class="avatars text-center">
+
+                        <li>
+                            <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar" data-toggle="tooltip" data-title="Claire Connors" />
+                        </li>
+
+                        <li>
+                            <img alt="Marcus Simmons" src="assets/img/avatar-male-1.jpg" class="avatar" data-toggle="tooltip" data-title="Marcus Simmons" />
+                        </li>
+
+                        <li>
+                            <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar" data-toggle="tooltip" data-title="Peggy Brown" />
+                        </li>
+
+                        <li>
+                            <img alt="Harry Xai" src="assets/img/avatar-male-2.jpg" class="avatar" data-toggle="tooltip" data-title="Harry Xai" />
+                        </li>
+
+                        </ul>
+                    </div>
+                    <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                        </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members">
+                    </div>
+                    <div class="form-group-users">
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-1" checked>
+                        <label class="custom-control-label" for="user-manage-1">
+                            <span class="d-flex align-items-center">
+                            <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Claire Connors</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-2" checked>
+                        <label class="custom-control-label" for="user-manage-2">
+                            <span class="d-flex align-items-center">
+                            <img alt="Marcus Simmons" src="assets/img/avatar-male-1.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Marcus Simmons</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-3" checked>
+                        <label class="custom-control-label" for="user-manage-3">
+                            <span class="d-flex align-items-center">
+                            <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Peggy Brown</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-4" checked>
+                        <label class="custom-control-label" for="user-manage-4">
+                            <span class="d-flex align-items-center">
+                            <img alt="Harry Xai" src="assets/img/avatar-male-2.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Harry Xai</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-5">
+                        <label class="custom-control-label" for="user-manage-5">
+                            <span class="d-flex align-items-center">
+                            <img alt="Sally Harper" src="assets/img/avatar-female-3.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Sally Harper</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-6">
+                        <label class="custom-control-label" for="user-manage-6">
+                            <span class="d-flex align-items-center">
+                            <img alt="Ravi Singh" src="assets/img/avatar-male-3.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Ravi Singh</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-7">
+                        <label class="custom-control-label" for="user-manage-7">
+                            <span class="d-flex align-items-center">
+                            <img alt="Kristina Van Der Stroem" src="assets/img/avatar-female-4.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Kristina Van Der Stroem</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-8">
+                        <label class="custom-control-label" for="user-manage-8">
+                            <span class="d-flex align-items-center">
+                            <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">David Whittaker</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-9">
+                        <label class="custom-control-label" for="user-manage-9">
+                            <span class="d-flex align-items-center">
+                            <img alt="Kerri-Anne Banks" src="assets/img/avatar-female-5.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Kerri-Anne Banks</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-10">
+                        <label class="custom-control-label" for="user-manage-10">
+                            <span class="d-flex align-items-center">
+                            <img alt="Masimba Sibanda" src="assets/img/avatar-male-5.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Masimba Sibanda</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-11">
+                        <label class="custom-control-label" for="user-manage-11">
+                            <span class="d-flex align-items-center">
+                            <img alt="Krishna Bajaj" src="assets/img/avatar-female-6.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Krishna Bajaj</span>
+                            </span>
+                        </label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user-manage-12">
+                        <label class="custom-control-label" for="user-manage-12">
+                            <span class="d-flex align-items-center">
+                            <img alt="Kenny Tran" src="assets/img/avatar-male-6.jpg" class="avatar mr-2" />
+                            <span class="h6 mb-0" data-filter-by="text">Kenny Tran</span>
+                            </span>
+                        </label>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+                <!--end of modal body-->
+                <div class="modal-footer">
+                    <button role="button" class="btn btn-primary" type="submit">
+                    Done
+                    </button>
+                </div>
+                </div>
+            </div>
+            </form>
+
+            <form class="modal fade" id="task-add-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Task</h5>
+                    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                    </button>
+                </div>
+                <!--end of modal head-->
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                    <a class="nav-link active" id="task-add-details-tab" data-toggle="tab" href="#task-add-details" role="tab" aria-controls="task-add-details" aria-selected="true">Details</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" id="task-add-members-tab" data-toggle="tab" href="#task-add-members" role="tab" aria-controls="task-add-members" aria-selected="false">Members</a>
+                    </li>
+                </ul>
+                <div class="modal-body">
+                    <div class="tab-content">
+                    <div class="tab-pane fade show active" id="task-add-details" role="tabpanel">
+                        <h6>General Details</h6>
+                        <div class="form-group row align-items-center">
+                        <label class="col-3">Name</label>
+                        <input class="form-control col" type="text" placeholder="Task name" name="task-name" />
+                        </div>
+                        <div class="form-group row">
+                        <label class="col-3">Description</label>
+                        <textarea class="form-control col" rows="3" placeholder="Task description" name="task-description"></textarea>
+                        </div>
+                        <hr>
+                        <h6>Timeline</h6>
+                        <div class="form-group row align-items-center">
+                        <label class="col-3">Start Date</label>
+                        <input class="form-control col" type="text" name="task-start" placeholder="Select a date" data-flatpickr data-default-date="2021-04-21" data-alt-input="true" />
+                        </div>
+                        <div class="form-group row align-items-center">
+                        <label class="col-3">Due Date</label>
+                        <input class="form-control col" type="text" name="task-due" placeholder="Select a date" data-flatpickr data-default-date="2021-09-15" data-alt-input="true" />
+
+                        </div>
+                        <div class="alert alert-warning text-small" role="alert">
+                        <span>You can change due dates at any time.</span>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="task-add-members" role="tabpanel">
+                        <div class="users-manage" data-filter-list="form-group-users">
+                        <div class="mb-3">
+                            <ul class="avatars text-center">
+
+                            <li>
+                                <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar" data-toggle="tooltip" data-title="Claire Connors" />
+                            </li>
+
+                            <li>
+                                <img alt="Marcus Simmons" src="assets/img/avatar-male-1.jpg" class="avatar" data-toggle="tooltip" data-title="Marcus Simmons" />
+                            </li>
+
+                            <li>
+                                <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar" data-toggle="tooltip" data-title="Peggy Brown" />
+                            </li>
+
+                            <li>
+                                <img alt="Harry Xai" src="assets/img/avatar-male-2.jpg" class="avatar" data-toggle="tooltip" data-title="Harry Xai" />
+                            </li>
+
+                            </ul>
+                        </div>
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members">
+                        </div>
+                        <div class="form-group-users">
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-1" checked>
+                            <label class="custom-control-label" for="task-user-1">
+                                <span class="d-flex align-items-center">
+                                <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Claire Connors</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-2" checked>
+                            <label class="custom-control-label" for="task-user-2">
+                                <span class="d-flex align-items-center">
+                                <img alt="Marcus Simmons" src="assets/img/avatar-male-1.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Marcus Simmons</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-3" checked>
+                            <label class="custom-control-label" for="task-user-3">
+                                <span class="d-flex align-items-center">
+                                <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Peggy Brown</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-4" checked>
+                            <label class="custom-control-label" for="task-user-4">
+                                <span class="d-flex align-items-center">
+                                <img alt="Harry Xai" src="assets/img/avatar-male-2.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Harry Xai</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-5">
+                            <label class="custom-control-label" for="task-user-5">
+                                <span class="d-flex align-items-center">
+                                <img alt="Sally Harper" src="assets/img/avatar-female-3.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Sally Harper</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-6">
+                            <label class="custom-control-label" for="task-user-6">
+                                <span class="d-flex align-items-center">
+                                <img alt="Ravi Singh" src="assets/img/avatar-male-3.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Ravi Singh</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-7">
+                            <label class="custom-control-label" for="task-user-7">
+                                <span class="d-flex align-items-center">
+                                <img alt="Kristina Van Der Stroem" src="assets/img/avatar-female-4.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Kristina Van Der Stroem</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-8">
+                            <label class="custom-control-label" for="task-user-8">
+                                <span class="d-flex align-items-center">
+                                <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">David Whittaker</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-9">
+                            <label class="custom-control-label" for="task-user-9">
+                                <span class="d-flex align-items-center">
+                                <img alt="Kerri-Anne Banks" src="assets/img/avatar-female-5.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Kerri-Anne Banks</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-10">
+                            <label class="custom-control-label" for="task-user-10">
+                                <span class="d-flex align-items-center">
+                                <img alt="Masimba Sibanda" src="assets/img/avatar-male-5.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Masimba Sibanda</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-11">
+                            <label class="custom-control-label" for="task-user-11">
+                                <span class="d-flex align-items-center">
+                                <img alt="Krishna Bajaj" src="assets/img/avatar-female-6.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Krishna Bajaj</span>
+                                </span>
+                            </label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="task-user-12">
+                            <label class="custom-control-label" for="task-user-12">
+                                <span class="d-flex align-items-center">
+                                <img alt="Kenny Tran" src="assets/img/avatar-male-6.jpg" class="avatar mr-2" />
+                                <span class="h6 mb-0" data-filter-by="text">Kenny Tran</span>
+                                </span>
+                            </label>
+                            </div>
+
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!--end of modal body-->
+                <div class="modal-footer">
+                    <button role="button" class="btn btn-primary" type="submit">
+                    Create Task
+                    </button>
+                </div>
+                </div>
+            </div>
+            </form>
+
         </div>
     </div>
-
-
-
 @endsection
-@push('script-page')
-    <script>
-        Dropzone.autoDiscover = false;
-        myDropzone = new Dropzone("#my-dropzone", {
-            maxFiles: 20,
-            maxFilesize: 2,
-            parallelUploads: 1,
-            acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
-            url: "{{route('project.file.upload',[$project->id])}}",
-            success: function (file, response) {
-                if (response.is_success) {
-                    dropzoneBtn(file, response);
-                } else {
-                    myDropzone.removeFile(file);
-                    toastrs('Error', response.error, 'error');
-                }
-            },
-            error: function (file, response) {
-                myDropzone.removeFile(file);
-                if (response.error) {
-                    toastrs('Error', response.error, 'error');
-                } else {
-                    toastrs('Error', response.error, 'error');
-                }
-            }
-        });
-        myDropzone.on("sending", function (file, xhr, formData) {
-            formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
-            formData.append("project_id", {{$project->id}});
-        });
-
-        function dropzoneBtn(file, response) {
-            var download = document.createElement('a');
-            download.setAttribute('href', response.download);
-            download.setAttribute('class', "btn btn-outline btn-sm blue-madison cust-btn");
-            download.setAttribute('data-toggle', "tooltip");
-            download.setAttribute('data-original-title', "{{__('Download')}}");
-            download.innerHTML = "<i class='fa fa-download'></i>";
-
-            var del = document.createElement('a');
-            del.setAttribute('href', response.delete);
-            del.setAttribute('class', "btn btn-outline btn-sm red cust-btn");
-            del.setAttribute('data-toggle', "tooltip");
-            del.setAttribute('data-original-title', "{{__('Delete')}}");
-            del.innerHTML = "<i class='fa fa-trash'></i>";
-
-            del.addEventListener("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                if (confirm("Are you sure ?")) {
-                    var btn = $(this);
-                    $.ajax({
-                        url: btn.attr('href'),
-                        data: {_token: $('meta[name="csrf-token"]').attr('content')},
-                        type: 'DELETE',
-                        success: function (response) {
-                            if (response.is_success) {
-                                btn.closest('.dz-image-preview').remove();
-                            } else {
-                                toastrs('Error', response.error, 'error');
-                            }
-                        },
-                        error: function (response) {
-                            response = response.responseJSON;
-                            if (response.is_success) {
-                                toastrs('Error', response.error, 'error');
-                            } else {
-                                toastrs('Error', response.error, 'error');
-                            }
-                        }
-                    })
-                }
-            });
-
-            var html = document.createElement('div');
-            html.appendChild(download);
-            html.appendChild(del);
-
-            file.previewTemplate.appendChild(html);
-        }
-
-            @php
-                $files = $project->files;
-
-            @endphp
-            @foreach($files as $file)
-        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/public/project_files/'.$file->file_path))}} };
-        myDropzone.emit("addedfile", mockFile);
-        myDropzone.emit("thumbnail", mockFile, "{{asset('storage/project_files/'.$file->file_path)}}");
-        myDropzone.emit("complete", mockFile);
-        dropzoneBtn(mockFile, {download: "{{route('projects.file.download',[$project->id,$file->id])}}", delete: "{{route('projects.file.delete',[$project->id,$file->id])}}"});
-        @endforeach
-    </script>
-@endpush
-
-
