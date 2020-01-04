@@ -18,9 +18,13 @@
 <div class="breadcrumb-bar navbar bg-white sticky-top">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
+            <li class="breadcrumb-item">
+                <a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('Project')}}</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a href="{{ route('projects.index') }}">{{__('Projects')}}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{$project->name}}</li>
         </ol>
     </nav>
 
@@ -45,9 +49,10 @@
             <a class="dropdown-item" href="#">Share</a>
             <a class="dropdown-item" href="#">Mark as Complete</a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Archive</a>
             @can('delete task')
                 <a class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
-                    {{__('Archive')}}
+                    {{__('Delete')}}
                 </a>
                 {!! Form::open(['method' => 'DELETE', 'route' => ['projects.destroy', $project->id],'id'=>'delete-form-'.$project->id]) !!}
                 {!! Form::close() !!}
@@ -83,63 +88,38 @@
         } else {
             $label='bg-success';
         }
+
+        $datetime1 = new DateTime($project->due_date);
+        $datetime2 = new DateTime(date('Y-m-d'));
+        $interval = $datetime1->diff($datetime2);
+        $days_remaining = $interval->format('%a')
     @endphp
 
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-11">
             <div class="page-header">
-            <h1>{{$project->name}}</h1>
+                <div class="d-flex align-items-center">
+                    <h1>{{$project->name}}</h1>
+                    <a href="{{ route('users.index',$project->client()->id) }}" data-toggle="tooltip">
+                        <span class="badge badge-secondary">{{ (!empty($project->client())?$project->client()->name:'') }}</span>
+                    </a>
+                </div>
             <p class="lead">{{ $project->description }}</p>
             <div class="d-flex align-items-center">
                 <ul class="avatars">
+                    <li>
+                        <a href="{{ route('users.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{ (!empty($project->client())?$project->client()->name:'') }}">
+                            <img class="avatar" src="{{(!empty($project->client()->avatar)? $profile.'/'.$project->client()->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Claire Connors">
-                    <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Marcus Simmons">
-                    <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Peggy Brown">
-                    <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Harry Xai">
-                    <img alt="Harry Xai" class="avatar" src="assets/img/avatar-male-2.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Sally Harper">
-                    <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Ravi Singh">
-                    <img alt="Ravi Singh" class="avatar" src="assets/img/avatar-male-3.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Kristina Van Der Stroem">
-                    <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="David Whittaker">
-                    <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
-                    </a>
-                </li>
+                    @foreach($project->project_user() as $user)
+                    <li>
+                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
+                            <img alt="{{$user->name}}" class="avatar" src="{{(!empty($user->avatar)? $profile.'/'.$user->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
+                        </a>
+                    </li>
+                    @endforeach
 
                 </ul>
                 <button class="btn btn-round" data-toggle="modal" data-target="#user-manage-modal">
@@ -148,20 +128,42 @@
             </div>
             <div>
                 <div class="progress">
-                <div class="progress-bar bg-success" style="width:25%;"></div>
+                <div class="progress-bar bg-success" style="width:{{$percentage}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center">
-                    <i class="material-icons">playlist_add_check</i>
-                    <span>3/12</span>
+                    <i class="material-icons">done</i>
+                    <span data-toggle="tooltip" data-original-title="{{__('Status')}}">{{$project->status}}</span>
                 </div>
-                <span>Due 9 days</span>
+                <div class="d-flex align-items-center">
+                    <i class="material-icons">playlist_add_check</i>
+                    <span data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="material-icons">account_balance</i>
+                    <span data-toggle="tooltip" data-original-title="{{__('Budget')}}">{{ \Auth::user()->priceFormat($project->price) }}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="material-icons">account_balance_wallet</i>
+                    <span data-toggle="tooltip" data-original-title="{{__('Expenses')}}">{{ \Auth::user()->priceFormat($project->project_expenses()) }}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="material-icons">people</i>
+                    <span data-toggle="tooltip" data-original-title="{{__('Members')}}">{{$project->project_user()->count()+1}}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="material-icons">calendar_today</i>
+                    <span data-toggle="tooltip" data-original-title="{{__('Days Remaining')}}">{{$days_remaining}}</span>
+                </div>
+                <span>{{__('Due') }} {{ \Auth::user()->dateFormat($project->due_date) }}</span>
                 </div>
             </div>
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks</a>
+                <a class="nav-link active" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
+                    <span class="badge badge-secondary">{{ $total_task }}</span>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>

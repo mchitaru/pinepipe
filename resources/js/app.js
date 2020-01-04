@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-require('./mrare');
 require('chart.js');
 require('easy-autocomplete');
 

@@ -47,7 +47,9 @@
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Projects</a>
+            <a class="nav-link active" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Projects
+                <span class="badge badge-secondary">{{ count($projects) }}</span>
+            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
@@ -151,12 +153,12 @@
                                         </a>
                                     @else
                                         <a href="#">
-                                            <h5 data-filter-by="text">{{ $project->name }}</h5>                            
+                                            <h5 data-filter-by="text">{{ $project->name }}</h5>
                                         </a>
                                     @endif
                                     @else
                                         <a href="#">
-                                            <h5 data-filter-by="text">{{ $project->name }}</h5>                            
+                                            <h5 data-filter-by="text">{{ $project->name }}</h5>
                                         </a>
                                     @endcan
                                     @foreach($project_status as $key => $status)
@@ -195,9 +197,9 @@
                                     <div class="d-flex align-items-center">
                                         <i class="material-icons mr-1">storefront</i>
                                         @if($project->is_active==1 && !empty($project->client()))
-                                        <a href="{{ route('clients.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>                            
+                                        <a href="{{ route('clients.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>
                                         @else
-                                        <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>                            
+                                        <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>
                                         @endif
                                     </div>
                                     <span class="text-small" data-filter-by="text">{{__('Due on ')}}

@@ -1,15 +1,6 @@
 $(document).ready(function(){
     $('.toast').toast({delay: 5000});
     $('.toast').toast('show');
-
-    $('#dataTable').DataTable( {
-        columnDefs: [
-            {
-                targets: [ 0, 1, 2 ],
-                className: 'mdl-data-table__cell--non-numeric'
-            }
-        ]
-    } );
 });
 
 
@@ -138,7 +129,7 @@ function taskCheckbox() {
         $('#taskProgress').addClass('bg-success');
     }
 }
-  
+
 
 (function($, window, i) {
     // Bootstrap 4 Modal
@@ -313,7 +304,7 @@ function taskCheckbox() {
 $('[data-confirm]').each(function() {
     var me = $(this),
         me_data = me.data('confirm');
-  
+
     me_data = me_data.split("|");
     me.fireModal({
       title: me_data[0],
