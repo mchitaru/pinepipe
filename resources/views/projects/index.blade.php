@@ -145,7 +145,7 @@
                                         </div>
                                     @endif
                                 @endif
-                                <div class="card-title">
+                                <div class="card-title d-flex justify-content-between align-items-center">
                                     @can('show project')
                                     @if($project->is_active==1)
                                         <a href="{{ route('projects.show',$project->id) }}">
@@ -163,9 +163,7 @@
                                     @endcan
                                     @foreach($project_status as $key => $status)
                                     @if($key== $project->status)
-                                        <span class="badge badge-secondary">
-                                            {{ $status}}
-                                        </span>
+                                        <span class="badge badge-secondary">{{ $status}}</span>
                                     @endif
                                     @endforeach
                                 </div>

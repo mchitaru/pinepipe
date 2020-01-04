@@ -34,6 +34,12 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
+            @can('edit project')
+                <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                    {{__('Edit Project')}}
+                </a>
+            @endcan
+            <a class="dropdown-item" href="#">Mark as Complete</a>
             @can('manage task')
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))
                 <a class="dropdown-item" href="{{ route('project.taskboard',$project->id) }}" data-ajax-popup="true" data-title="{{__('Task Kanban')}}" data-toggle="tooltip" data-original-title="{{__('Task Kanban')}}">
@@ -41,13 +47,7 @@
                 </a>
             @endif
             @endcan
-            @can('edit project')
-                <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
-                    {{__('Edit Project')}}
-                </a>
-            @endcan
             <a class="dropdown-item" href="#">Share</a>
-            <a class="dropdown-item" href="#">Mark as Complete</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Archive</a>
             @can('delete task')
@@ -100,9 +100,11 @@
             <div class="page-header">
                 <div class="d-flex align-items-center">
                     <h1>{{$project->name}}</h1>
-                    <a href="{{ route('users.index',$project->client()->id) }}" data-toggle="tooltip">
-                        <span class="badge badge-secondary">{{ (!empty($project->client())?$project->client()->name:'') }}</span>
-                    </a>
+                    <div class="pl-2">
+                        <a href="{{ route('users.index',$project->client()->id) }}" data-toggle="tooltip">
+                            <span class="badge badge-secondary">{{ (!empty($project->client())?$project->client()->name:'') }}</span>
+                        </a>
+                    </div>
                 </div>
             <p class="lead">{{ $project->description }}</p>
             <div class="d-flex align-items-center">
@@ -127,8 +129,11 @@
                 </button>
             </div>
             <div>
-                <div class="progress">
-                <div class="progress-bar bg-success" style="width:{{$percentage}}%;"></div>
+                <div class="d-flex flex-row-reverse">
+                    <small class="card-text" style="float:right;">{{$percentage}}%</small>
+                </div>
+                <div class="progress mt-0">
+                        <div class="progress-bar bg-success" style="width:{{$percentage}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center">

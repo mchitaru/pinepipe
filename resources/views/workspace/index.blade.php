@@ -69,7 +69,7 @@
                     animation: {
                         animateScale: true,
                         animateRotate: true
-                    }            
+                    }
         }
     });
 </script>
@@ -162,10 +162,8 @@ if($client_project_budget_due_per<=15){
                     <div class="row">
                         <div class="col">
                             <div class="card">
-                                <div>
-                                    <div class="progress">
+                                <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$lead_percentage}}%;"></div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="number">
@@ -176,14 +174,12 @@ if($client_project_budget_due_per<=15){
                                         <i class="material-icons">phone</i>
                                     </div>
                                 </div>
-                            </div>        
+                            </div>
                         </div>
                         <div class="col">
                             <div class="card">
-                                <div>
-                                    <div class="progress">
+                                <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$project_percentage}}%;"></div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="number">
@@ -194,15 +190,13 @@ if($client_project_budget_due_per<=15){
                                         <i class="material-icons">folder</i>
                                     </div>
                                 </div>
-                            </div>        
+                            </div>
                         </div>
                         @if(Auth::user()->type =='company' || Auth::user()->type =='client')
                         <div class="col">
                             <div class="card">
-                                <div>
-                                    <div class="progress">
+                                <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$invoice_percentage}}%;"></div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="number">
@@ -213,15 +207,13 @@ if($client_project_budget_due_per<=15){
                                         <i class="material-icons">description</i>
                                     </div>
                                 </div>
-                            </div>        
+                            </div>
                         </div>
                         @endif
                         @if(Auth::user()->type =='company')
                         <div class="col">
                             <div class="card">
-                                <div>
-                                    <div class="progress">
-                                    </div>
+                                <div class="progress">
                                 </div>
                                 <div class="card-body">
                                     <div class="number">
@@ -232,16 +224,14 @@ if($client_project_budget_due_per<=15){
                                         <i class="material-icons">people</i>
                                     </div>
                                 </div>
-                            </div>        
+                            </div>
                         </div>
                         @endif
                         @if(Auth::user()->type =='client')
                         <div class="col">
                             <div class="card">
-                                <div>
-                                    <div class="progress">
+                                <div class="progress">
                                     <div class="progress-bar bg-success" style="width: {{$client_project_budget_due_per}}%;"></div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="number">
@@ -252,7 +242,7 @@ if($client_project_budget_due_per<=15){
                                         <i class="material-icons">attach_money</i>
                                     </div>
                                 </div>
-                            </div>        
+                            </div>
                         </div>
                         @endif
                     </div>
@@ -347,7 +337,7 @@ if($client_project_budget_due_per<=15){
                                             <div class="d-flex align-items-center">
                                                 <i class="material-icons">playlist_add_check</i>
                                                 <span>{{$completed_task}}/{{$total_task}}</span>
-                                            </div>    
+                                            </div>
                                             <div class="dropdown card-options">
                                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="material-icons">more_vert</i>
@@ -453,7 +443,7 @@ if($client_project_budget_due_per<=15){
                                             <div>
                                                 <span data-filter-by="text">{!! $activity->remark !!}</span>
                                             </div>
-                                            <span class="text-small" data-filter-by="text">{{date('d M Y H:i', strtotime($activity->created_at))}}</span>
+                                            <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
                                         </div>
                                     </div>
                                 </li>
