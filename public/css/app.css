@@ -25907,6 +25907,21 @@ pre[class*=language-] {
   }
 }
 
+a {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+.card:hover {
+  box-shadow: 0 1px 10px 0 rgba(52, 58, 64, 0.5);
+}
+
 .card-contact {
   margin-bottom: 2px;
 }

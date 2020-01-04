@@ -146,18 +146,18 @@
                                 <div class="card-title">
                                     @can('show project')
                                     @if($project->is_active==1)
-                                    <a href="{{ route('projects.show',$project->id) }}">
-                                        <h6 data-filter-by="text">{{ $project->name }}</h6>                            
-                                    </a>
+                                        <a href="{{ route('projects.show',$project->id) }}">
+                                            <h5 data-filter-by="text">{{ $project->name }}</h5>
+                                        </a>
                                     @else
                                         <a href="#">
-                                            <h6 data-filter-by="text">{{ $project->name }}</h6>                            
+                                            <h5 data-filter-by="text">{{ $project->name }}</h5>                            
                                         </a>
                                     @endif
                                     @else
-                                    <a href="#">
-                                        <h6 data-filter-by="text">{{ $project->name }}</h6>                            
-                                    </a>
+                                        <a href="#">
+                                            <h5 data-filter-by="text">{{ $project->name }}</h5>                            
+                                        </a>
                                     @endcan
                                     @foreach($project_status as $key => $status)
                                     @if($key== $project->status)
@@ -187,16 +187,19 @@
                                     <div class="d-flex align-items-center">
                                         <i class="material-icons mr-1">playlist_add_check</i>
                                         @if($project->is_active==1)
-                                        <a class="text-small" href="{{ route('project.taskboard',$project->id) }}" title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                                        <a  href="{{ route('project.taskboard',$project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
                                         @else
-                                        <a class="text-small" href="#" title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                                        <a  href="#" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
                                         @endif
                                     </div>
-                                    @if($project->is_active==1 && !empty($project->client()))
-                                    <a class="text-small" href="{{ route('clients.index',$project->client()->id) }}" title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>                            
-                                    @else
-                                    <a class="text-small" title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>                            
-                                    @endif
+                                    <div class="d-flex align-items-center">
+                                        <i class="material-icons mr-1">storefront</i>
+                                        @if($project->is_active==1 && !empty($project->client()))
+                                        <a href="{{ route('clients.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>                            
+                                        @else
+                                        <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>                            
+                                        @endif
+                                    </div>
                                     <span class="text-small" data-filter-by="text">{{__('Due on ')}}
                                         {{ \Auth::user()->dateFormat($project->due_date) }}
                                     </span>
@@ -205,12 +208,13 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
+				</div>
             <!--end of content list body-->
             </div>
             <!--end of content list-->
+            </div>
             <!--end of tab-->
-            <div class="tab-pane fade show active" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>Tasks</h3>

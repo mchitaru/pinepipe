@@ -98,14 +98,14 @@
 
     </ul>
     <div class="d-lg-flex align-items-center">
-    @if(\Auth::user()->type !='super admin')
-    <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
-        @csrf
-        <div class="input-group input-group-dark input-group-round">
-            <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
-        </div>
-    </form>
-    @endif
+        @if(\Auth::user()->type !='super admin')
+        <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
+            @csrf
+            <div class="input-group input-group-dark input-group-round">
+                <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
+            </div>
+        </form>
+        @endif
 
     <div class="dropdown mx-lg-2">
         <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
