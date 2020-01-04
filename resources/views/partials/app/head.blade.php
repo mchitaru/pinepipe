@@ -13,10 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Gothic+A1" rel="stylesheet">
     
     <!-- Other stylesheets -->
-    <link href="{{ asset('assets/css/material.min.css') }}" rel="stylesheet" type="text/css" media="all" />
-    <link href="{{ asset('assets/css/dataTables.material.min.css') }}" rel="stylesheet" type="text/css" media="all" />
     <link href="{{ asset('assets/css/easy-autocomplete.min.css') }}" rel="stylesheet" type="text/css" media="all" />
     <link href="{{ asset('assets/css/easy-autocomplete.themes.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <!-- App css (keep last) -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" media="all" />
