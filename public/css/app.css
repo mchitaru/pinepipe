@@ -25927,23 +25927,25 @@ a:hover {
 }
 
 .card-contact .card-body {
-  padding: 0.5rem;
+  padding: 0.5rem 50px;
 }
 
 .card-contact .card-title {
-  padding: 0rem;
+  padding: 0.5rem 0.5rem;
   margin: 0;
+}
+
+.card-contact .card-title i {
+  margin-right: 0.25rem;
 }
 
 .card-contact .card-meta {
   float: right;
-  padding: 0rem;
+  padding: 0.5rem 0px;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
           align-items: center;
-  -webkit-box-pack: justify;
-          justify-content: space-between;
 }
 
 .card-contact .card-meta i {
@@ -25952,6 +25954,7 @@ a:hover {
 
 @media (min-width: 992px) {
   .card-contact .card-title {
+    padding: 0.5rem 0.5rem;
     margin: 0;
   }
 
@@ -25961,11 +25964,6 @@ a:hover {
     display: flex;
     -webkit-box-align: center;
             align-items: center;
-  }
-
-  .card-contact .card-body {
-    -webkit-box-pack: justify;
-            justify-content: space-between;
   }
 
   .card-contact .card-options {
