@@ -35,9 +35,7 @@ a {
     }
     .card-meta{
         float:right;
-        padding: 0.5rem 0px;
-        display: flex;
-        align-items: center;
+        justify-content: end;
         i{
             margin-right: $spacer/6;
         }
@@ -54,7 +52,9 @@ a {
         display: flex;
         align-items: center;
     }
-    .card-body{
+    .card-meta{
+        float:right;
+        justify-content: end;
     }
     .card-options{
         margin-left: $spacer;

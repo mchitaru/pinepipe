@@ -91,8 +91,8 @@
                                     {{($user->delete_status==0)?'Soft deleted':''}}
                                 </span>
                             </div>
-                            <div class="card-meta">
-                                <div class="d-flex align-items-center">
+                            <div class="card-meta col">
+                                <div class="d-flex align-items-center justify-content-end">
                                     @if(\Auth::user()->type=='super admin')
                                     <span class="badge badge-secondary mr-2">
                                         <i class="material-icons" title="Users">people</i>
@@ -112,16 +112,13 @@
                                         {{$user->user_project()}}
                                     </span>
                                     <span class="badge badge-secondary mr-2">
-                                        <i class="material-icons" title="Expenses">attach_money</i>
-                                        {{\Auth::user()->priceFormat($user ->user_expense())}}
-                                    </span>
-                                    <span class="badge badge-secondary mr-2">
                                         <i class="material-icons" title="Tasks">playlist_add_check</i>
                                         {{$user->user_assign_task()}}
                                     </span>
                                     @endif
                                 </div>
-                                <div class="dropdown card-options">
+                            </div>
+                            <div class="dropdown card-options">
                                     @if($user->is_active==1)
                                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">more_vert</i>
@@ -147,7 +144,6 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 @endforeach

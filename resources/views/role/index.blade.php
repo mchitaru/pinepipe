@@ -64,19 +64,21 @@
             <div class="content-list-body">
                 @foreach ($roles as $role)
                 <div class="card card-contact">
+                    <div class="pl-3 row align-items-center">
                     <div class="card-body">
-                    <div class="card-title mr-3">
+                    <div class="card-title mr-3 col-xs">
                         <a href="#">
                         <h6 data-filter-by="text">{{ $role->name }}</h6>
                         </a>
                     </div>
-                    <div class="card-meta">
+                    <div class="card-meta col-xl">
                         <div class="d-flex flex-wrap">
                             @for($j=0;$j<count($role->permissions()->pluck('name'));$j++)
                                 <span class="badge badge-secondary">{{$role->permissions()->pluck('name')[$j]}}</span>
                             @endfor
                         </div>
-                        <div class="dropdown card-options">
+                    </div>
+                    <div class="dropdown card-options">
                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
                             </button>
@@ -97,9 +99,9 @@
                                 @endcan
                             </div>
                         </div>
-                    </div>
                 </div>
-                </div>
+            </div>
+        </div>
                 @endforeach
                 </div>
             </div>

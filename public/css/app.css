@@ -25941,11 +25941,8 @@ a:hover {
 
 .card-contact .card-meta {
   float: right;
-  padding: 0.5rem 0px;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-align: center;
-          align-items: center;
+  -webkit-box-pack: end;
+          justify-content: end;
 }
 
 .card-contact .card-meta i {
@@ -25964,6 +25961,12 @@ a:hover {
     display: flex;
     -webkit-box-align: center;
             align-items: center;
+  }
+
+  .card-contact .card-meta {
+    float: right;
+    -webkit-box-pack: end;
+            justify-content: end;
   }
 
   .card-contact .card-options {
