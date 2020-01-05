@@ -2,7 +2,7 @@
     $users=\Auth::user();
     $profile=asset(Storage::url('avatar/'));
     $logo=asset(Storage::url('logo/'));
-    
+
     $currantLang = $users->currentLanguage();
     $languages=$users->languages();
 
@@ -99,12 +99,14 @@
     </ul>
     <div class="d-lg-flex align-items-center">
         @if(\Auth::user()->type !='super admin')
-        <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
-            @csrf
-            <div class="input-group input-group-dark input-group-round">
-                <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
-            </div>
-        </form>
+        <div class="mx-lg-2">
+            <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
+                @csrf
+                <div class="input-group input-group-dark input-group-round">
+                    <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
+                </div>
+            </form>
+        </div>
         @endif
 
     <div class="dropdown mx-lg-2">

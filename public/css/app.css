@@ -25907,6 +25907,14 @@ pre[class*=language-] {
   }
 }
 
+.easy-autocomplete {
+  width: 100% !important;
+}
+
+.easy-autocomplete input {
+  width: 100%;
+}
+
 a {
   color: #007bff;
   text-decoration: none;

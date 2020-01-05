@@ -46,6 +46,7 @@
                 link: "link"
             }
         },
+        adjustWidth: false,
     };
 
     $("#search-element").easyAutocomplete(options);
