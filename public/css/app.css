@@ -25969,6 +25969,7 @@ a:hover {
     display: flex;
     -webkit-box-align: center;
             align-items: center;
+    padding-right: 0;
   }
 
   .card-contact .card-meta {

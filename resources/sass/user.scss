@@ -59,6 +59,7 @@ a {
     .card-body, .card-meta{
         display: flex;
         align-items: center;
+        padding-right: 0;
     }
     .card-meta{
         float:right;
