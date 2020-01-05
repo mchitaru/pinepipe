@@ -67,8 +67,8 @@
             <div class="content-list-body">
                 @foreach($users as $user)
                 <div class="card card-contact">
-                    <div class="pl-3 row align-items-center">
-                        <div class="position-absolute">
+                    <div class="container row">
+                        <div class="p-2 position-absolute">
                             <a href="#" data-toggle="tooltip" title={{$user->name}}>
                                 <img alt={{$user->name}} class="avatar" src="{{(!empty($user->avatar))? asset(Storage::url("avatar/".$user->avatar)): asset(Storage::url("avatar/avatar.png"))}}" />
                             </a>

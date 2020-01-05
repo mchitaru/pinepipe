@@ -145,14 +145,6 @@
                     <span data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</span>
                 </div>
                 <div class="d-flex align-items-center">
-                    <i class="material-icons">account_balance</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Budget')}}">{{ \Auth::user()->priceFormat($project->price) }}</span>
-                </div>
-                <div class="d-flex align-items-center">
-                    <i class="material-icons">account_balance_wallet</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Expenses')}}">{{ \Auth::user()->priceFormat($project->project_expenses()) }}</span>
-                </div>
-                <div class="d-flex align-items-center">
                     <i class="material-icons">people</i>
                     <span data-toggle="tooltip" data-original-title="{{__('Members')}}">{{$project->project_user()->count()+1}}</span>
                 </div>

@@ -82,8 +82,8 @@
                 <div class="content-list-body">
                     @foreach($clients as $client)
                     <div class="card card-contact">
-                        <div class="pl-3 row align-items-center">
-                            <div class="position-absolute">
+                        <div class="container row align-items-center">
+                            <div class="pl-2 position-absolute">
                                 <a href="#" data-toggle="tooltip" title={{$client->name}}>
                                     <img alt={{$client->name}} class="avatar" src="{{(!empty($client->avatar))? asset(Storage::url("avatar/".$client->avatar)): asset(Storage::url("avatar/avatar.png"))}}" />
                                 </a>
@@ -93,13 +93,10 @@
                                     <a href="#">
                                     <h6 data-filter-by="text">{{$client->name}}</h6>
                                     </a>
-                                    <span class="text-small">2 contact(s):</span>
-                                    <a class="text-small" href="#">Steven Garcia</a>
-                                    <span class="text-small">,</span>
-                                    <a class="text-small" href="#">Steven Garcia</a>
+                                    <span class="text-small">2 contact(s)</span>
                                 </div>
                                 <div class="card-title col-xs-12 col-sm-4">
-                                    <div class="row align-items-center">
+                                    <div class="container row align-items-center">
                                         <span class="text-small">
                                             <i class="material-icons">email</i>
                                         </span>
@@ -107,7 +104,7 @@
                                             <h6 data-filter-by="text">{{$client->email}}</h6>
                                         </a>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="container row align-items-center">
                                         <i class="material-icons">phone</i>
                                         <span class="text-small">(237)555-2319</span>
                                     </div>

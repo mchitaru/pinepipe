@@ -156,7 +156,7 @@ if($client_project_budget_due_per<=15){
 @endphp
 
     <div class="row justify-content-center">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row pt-5">
                 <div class="col">
                     <div class="row">
@@ -432,25 +432,27 @@ if($client_project_budget_due_per<=15){
                 @if(\Auth::user()->type!='client')
                 <div class="col-sm">
                     <div class="row">
-                        <div class="card">
-                            <div class="card-body">
-                              <h5 class="card-title">{{__('Latest Activity')}} </h5>
-                                <ol class="timeline small">
-                                @foreach($activities as $activity)
-                                <li>
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <div>
-                                                <span data-filter-by="text">{!! $activity->remark !!}</span>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{__('Latest Activity')}} </h5>
+                                        <ol class="timeline small">
+                                        @foreach($activities as $activity)
+                                        <li>
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <div>
+                                                        <span data-filter-by="text">{!! $activity->remark !!}</span>
+                                                    </div>
+                                                    <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
+                                                </div>
                                             </div>
-                                            <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ol>
+                                        </li>
+                                        @endforeach
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
-                    </div>
                   </div>
                 </div>
                 @endif

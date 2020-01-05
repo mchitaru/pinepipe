@@ -127,26 +127,28 @@
         </div>
         <div class="col-sm">
             <div class="row">
-                <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">{{__('Latest Activity')}} </h5>
-                        <ol class="timeline small">
-                        @foreach($activities as $activity)
-                        <li>
-                            <div class="media align-items-center">
-                                <div class="media-body">
-                                    <div>
-                                        <span data-filter-by="text">{!! $activity->remark !!}</span>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{__('Latest Activity')}} </h5>
+                                <ol class="timeline small">
+                                @foreach($activities as $activity)
+                                <li>
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <div>
+                                                <span data-filter-by="text">{!! $activity->remark !!}</span>
+                                            </div>
+                                            <span class="text-small" data-filter-by="text">{{date('d M Y H:i', strtotime($activity->created_at))}}</span>
+                                        </div>
                                     </div>
-                                    <span class="text-small" data-filter-by="text">{{date('d M Y H:i', strtotime($activity->created_at))}}</span>
-                                </div>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ol>
+                                </li>
+                                @endforeach
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
     </div>
 </div>
