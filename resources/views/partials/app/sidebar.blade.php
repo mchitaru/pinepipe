@@ -1,6 +1,16 @@
+@php
+    $users=\Auth::user();
+    $profile=asset(Storage::url('avatar/'));
+    $logo=asset(Storage::url('logo/'));
+
+    $currantLang = $users->currentLanguage();
+    $languages=$users->languages();
+
+@endphp
+
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
         <a class="navbar-brand" href="index.html">
-            <img alt="Pipeline" width=200 src="assets/img/logo.png" />
+            <img alt="Pipeline" width=200 src="{{ asset('assets/img/logo.png') }}" />
         </a>
     <div class="d-flex align-items-center">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +32,7 @@
     <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
     <ul class="navbar-nav d-lg-block">
 
-        <li class="nav-item">
+        <li class="nav-item active">
 
             <a class="nav-link" href="{{ route('home') }}">Workspace</a>
 
@@ -34,7 +44,7 @@
         <div id="submenu-2" class="collapse">
             <ul class="nav nav-small flex-column">
 
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="dropdown-item" href="{{ route('clients.index') }}">Clients</a>
             </li>
 

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @php
+    use Carbon\Carbon;
+    use App\Projects;
+
+    $current_user=\Auth::user();
     $profile=asset(Storage::url('avatar/'));
 @endphp
 
@@ -77,7 +81,6 @@
                 $percentage = intval(($completed_task / $total_task) * 100);
             }
 
-
         $label='';
         if($percentage<=15){
             $label='bg-danger';
@@ -124,9 +127,13 @@
                     @endforeach
 
                 </ul>
-                <button class="btn btn-round" data-toggle="modal" data-target="#user-manage-modal">
-                <i class="material-icons">add</i>
+                
+                @can('invite user project')
+                <button class="btn btn-round" data-url="{{ route('project.invite',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add User')}}">
+                    <i class="material-icons">add</i>
                 </button>
+                @endcan
+
             </div>
             <div>
                 <div class="d-flex flex-row-reverse">
@@ -138,7 +145,7 @@
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center">
                     <i class="material-icons">done</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Status')}}">{{$project->status}}</span>
+                    <span data-toggle="tooltip" data-original-title="{{__('Status')}}">{{$project_status}}</span>
                 </div>
                 <div class="d-flex align-items-center">
                     <i class="material-icons">playlist_add_check</i>
@@ -173,8 +180,8 @@
             <div class="tab-pane fade show active" id="tasks" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
-                    <h3>Tasks</h3>
-                    <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
+                    <h3>{{__('Tasks')}}</h3>
+                    <button class="btn btn-round" data-url="{{ route('task.create',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add New Task')}}">
                     <i class="material-icons">add</i>
                     </button>
                 </div>
@@ -191,446 +198,130 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-                <div class="card-list">
-                    <div class="card-list-head">
-                    <h6>Evaluation</h6>
-                    <div class="dropdown">
-                        <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">more_vert</i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">Rename</a>
-                        <a class="dropdown-item text-danger" href="#">Archive</a>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="card-list-body">
 
-                    <div class="card card-task">
-                        <div class="progress">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="card-body">
-                        <div class="card-title">
-                            <a href="#">
-                            <h6 data-filter-by="text">Client objective meeting</h6>
-                            </a>
-                            <span class="text-small">Today</span>
-                        </div>
-                        <div class="card-meta">
-                            <ul class="avatars">
+                @foreach($stages as $stage)
 
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Kenny">
-                                <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg" />
-                                </a>
-                            </li>
+                @if(\Auth::user()->type =='client' || \Auth::user()->type =='company')
+                    @php $tasks =$stage->tasks($project->id)    @endphp
+                @else
+                    @php $tasks =$stage->tasks($project->id)    @endphp
+                @endif
 
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="David">
-                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Sally">
-                                <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Kristina">
-                                <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Claire">
-                                <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Marcus">
-                                <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
-                                </a>
-                            </li>
-
-                            </ul>
-                            <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <span>3/4</span>
-                            </div>
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
+                    <div class="card-list">
+                        <div class="card-list-head">
+                        <h6>{{$stage->name}} ({{ count($tasks) }})</h6>
+                        <div class="dropdown">
+                            <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
+                            <a class="dropdown-item" href="#">Rename</a>
+                            <a class="dropdown-item text-danger" href="#">Archive</a>
                             </div>
                         </div>
+                        </div>
+                        <div class="card-list-body">
+
+                        @foreach($tasks as $task)
+
+                            <div class="card card-task">
+                                <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="card-body">
+                                <div class="card-title">
+                                    <a data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true" data-title="{{__('Task Board')}}">
+                                        <h6 data-filter-by="text">{{$task->title}}</h6>
+                                    </a>
+
+                                    <span class="badge badge-secondary">
+                                        @if($task->priority =='low')
+                                                <div class="label label-soft-success"> {{ $task->priority }}</div>
+                                            @elseif($task->priority =='medium')
+                                                <div class="label label-soft-warning"> {{ $task->priority }}</div>
+                                            @elseif($task->priority =='high')
+                                                <div class="label label-soft-danger"> {{ $task->priority }}</div>
+                                            @endif
+                                     </span>
+
+                                     <p>
+                                        <span class="text-small">{{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
+                                    </p>
+                                </div>
+                                <div class="card-meta">
+                                    <ul class="avatars">
+
+                                    <li>
+                                        <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
+                                            <img alt="{{(!empty($task->task_user)?$task->task_user->name:'')}}" class="avatar" src="{{(!empty($task->task_user->avatar)?$profile.'/'.$task->task_user->avatar:$profile.'/avatar.png')}}">
+                                        </a>
+                                    </li>
+
+                                    </ul>
+                                    <div class="d-flex align-items-center">
+                                    <i class="material-icons">playlist_add_check</i>
+                                    <p class="small @if($task->taskTotalCheckListCount()==0) text-muted @endif @if($task->taskCompleteCheckListCount()==$task->taskTotalCheckListCount() && $task->taskCompleteCheckListCount()!=0) text-success @else text-danger @endif">
+                                        <span>{{$task->taskCompleteCheckListCount()}}/{{$task->taskTotalCheckListCount()}}</span>
+                                    </p>
+                                    </div>
+                                    @if(Gate::check('edit task') || Gate::check('delete task'))
+                                        <div class="dropdown card-options">
+                                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="material-icons">more_vert</i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+
+                                            <a class="dropdown-item" href="#">Mark as done</a>
+                                            @can('edit task')
+                                                <a href="#" class="dropdown-item" data-url="{{ route('task.edit',$task->id) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                                                    {{__('Edit')}}
+                                                </a>
+                                            @endcan
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="#">Archive</a>
+                                            @can('delete task')
+                                                <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$task->id}}').submit();">
+                                                    {{__('Delete')}}
+                                                </a>
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['task.destroy', $task->id],'id'=>'delete-form-'.$task->id]) !!}
+                                                {!! Form::close() !!}
+                                            @endcan
+
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        @endforeach
+
                         </div>
                     </div>
-
-                    <div class="card card-task">
-                        <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="card-body">
-                        <div class="card-title">
-                            <a href="#">
-                            <h6 data-filter-by="text">Target market trend analysis</h6>
-                            </a>
-                            <span class="text-small">5 days</span>
-                        </div>
-                        <div class="card-meta">
-                            <ul class="avatars">
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Peggy">
-                                <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="David">
-                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
-                                </a>
-                            </li>
-
-                            </ul>
-                            <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <span>2/10</span>
-                            </div>
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-task">
-                        <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="card-body">
-                        <div class="card-title">
-                            <a href="#">
-                            <h6 data-filter-by="text">Assemble Outcomes Report for client</h6>
-                            </a>
-                            <span class="text-small">7 days</span>
-                        </div>
-                        <div class="card-meta">
-                            <ul class="avatars">
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Marcus">
-                                <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Claire">
-                                <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="David">
-                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
-                                </a>
-                            </li>
-
-                            </ul>
-                            <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <span>0/6</span>
-                            </div>
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-
-                    </div>
-                </div>
-                <div class="card-list">
-                    <div class="card-list-head">
-                    <h6>Ideation</h6>
-                    <div class="dropdown">
-                        <button class="btn-options" type="button" id="cardlist-dropdown-button-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">more_vert</i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">Rename</a>
-                        <a class="dropdown-item text-danger" href="#">Archive</a>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="card-list-body">
-
-                    <div class="card card-task">
-                        <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="card-body">
-                        <div class="card-title">
-                            <a href="#">
-                            <h6 data-filter-by="text">Create brand mood boards</h6>
-                            </a>
-                            <span class="text-small">14 days</span>
-                        </div>
-                        <div class="card-meta">
-                            <ul class="avatars">
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Sally">
-                                <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Claire">
-                                <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
-                                </a>
-                            </li>
-
-                            </ul>
-                            <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <span>1/4</span>
-                            </div>
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-task">
-                        <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="card-body">
-                        <div class="card-title">
-                            <a href="#">
-                            <h6 data-filter-by="text">Produce broad concept directions</h6>
-                            </a>
-                            <span class="text-small">21 days</span>
-                        </div>
-                        <div class="card-meta">
-                            <ul class="avatars">
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Peggy">
-                                <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="David">
-                                <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Ravi">
-                                <img alt="Ravi Singh" class="avatar" src="assets/img/avatar-male-3.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Sally">
-                                <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
-                                </a>
-                            </li>
-
-                            </ul>
-                            <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <span>0/5</span>
-                            </div>
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-task">
-                        <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="card-body">
-                        <div class="card-title">
-                            <a href="#">
-                            <h6 data-filter-by="text">Present concepts and establish direction</h6>
-                            </a>
-                            <span class="text-small">28 days</span>
-                        </div>
-                        <div class="card-meta">
-                            <ul class="avatars">
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Kristina">
-                                <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Peggy">
-                                <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Ravi">
-                                <img alt="Ravi Singh" class="avatar" src="assets/img/avatar-male-3.jpg" />
-                                </a>
-                            </li>
-
-                            </ul>
-                            <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <span>0/3</span>
-                            </div>
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-
-                    </div>
-                </div>
-                <div class="card-list">
-                    <div class="card-list-head">
-                    <h6>Design</h6>
-                    <div class="dropdown">
-                        <button class="btn-options" type="button" id="cardlist-dropdown-button-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">more_vert</i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">Rename</a>
-                        <a class="dropdown-item text-danger" href="#">Archive</a>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="card-list-body">
-
-                    <div class="card card-task">
-                        <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="card-body">
-                        <div class="card-title">
-                            <a href="#">
-                            <h6 data-filter-by="text">Produce realised brand package</h6>
-                            </a>
-                            <span class="text-small">Unscheduled</span>
-                        </div>
-                        <div class="card-meta">
-                            <ul class="avatars">
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Marcus">
-                                <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Harry">
-                                <img alt="Harry Xai" class="avatar" src="assets/img/avatar-male-2.jpg" />
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="Kristina">
-                                <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
-                                </a>
-                            </li>
-
-                            </ul>
-                            <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <span>-/-</span>
-                            </div>
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-
-                    </div>
-                </div>
+                @endforeach
                 <!--end of content list body-->
                 </div>
                 <!--end of content list-->
             </div>
             <!--end of tab-->
+            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show uploading',$perArr)))
             <div class="tab-pane fade" id="files" role="tabpanel" data-filter-list="dropzone-previews">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
                     <h3>Files</h3>
                     </div>
+
                     <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                        </span>
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="Filter files" aria-label="Filter Tasks">
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Filter files" aria-label="Filter Tasks">
-                    </div>
                     </form>
                 </div>
                 <!--end of content list head-->
@@ -646,7 +337,9 @@
                                 </div>
                             </li>
                             <li>
-                                <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar" data-title="David Whittaker" data-toggle="tooltip" />
+                                <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img alt="{{$current_user->name}}" title="{{$current_user->name}}" src="{{(!empty($current_user->avatar)? $profile.'/'.$current_user->avatar : $profile.'/avatar.png')}}" class="avatar" />
+                                </a>
                             </li>
                             </ul>
                             <div class="media-body d-flex justify-content-between align-items-center">
@@ -679,183 +372,51 @@
                         </div>
                         </li>
                     </ul>
-                    <form class="dropzone" action="https://mediumra.re/dropzone/upload.php">
+                            
+                    <form method="post" action="{{route('project.file.upload',[$project->id])}}" enctype="multipart/form-data" class="dropzone" id="dropzone">                        
+                        {{ csrf_field() }}
                         <span class="dz-message">Drop files here or click here to upload</span>
                     </form>
 
                     <ul class="list-group list-group-activity dropzone-previews flex-column-reverse">
-
+                        @foreach($project_files as $file)
                         <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <ul class="avatars">
-                            <li>
-                                <div class="avatar bg-primary">
-                                <i class="material-icons">insert_drive_file</i>
+                            <div class="media align-items-center">
+                              <ul class="avatars">
+                                <li>
+                                  <div class="avatar bg-primary">
+                                    <i class="material-icons">attach_file</i>
+                                  </div>
+                                </li>
+                              </ul>
+                              <div class="media-body d-flex justify-content-between align-items-center">
+                                <div>
+                                  <a href="{{route('projects.file.download',[$project->id,$file->id])}}" data-filter-by="text">{{ $file->file_name }}</a>
+                                  <br>
+                                  <span class="text-small" data-filter-by="text">{{ Projects::humanFileSize(\File::size(storage_path('app/public/project_files/'.$file->file_path)))}} {{ \File::mimeType(storage_path('app/public/project_files/'.$file->file_path)) }}</span>
                                 </div>
-                            </li>
-                            <li>
-                                <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar" data-title="Peggy Brown" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                            </ul>
-                            <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                                <a href="#" data-filter-by="text">client-questionnaire</a>
-                                <br>
-                                <span class="text-small" data-filter-by="text">48kb Text Doc</span>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                <div class="dropdown">
+                                  <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                  </button>
+                                  <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Download</a>
+                                    <a class="dropdown-item" href="#">Share</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="#">Delete</a>
+                                  </div>
                                 </div>
+                              </div>
                             </div>
-                            </div>
-                        </div>
                         </li>
-
-                        <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <ul class="avatars">
-                            <li>
-                                <div class="avatar bg-primary">
-                                <i class="material-icons">folder</i>
-                                </div>
-                            </li>
-                            <li>
-                                <img alt="Harry Xai" src="assets/img/avatar-male-2.jpg" class="avatar" data-title="Harry Xai" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                            </ul>
-                            <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                                <a href="#" data-filter-by="text">moodboard_images</a>
-                                <br>
-                                <span class="text-small" data-filter-by="text">748kb ZIP</span>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </li>
-
-                        <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <ul class="avatars">
-                            <li>
-                                <div class="avatar bg-primary">
-                                <i class="material-icons">image</i>
-                                </div>
-                            </li>
-                            <li>
-                                <img alt="Ravi Singh" src="assets/img/avatar-male-3.jpg" class="avatar" data-title="Ravi Singh" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                            </ul>
-                            <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                                <a href="#" data-filter-by="text">possible-hero-image</a>
-                                <br>
-                                <span class="text-small" data-filter-by="text">1.2mb JPEG image</span>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </li>
-
-                        <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <ul class="avatars">
-                            <li>
-                                <div class="avatar bg-primary">
-                                <i class="material-icons">insert_drive_file</i>
-                                </div>
-                            </li>
-                            <li>
-                                <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar" data-title="Claire Connors" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                            </ul>
-                            <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                                <a href="#" data-filter-by="text">LandingPrototypes</a>
-                                <br>
-                                <span class="text-small" data-filter-by="text">415kb Sketch Doc</span>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </li>
-
-                        <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <ul class="avatars">
-                            <li>
-                                <div class="avatar bg-primary">
-                                <i class="material-icons">insert_drive_file</i>
-                                </div>
-                            </li>
-                            <li>
-                                <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar" data-title="David Whittaker" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                            </ul>
-                            <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                                <a href="#" data-filter-by="text">Branding-Proforma</a>
-                                <br>
-                                <span class="text-small" data-filter-by="text">15kb Text Document</span>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </li>
-
+                        @endforeach 
                     </ul>
                     </div>
                 </div>
                 </div>
                 <!--end of content list-->
             </div>
+            @endif
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">

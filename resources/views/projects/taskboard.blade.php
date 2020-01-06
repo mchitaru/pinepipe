@@ -1,15 +1,17 @@
-@extends('layouts.admin')
+@extends('layouts.app')
+
 @php
     $profile=asset(Storage::url('avatar/'));
-$permissions=$project->client_project_permission();
+    $permissions=$project->client_project_permission();
     $perArr=(!empty($permissions)? explode(',',$permissions->permissions):[]);
 @endphp
 
-@push('css-page')
+@push('stylesheets')
     <link rel="stylesheet" href="{{asset('assets/module/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/module/css/selectric.css')}}">
 @endpush
-@push('script-page')
+
+@push('scripts')
     <script src="{{asset('assets/module/js/select2.full.min.js')}}"></script>
     <script src="{{asset('assets/module/js/jquery.selectric.min.js')}}"></script>
 
@@ -290,29 +292,44 @@ $permissions=$project->client_project_permission();
 
     </script>
 @endpush
+
 @section('page-title')
     {{__('Task')}}
 @endsection
+
 @section('breadcrumb')
-    <ul class="page-breadcrumb">
-        <li>
-            <i class="fa fa-home"></i>
-            <a href="{{ route('dashboard') }}">{{__('Home')}}</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <a href="{{ route('projects.index') }}">{{__('Project')}}</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <a href="{{ route('projects.show',$project->id) }}">{{$project->name}}</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <span>{{__('Task')}}</span>
-        </li>
-    </ul>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ route('home') }}">{{__('Home')}}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a href="{{ route('projects.index') }}">{{__('Projects')}}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{$project->name}}
+            </li>
+            <li>
+                <span>{{__('Task')}}</span>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="material-icons">bookmarks</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#project-edit-modal">Edit Project</a>
+        <a class="dropdown-item" href="#">Share</a>
+        <a class="dropdown-item" href="#">Mark as Complete</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-danger" href="#">Archive</a>
+
+        </div>
+    </div>
 @endsection
+
 @section('content')
 
     <div class="row">
