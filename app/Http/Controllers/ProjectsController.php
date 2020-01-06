@@ -180,9 +180,20 @@ class ProjectsController extends Controller
         {
             $project        = Projects::where('id', $project_id)->first();
             $project_user   = Userprojects::where('project_id', $project_id)->get();
-            $project_status = Projects::$project_status;
+            $project_status_list = Projects::$project_status;
+            $stages  = Projectstages::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
+            $project_files = ProjectFile::where('project_id', $project_id)->get();
 
-            return view('projects.show', compact('project', 'project_user', 'project_status'));
+            $project_status = __('Unknown');
+            foreach($project_status_list as $key => $status)
+            {
+                if($key== $project->status)
+                {
+                    $project_status = $status;
+                }
+            }
+    
+            return view('projects.show', compact('project', 'project_user', 'project_status', 'stages', 'project_files'));
         }
         else
         {
