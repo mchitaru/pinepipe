@@ -12,6 +12,13 @@
 @endpush
 
 @push('scripts')
+<script type="text/javascript">
+    Dropzone.options.dropzone =
+     {
+        maxFilesize: 2,
+        acceptedFiles: ".doc",
+};
+</script>
 @endpush
 
 @section('page-title')
@@ -350,7 +357,7 @@
                                 <br>
                                 <span class="text-small dz-size" data-dz-size></span>
                             </div>
-                            <img alt="Loader" src="assets/img/loader.svg" class="dz-loading" />
+                            <img alt="Loader" src="{{ asset('assets/img/loader.svg') }}" class="dz-loading" />
                             <div class="dropdown">
                                 <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
@@ -417,11 +424,12 @@
                 <!--end of content list-->
             </div>
             @endif
+            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show activity',$perArr)))
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                    <h3>Activity</h3>
+                    <h3>{{__('Activity')}}</h3>
                     </div>
                     <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -438,6 +446,7 @@
                 <div class="content-list-body">
                     <ol class="list-group list-group-activity">
 
+                    @foreach($project->activities as $activity)
                     <li class="list-group-item">
                         <div class="media align-items-center">
                         <ul class="avatars">
@@ -446,157 +455,24 @@
                                 <i class="material-icons">playlist_add_check</i>
                             </div>
                             </li>
-                            <li>
-                            <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
                         </ul>
                         <div class="media-body">
                             <div>
-                            <span class="h6" data-filter-by="text">Claire</span>
-                            <span data-filter-by="text">completed the task</span><a href="#" data-filter-by="text">Set up client chat channel</a>
+                            <span class="h6" data-filter-by="text">{{$activity->log_type}}</span>
+                            <span data-filter-by="text"> {!! $activity->remark !!}</span>
                             </div>
-                            <span class="text-small" data-filter-by="text">Just now</span>
+                            <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
                         </div>
                         </div>
                     </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">person_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Ravi" src="assets/img/avatar-male-3.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Ravi</span>
-                            <span data-filter-by="text">joined the project</span>
-                            </div>
-                            <span class="text-small" data-filter-by="text">5 hours ago</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">playlist_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Kristina" src="assets/img/avatar-female-4.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Kristina</span>
-                            <span data-filter-by="text">added the task</span><a href="#" data-filter-by="text">Produce broad concept directions</a>
-                            </div>
-                            <span class="text-small" data-filter-by="text">Yesterday</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">playlist_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Marcus" src="assets/img/avatar-male-1.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Marcus</span>
-                            <span data-filter-by="text">added the task</span><a href="#" data-filter-by="text">Present concepts and establish direction</a>
-                            </div>
-                            <span class="text-small" data-filter-by="text">Yesterday</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">person_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Sally" src="assets/img/avatar-female-3.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Sally</span>
-                            <span data-filter-by="text">joined the project</span>
-                            </div>
-                            <span class="text-small" data-filter-by="text">2 days ago</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">date_range</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Claire</span>
-                            <span data-filter-by="text">rescheduled the task</span><a href="#" data-filter-by="text">Target market trend analysis</a>
-                            </div>
-                            <span class="text-small" data-filter-by="text">2 days ago</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="David" src="assets/img/avatar-male-4.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">David</span>
-                            <span data-filter-by="text">started the project</span>
-                            </div>
-                            <span class="text-small" data-filter-by="text">12 days ago</span>
-                        </div>
-                        </div>
-                    </li>
+                    @endforeach
 
                     </ol>
                 </div>
                 </div>
                 <!--end of content list-->
             </div>
+            @endif
             </div>
             <form class="modal fade" id="user-manage-modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">

@@ -6,8 +6,6 @@
 
 require('./bootstrap');
 require('chart.js');
-require('easy-autocomplete');
-
 
 window.Vue = require('vue');
 
