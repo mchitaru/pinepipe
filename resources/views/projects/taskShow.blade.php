@@ -1,7 +1,14 @@
-<div class="p-2">
-    <div class="row mb-4">
-        <div class="row">
-            <div class="container-fluid">
+<div class="modal-header">
+    <h5 class="modal-title"></h5>
+    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+    <i class="material-icons">close</i>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-2">
+        <div class="row mb-4">
+        <div class="col">
+            <div class="row">
                 <div class="col-md-4">
                     <div class="font-weight-bold lab-title">{{ __('Title')}} :</div>
                     <p class="mt-1 lab-val">{{$task->title}}</p>
@@ -11,17 +18,13 @@
                     <p class="mt-1 lab-val">{{$task->priority}}</p>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-12">
                     <div class="font-weight-bold lab-title">{{ __('Description')}} :</div>
                     <p class="mt-1 lab-val">{{$task->description}}</p>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-4">
                     <div class="font-weight-bold lab-title">{{ __('Start Date')}} :</div>
                     <p class="mt-1 lab-val">{{$task->start_date}}</p>
@@ -35,30 +38,28 @@
                     <p class="mt-1 lab-val">{{!empty($task->milestone)?$task->milestone->title:''}}</p>
                 </div>
             </div>
-        </div>
-        <div class="row mt-10">
-            <div class="container-fluid">
+            <div class="row mt-10">
                 <div class="col-md-12">
                     <div class="portlet-body">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs nav-fill" role="tablist">
                             @can('create checklist')
                                 @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
-                                    <li class="active">
-                                        <a href="#tab_1_3" data-toggle="tab"> {{__('Checklist')}} </a>
+                                    <li class="nav-item ">
+                                        <a class="nav-link active" href="#tab_1_3" data-toggle="tab"> {{__('Checklist')}} </a>
                                     </li>
                                 @endif
                             @endcan
-                            <li class="">
-                                <a href="#tab_1_1" data-toggle="tab"> {{__('Comments')}} </a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab_1_1" data-toggle="tab"> {{__('Comments')}} </a>
                             </li>
 
-                            <li>
-                                <a href="#tab_1_2" data-toggle="tab"> {{__('Files')}} </a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab_1_2" data-toggle="tab"> {{__('Files')}} </a>
                             </li>
 
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade in" id="tab_1_1">
+                            <div class="tab-pane fade show" id="tab_1_1">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <form method="post" id="form-comment" data-action="{{route('comment.store',[$task->project_id,$task->id])}}">
@@ -89,7 +90,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tab_1_2">
+                            <div class="tab-pane fade show" id="tab_1_2">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <form method="post" id="form-file" enctype="multipart/form-data" data-action="{{ route('comment.file.store',[$task->id]) }}">
@@ -129,7 +130,7 @@
                             </div>
                             @can('create checklist')
                                 @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
-                                    <div class="tab-pane fad active" id="tab_1_3">
+                                    <div class="tab-pane fade show active" id="tab_1_3">
                                         <div class="row">
                                             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('create checklist',$perArr)))
                                                 <div class="col-md-11">
@@ -221,10 +222,13 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
-<div class="text-right ">
-    <div class="btn-group mb-2 ml-2 d-none d-sm-inline-block">
-        <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{__('Cancel')}}</button>
+<div class="modal-footer">
+    <div class="text-right ">
+        <div class="btn-group mb-2 ml-2 d-none d-sm-inline-block">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
+        </div>
     </div>
 </div>
 

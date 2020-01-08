@@ -4,6 +4,28 @@
 @endpush
 
 @push('scripts')
+
+<script>
+
+// keep active tab
+$(document).ready(function() {
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        localStorage.setItem('activeTab#clients', $(e.target).attr('href'));
+    });
+
+    var activeTab = localStorage.getItem('activeTab#clients');
+
+    if(activeTab){
+        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+    } 
+    else{
+        $('.nav-tabs a[href="#clients"]').tab('show');
+    }
+});
+    
+</script>
+    
 @endpush
 
 @section('page-title')
@@ -43,7 +65,7 @@
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">Clients
+                <a class="nav-link" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">Clients
                     <span class="badge badge-secondary">{{ count($clients) }}</span>
                 </a>
             </li>
@@ -57,7 +79,7 @@
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show active" id="clients" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show" id="clients" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Clients')}}</h3>

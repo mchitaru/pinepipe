@@ -12,6 +12,29 @@
 @endpush
 
 @push('scripts')
+
+
+<script>
+
+// keep active tab
+$(document).ready(function() {
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        localStorage.setItem('activeTab#tasks', $(e.target).attr('href'));
+    });
+
+    var activeTab = localStorage.getItem('activeTab#tasks');
+
+    if(activeTab){
+        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+    } 
+    else{
+        $('.nav-tabs a[href="#tasks"]').tab('show');
+    }
+});
+
+</script>
+
 @endpush
 
 @section('page-title')
@@ -25,7 +48,7 @@
             <li class="breadcrumb-item">
                 <a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ route('projects.index') }}">{{__('Projects')}}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">{{$project->name}}</li>
@@ -165,7 +188,7 @@
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
+                <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
                     <span class="badge badge-secondary">{{ $total_task }}</span>
                 </a>
             </li>
@@ -177,7 +200,7 @@
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show active" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
@@ -230,7 +253,7 @@
                                 </div>
                                 <div class="card-body">
                                 <div class="card-title">
-                                    <a data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true" data-title="{{__('Task Board')}}">
+                                    <a href="#" data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true" data-title="{{__('Task Board')}}">
                                         <h6 data-filter-by="text">{{$task->title}}</h6>
                                     </a>
 
