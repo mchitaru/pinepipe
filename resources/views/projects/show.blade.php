@@ -38,7 +38,7 @@ $(document).ready(function() {
 @endpush
 
 @section('page-title')
-    {{__('Project Detail')}}
+    {{__('Project Details')}}
 @endsection
 
 @section('breadcrumb')
@@ -60,6 +60,7 @@ $(document).ready(function() {
           <i class="material-icons">bookmarks</i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
+            @if(Gate::check('edit project') || Gate::check('delete project'))
 
             @can('edit project')
                 <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
@@ -77,7 +78,7 @@ $(document).ready(function() {
             <a class="dropdown-item" href="#">Share</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Archive</a>
-            @can('delete task')
+            @can('delete project')
                 <a class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
                     {{__('Delete')}}
                 </a>
@@ -85,6 +86,7 @@ $(document).ready(function() {
                 {!! Form::close() !!}
             @endcan
 
+            @endif
         </div>
     </div>
 </div>
@@ -253,7 +255,7 @@ $(document).ready(function() {
                                 </div>
                                 <div class="card-body">
                                 <div class="card-title">
-                                    <a href="#" data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true" data-title="{{__('Task Board')}}">
+                                    <a href="{{ route('task.show',$task->id) }}">
                                         <h6 data-filter-by="text">{{$task->title}}</h6>
                                     </a>
 

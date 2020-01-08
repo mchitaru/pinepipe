@@ -694,13 +694,13 @@ class ProjectsController extends Controller
             $task->update($post);
 
             return redirect()->route(
-                'project.taskboard', [$task->project_id]
+                'projects.show', [$task->project_id]
             )->with('success', __('Task Updated Successfully!'));
         }
         else
         {
             return redirect()->route(
-                'project.taskboard', [$task->project_id]
+                'projects.show', [$task->project_id]
             )->with('error', __('You can \'t Edit Task!'));
         }
     }
@@ -714,13 +714,13 @@ class ProjectsController extends Controller
             $task->delete();
 
             return redirect()->route(
-                'project.taskboard', [$task->project_id]
+                'projects.show', [$task->project_id]
             )->with('success', __('Task successfully deleted'));
         }
         else
         {
             return redirect()->route(
-                'project.taskboard', [$task->project_id]
+                'projects.show', [$task->project_id]
             )->with('error', __('You can\'t Delete Task.'));
         }
     }
@@ -797,7 +797,7 @@ class ProjectsController extends Controller
         $permissions = $project->client_project_permission();
         $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
 
-        return view('projects.taskShow', compact('task', 'perArr'));
+        return view('projects.taskShow', compact('task', 'perArr', 'project'));
     }
 
     public function commentStore(Request $request, $project_id, $task_id)
