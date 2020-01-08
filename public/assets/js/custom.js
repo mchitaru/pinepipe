@@ -1,8 +1,9 @@
 $(document).ready(function(){
-    $('.toast').toast({delay: 5000});
-    $('.toast').toast('show');
 });
 
+function toastrs(title, message, status) {
+    toastr[status](message, title)
+}
 
 $(document).on('click', 'a[data-ajax-popup="true"], button[data-ajax-popup="true"], div[data-ajax-popup="true"]', function () {
     var title = $(this).data('title');
@@ -291,12 +292,13 @@ function taskCheckbox() {
         });
     }
 
-    // Bootstrap Modal Destroyer
-    $.destroyModal = function(modal) {
-        modal.modal('hide');
-        modal.on('hidden.bs.modal', function() {
-        });
-    }
+// Bootstrap Modal Destroyer
+$.destroyModal = function(modal) {
+    modal.modal('hide');
+    modal.on('hidden.bs.modal', function() {
+    });
+}
+
 })(jQuery, this, 0);
 
 
@@ -327,4 +329,4 @@ $('[data-confirm]').each(function() {
         }
       ]
     })
-  });
+});

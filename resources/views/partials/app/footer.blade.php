@@ -4,6 +4,7 @@
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
 
 <!-- Autosize - resizes textarea inputs as user types -->
 <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>
@@ -53,45 +54,15 @@
 </script>
 
 @if ($message = Session::get('success'))
-<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-    <strong class="mr-auto">Success</strong>
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-    </div>
-    <div class="toast-body">
-        {!! $message !!}
-    </div>
-</div>
+    <script>toastrs('Success', '{!! $message !!}', 'success')</script>
 @endif
 
 @if ($message = Session::get('error'))
-<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-    <strong class="mr-auto">Error</strong>
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-    </div>
-    <div class="toast-body">
-        {!! $message !!}
-    </div>
-</div>
+    <script>toastrs('Error', '{!! $message !!}', 'error')</script>
 @endif
 
 @if ($message = Session::get('info'))
-<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-    <strong class="mr-auto">Info</strong>
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-    </div>
-    <div class="toast-body">
-        {!! $message !!}
-    </div>
-</div>
+    <script>toastrs('Info', '{!! $message !!}', 'info')</script>
 @endif
 
 @stack('scripts')

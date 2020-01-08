@@ -12,10 +12,33 @@
 @endpush
 
 @push('scripts')
+
+
+<script>
+
+// keep active tab
+$(document).ready(function() {
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        localStorage.setItem('activeTab#tasks', $(e.target).attr('href'));
+    });
+
+    var activeTab = localStorage.getItem('activeTab#tasks');
+
+    if(activeTab){
+        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+    } 
+    else{
+        $('.nav-tabs a[href="#tasks"]').tab('show');
+    }
+});
+
+</script>
+
 @endpush
 
 @section('page-title')
-    {{__('Project Detail')}}
+    {{__('Project Details')}}
 @endsection
 
 @section('breadcrumb')
@@ -25,7 +48,7 @@
             <li class="breadcrumb-item">
                 <a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ route('projects.index') }}">{{__('Projects')}}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">{{$project->name}}</li>
@@ -37,6 +60,7 @@
           <i class="material-icons">bookmarks</i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
+            @if(Gate::check('edit project') || Gate::check('delete project'))
 
             @can('edit project')
                 <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
@@ -54,7 +78,7 @@
             <a class="dropdown-item" href="#">Share</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Archive</a>
-            @can('delete task')
+            @can('delete project')
                 <a class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
                     {{__('Delete')}}
                 </a>
@@ -62,6 +86,7 @@
                 {!! Form::close() !!}
             @endcan
 
+            @endif
         </div>
     </div>
 </div>
@@ -165,7 +190,7 @@
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
+                <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
                     <span class="badge badge-secondary">{{ $total_task }}</span>
                 </a>
             </li>
@@ -177,7 +202,7 @@
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show active" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
@@ -230,7 +255,7 @@
                                 </div>
                                 <div class="card-body">
                                 <div class="card-title">
-                                    <a data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true" data-title="{{__('Task Board')}}">
+                                    <a href="{{ route('task.show',$task->id) }}">
                                         <h6 data-filter-by="text">{{$task->title}}</h6>
                                     </a>
 
@@ -344,22 +369,23 @@
                             </ul>
                             <div class="media-body d-flex justify-content-between align-items-center">
                             <div class="dz-file-details">
-                                <a href="#" class="dz-filename">
+                                <a href="#" class="dropzone-file dz-filename">
                                 <span data-dz-name></span>
                                 </a>
                                 <br>
                                 <span class="text-small dz-size" data-dz-size></span>
                             </div>
-                            <img alt="Loader" src="assets/img/loader.svg" class="dz-loading" />
+                            <img alt="Loader" src="{{ asset('assets/img/loader.svg') }}" class="dz-loading" />
                             <div class="dropdown">
                                 <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
+                                <a class="dropzone-file dropdown-item" href="#">Download</a>
+                                <a class="dropzone-file dropdown-item" href="#">Share</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#" data-dz-remove>Delete</a>
+                                <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">Delete</a>
+
                                 </div>
                             </div>
                             <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
@@ -373,43 +399,11 @@
                         </li>
                     </ul>
                             
-                    <form method="post" action="{{route('project.file.upload',[$project->id])}}" enctype="multipart/form-data" class="dropzone" id="dropzone">                        
-                        {{ csrf_field() }}
+                    <form class="dropzone" id="my-dropzone">                        
                         <span class="dz-message">Drop files here or click here to upload</span>
                     </form>
 
                     <ul class="list-group list-group-activity dropzone-previews flex-column-reverse">
-                        @foreach($project_files as $file)
-                        <li class="list-group-item">
-                            <div class="media align-items-center">
-                              <ul class="avatars">
-                                <li>
-                                  <div class="avatar bg-primary">
-                                    <i class="material-icons">attach_file</i>
-                                  </div>
-                                </li>
-                              </ul>
-                              <div class="media-body d-flex justify-content-between align-items-center">
-                                <div>
-                                  <a href="{{route('projects.file.download',[$project->id,$file->id])}}" data-filter-by="text">{{ $file->file_name }}</a>
-                                  <br>
-                                  <span class="text-small" data-filter-by="text">{{ Projects::humanFileSize(\File::size(storage_path('app/public/project_files/'.$file->file_path)))}} {{ \File::mimeType(storage_path('app/public/project_files/'.$file->file_path)) }}</span>
-                                </div>
-                                <div class="dropdown">
-                                  <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                  </button>
-                                  <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Download</a>
-                                    <a class="dropdown-item" href="#">Share</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                        </li>
-                        @endforeach 
                     </ul>
                     </div>
                 </div>
@@ -417,11 +411,12 @@
                 <!--end of content list-->
             </div>
             @endif
+            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show activity',$perArr)))
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                    <h3>Activity</h3>
+                    <h3>{{__('Activity')}}</h3>
                     </div>
                     <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -438,6 +433,7 @@
                 <div class="content-list-body">
                     <ol class="list-group list-group-activity">
 
+                    @foreach($project->activities as $activity)
                     <li class="list-group-item">
                         <div class="media align-items-center">
                         <ul class="avatars">
@@ -446,157 +442,24 @@
                                 <i class="material-icons">playlist_add_check</i>
                             </div>
                             </li>
-                            <li>
-                            <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
                         </ul>
                         <div class="media-body">
                             <div>
-                            <span class="h6" data-filter-by="text">Claire</span>
-                            <span data-filter-by="text">completed the task</span><a href="#" data-filter-by="text">Set up client chat channel</a>
+                            <span class="h6" data-filter-by="text">{{$activity->log_type}}</span>
+                            <span data-filter-by="text"> {!! $activity->remark !!}</span>
                             </div>
-                            <span class="text-small" data-filter-by="text">Just now</span>
+                            <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
                         </div>
                         </div>
                     </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">person_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Ravi" src="assets/img/avatar-male-3.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Ravi</span>
-                            <span data-filter-by="text">joined the project</span>
-                            </div>
-                            <span class="text-small" data-filter-by="text">5 hours ago</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">playlist_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Kristina" src="assets/img/avatar-female-4.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Kristina</span>
-                            <span data-filter-by="text">added the task</span><a href="#" data-filter-by="text">Produce broad concept directions</a>
-                            </div>
-                            <span class="text-small" data-filter-by="text">Yesterday</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">playlist_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Marcus" src="assets/img/avatar-male-1.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Marcus</span>
-                            <span data-filter-by="text">added the task</span><a href="#" data-filter-by="text">Present concepts and establish direction</a>
-                            </div>
-                            <span class="text-small" data-filter-by="text">Yesterday</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">person_add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Sally" src="assets/img/avatar-female-3.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Sally</span>
-                            <span data-filter-by="text">joined the project</span>
-                            </div>
-                            <span class="text-small" data-filter-by="text">2 days ago</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">date_range</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">Claire</span>
-                            <span data-filter-by="text">rescheduled the task</span><a href="#" data-filter-by="text">Target market trend analysis</a>
-                            </div>
-                            <span class="text-small" data-filter-by="text">2 days ago</span>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">add</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="David" src="assets/img/avatar-male-4.jpg" class="avatar" data-filter-by="alt" />
-                            </li>
-                        </ul>
-                        <div class="media-body">
-                            <div>
-                            <span class="h6" data-filter-by="text">David</span>
-                            <span data-filter-by="text">started the project</span>
-                            </div>
-                            <span class="text-small" data-filter-by="text">12 days ago</span>
-                        </div>
-                        </div>
-                    </li>
+                    @endforeach
 
                     </ol>
                 </div>
                 </div>
                 <!--end of content list-->
             </div>
+            @endif
             </div>
             <form class="modal fade" id="user-manage-modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -990,3 +853,119 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        Dropzone.autoDiscover = false;
+        myDropzone = new Dropzone("#my-dropzone", {
+            previewTemplate: document.querySelector('.dz-template').innerHTML,
+            thumbnailWidth: 320,
+            thumbnailHeight: 320,
+            thumbnailMethod: "contain",
+            previewsContainer: ".dropzone-previews",
+            maxFiles: 20,
+            maxFilesize: 2,
+            parallelUploads: 1,
+            acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
+            url: "{{route('project.file.upload',[$project->id])}}",
+
+            success: function (file, response) {
+                if (response.is_success) {
+                    dropzoneBtn(file, response);
+                } else {
+                    this.removeFile(file);
+                    toastrs('Error', response.error, 'error');
+                }
+            },
+            error: function (file, response) {
+                this.removeFile(file);
+                if (response.error) {
+                    toastrs('Error', response.error, 'error');
+                } else {
+                    toastrs('Error', response.error, 'error');
+                }
+            },
+            sending: function(file, xhr, formData) {
+                formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
+                formData.append("project_id", {{$project->id}});
+            },
+        });
+
+        function deleteDropzoneFile(btn) {
+
+            $.ajax({
+                url: btn.attr('href'),
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                type: 'DELETE',
+                success: function (response) {
+                    if (response.is_success) {
+                        btn.closest('.list-group-item').remove();
+                    } else {
+                        toastrs('Error', response.error, 'error');
+                    }
+                },
+                error: function (response) {
+                    response = response.responseJSON;
+                    if (response.is_success) {
+                        toastrs('Error', response.error, 'error');
+                    } else {
+                        toastrs('Error', response.error, 'error');
+                    }
+                }
+            });
+        }
+
+        function dropzoneBtn(file, response) {
+
+            $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
+                $(this).attr("href", response.download);
+            });
+            
+            $('[data-delete]', $(".dz-preview").last()).each(function() {
+
+                $(this).attr("href", response.delete);
+
+                var me = $(this),
+                    me_data = me.data('delete');
+
+                me_data = me_data.split("|");
+
+                me.fireModal({
+                title: me_data[0],
+                body: me_data[1],
+                buttons: [
+                    {
+                    text: me.data('confirm-text-yes') || 'Yes',
+                    class: 'btn btn-danger btn-shadow',
+                    handler: function(modal) {
+                        deleteDropzoneFile(me);
+                        $.destroyModal(modal);
+                    }
+                    },
+                    {
+                    text: me.data('confirm-text-cancel') || 'Cancel',
+                    class: 'btn btn-secondary',
+                    handler: function(modal) {
+                        $.destroyModal(modal);
+                    }
+                    }
+                ]
+                })
+            });
+        }
+
+        @php
+            $files = $project->files;
+        @endphp
+
+        @foreach($files as $file)
+        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/public/project_files/'.$file->file_path))}} };
+        myDropzone.emit("addedfile", mockFile);
+        myDropzone.emit("processing", mockFile);
+        myDropzone.emit("thumbnail", mockFile, "{{asset('storage/project_files/'.$file->file_path)}}");
+        myDropzone.emit("complete", mockFile);
+
+        dropzoneBtn(mockFile, {download: "{{route('projects.file.download',[$project->id,$file->id])}}", delete: "{{route('projects.file.delete',[$project->id,$file->id])}}"});
+        @endforeach
+
+    </script>
+@endpush
