@@ -5,7 +5,7 @@ require 'recipe/laravel.php';
 
 // Project name
 set('application', 'BaseCRM');
-set('keep_releases', 5);
+set('keep_releases', 3);
 
 // Project repository
 set('repository', 'https://github.com/mchitaru/basecrm.git');
