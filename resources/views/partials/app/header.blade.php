@@ -35,7 +35,7 @@
 
                 <a class="dropdown-item" href="{{ route('clients.index') }}">Contacts</a>
 
-                <a class="dropdown-item" href="{{ route('kanban') }}">Leads</a>
+                <a class="dropdown-item" href="#">Leads</a>
 
                 <a class="dropdown-item" href="{{ route('clients.index') }}">Activity</a>
 
@@ -53,11 +53,11 @@
                 <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
             @endif
 
-            <a class="dropdown-item" href="{{ route('project') }}">Project</a>
+            <a class="dropdown-item" href="#">Project</a>
 
-            <a class="dropdown-item" href="{{ route('task') }}">Task</a>
+            <a class="dropdown-item" href="#">Task</a>
 
-            <a class="dropdown-item" href="{{ route('kanban') }}">Kanban</a>
+            <a class="dropdown-item" href="#">Kanban</a>
 
         </div>
         </div>
@@ -70,13 +70,13 @@
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Finance</a>
         <div class="dropdown-menu">
 
-            <a class="dropdown-item" href="{{ route('project') }}">Proposals</a>
+            <a class="dropdown-item" href="#">Proposals</a>
 
-            <a class="dropdown-item" href="{{ route('project') }}">Contracts</a>
+            <a class="dropdown-item" href="#">Contracts</a>
 
-            <a class="dropdown-item" href="{{ route('project') }}">Invoices</a>
+            <a class="dropdown-item" href="#">Invoices</a>
 
-            <a class="dropdown-item" href="{{ route('project') }}">Expenses</a>
+            <a class="dropdown-item" href="#">Expenses</a>
 
         </div>
         </div>
@@ -89,7 +89,7 @@
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Reports</a>
         <div class="dropdown-menu">
 
-            <a class="dropdown-item" href="{{ route('project') }}">Timesheets</a>
+            <a class="dropdown-item" href="#">Timesheets</a>
 
         </div>
         </div>

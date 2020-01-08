@@ -7,6 +7,7 @@ require 'recipe/laravel.php';
 set('application', 'BaseCRM');
 set('keep_releases', 3);
 set('writable_mode', 'chown');
+set('http_user', 'baseqigg');
 
 // Project repository
 set('repository', 'https://github.com/mchitaru/basecrm.git');

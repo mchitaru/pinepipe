@@ -12,50 +12,50 @@
 */
 Route::get('searchJson/{search?}', 'ProjectsController@getSearchJson')->name('search.json')->middleware(['auth','xss']);
 
-Route::get('/team', function () {
-    return view('team');
-})->name('team')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
+// Route::get('/team', function () {
+//     return view('team');
+// })->name('team')->middleware(
+//     [
+//         'auth',
+//         'xss',
+//     ]
+// );
 
-Route::get('/project', function () {
-    return view('project');
-})->name('project')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
+// Route::get('/project', function () {
+//     return view('project');
+// })->name('project')->middleware(
+//     [
+//         'auth',
+//         'xss',
+//     ]
+// );
 
-Route::get('/task', function () {
-    return view('task');
-})->name('task')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
+// Route::get('/task', function () {
+//     return view('task');
+// })->name('task')->middleware(
+//     [
+//         'auth',
+//         'xss',
+//     ]
+// );
 
-Route::get('/kanban', function () {
-    return view('kanban');
-})->name('kanban')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
+// Route::get('/kanban', function () {
+//     return view('kanban');
+// })->name('kanban')->middleware(
+//     [
+//         'auth',
+//         'xss',
+//     ]
+// );
 
-Route::get('/user', function () {
-    return view('user');
-})->name('user')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
+// Route::get('/user', function () {
+//     return view('user');
+// })->name('user')->middleware(
+//     [
+//         'auth',
+//         'xss',
+//     ]
+// );
 
 Auth::routes();
 

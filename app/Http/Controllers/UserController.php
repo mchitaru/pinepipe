@@ -335,4 +335,8 @@ class UserController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+    public function authRouteAPI(Request $request){
+        return $request->user();
+     }
 }
