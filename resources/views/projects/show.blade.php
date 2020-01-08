@@ -12,33 +12,6 @@
 @endpush
 
 @push('scripts')
-<script>
-   function deleteSelectedFile(btn) {
-
-        $.ajax({
-            url: btn.attr('href'),
-            data: {_token: $('meta[name="csrf-token"]').attr('content')},
-            type: 'DELETE',
-            success: function (response) {
-                if (response.is_success) {
-                    btn.closest('.list-group-item').remove();
-                } else {
-                    toastrs('Error', response.error, 'error');
-                }
-            },
-            error: function (response) {
-                response = response.responseJSON;
-                if (response.is_success) {
-                    toastrs('Error', response.error, 'error');
-                } else {
-                    toastrs('Error', response.error, 'error');
-                }
-            }
-        });
-    }
-
-</script>
-
 @endpush
 
 @section('page-title')
@@ -892,6 +865,30 @@
             },
         });
 
+        function deleteDropzoneFile(btn) {
+
+            $.ajax({
+                url: btn.attr('href'),
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                type: 'DELETE',
+                success: function (response) {
+                    if (response.is_success) {
+                        btn.closest('.list-group-item').remove();
+                    } else {
+                        toastrs('Error', response.error, 'error');
+                    }
+                },
+                error: function (response) {
+                    response = response.responseJSON;
+                    if (response.is_success) {
+                        toastrs('Error', response.error, 'error');
+                    } else {
+                        toastrs('Error', response.error, 'error');
+                    }
+                }
+            });
+        }
+
         function dropzoneBtn(file, response) {
 
             $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
@@ -915,7 +912,7 @@
                     text: me.data('confirm-text-yes') || 'Yes',
                     class: 'btn btn-danger btn-shadow',
                     handler: function(modal) {
-                        deleteSelectedFile(me);
+                        deleteDropzoneFile(me);
                         $.destroyModal(modal);
                     }
                     },
