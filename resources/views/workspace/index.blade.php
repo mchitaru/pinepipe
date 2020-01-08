@@ -161,7 +161,7 @@ if($client_project_budget_due_per<=15){
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <div class="card">
+                            <div class="card card-info">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$lead_percentage}}%;"></div>
                                 </div>
@@ -177,7 +177,7 @@ if($client_project_budget_due_per<=15){
                             </div>
                         </div>
                         <div class="col">
-                            <div class="card">
+                            <div class="card card-info">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$project_percentage}}%;"></div>
                                 </div>
@@ -194,7 +194,7 @@ if($client_project_budget_due_per<=15){
                         </div>
                         @if(Auth::user()->type =='company' || Auth::user()->type =='client')
                         <div class="col">
-                            <div class="card">
+                            <div class="card card-info">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$invoice_percentage}}%;"></div>
                                 </div>
@@ -212,7 +212,7 @@ if($client_project_budget_due_per<=15){
                         @endif
                         @if(Auth::user()->type =='company')
                         <div class="col">
-                            <div class="card">
+                            <div class="card card-info">
                                 <div class="progress">
                                 </div>
                                 <div class="card-body">
@@ -229,7 +229,7 @@ if($client_project_budget_due_per<=15){
                         @endif
                         @if(Auth::user()->type =='client')
                         <div class="col">
-                            <div class="card">
+                            <div class="card card-info">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width: {{$client_project_budget_due_per}}%;"></div>
                                 </div>
@@ -248,7 +248,7 @@ if($client_project_budget_due_per<=15){
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="card">
+                            <div class="card card-info">
                                 <div class="card-body">
                                     <h5 class="card-title">Tasks overview</h5>
                                     <canvas id="task-area-chart" width="800" height="200"></canvas>

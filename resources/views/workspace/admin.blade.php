@@ -75,7 +75,7 @@
         <div class="col">
             <div class="row">
                 <div class="col">
-                    <div class="card">
+                    <div class="card card-info">
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_user']}}</h3>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    <div class="card card-info">
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_orders']}}</h3>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    <div class="card card-info">
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_plan']}}</h3>
@@ -116,7 +116,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="card">
+                    <div class="card card-info">
                         <div class="card-body">
                             <h5 class="card-title">{{__('Recent Orders')}}</h5>
                             <canvas id="order-chart" width="800" height="200"></canvas>
@@ -128,7 +128,7 @@
         <div class="col-sm">
             <div class="row">
                 <div class="col">
-                    <div class="card">
+                    <div class="card card-info">
                         <div class="card-body">
                             <h5 class="card-title">{{__('Latest Activity')}} </h5>
                                 <ol class="timeline small">
