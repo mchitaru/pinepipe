@@ -6,6 +6,7 @@ require 'recipe/laravel.php';
 // Project name
 set('application', 'BaseCRM');
 set('keep_releases', 3);
+set('writable_mode', 'chown');
 
 // Project repository
 set('repository', 'https://github.com/mchitaru/basecrm.git');
@@ -38,4 +39,5 @@ after('deploy:failed', 'deploy:unlock');
 // Migrate database before symlink new release.
 
 before('deploy:symlink', 'artisan:migrate');
+before('deploy:symlink', 'artisan:storage:link');
 
