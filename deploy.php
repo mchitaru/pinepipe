@@ -5,7 +5,6 @@ require 'recipe/laravel.php';
 
 // Project name
 set('application', 'BaseCRM');
-set('keep_releases', 3);
 set('writable_mode', 'chown');
 set('http_user', 'baseqigg');
 
