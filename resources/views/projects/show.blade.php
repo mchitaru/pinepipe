@@ -12,13 +12,92 @@
 @endpush
 
 @push('scripts')
-<script type="text/javascript">
-    Dropzone.options.dropzone =
-     {
+
+<script>
+    Dropzone.autoDiscover = false;
+    Dropzone.options.myDropzone = {
+        maxFiles: 20,
         maxFilesize: 2,
-        acceptedFiles: ".doc",
-};
+        parallelUploads: 1,
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
+        url: "{{route('project.file.upload',[$project->id])}}",
+        success: function (file, response) {
+            if (response.is_success) {
+                toastrs('Success', response.success, 'success');
+            } else {
+                this.removeFile(file);
+                toastrs('Error', response.error, 'error');
+            }
+        },
+        error: function (file, response) {
+            this.removeFile(file);
+            if (response.error) {
+                toastrs('Error', response.error, 'error');
+            } else {
+                toastrs('Error', response.error, 'error');
+            }
+        },
+    }
+
+    function deleteSelectedFile(btn) {
+
+        $.ajax({
+            url: btn.attr('href'),
+            data: {_token: $('meta[name="csrf-token"]').attr('content')},
+            type: 'DELETE',
+            success: function (response) {
+                if (response.is_success) {
+                    btn.closest('.list-group-item').remove();
+                } else {
+                    toastrs('Error', response.error, 'error');
+                }
+            },
+            error: function (response) {
+                response = response.responseJSON;
+                if (response.is_success) {
+                    toastrs('Error', response.error, 'error');
+                } else {
+                    toastrs('Error', response.error, 'error');
+                }
+            }
+        });
+    }
+
+$(document).ready(function(){
+
+    $('[data-delete]').each(function() {
+
+        var me = $(this),
+            me_data = me.data('delete');
+
+        me_data = me_data.split("|");
+
+        me.fireModal({
+        title: me_data[0],
+        body: me_data[1],
+        buttons: [
+            {
+            text: me.data('confirm-text-yes') || 'Yes',
+            class: 'btn btn-danger btn-shadow',
+            handler: function(modal) {
+                deleteSelectedFile(me);
+                $.destroyModal(modal);
+            }
+            },
+            {
+            text: me.data('confirm-text-cancel') || 'Cancel',
+            class: 'btn btn-secondary',
+            handler: function(modal) {
+                $.destroyModal(modal);
+            }
+            }
+        ]
+        })
+    });
+});
+
 </script>
+
 @endpush
 
 @section('page-title')
@@ -351,7 +430,7 @@
                             </ul>
                             <div class="media-body d-flex justify-content-between align-items-center">
                             <div class="dz-file-details">
-                                <a href="#" class="dz-filename">
+                                <a href="#" class="dropzone-file dz-filename">
                                 <span data-dz-name></span>
                                 </a>
                                 <br>
@@ -363,10 +442,10 @@
                                 <i class="material-icons">more_vert</i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
+                                <a class="dropzone-file dropdown-item" href="#">Download</a>
+                                <a class="dropzone-file dropdown-item" href="#">Share</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#" data-dz-remove>Delete</a>
+                                <a class="dropzone-file dropdown-item text-danger" href="#" data-dz-remove>Delete</a>
                                 </div>
                             </div>
                             <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
@@ -380,7 +459,7 @@
                         </li>
                     </ul>
                             
-                    <form method="post" action="{{route('project.file.upload',[$project->id])}}" enctype="multipart/form-data" class="dropzone" id="dropzone">                        
+                    <form method="post" action="{{route('project.file.upload',[$project->id])}}" enctype="multipart/form-data" class="dropzone" id="myDropzone">                        
                         {{ csrf_field() }}
                         <span class="dz-message">Drop files here or click here to upload</span>
                     </form>
@@ -407,10 +486,15 @@
                                     <i class="material-icons">more_vert</i>
                                   </button>
                                   <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Download</a>
+                                    <a class="dropdown-item" href="{{route('projects.file.download',[$project->id,$file->id])}}">{{__('Download')}}</a>
                                     <a class="dropdown-item" href="#">Share</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="#">Delete</a>
+                                    @can('delete task')
+
+                                    <a href="{{route('projects.file.delete',[$project->id,$file->id])}}" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">
+                                        {{__('Delete')}}
+                                    </a>                    
+                                    @endcan    
                                   </div>
                                 </div>
                               </div>

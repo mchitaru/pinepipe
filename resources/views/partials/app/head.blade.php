@@ -20,6 +20,8 @@
     <!-- App css (keep last) -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" media="all" />
 
+    <link href="{{ asset('assets/css/toastr.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @stack('stylesheets')
