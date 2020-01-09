@@ -812,7 +812,9 @@ class ProjectsController extends Controller
 
         $comment->deleteUrl = route('comment.destroy', [$comment->id]);
 
-        return $comment->toJson();
+        return redirect()->route(
+            'task.show', [$task_id]
+        )->with('success', __('Comment successfully created'));
     }
 
     public function commentDestroy($comment_id)
@@ -820,7 +822,102 @@ class ProjectsController extends Controller
         $comment = Comment::find($comment_id);
         $comment->delete();
 
-        return "true";
+        return redirect()->route(
+            'task.show', [$comment->task_id]
+        )->with('success', __('Comment successfully deleted'));
+    }
+
+
+    public function taskFileUpload($task_id, Request $request)
+    {
+        $request->validate(
+            ['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048']
+        );
+        $fileName = $task_id . time() . "_" . $request->file->getClientOriginalName();
+
+        $request->file->storeAs('public/tasks', $fileName);
+        $post['task_id']    = $task_id;
+        $post['file']       = $fileName;
+        $post['name']       = $request->file->getClientOriginalName();
+        $post['extension']  = "." . $request->file->getClientOriginalExtension();
+        $post['file_size']  = round(($request->file->getSize() / 1024) / 1024, 2) . ' MB';
+        $post['created_by'] = \Auth::user()->authId();
+        $post['user_type']  = \Auth::user()->type;
+
+        $file            = TaskFile::create($post);
+        $file->deleteUrl = route('comment.file.destroy', [$file->id]);
+
+        $return               = [];
+        $return['is_success'] = true;
+        $return['download']   = route(
+            'comment.file.download', [
+                                        $task_id,
+                                        $file->id,
+                                    ]
+        );
+        $return['delete']     = route(
+            'comment.file.delete', [
+                                      $task_id,
+                                      $file->id,
+                                  ]
+        );
+
+        // ActivityLog::create(
+        //     [
+        //         'user_id' => \Auth::user()->creatorId(),
+        //         'project_id' => $project_id,
+        //         'log_type' => 'Upload File',
+        //         'remark' => \Auth::user()->name . ' ' . __('Upload new file') . ' <b>' . $fileName . '</b>',
+        //     ]
+        // );
+
+        return response()->json($return);
+    }
+
+    public function taskFileDownload($id, $file_id)
+    {
+
+        $file    = TaskFile::find($file_id);
+        if($file)
+        {
+            $file_path = storage_path('app/public/tasks/' . $file->file);
+            $filename  = $file->name;
+
+            return \Response::download(
+                $file_path, $filename, [
+                              'Content-Length: ' . filesize($file_path),
+                          ]
+            );
+        }
+        else
+        {
+            return redirect()->back()->with('error', __('File does not exist.'));
+        }
+    }
+
+    public function taskFileDelete($id, $file_id)
+    {
+        $file = TaskFile::find($file_id);
+        if($file)
+        {
+            $path = storage_path('app/public/tasks/' . $file->file);
+            if(file_exists($path))
+            {
+                \File::delete($path);
+            }
+            $file->delete();
+
+            return response()->json(['is_success' => true], 200);
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'is_success' => false,
+                    'error' => __('File is not exist.'),
+                ], 200
+            );
+        }
     }
 
     public function commentStoreFile(Request $request, $task_id)

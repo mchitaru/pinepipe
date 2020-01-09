@@ -105,13 +105,13 @@ function taskCheckbox() {
     var count = 0;
     var percentage = 0;
 
-    count = $("#check-list input[type=checkbox]").length;
-    checked = $("#check-list input[type=checkbox]:checked").length;
+    count = $("#checklist input[type=checkbox]").length;
+    checked = $("#checklist input[type=checkbox]:checked").length;
     percentage = parseInt(((checked / count) * 100), 10);
     if(isNaN(percentage)){
         percentage=0;
     }
-    $(".custom-label").text(percentage + "%");
+    $("#taskProgressLabel").text(percentage + "%");
     $('#taskProgress').css('width', percentage + '%');
 
 
@@ -330,3 +330,30 @@ $('[data-confirm]').each(function() {
       ]
     })
 });
+
+// Basic confirm box
+function customConfirm(window, title, message) {
+
+    window.fireModal({
+      title: title,
+      body: message,
+      buttons: [
+        {
+          text: 'Yes',
+          class: 'btn btn-danger btn-shadow',
+          handler: function() {
+            $.destroyModal(modal);
+            return true;
+          }
+        },
+        {
+          text: 'Cancel',
+          class: 'btn btn-secondary',
+          handler: function(modal) {
+            $.destroyModal(modal);
+            return false;
+          }
+        }
+      ]
+    })
+};

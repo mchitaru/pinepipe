@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@php
+    use Carbon\Carbon;
+    use App\Projects;
+
+    $current_user=\Auth::user();
+    $profile=asset(Storage::url('avatar/'));
+@endphp
+
+
 @push('stylesheets')
 @endpush
 
@@ -24,6 +33,61 @@
         }
     });
     
+    $(document).on("change", "#checklist input[type=checkbox]", function () {
+            $.ajax({
+                url: $(this).attr('data-url'),
+                type: 'PUT',
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                // dataType: 'JSON',
+                success: function (data) {
+                    toastrs('Success', '{{ __("Checklist Updated Successfully!")}}', 'success');
+                    // console.log(data);
+                },
+                error: function (data) {
+                    data = data.responseJSON;
+                    toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
+                }
+            });
+            taskCheckbox();
+    });
+
+    $(document).on('submit', '#form-checklist', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $("#form-checklist").data('action'),
+                type: 'POST',
+                data: new FormData(this),
+                dataType: 'JSON',
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    toastrs('Success', '{{ __("Checklist Added Successfully!")}}', 'success');
+
+                    var html =  '<div class="row">' +
+                                    '<div class="form-group col">' +
+                                        '<span class="checklist-reorder">' +
+                                            '<i class="material-icons">reorder</i>' +
+                                        '</span>' +
+                                        '<div class="custom-control custom-checkbox col">' +
+                                            '<input type="checkbox" class="custom-control-input" id="checklist-' + data.id + '" value="' + data.id + '" data-url="' + data.updateUrl + '">' +
+                                            '<label class="custom-control-label" for="checklist-' + data.id + '"></label>' +
+                                            '<div>' +
+                                                '<input type="text" placeholder="Checklist item" value="' + data.name + '" data-filter-by="value" />' +
+                                                '<div class="checklist-strikethrough"></div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>';
+
+                    $("#checklist").prepend(html);
+                    $("#form-checklist input[name=name]").val('');
+                    $("#form-checklist").collapse('toggle');
+                },
+            });
+    });
+
 </script>
     
 @endpush
@@ -97,50 +161,8 @@
                 <ul class="avatars">
 
                 <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Claire Connors">
-                    <img alt="Claire Connors" class="avatar" src="assets/img/avatar-female-1.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Marcus Simmons">
-                    <img alt="Marcus Simmons" class="avatar" src="assets/img/avatar-male-1.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Peggy Brown">
-                    <img alt="Peggy Brown" class="avatar" src="assets/img/avatar-female-2.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Harry Xai">
-                    <img alt="Harry Xai" class="avatar" src="assets/img/avatar-male-2.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Sally Harper">
-                    <img alt="Sally Harper" class="avatar" src="assets/img/avatar-female-3.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Ravi Singh">
-                    <img alt="Ravi Singh" class="avatar" src="assets/img/avatar-male-3.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Kristina Van Der Stroem">
-                    <img alt="Kristina Van Der Stroem" class="avatar" src="assets/img/avatar-female-4.jpg" />
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="David Whittaker">
-                    <img alt="David Whittaker" class="avatar" src="assets/img/avatar-male-4.jpg" />
+                    <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
+                        <img alt="{{(!empty($task->task_user)?$task->task_user->name:'')}}" class="avatar" src="{{(!empty($task->task_user->avatar)?$profile.'/'.$task->task_user->avatar:$profile.'/avatar.png')}}">
                     </a>
                 </li>
 
@@ -150,15 +172,21 @@
                 </button>
             </div>
             <div>
-                <div class="progress">
-                <div class="progress-bar bg-success" style="width:42%;"></div>
+                @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('create checklist',$perArr)))
+                <div class="d-flex flex-row-reverse">
+                    <small class="card-text" style="float:right;" id="taskProgressLabel">0%</small>
                 </div>
+                <div class="progress mt-0">
+                    <div class="progress-bar bg-success" style="width:0%;" id="taskProgress"></div>
+                </div>
+                @endif
+
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center">
                     <i class="material-icons">playlist_add_check</i>
                     <span>3/7</span>
                 </div>
-                <span>Due 14 days</span>
+                <span>{{__('Due') }} {{ \Auth::user()->dateFormat($task->due_date) }}</span>
                 </div>
             </div>
             </div>
@@ -174,12 +202,17 @@
             </li>
             </ul>
             <div class="tab-content">
+            
             <div class="tab-pane fade show active" id="task" role="tabpanel">
+
+                @can('create checklist')
+                @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
+    
                 <div class="content-list" data-filter-list="checklist">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                    <h3>Checklist</h3>
-                    <button class="btn btn-round" data-toggle="tooltip" data-title="New item">
+                    <h3>{{__('Checklist')}}</h3>
+                    <button class="btn btn-round" data-title={{__('New item')}} data-toggle="collapse" data-target="#form-checklist">
                         <i class="material-icons">add</i>
                     </button>
                     </div>
@@ -196,127 +229,49 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-                    <form class="checklist">
+                    <form method="POST" id="form-checklist" class="collapse" data-action="{{ route('task.checklist.store',[$task->id]) }}">
+                        @csrf
+                        <div class="form-group row align-items-center">
+                            <div class ="col-1">
+                                <label>{{__('Name')}}</label>
+                            </div>
+                            <div class ="col">
+                                <input type="text" name="name" class="form-control" required placeholder="{{__('Checklist Item Name')}}">
+                            </div>
+                            <div class ="col">
+                                <button type="submit" class="btn btn-round" data-title={{__('Add')}} data-toggle="collapse" data-target="#form-checklist">
+                                <i class="material-icons">add</i>
+                                </button>                
+                            </div>
+                        </div>
+                    </form>
 
+                    <form class="checklist" id="checklist">
+
+                    @foreach($task->taskCheckList as $checkList)
+
+                    @can('create checklist')
+                    @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('edit checklist',$perArr)))
                     <div class="row">
                         <div class="form-group col">
                         <span class="checklist-reorder">
                             <i class="material-icons">reorder</i>
                         </span>
                         <div class="custom-control custom-checkbox col">
-                            <input type="checkbox" class="custom-control-input" id="checklist-item-1" checked>
-                            <label class="custom-control-label" for="checklist-item-1"></label>
+                            <input type="checkbox" class="custom-control-input" id="checklist-{{$checkList->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('task.checklist.update',[$checkList->task_id,$checkList->id])}}">
+                            <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
                             <div>
-                            <input type="text" placeholder="Checklist item" value="Create boards in Matboard" data-filter-by="value" />
+                            <input type="text" placeholder="Checklist item" value="{{$checkList->name}}" data-filter-by="value" />
                             <div class="checklist-strikethrough"></div>
                             </div>
                         </div>
                         </div>
                         <!--end of form group-->
                     </div>
+                    @endif
+                    @endcan
 
-                    <div class="row">
-                        <div class="form-group col">
-                        <span class="checklist-reorder">
-                            <i class="material-icons">reorder</i>
-                        </span>
-                        <div class="custom-control custom-checkbox col">
-                            <input type="checkbox" class="custom-control-input" id="checklist-item-2" checked>
-                            <label class="custom-control-label" for="checklist-item-2"></label>
-                            <div>
-                            <input type="text" placeholder="Checklist item" value="Invite team to boards" data-filter-by="value" />
-                            <div class="checklist-strikethrough"></div>
-                            </div>
-                        </div>
-                        </div>
-                        <!--end of form group-->
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col">
-                        <span class="checklist-reorder">
-                            <i class="material-icons">reorder</i>
-                        </span>
-                        <div class="custom-control custom-checkbox col">
-                            <input type="checkbox" class="custom-control-input" id="checklist-item-3" checked>
-                            <label class="custom-control-label" for="checklist-item-3"></label>
-                            <div>
-                            <input type="text" placeholder="Checklist item" value="Identify three distinct aesthetic styles for boards" data-filter-by="value" />
-                            <div class="checklist-strikethrough"></div>
-                            </div>
-                        </div>
-                        </div>
-                        <!--end of form group-->
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col">
-                        <span class="checklist-reorder">
-                            <i class="material-icons">reorder</i>
-                        </span>
-                        <div class="custom-control custom-checkbox col">
-                            <input type="checkbox" class="custom-control-input" id="checklist-item-4">
-                            <label class="custom-control-label" for="checklist-item-4"></label>
-                            <div>
-                            <input type="text" placeholder="Checklist item" value="Add aesthetic style descriptions as notes" data-filter-by="value" />
-                            <div class="checklist-strikethrough"></div>
-                            </div>
-                        </div>
-                        </div>
-                        <!--end of form group-->
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col">
-                        <span class="checklist-reorder">
-                            <i class="material-icons">reorder</i>
-                        </span>
-                        <div class="custom-control custom-checkbox col">
-                            <input type="checkbox" class="custom-control-input" id="checklist-item-5">
-                            <label class="custom-control-label" for="checklist-item-5"></label>
-                            <div>
-                            <input type="text" placeholder="Checklist item" value="Assemble boards using inspiration from Dribbble, Land Book, Nicely Done etc." data-filter-by="value" />
-                            <div class="checklist-strikethrough"></div>
-                            </div>
-                        </div>
-                        </div>
-                        <!--end of form group-->
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col">
-                        <span class="checklist-reorder">
-                            <i class="material-icons">reorder</i>
-                        </span>
-                        <div class="custom-control custom-checkbox col">
-                            <input type="checkbox" class="custom-control-input" id="checklist-item-6">
-                            <label class="custom-control-label" for="checklist-item-6"></label>
-                            <div>
-                            <input type="text" placeholder="Checklist item" value="Gather feedback from project team" data-filter-by="value" />
-                            <div class="checklist-strikethrough"></div>
-                            </div>
-                        </div>
-                        </div>
-                        <!--end of form group-->
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col">
-                        <span class="checklist-reorder">
-                            <i class="material-icons">reorder</i>
-                        </span>
-                        <div class="custom-control custom-checkbox col">
-                            <input type="checkbox" class="custom-control-input" id="checklist-item-7">
-                            <label class="custom-control-label" for="checklist-item-7"></label>
-                            <div>
-                            <input type="text" placeholder="Checklist item" value="Invite clients to board before next concept meeting" data-filter-by="value" />
-                            <div class="checklist-strikethrough"></div>
-                            </div>
-                        </div>
-                        </div>
-                        <!--end of form group-->
-                    </div>
-
+                    @endforeach
                     </form>
                     <div class="drop-to-delete">
                     <div class="drag-to-delete-title">
@@ -327,10 +282,13 @@
                 <!--end of content list body-->
                 </div>
                 <!--end of content list-->
+                @endif
+                @endcan
+    
                 <div class="content-list" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                    <h3>Notes</h3>
+                    <h3>{{__('Notes')}}</h3>
                     <button class="btn btn-round" data-toggle="modal" data-target="#note-add-modal">
                         <i class="material-icons">add</i>
                     </button>
@@ -349,10 +307,11 @@
                 <!--end of content list head-->
                 <div class="content-list-body">
 
+                    @foreach($task->comments as $comment)
                     <div class="card card-note">
                     <div class="card-header">
-                        <div class="media align-items-center">
-                        <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar" data-toggle="tooltip" data-title="Peggy Brown" data-filter-by="alt" />
+                        <div class="media align-items-center">        
+                        <img alt="{{$comment->user->name}}" src="{{(!empty($comment->user->avatar)? $profile.'/'.$comment->user->avatar:$profile.'/avatar.png')}}" class="avatar" data-toggle="tooltip" data-title="{{$comment->user->name}}" data-filter-by="alt" />
                         <div class="media-body">
                             <h6 class="mb-0" data-filter-by="text">First meeting notes</h6>
                         </div>
@@ -364,78 +323,21 @@
                             <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('comment-delete-form-{{$comment->id}}').submit();">
+                                    {{__('Delete')}}
+                                </a>
+                                {!! Form::open(['method' => 'DELETE', 'route' => ['comment.destroy', $comment->id],'id'=>'comment-delete-form-'.$comment->id]) !!}
+                                {!! Form::close() !!}
                             </div>
                         </div>
                         </div>
                     </div>
                     <div class="card-body" data-filter-by="text">
-                        <p>Here&#39;s a quick rundown of companies the client expressed interest in on our call this morning:</p>
-                        <ul>
-                        <li><a href="#">Commonwealth Bank of Australia</a> for the bright, positive color scheme</li>
-                        <li><a href="#">Bupa Health Insurance</a> for the adaptability of their logo around the site&#39;s layout</li>
-                        <li><a href="#">OPSM</a> again for the color scheme, this time for the softer pallette</li>
-                        </ul>
-
+                        {{$comment->comment}}
                     </div>
                     </div>
-
-                    <div class="card card-note">
-                    <div class="card-header">
-                        <div class="media align-items-center">
-                        <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar" data-toggle="tooltip" data-title="David Whittaker" data-filter-by="alt" />
-                        <div class="media-body">
-                            <h6 class="mb-0" data-filter-by="text">Client preference</h6>
-                        </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                        <span data-filter-by="text">Yesterday</span>
-                        <div class="ml-1 dropdown card-options">
-                            <button class="btn-options" type="button" id="note-dropdown-button-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="card-body" data-filter-by="text">
-                        <p>Hi all, just wanted to add that the client has requested that we lean toward a &#39;friendly&#39; aesthetic. I know this seems a little vague but it does give us a starting point for the mood boards. I recommend we use larger
-                        corporates who target &#39;youthful&#39; audiences as initial inspiration. <a href="#">@Peggy</a> will take the lead from here.</p>
-
-                    </div>
-                    </div>
-
-                    <div class="card card-note">
-                    <div class="card-header">
-                        <div class="media align-items-center">
-                        <img alt="Ravi Singh" src="assets/img/avatar-male-3.jpg" class="avatar" data-toggle="tooltip" data-title="Ravi Singh" data-filter-by="alt" />
-                        <div class="media-body">
-                            <h6 class="mb-0" data-filter-by="text">Matboard links</h6>
-                        </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                        <span data-filter-by="text">Just now</span>
-                        <div class="ml-1 dropdown card-options">
-                            <button class="btn-options" type="button" id="note-dropdown-button-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="card-body" data-filter-by="text">
-                        <p>Hey guys, here&#39;s the link to the Matboards: <a href="#">https://matboard.io/3928462</a>
-                        </p>
-
-                    </div>
-                    </div>
+                    @endforeach
 
                 </div>
                 </div>
@@ -470,31 +372,33 @@
                             </div>
                             </li>
                             <li>
-                            <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar" data-title="David Whittaker" data-toggle="tooltip" />
+                                <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img alt="{{$current_user->name}}" title="{{$current_user->name}}" src="{{(!empty($current_user->avatar)? $profile.'/'.$current_user->avatar : $profile.'/avatar.png')}}" class="avatar" />
+                                </a>
                             </li>
                         </ul>
                         <div class="media-body d-flex justify-content-between align-items-center">
                             <div class="dz-file-details">
-                            <a href="#" class="dz-filename">
+                            <a href="#" class="dz-filename dropzone-file">
                                 <span data-dz-name></span>
                             </a>
                             <br>
                             <span class="text-small dz-size" data-dz-size></span>
                             </div>
-                            <img alt="Loader" src="assets/img/loader.svg" class="dz-loading" />
+                            <img alt="Loader" src="{{ asset('assets/img/loader.svg') }}" class="dz-loading" />
                             <div class="dropdown">
                             <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
+                                <a class="dropdown-item dropzone-file" href="#">Download</a>
+                                <a class="dropdown-item dropzone-file" href="#">Share</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#" data-dz-remove>Delete</a>
+                                <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">Delete</a>
                             </div>
                             </div>
                             <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
-                            Cancel
+                                {{__('Cancel')}}
                             </button>
                         </div>
                         </div>
@@ -503,177 +407,11 @@
                         </div>
                     </li>
                     </ul>
-                    <form class="dropzone" action="https://mediumra.re/dropzone/upload.php">
-                    <span class="dz-message">Drop files here or click here to upload</span>
+                    <form class="dropzone" id="my-dropzone">
+                        <span class="dz-message">Drop files here or click here to upload</span>
                     </form>
 
                     <ul class="list-group list-group-activity dropzone-previews flex-column-reverse">
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">insert_drive_file</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Peggy Brown" src="assets/img/avatar-female-2.jpg" class="avatar" data-title="Peggy Brown" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                        </ul>
-                        <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                            <a href="#" data-filter-by="text">client-questionnaire</a>
-                            <br>
-                            <span class="text-small" data-filter-by="text">48kb Text Doc</span>
-                            </div>
-                            <div class="dropdown">
-                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">folder</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Harry Xai" src="assets/img/avatar-male-2.jpg" class="avatar" data-title="Harry Xai" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                        </ul>
-                        <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                            <a href="#" data-filter-by="text">moodboard_images</a>
-                            <br>
-                            <span class="text-small" data-filter-by="text">748kb ZIP</span>
-                            </div>
-                            <div class="dropdown">
-                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">image</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Ravi Singh" src="assets/img/avatar-male-3.jpg" class="avatar" data-title="Ravi Singh" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                        </ul>
-                        <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                            <a href="#" data-filter-by="text">possible-hero-image</a>
-                            <br>
-                            <span class="text-small" data-filter-by="text">1.2mb JPEG image</span>
-                            </div>
-                            <div class="dropdown">
-                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">insert_drive_file</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar" data-title="Claire Connors" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                        </ul>
-                        <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                            <a href="#" data-filter-by="text">LandingPrototypes</a>
-                            <br>
-                            <span class="text-small" data-filter-by="text">415kb Sketch Doc</span>
-                            </div>
-                            <div class="dropdown">
-                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                        <ul class="avatars">
-                            <li>
-                            <div class="avatar bg-primary">
-                                <i class="material-icons">insert_drive_file</i>
-                            </div>
-                            </li>
-                            <li>
-                            <img alt="David Whittaker" src="assets/img/avatar-male-4.jpg" class="avatar" data-title="David Whittaker" data-toggle="tooltip" data-filter-by="data-title" />
-                            </li>
-                        </ul>
-                        <div class="media-body d-flex justify-content-between align-items-center">
-                            <div>
-                            <a href="#" data-filter-by="text">Branding-Proforma</a>
-                            <br>
-                            <span class="text-small" data-filter-by="text">15kb Text Document</span>
-                            </div>
-                            <div class="dropdown">
-                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Download</a>
-                                <a class="dropdown-item" href="#">Share</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </li>
-
                     </ul>
                 </div>
                 </div>
@@ -683,7 +421,7 @@
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                    <h3>Activity</h3>
+                    <h3>{{__('Activity')}}</h3>
                     </div>
                     <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -1225,35 +963,152 @@
             </div>
             </form>
 
-            <form class="modal fade" id="note-add-modal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">New Note</h5>
-                    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-                    <i class="material-icons">close</i>
-                    </button>
-                </div>
-                <!--end of modal head-->
-                <div class="modal-body">
-                    <div class="form-group row align-items-center">
-                    <label class="col-3">Title</label>
-                    <input class="form-control col" type="text" placeholder="Note title" name="note-name" />
+            <form  method="post" enctype="multipart/form-data" class="modal fade" id="note-add-modal" tabindex="-1" aria-hidden="true" action="{{route('comment.store',[$task->project_id,$task->id])}}">
+                @csrf
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New Note</h5>
+                        <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">close</i>
+                        </button>
                     </div>
-                    <div class="form-group row">
-                    <label class="col-3">Text</label>
-                    <textarea class="form-control col" rows="6" placeholder="Body text for note" name="note-description"></textarea>
+                    <!--end of modal head-->
+                    <div class="modal-body">
+                        <div class="form-group row align-items-center">
+                        <label class="col-3">Title</label>
+                        <input class="form-control col" type="text" placeholder="Note title" name="note-name" />
+                        </div>
+                        <div class="form-group row">
+                        <label class="col-3">Text</label>
+                        <textarea class="form-control col" rows="6" placeholder="Body text for note" name="comment"></textarea>
+                        </div>
+                    </div>
+                    <!--end of modal body-->
+                    <div class="modal-footer">
+                        <button role="button" class="btn btn-primary" type="submit">
+                        {{__('Create Note')}}
+                        </button>
+                    </div>
                     </div>
                 </div>
-                <!--end of modal body-->
-                <div class="modal-footer">
-                    <button role="button" class="btn btn-primary" type="submit">
-                    Create Note
-                    </button>
-                </div>
-                </div>
-            </div>
             </form>
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        Dropzone.autoDiscover = false;
+        myDropzone = new Dropzone("#my-dropzone", {
+            previewTemplate: document.querySelector('.dz-template').innerHTML,
+            thumbnailWidth: 320,
+            thumbnailHeight: 320,
+            thumbnailMethod: "contain",
+            previewsContainer: ".dropzone-previews",
+            maxFiles: 20,
+            maxFilesize: 2,
+            parallelUploads: 1,
+            acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
+            url: "{{route('task.file.upload',[$task->id])}}",
+
+            success: function (file, response) {
+                if (response.is_success) {
+                    dropzoneBtn(file, response);
+                } else {
+                    this.removeFile(file);
+                    toastrs('Error', response.error, 'error');
+                }
+            },
+            error: function (file, response) {
+                this.removeFile(file);
+                if (response.error) {
+                    toastrs('Error', response.error, 'error');
+                } else {
+                    toastrs('Error', response.error, 'error');
+                }
+            },
+            sending: function(file, xhr, formData) {
+                formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
+                formData.append("task_id", {{$task->id}});
+            },
+        });
+
+        function deleteDropzoneFile(btn) {
+
+            $.ajax({
+                url: btn.attr('href'),
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                type: 'DELETE',
+                success: function (response) {
+                    if (response.is_success) {
+                        btn.closest('.list-group-item').remove();
+                    } else {
+                        toastrs('Error', response.error, 'error');
+                    }
+                },
+                error: function (response) {
+                    response = response.responseJSON;
+                    if (response.is_success) {
+                        toastrs('Error', response.error, 'error');
+                    } else {
+                        toastrs('Error', response.error, 'error');
+                    }
+                }
+            });
+        }
+
+        function dropzoneBtn(file, response) {
+
+            $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
+                $(this).attr("href", response.download);
+            });
+            
+            $('[data-delete]', $(".dz-preview").last()).each(function() {
+
+                $(this).attr("href", response.delete);
+
+                var me = $(this),
+                    me_data = me.data('delete');
+
+                me_data = me_data.split("|");
+
+                me.fireModal({
+                title: me_data[0],
+                body: me_data[1],
+                buttons: [
+                    {
+                    text: me.data('confirm-text-yes') || 'Yes',
+                    class: 'btn btn-danger btn-shadow',
+                    handler: function(modal) {
+                        deleteDropzoneFile(me);
+                        $.destroyModal(modal);
+                    }
+                    },
+                    {
+                    text: me.data('confirm-text-cancel') || 'Cancel',
+                    class: 'btn btn-secondary',
+                    handler: function(modal) {
+                        $.destroyModal(modal);
+                    }
+                    }
+                ]
+                })
+            });
+        }
+
+        @php
+            $files = $task->taskFiles;
+        @endphp
+
+        @foreach($files as $file)
+        var mockFile = {name: "{{$file->name}}", size: {{filesize(storage_path('app/public/tasks/'.$file->file))}} };
+        myDropzone.emit("addedfile", mockFile);
+        myDropzone.emit("processing", mockFile);
+        myDropzone.emit("thumbnail", mockFile, "{{asset('app/public/tasks/'.$file->file)}}");
+        myDropzone.emit("complete", mockFile);
+
+        dropzoneBtn(mockFile, {download: "{{route('task.file.download',[$task->id,$file->id])}}", delete: "{{route('task.file.delete',[$task->id,$file->id])}}"});
+        @endforeach
+
+    </script>
+@endpush

@@ -335,7 +335,7 @@ $(document).ready(function() {
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                    <h3>Files</h3>
+                    <h3>{{__('Files')}}</h3>
                     </div>
 
                     <form class="col-md-auto">
@@ -389,7 +389,7 @@ $(document).ready(function() {
                                 </div>
                             </div>
                             <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
-                                Cancel
+                                {{__('Cancel')}}
                             </button>
                             </div>
                         </div>
@@ -961,7 +961,7 @@ $(document).ready(function() {
         var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/public/project_files/'.$file->file_path))}} };
         myDropzone.emit("addedfile", mockFile);
         myDropzone.emit("processing", mockFile);
-        myDropzone.emit("thumbnail", mockFile, "{{asset('storage/project_files/'.$file->file_path)}}");
+        myDropzone.emit("thumbnail", mockFile, "{{asset('app/public/project_files/'.$file->file_path)}}");
         myDropzone.emit("complete", mockFile);
 
         dropzoneBtn(mockFile, {download: "{{route('projects.file.download',[$project->id,$file->id])}}", delete: "{{route('projects.file.delete',[$project->id,$file->id])}}"});
