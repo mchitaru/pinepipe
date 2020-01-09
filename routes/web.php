@@ -263,9 +263,7 @@ Route::group(
     Route::post('projects/order', 'ProjectsController@order')->name('taskboard.order');
 
     Route::post('projects/{id}/taskboard/{tid}/comment', 'ProjectsController@commentStore')->name('comment.store');
-    Route::post('projects/taskboard/{id}/file', 'ProjectsController@commentStoreFile')->name('comment.file.store');
     Route::delete('projects/taskboard/comment/{id}', 'ProjectsController@commentDestroy')->name('comment.destroy');
-    Route::delete('projects/taskboard/file/{id}', 'ProjectsController@commentDestroyFile')->name('comment.file.destroy');
 
     Route::post('projects/taskboard/{id}/file', 'ProjectsController@taskFileUpload')->name('task.file.upload');
     Route::get('projects/taskboard/{id}/file/{fid}', 'ProjectsController@taskFileDownload')->name('task.file.download');

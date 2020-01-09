@@ -920,42 +920,6 @@ class ProjectsController extends Controller
         }
     }
 
-    public function commentStoreFile(Request $request, $task_id)
-    {
-
-        $request->validate(
-            ['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048']
-        );
-        $fileName = $task_id . time() . "_" . $request->file->getClientOriginalName();
-
-        $request->file->storeAs('public/tasks', $fileName);
-        $post['task_id']    = $task_id;
-        $post['file']       = $fileName;
-        $post['name']       = $request->file->getClientOriginalName();
-        $post['extension']  = "." . $request->file->getClientOriginalExtension();
-        $post['file_size']  = round(($request->file->getSize() / 1024) / 1024, 2) . ' MB';
-        $post['created_by'] = \Auth::user()->authId();
-        $post['user_type']  = \Auth::user()->type;
-
-        $TaskFile            = TaskFile::create($post);
-        $TaskFile->deleteUrl = route('comment.file.destroy', [$TaskFile->id]);
-
-        return $TaskFile->toJson();
-    }
-
-    public function commentDestroyFile(Request $request, $file_id)
-    {
-        $commentFile = TaskFile::find($file_id);
-        $path        = storage_path('public/tasks/' . $commentFile->file);
-        if(file_exists($path))
-        {
-            \File::delete($path);
-        }
-        $commentFile->delete();
-
-        return "true";
-    }
-
     public function checkListStore(Request $request, $task_id)
     {
         $request->validate(
