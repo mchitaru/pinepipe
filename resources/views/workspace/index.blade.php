@@ -257,47 +257,6 @@ if($client_project_budget_due_per<=15){
                         </div>
                     </div>
                     <div class="row">
-                        @if(Auth::user()->type =='company' || Auth::user()->type =='client')
-                        <div class="col-lg-6 col-xs-12 col-sm-12">
-                            <div class="card-list">
-                                <div class="card-list-head">
-                                <h6>{{__('Top Due Payment')}}</h6>
-                                <button class="btn-options" type="button" data-toggle="collapse" data-target="#payments">
-                                    <i class="material-icons">more_horiz</i>
-                                </button>
-                                </div>
-                                <div class="card-list-body collapse show" id="payments">
-                                    @foreach($top_due_invoice as $invoice)
-                                    <div class="card card-task">
-                                        <div class="card-body">
-                                        <div class="card-title">
-                                            <a href="{{route('invoices.show',$invoice->id)}}">
-                                            <h6 data-filter-by="text">{{ AUth::user()->invoiceNumberFormat($invoice->id) }}</h6>
-                                            </a>
-                                            <span class="text-small">{{__('Due Amount '). Auth::user()->priceFormat($invoice->getDue()) }}</span>
-                                        </div>
-                                        <div class="card-meta">
-                                            <div class="d-flex align-items-center">
-                                                <span class="text-small">{{ Auth::user()->dateFormat($invoice->due_date) }}</span>
-                                            </div>
-                                            <div class="dropdown card-options">
-                                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="material-icons">more_vert</i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Mark as paid</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        @endif
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">
@@ -401,6 +360,47 @@ if($client_project_budget_due_per<=15){
                                 </div>
                             </div>
                         </div>
+                        @if(Auth::user()->type =='company' || Auth::user()->type =='client')
+                        <div class="col-lg-6 col-xs-12 col-sm-12">
+                            <div class="card-list">
+                                <div class="card-list-head">
+                                <h6>{{__('Top Due Payment')}}</h6>
+                                <button class="btn-options" type="button" data-toggle="collapse" data-target="#payments">
+                                    <i class="material-icons">more_horiz</i>
+                                </button>
+                                </div>
+                                <div class="card-list-body collapse show" id="payments">
+                                    @foreach($top_due_invoice as $invoice)
+                                    <div class="card card-task">
+                                        <div class="card-body">
+                                        <div class="card-title">
+                                            <a href="{{route('invoices.show',$invoice->id)}}">
+                                            <h6 data-filter-by="text">{{ AUth::user()->invoiceNumberFormat($invoice->id) }}</h6>
+                                            </a>
+                                            <span class="text-small">{{__('Due Amount '). Auth::user()->priceFormat($invoice->getDue()) }}</span>
+                                        </div>
+                                        <div class="card-meta">
+                                            <div class="d-flex align-items-center">
+                                                <span class="text-small">{{ Auth::user()->dateFormat($invoice->due_date) }}</span>
+                                            </div>
+                                            <div class="dropdown card-options">
+                                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#">Mark as paid</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         @if(\Auth::user()->type != 'super admin')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">

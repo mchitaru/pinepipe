@@ -62,25 +62,41 @@
                     <div class="col sm">
                     <div class="mb-4">
                         <h6>Free</h6>
-                        <h5 class="display-4 d-block mb-2 font-weight-normal">{{$plan->price}}</h5>
+                        <h5 class="display-4 d-block mb-2 font-weight-normal">{{$plan->price}}$</h5>
                         <span class="text-muted text-small">{{$plan->duration}}</span>
                     </div>
-                    <ul class="list-unstyled align-items-center">
-                        <li>
-                            <i class="material-icons">folder</i>
-                            {{$plan->max_projects}} {{__('Projects')}}
+                    <ul class="list-unstyled">
+                        <li class="row">
+                            <div class="col text-right">
+                                <i class="material-icons">folder</i>
+                            </div>
+                            <div class="col text-left">
+                                {{$plan->max_projects}} {{__('Projects')}}
+                            </div>
                         </li>
-                        <li>
-                            <i class="material-icons">group</i>
-                            {{$plan->max_users}} {{__('Teams')}}
+                        <li class="row">
+                            <div class="col text-right">
+                                <i class="material-icons">group</i>
+                            </div>
+                            <div class="col text-left">
+                                {{$plan->max_users}} {{__('Teams')}}
+                            </div>
                         </li>
-                        <li>
-                            <i class="material-icons">person</i>
-                            {{$plan->max_users}} {{__('Users')}}
+                        <li class="row">
+                            <div class="col text-right">
+                                <i class="material-icons">person</i>
+                            </div>
+                            <div class="col text-left">
+                                {{$plan->max_users}} {{__('Users')}}
+                            </div>
                         </li>
-                        <li>
-                            <i class="material-icons">storefront</i>
-                            {{$plan->max_clients}} {{__('Clients')}}
+                        <li class="row">
+                            <div class="col text-right">
+                                <i class="material-icons">storefront</i>
+                            </div>
+                            <div class="col text-left">
+                                {{$plan->max_clients}} {{__('Clients')}}
+                            </div>
                         </li>    
                     </ul>
                     @if(\Auth::user()->type=='company' && \Auth::user()->plan == $plan->id)
