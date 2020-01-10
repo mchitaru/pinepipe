@@ -13625,7 +13625,7 @@ label[class*=col] {
 
   .layout-nav-side > .navbar {
     padding: 1.5rem;
-    width: 264px;
+    width: 244px;
     height: 100vh;
     overflow-y: scroll;
     -ms-overflow-style: none;
