@@ -223,12 +223,6 @@ Route::resource('leads', 'LeadsController')->middleware(
         'xss',
     ]
 );
-Route::resource('contacts', 'ContactsController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
 
 Route::group(
     [
