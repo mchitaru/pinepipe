@@ -15,6 +15,7 @@ $factory->define(Contacts::class, function (Faker $faker) {
         'job' => $faker->jobTitle,
         'website' => 'https:\\www.basecrm.io',
         'birthday' => $faker->date,
-        'notes' => $faker->text
+        'notes' => $faker->text,
+        'created_by' => '2'
     ];
 });

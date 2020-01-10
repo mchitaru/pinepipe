@@ -643,11 +643,13 @@ class ProjectsController extends Controller
                 ]
             );
 
-            return redirect()->route('project.taskboard', [$projec_id])->with('success', __('Task successfully created.'));
+            return redirect()->route(
+                'task.show', [$task->id]
+            )->with('success', __('Task successfully created'));
         }
         else
         {
-            return redirect()->route('project.taskboard', [$projec_id])->with('error', __('You can \'t Add Task.'));
+            return redirect()->back()->with('error', 'Permission denied.');
         }
     }
 

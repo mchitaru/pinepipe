@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Plan;
 use App\User;
+use App\Contacts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -15,7 +16,8 @@ class ClientController extends Controller
         $client=\Auth::user();
         if(\Auth::user()->can('manage client')){
             $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->get();
-            return view('client.index')->with('clients', $clients);
+            $contacts = Contacts::where('created_by','=',$client->creatorId())->get();
+            return view('client.index', compact('clients', 'contacts'));
         }else{
             return redirect()->back();
         }
@@ -163,5 +165,50 @@ class ClientController extends Controller
         $user->save();
         return redirect()->route('dashboard')
                          ->with('success', 'Profile successfully updated.');
+    }
+
+    public function contactCreate()
+    {
+        if(\Auth::user()->can('create client')) {
+            return view('client.create');
+        }else{
+            return redirect()->back();
+        }
+    }
+
+    public function contactEdit($id)
+    {
+        if(\Auth::user()->can('edit client')) {
+            $client = User::findOrFail($id);
+            return view('client.edit', compact('client'));
+        }else{
+            return redirect()->back();
+        }
+
+    }
+    
+    public function contactShow(){
+        $userDetail=\Auth::user();
+        return view('client.profile')->with('userDetail',$userDetail);
+    }
+
+    public function contactDestroy($id)
+    {
+        if(\Auth::user()->can('delete client')) {
+            $user = User::find($id);
+            if($user) {
+                $user->delete();
+                $user->destroyUserNotesInfo($user->id);
+                $user->removeClientProjectInfo($user->id);
+                $user->removeClientLeadInfo($user->id);
+                $user->destroyUserTaskAllInfo($user->id);
+
+                return redirect()->route('clients.index')->with('success',  __('Client Deleted Successfully.'));
+            }else{
+                return redirect()->back()->with('error',__('Something is wrong.'));
+            }
+        }else{
+            return redirect()->back();
+        }
     }
 }

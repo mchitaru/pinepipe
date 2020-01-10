@@ -101,6 +101,12 @@ Route::resource('clients', 'ClientController')->middleware(
     ]
 );
 
+Route::get('clients/contacts/create', 'ClientController@contactCreate')->name('contact.create');
+Route::get('clients/contacts/{id}/edit', 'ClientController@contactEdit')->name('contact.edit');
+Route::get('clients/contacts/{id}/show', 'ClientController@contactShow')->name('contact.show');
+Route::delete('clients/contacts/{id}/delete', 'ClientController@contactDestroy')->name('contact.destroy');
+
+
 Route::resource('roles', 'RoleController')->middleware(
     [
         'auth',
@@ -270,6 +276,7 @@ Route::group(
 
     Route::get('projects/{id}/client/{cid}/permission', 'ProjectsController@clientPermission')->name('client.permission');
     Route::put('projects/{id}/client/{cid}/permission', 'ProjectsController@storeClientPermission')->name('client.store.permission');
+    
 }
 );
 

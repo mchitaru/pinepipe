@@ -48,10 +48,8 @@ $(document).ready(function() {
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">Edit Team</a>
-            <a class="dropdown-item" href="#">Share</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="#">Leave</a>
+            <a class="dropdown-item" href="#">{{__('New Client')}}</a>
+            <a class="dropdown-item" href="#">{{__('New contact')}}</a>
 
         </div>
     </div>
@@ -65,17 +63,17 @@ $(document).ready(function() {
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">Clients
+                <a class="nav-link" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">{{__('Clients')}}
                     <span class="badge badge-secondary">{{ count($clients) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">Contacts
-                    <span class="badge badge-secondary">20</span>
+                <a class="nav-link" data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">{{__('Contacts')}}
+                    <span class="badge badge-secondary">{{ count($contacts) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">Activity</a>
+                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
             </ul>
             <div class="tab-content">
@@ -103,21 +101,21 @@ $(document).ready(function() {
                 <!--end of content list head-->
                 <div class="content-list-body">
                     @foreach($clients as $client)
-                    <div class="card card-contact">
+                    <div class="card card-task mb-1">
                         <div class="container row align-items-center">
                             <div class="pl-2 position-absolute">
                                 <a href="#" data-toggle="tooltip" title={{$client->name}}>
                                     <img alt={{$client->name}} class="avatar" src="{{(!empty($client->avatar))? asset(Storage::url("avatar/".$client->avatar)): asset(Storage::url("avatar/avatar.png"))}}" />
                                 </a>
                             </div>
-                            <div class="card-body">
-                                <div class="card-title col-xs-12 col-sm-4">
+                            <div class="card-body p-2 pl-5">
+                                <div class="card-title col-xs-12 col-sm-3">
                                     <a href="#">
                                     <h6 data-filter-by="text">{{$client->name}}</h6>
                                     </a>
                                     <span class="text-small">2 contact(s)</span>
                                 </div>
-                                <div class="card-title col-xs-12 col-sm-4">
+                                <div class="card-title col-xs-12 col-sm-5">
                                     <div class="container row align-items-center">
                                         <span class="text-small">
                                             <i class="material-icons">email</i>
@@ -178,173 +176,87 @@ $(document).ready(function() {
             <!--end of tab-->
             <div class="tab-pane fade show" id="contacts" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>Clients</h3>
-                    <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
-                    <i class="material-icons">add</i>
-                    </button>
-                </div>
-                <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                        </span>
+                    <div class="col-auto">
+                        <h3>{{__('Contacts')}}</h3>
+                        @can('create client')
+                        <button class="btn btn-round" data-url="{{ route('contact.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                            <i class="material-icons">add</i>
+                        </button>
+                        @endcan
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter clients" aria-label="Filter Clients">
+                    <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                            </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="Filter clients" aria-label="Filter Clients">
+                        </div>
+                    </form>
                     </div>
-                </form>
-                </div>
-                <!--end of content list head-->
-                <div class="content-list-body">
-                    <div class="card card-contact">
-                        <div class="card-body">
-                        <div class="row card-title ">
-                            <div class="col-1">
-                                <ul class="avatars">
-                                    <li>
-                                        <a href="#" data-toggle="tooltip" title="Kenny">
-                                        <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg" />
+                    <!--end of content list head-->
+                    <div class="content-list-body">
+                        @foreach($contacts as $contact)
+                        <div class="card card-task mb-1">
+                            <div class="container row align-items-center">
+                                <div class="pl-2 position-absolute">
+                                </div>
+                                <div class="card-body p-2">
+                                    <div class="card-title col-xs-12 col-sm-3">
+                                        <a href="#">
+                                        <h6 data-filter-by="text">{{$contact->name}}</h6>
                                         </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-6">
-                                <div class="row">
-                                    <a href="#">
-                                    <h4 data-filter-by="text">Kenny Tran</h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="row">
-                                    <span class="text-small">
-                                        <i class="material-icons">email</i>
-                                    </span>
-                                    <a href="mailto:kenny.tran@example.com">
-                                        <h6 data-filter-by="text">kenny.tran@example.com</h6>
-                                    </a>
-                                </div>
-                                <div class="row">
-                                    <i class="material-icons">phone</i>
-                                    <span class="text-small">(237)555-2319</span>
+                                    </div>
+                                    <div class="card-title col-xs-12 col-sm-5">
+                                        <div class="container row align-items-center">
+                                            <span class="text-small">
+                                                <i class="material-icons">email</i>
+                                            </span>
+                                            <a href="mailto:kenny.tran@example.com">
+                                                <h6 data-filter-by="text">{{$contact->email}}</h6>
+                                            </a>
+                                        </div>
+                                        <div class="container row align-items-center">
+                                            <i class="material-icons">phone</i>
+                                            <span class="text-small">{{$contact->phone}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-meta col">
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <span class="badge badge-secondary mr-2">
+                                                {{$contact->company}}
+                                            </span>
+                                        </div>
+                                    </div>    
+                                    <div class="dropdown card-options">
+                                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="material-icons">more_vert</i>
+                                        </button>
+    
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            @can('edit client')
+                                            <a class="dropdown-item" href="#" data-url="{{ route('contact.edit',$contact->id) }}" data-ajax-popup="true" data-title="{{__('Update Contact')}}">
+                                                <span>{{__('Edit')}}</span>
+                                            </a>
+                                            @endcan
+                                            <div class="dropdown-divider"></div>
+                                            @can('delete client')
+                                                <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('contact-delete-form-{{$contact['id']}}').submit();">
+                                                    <span>{{'Delete'}}</span>
+                                                </a>
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['contact.destroy', $contact['id']],'id'=>'contact-delete-form-'.$contact['id']]) !!}
+                                                {!! Form::close() !!}
+                                            @endcan
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-meta">
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
+                        @endforeach
                     </div>
-                    <div class="card card-contact">
-                        <div class="card-body">
-                        <div class="row card-title ">
-                            <div class="col-1">
-                                <ul class="avatars">
-                                    <li>
-                                        <a href="#" data-toggle="tooltip" title="Kenny">
-                                        <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg" />
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-6">
-                                <div class="row">
-                                    <a href="#">
-                                    <h4 data-filter-by="text">Kenny Tran</h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="row">
-                                    <span class="text-small">
-                                        <i class="material-icons">email</i>
-                                    </span>
-                                    <a href="mailto:kenny.tran@example.com">
-                                        <h6 data-filter-by="text">kenny.tran@example.com</h6>
-                                    </a>
-                                </div>
-                                <div class="row">
-                                    <i class="material-icons">phone</i>
-                                    <span class="text-small">(237)555-2319</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-meta">
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="card card-contact">
-                        <div class="card-body">
-                        <div class="row card-title ">
-                            <div class="col-1">
-                                <ul class="avatars">
-                                    <li>
-                                        <a href="#" data-toggle="tooltip" title="Kenny">
-                                        <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg" />
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-6">
-                                <div class="row">
-                                    <a href="#">
-                                    <h4 data-filter-by="text">Kenny Tran</h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="row">
-                                    <span class="text-small">
-                                        <i class="material-icons">email</i>
-                                    </span>
-                                    <a href="mailto:kenny.tran@example.com">
-                                        <h6 data-filter-by="text">kenny.tran@example.com</h6>
-                                    </a>
-                                </div>
-                                <div class="row">
-                                    <i class="material-icons">phone</i>
-                                    <span class="text-small">(237)555-2319</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-meta">
-                            <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                <!--end of content list body-->
+                    <!--end of content list body-->
                 </div>
-                <!--end of content list-->
-            </div>
             <!--end of tab-->
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">

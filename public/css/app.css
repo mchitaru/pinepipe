@@ -14546,66 +14546,6 @@ a:hover {
   box-shadow: 0 1px 10px 0 rgba(52, 58, 64, 0.5);
 }
 
-.card-contact {
-  margin-bottom: 2px;
-}
-
-.card-contact .card-body {
-  padding: 0.5rem 50px;
-}
-
-.card-contact .card-title {
-  padding: 0.5rem 0.5rem;
-  margin: 0;
-}
-
-.card-contact .card-title i {
-  margin-right: 0.25rem;
-}
-
-.card-contact .card-meta {
-  float: right;
-  -webkit-box-pack: end;
-          justify-content: end;
-}
-
-.card-contact .card-meta i {
-  margin-right: 0.25rem;
-}
-
-@media (min-width: 992px) {
-  .card-contact .card-title {
-    padding: 0.5rem 0.5rem;
-    margin: 0;
-  }
-
-  .card-contact .card-body,
-  .card-contact .card-meta {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-align: center;
-            align-items: center;
-    padding-right: 0;
-  }
-
-  .card-contact .card-meta {
-    float: right;
-    -webkit-box-pack: end;
-            justify-content: end;
-  }
-
-  .card-contact .card-options {
-    margin-left: 1.5rem;
-    position: relative;
-    top: 0;
-    right: 0;
-  }
-
-  .card-contact .avatars {
-    margin-right: 1.5rem;
-  }
-}
-
 .card-info {
   min-width: 160px;
 }
