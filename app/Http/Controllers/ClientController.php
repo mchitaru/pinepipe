@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Plan;
 use App\User;
 use App\Contacts;
+use App\Projects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -16,8 +17,17 @@ class ClientController extends Controller
         $client=\Auth::user();
         if(\Auth::user()->can('manage client')){
             $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->get();
+            
             $contacts = Contacts::where('created_by','=',$client->creatorId())->get();
-            return view('client.index', compact('clients', 'contacts'));
+
+            $contact_clients = array();
+            
+            foreach($contacts as $key => $contact)
+                $contact_clients[$key] = $contact->company;
+
+            $contacts_count = array_count_values($contact_clients);
+
+            return view('client.index', compact('clients', 'contacts', 'contacts_count'));
         }else{
             return redirect()->back();
         }
@@ -122,6 +132,24 @@ class ClientController extends Controller
             }
         }else{
             return redirect()->back();
+        }
+    }
+
+    public function show($id)
+    {
+        $user=\Auth::user();
+
+        if(\Auth::user()->can('manage client')){
+
+            $client = User::find($id);
+            $contacts = Contacts::where('created_by','=',$user->creatorId())->where('company','=',$client->name)->get();
+            $projects = Projects::where('client', '=', $client->id)->get();
+
+            $project_status = Projects::$project_status;
+
+            return view('client.show', compact('client', 'contacts', 'projects', 'project_status'));
+        }else{
+            return redirect()->back()->with('error', 'Permission denied.');;
         }
     }
 

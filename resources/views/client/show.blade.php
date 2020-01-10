@@ -1,46 +1,54 @@
 @extends('layouts.app')
 
+@php
+    $profile=asset(Storage::url('avatar/'));
+@endphp
+
 @push('stylesheets')
 @endpush
 
-@push('scripts')
+@push('scripts')    
 
 <script>
 
-// keep active tab
-$(document).ready(function() {
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        localStorage.setItem('activeTab#clients', $(e.target).attr('href'));
+    // keep active tab
+    $(document).ready(function() {
+    
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            localStorage.setItem('activeTab#contacts', $(e.target).attr('href'));
+        });
+    
+        var activeTab = location.hash ? location.hash : localStorage.getItem('activeTab#contacts');
+    
+        if(activeTab){
+            $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+            $(window).scrollTop(0);
+        } 
+        else{
+            $('.nav-tabs a[href="#contacts"]').tab('show');
+        }
+        
     });
-
-    var activeTab = location.hash ? location.hash : localStorage.getItem('activeTab#clients');
-
-    if(activeTab){
-        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
-        $(window).scrollTop(0);
-    } 
-    else{
-        $('.nav-tabs a[href="#clients"]').tab('show');
-    }
-    
-});
-    
+        
 </script>
     
 @endpush
 
 @section('page-title')
-    {{__('Client')}}
+    {{$client->name}}
 @endsection
 
 @section('breadcrumb')
 <div class="breadcrumb-bar navbar bg-white sticky-top">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
+            <li class="breadcrumb-item">
+                <a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('User')}}</li>
+            <li class="breadcrumb-item" aria-current="page">
+                <a href="{{ route('clients.index') }}">{{__('Clients')}}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{$client->name}}</li>
         </ol>
     </nav>
 
@@ -65,115 +73,20 @@ $(document).ready(function() {
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">{{__('Clients')}}
-                    <span class="badge badge-secondary">{{ count($clients) }}</span>
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">{{__('Contacts')}}
                     <span class="badge badge-secondary">{{ count($contacts) }}</span>
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Projects
+                    <span class="badge badge-secondary">{{ count($projects) }}</span>
+                </a>
+            </li>    
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show" id="clients" role="tabpanel" data-filter-list="content-list-body">
-                <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>{{__('Clients')}}</h3>
-                    @can('create client')
-                    <button class="btn btn-round" data-url="{{ route('clients.create') }}" data-ajax-popup="true" data-title="{{__('Create New Client')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
-                        <i class="material-icons">add</i>
-                    </button>
-                    @endcan
-                </div>
-                <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                        </span>
-                    </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Clients')}}" aria-label="{{__('Filter Clients')}}">
-                    </div>
-                </form>
-                </div>
-                <!--end of content list head-->
-                <div class="content-list-body">
-                    @foreach($clients as $client)
-                    <div class="card card-task mb-1" style="min-height: 67px;">
-                        <div class="container row align-items-center">
-                            <div class="pl-2 position-absolute">
-                                <a href="#" data-toggle="tooltip" title={{$client->name}}>
-                                    <img alt={{$client->name}} class="avatar" src="{{(!empty($client->avatar))? asset(Storage::url("avatar/".$client->avatar)): asset(Storage::url("avatar/avatar.png"))}}" />
-                                </a>
-                            </div>
-                            <div class="card-body p-2 pl-5">
-                                <div class="card-title col-xs-12 col-sm-3">
-                                    <a href="{{ route('clients.show',$client->id) }}">
-                                        <h6 data-filter-by="text">{{$client->name}}</h6>
-                                    </a>
-                                    @if(array_key_exists($client->name, $contacts_count))
-                                        <span class="text-small">{{$contacts_count[$client->name]}} contact(s)</span>
-                                    @endif
-                                </div>
-                                <div class="card-title col-xs-12 col-sm-5">
-                                    <div class="container row align-items-center">
-                                        <span class="text-small">
-                                            <i class="material-icons">email</i>
-                                        </span>
-                                        <a href="mailto:kenny.tran@example.com">
-                                            <h6 data-filter-by="text">{{$client->email}}</h6>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-meta col">
-                                    <div class="d-flex align-items-center justify-content-end">
-                                        <span class="badge badge-secondary mr-2">
-                                            <i class="material-icons" title="Projects">folder</i>
-                                            {{$client->client_project()}}
-                                        </span>
-                                        <span class="badge badge-secondary mr-2">
-                                            <i class="material-icons" title="Leads">phone</i>
-                                            {{$client->client_lead()}}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="dropdown card-options">
-                                    @if($client->is_active==1)
-                                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </button>
-
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        @can('edit client')
-                                        <a class="dropdown-item" href="#" data-url="{{ route('clients.edit',$client->id) }}" data-ajax-popup="true" data-title="{{__('Update Client')}}">
-                                            <span>{{__('Edit')}}</span>
-                                        </a>
-                                        @endcan
-                                        <div class="dropdown-divider"></div>
-                                        @can('delete client')
-                                            <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$client['id']}}').submit();">
-                                                <span>{{'Delete'}}</span>
-                                            </a>
-                                            {!! Form::open(['method' => 'DELETE', 'route' => ['clients.destroy', $client['id']],'id'=>'delete-form-'.$client['id']]) !!}
-                                            {!! Form::close() !!}
-                                        @endcan
-                                    </div>
-                                    @else
-                                    <i class="material-icons">lock</i>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                <!--end of content list body-->
-            </div>
-            <!--end of tab-->
             <div class="tab-pane fade show" id="contacts" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -256,8 +169,166 @@ $(document).ready(function() {
                         @endforeach
                     </div>
                     <!--end of content list body-->
-                </div>
+            </div>
             <!--end of tab-->
+            <div class="tab-pane fade show" id="projects" role="tabpanel" data-filter-list="content-list-body">
+                <div class="content-list">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                        <h3>{{__('Projects')}}</h3>
+                        @can('create project')
+                        <button class="btn btn-round" data-url="{{ route('projects.create') }}" data-ajax-popup="true" data-title="{{__('Create New Project')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                            <i class="material-icons">add</i>
+                        </button>
+                        @endcan
+                        </div>
+                        <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="Filter projects" aria-label="Filter Projects">
+                        </div>
+                        </form>
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body row">
+    
+                    @foreach ($projects as $project)
+    
+                    @php
+                        $permissions=$project->client_project_permission();
+                        $perArr=(!empty($permissions)? explode(',',$permissions->permissions):[]);
+    
+                        $project_last_stage = ($project->project_last_stage($project->id)? $project->project_last_stage($project->id)->id:'');
+    
+                        $total_task = $project->project_total_task($project->id);
+                        $completed_task=$project->project_complete_task($project->id,$project_last_stage);
+                        $percentage=0;
+                        if($total_task!=0){
+                            $percentage = intval(($completed_task / $total_task) * 100);
+                        }
+    
+                        $label='';
+                        if($percentage<=15){
+                            $label='bg-danger';
+                        }else if ($percentage > 15 && $percentage <= 33) {
+                            $label='bg-warning';
+                        } else if ($percentage > 33 && $percentage <= 70) {
+                            $label='bg-primary';
+                        } else {
+                            $label='bg-success';
+                        }
+    
+                    @endphp
+    
+                        <div class="col-lg-6">
+                            <div class="card card-project">
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+    
+                                <div class="card-body">
+                                    @if(Gate::check('edit project') || Gate::check('delete project') || Gate::check('create user'))
+                                        @if($project->is_active==1)
+                                            <div class="dropdown card-options">
+                                                <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                @can('edit project')
+                                                    <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}">
+                                                        {{__('Edit')}}
+                                                    </a>
+                                                @endcan
+                                                @can('manage invite user')
+                                                    <a class="dropdown-item" href="#" data-url="{{ route('project.invite',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add User')}}" class="" data-toggle="tooltip" data-original-title="{{__('Add User')}}">
+                                                        {{__('Add User')}}
+                                                    </a>
+                                                @endcan
+                                                <div class="dropdown-divider"></div>
+                                                @can('delete project')
+                                                    <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
+                                                        {{__('Delete')}}
+                                                    </a>
+                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['projects.destroy', $project->id],'id'=>'delete-form-'.$project->id]) !!}
+                                                    {!! Form::close() !!}
+                                                @endcan
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+                                    <div class="card-title d-flex justify-content-between align-items-center">
+                                        @can('show project')
+                                        @if($project->is_active==1)
+                                            <a href="{{ route('projects.show',$project->id) }}">
+                                                <h5 data-filter-by="text">{{ $project->name }}</h5>
+                                            </a>
+                                        @else
+                                            <a href="#">
+                                                <h5 data-filter-by="text">{{ $project->name }}</h5>
+                                            </a>
+                                        @endif
+                                        @else
+                                            <a href="#">
+                                                <h5 data-filter-by="text">{{ $project->name }}</h5>
+                                            </a>
+                                        @endcan
+                                        @foreach($project_status as $key => $status)
+                                        @if($key== $project->status)
+                                            <span class="badge badge-secondary">{{ $status}}</span>
+                                        @endif
+                                        @endforeach
+                                    </div>
+                                    <ul class="avatars">
+    
+                                        @foreach($project->project_user() as $project_user)
+                                        <li>
+                                            @if($project->is_active==1 && !empty($project_user))
+                                            <a href="{{ route('users.index',$project_user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($project_user)?$project_user->name:'')}}">
+                                                <img alt="{{(!empty($project_user)?$project_user->name:'')}}" class="avatar" src="{{(!empty($project_user->avatar)? $profile.'/'.$project_user->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
+                                            </a>
+                                            @else
+                                            <a data-toggle="tooltip" data-original-title="{{(!empty($project_user)?$project_user->name:'')}}">
+                                                <img alt="{{(!empty($project_user)?$project_user->name:'')}}" class="avatar" src="{{(!empty($project_user->avatar)? $profile.'/'.$project_user->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
+                                            </a>
+                                            @endif
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    <div class="card-meta d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <i class="material-icons mr-1">playlist_add_check</i>
+                                            @if($project->is_active==1)
+                                            <a  href="{{ route('project.taskboard',$project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                                            @else
+                                            <a  href="#" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                                            @endif
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="material-icons mr-1">storefront</i>
+                                            @if($project->is_active==1 && !empty($project->client()))
+                                            <a href="{{ route('clients.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>
+                                            @else
+                                            <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>
+                                            @endif
+                                        </div>
+                                        <span class="text-small" data-filter-by="text">{{__('Due on ')}}
+                                            {{ \Auth::user()->dateFormat($project->due_date) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    </div>
+                <!--end of content list body-->
+                </div>
+                <!--end of content list-->
+            </div>
+            <!--end of tab-->    
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">

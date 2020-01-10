@@ -30,9 +30,9 @@
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Clients')}}</a>
             <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
+                <a class="dropdown-item" href="{{ route('clients.index') }}/#clients">{{__('Clients')}}</a>
 
-                <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Contacts')}}</a>
+                <a class="dropdown-item" href="{{ route('clients.index') }}/#contacts">{{__('Contacts')}}</a>
 
                 @if(Gate::check('manage lead'))
                     <a class="dropdown-item" href="#">{{__('Leads')}}</a>
@@ -116,9 +116,9 @@
             Add New
             </button>
             <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">{{__('Contact')}}</a>
-            <a class="dropdown-item" href="#">{{__('Project')}}</a>
-            <a class="dropdown-item" href="#">{{__('Task')}}</a>
+            <a class="dropdown-item disabled" href="#">{{__('Contact')}}</a>
+            <a class="dropdown-item disabled" href="#">{{__('Project')}}</a>
+            <a class="dropdown-item disabled" href="#">{{__('Task')}}</a>
             </div>
         </div>
         @endif
