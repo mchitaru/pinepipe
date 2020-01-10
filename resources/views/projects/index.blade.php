@@ -15,17 +15,14 @@
 $(document).ready(function() {
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        localStorage.setItem('activeTab#projects', $(e.target).attr('href'));
+        window.location.hash = $(e.target).attr('href');
+        $(window).scrollTop(0);
     });
 
-    var activeTab = localStorage.getItem('activeTab#projects');
-
-    if(activeTab){
-        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
-    } 
-    else{
-        $('.nav-tabs a[href="#projects"]').tab('show');
-    }
+    var hash = window.location.hash ? window.location.hash : '#projects';
+    
+    $('.nav-tabs a[href="' + hash + '"]').tab('show');
+    
 });
     
 </script>

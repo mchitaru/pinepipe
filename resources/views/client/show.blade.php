@@ -11,24 +11,19 @@
 
 <script>
 
-    // keep active tab
-    $(document).ready(function() {
-    
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            localStorage.setItem('activeTab#contacts', $(e.target).attr('href'));
-        });
-    
-        var activeTab = location.hash ? location.hash : localStorage.getItem('activeTab#contacts');
-    
-        if(activeTab){
-            $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
-            $(window).scrollTop(0);
-        } 
-        else{
-            $('.nav-tabs a[href="#profile"]').tab('show');
-        }
-        
+// keep active tab
+$(document).ready(function() {
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        window.location.hash = $(e.target).attr('href');
+        $(window).scrollTop(0);
     });
+
+    var hash = window.location.hash ? window.location.hash : '#profile';
+    
+    $('.nav-tabs a[href="' + hash + '"]').tab('show');
+    
+});
         
 </script>
     

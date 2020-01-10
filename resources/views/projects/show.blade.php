@@ -20,17 +20,14 @@
 $(document).ready(function() {
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        localStorage.setItem('activeTab#tasks', $(e.target).attr('href'));
+        window.location.hash = $(e.target).attr('href');
+        $(window).scrollTop(0);
     });
 
-    var activeTab = localStorage.getItem('activeTab#tasks');
-
-    if(activeTab){
-        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
-    } 
-    else{
-        $('.nav-tabs a[href="#tasks"]').tab('show');
-    }
+    var hash = window.location.hash ? window.location.hash : '#tasks';
+    
+    $('.nav-tabs a[href="' + hash + '"]').tab('show');
+    
 });
 
 </script>

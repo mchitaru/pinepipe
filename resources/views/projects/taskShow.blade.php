@@ -18,19 +18,16 @@
 
     // keep active tab
     $(document).ready(function() {
-    
+
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            localStorage.setItem('activeTab#task', $(e.target).attr('href'));
+            window.location.hash = $(e.target).attr('href');
+            $(window).scrollTop(0);
         });
-    
-        var activeTab = localStorage.getItem('activeTab#task');
-    
-        if(activeTab){
-            $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
-        } 
-        else{
-            $('.nav-tabs a[href="#task"]').tab('show');
-        }
+
+        var hash = window.location.hash ? window.location.hash : '#task';
+        
+        $('.nav-tabs a[href="' + hash + '"]').tab('show');
+        
     });
     
     $(document).on("change", "#checklist input[type=checkbox]", function () {

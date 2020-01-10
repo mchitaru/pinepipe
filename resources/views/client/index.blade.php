@@ -11,18 +11,13 @@
 $(document).ready(function() {
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        localStorage.setItem('activeTab#clients', $(e.target).attr('href'));
+        window.location.hash = $(e.target).attr('href');
+        $(window).scrollTop(0);
     });
 
-    var activeTab = location.hash ? location.hash : localStorage.getItem('activeTab#clients');
-
-    if(activeTab){
-        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
-        $(window).scrollTop(0);
-    } 
-    else{
-        $('.nav-tabs a[href="#clients"]').tab('show');
-    }
+    var hash = window.location.hash ? window.location.hash : '#clients';
+    
+    $('.nav-tabs a[href="' + hash + '"]').tab('show');
     
 });
     
