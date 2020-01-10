@@ -93,6 +93,7 @@ Route::resource('users', 'UserController')->middleware(
 );
 Route::put('change-password', 'UserController@updatePassword')->name('update.password');
 
+
 Route::resource('clients', 'ClientController')->middleware(
     [
         'auth',
