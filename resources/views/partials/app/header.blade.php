@@ -20,28 +20,23 @@
     <ul class="navbar-nav">
 
     <li class="nav-item">
-
-        <a class="nav-link" href="{{ route('home') }}">Workspace</a>
-
+        <a class="nav-link" href="{{ route('home') }}">{{__('Workspace')}}</a>
     </li>
 
     @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
     <li class="nav-item">
 
         <div class="dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Clients</a>
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Clients')}}</a>
             <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="{{ route('clients.index') }}">Clients</a>
+                <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
 
-                <a class="dropdown-item" href="{{ route('clients.index') }}">Contacts</a>
+                <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Contacts')}}</a>
 
                 @if(Gate::check('manage lead'))
-                <a class="dropdown-item" href="#">Leads</a>
+                    <a class="dropdown-item" href="#">{{__('Leads')}}</a>
                 @endif
-
-                <a class="dropdown-item" href="{{ route('clients.index') }}">Activity</a>
-
             </div>
         </div>
     </li>
@@ -51,16 +46,14 @@
     <li class="nav-item">
 
         <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Projects</a>
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Projects')}}</a>
         <div class="dropdown-menu">
 
             <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
 
-            <a class="dropdown-item" href="#">Project</a>
+            <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Tasks')}}</a>
 
-            <a class="dropdown-item" href="#">Task</a>
-
-            <a class="dropdown-item" href="#">Kanban</a>
+            <a class="dropdown-item disabled" href="#">{{__('Kanban')}}</a>
 
         </div>
         </div>
@@ -72,16 +65,16 @@
     <li class="nav-item">
 
         <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Finance</a>
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Finance')}}</a>
         <div class="dropdown-menu">
 
-            <a class="dropdown-item" href="#">Proposals</a>
+            <a class="dropdown-item disabled" href="#">{{__('Proposals')}}</a>
 
-            <a class="dropdown-item" href="#">Contracts</a>
+            <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
 
-            <a class="dropdown-item" href="#">Invoices</a>
+            <a class="dropdown-item disabled" href="#">{{__('Invoices')}}</a>
 
-            <a class="dropdown-item" href="#">Expenses</a>
+            <a class="dropdown-item disabled" href="#">{{__('Expenses')}}</a>
 
         </div>
         </div>
@@ -93,10 +86,10 @@
     <li class="nav-item">
 
         <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Reports</a>
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Reports')}}</a>
         <div class="dropdown-menu">
 
-            <a class="dropdown-item" href="#">Timesheets</a>
+            <a class="dropdown-item disabled" href="#">{{__('Timesheets')}}</a>
 
         </div>
         </div>
@@ -123,9 +116,9 @@
             Add New
             </button>
             <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Team</a>
-            <a class="dropdown-item" href="#">Project</a>
-            <a class="dropdown-item" href="#">Task</a>
+            <a class="dropdown-item" href="#">{{__('Contact')}}</a>
+            <a class="dropdown-item" href="#">{{__('Project')}}</a>
+            <a class="dropdown-item" href="#">{{__('Task')}}</a>
             </div>
         </div>
         @endif
