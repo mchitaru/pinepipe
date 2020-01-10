@@ -25,7 +25,7 @@
             $(window).scrollTop(0);
         } 
         else{
-            $('.nav-tabs a[href="#contacts"]').tab('show');
+            $('.nav-tabs a[href="#profile"]').tab('show');
         }
         
     });
@@ -73,12 +73,16 @@
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-controls="contacts" aria-selected="false">{{__('Profile')}}
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">{{__('Contacts')}}
                     <span class="badge badge-secondary">{{ count($contacts) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Projects
+                <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">{{__('Projects')}}
                     <span class="badge badge-secondary">{{ count($projects) }}</span>
                 </a>
             </li>    
@@ -87,6 +91,9 @@
             </li>
             </ul>
             <div class="tab-content">
+            <div class="tab-pane fade show" id="profile" role="tabpanel" data-filter-list="content-list-body">
+            </div>
+            <!--end of tab-->
             <div class="tab-pane fade show" id="contacts" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
