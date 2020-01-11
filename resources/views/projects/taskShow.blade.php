@@ -1,3 +1,4 @@
+
 @php
     use Carbon\Carbon;
     use App\Projects;
@@ -15,7 +16,7 @@
 <div class="modal-body container-fluid">
      <div class="row justify-content-center">
         <div class="col">
-            <div class="page-header">
+            <div class="page-header pt-2">
             <p class="lead">{{$task->description}}</p>
             <div class="d-flex align-items-center">
                 <ul class="avatars">
@@ -46,7 +47,7 @@
                     <i class="material-icons">playlist_add_check</i>
                     <span>3/7</span>
                 </div>
-                <span>{{__('Due') }} {{ \Auth::user()->dateFormat($task->due_date) }}</span>
+                <span>{{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
                 </div>
             </div>
             </div>
@@ -75,9 +76,6 @@
                 <div class="row content-list-head">
                     <div class="col-auto">
                     <h3>{{__('Checklist')}}</h3>
-                    <button class="btn btn-round" data-title={{__('New item')}} data-toggle="collapse" data-target="#form-checklist">
-                        <i class="material-icons">add</i>
-                    </button>
                     </div>
                     <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -92,7 +90,7 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-                    <form method="POST" id="form-checklist" class="collapse" data-action="{{ route('task.checklist.store',[$task->id]) }}">
+                    <form method="POST" id="form-checklist" data-action="{{ route('task.checklist.store',[$task->id]) }}">
                         @csrf
                         <div class="form-group row align-items-center">
                             <div class ="col-1">
@@ -155,9 +153,6 @@
                 <div class="row content-list-head">
                     <div class="col-auto">
                     <h3>{{__('Notes')}}</h3>
-                    <button class="btn btn-round" data-toggle="modal" data-target="#note-add-modal">
-                        <i class="material-icons">add</i>
-                    </button>
                     </div>
                     <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -173,38 +168,50 @@
                 <!--end of content list head-->
                 <div class="content-list-body">
 
+                    <form method="POST" id="form-comment" data-action="{{route('comment.store',[$task->project_id,$task->id])}}">
+                        <div class="form-group row align-items-center">
+                            <div class ="col-11">
+                                <textarea class="form-control" name="comment" placeholder="{{ __('Write message')}}" id="example-textarea" rows="3" required></textarea>
+                            </div>
+                            <div class ="col-1">
+                                <button type="button" class="btn btn-round" data-title={{__('Add')}}>
+                                <i class="material-icons">add</i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="comments">
                     @foreach($task->comments as $comment)
                     <div class="card card-note">
-                    <div class="card-header">
+                    <div class="card-header p-1">
                         <div class="media align-items-center">
                         <img alt="{{$comment->user->name}}" src="{{(!empty($comment->user->avatar)? $profile.'/'.$comment->user->avatar:$profile.'/avatar.png')}}" class="avatar" data-toggle="tooltip" data-title="{{$comment->user->name}}" data-filter-by="alt" />
                         <div class="media-body">
-                            <h6 class="mb-0" data-filter-by="text">First meeting notes</h6>
+                            <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
                         </div>
                         </div>
                         <div class="d-flex align-items-center">
-                        <span data-filter-by="text">Just now</span>
+                        <span data-filter-by="text">{{$comment->created_at->diffForHumans()}}</span>
                         <div class="ml-1 dropdown card-options">
                             <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#">Edit</a>
-                                <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('comment-delete-form-{{$comment->id}}').submit();">
+                                <a href="#" class="dropdown-item text-danger delete-comment" data-url="{{route('comment.destroy',[$comment->id])}}">
                                     {{__('Delete')}}
                                 </a>
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['comment.destroy', $comment->id],'id'=>'comment-delete-form-'.$comment->id]) !!}
-                                {!! Form::close() !!}
                             </div>
                         </div>
                         </div>
                     </div>
-                    <div class="card-body" data-filter-by="text">
+                    <div class="card-body p-1" data-filter-by="text">
                         {{$comment->comment}}
                     </div>
                     </div>
                     @endforeach
-
+                    </div>
                 </div>
                 </div>
             </div>
@@ -923,119 +930,192 @@
             });
     });
 
-</script>
+    $(document).on('click', '#form-comment button', function (e) {
+            var comment = $.trim($("#form-comment textarea[name='comment']").val());
+            var name='{{\Auth::user()->name}}';
+            if (comment != '') {
+                $.ajax({
+                    url: $("#form-comment").data('action'),
+                    data: {comment: comment, "_token": $('meta[name="csrf-token"]').attr('content')},
+                    type: 'POST',
+                    success: function (data) {
+                        data = JSON.parse(data);
 
-    <script>
-        Dropzone.autoDiscover = false;
-        myDropzone = new Dropzone("#my-dropzone", {
-            previewTemplate: document.querySelector('.dz-template').innerHTML,
-            thumbnailWidth: 320,
-            thumbnailHeight: 320,
-            thumbnailMethod: "contain",
-            previewsContainer: ".dropzone-previews",
-            maxFiles: 20,
-            maxFilesize: 2,
-            parallelUploads: 1,
-            acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
-            url: "{{route('task.file.upload',[$task->id])}}",
 
-            success: function (file, response) {
-                if (response.is_success) {
-                    dropzoneBtn(file, response);
-                } else {
-                    this.removeFile(file);
-                    toastrs('Error', response.error, 'error');
-                }
-            },
-            error: function (file, response) {
-                this.removeFile(file);
-                if (response.error) {
-                    toastrs('Error', response.error, 'error');
-                } else {
-                    toastrs('Error', response.error, 'error');
-                }
-            },
-            sending: function(file, xhr, formData) {
-                formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
-                formData.append("task_id", {{$task->id}});
-            },
+                    var html = '<div class="card card-note">'+
+                                    '<div class="card-header p-1">'+
+                                        '<div class="media align-items-center">'+
+                                        '<img alt="{{\Auth::user()->name}}" src="{{(!empty(\Auth::user()->avatar)? $profile.'/'.\Auth::user()->avatar:$profile.'/avatar.png')}}" class="avatar" data-toggle="tooltip" data-title="{{\Auth::user()->name}}" data-filter-by="alt" />'+
+                                        '<div class="media-body">'+
+                                            '<h6 class="mb-0" data-filter-by="text">{{\Auth::user()->name}}</h6>'+
+                                        '</div>'+
+                                        '</div>'+
+                                        '<div class="d-flex align-items-center">'+
+                                        '<span data-filter-by="text">{{Carbon::now()->diffForHumans()}}</span>'+
+                                        '<div class="ml-1 dropdown card-options">'+
+                                            '<button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                                            '<i class="material-icons">more_vert</i>'+
+                                            '</button>'+
+                                            '<div class="dropdown-menu dropdown-menu-right">'+
+                                                '<a class="dropdown-item" href="#">Edit</a>'+
+                                                '<a href="#" class="dropdown-item text-danger delete-comment" data-url="' + data.deleteUrl + '" > {{__('Delete')}}'+
+                                                '</a>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="card-body p-1" data-filter-by="text">'+
+                                        data.comment+
+                                    '</div>'+
+                                '</div>';
+
+                        $("#comments").prepend(html);
+                        $("#form-comment textarea[name='comment']").val('');
+                        toastrs('Success', '{{ __("Comment Added Successfully!")}}', 'success');
+                    },
+                    error: function (data) {
+                        toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
+                    }
+                });
+            } else {
+                toastrs('Error', '{{ __("Please write comment!")}}', 'error');
+            }
         });
 
-        function deleteDropzoneFile(btn) {
-
+    $(document).on("click", ".delete-comment", function () {
+        if (confirm('Are You Sure ?')) {
+            var btn = $(this);
             $.ajax({
-                url: btn.attr('href'),
-                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                url: $(this).attr('data-url'),
                 type: 'DELETE',
-                success: function (response) {
-                    if (response.is_success) {
-                        btn.closest('.list-group-item').remove();
-                    } else {
-                        toastrs('Error', response.error, 'error');
-                    }
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                dataType: 'JSON',
+                success: function (data) {
+                    toastrs('Success', '{{ __("Comment Deleted Successfully!")}}', 'success');
+                    btn.closest('.card-note').remove();
                 },
-                error: function (response) {
-                    response = response.responseJSON;
-                    if (response.is_success) {
-                        toastrs('Error', response.error, 'error');
+                error: function (data) {
+                    data = data.responseJSON;
+                    if (data.message) {
+                        toastrs('Error', data.message, 'error');
                     } else {
-                        toastrs('Error', response.error, 'error');
+                        toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
                     }
                 }
             });
         }
+    });
 
-        function dropzoneBtn(file, response) {
+    Dropzone.autoDiscover = false;
+    myDropzone = new Dropzone("#my-dropzone", {
+        previewTemplate: document.querySelector('.dz-template').innerHTML,
+        thumbnailWidth: 320,
+        thumbnailHeight: 320,
+        thumbnailMethod: "contain",
+        previewsContainer: ".dropzone-previews",
+        maxFiles: 20,
+        maxFilesize: 2,
+        parallelUploads: 1,
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
+        url: "{{route('task.file.upload',[$task->id])}}",
 
-            $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
-                $(this).attr("href", response.download);
-            });
+        success: function (file, response) {
+            if (response.is_success) {
+                dropzoneBtn(file, response);
+            } else {
+                this.removeFile(file);
+                toastrs('Error', response.error, 'error');
+            }
+        },
+        error: function (file, response) {
+            this.removeFile(file);
+            if (response.error) {
+                toastrs('Error', response.error, 'error');
+            } else {
+                toastrs('Error', response.error, 'error');
+            }
+        },
+        sending: function(file, xhr, formData) {
+            formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
+            formData.append("task_id", {{$task->id}});
+        },
+    });
 
-            $('[data-delete]', $(".dz-preview").last()).each(function() {
+    function deleteDropzoneFile(btn) {
 
-                $(this).attr("href", response.delete);
+        $.ajax({
+            url: btn.attr('href'),
+            data: {_token: $('meta[name="csrf-token"]').attr('content')},
+            type: 'DELETE',
+            success: function (response) {
+                if (response.is_success) {
+                    btn.closest('.list-group-item').remove();
+                } else {
+                    toastrs('Error', response.error, 'error');
+                }
+            },
+            error: function (response) {
+                response = response.responseJSON;
+                if (response.is_success) {
+                    toastrs('Error', response.error, 'error');
+                } else {
+                    toastrs('Error', response.error, 'error');
+                }
+            }
+        });
+    }
 
-                var me = $(this),
-                    me_data = me.data('delete');
+    function dropzoneBtn(file, response) {
 
-                me_data = me_data.split("|");
+        $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
+            $(this).attr("href", response.download);
+        });
 
-                me.fireModal({
-                title: me_data[0],
-                body: me_data[1],
-                buttons: [
-                    {
-                    text: me.data('confirm-text-yes') || 'Yes',
-                    class: 'btn btn-danger btn-shadow',
-                    handler: function(modal) {
-                        deleteDropzoneFile(me);
-                        $.destroyModal(modal);
-                    }
-                    },
-                    {
-                    text: me.data('confirm-text-cancel') || 'Cancel',
-                    class: 'btn btn-secondary',
-                    handler: function(modal) {
-                        $.destroyModal(modal);
-                    }
-                    }
-                ]
-                })
-            });
-        }
+        $('[data-delete]', $(".dz-preview").last()).each(function() {
 
-        @php
-            $files = $task->taskFiles;
-        @endphp
+            $(this).attr("href", response.delete);
 
-        @foreach($files as $file)
-        var mockFile = {name: "{{$file->name}}", size: {{filesize(storage_path('app/public/tasks/'.$file->file))}} };
-        myDropzone.emit("addedfile", mockFile);
-        myDropzone.emit("processing", mockFile);
-        myDropzone.emit("thumbnail", mockFile, "{{asset('app/public/tasks/'.$file->file)}}");
-        myDropzone.emit("complete", mockFile);
+            var me = $(this),
+                me_data = me.data('delete');
 
-        dropzoneBtn(mockFile, {download: "{{route('task.file.download',[$task->id,$file->id])}}", delete: "{{route('task.file.delete',[$task->id,$file->id])}}"});
-        @endforeach
+            me_data = me_data.split("|");
 
-    </script>
+            me.fireModal({
+            title: me_data[0],
+            body: me_data[1],
+            buttons: [
+                {
+                text: me.data('confirm-text-yes') || 'Yes',
+                class: 'btn btn-danger btn-shadow',
+                handler: function(modal) {
+                    deleteDropzoneFile(me);
+                    $.destroyModal(modal);
+                }
+                },
+                {
+                text: me.data('confirm-text-cancel') || 'Cancel',
+                class: 'btn btn-secondary',
+                handler: function(modal) {
+                    $.destroyModal(modal);
+                }
+                }
+            ]
+            })
+        });
+    }
+
+    @php
+        $files = $task->taskFiles;
+    @endphp
+
+    @foreach($files as $file)
+    var mockFile = {name: "{{$file->name}}", size: {{filesize(storage_path('app/public/tasks/'.$file->file))}} };
+    myDropzone.emit("addedfile", mockFile);
+    myDropzone.emit("processing", mockFile);
+    myDropzone.emit("thumbnail", mockFile, "{{asset('app/public/tasks/'.$file->file)}}");
+    myDropzone.emit("complete", mockFile);
+
+    dropzoneBtn(mockFile, {download: "{{route('task.file.download',[$task->id,$file->id])}}", delete: "{{route('task.file.delete',[$task->id,$file->id])}}"});
+    @endforeach
+
+</script>

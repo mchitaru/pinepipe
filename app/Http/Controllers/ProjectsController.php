@@ -192,7 +192,7 @@ class ProjectsController extends Controller
                     $project_status = $status;
                 }
             }
-    
+
             return view('projects.show', compact('project', 'project_user', 'project_status', 'stages', 'project_files'));
         }
         else
@@ -427,8 +427,8 @@ class ProjectsController extends Controller
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->id,
                 'log_type' => 'Create Milestone',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' . 
-                            __('created milestone') . 
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('created milestone') .
                             ' <a href="' . route('project.milestone.show', $milestone->id) . '">'. $milestone->title.'</a>',
             ]
         );
@@ -514,8 +514,8 @@ class ProjectsController extends Controller
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->id,
                 'log_type' => 'Upload File',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' . 
-                            __('uploaded file') . 
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('uploaded file') .
                             ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file_name.'</a>',
             ]
         );
@@ -644,8 +644,8 @@ class ProjectsController extends Controller
                     'project_id' => $projec_id,
                     'log_type' => 'Create Task',
                     'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
-                    'remark' => '<b>'. \Auth::user()->name . '</b> ' . 
-                                __('create task') . 
+                    'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                                __('create task') .
                                 ' <a href="' . route('task.show', $task->id) . '">'. $task->title.'</a>',
                 ]
             );
@@ -770,8 +770,8 @@ class ProjectsController extends Controller
                     'project_id' => $projectID,
                     'log_type' => 'Move',
                     'remark' => $name . " " . __('Move Task') . " <b>" . $task->title . "</b> " . __('from') . " " . ucwords($request->old_status) . " " . __('to') . " " . ucwords($request->new_status),
-                    'remark' => '<b>'. $name . '</b> ' . 
-                                __('moved task') . 
+                    'remark' => '<b>'. $name . '</b> ' .
+                                __('moved task') .
                                 ' <a href="' . route('task.show', $task->id) . '">'. $task->title.'</a>' . __('from') . ' ' . ucwords($request->old_status) . ' ' . __('to') . ' ' . ucwords($request->new_status),
                 ]
             );
@@ -824,9 +824,7 @@ class ProjectsController extends Controller
 
         $comment->deleteUrl = route('comment.destroy', [$comment->id]);
 
-        return redirect()->route(
-            'task.show', [$task_id]
-        )->with('success', __('Comment successfully created'));
+        return $comment->toJson();
     }
 
     public function commentDestroy($comment_id)
@@ -834,9 +832,7 @@ class ProjectsController extends Controller
         $comment = Comment::find($comment_id);
         $comment->delete();
 
-        return redirect()->route(
-            'task.show', [$comment->task_id]
-        )->with('success', __('Comment successfully deleted'));
+        return "true";
     }
 
 
@@ -882,8 +878,8 @@ class ProjectsController extends Controller
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->id,
                 'log_type' => 'Upload File',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' . 
-                            __('uploaded file') . 
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('uploaded file') .
                             ' <a href="' . route('task.file.download', [$task_id, $file->id]) . '">'. $request->file->getClientOriginalName().'</a>',
             ]
         );
