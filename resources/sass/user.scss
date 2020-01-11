@@ -18,12 +18,13 @@ a {
     background-color: transparent; // Remove the gray background on active links in IE 10.
 
     @include hover {
-      color: $link-hover-color;
-      text-decoration: $link-hover-decoration;
+        cursor: pointer;
+        color: $link-hover-color;
+        text-decoration: $link-hover-decoration;
     }
  }
 
-.card{    
+.card{
     &:hover {
         box-shadow: 0 1px 10px 0 transparentize($dark, .5);
       }

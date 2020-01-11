@@ -25,9 +25,9 @@ $(document).ready(function() {
     });
 
     var hash = window.location.hash ? window.location.hash : '#tasks';
-    
+
     $('.nav-tabs a[href="' + hash + '"]').tab('show');
-    
+
 });
 
 </script>
@@ -149,7 +149,7 @@ $(document).ready(function() {
                     @endforeach
 
                 </ul>
-                
+
                 @can('invite user project')
                 <button class="btn btn-round" data-url="{{ route('project.invite',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add User')}}">
                     <i class="material-icons">add</i>
@@ -252,10 +252,9 @@ $(document).ready(function() {
                                 </div>
                                 <div class="card-body">
                                 <div class="card-title">
-                                    <a href="{{ route('task.show',$task->id) }}">
+                                    <a data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
                                         <h6 data-filter-by="text">{{$task->title}}</h6>
                                     </a>
-
                                     <span class="badge badge-secondary">
                                         @if($task->priority =='low')
                                                 <div class="label label-soft-success"> {{ $task->priority }}</div>
@@ -395,8 +394,8 @@ $(document).ready(function() {
                         </div>
                         </li>
                     </ul>
-                            
-                    <form class="dropzone" id="my-dropzone">                        
+
+                    <form class="dropzone" id="my-dropzone">
                         <span class="dz-message">Drop files here or click here to upload</span>
                     </form>
 
@@ -916,7 +915,7 @@ $(document).ready(function() {
             $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
                 $(this).attr("href", response.download);
             });
-            
+
             $('[data-delete]', $(".dz-preview").last()).each(function() {
 
                 $(this).attr("href", response.delete);

@@ -1,5 +1,3 @@
-@extends('layouts.app')
-
 @php
     use Carbon\Carbon;
     use App\Projects;
@@ -8,151 +6,16 @@
     $profile=asset(Storage::url('avatar/'));
 @endphp
 
-
-@push('stylesheets')
-@endpush
-
-@push('scripts')
-
-<script>
-
-    // keep active tab
-    $(document).ready(function() {
-
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            window.location.hash = $(e.target).attr('href');
-            $(window).scrollTop(0);
-        });
-
-        var hash = window.location.hash ? window.location.hash : '#task';
-        
-        $('.nav-tabs a[href="' + hash + '"]').tab('show');
-        
-    });
-    
-    $(document).on("change", "#checklist input[type=checkbox]", function () {
-            $.ajax({
-                url: $(this).attr('data-url'),
-                type: 'PUT',
-                data: {_token: $('meta[name="csrf-token"]').attr('content')},
-                // dataType: 'JSON',
-                success: function (data) {
-                    toastrs('Success', '{{ __("Checklist Updated Successfully!")}}', 'success');
-                    // console.log(data);
-                },
-                error: function (data) {
-                    data = data.responseJSON;
-                    toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
-                }
-            });
-            taskCheckbox();
-    });
-
-    $(document).on('submit', '#form-checklist', function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: $("#form-checklist").data('action'),
-                type: 'POST',
-                data: new FormData(this),
-                dataType: 'JSON',
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    toastrs('Success', '{{ __("Checklist Added Successfully!")}}', 'success');
-
-                    var html =  '<div class="row">' +
-                                    '<div class="form-group col">' +
-                                        '<span class="checklist-reorder">' +
-                                            '<i class="material-icons">reorder</i>' +
-                                        '</span>' +
-                                        '<div class="custom-control custom-checkbox col">' +
-                                            '<input type="checkbox" class="custom-control-input" id="checklist-' + data.id + '" value="' + data.id + '" data-url="' + data.updateUrl + '">' +
-                                            '<label class="custom-control-label" for="checklist-' + data.id + '"></label>' +
-                                            '<div>' +
-                                                '<input type="text" placeholder="Checklist item" value="' + data.name + '" data-filter-by="value" />' +
-                                                '<div class="checklist-strikethrough"></div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>';
-
-                    $("#checklist").prepend(html);
-                    $("#form-checklist input[name=name]").val('');
-                    $("#form-checklist").collapse('toggle');
-                },
-            });
-    });
-
-</script>
-    
-@endpush
-
-@section('page-title')
-    {{__('Task Details')}}
-@endsection
-
-
-@section('breadcrumb')
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}">{{__('Home')}}</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <a href="{{ route('projects.index') }}">{{__('Projects')}}</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <a href="{{ route('projects.show', $project->id) }}">{{$project->name}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{$task->title}}</li>
-        </ol>
-    </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-          <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-
-            @if(Gate::check('edit task') || Gate::check('delete task'))
-            @can('edit task')
-                <a href="#" class="dropdown-item" data-url="{{ route('task.edit',$task->id) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
-                    {{__('Edit')}}
-                </a>
-            @endcan
-            <a class="dropdown-item" href="#">Mark as Complete</a>
-            @can('manage task')
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))
-                <a class="dropdown-item" href="{{ route('project.taskboard',$project->id) }}" data-ajax-popup="true" data-title="{{__('Task Kanban')}}" data-toggle="tooltip" data-original-title="{{__('Task Kanban')}}">
-                    {{__('Kanban Board')}}
-                </a>
-            @endif
-            @endcan
-            <a class="dropdown-item" href="#">Share</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Archive</a>
-            @can('delete task')
-                <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$task->id}}').submit();">
-                    {{__('Delete')}}
-                </a>
-                {!! Form::open(['method' => 'DELETE', 'route' => ['task.destroy', $task->id],'id'=>'delete-form-'.$task->id]) !!}
-                {!! Form::close() !!}
-            @endcan
-
-            @endif
-        </div>
-    </div>
+<div class="modal-header">
+    <h5 class="modal-title">{{$task->title}}</h5>
+    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+    <i class="material-icons">close</i>
+    </button>
 </div>
-@endsection
-
-@section('content')
-    <div class="row justify-content-center">
-        <div class="col-xl-10 col-lg-11">
+<div class="modal-body container-fluid">
+     <div class="row justify-content-center">
+        <div class="col">
             <div class="page-header">
-            <h1>{{$task->title}}</h1>
             <p class="lead">{{$task->description}}</p>
             <div class="d-flex align-items-center">
                 <ul class="avatars">
@@ -192,19 +55,22 @@
                 <a class="nav-link active" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">Task</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
+                <a class="nav-link" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">Notes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">Activity</a>
+                <a class="nav-link" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">Files</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#taskactivity" role="tab" aria-controls="taskactivity" aria-selected="false">Activity</a>
             </li>
             </ul>
             <div class="tab-content">
-            
+
             <div class="tab-pane fade show active" id="task" role="tabpanel">
 
                 @can('create checklist')
                 @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
-    
+
                 <div class="content-list" data-filter-list="checklist">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -238,7 +104,7 @@
                             <div class ="col">
                                 <button type="submit" class="btn btn-round" data-title={{__('Add')}} data-toggle="collapse" data-target="#form-checklist">
                                 <i class="material-icons">add</i>
-                                </button>                
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -281,7 +147,10 @@
                 <!--end of content list-->
                 @endif
                 @endcan
-    
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade show" id="tasknotes" role="tabpanel">
+
                 <div class="content-list" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -307,7 +176,7 @@
                     @foreach($task->comments as $comment)
                     <div class="card card-note">
                     <div class="card-header">
-                        <div class="media align-items-center">        
+                        <div class="media align-items-center">
                         <img alt="{{$comment->user->name}}" src="{{(!empty($comment->user->avatar)? $profile.'/'.$comment->user->avatar:$profile.'/avatar.png')}}" class="avatar" data-toggle="tooltip" data-title="{{$comment->user->name}}" data-filter-by="alt" />
                         <div class="media-body">
                             <h6 class="mb-0" data-filter-by="text">First meeting notes</h6>
@@ -340,7 +209,7 @@
                 </div>
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade" id="files" role="tabpanel" data-filter-list="dropzone-previews">
+            <div class="tab-pane fade" id="taskfiles" role="tabpanel" data-filter-list="dropzone-previews">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -414,7 +283,7 @@
                 </div>
                 <!--end of content list-->
             </div>
-            <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
+            <div class="tab-pane fade" id="taskactivity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -992,8 +861,70 @@
             </form>
         </div>
     </div>
-@endsection
-@push('scripts')
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+</div>
+
+<script>
+
+    $(document).on("change", "#checklist input[type=checkbox]", function () {
+            $.ajax({
+                url: $(this).attr('data-url'),
+                type: 'PUT',
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                // dataType: 'JSON',
+                success: function (data) {
+                    toastrs('Success', '{{ __("Checklist Updated Successfully!")}}', 'success');
+                    // console.log(data);
+                },
+                error: function (data) {
+                    data = data.responseJSON;
+                    toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
+                }
+            });
+            taskCheckbox();
+    });
+
+    $(document).on('submit', '#form-checklist', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $("#form-checklist").data('action'),
+                type: 'POST',
+                data: new FormData(this),
+                dataType: 'JSON',
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    toastrs('Success', '{{ __("Checklist Added Successfully!")}}', 'success');
+
+                    var html =  '<div class="row">' +
+                                    '<div class="form-group col">' +
+                                        '<span class="checklist-reorder">' +
+                                            '<i class="material-icons">reorder</i>' +
+                                        '</span>' +
+                                        '<div class="custom-control custom-checkbox col">' +
+                                            '<input type="checkbox" class="custom-control-input" id="checklist-' + data.id + '" value="' + data.id + '" data-url="' + data.updateUrl + '">' +
+                                            '<label class="custom-control-label" for="checklist-' + data.id + '"></label>' +
+                                            '<div>' +
+                                                '<input type="text" placeholder="Checklist item" value="' + data.name + '" data-filter-by="value" />' +
+                                                '<div class="checklist-strikethrough"></div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>';
+
+                    $("#checklist").prepend(html);
+                    $("#form-checklist input[name=name]").val('');
+                    $("#form-checklist").collapse('toggle');
+                },
+            });
+    });
+
+</script>
+
     <script>
         Dropzone.autoDiscover = false;
         myDropzone = new Dropzone("#my-dropzone", {
@@ -1059,7 +990,7 @@
             $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
                 $(this).attr("href", response.download);
             });
-            
+
             $('[data-delete]', $(".dz-preview").last()).each(function() {
 
                 $(this).attr("href", response.delete);
@@ -1108,4 +1039,3 @@
         @endforeach
 
     </script>
-@endpush
