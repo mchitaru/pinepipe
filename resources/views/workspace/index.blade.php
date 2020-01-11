@@ -327,8 +327,8 @@ if($client_project_budget_due_per<=15){
                                     <div class="card card-task">
                                         <div class="card-body">
                                         <div class="card-title">
-                                            <a href="{{ route('task.show',$top_task->id) }}">
-                                            <h6 data-filter-by="text">{{$top_task->title}}</h6>
+                                            <a data-url="{{ route('task.show',$top_task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
+                                                <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                             </a>
                                             @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
                                                 <span class="text-small">{{$top_task->project_name}}</span>
