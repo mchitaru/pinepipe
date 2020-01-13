@@ -102,16 +102,7 @@ $(document).ready(function() {
                 $percentage = intval(($completed_task / $total_task) * 100);
             }
 
-        $label='';
-        if($percentage<=15){
-            $label='bg-danger';
-        }else if ($percentage > 15 && $percentage <= 33) {
-            $label='bg-warning';
-        } else if ($percentage > 33 && $percentage <= 70) {
-            $label='bg-primary';
-        } else {
-            $label='bg-success';
-        }
+        $label = $project->getProgressColor($percentage);
 
         $datetime1 = new DateTime($project->due_date);
         $datetime2 = new DateTime(date('Y-m-d'));
@@ -250,9 +241,21 @@ $(document).ready(function() {
 
                         @foreach($tasks as $task)
 
+                        @php
+                            $total_subtask = $task->taskTotalCheckListCount();
+                            $completed_subtask = $task->taskCompleteCheckListCount();
+                            
+                            $task_percentage=0;
+                            if($total_subtask!=0){
+                                $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
+                            }
+
+                            $label = Projects::getProgressColor($task_percentage);
+                        @endphp
+
                             <div class="card card-task">
                                 <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <div class="card-body">
                                 <div class="card-title">
@@ -289,8 +292,8 @@ $(document).ready(function() {
                                     </ul>
                                     <div class="d-flex align-items-center">
                                     <i class="material-icons">playlist_add_check</i>
-                                    <p class="small @if($task->taskTotalCheckListCount()==0) text-muted @endif @if($task->taskCompleteCheckListCount()==$task->taskTotalCheckListCount() && $task->taskCompleteCheckListCount()!=0) text-success @else text-danger @endif">
-                                        <span>{{$task->taskCompleteCheckListCount()}}/{{$task->taskTotalCheckListCount()}}</span>
+                                    <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
+                                        <span>{{$completed_subtask}}/{{$total_subtask}}</span>
                                     </p>
                                     </div>
                                     @if(Gate::check('edit task') || Gate::check('delete task'))

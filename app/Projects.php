@@ -98,6 +98,36 @@ class Projects extends Model
         return ClientPermission::where('project_id', $this->id)->where('client_id', $this->client)->first();
     }
 
+    public function getProjectProgress()
+    {
+        $project_last_stage = ($this->project_last_stage($this->id))?$this->project_last_stage($this->id)->id:'';
+        $total_task = $this->project_total_task($this->id);
+        $completed_task = $this->project_complete_task($this->id, $project_last_stage);
+        
+        $percentage=0;
+        if($total_task!=0){
+            $percentage = intval(($completed_task / $total_task) * 100);
+        }
+
+        return $percentage;
+    }
+
+    public static function getProgressColor($percentage)
+    {
+        $label='';
+        if($percentage<=15){
+            $label='bg-danger';
+        }else if ($percentage > 15 && $percentage <= 33) {
+            $label='bg-warning';
+        } else if ($percentage > 33 && $percentage <= 70) {
+            $label='bg-primary';
+        } else {
+            $label='bg-success';
+        }
+
+        return $label;
+    }
+
     public static function getProjectStatus()
     {
 

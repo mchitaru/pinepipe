@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@php
+
+use App\Projects;
+
+@endphp
+
 @push('stylesheets')
 @endpush
 
@@ -277,11 +283,19 @@ if($client_project_budget_due_per<=15){
                                         $total_task = $project->project_total_task($project->id);
                                         $completed_task=$project->project_complete_task($project->id,$project_last_stage);
                                         $remain_task=$total_task-$completed_task;
+                                        
+                                        $project_percentage=0;
+                                        if($total_task!=0){
+                                            $project_percentage = intval(($completed_task / $total_task) * 100);
+                                        }
+
+                                        $label = $project->getProgressColor($project_percentage);
+
                                     @endphp
                                     <div class="card card-task">
                                         <div class="progress">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
+                                            <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$project_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
                                         <div class="card-body">
                                         <div class="card-title">
                                             <a href="{{ route('projects.show',$project->id) }}">
@@ -324,7 +338,23 @@ if($client_project_budget_due_per<=15){
                                 </div>
                                 <div class="card-list-body collapse show" id="tasks">
                                     @foreach($top_tasks as $top_task)
+
+                                    @php
+                                        $total_subtask = $top_task->taskTotalCheckListCount();
+                                        $completed_subtask = $top_task->taskCompleteCheckListCount();
+                                        
+                                        $task_percentage=0;
+                                        if($total_subtask!=0){
+                                            $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
+                                        }
+            
+                                        $label = Projects::getProgressColor($task_percentage);
+                                    @endphp
+        
                                     <div class="card card-task">
+                                        <div class="progress">
+                                            <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
                                         <div class="card-body">
                                         <div class="card-title">
                                             <a href="{{ route('task.show',$top_task->id) }}" data-remote="true">
