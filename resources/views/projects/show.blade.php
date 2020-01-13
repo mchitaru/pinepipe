@@ -1,5 +1,4 @@
 @extends('layouts.app')
-{{-- @include('partials.usermanage'); --}}
 
 @php
     use Carbon\Carbon;
