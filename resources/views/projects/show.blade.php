@@ -14,7 +14,6 @@
 
 @push('scripts')
 
-
 <script>
 
 // keep active tab
@@ -152,9 +151,6 @@ $(document).ready(function() {
                 </ul>
 
                 @can('invite user project')
-                {{-- <button class="btn btn-round" data-toggle="modal" data-target="#user-manage-modal">
-                    <i class="material-icons">add</i>
-                </button> --}}
 
                 <button class="btn btn-round" data-url="{{ route('project.invite',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add User')}}">
                     <i class="material-icons">add</i>
@@ -208,6 +204,10 @@ $(document).ready(function() {
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
+
+                    {{-- <button class="btn btn-round" data-url="{{ route('task.create',$project->id) }}" data-remote="true">
+                    <i class="material-icons">add</i>
+                    </button> --}}
                     <button class="btn btn-round" data-url="{{ route('task.create',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add New Task')}}">
                     <i class="material-icons">add</i>
                     </button>
@@ -257,9 +257,13 @@ $(document).ready(function() {
                                 </div>
                                 <div class="card-body">
                                 <div class="card-title">
-                                    <a data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
+                                    {{-- <a data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
+                                        <h6 data-filter-by="text">{{$task->title}}</h6>
+                                    </a> --}}
+                                    <a href="{{ route('task.show',$task->id) }}" data-remote="true">
                                         <h6 data-filter-by="text">{{$task->title}}</h6>
                                     </a>
+
                                     <span class="badge badge-secondary">
                                         @if($task->priority =='low')
                                                 <div class="label label-soft-success"> {{ $task->priority }}</div>

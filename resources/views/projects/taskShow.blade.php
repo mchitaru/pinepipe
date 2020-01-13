@@ -1,3 +1,4 @@
+@extends('layouts.modal')
 
 @php
     use Carbon\Carbon;
@@ -7,13 +8,20 @@
     $profile=asset(Storage::url('avatar/'));
 @endphp
 
-<div class="modal-header">
-    <h5 class="modal-title">{{$task->title}}</h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body container-fluid">
+@section('title')
+
+<h5 class="modal-title">{{$task->title}} </h5>
+<button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+<i class="material-icons">close</i>
+</button>
+
+@endsection
+
+@section('content')
+
+<form tabindex="-1" aria-hidden="true" data-remote="true">
+@csrf
+<div class="container-fluid">
      <div class="row justify-content-center">
         <div class="col">
             <div class="page-header pt-2">
@@ -90,11 +98,8 @@
                     <form method="POST" id="form-checklist" data-action="{{ route('task.checklist.store',[$task->id]) }}">
                         @csrf
                         <div class="form-group row align-items-center">
-                            <div class ="col-1">
-                                <label>{{__('Name')}}</label>
-                            </div>
                             <div class ="col">
-                                <input type="text" name="name" class="form-control" required placeholder="{{__('Checklist Item Name')}}">
+                                <input type="text" name="name" class="form-control" required placeholder="{{__('Checklist Item')}}">
                             </div>
                             <div class ="col">
                                 <button type="submit" class="btn btn-round" data-title={{__('Add')}} data-toggle="collapse" data-target="#form-checklist">
@@ -277,7 +282,7 @@
                         </div>
                     </li>
                     </ul>
-                    <form class="dropzone" id="my-dropzone">
+                    <form class="dropzone" id="my-task-dropzone">
                         <span class="dz-message">Drop files here or click here to upload</span>
                     </form>
 
@@ -691,9 +696,12 @@
         </div>
     </div>
 </div>
-<div class="modal-footer">
+</form>
+@endsection
+
+@section('footer')
     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
-</div>
+@endsection
 
 <script>
 
@@ -829,7 +837,7 @@
     });
 
     Dropzone.autoDiscover = false;
-    myDropzone = new Dropzone("#my-dropzone", {
+    myDropzone = new Dropzone("#my-task-dropzone", {
         previewTemplate: document.querySelector('.dz-template').innerHTML,
         thumbnailWidth: 320,
         thumbnailHeight: 320,

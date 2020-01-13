@@ -18,7 +18,7 @@ $(document).on('click', 'a[data-ajax-popup="true"], button[data-ajax-popup="true
             $("#commonModal .modal-title").html(title);
             $("#commonModal").modal('show');
             taskCheckbox();
-            common_bind("#commonModal");
+            // common_bind("#commonModal");
         },
         error: function (data) {
             data = data.responseJSON;

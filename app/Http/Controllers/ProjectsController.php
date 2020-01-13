@@ -594,6 +594,7 @@ class ProjectsController extends Controller
         }
 
         return view('projects.taskCreate', compact('project', 'projects', 'priority', 'users', 'milestones'));
+        // return view('partials.taskadd');
     }
 
     public function taskStore(Request $request, $projec_id)
