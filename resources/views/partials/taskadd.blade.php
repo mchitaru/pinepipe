@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-<form tabindex="-1" aria-hidden="true" data-remote="true">
+<form tabindex="-1" aria-hidden="true" >
     @csrf
 <div class="container-fluid">
     <ul class="nav nav-tabs nav-fill" role="tablist">
