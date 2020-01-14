@@ -71,9 +71,19 @@ $profile=asset(Storage::url('avatar/'));
 
             <div class="content-list" data-filter-list="checklist">
             <div class="row content-list-head">
-                <div class="col-auto">
-                <h3>{{__('Checklist')}}</h3>
-                </div>
+                <form method="POST" id="form-checklist" data-action="{{ route('task.checklist.store',[$task->id]) }}">
+                    @csrf
+                    <div class="form-group row align-items-center">
+                        <div class ="col">
+                            <h3>{{__('Checklist')}}</h3>
+                        </div>
+                        <div class ="col">
+                            <button type="submit" class="btn btn-round" data-title={{__('Add')}} >
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
                 <form class="col-md-auto">
                 <div class="input-group input-group-round">
                     <div class="input-group-prepend">
@@ -87,23 +97,6 @@ $profile=asset(Storage::url('avatar/'));
             </div>
             <!--end of content list head-->
             <div class="content-list-body">
-                <form method="POST" id="form-checklist" data-action="{{ route('task.checklist.store',[$task->id]) }}">
-                    @csrf
-                    <div class="form-group row align-items-center">
-                        <div class ="col-1">
-                            <label>{{__('Name')}}</label>
-                        </div>
-                        <div class ="col">
-                            <input type="text" name="name" class="form-control" required placeholder="{{__('Checklist Item Name')}}">
-                        </div>
-                        <div class ="col">
-                            <button type="submit" class="btn btn-round" data-title={{__('Add')}} data-toggle="collapse" data-target="#form-checklist">
-                            <i class="material-icons">add</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
                 <form class="checklist" id="checklist">
 
                 @foreach($task->taskCheckList as $checkList)
@@ -119,7 +112,7 @@ $profile=asset(Storage::url('avatar/'));
                         <input type="checkbox" class="custom-control-input" id="checklist-{{$checkList->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('task.checklist.update',[$checkList->task_id,$checkList->id])}}">
                         <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
                         <div>
-                        <input type="text" placeholder="Checklist item" value="{{$checkList->name}}" data-filter-by="value" />
+                        <input type="text" name="name-{{$checkList->id}}" placeholder="Checklist item" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('task.checklist.update',[$checkList->task_id,$checkList->id])}}"/>
                         <div class="checklist-strikethrough"></div>
                         </div>
                     </div>
@@ -698,10 +691,14 @@ $profile=asset(Storage::url('avatar/'));
 <script>
 
 $(document).on("change", "#checklist input[type=checkbox]", function () {
-        $.ajax({
+    var status = $(this).is(":checked")?1:0;
+
+    console.log(status);
+
+    $.ajax({
             url: $(this).attr('data-url'),
             type: 'PUT',
-            data: {_token: $('meta[name="csrf-token"]').attr('content')},
+            data: {status: status, _token: $('meta[name="csrf-token"]').attr('content')},
             // dataType: 'JSON',
             success: function (data) {
                 toastrs('Success', '{{ __("Checklist Updated Successfully!")}}', 'success');
@@ -713,6 +710,28 @@ $(document).on("change", "#checklist input[type=checkbox]", function () {
             }
         });
         taskCheckbox();
+});
+
+$(document).on("change", "#checklist input[type=text]", function () {
+    
+        var name = $.trim($(this).val());
+
+        console.log(name);
+
+        $.ajax({
+            url: $(this).attr('data-url'),
+            type: 'PUT',
+            data: {name: name, _token: $('meta[name="csrf-token"]').attr('content')},
+            // dataType: 'JSON',
+            success: function (data) {
+                toastrs('Success', '{{ __("Checklist Updated Successfully!")}}', 'success');
+                // console.log(data);
+            },
+            error: function (data) {
+                data = data.responseJSON;
+                toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
+            }
+        });
 });
 
 $(document).on('submit', '#form-checklist', function (e) {
@@ -738,7 +757,7 @@ $(document).on('submit', '#form-checklist', function (e) {
                                         '<input type="checkbox" class="custom-control-input" id="checklist-' + data.id + '" value="' + data.id + '" data-url="' + data.updateUrl + '">' +
                                         '<label class="custom-control-label" for="checklist-' + data.id + '"></label>' +
                                         '<div>' +
-                                            '<input type="text" placeholder="Checklist item" value="' + data.name + '" data-filter-by="value" />' +
+                                            '<input type="text" id="name-' + data.id + '" placeholder="Checklist item" value="' + data.name + '" data-filter-by="value" data-url="' + data.updateUrl + '"/>' +
                                             '<div class="checklist-strikethrough"></div>' +
                                         '</div>' +
                                     '</div>' +
@@ -746,8 +765,6 @@ $(document).on('submit', '#form-checklist', function (e) {
                             '</div>';
 
                 $("#checklist").prepend(html);
-                $("#form-checklist input[name=name]").val('');
-                $("#form-checklist").collapse('toggle');
             },
         });
 });

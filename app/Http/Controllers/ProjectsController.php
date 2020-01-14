@@ -936,11 +936,8 @@ class ProjectsController extends Controller
 
     public function checkListStore(Request $request, $task_id)
     {
-        $request->validate(
-            ['name' => 'required']
-        );
         $post['task_id']      = $task_id;
-        $post['name']         = $request->name;
+        $post['name']         = __('Check Item');
         $post['created_by']   = \Auth::user()->authId();
         $CheckList            = CheckList::create($post);
         $CheckList->deleteUrl = route(
@@ -967,17 +964,17 @@ class ProjectsController extends Controller
         return "true";
     }
 
-    public function checklistUpdate($task_id, $checklist_id)
+    public function checklistUpdate(Request $request, $task_id, $checklist_id)
     {
         $checkList = CheckList::find($checklist_id);
-        if($checkList->status == 0)
-        {
-            $checkList->status = 1;
-        }
-        else
-        {
-            $checkList->status = 0;
-        }
+        
+        if ($request->has('status')) {
+            $checkList->status = $request->status;
+        }        
+        if ($request->has('name')) {
+            $checkList->name = $request->name;
+        }        
+
         $checkList->save();
 
         return $checkList->toJson();
