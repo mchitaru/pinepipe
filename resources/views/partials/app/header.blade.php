@@ -78,9 +78,13 @@
 
             <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
 
-            <a class="dropdown-item disabled" href="#">{{__('Invoices')}}</a>
+            @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
+                <a class="dropdown-item" href="{{ route('invoices.index') }}/#invoices">{{__('Invoices')}}</a>
+            @endcan
 
-            <a class="dropdown-item disabled" href="#">{{__('Expenses')}}</a>
+            @if(Gate::check('manage expense') || \Auth::user()->type=='client')
+                <a class="dropdown-item disabled" href="#">{{__('Expenses')}}</a>
+            @endif
 
         </div>
         </div>
