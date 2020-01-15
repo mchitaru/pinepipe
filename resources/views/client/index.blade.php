@@ -102,7 +102,11 @@ $(document).ready(function() {
                         <div class="container row align-items-center">
                             <div class="pl-2 position-absolute">
                                 <a href="#" data-toggle="tooltip" title={{$client->name}}>
-                                    <img alt={{$client->name}} class="avatar" src="{{(!empty($client->avatar))? asset(Storage::url("avatar/".$client->avatar)): asset(Storage::url("avatar/avatar.png"))}}" />
+                                    @if(empty($client->avatar))
+                                        <img width="32" height="32" alt="{{$client->name}}" avatar="{{$client->name}}" class="round" />
+                                    @else
+                                        <img alt={{$client->name}} class="avatar" src="{{ asset(Storage::url("avatar/".$client->avatar))}}" />
+                                    @endif
                                 </a>
                             </div>
                             <div class="card-body p-2 pl-5">

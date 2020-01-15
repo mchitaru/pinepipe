@@ -167,7 +167,11 @@
         <div class="dropdown mx-lg-2">
             <div class="dropdown dropdown-toggle">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img alt="{{$users->name}}" title="{{$users->name}}" src="{{(!empty($users->avatar)? $profile.'/'.$users->avatar : $profile.'/avatar.png')}}" class="avatar" />
+                @if(empty($users->avatar))
+                    <img width="32" height="32" alt="{{$users->name}}" title="{{$users->name}}" avatar="{{$users->name}}" class="round" />
+                @else
+                    <img alt="{{$users->name}}" title="{{$users->name}}" src="{{($profile.'/'.$users->avatar)}}" class="avatar" />
+                @endif
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @can('manage account')
