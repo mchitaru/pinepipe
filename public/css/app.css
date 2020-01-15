@@ -14523,36 +14523,6 @@ pre[class*=language-] {
   }
 }
 
-/* 1.9 Date Range Picker */
-
-.daterangepicker.dropdown-menu {
-  width: auto;
-}
-
-.daterangepicker .input-mini {
-  padding-left: 28px !important;
-}
-
-.daterangepicker .calendar th,
-.daterangepicker .calendar td {
-  padding: 5px;
-  font-size: 12px;
-}
-
-.ranges li {
-  color: #6777ef;
-}
-
-.ranges li:hover,
-.ranges li.active {
-  background-color: #6777ef;
-}
-
-.daterangepicker td.active,
-.daterangepicker td.active:hover {
-  background-color: #6777ef;
-}
-
 /* 1.12 Full Calendar */
 
 .fc-toolbar h2 {

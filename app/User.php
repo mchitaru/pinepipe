@@ -80,7 +80,6 @@ class User extends Authenticatable
                 "company_email" => "",
                 "company_email_from_name" => "",
                 "invoice_prefix" => "#INV",
-                "bug_prefix" => "#ISSUE",
             ];
 
             foreach($data as $row)
@@ -465,11 +464,6 @@ class User extends Authenticatable
             'edit note',
             'delete note',
             'manage lead',
-            'manage bug report',
-            'create bug report',
-            'edit bug report',
-            'delete bug report',
-            'move bug report',
             'manage timesheet',
             'create timesheet',
             'edit timesheet',
@@ -617,24 +611,6 @@ class User extends Authenticatable
                 ]
             );
         }
-
-        // Bug Status
-        $bugStatus = [
-            'Confirmed',
-            'Resolved',
-            'Unconfirmed',
-            'In Progress',
-            'Verified',
-        ];
-        foreach($bugStatus as $status)
-        {
-            BugStatus::create(
-                [
-                    'title' => $status,
-                    'created_by' => $id,
-                ]
-            );
-        }
     }
 
     public function destroyUserProjectInfo($user_id)
@@ -692,12 +668,5 @@ class User extends Authenticatable
     public function total_company_project($company_id)
     {
         return Projects::where('created_by', '=', $company_id)->count();
-    }
-
-    public function bugNumberFormat($number)
-    {
-        $settings = $this->settings();
-
-        return $settings["bug_prefix"] . sprintf("%05d", $number);
     }
 }
