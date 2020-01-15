@@ -246,7 +246,7 @@ $(document).ready(function() {
                         @php
                             $total_subtask = $task->taskTotalCheckListCount();
                             $completed_subtask = $task->taskCompleteCheckListCount();
-                            
+
                             $task_percentage=0;
                             if($total_subtask!=0){
                                 $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
@@ -401,7 +401,7 @@ $(document).ready(function() {
                                             {{__('Delete')}}
                                         </a>
                                         {!! Form::open(['method' => 'DELETE', 'route' => ['task.timesheet.destroy', $project->id,$timeSheet->id],'id'=>'delete-form-'.$timeSheet->id]) !!}
-                                        {!! Form::close() !!}    
+                                        {!! Form::close() !!}
                                     </div>
                                     </div>
                                 @endif
@@ -410,6 +410,7 @@ $(document).ready(function() {
                     </div>
 
                 @endforeach
+            </div>
             </div>
             <!--end of tab-->
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show uploading',$perArr)))
