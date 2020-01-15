@@ -184,6 +184,19 @@ class ProjectsController extends Controller
             $project_status_list = Projects::$project_status;
             $stages  = Projectstages::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
             $project_files = ProjectFile::where('project_id', $project_id)->get();
+            
+            $timeSheets = '';
+            if(\Auth::user()->can('manage timesheet'))
+            {
+                if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
+                {
+                    $timeSheets = Timesheet::where('project_id', '=', $project_id)->get();
+                }
+                else
+                {
+                    $timeSheets = Timesheet::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
+                }
+            }
 
             $project_status = __('Unknown');
             foreach($project_status_list as $key => $status)
@@ -194,7 +207,7 @@ class ProjectsController extends Controller
                 }
             }
 
-            return view('projects.show', compact('project', 'project_user', 'project_status', 'stages', 'project_files'));
+            return view('projects.show', compact('project', 'project_user', 'project_status', 'stages', 'project_files', 'timeSheets'));
         }
         else
         {
@@ -1151,30 +1164,6 @@ class ProjectsController extends Controller
             return redirect()->back()->with('error', 'Permission denied.');
         }
 
-
-    }
-
-    public function timeSheet($project_id)
-    {
-        if(\Auth::user()->can('manage timesheet'))
-        {
-            $user    = \Auth::user();
-            $project = Projects::find($project_id);
-            if($user->type == 'company' || $user->type == 'client')
-            {
-                $timeSheets = Timesheet::where('project_id', '=', $project_id)->get();
-            }
-            else
-            {
-                $timeSheets = Timesheet::where('user_id', '=', $user->id)->where('project_id', '=', $project_id)->get();
-            }
-
-            return view('projects.timeSheet', compact('project', 'timeSheets'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
 
     }
 

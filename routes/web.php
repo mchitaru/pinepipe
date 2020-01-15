@@ -277,7 +277,6 @@ Route::group(
     Route::get('projects/{id}/client/{cid}/permission', 'ProjectsController@clientPermission')->name('client.permission');
     Route::put('projects/{id}/client/{cid}/permission', 'ProjectsController@storeClientPermission')->name('client.store.permission');
     
-    Route::get('projects/{id}/timesheet', 'ProjectsController@timeSheet')->name('task.timesheetRecord');
     Route::get('projects/{id}/timesheet/create', 'ProjectsController@timeSheetCreate')->name('task.timesheet');
     Route::post('projects/{id}/timesheet/create', 'ProjectsController@timeSheetStore')->name('task.timesheet.store');
     Route::get('projects/{id}/timesheet/{tid}/edit', 'ProjectsController@timeSheetEdit')->name('task.timesheet.edit');

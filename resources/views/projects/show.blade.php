@@ -183,6 +183,11 @@ $(document).ready(function() {
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#timesheets" role="tab" aria-controls="timesheets" aria-selected="false">Timesheets
+                    <span class="badge badge-secondary">{{ count($timeSheets) }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
             </li>
             <li class="nav-item">
@@ -311,8 +316,6 @@ $(document).ready(function() {
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['task.destroy', $task->id],'id'=>'delete-form-'.$task->id]) !!}
                                                 {!! Form::close() !!}
                                             @endcan
-
-                                            <div class="dropdown-divider"></div>
                                         </div>
                                         </div>
                                     @endif
@@ -328,6 +331,85 @@ $(document).ready(function() {
                 <!--end of content list body-->
                 </div>
                 <!--end of content list-->
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade" id="timesheets" role="tabpanel" data-filter-list="card-list-body">
+                <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>{{__('Timesheets')}}</h3>
+
+                    <button class="btn btn-round" data-url="{{ route('task.timesheet',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
+                    <i class="material-icons">add</i>
+                    </button>
+                </div>
+                <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Filter Timesheets" aria-label="Filter Timesheets">
+                    </div>
+                </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body">
+                    @foreach($timeSheets as $timeSheet)
+
+                        <div class="card card-task mb-1">
+                            <div class="card-body p-2">
+                            <div class="card-title col-xs-12 col-sm-3">
+                                <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timeSheet->date) }}</h6>
+                                <p>
+                                    <span class="text-small">{{ !empty($timeSheet->task())? $timeSheet->task()->title : ''}}</span>
+                                </p>
+                            </div>
+                            <div class="card-title col-xs-12 col-sm-5">
+                                <div class="container row align-items-center">
+                                    <i class="material-icons">access_time</i>
+                                    <span class="text-small" data-filter-by="text">{{ $timeSheet->hours }}h</span>
+                                </div>
+                                <div class="container row align-items-center">
+                                    <i class="material-icons">note</i>
+                                    <span class="text-small" data-filter-by="text">{{ $timeSheet->remark }}</span>
+                                </div>
+                            </div>
+                            <div class="card-meta">
+                                <ul class="avatars">
+
+                                <li>
+                                    <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}">
+                                        <img alt="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}" class="avatar" src="{{(!empty($timeSheet->user()->avatar)?$profile.'/'.$timeSheet->user()->avatar:$profile.'/avatar.png')}}">
+                                    </a>
+                                </li>
+
+                                </ul>
+                                @if(\Auth::user()->type!='client')
+                                    <div class="dropdown card-options">
+                                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+
+                                        <a href="#" class="dropdown-item" data-url="{{ route('task.timesheet.edit',[$project->id,$timeSheet->id]) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                                            {{__('Edit')}}
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="#">Archive</a>
+                                        <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$timeSheet->id}}').submit();">
+                                            {{__('Delete')}}
+                                        </a>
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['task.timesheet.destroy', $project->id,$timeSheet->id],'id'=>'delete-form-'.$timeSheet->id]) !!}
+                                        {!! Form::close() !!}    
+                                    </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                @endforeach
             </div>
             <!--end of tab-->
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show uploading',$perArr)))
