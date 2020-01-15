@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
-class CalenderController extends Controller
+class CalendarController extends Controller
 {
     public function index()
     {
@@ -31,7 +31,7 @@ class CalenderController extends Controller
         }
         $due_tasks = str_replace(']"', ']', str_replace('"[', "[", json_encode($due_tasks)));
 
-        return view('calender.index', compact('due_tasks'));
+        return view('calendar.index', compact('due_tasks'));
     }
     public function store(Request $request){
         dd('dsd');

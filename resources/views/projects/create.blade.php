@@ -27,7 +27,7 @@
         </div>
         <div class="form-group col-md-6">
             {{ Form::label('date', __('Start Date')) }}
-            {{ Form::date('start_date', '', array('class' => 'form-control','required'=>'required')) }}
+            {{ Form::date('start_date', '', array('class' => 'form-control datepicker','required'=>'required')) }}
             @error('start_date')
             <span class="invalid-start_date" role="alert">
             <strong class="text-danger">{{ $message }}</strong>
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group col-md-6">
             {{ Form::label('due_date', __('Due Date')) }}
-            {{ Form::date('due_date', '', array('class' => 'form-control','required'=>'required')) }}
+            {{ Form::date('due_date', '', array('class' => 'form-control datepicker','required'=>'required')) }}
             @error('due_date')
             <span class="invalid-due_date" role="alert">
             <strong class="text-danger">{{ $message }}</strong>
@@ -103,3 +103,5 @@
     {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
 </div>
 {{ Form::close() }}
+
+

@@ -1,9 +1,11 @@
-@extends('layouts.admin')
-@push('css-page')
-    <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
+@extends('layouts.app')
+
+@push('stylesheets')
+    <link rel="stylesheet" href="assets/css/fullcalendar.min.css">
 @endpush
-@push('script-page')
-    <script src="{{asset('assets/modules/fullcalendar/fullcalendar.min.js')}}"></script>
+
+@push('scripts')
+    <script src="{{asset('assets/js/fullcalendar.min.js')}}"></script>
     <script>
         var tasks = {!! ($due_tasks) !!};
 
@@ -249,29 +251,61 @@
         });
 
 
+    $("#myEvent").fullCalendar({
+    height: 'auto',
+    header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listWeek'
+    },
+    editable: true,
+    events: tasks,
+    });
+
     </script>
-    <script src="{{asset('assets/js/page/modules-calendar.js')}}"></script>
 @endpush
+
 @php
     $profile=asset(Storage::url('avatar/'));
 @endphp
-@section('page-title')
-    {{__('Calender')}}
-@endsection
-@section('content')
-    <section class="section">
-        <div class="section-header">
-            <h1>{{__('Calender')}}</h1>
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></div>
-                <div class="breadcrumb-item">{{__('Calendar')}}</div>
-            </div>
-        </div>
 
-        <div class="section-body">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
+@section('page-title')
+    {{__('Calendar')}}
+@endsection
+
+@section('breadcrumb')
+<div class="breadcrumb-bar navbar bg-white sticky-top">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Calendar</li>
+        </ol>
+    </nav>
+
+    <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+            <i class="material-icons">bookmarks</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">Edit Team</a>
+            <a class="dropdown-item" href="#">Share</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-danger" href="#">Leave</a>
+
+        </div>
+    </div>
+</div>
+@endsection
+
+
+@section('content')
+<div class="row justify-content-center">
+    <div class="container-fluid">
+        <div class="row pt-5">
+            <div class="col">
+                <div class="card">
                         <div class="card-header">
                             <h4>{{__('Calendar')}}</h4>
                         </div>
@@ -284,5 +318,6 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 @endsection

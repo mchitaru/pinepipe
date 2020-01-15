@@ -5,6 +5,7 @@
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
 
 <!-- Autosize - resizes textarea inputs as user types -->
 <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>

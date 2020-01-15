@@ -303,7 +303,7 @@ Route::group(
 }
 );
 
-Route::resource('calender', 'CalenderController')->middleware(
+Route::resource('calendar', 'CalendarController')->middleware(
     [
         'auth',
         'xss',

@@ -23,6 +23,12 @@
         <a class="nav-link" href="{{ route('home') }}">{{__('Workspace')}}</a>
     </li>
 
+    @if(\Auth::user()->type!='super admin')
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('calendar.index') }}">{{__('Calendar')}}</a>
+    </li>
+    @endif
+
     @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
     <li class="nav-item">
 
