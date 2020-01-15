@@ -209,15 +209,6 @@ class Projects extends Model
         'delete checklist',
         'show checklist',
         'show uploading',
-        'manage bug report',
-        'create bug report',
-        'edit bug report',
-        'delete bug report',
-        'move bug report',
-        'manage timesheet',
-        'create timesheet',
-        'edit timesheet',
-        'delete timesheet'
     ];
 
 

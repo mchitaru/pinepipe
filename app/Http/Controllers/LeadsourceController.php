@@ -131,7 +131,7 @@ class LeadsourceController extends Controller
             $leadsource = Leadsource::findOrfail($id);
             if($leadsource->created_by == \Auth::user()->creatorId())
             {
-                $checkStage = Task::where('stage', '=', $leadsource->id)->get();
+                $checkStage = Task::where('stage', '=', $leadsource->id)->get()->toArray();;
                 if(empty($checkStage))
                 {
                     $leadsource->delete();

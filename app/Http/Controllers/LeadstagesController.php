@@ -142,7 +142,7 @@ class LeadstagesController extends Controller
             $leadstages = Leadstages::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
             {
-                $checkLead = Leads::where('stage', '=', $leadstages->id)->get();
+                $checkLead = Leads::where('stage', '=', $leadstages->id)->get()->toArray();
                 if(empty($checkLead))
                 {
                     $leadstages->delete();

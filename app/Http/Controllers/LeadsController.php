@@ -16,13 +16,15 @@ class LeadsController extends Controller
         if(\Auth::user()->can('manage lead'))
         {
             $stages = Leadstages::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+
             return view('leads.index', compact('stages'));
         }
         else
         {
             if(\Auth::user()->type == 'client')
             {
-                $leads=  Leads::select('leads.*','leadstages.name as stage_name')->join('leadstages','leadstages.id','=','leads.stage')->where('leads.client',\Auth::user()->id)->where('leadstages.created_by',\Auth::user()->creatorId())->get();
+                $leads = Leads::select('leads.*', 'leadstages.name as stage_name')->join('leadstages', 'leadstages.id', '=', 'leads.stage')->where('leads.client', \Auth::user()->id)->where('leadstages.created_by', \Auth::user()->creatorId())->get();
+
                 return view('leads.client_index', compact('leads'));
             }
 
@@ -72,8 +74,8 @@ class LeadsController extends Controller
                                        'name' => 'required|max:20',
                                        'price' => 'required',
                                        'stage' => 'required',
-                                       'client' => 'required',
                                        'source' => 'required',
+                                       'client' => 'required',
                                    ]
                 );
             }
@@ -97,11 +99,9 @@ class LeadsController extends Controller
             {
                 $leads->owner = \Auth::user()->id;
             }
-
-
-            $leads->client     = $request->client;
             $leads->source     = $request->source;
             $leads->notes      = $request->notes;
+            $leads->client     = $request->client;
             $leads->created_by = \Auth::user()->creatorId();
             $leads->save();
 
@@ -118,6 +118,7 @@ class LeadsController extends Controller
         if(\Auth::user()->can('edit lead'))
         {
             $lead = Leads::findOrfail($id);
+
             if($lead->created_by == \Auth::user()->creatorId())
             {
                 $stages  = Leadstages::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -125,7 +126,7 @@ class LeadsController extends Controller
                 $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
                 $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-                return view('leads.edit', compact('stages', 'owners', 'clients', 'sources', 'lead'));
+                return view('leads.edit', compact('stages', 'owners', 'sources', 'lead','clients'));
             }
             else
             {
@@ -153,8 +154,8 @@ class LeadsController extends Controller
                                            'price' => 'required',
                                            'stage' => 'required',
                                            'owner' => 'required',
-                                           'client' => 'required',
                                            'source' => 'required',
+                                           'client' => 'required',
                                        ]
                     );
                 }
@@ -168,8 +169,8 @@ class LeadsController extends Controller
                 $leads->price      = $request->price;
                 $leads->stage      = $request->stage;
                 $leads->owner      = $request->owner;
-                $leads->client     = $request->client;
                 $leads->source     = $request->source;
+                $leads->client    = $request->client;
                 $leads->notes      = $request->notes;
                 $leads->created_by = \Auth::user()->creatorId();
                 $leads->save();
@@ -213,6 +214,7 @@ class LeadsController extends Controller
     public function order(Request $request)
     {
         $post  = $request->all();
+
         $lead  = Leads::find($post['lead_id']);
         $stage = Leadstages::find($post['stage_id']);
 
@@ -229,5 +231,12 @@ class LeadsController extends Controller
             $lead_order->stage      = $post['stage_id'];
             $lead_order->save();
         }
+    }
+
+    public function show($id)
+    {
+        $lead = Leads::findOrfail($id);
+
+        return view('leads.show', compact('lead'));
     }
 }

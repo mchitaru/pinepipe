@@ -65,43 +65,48 @@ class SystemController extends Controller
             {
                 file_put_contents(
                     $path, str_replace(
-                             'MAIL_DRIVER=\'' . env('MAIL_DRIVER') . '\'', "MAIL_DRIVER='" . addslashes($request->mail_driver) . "'", file_get_contents($path)
+                             'MAIL_DRIVER=' . env('MAIL_DRIVER') . '', "MAIL_DRIVER=" . addslashes($request->mail_driver) . "", file_get_contents($path)
                          )
                 );
 
                 file_put_contents(
                     $path, str_replace(
-                             'MAIL_HOST=\'' . env('MAIL_HOST') . '\'', "MAIL_HOST='" . addslashes($request->mail_host) . "'", file_get_contents($path)
+                             'MAIL_HOST=' . env('MAIL_HOST') . '', "MAIL_HOST=" . addslashes($request->mail_host) . "", file_get_contents($path)
                          )
                 );
                 file_put_contents(
                     $path, str_replace(
-                             'MAIL_PORT=\'' . env('MAIL_PORT') . '\'', "MAIL_PORT='" . addslashes($request->mail_port) . "'", file_get_contents($path)
+                    'MAIL_PORT=' . ((env('MAIL_PORT') == NULL) ? 'null' : ("'".env('MAIL_PORT'))."'"), "MAIL_PORT='" . addslashes($request->mail_port) . "'", file_get_contents($path)
+                         )
+                );
+
+                file_put_contents(
+                    $path, str_replace(
+                    'MAIL_USERNAME=' . ((env('MAIL_USERNAME') == NULL) ? 'null' : ("'".env('MAIL_USERNAME'))."'"), "MAIL_USERNAME='" . addslashes($request->mail_username) . "'", file_get_contents($path)
                          )
                 );
                 file_put_contents(
                     $path, str_replace(
-                             'MAIL_USERNAME=' . ((env('MAIL_USERNAME') == NULL) ? 'null' : env('MAIL_USERNAME')) . '', "MAIL_USERNAME='" . addslashes($request->mail_username) . "'", file_get_contents($path)
+                    'MAIL_PASSWORD=' . ((env('MAIL_PASSWORD') == NULL) ? 'null' : ("'".env('MAIL_PASSWORD'))."'"), "MAIL_PASSWORD='" . addslashes($request->mail_password) . "'", file_get_contents($path)
+
                          )
                 );
                 file_put_contents(
                     $path, str_replace(
-                             'MAIL_PASSWORD=' . ((env('MAIL_PASSWORD') == NULL) ? 'null' : env('MAIL_PASSWORD')) . '', "MAIL_PASSWORD='" . addslashes($request->mail_password) . "'", file_get_contents($path)
+                    'MAIL_ENCRYPTION=' . ((env('MAIL_ENCRYPTION') == NULL) ? 'null' : ("'".env('MAIL_ENCRYPTION'))."'"), "MAIL_ENCRYPTION='" . addslashes($request->mail_encryption) . "'", file_get_contents($path)
+
                          )
                 );
                 file_put_contents(
                     $path, str_replace(
-                             'MAIL_ENCRYPTION=' . ((env('MAIL_ENCRYPTION') == NULL) ? 'null' : env('MAIL_ENCRYPTION')) . '', "MAIL_ENCRYPTION='" . addslashes($request->mail_encryption) . "'", file_get_contents($path)
+                    'MAIL_FROM_ADDRESS=' . ((env('MAIL_FROM_ADDRESS') == NULL) ? 'null' : ("'".env('MAIL_FROM_ADDRESS'))."'"), "MAIL_FROM_ADDRESS='" . addslashes($request->mail_from_address) . "'", file_get_contents($path)
+
                          )
                 );
                 file_put_contents(
                     $path, str_replace(
-                             'MAIL_FROM_ADDRESS=' . ((env('MAIL_FROM_ADDRESS') == NULL) ? 'null' : env('MAIL_FROM_ADDRESS')) . '', "MAIL_FROM_ADDRESS='" . addslashes($request->mail_from_address) . "'", file_get_contents($path)
-                         )
-                );
-                file_put_contents(
-                    $path, str_replace(
-                             'MAIL_FROM_NAME=' . ((env('MAIL_FROM_NAME') == NULL) ? 'null' : env('MAIL_ENCRYPTION')) . '', "MAIL_FROM_NAME='" . addslashes($request->mail_from_name) . "'", file_get_contents($path)
+                    'MAIL_FROM_NAME=' . ((env('MAIL_FROM_NAME') == NULL) ? 'null' : ("'".env('MAIL_FROM_NAME'))."'"), "MAIL_FROM_NAME='" . addslashes($request->mail_from_name) . "'", file_get_contents($path)
+
                          )
                 );
 

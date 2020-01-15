@@ -61,14 +61,16 @@ class Projectstages extends Model
                     $data[] = Task::where('stage', '=', $stage->id)->whereDate('updated_at', '=', $d)->count();
                 }
 
-                $dataset['label']           = $stage->name;
-                $dataset['fill']            = '!0';
-                $dataset['backgroundColor'] = 'transparent';
-                $dataset['borderColor']     = $stage->color;
-                $dataset['data']            = $data;
-                $arrTask[]                  = $dataset;
+                $dataset['label'] = $stage->name;
+                //                $dataset['fill']            = '!0';
+                //                                $dataset['backgroundColor'] = 'transparent';
+                $dataset['borderColor'] = $stage->color;
+                //                $dataset['borderColor']     = $stage->color;
+                $dataset['data'] = $data;
+                $arrTask[]       = $dataset;
                 $i++;
             }
+
             $arrTaskData = array_merge($arrDay, ['dataset' => $arrTask]);
             unset($arrTaskData['dataset'][$i - 1]['fill']);
             $arrTaskData['dataset'][$i - 1]['backgroundColor'] = '#ccc';
@@ -96,6 +98,7 @@ class Projectstages extends Model
             $arrTaskData = array_merge($arrDay, ['dataset' => $arrTask]);
             unset($arrTaskData['dataset'][$i - 1]['fill']);
             $arrTaskData['dataset'][$i - 1]['backgroundColor'] = '#ccc';
+
             return $arrTaskData;
         }
         else
@@ -120,6 +123,7 @@ class Projectstages extends Model
             $arrTaskData = array_merge($arrDay, ['dataset' => $arrTask]);
             unset($arrTaskData['dataset'][$i - 1]['fill']);
             $arrTaskData['dataset'][$i - 1]['backgroundColor'] = '#ccc';
+
             return $arrTaskData;
         }
     }

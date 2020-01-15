@@ -137,7 +137,7 @@ class ProjectstagesController extends Controller
             $projectstages = Projectstages::findOrfail($id);
             if($projectstages->created_by == \Auth::user()->creatorId())
             {
-                $checkStage = Task::where('stage', '=', $projectstages->id)->get();
+                $checkStage = Task::where('stage', '=', $projectstages->id)->get()->toArray();
                 if(empty($checkStage))
                 {
                     $projectstages->delete();

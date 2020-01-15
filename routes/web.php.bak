@@ -277,53 +277,6 @@ Route::group(
     Route::get('projects/{id}/client/{cid}/permission', 'ProjectsController@clientPermission')->name('client.permission');
     Route::put('projects/{id}/client/{cid}/permission', 'ProjectsController@storeClientPermission')->name('client.store.permission');
     
-    Route::get('projects/{id}/timesheet', 'ProjectsController@timeSheet')->name('task.timesheetRecord');
-    Route::get('projects/{id}/timesheet/create', 'ProjectsController@timeSheetCreate')->name('task.timesheet');
-    Route::post('projects/{id}/timesheet/create', 'ProjectsController@timeSheetStore')->name('task.timesheet.store');
-    Route::get('projects/{id}/timesheet/{tid}/edit', 'ProjectsController@timeSheetEdit')->name('task.timesheet.edit');
-    Route::put('projects/{id}/timesheet/{tid}/update', 'ProjectsController@timeSheetUpdate')->name('task.timesheet.update');
-    Route::delete('projects/{id}/timesheet/{tid}/destroy', 'ProjectsController@timeSheetDestroy')->name('task.timesheet.destroy');
-
-    Route::post('projects/bug/kanban/order', 'ProjectsController@bugKanbanOrder')->name('bug.kanban.order');
-    Route::get('projects/{id}/bug/kanban', 'ProjectsController@bugKanban')->name('task.bug.kanban');
-    Route::get('projects/{id}/bug', 'ProjectsController@bug')->name('task.bug');
-    Route::get('projects/{id}/bug/create', 'ProjectsController@bugCreate')->name('task.bug.create');
-    Route::post('projects/{id}/bug/store', 'ProjectsController@bugStore')->name('task.bug.store');
-    Route::get('projects/{id}/bug/{bid}/edit', 'ProjectsController@bugEdit')->name('task.bug.edit');
-    Route::put('projects/{id}/bug/{bid}/update', 'ProjectsController@bugUpdate')->name('task.bug.update');
-    Route::delete('projects/{id}/bug/{bid}/destroy', 'ProjectsController@bugDestroy')->name('task.bug.destroy');
-
-    Route::get('projects/{id}/bug/{bid}/show', 'ProjectsController@bugShow')->name('task.bug.show');
-    Route::post('projects/{id}/bug/{bid}/comment', 'ProjectsController@bugCommentStore')->name('bug.comment.store');
-    Route::post('projects/bug/{bid}/file', 'ProjectsController@bugCommentStoreFile')->name('bug.comment.file.store');
-    Route::delete('projects/bug/comment/{id}', 'ProjectsController@bugCommentDestroy')->name('bug.comment.destroy');
-    Route::delete('projects/bug/file/{id}', 'ProjectsController@bugCommentDestroyFile')->name('bug.comment.file.destroy');
-
-
-}
-);
-
-Route::resource('calender', 'CalenderController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
-    Route::resource('bugstatus', 'BugStatusController');
-    Route::post(
-        '/bugstatus/order', [
-                              'as' => 'bugstatus.order',
-                              'uses' => 'BugStatusController@order',
-                          ]
-    );
 }
 );
 

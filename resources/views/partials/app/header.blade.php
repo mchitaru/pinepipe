@@ -35,7 +35,7 @@
                 <a class="dropdown-item" href="{{ route('clients.index') }}/#contacts">{{__('Contacts')}}</a>
 
                 @if(Gate::check('manage lead'))
-                    <a class="dropdown-item" href="#">{{__('Leads')}}</a>
+                    <a class="dropdown-item disabled" href="#">{{__('Leads')}}</a>
                 @endif
             </div>
         </div>

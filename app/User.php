@@ -80,6 +80,7 @@ class User extends Authenticatable
                 "company_email" => "",
                 "company_email_from_name" => "",
                 "invoice_prefix" => "#INV",
+                "bug_prefix" => "#ISSUE",
             ];
 
             foreach($data as $row)
@@ -265,6 +266,23 @@ class User extends Authenticatable
             )->get();
         }
     }
+    public function project_due_task()
+    {
+        if(\Auth::user()->type == 'company')
+        {
+            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority', 'tasks.due_date as task_due_date', 'tasks.assign_to', 'projectstages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('projectstages', 'tasks.stage', '=', 'projectstages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
+        }
+        elseif(\Auth::user()->type == 'client')
+        {
+            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority',  'tasks.priority','tasks.due_date as task_due_date', 'tasks.assign_to', 'projectstages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('projectstages', 'tasks.stage', '=', 'projectstages.id')->where('projects.client', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
+        }
+        else
+        {
+            return Task::select('tasks.*','tasks.id as task_id', 'tasks.due_date as task_due_date', 'userprojects.id as up_id', 'projects.name as name', 'projectstages.name as stage_name')->join('userprojects', 'userprojects.project_id', '=', 'tasks.project_id')->join('projects', 'userprojects.project_id', '=', 'projects.id')->join('projectstages', 'tasks.stage', '=', 'projectstages.id')->where('userprojects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
+                'tasks.due_date', 'ASC'
+            )->get();
+        }
+    }
 
     public function total_project()
     {
@@ -445,7 +463,17 @@ class User extends Authenticatable
             'manage note',
             'create note',
             'edit note',
+            'delete note',
             'manage lead',
+            'manage bug report',
+            'create bug report',
+            'edit bug report',
+            'delete bug report',
+            'move bug report',
+            'manage timesheet',
+            'create timesheet',
+            'edit timesheet',
+            'delete timesheet'
         ];
         foreach($empPermission as $ap)
         {
@@ -589,6 +617,24 @@ class User extends Authenticatable
                 ]
             );
         }
+
+        // Bug Status
+        $bugStatus = [
+            'Confirmed',
+            'Resolved',
+            'Unconfirmed',
+            'In Progress',
+            'Verified',
+        ];
+        foreach($bugStatus as $status)
+        {
+            BugStatus::create(
+                [
+                    'title' => $status,
+                    'created_by' => $id,
+                ]
+            );
+        }
     }
 
     public function destroyUserProjectInfo($user_id)
@@ -646,5 +692,12 @@ class User extends Authenticatable
     public function total_company_project($company_id)
     {
         return Projects::where('created_by', '=', $company_id)->count();
+    }
+
+    public function bugNumberFormat($number)
+    {
+        $settings = $this->settings();
+
+        return $settings["bug_prefix"] . sprintf("%05d", $number);
     }
 }

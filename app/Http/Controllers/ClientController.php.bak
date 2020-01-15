@@ -195,12 +195,6 @@ class ClientController extends Controller
                          ->with('success', 'Profile successfully updated.');
     }
 
-    public function convert($id)
-    {
-        $leads=Leads::find($id);
-        return view('client.convert_client',compact('leads'));
-    }
-
     public function contactCreate()
     {
         if(\Auth::user()->can('create client')) {
