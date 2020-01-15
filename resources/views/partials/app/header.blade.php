@@ -133,14 +133,26 @@
         </div>
         @endif
 
-        @if(\Auth::user()->type!='client')
-        <!-- Settings menu --->
-        <div class="dropdown mx-lg-2">
-            <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-                <i class="material-icons">settings</i>
-            </button>
+        <!-- Profile menu --->
+        <div class="dropdown mx-lg-2 float-right">
+            <div class="dropdown dropdown-toggle">
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @if(empty($users->avatar))
+                    <img width="32" height="32" alt="{{$users->name}}" title="{{$users->name}}" avatar="{{$users->name}}" class="round" />
+                @else
+                    <img alt="{{$users->name}}" title="{{$users->name}}" src="{{($profile.'/'.$users->avatar)}}" class="avatar" />
+                @endif
+            </a>
             <div class="dropdown-menu dropdown-menu-right">
+                @can('manage account')
+                <a href="{{route('profile',$users->id)}}" class="dropdown-item">
+                    {{__('Profile')}}
+                </a>
+                @endcan
 
+                <div class="dropdown-divider"></div>
+
+                @if(\Auth::user()->type!='client')
                 @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
                     @can('manage user')
                     <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
@@ -160,25 +172,8 @@
                         <span class="title">{{__('Orders')}}</span>
                     </a>
                 @endif
-            </div>
-        </div>
-        @endif
-        <!-- Profile menu --->
-        <div class="dropdown mx-lg-2">
-            <div class="dropdown dropdown-toggle">
-            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                @if(empty($users->avatar))
-                    <img width="32" height="32" alt="{{$users->name}}" title="{{$users->name}}" avatar="{{$users->name}}" class="round" />
-                @else
-                    <img alt="{{$users->name}}" title="{{$users->name}}" src="{{($profile.'/'.$users->avatar)}}" class="avatar" />
                 @endif
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                @can('manage account')
-                <a href="{{route('profile',$users->id)}}" class="dropdown-item">
-                    {{__('Profile')}}
-                </a>
-                @endcan
+
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                     {{__('Logout')}}
