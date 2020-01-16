@@ -99,10 +99,11 @@
                             </div>
                         </li>    
                     </ul>
-                    @if(\Auth::user()->type=='company' && \Auth::user()->plan == $plan->id)
-                    <div class="price-ribbon">{{__('Active')}}</div>
-                    @endif
-                    </div>
+                    <div class="custom-control custom-radio d-inline-block">
+                        <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->type=='company' && \Auth::user()->plan == $plan->id)?'checked':''}} readonly>
+                        <label class="custom-control-label" for="plan-radio-1"></label>
+                      </div>
+                </div>
                 </div>
                 <div class="dropdown card-options">
                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -114,17 +115,11 @@
                         <a class="dropdown-item" href="#" data-url="{{ route('plans.edit',$plan->id)  }}" data-ajax-popup="true" data-title="{{__('Edit Plan')}}">
                             <span>{{__('Edit')}}</span>
                         </a>
-                        @endcan
                         <div class="dropdown-divider"></div>
-                        @if($plan->price != 0.00)
-                            @can('buy plan')
-                                @if($plan->id!=\Auth::user()->plan)
-                                <a class="dropdown-item" href="{{route('stripe',\Illuminate\Support\Facades\Crypt::encrypt($plan->id))}}">
-                                    <span>{{__('Upgrade')}}</span>
-                                </a>
-                                @endif
-                            @endcan
-                        @endif
+                        @endcan
+                        <a class="dropdown-item {{ (($plan->price == 0.00) || !Gate::check('buy plan') || ($plan->id==\Auth::user()->plan))?'disabled':'' }}" href="{{route('stripe',\Illuminate\Support\Facades\Crypt::encrypt($plan->id))}}">
+                            <span>{{__('Upgrade')}}</span>
+                        </a>
                     </div>
                 </div>
                 </div>

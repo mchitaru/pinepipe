@@ -29,11 +29,26 @@
     </li>
     @endif
 
-    @can('create language')
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('manage.language',[$currantLang])}}">{{__('Languages')}}</a>
-    </li>
-    @endcan
+    @if(\Auth::user()->type=='super admin')
+        @can('create language')
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('manage.language',[$currantLang])}}">{{__('Languages')}}</a>
+        </li>
+        @endcan
+
+        @can('manage plan')
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('plans.index')}}">{{__('Price Plans')}}</a>
+        </li>
+        @endcan
+
+        @can('manage order')
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('order.index')}}">{{__('Orders')}}</a>
+        </li>
+        @endcan
+
+    @endif
 
     @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
     <li class="nav-item">
@@ -166,17 +181,6 @@
                 @endif
                 @if(Gate::check('manage role'))
                     <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
-                @endif
-                <div class="dropdown-divider"></div>
-                @if(Gate::check('manage plan'))
-                    <a href="{{ route('plans.index') }}" class="dropdown-item">
-                        <span class="title">{{__('Price Plans')}}</span>
-                    </a>
-                @endif
-                @if(Gate::check('manage order'))
-                    <a href="{{ route('order.index') }}" class="dropdown-item">
-                        <span class="title">{{__('Orders')}}</span>
-                    </a>
                 @endif
                 @endif
 
