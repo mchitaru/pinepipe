@@ -174,7 +174,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title">{{$lead['total_lead']}}</h3>
-                                        <small class="card-text">{{__('TOTAL LEAD')}}</small>
+                                        <small class="card-text">{{__('LEADS')}}</small>
                                     </div>
                                     <div class="icon">
                                         <i class="material-icons">phone</i>
@@ -190,7 +190,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title">{{$project['total_project']}}</h3>
-                                        <small class="card-text">{{__('TOTAL PROJECT')}}</small>
+                                        <small class="card-text">{{__('PROJECTS')}}</small>
                                     </div>
                                     <div class="icon">
                                         <i class="material-icons">folder</i>
@@ -207,7 +207,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title">{{$invoice['total_invoice']}}</h3>
-                                        <small class="card-text">{{__('Total Invoice')}}</small>
+                                        <small class="card-text">{{__('INVOICES')}}</small>
                                     </div>
                                     <div class="icon">
                                         <i class="material-icons">description</i>
@@ -224,7 +224,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title">{{$users['staff']}}</h3>
-                                        <small class="card-text">{{__('TOTAL STAFF')}}</small>
+                                        <small class="card-text">{{__('STAFF')}}</small>
                                     </div>
                                     <div class="icon">
                                         <i class="material-icons">people</i>
@@ -242,7 +242,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title">{{ Auth::user()->priceFormat($project['project_budget']) }}</h3>
-                                        <small class="card-text">{{__('Total Project Budget')}}</small>
+                                        <small class="card-text">{{__('PPROJECTS BUDGET')}}</small>
                                     </div>
                                     <div class="icon">
                                         <i class="material-icons">attach_money</i>
@@ -283,7 +283,7 @@ if($client_project_budget_due_per<=15){
                                         $total_task = $project->project_total_task($project->id);
                                         $completed_task=$project->project_complete_task($project->id,$project_last_stage);
                                         $remain_task=$total_task-$completed_task;
-                                        
+
                                         $project_percentage=0;
                                         if($total_task!=0){
                                             $project_percentage = intval(($completed_task / $total_task) * 100);
@@ -342,15 +342,15 @@ if($client_project_budget_due_per<=15){
                                     @php
                                         $total_subtask = $top_task->taskTotalCheckListCount();
                                         $completed_subtask = $top_task->taskCompleteCheckListCount();
-                                        
+
                                         $task_percentage=0;
                                         if($total_subtask!=0){
                                             $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
                                         }
-            
+
                                         $label = Projects::getProgressColor($task_percentage);
                                     @endphp
-        
+
                                     <div class="card card-task">
                                         <div class="progress">
                                             <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -360,7 +360,7 @@ if($client_project_budget_due_per<=15){
                                             <a href="{{ route('task.show',$top_task->id) }}" data-remote="true">
                                                 <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                             </a>
-        
+
                                             {{-- <a data-url="{{ route('task.show',$top_task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
                                                 <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                             </a> --}}

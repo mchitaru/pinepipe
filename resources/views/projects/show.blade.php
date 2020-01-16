@@ -358,21 +358,23 @@ $(document).ready(function() {
                     @foreach($timeSheets as $timeSheet)
 
                         <div class="card card-task mb-1">
-                            <div class="card-body p-2">
+                            <div class="card-body p-2" style="min-height: 77px;">
                             <div class="card-title col-xs-12 col-sm-3">
                                 <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timeSheet->date) }}</h6>
                                 <p>
                                     <span class="text-small">{{ !empty($timeSheet->task())? $timeSheet->task()->title : ''}}</span>
                                 </p>
                             </div>
-                            <div class="card-title col-xs-12 col-sm-5">
+                            <div class="card-title col-xs-12 col-sm-2">
                                 <div class="container row align-items-center">
                                     <i class="material-icons">access_time</i>
                                     <span class="text-small" data-filter-by="text">{{ $timeSheet->hours }}h</span>
                                 </div>
+                            </div>
+                            <div class="card-title col-xs-12 col-sm-3">
                                 <div class="container row align-items-center">
                                     <i class="material-icons">note</i>
-                                    <span class="text-small" data-filter-by="text">{{ $timeSheet->remark }}</span>
+                                    <span class="text-small text-truncate" style="max-width: 150px;" data-filter-by="text">{{ $timeSheet->remark }}</span>
                                 </div>
                             </div>
                             <div class="card-meta">

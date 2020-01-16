@@ -184,7 +184,7 @@ class ProjectsController extends Controller
             $project_status_list = Projects::$project_status;
             $stages  = Projectstages::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
             $project_files = ProjectFile::where('project_id', $project_id)->get();
-            
+
             $timeSheets = '';
             if(\Auth::user()->can('manage timesheet'))
             {
@@ -982,13 +982,13 @@ class ProjectsController extends Controller
     public function checklistUpdate(Request $request, $task_id, $checklist_id)
     {
         $checkList = CheckList::find($checklist_id);
-        
+
         if ($request->has('status')) {
             $checkList->status = $request->status;
-        }        
+        }
         if ($request->has('name')) {
             $checkList->name = $request->name;
-        }        
+        }
 
         $checkList->save();
 
@@ -1196,7 +1196,7 @@ class ProjectsController extends Controller
             $timeSheet->remark  = $request->remark;
             $timeSheet->save();
 
-            return redirect()->route('task.timesheetRecord', $project_id)->with('success', __('Task timesheet successfully updated.'));
+            return redirect()->route('projects.show', $project_id)->with('success', __('Task timesheet successfully updated.'));
         }
         else
         {

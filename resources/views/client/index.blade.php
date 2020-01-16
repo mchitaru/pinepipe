@@ -16,13 +16,13 @@ $(document).ready(function() {
     });
 
     var hash = window.location.hash ? window.location.hash : '#clients';
-    
+
     $('.nav-tabs a[href="' + hash + '"]').tab('show');
-    
+
 });
-    
+
 </script>
-    
+
 @endpush
 
 @section('page-title')
@@ -98,8 +98,8 @@ $(document).ready(function() {
                 <!--end of content list head-->
                 <div class="content-list-body">
                     @foreach($clients as $client)
-                    <div class="card card-task mb-1" style="min-height: 67px;">
-                        <div class="container row align-items-center">
+                    <div class="card card-task mb-1">
+                        <div class="container row align-items-center" style="min-height: 67px;">
                             <div class="pl-2 position-absolute">
                                 <a href="#" data-toggle="tooltip" title={{$client->name}}>
                                     @if(empty($client->avatar))
@@ -197,8 +197,8 @@ $(document).ready(function() {
                     <!--end of content list head-->
                     <div class="content-list-body">
                         @foreach($contacts as $contact)
-                        <div class="card card-task mb-1" style="min-height: 77px;">
-                            <div class="container row align-items-center">
+                        <div class="card card-task mb-1">
+                            <div class="container row align-items-center" style="min-height: 77px;">
                                 <div class="pl-2 position-absolute">
                                 </div>
                                 <div class="card-body p-2">
@@ -227,12 +227,12 @@ $(document).ready(function() {
                                                 {{$contact->company}}
                                             </span>
                                         </div>
-                                    </div>    
+                                    </div>
                                     <div class="dropdown card-options">
                                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">more_vert</i>
                                         </button>
-    
+
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @can('edit client')
                                             <a class="dropdown-item" href="#" data-url="{{ route('contact.edit',$contact->id) }}" data-ajax-popup="true" data-title="{{__('Update Contact')}}">
