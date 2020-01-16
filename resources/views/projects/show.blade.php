@@ -374,7 +374,7 @@ $(document).ready(function() {
                             <div class="card-title col-xs-12 col-sm-3">
                                 <div class="container row align-items-center">
                                     <i class="material-icons">note</i>
-                                    <span class="text-small text-truncate" style="max-width: 150px;" data-filter-by="text">{{ $timeSheet->remark }}</span>
+                                    <span data-filter-by="text" title="{{ $timeSheet->remark }}" class="text-small text-truncate" style="max-width: 150px;">{{ $timeSheet->remark }}</span>
                                 </div>
                             </div>
                             <div class="card-meta">

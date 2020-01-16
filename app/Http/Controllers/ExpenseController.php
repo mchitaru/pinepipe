@@ -8,30 +8,8 @@ use App\Projects;
 use App\User;
 use Illuminate\Http\Request;
 
-class ExpenseController extends Controller
+class ExpenseController extends FinanceController
 {
-    public function index()
-    {
-        if(\Auth::user()->can('manage expense') || \Auth::user()->type == 'client')
-        {
-            if(\Auth::user()->type == 'client')
-            {
-                $expenses = Expense::select('expenses.*','projects.name')->join('projects','projects.id','=','expenses.project')->where('projects.client','=',\Auth::user()->id)->where('expenses.created_by', '=', \Auth::user()->creatorId())->get();
-            }
-            else
-            {
-                $expenses = Expense::where('created_by', '=', \Auth::user()->creatorId())->get();
-            }
-
-            return view('expenses.index')->with('expenses', $expenses);
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
-    }
-
-
     public function create()
     {
         if(\Auth::user()->can('create expense'))
@@ -71,7 +49,7 @@ class ExpenseController extends Controller
             {
                 $messages = $validator->getMessageBag();
 
-                return redirect()->route('expenses.index')->with('error', $messages->first());
+                return redirect()->route('invoices.index')->with('error', $messages->first());
             }
 
             $expense              = new Expense();

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\ActivityLog;
+use App\Expense;
+use App\ExpensesCategory;
 use App\Invoice;
 use App\InvoicePayment;
 use App\InvoiceProduct;
@@ -15,29 +17,8 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
-class InvoiceController extends Controller
+class InvoiceController extends FinanceController
 {
-    public function index()
-    {
-        if(\Auth::user()->can('manage invoice') || \Auth::user()->type == 'client')
-        {
-            if(\Auth::user()->type == 'client')
-            {
-                $invoices = Invoice::select(['invoices.*'])->join('projects', 'projects.id', '=', 'invoices.project_id')->where('projects.client', '=', \Auth::user()->id)->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
-            }
-            else
-            {
-                $invoices = Invoice::where('created_by', '=', \Auth::user()->creatorId())->get();
-            }
-
-            return view('invoices.index')->with('invoices', $invoices);
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission Denied.'));
-        }
-    }
-
     public function create()
     {
 

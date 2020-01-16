@@ -337,6 +337,7 @@ Route::resource('expenses', 'ExpenseController')->middleware(
         'xss',
     ]
 );
+
 Route::resource('payments', 'PaymentController')->middleware(
     [
         'auth',
