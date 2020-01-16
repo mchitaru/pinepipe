@@ -159,9 +159,9 @@
             <div class="dropdown dropdown-toggle">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @if(empty($users->avatar))
-                    <img width="32" height="32" alt="{{$users->name}}" title="{{$users->name}}" avatar="{{$users->name}}" class="round" />
+                    <img width="36" height="36" alt="{{$users->name}}" title="{{$users->name}}" avatar="{{$users->name}}" class="rounded" />
                 @else
-                    <img alt="{{$users->name}}" title="{{$users->name}}" src="{{($profile.'/'.$users->avatar)}}" class="avatar" />
+                    <img width="36" height="36" alt="{{$users->name}}" title="{{$users->name}}" src="{{($profile.'/'.$users->avatar)}}" class="rounded" />
                 @endif
             </a>
             <div class="dropdown-menu dropdown-menu-right">

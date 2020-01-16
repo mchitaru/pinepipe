@@ -7,6 +7,21 @@
 
 @push('scripts')
 <script>
+
+    // keep active tab
+    $(document).ready(function() {
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            window.location.hash = $(e.target).attr('href');
+            $(window).scrollTop(0);
+        });
+
+        var hash = window.location.hash ? window.location.hash : '#profile';
+        
+        $('.nav-tabs a[href="' + hash + '"]').tab('show');
+        
+    });
+
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
       var fileName = $(this).val().split("\\").pop();
@@ -36,11 +51,16 @@
 <div class="col-lg-3 mb-3">
     <ul class="nav nav-tabs flex-lg-column" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">{{__('Personal Info')}}</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">{{__('Personal Info')}}</a>
     </li>
     @can('change password account')
     <li class="nav-item">
         <a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">{{__('Password')}}</a>
+    </li>
+    @endcan
+    @can('manage company settings')
+    <li class="nav-item">
+        <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="profile" aria-selected="true">{{__('Company Info')}}</a>
     </li>
     @endcan
     <li class="nav-item">
@@ -52,17 +72,27 @@
     <li class="nav-item">
         <a class="nav-link" id="integrations-tab" data-toggle="tab" href="#integrations" role="tab" aria-controls="integrations" aria-selected="false">{{__('Integrations')}}</a>
     </li>
+    @can('manage company settings')
+    <li class="nav-item">
+        <a class="nav-link" id="system-tab" data-toggle="tab" href="#system" role="tab" aria-controls="profile" aria-selected="true">{{__('System Settings')}}</a>
+    </li>
+    @endcan
     </ul>
 </div>
 <div class="col-xl-8 col-lg-9">
     <div class="card">
     <div class="card-body">
         <div class="tab-content">
-        <div class="tab-pane fade show active" role="tabpanel" id="profile">
+        <div class="tab-pane fade show" role="tabpanel" id="profile">
             {{Form::model($userDetail,array('route' => array('update.account'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
             <div class="media mb-4">
                 <div class="d-flex flex-column">
-                    <img alt="image" src="{{(!empty($userDetail->avatar))? $avatar.'/'.$userDetail->avatar : $avatar.'/avatar.png'}}" class="avatar avatar-lg">
+                    @if(empty($userDetail->avatar))
+                        <img width="60" height="60" alt="{{$userDetail->name}}" title="{{$userDetail->name}}" avatar="{{$userDetail->name}}" class="rounded" />
+                    @else
+                        <img width="60" height="60" alt="{{$userDetail->name}}" title="{{$userDetail->name}}" src="{{($avatar.'/'.$userDetail->avatar)}}" class="rounded" />
+                    @endif
+
                     <span class="badge badge-secondary">{{$userDetail->type}}</span>
                 </div>
             <div class="media-body ml-3">
@@ -156,6 +186,100 @@
             </div>
             {{Form::close()}}
         </div>
+        @can('manage company settings')
+        <div class="tab-pane fade show" role="tabpanel" id="company">
+            {{Form::model($userDetail->settings,array('route'=>'company.settings','method'=>'post'))}}
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_name *',__('Company Name *')) }}
+                        {{Form::text('company_name',null,array('class'=>'form-control font-style'))}}
+                        @error('company_name')
+                        <span class="invalid-company_name" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_address',__('Address')) }}
+                        {{Form::text('company_address',null,array('class'=>'form-control font-style'))}}
+                        @error('company_address')
+                        <span class="invalid-company_address" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_city',__('City')) }}
+                        {{Form::text('company_city',null,array('class'=>'form-control font-style'))}}
+                        @error('company_city')
+                        <span class="invalid-company_city" role="alert">
+                                    <strong class="text-danger">{{ $message }}</strong>
+                                </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_state',__('State')) }}
+                        {{Form::text('company_state',null,array('class'=>'form-control font-style'))}}
+                        @error('company_state')
+                        <span class="invalid-company_state" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_zipcode',__('Zip/Post Code')) }}
+                        {{Form::text('company_zipcode',null,array('class'=>'form-control'))}}
+                        @error('company_zipcode')
+                        <span class="invalid-company_zipcode" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group  col-md-6">
+                        {{Form::label('company_country',__('Country')) }}
+                        {{Form::text('company_country',null,array('class'=>'form-control font-style'))}}
+                        @error('company_country')
+                        <span class="invalid-company_country" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_telephone',__('Telephone')) }}
+                        {{Form::text('company_telephone',null,array('class'=>'form-control'))}}
+                        @error('company_telephone')
+                        <span class="invalid-company_telephone" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_email',__('System Email *')) }}
+                        {{Form::text('company_email',null,array('class'=>'form-control'))}}
+                        @error('company_email')
+                        <span class="invalid-company_email" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('company_email_from_name',__('Email (From Name) *')) }}
+                        {{Form::text('company_email_from_name',null,array('class'=>'form-control font-style'))}}
+                        @error('company_email_from_name')
+                        <span class="invalid-company_email_from_name" role="alert">
+                            <strong class="text-danger">{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                {{Form::submit(__('Save Change'),array('class'=>'btn btn-primary'))}}
+            </div>
+            {{Form::close()}}
+        </div>
+        @endcan
         <div class="tab-pane fade" role="tabpanel" id="notifications">
             <form>
             <h6>Activity Notifications</h6>
@@ -207,56 +331,49 @@
             </div>
             </form>
         </div>
+        @can('manage plan')
         <div class="tab-pane fade" role="tabpanel" id="billing">
             <form>
             <h6>Plan Details</h6>
             <div class="card text-center">
                 <div class="card-body">
                 <div class="row">
+                    @foreach($plans as $plan)
                     <div class="col">
-                    <div class="mb-4">
-                        <h6>Free</h6>
-                        <h5 class="display-4 d-block mb-2 font-weight-normal">$0</h5>
-                        <span class="text-muted text-small">Per User / Per Month</span>
+                        <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+        
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item {{ (($plan->price == 0.00) || !Gate::check('buy plan') || ($plan->id==\Auth::user()->plan))?'disabled':'' }}" href="{{route('stripe',\Illuminate\Support\Facades\Crypt::encrypt($plan->id))}}">
+                                    <span>{{__('Upgrade')}}</span>
+                                </a>
+                            </div>
+                        </div>
+        
+                        <div class="mb-4">
+                            <h6>Free</h6>
+                            <h5 class="display-4 d-block mb-2 font-weight-normal">${{$plan->price}}</h5>
+                            <span class="text-muted text-small">{{$plan->duration}}</span>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li>
+                            {{$plan->max_projects}} {{__('Projects')}}
+                            </li>
+                            <li>
+                            {{$plan->max_users}} {{__('Users')}}
+                            </li>
+                            <li>
+                            {{$plan->max_clients}} {{__('Clients')}}
+                            </li>
+                        </ul>
+                        <div class="custom-control custom-radio d-inline-block">
+                            <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->type=='company' && \Auth::user()->plan == $plan->id)?'checked':''}} disabled>
+                            <label class="custom-control-label" for="plan-radio-1"></label>
+                        </div>
                     </div>
-                    <ul class="list-unstyled">
-                        <li>
-                        Unlimited projects
-                        </li>
-                        <li>
-                        1 team
-                        </li>
-                        <li>
-                        4 team members
-                        </li>
-                    </ul>
-                    <div class="custom-control custom-radio d-inline-block">
-                        <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input">
-                        <label class="custom-control-label" for="plan-radio-1"></label>
-                    </div>
-                    </div>
-                    <div class="col">
-                    <div class="mb-4">
-                        <h6>Pro</h6>
-                        <h5 class="display-4 d-block mb-2 font-weight-normal">$10</h5>
-                        <span class="text-muted text-small">Per User / Per Month</span>
-                    </div>
-                    <ul class="list-unstyled">
-                        <li>
-                        Unlimited projects
-                        </li>
-                        <li>
-                        Unlmited teams
-                        </li>
-                        <li>
-                        Unlimited team members
-                        </li>
-                    </ul>
-                    <div class="custom-control custom-radio d-inline-block">
-                        <input type="radio" id="plan-radio-2" name="customRadio" class="custom-control-input" checked>
-                        <label class="custom-control-label" for="plan-radio-2"></label>
-                    </div>
-                    </div>
+                    @endforeach
                 </div>
                 </div>
             </div>
@@ -274,7 +391,7 @@
                     </div>
                     </div>
                     <div class="col-auto">
-                    <img alt="Image" src="assets/img/logo-payment-visa.svg" class="avatar rounded-0" />
+                    <img alt="Image" src="{{ asset('assets/img/logo-payment-visa.svg') }}" class="avatar rounded-0" />
                     </div>
                     <div class="col d-flex align-items-center">
                     <span>•••• •••• •••• 8372</span>
@@ -289,30 +406,6 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                    <div class="custom-control custom-radio d-inline-block">
-                        <input type="radio" id="method-radio-2" name="payment-method" class="custom-control-input">
-                        <label class="custom-control-label" for="method-radio-2"></label>
-                    </div>
-                    </div>
-                    <div class="col-auto">
-                    <img alt="Image" src="assets/img/logo-payment-amex.svg" class="avatar rounded-0" />
-                    </div>
-                    <div class="col d-flex align-items-center">
-                    <span>•••• •••• •••• 9918</span>
-                    <small class="ml-2">Exp: 02/20</small>
-                    </div>
-                    <div class="col-auto">
-                    <button class="btn btn-sm btn-danger">
-                        Remove Card
-                    </button>
-                    </div>
-                </div>
-                </div>
-            </div>
 
             <div class="card">
                 <div class="card-body">
@@ -324,7 +417,7 @@
                     </div>
                     </div>
                     <div class="col-auto">
-                    <img alt="Image" src="assets/img/logo-payment-paypal.svg" class="avatar rounded-0" />
+                    <img alt="Image" src="{{ asset('assets/img/logo-payment-paypal.svg') }}" class="avatar rounded-0" />
                     </div>
                     <div class="col d-flex align-items-center">
                     <span>david.whittaker@pipeline.io</span>
@@ -341,6 +434,7 @@
 
             </form>
         </div>
+        @endcan
         <div class="tab-pane fade" role="tabpanel" id="integrations">
 
             <div class="card">
@@ -428,6 +522,92 @@
             </div>
 
         </div>
+        @can('manage company settings')
+        <div class="tab-pane fade show" role="tabpanel" id="system">
+            {{Form::model($userDetail->settings,array('route'=>'system.settings','method'=>'post'))}}
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        {{Form::label('site_currency',__('Currency *')) }}
+                        {{Form::text('site_currency',null,array('class'=>'form-control font-style'))}}
+                        @error('site_currency')
+                        <span class="invalid-site_currency" role="alert">
+                                <strong class="text-danger">{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('site_currency_symbol',__('Currency Symbol *')) }}
+                        {{Form::text('site_currency_symbol',null,array('class'=>'form-control'))}}
+                        @error('site_currency_symbol')
+                        <span class="invalid-site_currency_symbol" role="alert">
+                                <strong class="text-danger">{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="example3cols3Input">{{__('Currency Symbol Position')}}</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-radio mb-3">
+
+                                        <input type="radio" id="customRadio5" name="site_currency_symbol_position" value="pre" class="custom-control-input" @if(@$settings['site_currency_symbol_position'] == 'pre') checked @endif>
+                                        <label class="custom-control-label" for="customRadio5">{{__('Pre')}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-radio mb-3">
+                                        <input type="radio" id="customRadio6" name="site_currency_symbol_position" value="post" class="custom-control-input" @if(@$settings['site_currency_symbol_position'] == 'post') checked @endif>
+                                        <label class="custom-control-label" for="customRadio6">{{__('Post')}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="site_date_format" class="form-control-label">{{__('Date Format')}}</label>
+                        <select type="text" name="site_date_format" class="form-control selectric" id="site_date_format">
+                            <option value="M j, Y" @if(@$userDetail->settings['site_date_format'] == 'M j, Y') selected="selected" @endif>Jan 1,2015</option>
+                            <option value="d-m-Y" @if(@$userDetail->settings['site_date_format'] == 'd-m-Y') selected="selected" @endif>d-m-y</option>
+                            <option value="m-d-Y" @if(@$userDetail->settings['site_date_format'] == 'm-d-Y') selected="selected" @endif>m-d-y</option>
+                            <option value="Y-m-d" @if(@$userDetail->settings['site_date_format'] == 'Y-m-d') selected="selected" @endif>y-m-d</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="site_time_format" class="form-control-label">{{__('Time Format')}}</label>
+                        <select type="text" name="site_time_format" class="form-control selectric" id="site_time_format">
+                            <option value="g:i A" @if(@$userDetail->settings['site_time_format'] == 'g:i A') selected="selected" @endif>10:30 PM</option>
+                            <option value="g:i a" @if(@$userDetail->settings['site_time_format'] == 'g:i a') selected="selected" @endif>10:30 pm</option>
+                            <option value="H:i" @if(@$userDetail->settings['site_time_format'] == 'H:i') selected="selected" @endif>22:30</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('invoice_prefix',__('Invoice Prefix')) }}
+                        {{Form::text('invoice_prefix',null,array('class'=>'form-control'))}}
+                        @error('invoice_prefix')
+                        <span class="invalid-invoice_prefix" role="alert">
+                                <strong class="text-danger">{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{Form::label('bug_prefix',__('Bug Prefix')) }}
+                        {{Form::text('bug_prefix',null,array('class'=>'form-control'))}}
+                        @error('bug_prefix')
+                        <span class="invalid-bug_prefix" role="alert">
+                                <strong class="text-danger">{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                {{Form::submit(__('Save Change'),array('class'=>'btn btn-primary'))}}
+            </div>
+            {{Form::close()}}
+        </div>
+        @endcan
         </div>
     </div>
     </div>

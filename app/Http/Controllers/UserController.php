@@ -246,8 +246,9 @@ class UserController extends Controller
     public function profile()
     {
         $userDetail = \Auth::user();
+        $plans = Plan::get();
 
-        return view('user.profile')->with('userDetail', $userDetail);
+        return view('user.profile', compact('userDetail', 'plans'));
     }
 
     public function editprofile(Request $request)

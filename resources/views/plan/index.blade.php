@@ -76,14 +76,6 @@
                         </li>
                         <li class="row">
                             <div class="col text-right">
-                                <i class="material-icons">group</i>
-                            </div>
-                            <div class="col text-left">
-                                {{$plan->max_users}} {{__('Teams')}}
-                            </div>
-                        </li>
-                        <li class="row">
-                            <div class="col text-right">
                                 <i class="material-icons">person</i>
                             </div>
                             <div class="col text-left">
@@ -99,10 +91,6 @@
                             </div>
                         </li>    
                     </ul>
-                    <div class="custom-control custom-radio d-inline-block">
-                        <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->type=='company' && \Auth::user()->plan == $plan->id)?'checked':''}} readonly>
-                        <label class="custom-control-label" for="plan-radio-1"></label>
-                      </div>
                 </div>
                 </div>
                 <div class="dropdown card-options">
