@@ -36,6 +36,32 @@
             <a class="nav-link" href="{{ route('home') }}">{{__('Workspace')}}</a>
         </li>
 
+        @if(\Auth::user()->type!='super admin')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('calendar.index') }}">{{__('Calendar')}}</a>
+        </li>
+        @endif
+
+        @if(\Auth::user()->type=='super admin')
+            @can('create language')
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('manage.language',[$currantLang])}}">{{__('Languages')}}</a>
+            </li>
+            @endcan
+
+            @can('manage plan')
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('plans.index')}}">{{__('Price Plans')}}</a>
+            </li>
+            @endcan
+
+            @can('manage order')
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('order.index')}}">{{__('Orders')}}</a>
+            </li>
+            @endcan
+        @endif
+
         @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
         <li class="nav-item">
 
@@ -53,7 +79,7 @@
 
             @if(Gate::check('manage lead'))
             <li class="nav-item">
-                    <a class="dropdown-item" href="#">{{__('Leads')}}</a>
+                    <a class="dropdown-item disabled" href="#">{{__('Leads')}}</a>
             </li>
             @endif
 
@@ -80,7 +106,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="dropdown-item disabled" href="#">{{__('Kanban')}}</a>
+                <a class="dropdown-item disabled" href="#">{{__('Kanban Board')}}</a>
             </li>
 
             </ul>
@@ -104,13 +130,17 @@
                     <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
                 </li>
 
+                @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
                 <li class="nav-item">
-                    <a class="dropdown-item disabled" href="#">{{__('Invoices')}}</a>
+                    <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
                 </li>
+                @endcan
 
+                @if(Gate::check('manage expense') || \Auth::user()->type=='client')
                 <li class="nav-item">
-                    <a class="dropdown-item disabled" href="#">{{__('Expenses')}}</a>
+                    <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
                 </li>
+                @endif
 
                 </ul>
             </div>
@@ -121,8 +151,8 @@
         @if(Gate::check('manage project'))
         <li class="nav-item">
 
-            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">Reports</a>
-            <div id="submenu-4" class="collapse">
+            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">Reports</a>
+            <div id="submenu-5" class="collapse">
                 <ul class="nav nav-small flex-column">
 
                 <li class="nav-item">
@@ -181,17 +211,38 @@
     <div class="d-none d-lg-block">
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img alt="{{$users->name}}" title="{{$users->name}}" src="{{(!empty($users->avatar)? $profile.'/'.$users->avatar : $profile.'/avatar.png')}}" class="avatar" />
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @if(empty($users->avatar))
+                    <img width="36" height="36" alt="{{$users->name}}" title="{{$users->name}}" avatar="{{$users->name}}" class="rounded" />
+                @else
+                    <img width="36" height="36" alt="{{$users->name}}" title="{{$users->name}}" src="{{($profile.'/'.$users->avatar)}}" class="rounded" />
+                @endif
+            </a>
         </a>
         <div class="dropdown-menu">
             @can('manage account')
-            <a href="{{route('profile',$users->id)}}" class="dropdown-item">
-                {{__('Profile')}}
-            </a>
+                <a class="dropdown-item" href="{{route('profile',$users->id)}}">
+                    {{__('Profile')}}
+                </a>
             @endcan
-            <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
+            <a class="dropdown-item" href="utility-account-settings.html">Account Settings</a>
+
             <div class="dropdown-divider"></div>
-            <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+
+            @if(\Auth::user()->type!='client')
+                @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
+                    @can('manage user')
+                    <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
+                    @endcan
+                @endif
+                @if(Gate::check('manage role'))
+                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
+                @endif
+            @endif
+
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                 {{__('Logout')}}
             </a>
             <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
