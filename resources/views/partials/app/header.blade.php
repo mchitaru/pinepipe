@@ -29,6 +29,12 @@
     </li>
     @endif
 
+    @can('create language')
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('manage.language',[$currantLang])}}">{{__('Languages')}}</a>
+    </li>
+    @endcan
+
     @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
     <li class="nav-item">
 
