@@ -247,8 +247,9 @@ class UserController extends Controller
     {
         $userDetail = \Auth::user();
         $plans = Plan::get();
+        $settings = \Auth::user()->settings();
 
-        return view('user.profile', compact('userDetail', 'plans'));
+        return view('user.profile', compact('userDetail', 'plans', 'settings'));
     }
 
     public function editprofile(Request $request)
