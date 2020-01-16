@@ -16,22 +16,22 @@
 
     // keep active tab
     // $(document).ready(function() {
-    
+
     //     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     //         window.location.hash = $(e.target).attr('href');
     //         $(window).scrollTop(0);
     //     });
-    
+
     //     if(window.location.hash)
     //     {
     //         var hash = window.location.hash ? window.location.hash : '#invoices';
-            
-    //         $('.nav-tabs a[href="' + hash + '"]').tab('show');        
+
+    //         $('.nav-tabs a[href="' + hash + '"]').tab('show');
     //     }
     // });
-        
+
 </script>
-    
+
 @endpush
 
 @section('page-title')
@@ -153,25 +153,25 @@
                                             <span data-filter-by="text" class="text-small">{{ $invoice->project->name }}</span>
                                         </div>
                                     </div>
-                                    <div class="card-title col-sm-2">
+                                    <div class="card-title col-sm-3">
                                         <div class="container row align-items-center">
                                             <i class="material-icons">person</i>
                                             <span data-filter-by="text" class="text-small">
                                                 <a href="{{ route('clients.index',$invoice->project->client()->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($invoice->project->client())?$invoice->project->client()->name:'')}}</a>
                                             </span>
                                         </div>
-                                    </div>    
+                                    </div>
                                     <div class="card-meta col">
                                         <div class="container row align-items-center">
                                             <span data-filter-by="text" class="text-small">{{ Auth::user()->priceFormat($invoice->getTotal()) }}</span>
                                         </div>
-                                    </div>    
+                                    </div>
                                     @if(Gate::check('edit invoice') || Gate::check('delete invoice'))
                                     <div class="dropdown card-options">
                                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">more_vert</i>
                                         </button>
-    
+
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @can('edit invoice')
                                             <a class="dropdown-item" href="#" data-url="{{ route('invoices.edit',$invoice->id) }}" data-ajax-popup="true" data-title="{{__('Edit Invoice')}}">
@@ -250,7 +250,7 @@
                                     <div class="container row align-items-center">
                                         <span data-filter-by="text" class="text-small">{{ Auth::user()->priceFormat($expense->amount) }}</span>
                                     </div>
-                                </div>    
+                                </div>
                                 <div class="card-title col-sm-2">
                                     <div class="container row align-items-center">
                                         <span data-filter-by="text" title="{{ $expense->description }}" class="text-small text-truncate" style="max-width: 150px;">{{ $expense->description }}</span>
@@ -269,8 +269,8 @@
                                         @else
                                             <img alt={{$expense->user->name}} class="avatar" src="{{ asset(Storage::url("avatar/".$expense->user->avatar))}}" />
                                         @endif
-                                    </a>        
-                                </div>    
+                                    </a>
+                                </div>
                                 @endif
                                 @if(Gate::check('edit expense') || Gate::check('delete expense'))
                                 <div class="dropdown card-options">

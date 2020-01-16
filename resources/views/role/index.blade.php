@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @push('stylesheets')
 @endpush
@@ -29,7 +29,7 @@
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">{{__('User Roles')}}</li>
             </ol>
-        </nav>    
+        </nav>
     </div>
 @endsection
 
