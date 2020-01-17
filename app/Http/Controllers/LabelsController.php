@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Labels;
-use App\Projects;
+use App\Label;
+use App\Project;
 use Illuminate\Http\Request;
 
 class LabelsController extends Controller
@@ -12,7 +12,7 @@ class LabelsController extends Controller
     {
         if(\Auth::user()->can('manage label'))
         {
-            $labels = Labels::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $labels = Label::where('created_by', '=', \Auth::user()->creatorId())->get();
 
             return view('labels.index', compact('labels'));
         }
@@ -27,7 +27,7 @@ class LabelsController extends Controller
     {
         if(\Auth::user()->can('create label'))
         {
-            $colors = Labels::$colors;
+            $colors = Label::$colors;
 
             return view('labels.create')->with('colors', $colors);
         }
@@ -58,7 +58,7 @@ class LabelsController extends Controller
                 return redirect()->route('users')->with('error', $messages->first());
             }
 
-            $label             = new Labels();
+            $label             = new Label();
             $label->name       = $request->name;
             $label->color      = $request->color;
             $label->created_by = \Auth::user()->creatorId();
@@ -78,10 +78,10 @@ class LabelsController extends Controller
     {
         if(\Auth::user()->can('edit label'))
         {
-            $label = Labels::findOrfail($id);
+            $label = Label::findOrfail($id);
             if($label->created_by == \Auth::user()->creatorId())
             {
-                $colors = Labels::$colors;
+                $colors = Label::$colors;
 
                 return view('labels.edit', compact('label', 'colors'));
             }
@@ -101,7 +101,7 @@ class LabelsController extends Controller
     {
         if(\Auth::user()->can('edit label'))
         {
-            $label = Labels::findOrfail($id);
+            $label = Label::findOrfail($id);
             if($label->created_by == \Auth::user()->creatorId())
             {
 
@@ -141,11 +141,11 @@ class LabelsController extends Controller
     {
         if(\Auth::user()->can('delete label'))
         {
-            $labels = Labels::findOrfail($id);
+            $labels = Label::findOrfail($id);
             if($labels->created_by == \Auth::user()->creatorId())
             {
                 $labels->delete();
-                Projects::where('label', '=', $labels->id)->update(array('label' => 0));
+                Project::where('label', '=', $labels->id)->update(array('label' => 0));
 
                 return redirect()->route('labels.index')->with('success', __('Lead stage successfully deleted.'));
             }

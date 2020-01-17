@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Leads;
-use App\Projectstages;
+use App\Lead;
+use App\ProjectStage;
 use App\Task;
 use Auth;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class ProjectstagesController extends Controller
     {
         if(\Auth::user()->can('manage project stage'))
         {
-            $projectstages = Projectstages::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+            $projectstages = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 
             return view('projectstages.index', compact('projectstages'));
         }
@@ -53,8 +53,8 @@ class ProjectstagesController extends Controller
 
                 return redirect()->route('projectstages.index')->with('error', $messages->first());
             }
-            $all_stage         = Projectstages::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->first();
-            $stage             = new Projectstages();
+            $all_stage         = ProjectStage::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->first();
+            $stage             = new ProjectStage();
             $stage->name       = $request->name;
             $stage->color      = $request->color;
             $stage->created_by = \Auth::user()->creatorId();
@@ -75,7 +75,7 @@ class ProjectstagesController extends Controller
     {
         if(\Auth::user()->can('edit project stage'))
         {
-            $leadstages = Projectstages::findOrfail($id);
+            $leadstages = ProjectStage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
             {
                 return view('projectstages.edit', compact('leadstages'));
@@ -96,7 +96,7 @@ class ProjectstagesController extends Controller
     {
         if(\Auth::user()->can('edit project stage'))
         {
-            $leadstages = Projectstages::findOrfail($id);
+            $leadstages = ProjectStage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
             {
 
@@ -134,7 +134,7 @@ class ProjectstagesController extends Controller
     {
         if(\Auth::user()->can('delete project stage'))
         {
-            $projectstages = Projectstages::findOrfail($id);
+            $projectstages = ProjectStage::findOrfail($id);
             if($projectstages->created_by == \Auth::user()->creatorId())
             {
                 $checkStage = Task::where('stage', '=', $projectstages->id)->get()->toArray();
@@ -165,7 +165,7 @@ class ProjectstagesController extends Controller
         $post = $request->all();
         foreach($post['order'] as $key => $item)
         {
-            $stage        = Projectstages::where('id', '=', $item)->first();
+            $stage        = ProjectStage::where('id', '=', $item)->first();
             $stage->order = $key;
             $stage->save();
         }

@@ -363,5 +363,22 @@ class UsersTableSeeder extends Seeder
         $company->assignRole($companyRole);
         $company->makeEmployeeRole();
         $company->userDefaultData();
+
+        $client = User::create(
+            [
+                'name' => 'client',
+                'email' => 'client@example.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('1234'),
+                'remember_token' => Str::random(10),
+                'type' => 'client',
+                'lang' => 'en',
+                'avatar' => '',
+                'plan' => 1,
+                'created_by' => '2',
+            ]
+        );
+
+        factory(App\User::class, 20)->create();
     }
 }

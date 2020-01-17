@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Contacts;
+use App\Contact;
 use Faker\Generator as Faker;
 
-$factory->define(Contacts::class, function (Faker $faker) {
+$factory->define(Contact::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ActivityLog;
 use App\Expense;
-use App\ExpensesCategory;
+use App\ExpenseCategory;
 use App\Invoice;
 use App\InvoicePayment;
 use App\InvoiceProduct;

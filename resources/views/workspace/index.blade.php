@@ -2,7 +2,7 @@
 
 @php
 
-use App\Projects;
+use App\Project;
 
 @endphp
 
@@ -357,11 +357,11 @@ if($client_project_budget_due_per<=15){
                                         </div>
                                         <div class="card-body">
                                         <div class="card-title">
-                                            <a href="{{ route('task.show',$top_task->id) }}" data-remote="true">
+                                            <a href="{{ route('tasks.show',$top_task->id) }}" data-remote="true">
                                                 <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                             </a>
 
-                                            {{-- <a data-url="{{ route('task.show',$top_task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
+                                            {{-- <a data-url="{{ route('tasks.show',$top_task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
                                                 <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                             </a> --}}
                                             @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')

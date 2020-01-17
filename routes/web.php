@@ -12,51 +12,6 @@
 */
 Route::get('searchJson/{search?}', 'ProjectsController@getSearchJson')->name('search.json')->middleware(['auth','xss']);
 
-// Route::get('/team', function () {
-//     return view('team');
-// })->name('team')->middleware(
-//     [
-//         'auth',
-//         'xss',
-//     ]
-// );
-
-// Route::get('/project', function () {
-//     return view('project');
-// })->name('project')->middleware(
-//     [
-//         'auth',
-//         'xss',
-//     ]
-// );
-
-// Route::get('/task', function () {
-//     return view('task');
-// })->name('task')->middleware(
-//     [
-//         'auth',
-//         'xss',
-//     ]
-// );
-
-// Route::get('/kanban', function () {
-//     return view('kanban');
-// })->name('kanban')->middleware(
-//     [
-//         'auth',
-//         'xss',
-//     ]
-// );
-
-// Route::get('/user', function () {
-//     return view('user');
-// })->name('user')->middleware(
-//     [
-//         'auth',
-//         'xss',
-//     ]
-// );
-
 Auth::routes();
 
 Route::get('/', 'WorkspaceController@index')->name('home')->middleware(
@@ -72,48 +27,50 @@ Route::get('/home', 'WorkspaceController@index')->name('home')->middleware(
         'xss',
     ]
 );
-Route::get('profile/{id}', 'UserController@profile')->name('profile')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-Route::put('edit-profile', 'UserController@editprofile')->name('update.account')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
 
-Route::resource('users', 'UserController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-Route::put('change-password', 'UserController@updatePassword')->name('update.password');
-
-
-Route::resource('clients', 'ClientController')->middleware(
+Route::resource('users', 'UsersController')->middleware(
     [
         'auth',
         'xss',
     ]
 );
 
-Route::get('clients/contacts/create', 'ClientController@contactCreate')->name('contact.create');
-Route::get('clients/contacts/{id}/edit', 'ClientController@contactEdit')->name('contact.edit');
-Route::get('clients/contacts/{id}/show', 'ClientController@contactShow')->name('contact.show');
-Route::delete('clients/contacts/{id}/delete', 'ClientController@contactDestroy')->name('contact.destroy');
-
-
-Route::resource('roles', 'RoleController')->middleware(
+Route::get('profile/{id}', 'UsersController@profile')->name('profile')->middleware(
     [
         'auth',
         'xss',
     ]
 );
-Route::resource('permissions', 'PermissionController')->middleware(
+Route::put('edit-profile', 'UsersController@editprofile')->name('update.account')->middleware(
+    [
+        'auth',
+        'xss',
+    ]
+);
+
+Route::put('change-password', 'UsersController@updatePassword')->name('update.password');
+
+
+Route::resource('clients', 'ClientsController')->middleware(
+    [
+        'auth',
+        'xss',
+    ]
+);
+
+Route::get('clients/contacts/create', 'ClientsController@contactCreate')->name('contact.create');
+Route::get('clients/contacts/{id}/edit', 'ClientsController@contactEdit')->name('contact.edit');
+Route::get('clients/contacts/{id}/show', 'ClientsController@contactShow')->name('contact.show');
+Route::delete('clients/contacts/{id}/delete', 'ClientsController@contactDestroy')->name('contact.destroy');
+
+
+Route::resource('roles', 'UserRolesController')->middleware(
+    [
+        'auth',
+        'xss',
+    ]
+);
+Route::resource('permissions', 'PermissionsController')->middleware(
     [
         'auth',
         'xss',
@@ -127,11 +84,11 @@ Route::group(
             'xss',
         ],
     ], function (){
-    Route::get('change-language/{lang}', 'LanguageController@changeLanquage')->name('change.language');
-    Route::get('manage-language/{lang}', 'LanguageController@manageLanguage')->name('manage.language');
-    Route::post('store-language-data/{lang}', 'LanguageController@storeLanguageData')->name('store.language.data');
-    Route::get('create-language', 'LanguageController@createLanguage')->name('create.language');
-    Route::post('store-language', 'LanguageController@storeLanguage')->name('store.language');
+    Route::get('change-language/{lang}', 'LanguagesController@changeLanquage')->name('change.language');
+    Route::get('manage-language/{lang}', 'LanguagesController@manageLanguage')->name('manage.language');
+    Route::post('store-language-data/{lang}', 'LanguagseController@storeLanguageData')->name('store.language.data');
+    Route::get('create-language', 'LanguagesController@createLanguage')->name('create.language');
+    Route::post('store-language', 'LanguagesController@storeLanguage')->name('store.language');
 }
 );
 
@@ -159,11 +116,11 @@ Route::group(
             'xss',
         ],
     ], function (){
-    Route::resource('leadstages', 'LeadstagesController');
+    Route::resource('leadstages', 'LeadStagesController');
     Route::post(
         '/leadstages/order', [
                                'as' => 'leadstages.order',
-                               'uses' => 'LeadstagesController@order',
+                               'uses' => 'LeadStagesController@order',
                            ]
     );
 }
@@ -175,11 +132,11 @@ Route::group(
             'xss',
         ],
     ], function (){
-    Route::resource('projectstages', 'ProjectstagesController');
+    Route::resource('projectstages', 'ProjectStagesController');
     Route::post(
         '/projectstages/order', [
                                   'as' => 'projectstages.order',
-                                  'uses' => 'ProjectstagesController@order',
+                                  'uses' => 'ProjectStagesController@order',
                               ]
     );
 }
@@ -191,7 +148,7 @@ Route::group(
             'xss',
         ],
     ], function (){
-    Route::resource('leadsources', 'LeadsourceController');
+    Route::resource('leadsources', 'LeadSourcesController');
 }
 );
 Route::resource('labels', 'LabelsController')->middleware(
@@ -200,13 +157,13 @@ Route::resource('labels', 'LabelsController')->middleware(
         'xss',
     ]
 );
-Route::resource('productunits', 'ProductunitsController')->middleware(
+Route::resource('productunits', 'ProductUnitsController')->middleware(
     [
         'auth',
         'xss',
     ]
 );
-Route::resource('expensescategory', 'ExpensesCategoryController')->middleware(
+Route::resource('expensescategory', 'ExpenseCategoriesController')->middleware(
     [
         'auth',
         'xss',
@@ -237,52 +194,60 @@ Route::group(
             'xss',
         ],
     ], function (){
-    Route::put('projects/{id}/status', 'ProjectsController@updateStatus')->name('projects.update.status');
+
     Route::resource('projects', 'ProjectsController');
+
+    Route::get('projects/{id}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');
+    Route::post('projects/{id}/milestone', 'ProjectMilestonesController@store')->name('projects.milestone.store');
+    Route::get('projects/milestone/{id}/edit', 'ProjectMilestonesController@edit')->name('projects.milestone.edit');
+    Route::put('projects/milestone/{id}', 'ProjectMilestonesController@update')->name('projects.milestone.update');
+    Route::delete('projects/milestone/{id}', 'ProjectMilestonesController@destroy')->name('projects.milestone.destroy');
+    Route::get('projects/milestone/{id}/show', 'ProjectMilestonesController@show')->name('projects.milestone.show');
+
+    Route::post('projects/{id}/file', 'ProjectFilesController@store')->name('projects.file.upload');
+    Route::get('projects/{id}/file/{fid}', 'ProjectFilesController@show')->name('projects.file.download');
+    Route::delete('projects/{id}/file/delete/{fid}', 'ProjectFilesController@destroy')->name('projects.file.delete');
+    
+    Route::get('projects/{id}/task', 'ProjectTasksController@create')->name('projects.task.create');
+    Route::post('projects/{id}/task', 'ProjectTasksController@store')->name('projects.task.store');
+
+    Route::put('projects/{id}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO
+    
     Route::get('project-invite/{project_id}', 'ProjectsController@userInvite')->name('project.invite');
     Route::post('invite/{project}', 'ProjectsController@Invite')->name('invite');
 
-    Route::get('projects/{id}/milestone', 'ProjectsController@milestone')->name('project.milestone');
-    Route::post('projects/{id}/milestone', 'ProjectsController@milestoneStore')->name('project.milestone.store');
-    Route::get('projects/milestone/{id}/edit', 'ProjectsController@milestoneEdit')->name('project.milestone.edit');
-    Route::put('projects/milestone/{id}', 'ProjectsController@milestoneUpdate')->name('project.milestone.update');
-    Route::delete('projects/milestone/{id}', 'ProjectsController@milestoneDestroy')->name('project.milestone.destroy');
-    Route::get('projects/milestone/{id}/show', 'ProjectsController@milestoneShow')->name('project.milestone.show');
+    Route::get('projects/{id}/client/{cid}/permission', 'ProjectsController@clientPermission')->name('projects.client.permission');
+    Route::put('projects/{id}/client/{cid}/permission', 'ProjectsController@storeClientPermission')->name('projects.client.permission.store');
+}
+);
 
-    Route::post('projects/{id}/file', 'ProjectsController@fileUpload')->name('project.file.upload');
-    Route::get('projects/{id}/file/{fid}', 'ProjectsController@fileDownload')->name('projects.file.download');
-    Route::delete('projects/{id}/file/delete/{fid}', 'ProjectsController@fileDelete')->name('projects.file.delete');
+Route::resource('timesheets', 'TimesheetsController')->middleware(
+    [
+        'auth',
+        'xss',
+    ]
+);
 
-    Route::get('projects/{id}/taskboard', 'ProjectsController@taskBoard')->name('project.taskboard');
-    Route::get('projects/{id}/taskboard/create', 'ProjectsController@taskCreate')->name('task.create');
-    Route::post('projects/{id}/taskboard/store', 'ProjectsController@taskStore')->name('task.store');
-    Route::get('projects/taskboard/{id}/edit', 'ProjectsController@taskEdit')->name('task.edit');
-    Route::put('projects/taskboard/{id}/update', 'ProjectsController@taskUpdate')->name('task.update');
-    Route::delete('projects/taskboard/{id}/delete', 'ProjectsController@taskDestroy')->name('task.destroy');
-    Route::get('projects/taskboard/{id}/show', 'ProjectsController@taskShow')->name('task.show');
 
-    Route::post('projects/order', 'ProjectsController@order')->name('taskboard.order');
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'xss',
+        ],
+    ], function (){
+    Route::resource('tasks', 'TasksController');
 
-    Route::post('projects/{id}/taskboard/{tid}/comment', 'ProjectsController@commentStore')->name('comment.store');
-    Route::delete('projects/taskboard/comment/{id}', 'ProjectsController@commentDestroy')->name('comment.destroy');
+    Route::post('tasks/{tid}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');
+    Route::delete('tasks/comment/{id}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
 
-    Route::post('projects/taskboard/{id}/file', 'ProjectsController@taskFileUpload')->name('task.file.upload');
-    Route::get('projects/taskboard/{id}/file/{fid}', 'ProjectsController@taskFileDownload')->name('task.file.download');
-    Route::delete('projects/taskboard/{id}/file/delete/{fid}', 'ProjectsController@taskFileDelete')->name('task.file.delete');
+    Route::post('tasks/{id}/file', 'TaskFilesController@store')->name('tasks.file.upload');
+    Route::get('tasks/{id}/file/{fid}', 'TaskFilesController@show')->name('tasks.file.download');
+    Route::delete('tasks/{id}/file/delete/{fid}', 'TaskFilesController@destroy')->name('tasks.file.delete');
 
-    Route::post('projects/taskboard/{id}/checklist/store', 'ProjectsController@checkListStore')->name('task.checklist.store');
-    Route::put('projects/taskboard/{id}/checklist/{cid}/update', 'ProjectsController@checklistUpdate')->name('task.checklist.update');
-    Route::delete('projects/taskboard/{id}/checklist/{cid}', 'ProjectsController@checklistDestroy')->name('task.checklist.destroy');
-
-    Route::get('projects/{id}/client/{cid}/permission', 'ProjectsController@clientPermission')->name('client.permission');
-    Route::put('projects/{id}/client/{cid}/permission', 'ProjectsController@storeClientPermission')->name('client.store.permission');
-    
-    Route::get('projects/{id}/timesheet/create', 'ProjectsController@timeSheetCreate')->name('task.timesheet');
-    Route::post('projects/{id}/timesheet/create', 'ProjectsController@timeSheetStore')->name('task.timesheet.store');
-    Route::get('projects/{id}/timesheet/{tid}/edit', 'ProjectsController@timeSheetEdit')->name('task.timesheet.edit');
-    Route::put('projects/{id}/timesheet/{tid}/update', 'ProjectsController@timeSheetUpdate')->name('task.timesheet.update');
-    Route::delete('projects/{id}/timesheet/{tid}/destroy', 'ProjectsController@timeSheetDestroy')->name('task.timesheet.destroy');
-
+    Route::post('tasks/{id}/checklist/store', 'TaskChecklistController@store')->name('tasks.checklist.store');
+    Route::put('tasks/{id}/checklist/{cid}/update', 'TaskChecklistController@update')->name('tasks.checklist.update');
+    Route::delete('tasks/{id}/checklist/{cid}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
 }
 );
 
@@ -302,22 +267,22 @@ Route::group(
     ], function (){
     Route::resource('invoices', 'InvoiceController');
 
-    Route::get('invoices/{id}/products', 'InvoiceController@productAdd')->name('invoices.products.add');
-    Route::get('invoices/{id}/products/{pid}', 'InvoiceController@productEdit')->name('invoices.products.edit');
-    Route::post('invoices/{id}/products', 'InvoiceController@productStore')->name('invoices.products.store');
-    Route::put('invoices/{id}/products/{pid}', 'InvoiceController@productUpdate')->name('invoices.products.update');
-    Route::delete('invoices/{id}/products/{pid}', 'InvoiceController@productDelete')->name('invoices.products.delete');
-    Route::post('invoices/milestone/task', 'InvoiceController@milestoneTask')->name('invoices.milestone.task');
+    Route::get('invoices/{id}/products', 'InvoicesController@productAdd')->name('invoices.products.add');
+    Route::get('invoices/{id}/products/{pid}', 'InvoicesController@productEdit')->name('invoices.products.edit');
+    Route::post('invoices/{id}/products', 'InvoicesController@productStore')->name('invoices.products.store');
+    Route::put('invoices/{id}/products/{pid}', 'InvoicesController@productUpdate')->name('invoices.products.update');
+    Route::delete('invoices/{id}/products/{pid}', 'InvoicesController@productDelete')->name('invoices.products.delete');
+    Route::post('invoices/milestone/task', 'InvoicesController@milestoneTask')->name('invoices.milestone.task');
 
-    Route::get('invoices-payments', 'InvoiceController@payments')->name('invoices.payments');
-    Route::get('invoices/{id}/payments', 'InvoiceController@paymentAdd')->name('invoices.payments.create');
-    Route::post('invoices/{id}/payments', 'InvoiceController@paymentStore')->name('invoices.payments.store');
+    Route::get('invoices-payments', 'InvoicesController@payments')->name('invoices.payments');
+    Route::get('invoices/{id}/payments', 'InvoicesController@paymentAdd')->name('invoices.payments.create');
+    Route::post('invoices/{id}/payments', 'InvoicesController@paymentStore')->name('invoices.payments.store');
 
 
 }
 );
-Route::resource('taxes', 'TaxController');
-Route::resource('plans', 'PlanController')->middleware(
+Route::resource('taxes', 'TaxesController');
+Route::resource('plans', 'PaymentPlansController')->middleware(
     [
         'auth',
         'xss',
@@ -331,20 +296,20 @@ Route::resource('products', 'ProductsController')->middleware(
         'xss',
     ]
 );
-Route::resource('expenses', 'ExpenseController')->middleware(
+Route::resource('expenses', 'ExpensesController')->middleware(
     [
         'auth',
         'xss',
     ]
 );
 
-Route::resource('payments', 'PaymentController')->middleware(
+Route::resource('payments', 'PaymentsController')->middleware(
     [
         'auth',
         'xss',
     ]
 );
-Route::resource('notes', 'NoteController')->middleware(
+Route::resource('notes', 'NotesController')->middleware(
     [
         'auth',
         'xss',
@@ -360,9 +325,9 @@ Route::group(
         ],
     ], function (){
 
-    Route::get('/orders', 'StripePaymentController@index')->name('order.index');
-    Route::get('/stripe/{code}', 'StripePaymentController@stripe')->name('stripe');
-    Route::post('/stripe', 'StripePaymentController@stripePost')->name('stripe.post');
+    Route::get('/orders', 'StripePaymentsController@index')->name('order.index');
+    Route::get('/stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');
+    Route::post('/stripe', 'StripePaymentsController@stripePost')->name('stripe.post');
 
 }
 );

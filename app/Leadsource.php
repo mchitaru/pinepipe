@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Leadsource extends Model
+class LeadSource extends Model
 {
     protected $fillable = [
         'name', 'created_by',

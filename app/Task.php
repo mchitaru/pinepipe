@@ -20,12 +20,17 @@ class Task extends Model
         'stage',
     ];
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     public function task_user(){
         return $this->hasOne('App\User','id','assign_to');
     }
 
     public function comments(){
-        return $this->hasMany('App\Comment','task_id','id')->orderBy('id','DESC');
+        return $this->hasMany('App\TaskComment','task_id','id')->orderBy('id','DESC');
     }
 
     public function taskFiles(){
@@ -33,15 +38,15 @@ class Task extends Model
     }
 
     public function taskCheckList(){
-        return $this->hasMany('App\CheckList','task_id','id')->orderBy('id','DESC');
+        return $this->hasMany('App\TaskChecklist','task_id','id')->orderBy('id','DESC');
     }
 
     public function taskCompleteCheckListCount(){
-        return $this->hasMany('App\CheckList','task_id','id')->where('status','=','1')->count();
+        return $this->hasMany('App\TaskChecklist','task_id','id')->where('status','=','1')->count();
     }
 
     public function taskTotalCheckListCount(){
-        return $this->hasMany('App\CheckList','task_id','id')->count();
+        return $this->hasMany('App\TaskChecklist','task_id','id')->count();
     }
     public function milestone(){
         return $this->hasOne('App\Milestone','id','milestone_id');

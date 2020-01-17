@@ -1,6 +1,6 @@
 <?php
 
-use App\Plan;
+use App\PaymentPlan;
 use Illuminate\Database\Seeder;
 
 class PlansTableSeeder extends Seeder
@@ -12,9 +12,9 @@ class PlansTableSeeder extends Seeder
      */
     public function run()
     {
-        Plan::create(
+        PaymentPlan::create(
             [
-                'name' => 'Free Plan',
+                'name' => 'Free PaymentPlan',
                 'price' => 0,
                 'duration' => 'Unlimited',
                 'max_users' => 5,

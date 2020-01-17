@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Plan;
-use App\Projects;
+use App\PaymentPlan;
+use App\Project;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class LoginController extends Controller
 
         if($user->type == 'company')
         {
-            $free_plan = Plan::where('price', '=', '0.0')->first();
+            $free_plan = PaymentPlan::where('price', '=', '0.0')->first();
             if($user->plan != $free_plan->id)
             {
                 if(date('Y-m-d') > $user->plan_expire_date)
@@ -60,7 +60,7 @@ class LoginController extends Controller
                     $user->plan_expire_date = null;
                     $user->save();
 
-                    $projects=Projects::where('created_by','=',\Auth::user()->creatorId())->get();
+                    $projects=Project::where('created_by','=',\Auth::user()->creatorId())->get();
                     $users=User::where('created_by','=',\Auth::user()->creatorId())->where('type','!=','client')->get();
                     $clients=User::where('created_by','=',\Auth::user()->creatorId())->where('type','client')->get();
 

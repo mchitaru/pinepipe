@@ -304,7 +304,7 @@ $(document).ready(function() {
                                         <div class="d-flex align-items-center">
                                             <i class="material-icons mr-1">playlist_add_check</i>
                                             @if($project->is_active==1)
-                                            <a  href="{{ route('project.taskboard',$project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                                            <a  href="{{ route('projects.show',$project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
                                             @else
                                             <a  href="#" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
                                             @endif

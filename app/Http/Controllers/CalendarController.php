@@ -26,7 +26,7 @@ class CalendarController extends Controller
             {
                 $due_task['backgroundColor'] = '#b6e6ea';
             }
-            $due_task['url'] = route('task.show', $task['task_id']);
+            $due_task['url'] = route('tasks.show', $task['task_id']);
             $due_tasks[]     = $due_task;
         }
         $due_tasks = str_replace(']"', ']', str_replace('"[', "[", json_encode($due_tasks)));

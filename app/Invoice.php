@@ -28,7 +28,7 @@ class Invoice extends Model
 
     public function project()
     {
-        return $this->hasOne('App\Projects', 'id', 'project_id');
+        return $this->hasOne('App\Project', 'id', 'project_id');
     }
 
 

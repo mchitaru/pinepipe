@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\ExpenseCategory;
-use App\Leads;
+use App\Lead;
 use App\Leadsource;
-use App\Leadstages;
+use App\LeadStage;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class LeadsController extends Controller
     {
         if(\Auth::user()->can('manage lead'))
         {
-            $stages = Leadstages::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+            $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 
             return view('leads.index', compact('stages'));
         }
@@ -23,7 +23,7 @@ class LeadsController extends Controller
         {
             if(\Auth::user()->type == 'client')
             {
-                $leads = Leads::select('leads.*', 'leadstages.name as stage_name')->join('leadstages', 'leadstages.id', '=', 'leads.stage')->where('leads.client', \Auth::user()->id)->where('leadstages.created_by', \Auth::user()->creatorId())->get();
+                $leads = Lead::select('leads.*', 'leadstages.name as stage_name')->join('leadstages', 'leadstages.id', '=', 'leads.stage')->where('leads.client', \Auth::user()->id)->where('leadstages.created_by', \Auth::user()->creatorId())->get();
 
                 return view('leads.client_index', compact('leads'));
             }
@@ -36,7 +36,7 @@ class LeadsController extends Controller
     {
         if(\Auth::user()->can('create lead'))
         {
-            $stages  = Leadstages::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
             $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -87,7 +87,7 @@ class LeadsController extends Controller
 
                 return redirect()->route('leads.index')->with('error', $messages->first());
             }
-            $leads        = new Leads();
+            $leads        = new Lead();
             $leads->name  = $request->name;
             $leads->price = $request->price;
             $leads->stage = $request->stage;
@@ -117,11 +117,11 @@ class LeadsController extends Controller
     {
         if(\Auth::user()->can('edit lead'))
         {
-            $lead = Leads::findOrfail($id);
+            $lead = Lead::findOrfail($id);
 
             if($lead->created_by == \Auth::user()->creatorId())
             {
-                $stages  = Leadstages::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'employee')->get()->pluck('name', 'id');
                 $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
                 $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -143,7 +143,7 @@ class LeadsController extends Controller
     {
         if(\Auth::user()->can('edit lead'))
         {
-            $leads = Leads::findOrfail($id);
+            $leads = Lead::findOrfail($id);
             if($leads->created_by == \Auth::user()->creatorId())
             {
                 if(\Auth::user()->type == 'company')
@@ -192,7 +192,7 @@ class LeadsController extends Controller
     {
         if(\Auth::user()->can('delete lead'))
         {
-            $leads = Leads::findOrfail($id);
+            $leads = Lead::findOrfail($id);
             if($leads->created_by == \Auth::user()->creatorId())
             {
                 $leads->delete();
@@ -215,8 +215,8 @@ class LeadsController extends Controller
     {
         $post  = $request->all();
 
-        $lead  = Leads::find($post['lead_id']);
-        $stage = Leadstages::find($post['stage_id']);
+        $lead  = Lead::find($post['lead_id']);
+        $stage = LeadStage::find($post['stage_id']);
 
         if(!empty($stage))
         {
@@ -226,7 +226,7 @@ class LeadsController extends Controller
 
         foreach($post['order'] as $key => $item)
         {
-            $lead_order             = Leads::find($item);
+            $lead_order             = Lead::find($item);
             $lead_order->item_order = $key;
             $lead_order->stage      = $post['stage_id'];
             $lead_order->save();
@@ -235,7 +235,7 @@ class LeadsController extends Controller
 
     public function show($id)
     {
-        $lead = Leads::findOrfail($id);
+        $lead = Lead::findOrfail($id);
 
         return view('leads.show', compact('lead'));
     }

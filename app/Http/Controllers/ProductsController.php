@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Products;
-use App\Productunits;
+use App\ProductUnit;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -26,7 +26,7 @@ class ProductsController extends Controller
     {
         if(\Auth::user()->can('create product'))
         {
-            $productunits = Productunits::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $productunits = ProductUnit::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             return view('products.create', compact('productunits'));
         }
         else
@@ -76,7 +76,7 @@ class ProductsController extends Controller
 
         if(\Auth::user()->can('edit product'))
         {
-            $productunits = Productunits::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $productunits = ProductUnit::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $product = Products::findOrfail($id);
             if($product->created_by == \Auth::user()->creatorId())
             {

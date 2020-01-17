@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Productunits;
+use App\ProductUnit;
 use Illuminate\Http\Request;
 
 class ProductunitsController extends Controller
@@ -10,7 +10,7 @@ class ProductunitsController extends Controller
     public function index()
     {
         if(\Auth::user()->can('manage product unit')) {
-            $productunits = Productunits::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $productunits = ProductUnit::where('created_by', '=', \Auth::user()->creatorId())->get();
 
             return view('productunits.index', compact('productunits'));
         }else{
@@ -42,7 +42,7 @@ class ProductunitsController extends Controller
                 $messages = $validator->getMessageBag();
                 return redirect()->route('productunits.index')->with('error', $messages->first());
             }
-            $productunits             = new Productunits();
+            $productunits             = new ProductUnit();
             $productunits->name       = $request->name;
             $productunits->created_by = \Auth::user()->creatorId();
             $productunits->save();
@@ -57,7 +57,7 @@ class ProductunitsController extends Controller
     public function edit($id)
     {
         if(\Auth::user()->can('edit product unit')) {
-            $productunits = Productunits::findOrfail($id);
+            $productunits = ProductUnit::findOrfail($id);
             if($productunits->created_by == \Auth::user()->creatorId())
             {
                 return view('productunits.edit', compact('productunits'));
@@ -75,7 +75,7 @@ class ProductunitsController extends Controller
     public function update(Request $request, $id)
     {
         if(\Auth::user()->can('edit product unit')) {
-            $leadsource = Productunits::findOrfail($id);
+            $leadsource = ProductUnit::findOrfail($id);
             if($leadsource->created_by == \Auth::user()->creatorId()) {
 
                 $validator = \Validator::make($request->all(), [
@@ -101,7 +101,7 @@ class ProductunitsController extends Controller
     public function destroy($id)
     {
         if(\Auth::user()->can('delete product unit')) {
-            $productunits = Productunits::findOrfail($id);
+            $productunits = ProductUnit::findOrfail($id);
             if($productunits->created_by == \Auth::user()->creatorId()) {
                 $productunits->delete();
                 return redirect()->route('productunits.index')->with('success',__('Product Unit successfully deleted.'));

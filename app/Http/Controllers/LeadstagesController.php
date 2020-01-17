@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Leads;
-use App\Leadstages;
+use App\Lead;
+use App\LeadStage;
 use Auth;
 use Illuminate\Http\Request;
 
-class LeadstagesController extends Controller
+class LeadStagesController extends Controller
 {
 
     public function index()
     {
         if(\Auth::user()->can('manage lead stage'))
         {
-            $leadstages = Leadstages::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+            $leadstages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 
             return view('leadstages.index', compact('leadstages'));
         }
@@ -56,8 +56,8 @@ class LeadstagesController extends Controller
 
                 return redirect()->route('leadstages.index')->with('error', $messages->first());
             }
-            $all_stage         = Leadstages::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->first();
-            $stage             = new Leadstages();
+            $all_stage         = LeadStage::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->first();
+            $stage             = new LeadStage();
             $stage->name       = $request->name;
             $stage->created_by = \Auth::user()->creatorId();
             $stage->color      = $request->color;
@@ -78,7 +78,7 @@ class LeadstagesController extends Controller
     {
         if(\Auth::user()->can('edit lead stage'))
         {
-            $leadstages = Leadstages::findOrfail($id);
+            $leadstages = LeadStage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
             {
                 return view('leadstages.edit', compact('leadstages'));
@@ -99,7 +99,7 @@ class LeadstagesController extends Controller
     {
         if(\Auth::user()->can('edit lead stage'))
         {
-            $leadstages = Leadstages::findOrfail($id);
+            $leadstages = LeadStage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
             {
 
@@ -139,10 +139,10 @@ class LeadstagesController extends Controller
         if(\Auth::user()->can('delete lead stage'))
         {
 
-            $leadstages = Leadstages::findOrfail($id);
+            $leadstages = LeadStage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
             {
-                $checkLead = Leads::where('stage', '=', $leadstages->id)->get()->toArray();
+                $checkLead = Lead::where('stage', '=', $leadstages->id)->get()->toArray();
                 if(empty($checkLead))
                 {
                     $leadstages->delete();
@@ -169,7 +169,7 @@ class LeadstagesController extends Controller
         $post = $request->all();
         foreach($post['order'] as $key => $item)
         {
-            $stage        = Leadstages::where('id', '=', $item)->first();
+            $stage        = LeadStage::where('id', '=', $item)->first();
             $stage->order = $key;
             $stage->save();
         }

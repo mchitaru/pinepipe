@@ -2,7 +2,7 @@
 
 @php
     use Carbon\Carbon;
-    use App\Projects;
+    use App\Project;
 
     $current_user=\Auth::user();
     $profile=asset(Storage::url('avatar/'));
@@ -66,7 +66,7 @@ $(document).ready(function() {
             <a class="dropdown-item" href="#">Mark as Complete</a>
             @can('manage task')
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))
-                <a class="dropdown-item" href="{{ route('project.taskboard',$project->id) }}" data-ajax-popup="true" data-title="{{__('Task Kanban')}}" data-toggle="tooltip" data-original-title="{{__('Task Kanban')}}">
+                <a class="dropdown-item" href="{{ route('projects.show',$project->id) }}" data-ajax-popup="true" data-title="{{__('Task Kanban')}}" data-toggle="tooltip" data-original-title="{{__('Task Kanban')}}">
                     {{__('Kanban Board')}}
                 </a>
             @endif
@@ -200,7 +200,7 @@ $(document).ready(function() {
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
 
-                    <button class="btn btn-round" data-url="{{ route('task.create',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
+                    <button class="btn btn-round" data-url="{{ route('projects.task.create',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
                     <i class="material-icons">add</i>
                     </button>
                 </div>
@@ -218,116 +218,8 @@ $(document).ready(function() {
                 <!--end of content list head-->
                 <div class="content-list-body">
 
-                @foreach($stages as $stage)
-
-                @if(\Auth::user()->type =='client' || \Auth::user()->type =='company')
-                    @php $tasks =$stage->tasks($project->id)    @endphp
-                @else
-                    @php $tasks =$stage->tasks($project->id)    @endphp
-                @endif
-
-                    <div class="card-list">
-                        <div class="card-list-head">
-                        <h6>{{$stage->name}} ({{ count($tasks) }})</h6>
-                        <div class="dropdown">
-                            <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Rename</a>
-                            <a class="dropdown-item text-danger" href="#">Archive</a>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="card-list-body">
-
-                        @foreach($tasks as $task)
-
-                        @php
-                            $total_subtask = $task->taskTotalCheckListCount();
-                            $completed_subtask = $task->taskCompleteCheckListCount();
-
-                            $task_percentage=0;
-                            if($total_subtask!=0){
-                                $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
-                            }
-
-                            $label = Projects::getProgressColor($task_percentage);
-                        @endphp
-
-                            <div class="card card-task">
-                                <div class="progress">
-                                <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="card-body">
-                                <div class="card-title">
-                                    <a data-url="{{ route('task.show',$task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
-                                        <h6 data-filter-by="text">{{$task->title}}</h6>
-                                    </a>
-                                    <span class="badge badge-secondary">
-                                        @if($task->priority =='low')
-                                                <div class="label label-soft-success"> {{ $task->priority }}</div>
-                                            @elseif($task->priority =='medium')
-                                                <div class="label label-soft-warning"> {{ $task->priority }}</div>
-                                            @elseif($task->priority =='high')
-                                                <div class="label label-soft-danger"> {{ $task->priority }}</div>
-                                            @endif
-                                     </span>
-
-                                     <p>
-                                        <span class="text-small">{{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
-                                    </p>
-                                </div>
-                                <div class="card-meta">
-                                    <ul class="avatars">
-
-                                    <li>
-                                        <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
-                                            <img alt="{{(!empty($task->task_user)?$task->task_user->name:'')}}" class="avatar" src="{{(!empty($task->task_user->avatar)?$profile.'/'.$task->task_user->avatar:$profile.'/avatar.png')}}">
-                                        </a>
-                                    </li>
-
-                                    </ul>
-                                    <div class="d-flex align-items-center">
-                                    <i class="material-icons">playlist_add_check</i>
-                                    <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
-                                        <span>{{$completed_subtask}}/{{$total_subtask}}</span>
-                                    </p>
-                                    </div>
-                                    @if(Gate::check('edit task') || Gate::check('delete task'))
-                                        <div class="dropdown card-options">
-                                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">more_vert</i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-
-                                            <a class="dropdown-item" href="#">Mark as done</a>
-                                            @can('edit task')
-                                                <a href="#" class="dropdown-item" data-url="{{ route('task.edit',$task->id) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
-                                                    {{__('Edit')}}
-                                                </a>
-                                            @endcan
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="#">Archive</a>
-                                            @can('delete task')
-                                                <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$task->id}}').submit();">
-                                                    {{__('Delete')}}
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['task.destroy', $task->id],'id'=>'delete-form-'.$task->id]) !!}
-                                                {!! Form::close() !!}
-                                            @endcan
-                                        </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        @endforeach
-
-                        </div>
-                    </div>
-                @endforeach
+                    @include ('tasks.index');
+                    
                 <!--end of content list body-->
                 </div>
                 <!--end of content list-->
@@ -338,7 +230,7 @@ $(document).ready(function() {
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
 
-                    <button class="btn btn-round" data-url="{{ route('task.timesheet',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
+                    <button class="btn btn-round" data-url="{{ route('timesheets.create',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
                     <i class="material-icons">add</i>
                     </button>
                 </div>
@@ -394,7 +286,7 @@ $(document).ready(function() {
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
 
-                                        <a href="#" class="dropdown-item" data-url="{{ route('task.timesheet.edit',[$project->id,$timeSheet->id]) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                                        <a href="#" class="dropdown-item" data-url="{{ route('timesheets.edit',[$project->id,$timeSheet->id]) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
                                             {{__('Edit')}}
                                         </a>
                                         <div class="dropdown-divider"></div>
@@ -402,7 +294,7 @@ $(document).ready(function() {
                                         <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$timeSheet->id}}').submit();">
                                             {{__('Delete')}}
                                         </a>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['task.timesheet.destroy', $project->id,$timeSheet->id],'id'=>'delete-form-'.$timeSheet->id]) !!}
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['timesheets.destroy', $project->id,$timeSheet->id],'id'=>'delete-form-'.$timeSheet->id]) !!}
                                         {!! Form::close() !!}
                                     </div>
                                     </div>
@@ -562,7 +454,7 @@ $(document).ready(function() {
             maxFilesize: 2,
             parallelUploads: 1,
             acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
-            url: "{{route('project.file.upload',[$project->id])}}",
+            url: "{{route('projects.file.upload',[$project->id])}}",
 
             success: function (file, response) {
                 if (response.is_success) {

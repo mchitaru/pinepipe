@@ -12,5 +12,6 @@ class FakeDatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ContactsTableSeeder::class);
+        $this->call(LeadsTableSeeder::class);
     }
 }

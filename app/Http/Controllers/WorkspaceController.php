@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ActivityLog;
 use App\Order;
-use App\Plan;
-use App\Projects;
+use App\PaymentPlan;
+use App\Project;
 use App\User;
 
 class
@@ -41,21 +41,21 @@ WorkspaceController extends Controller
             $lead['total_lead']      = $total_lead;
             $lead['lead_percentage'] = $lead_percentage;
 
-            $activities = ActivityLog::select('activity_logs.*', 'userprojects.id as up_id')->join('userprojects', 'userprojects.project_id', '=', 'activity_logs.project_id')->where('userprojects.user_id', '=', \Auth::user()->authId())->get();
+            $activities = ActivityLog::select('activity_logs.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'activity_logs.project_id')->where('user_projects.user_id', '=', \Auth::user()->authId())->get();
 
             if(\Auth::user()->type == 'company')
             {
-                $project['projects'] = Projects::where('created_by', '=', \Auth::user()->creatorId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
+                $project['projects'] = Project::where('created_by', '=', \Auth::user()->creatorId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
             }
             elseif(\Auth::user()->type == 'client')
             {
-                $project['projects']       = Projects::where('client', '=', \Auth::user()->authId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
-                $project['project_budget'] = Projects::where('client', \Auth::user()->id)->sum('price');
+                $project['projects']       = Project::where('client', '=', \Auth::user()->authId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
+                $project['project_budget'] = Project::where('client', \Auth::user()->id)->sum('price');
 
             }
             else
             {
-                $project['projects'] = Projects::select('projects.*', 'userprojects.id as up_id')->join('userprojects', 'userprojects.project_id', '=', 'projects.id')->where('userprojects.user_id', '=', \Auth::user()->authId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
+                $project['projects'] = Project::select('projects.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', \Auth::user()->authId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
             }
 
             $project_last_stages       = \Auth::user()->last_projectstage();
@@ -125,9 +125,9 @@ WorkspaceController extends Controller
             $users['staff']  = User::where('created_by', '=', \Auth::user()->creatorId())->count();
             $users['user']   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->count();
             $users['client'] = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->count();
-            $project_status  = array_values(Projects::$project_status);
-            $projectData     = \App\Projects::getProjectStatus();
-            $taskData        = \App\Projectstages::getChartData();
+            $project_status  = array_values(Project::$project_status);
+            $projectData     = \App\Project::getProjectStatus();
+            $taskData        = \App\ProjectStage::getChartData();
 
             return view('workspace.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'project_status', 'projectData', 'taskData', 'activities'));
         }
@@ -140,8 +140,8 @@ WorkspaceController extends Controller
             $user['total_paid_user']=$user->countPaidCompany();
             $user['total_orders']=Order::total_orders();
             $user['total_orders_price']=Order::total_orders_price();
-            $user['total_plan']=Plan::total_plan();
-            $user['most_purchese_plan']=(!empty(Plan::most_purchese_plan())?Plan::most_purchese_plan()->total:0);
+            $user['total_plan']=PaymentPlan::total_plan();
+            $user['most_purchese_plan']=(!empty(PaymentPlan::most_purchese_plan())?PaymentPlan::most_purchese_plan()->total:0);
             $chartData = $this->getOrderChart(['duration'=>'week']);
 
             return view('workspace.admin',compact('user','chartData','activities'));
