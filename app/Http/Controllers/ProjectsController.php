@@ -47,7 +47,7 @@ class ProjectsController extends Controller
             $project_status = Project::$project_status;
             $project_id = '';
 
-            return view('projects.index', compact('projects', 'project_status', 'project_id', 'stages'));
+            return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages'));
         }
         else
         {
@@ -186,6 +186,7 @@ class ProjectsController extends Controller
             $project_status_list = Project::$project_status;
             $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
             $project_files = ProjectFile::where('project_id', $project_id)->get();
+            $activities = $project->activities;
 
             $timeSheets = '';
             if(\Auth::user()->can('manage timesheet'))
@@ -209,7 +210,7 @@ class ProjectsController extends Controller
                 }
             }
 
-            return view('projects.show', compact('project', 'project_user', 'project_status', 'project_id', 'stages', 'project_files', 'timeSheets'));
+            return view('projects.show', compact('project', 'project_user', 'project_status', 'project_id', 'stages', 'project_files', 'timeSheets', 'activities'));
         }
         else
         {

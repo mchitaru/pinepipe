@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 @foreach($stages as $stage)
 
     @if(\Auth::user()->type == 'company')
@@ -32,6 +36,10 @@
                             <a href="#">
                             <h6 data-filter-by="text">{{$lead->name}}</h6>
                             </a>
+                            <p>
+                                <span class="text-small">{{__('Updated')}} {{ Carbon::parse($lead->updated_at)->diffForHumans() }}</span>
+                            </p>
+        
                         </div>
                         <div class="card-title col-xs-12 col-sm-2">
                             <span class="text-small" data-filter-by="text">

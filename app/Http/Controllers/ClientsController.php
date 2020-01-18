@@ -6,6 +6,7 @@ use App\PaymentPlan;
 use App\User;
 use App\Contact;
 use App\Project;
+use App\LeadStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -118,7 +119,8 @@ class ClientsController extends ClientSectionController
     {
         $user=\Auth::user();
 
-        if(\Auth::user()->can('manage client')){
+        if(\Auth::user()->can('manage client'))
+        {
 
             $client = User::find($id);
             $contacts = Contact::where('created_by','=',$user->creatorId())->where('company','=',$client->name)->get();
@@ -126,7 +128,19 @@ class ClientsController extends ClientSectionController
 
             $project_status = Project::$project_status;
 
-            return view('clients.show', compact('client', 'contacts', 'projects', 'project_status'));
+            $leads_count = 0;
+            if(\Auth::user()->can('manage lead'))
+            {
+                $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+
+                foreach($stages as $stage){
+                    $leads_count = $leads_count + count($stage->leads()->where('client','=',$client->id)->get());
+                }
+            }
+
+            $activities = array();
+
+            return view('clients.show', compact('client', 'contacts', 'projects', 'project_status', 'stages', 'leads_count', 'activities'));
         }else{
             return redirect()->back()->with('error', 'Permission denied.');;
         }

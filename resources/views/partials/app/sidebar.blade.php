@@ -70,16 +70,16 @@
             <ul class="nav nav-small flex-column">
 
             <li class="nav-item ">
-                <a class="dropdown-item" href="{{ route('clients.index') }}/#clients">{{__('Clients')}}</a>
+                <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
             </li>
 
             <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('clients.index') }}/#contacts">{{__('Contacts')}}</a>
+                <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
             </li>
 
             @if(Gate::check('manage lead'))
             <li class="nav-item">
-                    <a class="dropdown-item disabled" href="#">{{__('Leads')}}</a>
+                    <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
             </li>
             @endif
 

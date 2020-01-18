@@ -266,7 +266,7 @@ Route::group(
             'xss',
         ],
     ], function (){
-    Route::resource('invoices', 'InvoiceController');
+    Route::resource('invoices', 'InvoicesController');
 
     Route::get('invoices/{id}/products', 'InvoicesController@productAdd')->name('invoices.products.add');
     Route::get('invoices/{id}/products/{pid}', 'InvoicesController@productEdit')->name('invoices.products.edit');
