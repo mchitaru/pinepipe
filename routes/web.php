@@ -165,6 +165,7 @@ Route::group(
         
         Route::get('projects/{id}/task', 'ProjectTasksController@create')->name('projects.task.create');
         Route::post('projects/{id}/task', 'ProjectTasksController@store')->name('projects.task.store');
+        Route::get('projects/{id}/board', 'ProjectTasksController@board')->name('projects.task.board');
 
         Route::put('projects/{id}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO
         
@@ -193,6 +194,8 @@ Route::group(
     ], function (){
 
         //Tasks
+        Route::get('tasks/board', 'TasksController@board')->name('tasks.board');
+
         Route::resource('tasks', 'TasksController');
 
         Route::post('tasks/{tid}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');

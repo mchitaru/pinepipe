@@ -11,16 +11,22 @@ use App\ProjectStage;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class TasksController extends Controller
+class TasksController extends ProjectsSectionController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function board()
     {
-        //
+        if(\Auth::user()->can('show project'))
+        {
+            $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
+            $project_id = 0;
+
+            return view('tasks.board', compact('stages', $project_id));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
     }
 
     /**

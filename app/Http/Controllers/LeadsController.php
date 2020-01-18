@@ -9,7 +9,7 @@ use App\LeadStage;
 use App\User;
 use Illuminate\Http\Request;
 
-class LeadsController extends ClientSectionController
+class LeadsController extends ClientsSectionController
 {
     public function board()
     {

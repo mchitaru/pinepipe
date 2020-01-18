@@ -82,7 +82,7 @@
                     <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
             </li>
             <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Leads Board')}}</a>
+                <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Lead Board')}}</a>
             </li>
             @endif
 
@@ -105,11 +105,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Tasks')}}</a>
+                <a class="dropdown-item" href="{{ route('tasks.index') }}">{{__('Tasks')}}</a>
             </li>
 
             <li class="nav-item">
-                <a class="dropdown-item disabled" href="#">{{__('Kanban Board')}}</a>
+                <a class="dropdown-item" href="{{ route('tasks.board') }}">{{__('Task Board')}}</a>
             </li>
 
             </ul>

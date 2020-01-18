@@ -7,7 +7,7 @@ use App\Contact;
 use App\LeadStage;
 use Illuminate\Http\Request;
 
-class ClientSectionController extends Controller
+class ClientsSectionController extends Controller
 {
     public function index()
     {

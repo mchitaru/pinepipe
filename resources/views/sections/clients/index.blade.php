@@ -57,7 +57,7 @@ $(document).ready(function() {
             <div class="dropdown-divider"></div>
             
             @can('manage lead')
-                <a class="dropdown-item" href="{{route('leads.board')}}">{{__('Leads Board')}}</a>
+                <a class="dropdown-item" href="{{route('leads.board')}}">{{__('Lead Board')}}</a>
             @endcan
         </div>
     </div>

@@ -22,7 +22,7 @@ use Carbon\Carbon;
             </li>
             <li class="breadcrumb-item"><a href="{{ route('leads.index') }}">{{__('Clients')}}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('Leads Board')}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{__('Lead Board')}}</li>
         </ol>
     </nav>
 
@@ -43,7 +43,7 @@ use Carbon\Carbon;
     <div class="container-kanban">
         <div class="container-fluid page-header d-flex justify-content-between align-items-start">
             <div class="row align-items-center">
-                <h3>Leads Board</h3>
+                <h3>Lead Board</h3>
                 <span class="badge badge-secondary">(Under Development)</span>
             </div>
         </div>

@@ -66,6 +66,12 @@
                         <span class="text-small">{{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
                     </p>
                 </div>
+                <div class="card-title">
+                    <div class="row align-items-center">
+                        <i class="material-icons">folder</i>
+                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Project')}}">{{ $task->project->name }}</span>
+                    </div>
+                </div>
                 <div class="card-meta">
                     <ul class="avatars">
 

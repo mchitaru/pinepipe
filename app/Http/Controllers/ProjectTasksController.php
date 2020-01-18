@@ -13,14 +13,18 @@ use Carbon\Carbon;
 
 class ProjectTasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function board($project_id)
     {
-        //
+        if(\Auth::user()->can('show project'))
+        {
+            $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
+
+            return view('tasks.board', compact('stages', 'project_id'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
     }
 
     /**

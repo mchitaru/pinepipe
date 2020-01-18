@@ -59,6 +59,8 @@ $(document).ready(function() {
             @if(Gate::check('edit project') || Gate::check('delete project'))
 
             @can('edit project')
+                <a class="dropdown-item" href="#">Mark as Complete</a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
                     {{__('Edit Project')}}
                 </a>
@@ -70,11 +72,11 @@ $(document).ready(function() {
                 </a>
             @endcan
 
-            <a class="dropdown-item" href="#">Mark as Complete</a>
+            <div class="dropdown-divider"></div>
             @can('manage task')
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))
-                <a class="dropdown-item" href="{{ route('projects.show',$project->id) }}" data-ajax-popup="true" data-title="{{__('Task Kanban')}}" data-toggle="tooltip" data-original-title="{{__('Task Kanban')}}">
-                    {{__('Kanban Board')}}
+                <a class="dropdown-item" href="{{ route('projects.task.board',$project->id) }}" data-title="{{__('Task Board')}}">
+                    {{__('Task Board')}}
                 </a>
             @endif
             @endcan
