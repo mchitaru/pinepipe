@@ -17,7 +17,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
-class FinanceController extends Controller
+class FinanceSectionController extends Controller
 {
     public function index()
     {
@@ -30,7 +30,8 @@ class FinanceController extends Controller
                 $invoices = Invoice::select(['invoices.*'])->join('projects', 'projects.id', '=', 'invoices.project_id')->where('projects.client', '=', \Auth::user()->id)->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
                 $expenses = Expense::select('expenses.*','projects.name')->join('projects','projects.id','=','expenses.project')->where('projects.client','=',\Auth::user()->id)->where('expenses.created_by', '=', \Auth::user()->creatorId())->get();
             }
-            else {
+            else 
+            {
                 
                 if(\Auth::user()->can('manage invoice'))
                 {
@@ -43,7 +44,9 @@ class FinanceController extends Controller
                 }
             }
 
-            return view('invoices.index', compact('invoices', 'expenses'));
+            $activities = array();
+
+            return view('sections.finance.index', compact('invoices', 'expenses', 'activities'));
         }
         else
         {

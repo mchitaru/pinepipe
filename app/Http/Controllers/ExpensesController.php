@@ -8,7 +8,7 @@ use App\Project;
 use App\User;
 use Illuminate\Http\Request;
 
-class ExpensesController extends FinanceController
+class ExpensesController extends FinanceSectionController
 {
     public function create()
     {

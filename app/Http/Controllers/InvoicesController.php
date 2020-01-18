@@ -17,7 +17,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
-class InvoicesController extends FinanceController
+class InvoicesController extends FinanceSectionController
 {
     public function create()
     {

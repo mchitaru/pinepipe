@@ -47,7 +47,9 @@ class ProjectsController extends Controller
             $project_status = Project::$project_status;
             $project_id = '';
 
-            return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages'));
+            $activities = array();
+
+            return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages', 'activities'));
         }
         else
         {

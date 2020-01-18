@@ -12,18 +12,18 @@
 <script>
 
 // keep active tab
-$(document).ready(function() {
+// $(document).ready(function() {
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        window.location.hash = $(e.target).attr('href');
-        $(window).scrollTop(0);
-    });
+//     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+//         window.location.hash = $(e.target).attr('href');
+//         $(window).scrollTop(0);
+//     });
 
-    var hash = window.location.hash ? window.location.hash : '#projects';
+//     var hash = window.location.hash ? window.location.hash : '#projects';
     
-    $('.nav-tabs a[href="' + hash + '"]').tab('show');
+//     $('.nav-tabs a[href="' + hash + '"]').tab('show');
     
-});
+// });
     
 </script>
     
@@ -67,16 +67,19 @@ $(document).ready(function() {
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Projects
+            <a class="nav-link {{(Request::segment(1)=='projects')?'active':''}}" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Projects
                 <span class="badge badge-secondary">{{ count($projects) }}</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
+            <a class="nav-link {{(Request::segment(1)=='tasks')?'active':''}}" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{(Request::segment(1)=='activity')?'active':''}}" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
         </li>
         </ul>
         <div class="tab-content">
-        <div class="tab-pane fade show" id="projects" role="tabpanel" data-filter-list="content-list-body">
+        <div class="tab-pane fade show {{(Request::segment(1)=='projects')?'active':''}}" id="projects" role="tabpanel" data-filter-list="content-list-body">
             <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -107,7 +110,7 @@ $(document).ready(function() {
             <!--end of content list-->
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show {{(Request::segment(1)=='tasks')?'active':''}}" id="tasks" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
@@ -129,11 +132,38 @@ $(document).ready(function() {
                 <!--end of content list head-->
                 <div class="content-list-body">
 
-                    @include ('tasks.index');
+                    @include('tasks.index');
                 <!--end of content list body-->
                 </div>
                 <!--end of content list-->
-        </div>
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade {{(Request::segment(1)=='activity')?'active':''}}" id="activity" role="tabpanel" data-filter-list="list-group-activity">
+                <div class="content-list">
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                    <h3>Activity</h3>
+                    </div>
+                    <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                        </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity">
+                    </div>
+                    </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body">
+                    @include('activity.index')
+                </div>
+                </div>
+                <!--end of content list-->
+            </div>
+            </div>
+            <!--end of tab-->
         </div>
     </div>
     </div>
