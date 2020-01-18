@@ -99,7 +99,7 @@ class Project extends Model
 
     public function client_project_permission()
     {
-        return ClientPermission::where('project_id', $this->id)->where('client_id', $this->client)->first();
+        return ProjectClientPermission::where('project_id', $this->id)->where('client_id', $this->client)->first();
     }
 
     public function getProjectProgress()

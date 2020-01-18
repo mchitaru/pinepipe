@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\ActivityLog;
 use App\TaskChecklist;
 use App\Client;
-use App\ClientPermission;
+use App\ProjectClientPermission;
 use App\TaskComment;
 use App\Invoice;
 use App\Label;
@@ -131,7 +131,7 @@ class ProjectsController extends Controller
                 }
 
                 $permissions = Project::$permission;
-                ClientPermission::create(
+                ProjectClientPermission::create(
                     [
                         'client_id' => $project->client,
                         'project_id' => $project->id,
@@ -254,9 +254,9 @@ class ProjectsController extends Controller
                 $project->description = $request->description;
                 $project->save();
 
-                ClientPermission::where('client_id','=',$project->client)->where('project_id','=', $project->id)->delete();
+                ProjectClientPermission::where('client_id','=',$project->client)->where('project_id','=', $project->id)->delete();
                 $permissions = Project::$permission;
-                ClientPermission::create(
+                ProjectClientPermission::create(
                     [
                         'client_id' => $project->client,
                         'project_id' => $project->id,
@@ -428,7 +428,7 @@ class ProjectsController extends Controller
         }
         $permissions = Project::$permission;
 
-        return view('clients.create', compact('permissions', 'project_id', 'client_id', 'selected'));
+        return view('clients.permissions', compact('permissions', 'project_id', 'client_id', 'selected'));
     }
 
     public function storeClientPermission(request $request, $project_id, $client_id)
@@ -451,7 +451,7 @@ class ProjectsController extends Controller
             }
             else
             {
-                ClientPermission::create(
+                ProjectClientPermission::create(
                     [
                         'client_id' => $client->id,
                         'project_id' => $project->id,

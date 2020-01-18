@@ -63,6 +63,13 @@ $(document).ready(function() {
                     {{__('Edit Project')}}
                 </a>
             @endcan
+
+            @can('client permission project')
+                <a class="dropdown-item" href="#" data-url="{{ route('projects.client.permission',[$project->id,$project->client]) }}" data-ajax-popup="true" data-title="{{__('Edit Client Permission')}}" data-toggle="tooltip" data-size="lg" data-original-title="{{__('Edit')}}">
+                    {{__('Edit Client Permission')}}
+                </a>
+            @endcan
+
             <a class="dropdown-item" href="#">Mark as Complete</a>
             @can('manage task')
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))

@@ -191,7 +191,7 @@ class User extends Authenticatable
     public function clientPermission($project_id)
     {
 
-        return ClientPermission::where('client_id', '=', $this->id)->where('project_id', '=', $project_id)->first();
+        return ProjectClientPermission::where('client_id', '=', $this->id)->where('project_id', '=', $project_id)->first();
     }
 
     public function last_leadstage()

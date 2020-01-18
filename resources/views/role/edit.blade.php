@@ -48,7 +48,7 @@
                                         <div class="row">
                                             @if(in_array('manage '.$module,(array) $permissions))
                                                 @if($key = array_search('manage '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Manage',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -56,7 +56,7 @@
                                             @endif
                                             @if(in_array('create '.$module,(array) $permissions))
                                                 @if($key = array_search('create '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Create',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -64,7 +64,7 @@
                                             @endif
                                             @if(in_array('edit '.$module,(array) $permissions))
                                                 @if($key = array_search('edit '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Edit',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -72,7 +72,7 @@
                                             @endif
                                             @if(in_array('delete '.$module,(array) $permissions))
                                                 @if($key = array_search('delete '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Delete',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -80,7 +80,7 @@
                                             @endif
                                             @if(in_array('show '.$module,(array) $permissions))
                                                 @if($key = array_search('show '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Show',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -88,7 +88,7 @@
                                             @endif
                                             @if(in_array('move '.$module,(array) $permissions))
                                                 @if($key = array_search('move '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Move',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -96,7 +96,7 @@
                                             @endif
                                             @if(in_array('client permission '.$module,(array) $permissions))
                                                 @if($key = array_search('client permission '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Client Permission',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -104,7 +104,7 @@
                                             @endif
                                             @if(in_array('invite user '.$module,(array) $permissions))
                                                 @if($key = array_search('invite user '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Invite User ',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -112,7 +112,7 @@
                                             @endif
                                             @if(in_array('change password '.$module,(array) $permissions))
                                                 @if($key = array_search('change password '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Change Password ',['class'=>'custom-control-label'])}}<br>
                                                     </div>
@@ -120,7 +120,7 @@
                                             @endif
                                                 @if(in_array('buy '.$module,(array) $permissions))
                                                 @if($key = array_search('buy '.$module,$permissions))
-                                                    <div class="col-md-3 custom-control custom-checkbox">
+                                                    <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                         {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                         {{Form::label('permission'.$key,'Buy',['class'=>'custom-control-label'])}}<br>
                                                     </div>

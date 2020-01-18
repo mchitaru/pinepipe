@@ -45,7 +45,7 @@
             <div class="col-auto">
                 <h3>{{__('User Roles')}}</h3>
                 @can('create user')
-                    <button class="btn btn-round" data-url="{{ route('roles.create') }}" data-ajax-popup="true" data-title="{{__('Create New Role')}}">
+                    <button class="btn btn-round" data-url="{{ route('roles.create') }}" data-ajax-popup="true" data-size="xl" data-title="{{__('Create New Role')}}">
                         <i class="material-icons">add</i>
                     </button>
                 @endcan
@@ -86,7 +86,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 @can('edit role')
-                                <a class="dropdown-item" href="#" data-url="{{  route('roles.edit',$role->id)}}" data-size="lg" data-ajax-popup="true" data-toggle="tooltip" data-original-title="{{__('Edit')}}" data-title="{{__('Update Role')}}">
+                                <a class="dropdown-item" href="#" data-url="{{  route('roles.edit',$role->id)}}" data-size="xl" data-ajax-popup="true" data-toggle="tooltip" data-original-title="{{__('Edit')}}" data-title="{{__('Update Role')}}">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 @endcan
