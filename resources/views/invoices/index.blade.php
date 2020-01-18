@@ -63,7 +63,8 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center">
+<div class="container">
+    <div class="row justify-content-center">
     <div class="col-xl-10 col-lg-11">
         <div class="page-header">
         </div>
@@ -147,13 +148,13 @@
                                             <span data-filter-by="text" class="text-small">{{ Auth::user()->invoiceNumberFormat($invoice->id) }}</span>
                                         </div>
                                     </div>
-                                    <div class="card-title col-sm-2">
+                                    <div class="card-title col-sm-3">
                                         <div class="container row align-items-center">
                                             <i class="material-icons">folder</i>
                                             <span data-filter-by="text" class="text-small">{{ $invoice->project->name }}</span>
                                         </div>
                                     </div>
-                                    <div class="card-title col-sm-3">
+                                    <div class="card-title col-sm-2">
                                         <div class="container row align-items-center">
                                             <i class="material-icons">person</i>
                                             <span data-filter-by="text" class="text-small">
@@ -305,5 +306,6 @@
             <!--end of tab-->
         </div>
     </div>
+</div>
 </div>
 @endsection

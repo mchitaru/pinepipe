@@ -161,6 +161,7 @@ if($client_project_budget_due_per<=15){
 
 @endphp
 
+<div class="container">
     <div class="row justify-content-center">
         <div class="container-fluid">
             <div class="row pt-5">
@@ -493,4 +494,5 @@ if($client_project_budget_due_per<=15){
             </div>
         </div>
     </div>
+</div>
 @endsection

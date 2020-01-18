@@ -33,6 +33,7 @@
 @endsection
 
 @section('content')
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-11">
             <div class="page-header">
@@ -1201,4 +1202,5 @@
             </form>
         </div>
     </div>
+</div>
 @endsection

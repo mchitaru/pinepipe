@@ -37,7 +37,8 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center">
+<div class="container">
+    <div class="row justify-content-center">
     <div class="col-xl-10 col-lg-11">
         <div class="page-header">
         </div>
@@ -152,5 +153,6 @@
             <!--end of modal body-->
         </div>
     </div>
+</div>
 </div>
 @endsection

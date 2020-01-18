@@ -66,7 +66,8 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center">
+<div class="container">
+    <div class="row justify-content-center">
     <div class="container-fluid">
         <div class="row pt-5">
             <div class="col">
@@ -300,5 +301,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

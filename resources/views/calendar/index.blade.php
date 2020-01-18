@@ -78,14 +78,16 @@
 
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="container-fluid">
-        <div class="row pt-5">
-            <div class="col">
-                <div class="card">
-                        <div class="card-body">
-                            <div class="fc-overflow">
-                                <div id="myEvent"></div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="container-fluid">
+            <div class="row pt-5">
+                <div class="col">
+                    <div class="card">
+                            <div class="card-body">
+                                <div class="fc-overflow">
+                                    <div id="myEvent"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

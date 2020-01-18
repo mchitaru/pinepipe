@@ -110,6 +110,7 @@ $(document).ready(function() {
         $days_remaining = $interval->format('%a')
     @endphp
 
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-11">
             <div class="page-header">
@@ -417,7 +418,9 @@ $(document).ready(function() {
             </div>
         </div>
     </div>
+</div>
 @endsection
+
 @push('scripts')
     <script>
         Dropzone.autoDiscover = false;

@@ -81,6 +81,9 @@
             <li class="nav-item">
                     <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
             </li>
+            <li class="nav-item">
+                <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Leads Board')}}</a>
+            </li>
             @endif
 
             </ul>

@@ -11,6 +11,20 @@ use Illuminate\Http\Request;
 
 class LeadsController extends ClientSectionController
 {
+    public function board()
+    {
+        if(\Auth::user()->can('manage lead'))
+        {
+            $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+
+            return view('leads.board', compact('stages'));
+        }    
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
+    }
+
     public function create()
     {
         if(\Auth::user()->can('create lead'))
