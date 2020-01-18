@@ -89,13 +89,11 @@
 
                     @foreach($project->project_user() as $project_user)
                     <li>
-                        @if($project->is_active==1 && !empty($project_user))
+                        @if($project->is_active==1)
                         <a href="{{ route('users.index',$project_user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($project_user)?$project_user->name:'')}}">
-                            <img alt="{{(!empty($project_user)?$project_user->name:'')}}" class="avatar" src="{{(!empty($project_user->avatar)? $profile.'/'.$project_user->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
-                        </a>
-                        @else
-                        <a data-toggle="tooltip" data-original-title="{{(!empty($project_user)?$project_user->name:'')}}">
-                            <img alt="{{(!empty($project_user)?$project_user->name:'')}}" class="avatar" src="{{(!empty($project_user->avatar)? $profile.'/'.$project_user->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
+                        @endif
+                            <img alt="{{$project_user->name}}" {!! empty($project_user->avatar) ? "avatar='".$project_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$project_user->avatar))}}" data-filter-by="alt"/>
+                        @if($project->is_active==1)
                         </a>
                         @endif
                     </li>

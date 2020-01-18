@@ -215,11 +215,7 @@
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                @if(empty($users->avatar))
-                    <img width="36" height="36" alt="{{$users->name}}" title="{{$users->name}}" avatar="{{$users->name}}" class="rounded" />
-                @else
-                    <img width="36" height="36" alt="{{$users->name}}" title="{{$users->name}}" src="{{($profile.'/'.$users->avatar)}}" class="rounded" />
-                @endif
+                <img alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
             </a>
         </a>
         <div class="dropdown-menu">

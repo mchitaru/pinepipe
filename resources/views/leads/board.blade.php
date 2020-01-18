@@ -104,12 +104,8 @@ use Carbon\Carbon;
                             </span>
                             <div class="float-right">
                                 <a href="#" data-toggle="tooltip" title="Ravi">
-                                    @if(empty($client->avatar))
-                                        <img width="32" height="32" alt="{{$client->name}}" avatar="{{$client->name}}" class="round" />
-                                    @else
-                                        <img alt={{$client->name}} class="avatar" src="{{ asset(Storage::url("avatar/".$client->avatar))}}" />
-                                    @endif
-                                 </a>
+                                    <img alt="{{$client->name}}" {!! empty($client->avatar) ? "avatar='".$client->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$client->avatar))}}" data-filter-by="alt"/>
+                                </a>
                             </div>
                          </div>
                     </div>

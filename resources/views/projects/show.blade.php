@@ -134,16 +134,11 @@ $(document).ready(function() {
             <p class="lead">{{ $project->description }}</p>
             <div class="d-flex align-items-center">
                 <ul class="avatars">
-                    <li>
-                        <a href="{{ route('users.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{ (!empty($project->client())?$project->client()->name:'') }}">
-                            <img class="avatar" src="{{(!empty($project->client()->avatar)? $profile.'/'.$project->client()->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
-                        </a>
-                    </li>
 
                     @foreach($project->project_user() as $user)
                     <li>
                         <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
-                            <img alt="{{$user->name}}" class="avatar" src="{{(!empty($user->avatar)? $profile.'/'.$user->avatar:$profile.'/avatar.png')}}" data-filter-by="alt" />
+                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
                         </a>
                     </li>
                     @endforeach
@@ -280,15 +275,11 @@ $(document).ready(function() {
                                 </div>
                             </div>
                             <div class="card-meta">
-                                <ul class="avatars">
-
-                                <li>
-                                    <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}">
-                                        <img alt="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}" class="avatar" src="{{(!empty($timeSheet->user()->avatar)?$profile.'/'.$timeSheet->user()->avatar:$profile.'/avatar.png')}}">
-                                    </a>
-                                </li>
-
-                                </ul>
+                                @if(!empty($timeSheet->user()))
+                                <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}">
+                                    <img alt="{{$timeSheet->user()->name}}" {!! empty($timeSheet->user()->avatar) ? "avatar='".$timeSheet->user()->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$timeSheet->user()->avatar))}}" data-filter-by="alt"/>
+                                </a>
+                                @endif
                                 @if(\Auth::user()->type!='client')
                                     <div class="dropdown card-options">
                                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

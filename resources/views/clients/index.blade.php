@@ -3,11 +3,7 @@
     <div class="container row align-items-center" style="min-height: 67px;">
         <div class="pl-2 position-absolute">
             <a href="#" data-toggle="tooltip" title={{$client->name}}>
-                @if(empty($client->avatar))
-                    <img width="32" height="32" alt="{{$client->name}}" avatar="{{$client->name}}" class="round" />
-                @else
-                    <img alt={{$client->name}} class="avatar" src="{{ asset(Storage::url("avatar/".$client->avatar))}}" />
-                @endif
+                <img alt="{{$client->name}}" {!! empty($client->avatar) ? "avatar='".$client->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$client->avatar))}}" data-filter-by="alt"/>
             </a>
         </div>
         <div class="card-body p-2 pl-5">
@@ -21,11 +17,11 @@
             </div>
             <div class="card-title col-xs-12 col-sm-5">
                 <div class="container row align-items-center">
-                    <span class="text-small">
-                        <i class="material-icons">email</i>
-                    </span>
+                    <i class="material-icons">email</i>
                     <a href="mailto:kenny.tran@example.com">
-                        <h6 data-filter-by="text">{{$client->email}}</h6>
+                        <span data-filter-by="text" class="text-small">
+                            {{$client->email}}
+                        </span>
                     </a>
                 </div>
             </div>

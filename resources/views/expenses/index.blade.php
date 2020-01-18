@@ -42,11 +42,7 @@
                     </a>
                 @endif
                 <a href="#" data-toggle="tooltip" title={{$expense->user->name}}>
-                    @if(empty($expense->user->avatar))
-                        <img width="32" height="32" alt="{{$expense->user->name}}" avatar="{{$expense->user->name}}" class="round" />
-                    @else
-                        <img alt={{$expense->user->name}} class="avatar" src="{{ asset(Storage::url("avatar/".$expense->user->avatar))}}" />
-                    @endif
+                    <img alt="{{$expense->user->name}}" {!! empty($expense->user->avatar) ? "avatar='".$expense->user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$expense->user->avatar))}}" data-filter-by="alt"/>
                 </a>
             </div>
             @endif

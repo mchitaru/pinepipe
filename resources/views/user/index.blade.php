@@ -71,7 +71,7 @@
                     <div class="container row align-items-center">
                         <div class="pl-2 position-absolute">
                             <a href="#" data-toggle="tooltip" title={{$user->name}}>
-                                <img alt={{$user->name}} class="avatar" src="{{(!empty($user->avatar))? asset(Storage::url("avatar/".$user->avatar)): asset(Storage::url("avatar/avatar.png"))}}" />
+                                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
                             </a>
                         </div>
                         <div class="card-body p-2 pl-5">
@@ -85,7 +85,9 @@
                                 <span class="d-flex align-items-center">
                                     <i class="material-icons">email</i>
                                     <a href="mailto:kenny.tran@example.com">
-                                        <h6 data-filter-by="text">{{$user->email}}</h6>
+                                        <span data-filter-by="text" class="text-small">
+                                            {{$user->email}}
+                                        </span>
                                     </a>
                                 </span>
                                 <span class="text-small">

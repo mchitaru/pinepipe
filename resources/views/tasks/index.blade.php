@@ -76,9 +76,11 @@
                     <ul class="avatars">
 
                     <li>
+                        @if(!empty($task->task_user))
                         <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
-                            <img alt="{{(!empty($task->task_user)?$task->task_user->name:'')}}" class="avatar" src="{{(!empty($task->task_user->avatar)?$profile.'/'.$task->task_user->avatar:$profile.'/avatar.png')}}">
+                            <img alt="{{$task->task_user->name}}" {!! empty($task->task_user->avatar) ? "avatar='".$task->task_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$task->task_user->avatar))}}" data-filter-by="alt"/>
                         </a>
+                        @endif
                     </li>
 
                     </ul>
