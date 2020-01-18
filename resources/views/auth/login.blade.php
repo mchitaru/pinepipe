@@ -6,16 +6,11 @@
         <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7">
             <div class="text-center">
-            <h1 class="h2">Welcome Back &#x1f44b;</h1>
-            <p class="lead">Log in to your account to continue</p>
+            <h1 class="h2">{{__('Welcome Back')}} &#x1f44b;</h1>
+            <p class="lead">{{__('Log in to your account to continue')}}</p>
             {{Form::open(array('route'=>'login','method'=>'post','id'=>'loginForm','class'=> 'login-form' ))}}
             <div class="form-group">
                 {{Form::text('email',null,array('class'=>'form-control form-control-solid placeholder-no-fix','placeholder'=>__('Email Address')))}}
-                @error('email')
-                <span class="invalid-email text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                @enderror
             </div>
             <div class="form-group">
                 {{Form::password('password',array('class'=>'form-control form-control-solid placeholder-no-fix','placeholder'=>__('Password')))}}
@@ -26,11 +21,6 @@
                         </small>
                     </div>
                 @endif
-                @error('password')
-                <span class="invalid-password text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                @enderror
             </div>
             <div class="form-group mb-3">
                 <div class="form-check">
@@ -42,6 +32,7 @@
                 </div>
 
             </div>
+            @include('partials.errors')
             <div class="form-group row mb-0">
                 {{Form::submit(__('Login'),array('class'=>'btn btn-lg btn-block btn-primary','id'=>'saveBtn'))}}
             </div>
