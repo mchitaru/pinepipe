@@ -35,7 +35,7 @@ $(document).ready(function() {
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('User')}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{__('Clients')}}</li>
         </ol>
     </nav>
 
@@ -45,9 +45,20 @@ $(document).ready(function() {
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="#">{{__('New Client')}}</a>
-            <a class="dropdown-item" href="#">{{__('New contact')}}</a>
-
+            @can('create client')
+                <a class="dropdown-item" href="#" data-url="{{ route('clients.create') }}" data-ajax-popup="true" data-title="{{__('Create New Client')}}">{{__('New Client')}}</a>
+                <a class="dropdown-item" href="#" data-url="{{ route('contacts.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}">{{__('New Contact')}}</a>
+            @endcan
+            
+            @can('create lead')
+                <a class="dropdown-item" href="#" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Lead')}}">{{__('New Lead')}}</a>
+            @endcan
+            
+            <div class="dropdown-divider"></div>
+            
+            @can('manage lead')
+                <a class="dropdown-item" href="{{route('leads.board')}}">{{__('Leads Board')}}</a>
+            @endcan
         </div>
     </div>
 </div>
@@ -141,7 +152,7 @@ $(document).ready(function() {
                     <div class="col-auto">
                         <h3>{{__('Leads')}}</h3>
                         @can('create lead')
-                        <button class="btn btn-round" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                        <button class="btn btn-round" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Lead')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
                             <i class="material-icons">add</i>
                         </button>
                         @endcan
