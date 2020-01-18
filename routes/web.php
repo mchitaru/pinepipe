@@ -58,11 +58,12 @@ Route::resource('clients', 'ClientsController')->middleware(
     ]
 );
 
-Route::get('clients/contacts/create', 'ClientsController@contactCreate')->name('contact.create');
-Route::get('clients/contacts/{id}/edit', 'ClientsController@contactEdit')->name('contact.edit');
-Route::get('clients/contacts/{id}/show', 'ClientsController@contactShow')->name('contact.show');
-Route::delete('clients/contacts/{id}/delete', 'ClientsController@contactDestroy')->name('contact.destroy');
-
+Route::resource('contacts', 'ContactsController')->middleware(
+    [
+        'auth',
+        'xss',
+    ]
+);
 
 Route::resource('roles', 'UserRolesController')->middleware(
     [

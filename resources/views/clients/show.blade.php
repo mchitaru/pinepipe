@@ -94,7 +94,7 @@ $(document).ready(function() {
                     <div class="col-auto">
                         <h3>{{__('Contacts')}}</h3>
                         @can('create client')
-                        <button class="btn btn-round" data-url="{{ route('contact.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                        <button class="btn btn-round" data-url="{{ route('contacts.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
                             <i class="material-icons">add</i>
                         </button>
                         @endcan
@@ -151,7 +151,7 @@ $(document).ready(function() {
     
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @can('edit client')
-                                            <a class="dropdown-item" href="#" data-url="{{ route('contact.edit',$contact->id) }}" data-ajax-popup="true" data-title="{{__('Update Contact')}}">
+                                            <a class="dropdown-item" href="#" data-url="{{ route('contacts.edit',$contact->id) }}" data-ajax-popup="true" data-title="{{__('Update Contact')}}">
                                                 <span>{{__('Edit')}}</span>
                                             </a>
                                             @endcan
@@ -160,7 +160,7 @@ $(document).ready(function() {
                                                 <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('contact-delete-form-{{$contact['id']}}').submit();">
                                                     <span>{{'Delete'}}</span>
                                                 </a>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['contact.destroy', $contact['id']],'id'=>'contact-delete-form-'.$contact['id']]) !!}
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['contacts.destroy', $contact['id']],'id'=>'contact-delete-form-'.$contact['id']]) !!}
                                                 {!! Form::close() !!}
                                             @endcan
                                         </div>

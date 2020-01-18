@@ -70,6 +70,11 @@ $(document).ready(function() {
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#leads" role="tab" aria-controls="leads" aria-selected="false">{{__('Leads')}}
+                    <span class="badge badge-secondary">{{ $leads_count }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
             </ul>
@@ -97,78 +102,7 @@ $(document).ready(function() {
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-                    @foreach($clients as $client)
-                    <div class="card card-task mb-1">
-                        <div class="container row align-items-center" style="min-height: 67px;">
-                            <div class="pl-2 position-absolute">
-                                <a href="#" data-toggle="tooltip" title={{$client->name}}>
-                                    @if(empty($client->avatar))
-                                        <img width="32" height="32" alt="{{$client->name}}" avatar="{{$client->name}}" class="round" />
-                                    @else
-                                        <img alt={{$client->name}} class="avatar" src="{{ asset(Storage::url("avatar/".$client->avatar))}}" />
-                                    @endif
-                                </a>
-                            </div>
-                            <div class="card-body p-2 pl-5">
-                                <div class="card-title col-xs-12 col-sm-3">
-                                    <a href="{{ route('clients.show',$client->id) }}">
-                                        <h6 data-filter-by="text">{{$client->name}}</h6>
-                                    </a>
-                                    @if(array_key_exists($client->name, $contacts_count))
-                                        <span class="text-small">{{$contacts_count[$client->name]}} contact(s)</span>
-                                    @endif
-                                </div>
-                                <div class="card-title col-xs-12 col-sm-5">
-                                    <div class="container row align-items-center">
-                                        <span class="text-small">
-                                            <i class="material-icons">email</i>
-                                        </span>
-                                        <a href="mailto:kenny.tran@example.com">
-                                            <h6 data-filter-by="text">{{$client->email}}</h6>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-meta col">
-                                    <div class="d-flex align-items-center justify-content-end">
-                                        <span class="badge badge-secondary mr-2">
-                                            <i class="material-icons" title="Projects">folder</i>
-                                            {{$client->client_project()}}
-                                        </span>
-                                        <span class="badge badge-secondary mr-2">
-                                            <i class="material-icons" title="Leads">phone</i>
-                                            {{$client->client_lead()}}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="dropdown card-options">
-                                    @if($client->is_active==1)
-                                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </button>
-
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        @can('edit client')
-                                        <a class="dropdown-item" href="#" data-url="{{ route('clients.edit',$client->id) }}" data-ajax-popup="true" data-title="{{__('Update Client')}}">
-                                            <span>{{__('Edit')}}</span>
-                                        </a>
-                                        @endcan
-                                        <div class="dropdown-divider"></div>
-                                        @can('delete client')
-                                            <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$client['id']}}').submit();">
-                                                <span>{{'Delete'}}</span>
-                                            </a>
-                                            {!! Form::open(['method' => 'DELETE', 'route' => ['clients.destroy', $client['id']],'id'=>'delete-form-'.$client['id']]) !!}
-                                            {!! Form::close() !!}
-                                        @endcan
-                                    </div>
-                                    @else
-                                    <i class="material-icons">lock</i>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                    @include('clients.index')
                 </div>
                 <!--end of content list body-->
             </div>
@@ -178,7 +112,7 @@ $(document).ready(function() {
                     <div class="col-auto">
                         <h3>{{__('Contacts')}}</h3>
                         @can('create client')
-                        <button class="btn btn-round" data-url="{{ route('contact.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                        <button class="btn btn-round" data-url="{{ route('contacts.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
                             <i class="material-icons">add</i>
                         </button>
                         @endcan
@@ -196,63 +130,35 @@ $(document).ready(function() {
                     </div>
                     <!--end of content list head-->
                     <div class="content-list-body">
-                        @foreach($contacts as $contact)
-                        <div class="card card-task mb-1">
-                            <div class="container row align-items-center" style="min-height: 77px;">
-                                <div class="pl-2 position-absolute">
-                                </div>
-                                <div class="card-body p-2">
-                                    <div class="card-title col-xs-12 col-sm-3">
-                                        <a href="#">
-                                        <h6 data-filter-by="text">{{$contact->name}}</h6>
-                                        </a>
-                                    </div>
-                                    <div class="card-title col-xs-12 col-sm-5">
-                                        <div class="container row align-items-center">
-                                            <span class="text-small">
-                                                <i class="material-icons">email</i>
-                                            </span>
-                                            <a href="mailto:kenny.tran@example.com">
-                                                <h6 data-filter-by="text">{{$contact->email}}</h6>
-                                            </a>
-                                        </div>
-                                        <div class="container row align-items-center">
-                                            <i class="material-icons">phone</i>
-                                            <span data-filter-by="text" class="text-small">{{$contact->phone}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-meta col">
-                                        <div class="d-flex align-items-center justify-content-end">
-                                            <span data-filter-by="text" class="badge badge-secondary mr-2">
-                                                {{$contact->company}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown card-options">
-                                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">more_vert</i>
-                                        </button>
-
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            @can('edit client')
-                                            <a class="dropdown-item" href="#" data-url="{{ route('contact.edit',$contact->id) }}" data-ajax-popup="true" data-title="{{__('Update Contact')}}">
-                                                <span>{{__('Edit')}}</span>
-                                            </a>
-                                            @endcan
-                                            <div class="dropdown-divider"></div>
-                                            @can('delete client')
-                                                <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('contact-delete-form-{{$contact['id']}}').submit();">
-                                                    <span>{{'Delete'}}</span>
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['contact.destroy', $contact['id']],'id'=>'contact-delete-form-'.$contact['id']]) !!}
-                                                {!! Form::close() !!}
-                                            @endcan
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        @include('contacts.index')
+                    </div>
+                    <!--end of content list body-->
+                </div>
+            <!--end of tab-->
+            <div class="tab-pane fade show" id="leads" role="tabpanel" data-filter-list="content-list-body">
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                        <h3>{{__('Leads')}}</h3>
+                        @can('create client')
+                        <button class="btn btn-round" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                            <i class="material-icons">add</i>
+                        </button>
+                        @endcan
+                    </div>
+                    <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                            </span>
                         </div>
-                        @endforeach
+                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Leads')}}" aria-label="{{__('Filter Leads')}}">
+                        </div>
+                    </form>
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body">
+                        @include ('leads.index');
                     </div>
                     <!--end of content list body-->
                 </div>

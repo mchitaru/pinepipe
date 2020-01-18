@@ -9,29 +9,8 @@ use App\LeadStage;
 use App\User;
 use Illuminate\Http\Request;
 
-class LeadsController extends Controller
+class LeadsController extends ClientSectionController
 {
-    public function index()
-    {
-        if(\Auth::user()->can('manage lead'))
-        {
-            $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
-
-            return view('leads.index', compact('stages'));
-        }
-        else
-        {
-            if(\Auth::user()->type == 'client')
-            {
-                $leads = Lead::select('leads.*', 'leadstages.name as stage_name')->join('leadstages', 'leadstages.id', '=', 'leads.stage')->where('leads.client', \Auth::user()->id)->where('leadstages.created_by', \Auth::user()->creatorId())->get();
-
-                return view('leads.client_index', compact('leads'));
-            }
-
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
-    }
-
     public function create()
     {
         if(\Auth::user()->can('create lead'))

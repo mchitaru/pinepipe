@@ -10,34 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class ClientsController extends Controller
+class ClientsController extends ClientSectionController
 {
-    public function index()
-    {
-        $client=\Auth::user();
-        if(\Auth::user()->can('manage client')){
-            $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->get();
-            
-            $contacts = Contact::where('created_by','=',$client->creatorId())->get();
-
-            $contact_clients = array();
-            
-            foreach($contacts as $key => $contact)
-                $contact_clients[$key] = $contact->company;
-
-            $contacts_count = array_count_values($contact_clients);
-
-            return view('client.index', compact('clients', 'contacts', 'contacts_count'));
-        }else{
-            return redirect()->back();
-        }
-    }
-
-
+ 
     public function create()
     {
         if(\Auth::user()->can('create client')) {
-            return view('client.create');
+            return view('clients.create');
         }else{
             return redirect()->back();
         }
@@ -87,7 +66,7 @@ class ClientsController extends Controller
     {
         if(\Auth::user()->can('edit client')) {
             $client = User::findOrFail($id);
-            return view('client.edit', compact('client'));
+            return view('clients.edit', compact('client'));
         }else{
             return redirect()->back();
         }
@@ -147,7 +126,7 @@ class ClientsController extends Controller
 
             $project_status = Project::$project_status;
 
-            return view('client.show', compact('client', 'contacts', 'projects', 'project_status'));
+            return view('clients.show', compact('client', 'contacts', 'projects', 'project_status'));
         }else{
             return redirect()->back()->with('error', 'Permission denied.');;
         }
@@ -155,7 +134,7 @@ class ClientsController extends Controller
 
     public function profile(){
         $userDetail=\Auth::user();
-        return view('client.profile')->with('userDetail',$userDetail);
+        return view('clients.profile')->with('userDetail',$userDetail);
     }
 
     public function editprofile(Request $request){
@@ -199,50 +178,5 @@ class ClientsController extends Controller
     {
         $leads=Lead::find($id);
         return view('client.convert_client',compact('leads'));
-    }
-
-    public function contactCreate()
-    {
-        if(\Auth::user()->can('create client')) {
-            return view('client.create');
-        }else{
-            return redirect()->back();
-        }
-    }
-
-    public function contactEdit($id)
-    {
-        if(\Auth::user()->can('edit client')) {
-            $client = User::findOrFail($id);
-            return view('client.edit', compact('client'));
-        }else{
-            return redirect()->back();
-        }
-
-    }
-    
-    public function contactShow(){
-        $userDetail=\Auth::user();
-        return view('client.profile')->with('userDetail',$userDetail);
-    }
-
-    public function contactDestroy($id)
-    {
-        if(\Auth::user()->can('delete client')) {
-            $user = User::find($id);
-            if($user) {
-                $user->delete();
-                $user->destroyUserNotesInfo($user->id);
-                $user->removeClientProjectInfo($user->id);
-                $user->removeClientLeadInfo($user->id);
-                $user->destroyUserTaskAllInfo($user->id);
-
-                return redirect()->route('clients.index')->with('success',  __('Client Deleted Successfully.'));
-            }else{
-                return redirect()->back()->with('error',__('Something is wrong.'));
-            }
-        }else{
-            return redirect()->back();
-        }
     }
 }
