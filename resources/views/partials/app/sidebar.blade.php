@@ -215,7 +215,7 @@
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
+                <img width="36" height="36" alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="rounded" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
             </a>
         </a>
         <div class="dropdown-menu">

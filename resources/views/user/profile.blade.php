@@ -88,7 +88,7 @@
                 {{Form::model($userDetail,array('route' => array('update.account'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
                 <div class="media mb-4">
                     <div class="d-flex flex-column">
-                        <img width="60" height="60" alt="{{$userDetail->name}}" {!! empty($userDetail->avatar) ? "avatar='".$userDetail->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$userDetail->avatar))}}" data-filter-by="alt"/>
+                        <img width="60" height="60" alt="{{$userDetail->name}}" {!! empty($userDetail->avatar) ? "avatar='".$userDetail->name."'" : "" !!} class="round" src="{{asset(Storage::url("avatar/".$userDetail->avatar))}}" data-filter-by="alt"/>
                         <span class="badge badge-secondary">{{$userDetail->type}}</span>
                     </div>
                 <div class="media-body ml-3">

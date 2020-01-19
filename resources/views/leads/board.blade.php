@@ -44,7 +44,7 @@ use Carbon\Carbon;
         <div class="container-fluid page-header d-flex justify-content-between align-items-start">
             <div class="row align-items-center">
                 <h3>Lead Board</h3>
-                <span class="badge badge-secondary">(Under Development)</span>
+                <span class="badge badge-secondary">demo</span>
             </div>
         </div>
         <div class="kanban-board container-fluid mt-lg-3">
