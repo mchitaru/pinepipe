@@ -223,7 +223,7 @@ $(document).ready(function() {
                 <!--end of content list head-->
                 <div class="content-list-body">
 
-                    @include ('tasks.index');
+                    @include('tasks.index')
                     
                 <!--end of content list body-->
                 </div>

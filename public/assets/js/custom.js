@@ -106,6 +106,7 @@ $(document).on("submit", "#commonModalOver form", function (e) {
 function common_bind(selector = "body") {
   flatpickr('.datepicker');
   flatpickr('[data-flatpickr]');
+  LetterAvatar.transform();
   // var $datepicker = $(selector + ' .datepicker');
 
   // if ($(".datepicker").length) {
