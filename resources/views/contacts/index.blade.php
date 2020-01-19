@@ -15,7 +15,7 @@
                         <i class="material-icons">email</i>
                     </span>
                     <a href="mailto:kenny.tran@example.com">
-                        <h6 data-filter-by="text">{{$contact->email}}</h6>
+                        <span data-filter-by="text" class="text-small">{{$contact->email}}</span>
                     </a>
                 </div>
                 <div class="container row align-items-center">
