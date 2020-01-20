@@ -33,7 +33,7 @@ class ProjectTasksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($project_id)
-    {        
+    {
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $milestones = Milestone::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
@@ -105,8 +105,8 @@ class ProjectTasksController extends Controller
                     'log_type' => 'Create Task',
                     'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
                     'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                                __('create task') .
-                                ' <a href="' . route('tasks.show', $task->id) . '">'. $task->title.'</a>',
+                                __('created task') .
+                                ' <a href="#" data-url="'.route('tasks.show',$task->id).'" data-ajax-popup="true"  data-size="lg">'.$task->title.'</a>',
                 ]
             );
 
