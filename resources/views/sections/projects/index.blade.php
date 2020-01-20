@@ -20,13 +20,13 @@
 //     });
 
 //     var hash = window.location.hash ? window.location.hash : '#projects';
-    
+
 //     $('.nav-tabs a[href="' + hash + '"]').tab('show');
-    
+
 // });
-    
+
 </script>
-    
+
 @endpush
 
 @section('page-title')
@@ -72,7 +72,9 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(Request::segment(1)=='tasks')?'active':''}}" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
+            <a class="nav-link {{(Request::segment(1)=='tasks')?'active':''}}" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks
+                <span class="badge badge-secondary">{{ $task_count }}</span>
+            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{(Request::segment(1)=='activity')?'active':''}}" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>

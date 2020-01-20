@@ -24,13 +24,18 @@ class ProjectsSectionController extends Controller
 
             }
 
-            $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
             $project_status = Project::$project_status;
             $project_id = '';
-            
+
             $activities = array();
 
-            return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages', 'activities'));
+            $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
+            $task_count = 0;
+            foreach($stages as $stage){
+                $task_count = $task_count + count($stage->tasks($project_id));
+            }
+
+            return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages', 'task_count', 'activities'));
         }
         else
         {
