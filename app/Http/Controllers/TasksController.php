@@ -37,7 +37,7 @@ class TasksController extends ProjectsSectionController
      */
     public function create()
     {
-        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend('--', '0');
         $priority   = Project::$priority;
         $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
         $users      = array();
@@ -58,59 +58,58 @@ class TasksController extends ProjectsSectionController
      */
     public function store(Request $request)
     {
-        if(\Auth::user()->type == 'company')
-        {
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'title' => 'required',
-                                   'priority' => 'required',
-                                   'assign_to' => 'required',
-                                   'due_date' => 'required',
-                                   'start_date' => 'required',
-                               ]
-            );
-        }
-        else
-        {
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'title' => 'required',
-                                   'priority' => 'required',
-                                   'due_date' => 'required',
-                                   'start_date' => 'required',
-                               ]
-            );
-        }
-        if($validator->fails())
-        {
-            $messages = $validator->getMessageBag();
+        // if(\Auth::user()->type == 'company')
+        // {
+        //     $validator = \Validator::make(
+        //         $request->all(), [
+        //                            'title' => 'required',
+        //                            'priority' => 'required',
+        //                            'assign_to' => 'required',
+        //                            'due_date' => 'required',
+        //                            'start_date' => 'required',
+        //                        ]
+        //     );
+        // }
+        // else
+        // {
+        //     $validator = \Validator::make(
+        //         $request->all(), [
+        //                            'title' => 'required',
+        //                            'priority' => 'required',
+        //                            'due_date' => 'required',
+        //                            'start_date' => 'required',
+        //                        ]
+        //     );
+        // }
+        // if($validator->fails())
+        // {
+        //     $messages = $validator->getMessageBag();
 
-            return redirect()->back()->with('error', $messages->first());
-        }
+        //     return redirect()->back()->with('error', $messages->first());
+        // }
 
-        $post = $request->all();
-        if(\Auth::user()->type != 'company')
-        {
-            $post['assign_to'] = \Auth::user()->id;
-        }
-        $post['project_id'] = '0';
-        $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-        $post['created_by'] = \Auth::user()->creatorId();
-        $task               = Task::make($post);
-        $task->created_by  = \Auth::user()->creatorId();
-        $task->save();
+        // $post = $request->all();
+        // if(\Auth::user()->type != 'company')
+        // {
+        //     $post['assign_to'] = \Auth::user()->id;
+        // }
+            
+        // $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        // $task               = Task::make($post);
+        // $task->created_by  = \Auth::user()->creatorId();
+        // $task->save();
 
-        ActivityLog::create(
-            [
-                'user_id' => \Auth::user()->creatorId(),
-                'project_id' => '0',
-                'log_type' => 'Create Task',
-                'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('create task') .
-                            ' <a href="' . route('tasks.show', $task->id) . '">'. $task->title.'</a>',
-            ]
-        );
+        // ActivityLog::create(
+        //     [
+        //         'user_id' => \Auth::user()->creatorId(),
+        //         'project_id' => '0',
+        //         'log_type' => 'Create Task',
+        //         'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
+        //         'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+        //                     __('create task') .
+        //                     ' <a href="' . route('tasks.show', $task->id) . '">'. $task->title.'</a>',
+        //     ]
+        // );
 
         return redirect()->back()->with('success', __('Task successfully created.'));
     }
@@ -146,7 +145,7 @@ class TasksController extends ProjectsSectionController
     {
         $task       = Task::find($task_id);
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
-        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend('--', '0');
         $users      = array();
         if(!empty($project)){
             $usersArr   = UserProject::where('project_id', '=', $task->project_id)->get();
@@ -191,9 +190,7 @@ class TasksController extends ProjectsSectionController
         }
 
         $task    = Task::find($task_id);
-        $project = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
-        $post               = $request->all();
-        $post['project_id'] = $task->project_id;
+        $post    = $request->all();
         $task->update($post);
 
         return redirect()->back()->with('success', __('Task Updated Successfully!'));

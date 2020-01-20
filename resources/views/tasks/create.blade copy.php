@@ -1,14 +1,12 @@
-@extends('layouts.modal')
-
-@section('form-start') 
-{{ Form::open(array('route' => (!empty($project_id) ? array('projects.task.store', $project_id) : array('tasks.store')), 'data-remote' => 'true')) }}
-@endsection
-
-@section('title') 
-Demo Modal 
-@endsection
-
-@section('content')
+{{ Form::open(!empty($project_id) ? array('route' => array('projects.task.store',$project_id)) : array('route' => array('tasks.store'))) }}
+<div class="modal-header">
+    <h5 class="modal-title"></h5>
+    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+    <i class="material-icons">close</i>
+    </button>
+</div>
+<!--end of modal head-->
+<div class="modal-body">
     <div class="tab-content">
         <h6>{{__('General Details')}}</h6>
         <div class="form-group row align-items-center">
@@ -50,12 +48,9 @@ Demo Modal
         </div>
     </div>
     @include('partials.errors')
-@endsection
-
-@section('footer')
+</div>
+<!--end of modal body-->
+<div class="modal-footer">
     {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
-@endsection
-
-@section('form-end') 
+</div>
 {{ Form::close() }}
-@endsection
