@@ -94,7 +94,7 @@
                                     {{($user->delete_status==0)?'Soft deleted':''}}
                                 </span>
                             </div>
-                            <div class="card-meta col">
+                            <div class="card-meta col-2">
                                 <div class="d-flex align-items-center justify-content-end">
                                     @if(\Auth::user()->type=='super admin')
                                     <span class="badge badge-secondary mr-2">

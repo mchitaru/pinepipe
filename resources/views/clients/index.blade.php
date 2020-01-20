@@ -25,7 +25,7 @@
                     </a>
                 </div>
             </div>
-            <div class="card-meta col">
+            <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
                     <span class="badge badge-secondary mr-2">
                         <i class="material-icons" title="Projects">folder</i>
