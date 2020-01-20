@@ -4,9 +4,12 @@
 @include('partials.app.head')
 
 <body>
-    <div class="layout layout-nav-top"> 
+    <div class="layout layout-nav-side">
 
-        @include('partials.app.header')
+    {{-- <div class="layout layout-nav-top"> --}}
+    
+        @include('partials.app.sidebar')
+        {{-- @include('partials.app.header') --}}
 
         <div class="main-container">
 

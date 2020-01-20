@@ -165,7 +165,7 @@ if($client_project_budget_due_per<=15){
     <div class="row justify-content-center">
         <div class="container-fluid">
             <div class="row pt-5">
-                <div class="col">
+                <div class="col-xs-6 col-sm-9">
                     <div class="row">
                         <div class="col">
                             <div class="card card-info">
@@ -465,7 +465,7 @@ if($client_project_budget_due_per<=15){
                     </div>
                 </div>
                 @if(\Auth::user()->type!='client')
-                <div class="col-sm">
+                <div class="col-xs-6 col-sm-3">
                     <div class="row">
                         <div class="col">
                             <div class="card">
