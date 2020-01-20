@@ -124,8 +124,8 @@ $('#modal').on('show.bs.modal', function (e) {
                         <i class="material-icons">add</i>
                     </button> --}}
 
-                    <a href="{{ route('tasks.create') }}" class="btn btn-round" data-remote="true" data-type="text"> 
-                        <i class="material-icons">add</i> 
+                    <a href="{{ route('tasks.create') }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <i class="material-icons">add</i>
                     </a>
 
                 </div>

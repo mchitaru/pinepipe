@@ -1,11 +1,11 @@
 @extends('layouts.modal')
 
-@section('form-start') 
+@section('form-start')
 {{ Form::open(array('route' => (!empty($project_id) ? array('projects.task.store', $project_id) : array('tasks.store')), 'data-remote' => 'true')) }}
 @endsection
 
-@section('title') 
-Demo Modal 
+@section('title')
+Demo Modal
 @endsection
 
 @section('content')
@@ -53,9 +53,9 @@ Demo Modal
 @endsection
 
 @section('footer')
-    {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
+    {{Form::submit(__('Create'),array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
 @endsection
 
-@section('form-end') 
+@section('form-end')
 {{ Form::close() }}
 @endsection
