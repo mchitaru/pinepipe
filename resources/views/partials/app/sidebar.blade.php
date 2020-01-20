@@ -10,7 +10,7 @@
 
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
         <a class="navbar-brand" href="{{ route('home') }}">
-            <img alt="Pipeline" width=30 src="{{ asset('assets/img/logo.svg') }}" />
+            <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
         </a>
     <div class="d-flex align-items-center">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,12 +19,35 @@
     <div class="d-block d-lg-none ml-2">
         <div class="dropdown">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img alt="Image" src="assets/img/avatar-male-4.jpg" class="avatar" />
+            <img width="36" height="36" alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="round" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a href="nav-side-user.html" class="dropdown-item">Profile</a>
-            <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
-            <a href="#" class="dropdown-item">Log Out</a>
+            @can('manage account')
+                <a class="dropdown-item" href="{{route('profile',$users->id)}}">
+                    {{__('Account Settings')}}
+                </a>
+            @endcan
+            <div class="dropdown-divider"></div>
+
+            @if(\Auth::user()->type!='client')
+                @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
+                    @can('manage user')
+                    <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
+                    @endcan
+                @endif
+                @if(Gate::check('manage role'))
+                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
+                @endif
+            @endif
+
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                {{__('Logout')}}
+            </a>
+            <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
         </div>
         </div>
     </div>
@@ -215,16 +238,15 @@
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img width="36" height="36" alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="rounded" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
+                <img width="36" height="36" alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="round" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
             </a>
         </a>
         <div class="dropdown-menu">
             @can('manage account')
                 <a class="dropdown-item" href="{{route('profile',$users->id)}}">
-                    {{__('Profile')}}
+                    {{__('Account Settings')}}
                 </a>
             @endcan
-            <a class="dropdown-item" href="utility-account-settings.html">Account Settings</a>
 
             <div class="dropdown-divider"></div>
 
