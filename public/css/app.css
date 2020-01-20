@@ -14533,6 +14533,7 @@ pre[class*=language-] {
 .fc-view {
   border-color: #f2f2f2;
   color: #34395e !important;
+  background-color: #ffffff;
   font-weight: 500;
   padding: 10px;
 }
