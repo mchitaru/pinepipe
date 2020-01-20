@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Task;
 use App\Project;
 use App\Milestone;
@@ -36,18 +37,17 @@ class TasksController extends ProjectsSectionController
      */
     public function create()
     {
-        $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $milestones = Milestone::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
         $priority   = Project::$priority;
-        $usersArr   = UserProject::where('project_id', '=', $project->id)->get();
+        $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
         $users      = array();
         foreach($usersArr as $user)
         {
-            $users[$user->project_assign_user->id] = ($user->project_assign_user->name . ' - ' . $user->project_assign_user->email);
+            $users[$user->id] = ($user->name . ' - ' . $user->email);
         }
+        $project_id ='';
 
-        return view('tasks.create', compact('project', 'projects', 'priority', 'users', 'milestones'));
+        return view('tasks.create', compact('projects', 'priority', 'users','project_id'));
     }
 
     /**
@@ -88,36 +88,31 @@ class TasksController extends ProjectsSectionController
             return redirect()->back()->with('error', $messages->first());
         }
 
-        $project = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $project_id)->first();
-        if($project)
+        $post = $request->all();
+        if(\Auth::user()->type != 'company')
         {
-            $post = $request->all();
-            if(\Auth::user()->type != 'company')
-            {
-                $post['assign_to'] = \Auth::user()->id;
-            }
-            $post['project_id'] = $project_id;
-            $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-            $task               = Task::create($post);
-
-            ActivityLog::create(
-                [
-                    'user_id' => \Auth::user()->creatorId(),
-                    'project_id' => $project_id,
-                    'log_type' => 'Create Task',
-                    'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
-                    'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                                __('create task') .
-                                ' <a href="' . route('tasks.show', $task->id) . '">'. $task->title.'</a>',
-                ]
-            );
-
-            return redirect()->back()->with('success', __('Task successfully created.'));
+            $post['assign_to'] = \Auth::user()->id;
         }
-        else
-        {
-            return redirect()->back()->with('error', __('You can \'t Add Task.'));
-        }
+        $post['project_id'] = '0';
+        $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        $post['created_by'] = \Auth::user()->creatorId();
+        $task               = Task::make($post);
+        $task->created_by  = \Auth::user()->creatorId();
+        $task->save();
+
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => '0',
+                'log_type' => 'Create Task',
+                'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('create task') .
+                            ' <a href="' . route('tasks.show', $task->id) . '">'. $task->title.'</a>',
+            ]
+        );
+
+        return redirect()->back()->with('success', __('Task successfully created.'));
     }
 
     /**
@@ -131,7 +126,9 @@ class TasksController extends ProjectsSectionController
         $task    = Task::find($task_id);
         $project = Project::find($task->project_id);
 
-        $permissions = $project->client_project_permission();
+        if(!empty($project))
+            $permissions = $project->client_project_permission();
+
         $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
 
         $activities = array();
@@ -150,14 +147,22 @@ class TasksController extends ProjectsSectionController
         $task       = Task::find($task_id);
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $usersArr   = UserProject::where('project_id', '=', $task->project_id)->get();
-        $priority   = Project::$priority;
-        $milestones = Milestone::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
         $users      = array();
-        foreach($usersArr as $user)
-        {
-            $users[$user->project_assign_user->id] = ($user->project_assign_user->name . ' - ' . $user->project_assign_user->email);
+        if(!empty($project)){
+            $usersArr   = UserProject::where('project_id', '=', $task->project_id)->get();
+            foreach($usersArr as $user)
+            {
+                $users[$user->project_assign_user->id] = ($user->project_assign_user->name . ' - ' . $user->project_assign_user->email);
+            }
+        }else{
+            $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
+            foreach($usersArr as $user)
+            {
+                $users[$user->id] = ($user->name . ' - ' . $user->email);
+            }
         }
+        $priority   = Project::$priority;
+        $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
 
         return view('tasks.edit', compact('project', 'projects', 'users', 'task', 'priority', 'milestones'));
     }
@@ -187,22 +192,11 @@ class TasksController extends ProjectsSectionController
 
         $task    = Task::find($task_id);
         $project = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
-        if($project)
-        {
-            $post               = $request->all();
-            $post['project_id'] = $task->project_id;
-            $task->update($post);
+        $post               = $request->all();
+        $post['project_id'] = $task->project_id;
+        $task->update($post);
 
-            return redirect()->route(
-                'projects.show', [$task->project_id]
-            )->with('success', __('Task Updated Successfully!'));
-        }
-        else
-        {
-            return redirect()->route(
-                'projects.show', [$task->project_id]
-            )->with('error', __('You can \'t Edit Task!'));
-        }
+        return redirect()->back()->with('success', __('Task Updated Successfully!'));
     }
 
     /**
@@ -214,20 +208,15 @@ class TasksController extends ProjectsSectionController
     public function destroy($task_id)
     {
         $task    = Task::find($task_id);
-        $project = Project::find($task->project_id);
-        if($project->created_by == \Auth::user()->creatorId())
+        if($task->created_by == \Auth::user()->creatorId())
         {
             $task->delete();
 
-            return redirect()->route(
-                'projects.show', [$task->project_id]
-            )->with('success', __('Task successfully deleted'));
+            return redirect()->back()->with('success', __('Task successfully deleted'));
         }
         else
         {
-            return redirect()->route(
-                'projects.show', [$task->project_id]
-            )->with('error', __('You can\'t Delete Task.'));
+            return redirect()->back()->with('error', __('You can\'t Delete Task.'));
         }
     }
 }

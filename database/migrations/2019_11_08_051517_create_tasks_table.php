@@ -26,6 +26,7 @@ class CreateTasksTable extends Migration
             $table->string('status')->default('todo');
             $table->integer('stage')->default(0);
             $table->integer('order')->default(0);
+            $table->integer('created_by')->default('0');
             $table->timestamps();
         });
     }

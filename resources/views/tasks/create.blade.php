@@ -1,4 +1,4 @@
-{{ Form::open(array('route' => array('projects.task.store',$project->id))) }}
+{{ Form::open(!empty($project_id) ? array('route' => array('projects.task.store',$project_id)) : array('route' => array('tasks.store'))) }}
 <div class="modal-header">
     <h5 class="modal-title"></h5>
     <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">

@@ -17,8 +17,8 @@ class CreateTaskChecklistsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('task_id')->default('0');
-            $table->integer('created_by')->default('0');
             $table->integer('status')->default('0');
+            $table->integer('created_by')->default('0');
             $table->timestamps();
         });
     }

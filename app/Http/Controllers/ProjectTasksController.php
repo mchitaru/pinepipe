@@ -44,8 +44,9 @@ class ProjectTasksController extends Controller
         {
             $users[$user->project_assign_user->id] = ($user->project_assign_user->name . ' - ' . $user->project_assign_user->email);
         }
+        $project_id = $project->id;
 
-        return view('tasks.create', compact('project', 'projects', 'priority', 'users', 'milestones'));
+        return view('tasks.create', compact('project', 'projects', 'priority', 'users', 'milestones', 'project_id'));
     }
 
     /**
@@ -96,8 +97,10 @@ class ProjectTasksController extends Controller
             }
             $post['project_id'] = $project_id;
             $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-            $task               = Task::create($post);
-
+            $task               = Task::make($post);
+            $task->created_by  = \Auth::user()->creatorId();
+            $task->save();
+    
             ActivityLog::create(
                 [
                     'user_id' => \Auth::user()->creatorId(),
