@@ -35,7 +35,7 @@ class TasksController extends ProjectsSectionController
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {        
+    {
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $milestones = Milestone::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
@@ -134,7 +134,9 @@ class TasksController extends ProjectsSectionController
         $permissions = $project->client_project_permission();
         $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
 
-        return view('tasks.show', compact('task', 'perArr', 'project'));
+        $activities = array();
+
+        return view('tasks.show', compact('task', 'perArr', 'project', 'activities'));
     }
 
     /**
