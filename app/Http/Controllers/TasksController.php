@@ -83,6 +83,8 @@ class TasksController extends ProjectsSectionController
             ]
         );
 
+        $request->session()->flash('success', __('Task successfully created.'));
+
         // return redirect()->back()->with('success', __('Task successfully created.'));
         $url = route('tasks.index');
         return "<script>window.location='{$url}'</script>";
