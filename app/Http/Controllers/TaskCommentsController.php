@@ -33,18 +33,16 @@ class TaskCommentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $task_id)
     {
-        // $post               = [];
-        // $post['task_id']    = $task_id;
-        // $post['comment']    = $request->comment;
-        // $post['created_by'] = \Auth::user()->authId();
-        // $post['user_type']  = \Auth::user()->type;
-        // $comment            = TaskComment::create($post);
+        $post               = [];
+        $post['task_id']    = $task_id;
+        $post['comment']    = $request->comment;
+        $post['created_by'] = \Auth::user()->authId();
+        $post['user_type']  = \Auth::user()->type;
+        $comment            = TaskComment::create($post);
 
-        // $comment->deleteUrl = route('comment.destroy', [$comment->id]);
-
-        // return $comment->toJson();
+        return redirect()->route('tasks.show', $task_id)->with('success', __('Comment Created.'));
     }
 
     /**
@@ -87,11 +85,12 @@ class TaskCommentsController extends Controller
      * @param  \App\TaskComment  $taskComment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskComment $taskComment)
+    public function destroy(Request $request, $task_id, $comment_id)
     {
         // $comment = TaskComment::find($comment_id);
         // $comment->delete();
 
-        // return "true";
-    }
+        //return redirect()->route('tasks.show', $task_id)->with('success', __('Comment Deleted.'));
+        return redirect()->back();
+   }
 }

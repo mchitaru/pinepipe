@@ -15,6 +15,11 @@ class TaskComment extends Model
 
     ];
 
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
     public function comment_user(){
        return User::where('id','=',$this->created_by)->first();
     }

@@ -438,6 +438,7 @@ $(document).ready(function() {
 
             success: function (file, response) {
                 if (response.is_success) {
+                    toastrs('Success', 'File uploaded', 'success');
                     dropzoneBtn(file, response);
                 } else {
                     this.removeFile(file);

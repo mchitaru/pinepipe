@@ -25,10 +25,6 @@
 
 // });
 
-$('#modal').on('show.bs.modal', function (e) {
-  alert('show');
-})
-
 </script>
 
 @endpush

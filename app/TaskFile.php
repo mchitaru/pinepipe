@@ -9,4 +9,9 @@ class TaskFile extends Model
     protected $fillable = [
         'file','name','extension','file_size','created_by','task_id','user_type'
     ];
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }

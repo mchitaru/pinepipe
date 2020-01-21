@@ -15,7 +15,6 @@
     <!-- Other stylesheets -->
     <link href="{{ asset('assets/css/easy-autocomplete.min.css') }}" rel="stylesheet" type="text/css" media="all" />
     <link href="{{ asset('assets/css/easy-autocomplete.themes.min.css') }}" rel="stylesheet" type="text/css" media="all" />
-    <link href="{{ asset('assets/css/avatar.css') }}" rel="stylesheet" type="text/css" media="all" />
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <!-- App css (keep last) -->

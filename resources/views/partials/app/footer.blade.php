@@ -25,7 +25,8 @@
 <script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('assets/js/avatar.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script> --}}
+<script type="text/javascript" src="{{ asset('assets/js/remote.js') }}"></script>
 
 <script>
     var options = {

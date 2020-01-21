@@ -49,9 +49,13 @@
                 </div>
                 <div class="card-body">
                 <div class="card-title">
-                    <a data-url="{{ route('tasks.show',$task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
+                    <a href="{{route('tasks.show',$task->id)}}" class="text-body" data-remote="true" data-type="text">
                         <h6 data-filter-by="text">{{$task->title}}</h6>
                     </a>
+
+                    {{-- <a data-url="{{ route('tasks.show',$task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
+                        <h6 data-filter-by="text">{{$task->title}}</h6>
+                    </a> --}}
                     <span class="badge badge-secondary">
                         @if($task->priority =='low')
                                 <div class="label label-soft-success"> {{ $task->priority }}</div>

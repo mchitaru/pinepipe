@@ -199,14 +199,17 @@ Route::group(
         Route::resource('tasks', 'TasksController');
 
         Route::post('tasks/{tid}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');
-        Route::delete('tasks/comment/{id}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
+        Route::put('tasks/{id}/comment/{cid}', 'TaskCommentsController@update')->name('tasks.comment.update');
+        Route::post('tasks/{tid}/comment/{cid}', 'TaskCommentsController@show')->name('tasks.comment.show');
+        Route::delete('tasks/{id}/comment/{cid}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
 
         Route::post('tasks/{id}/file', 'TaskFilesController@store')->name('tasks.file.upload');
         Route::get('tasks/{id}/file/{fid}', 'TaskFilesController@show')->name('tasks.file.download');
         Route::delete('tasks/{id}/file/delete/{fid}', 'TaskFilesController@destroy')->name('tasks.file.delete');
 
-        Route::post('tasks/{id}/checklist/store', 'TaskChecklistController@store')->name('tasks.checklist.store');
-        Route::put('tasks/{id}/checklist/{cid}/update', 'TaskChecklistController@update')->name('tasks.checklist.update');
+        Route::post('tasks/{id}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.store');
+        Route::put('tasks/{id}/checklist/{cid}', 'TaskChecklistController@update')->name('tasks.checklist.update');
+        Route::post('tasks/{tid}/checklist/{cid}', 'TaskChecklistController@show')->name('tasks.checklist.show');
         Route::delete('tasks/{id}/checklist/{cid}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
 }
 );

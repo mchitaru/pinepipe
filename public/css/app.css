@@ -14523,6 +14523,10 @@ pre[class*=language-] {
   }
 }
 
+.round {
+  border-radius: 50%;
+}
+
 /* 1.12 Full Calendar */
 
 .fc-toolbar h2 {

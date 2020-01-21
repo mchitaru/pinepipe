@@ -9,4 +9,9 @@ class Milestone extends Model
     protected $fillable = [
         'project_id','title','status','cost','summary'
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

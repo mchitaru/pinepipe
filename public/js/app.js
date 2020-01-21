@@ -71345,9 +71345,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
 
-__webpack_require__(/*! jquery-ujs */ "./node_modules/jquery-ujs/src/rails.js");
-
-__webpack_require__(/*! ./remote */ "./resources/js/remote.js"); // window.Vue = require('vue');
+__webpack_require__(/*! jquery-ujs */ "./node_modules/jquery-ujs/src/rails.js"); // window.Vue = require('vue');
 // /**
 //  * The following block of code may be used to automatically register your
 //  * Vue components. It will recursively scan this directory for the Vue
@@ -71411,23 +71409,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-/***/ }),
-
-/***/ "./resources/js/remote.js":
-/*!********************************!*\
-  !*** ./resources/js/remote.js ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-$(document).on('ajax:success', function (e, data, status, xhr) {
-  if (!$('#modal').length) {
-    $('body').append($('<div class="modal show" id="modal"></div>'));
-  }
-
-  $('#modal').html(data).modal('show');
-});
 
 /***/ }),
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-Demo Modal
+{{__('Add New Task')}}
 @endsection
 
 @section('content')

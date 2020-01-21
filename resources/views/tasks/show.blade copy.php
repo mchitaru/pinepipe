@@ -1,6 +1,4 @@
 
-@extends('layouts.modal')
-
 @php
 use Carbon\Carbon;
 use App\Project;
@@ -9,14 +7,14 @@ $current_user=\Auth::user();
 $profile=asset(Storage::url('avatar/'));
 @endphp
 
-@section('title')
-{{$task->title}}
-@endsection
-
-@section('content')
-
-{{-- <div class="modal-body container-fluid"> --}}
- <div class="row justify-content-center" data-remote="true">
+<div class="modal-header">
+<h5 class="modal-title">{{$task->title}}</h5>
+<button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+<i class="material-icons">close</i>
+</button>
+</div>
+<div class="modal-body container-fluid">
+ <div class="row justify-content-center">
     <div class="col">
         <div class="page-header pt-2">
         <p class="lead">{{$task->description}}</p>
@@ -54,7 +52,7 @@ $profile=asset(Storage::url('avatar/'));
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">Task</a>
+            <a class="nav-link active" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">Task</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">Notes</a>
@@ -68,21 +66,21 @@ $profile=asset(Storage::url('avatar/'));
         </ul>
         <div class="tab-content">
 
-        <div class="tab-pane fade show" id="task" role="tabpanel">
+        <div class="tab-pane fade show active" id="task" role="tabpanel">
 
             @can('create checklist')
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
 
             <div class="content-list" data-filter-list="checklist">
             <div class="row content-list-head">
-                {{-- <form method="POST" id="form-checklist" data-action="{{ route('tasks.checklist.store',[$task->id]) }}"> --}}
-                <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.checklist.store',$task->id) }}">
+                <form method="POST" id="form-checklist" data-action="{{ route('tasks.checklist.store',[$task->id]) }}">
+                    @csrf
                     <div class="form-group row align-items-center">
                         <div class ="col">
                             <h3>{{__('Checklist')}}</h3>
                         </div>
                         <div class ="col">
-                            <button type="submit" class="btn btn-round" data-disable-with="" data-title={{__('Add')}} >
+                            <button type="submit" class="btn btn-round" data-title={{__('Add')}} >
                                 <i class="material-icons">add</i>
                             </button>
                         </div>
@@ -113,10 +111,10 @@ $profile=asset(Storage::url('avatar/'));
                         <i class="material-icons">reorder</i>
                     </span>
                     <div class="custom-control custom-checkbox col">
-                        <input type="checkbox" class="custom-control-input" id="checklist-{{$checkList->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$checkList->task_id,$checkList->id])}}">
+                        <input type="checkbox" class="custom-control-input" id="checklist-{{$checkList->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('task.checklist.update',[$checkList->task_id,$checkList->id])}}">
                         <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
                         <div>
-                        <input type="text" name="name-{{$checkList->id}}" placeholder="Checklist item" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$checkList->task_id,$checkList->id])}}"/>
+                        <input type="text" name="name-{{$checkList->id}}" placeholder="Checklist item" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('task.checklist.update',[$checkList->task_id,$checkList->id])}}"/>
                         <div class="checklist-strikethrough"></div>
                         </div>
                     </div>
@@ -162,15 +160,14 @@ $profile=asset(Storage::url('avatar/'));
             <!--end of content list head-->
             <div class="content-list-body">
 
-                {{-- <form method="POST" id="form-comment" data-action="{{route('tasks.comment.store', $task->id)}}"> --}}
-                <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
+                <form method="POST" id="form-comment" data-action="{{route('tasks.comment.store',[$task->project_id,$task->id])}}">
                     <div class="form-group row align-items-center">
                         <div class ="col-11">
                             <textarea class="form-control" name="comment" placeholder="{{ __('Write message')}}" id="example-textarea" rows="3" required></textarea>
                         </div>
                         <div class ="col-1">
-                            <button type="submit" class="btn btn-round" data-title={{__('Add')}}>
-                                <i class="material-icons">add</i>
+                            <button type="button" class="btn btn-round" data-title={{__('Add')}}>
+                            <i class="material-icons">add</i>
                             </button>
                         </div>
                     </div>
@@ -194,8 +191,7 @@ $profile=asset(Storage::url('avatar/'));
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#">Edit</a>
-                            {{-- <a href="#" class="dropdown-item text-danger delete-comment" data-url="{{route('tasks.comment.destroy',[$task->id, $comment->id])}}"> --}}
-                            <a href="{{route('tasks.comment.destroy',[$task->id, $comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
+                            <a href="#" class="dropdown-item text-danger delete-comment" data-url="{{route('comment.destroy',[$comment->id])}}">
                                 {{__('Delete')}}
                             </a>
                         </div>
@@ -212,7 +208,7 @@ $profile=asset(Storage::url('avatar/'));
             </div>
         </div>
         <!--end of tab-->
-        <div class="tab-pane fade show" id="taskfiles" role="tabpanel" data-filter-list="dropzone-previews">
+        <div class="tab-pane fade" id="taskfiles" role="tabpanel" data-filter-list="dropzone-previews">
             <div class="content-list">
             <div class="row content-list-head">
                 <div class="col-auto">
@@ -312,14 +308,11 @@ $profile=asset(Storage::url('avatar/'));
         </div>
         </div>
     </div>
-    @include('partials.errors')
 </div>
-{{-- </div> --}}
-@endsection
-
-@section('footer')
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
-@endsection
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+</div>
 
 <script>
 
@@ -367,30 +360,116 @@ $(document).on("change", "#checklist input[type=text]", function () {
         });
 });
 
+$(document).on('submit', '#form-checklist', function (e) {
+        e.preventDefault();
 
-// $(document).on("click", ".delete-comment", function () {
-//     if (confirm('Are You Sure ?')) {
-//         var btn = $(this);
-//         $.ajax({
-//             url: $(this).attr('data-url'),
-//             type: 'DELETE',
-//             data: {_token: $('meta[name="csrf-token"]').attr('content')},
-//             dataType: 'JSON',
-//             success: function (data) {
-//                 toastrs('Success', '{{ __("Comment Deleted Successfully!")}}', 'success');
-//                 btn.closest('.card-note').remove();
-//             },
-//             error: function (data) {
-//                 data = data.responseJSON;
-//                 if (data.message) {
-//                     toastrs('Error', data.message, 'error');
-//                 } else {
-//                     toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
-//                 }
-//             }
-//         });
-//     }
-// });
+        $.ajax({
+            url: $("#form-checklist").data('action'),
+            type: 'POST',
+            data: new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                toastrs('Success', '{{ __("Checklist Added Successfully!")}}', 'success');
+
+                var html =  '<div class="row">' +
+                                '<div class="form-group col">' +
+                                    '<span class="checklist-reorder">' +
+                                        '<i class="material-icons">reorder</i>' +
+                                    '</span>' +
+                                    '<div class="custom-control custom-checkbox col">' +
+                                        '<input type="checkbox" class="custom-control-input" id="checklist-' + data.id + '" value="' + data.id + '" data-url="' + data.updateUrl + '">' +
+                                        '<label class="custom-control-label" for="checklist-' + data.id + '"></label>' +
+                                        '<div>' +
+                                            '<input type="text" id="name-' + data.id + '" placeholder="Checklist item" value="' + data.name + '" data-filter-by="value" data-url="' + data.updateUrl + '"/>' +
+                                            '<div class="checklist-strikethrough"></div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
+
+                $("#checklist").prepend(html);
+            },
+        });
+});
+
+$(document).on('click', '#form-comment button', function (e) {
+        var comment = $.trim($("#form-comment textarea[name='comment']").val());
+        var name='{{\Auth::user()->name}}';
+        if (comment != '') {
+            $.ajax({
+                url: $("#form-comment").data('action'),
+                data: {comment: comment, "_token": $('meta[name="csrf-token"]').attr('content')},
+                type: 'POST',
+                success: function (data) {
+                    data = JSON.parse(data);
+
+
+                var html = '<div class="card card-note">'+
+                                '<div class="card-header p-1">'+
+                                    '<div class="media align-items-center">'+
+                                    '<img alt="{{\Auth::user()->name}}" src="{{(!empty(\Auth::user()->avatar)? $profile.'/'.\Auth::user()->avatar:$profile.'/avatar.png')}}" class="avatar" data-toggle="tooltip" data-title="{{\Auth::user()->name}}" data-filter-by="alt" />'+
+                                    '<div class="media-body">'+
+                                        '<h6 class="mb-0" data-filter-by="text">{{\Auth::user()->name}}</h6>'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="d-flex align-items-center">'+
+                                    '<span data-filter-by="text">{{Carbon::now()->diffForHumans()}}</span>'+
+                                    '<div class="ml-1 dropdown card-options">'+
+                                        '<button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                                        '<i class="material-icons">more_vert</i>'+
+                                        '</button>'+
+                                        '<div class="dropdown-menu dropdown-menu-right">'+
+                                            '<a class="dropdown-item" href="#">Edit</a>'+
+                                            '<a href="#" class="dropdown-item text-danger delete-comment" data-url="' + data.deleteUrl + '" > {{__('Delete')}}'+
+                                            '</a>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="card-body p-1" data-filter-by="text">'+
+                                    data.comment+
+                                '</div>'+
+                            '</div>';
+
+                    $("#comments").prepend(html);
+                    $("#form-comment textarea[name='comment']").val('');
+                    toastrs('Success', '{{ __("Comment Added Successfully!")}}', 'success');
+                },
+                error: function (data) {
+                    toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
+                }
+            });
+        } else {
+            toastrs('Error', '{{ __("Please write comment!")}}', 'error');
+        }
+    });
+
+$(document).on("click", ".delete-comment", function () {
+    if (confirm('Are You Sure ?')) {
+        var btn = $(this);
+        $.ajax({
+            url: $(this).attr('data-url'),
+            type: 'DELETE',
+            data: {_token: $('meta[name="csrf-token"]').attr('content')},
+            dataType: 'JSON',
+            success: function (data) {
+                toastrs('Success', '{{ __("Comment Deleted Successfully!")}}', 'success');
+                btn.closest('.card-note').remove();
+            },
+            error: function (data) {
+                data = data.responseJSON;
+                if (data.message) {
+                    toastrs('Error', data.message, 'error');
+                } else {
+                    toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
+                }
+            }
+        });
+    }
+});
 
 Dropzone.autoDiscover = false;
 myDropzone = new Dropzone("#my-task-dropzone", {

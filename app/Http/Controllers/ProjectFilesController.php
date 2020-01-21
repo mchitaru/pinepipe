@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
 use App\ProjectFile;
+use App\ActivityLog;
 use Illuminate\Http\Request;
 
 class ProjectFilesController extends Controller
@@ -23,48 +25,48 @@ class ProjectFilesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        // $project = Project::find($id);
-        // $request->validate(['file' => 'required|mimes:png,jpeg,jpg,pdf,doc,txt|max:2048']);
-        // $file_name = $request->file->getClientOriginalName();
-        // $file_path = $project->id . "_" . md5(time()) . "_" . $request->file->getClientOriginalName();
-        // $request->file->storeAs('public/project_files', $file_path);
+    public function store(Request $request, $id)
+    {        
+        $project = Project::find($id);
+        $request->validate(['file' => 'required|mimes:png,jpeg,jpg,pdf,doc,txt|max:2048']);
+        $file_name = $request->file->getClientOriginalName();
+        $file_path = $project->id . "_" . md5(time()) . "_" . $request->file->getClientOriginalName();
+        $request->file->storeAs('public/project_files', $file_path);
 
-        // $file                 = ProjectFile::create(
-        //     [
-        //         'project_id' => $project->id,
-        //         'file_name' => $file_name,
-        //         'file_path' => $file_path,
-        //     ]
-        // );
-        // $return               = [];
-        // $return['is_success'] = true;
-        // $return['download']   = route(
-        //     'projects.file.download', [
-        //                                 $project->id,
-        //                                 $file->id,
-        //                             ]
-        // );
-        // $return['delete']     = route(
-        //     'projects.file.delete', [
-        //                               $project->id,
-        //                               $file->id,
-        //                           ]
-        // );
+        $file                 = ProjectFile::create(
+            [
+                'project_id' => $project->id,
+                'file_name' => $file_name,
+                'file_path' => $file_path,
+            ]
+        );
+        $return               = [];
+        $return['is_success'] = true;
+        $return['download']   = route(
+            'projects.file.download', [
+                                        $project->id,
+                                        $file->id,
+                                    ]
+        );
+        $return['delete']     = route(
+            'projects.file.delete', [
+                                      $project->id,
+                                      $file->id,
+                                  ]
+        );
 
-        // ActivityLog::create(
-        //     [
-        //         'user_id' => \Auth::user()->creatorId(),
-        //         'project_id' => $project->id,
-        //         'log_type' => 'Upload File',
-        //         'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-        //                     __('uploaded file') .
-        //                     ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file_name.'</a>',
-        //     ]
-        // );
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $project->id,
+                'log_type' => 'Upload File',
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('uploaded file') .
+                            ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file_name.'</a>',
+            ]
+        );
 
-        // return response()->json($return);
+        return response()->json($return);
     }
 
     /**

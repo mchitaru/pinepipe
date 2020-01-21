@@ -23,26 +23,27 @@ class TaskChecklistController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $task_id)
     {
-        // $post['task_id']      = $task_id;
-        // $post['name']         = __('Check Item');
-        // $post['created_by']   = \Auth::user()->authId();
-        // $Checklist            = TaskChecklist::create($post);
+        $post['task_id']      = $task_id;
+        $post['name']         = __('Check Item');
+        $post['created_by']   = \Auth::user()->authId();
+        $checklist            = TaskChecklist::create($post);
         // $Checklist->deleteUrl = route(
-        //     'task.checklist.destroy', [
+        //     'tasks.checklist.destroy', [
         //                                 $Checklist->task_id,
         //                                 $Checklist->id,
         //                             ]
         // );
         // $Checklist->updateUrl = route(
-        //     'task.checklist.update', [
+        //     'tasks.checklist.update', [
         //                                $Checklist->task_id,
         //                                $Checklist->id,
         //                            ]
         // );
 
         // return $Checklist->toJson();
+        return redirect()->route('tasks.checklist.show', $task_id, $checklist->id)->with('success', __('Checklist Created.'));
     }
 
     /**

@@ -42,6 +42,8 @@ class TasksController extends ProjectsSectionController
         $priority   = Project::$priority;
         $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
         $users      = array();
+
+        $users[''] = '--';
         foreach($usersArr as $user)
         {
             $users[$user->id] = ($user->name . ' - ' . $user->email);
@@ -178,8 +180,10 @@ class TasksController extends ProjectsSectionController
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($task_id)
+    public function destroy(Request $request, $task_id)
     {
+        dd($request);
+
         $task    = Task::find($task_id);
         if($task->created_by == \Auth::user()->creatorId())
         {
