@@ -7,9 +7,22 @@ use App\Task;
 use App\TaskChecklist;
 use App\Http\Requests\TaskChecklistRequest;
 use Illuminate\Http\Request;
+use App\Http\Traits\TaskTraits;
 
 class TaskChecklistController extends Controller
 {
+    use TaskTraits;
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Task $task)
+    {
+        return $this->taskShow($task->id);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -36,7 +49,7 @@ class TaskChecklistController extends Controller
      * @param  \App\TaskChecklist  $checklist
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskChecklistRequest $request, TaskChecklist $checklist)
+    public function update(TaskChecklistRequest $request, Task $task, TaskChecklist $checklist)
     {        
         $post = $request->validated();
 
@@ -61,10 +74,10 @@ class TaskChecklistController extends Controller
      * @param  \App\TaskChecklist  $checklist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskChecklist $checklist)
+    public function destroy(Task $task, TaskChecklist $checklist)
     {
         $checklist->delete();
 
-        return app('App\Http\Controllers\TasksController')->show($checklist->task_id);
+        return $this->taskShow($checklist->task_id);
     }
 }

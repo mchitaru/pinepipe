@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskCommentStoreRequest extends FormRequest
+class TaskCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,6 +32,6 @@ class TaskCommentStoreRequest extends FormRequest
     {
         $task = $this->route()->parameter('task');
 
-        return route('tasks.show', $task->id);
+        return route('tasks.comment.index', $task->id);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
 use App\TaskFile;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class TaskFilesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Task $task)
     {
         //
     }

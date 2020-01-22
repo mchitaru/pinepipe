@@ -9,24 +9,6 @@
 
 @push('scripts')
 
-<script>
-
-// keep active tab
-// $(document).ready(function() {
-
-//     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-//         window.location.hash = $(e.target).attr('href');
-//         $(window).scrollTop(0);
-//     });
-
-//     var hash = window.location.hash ? window.location.hash : '#projects';
-
-//     $('.nav-tabs a[href="' + hash + '"]').tab('show');
-
-// });
-
-</script>
-
 @endpush
 
 @section('page-title')

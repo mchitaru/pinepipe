@@ -50,7 +50,7 @@
                 <div class="card-body">
                 <div class="card-title">
 
-                    <a href="{{route('tasks.show',$task->id)}}" class="text-body" data-remote="true" data-type="text">
+                    <a href="{{route('tasks.show',$task->id)}}#task" class="text-body" data-remote="true" data-type="text">
                         <h6 data-filter-by="text">{{$task->title}}</h6>
                     </a>
 

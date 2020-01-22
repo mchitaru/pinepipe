@@ -198,19 +198,20 @@ Route::group(
 
         Route::resource('tasks', 'TasksController');
 
+        Route::get('tasks/{task}/comment', 'TaskCommentsController@index')->name('tasks.comment.index');
         Route::post('tasks/{task}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');
-        Route::put('tasks/comment/{comment}', 'TaskCommentsController@update')->name('tasks.comment.update');
-        Route::post('tasks/comment/{comment}', 'TaskCommentsController@show')->name('tasks.comment.show');
-        Route::delete('tasks/comment/{comment}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
+        Route::put('tasks/{task}/comment/{comment}', 'TaskCommentsController@update')->name('tasks.comment.update');
+        Route::delete('tasks/{task}/comment/{comment}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
 
+        Route::get('tasks/{task}/file', 'TaskFilesController@store')->name('tasks.file.index');
         Route::post('tasks/{task}/file', 'TaskFilesController@store')->name('tasks.file.upload');
-        Route::get('tasks/file/{file}', 'TaskFilesController@show')->name('tasks.file.download');
-        Route::delete('tasks/file/{file}', 'TaskFilesController@destroy')->name('tasks.file.delete');
+        Route::get('tasks/{task}/file/{file}', 'TaskFilesController@show')->name('tasks.file.download');
+        Route::delete('tasks/{task}/file/{file}', 'TaskFilesController@destroy')->name('tasks.file.delete');
 
+        Route::get('tasks/{task}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.index');
         Route::post('tasks/{task}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.store');
-        Route::put('tasks/checklist/{checklist}', 'TaskChecklistController@update')->name('tasks.checklist.update');
-        Route::post('tasks/checklist/{checklist}', 'TaskChecklistController@show')->name('tasks.checklist.show');
-        Route::delete('tasks/checklist/{checklist}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
+        Route::put('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@update')->name('tasks.checklist.update');
+        Route::delete('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
 }
 );
 

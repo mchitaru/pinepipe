@@ -11,11 +11,13 @@ use App\ActivityLog;
 use App\Http\Requests\TaskDestroyRequest;
 use App\ProjectStage;
 use App\Http\Requests\TaskStoreRequest;
+use App\Http\Traits\TaskTraits;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class TasksController extends ProjectsSectionController
 {
+    use TaskTraits;
 
     public function board()
     {
@@ -90,17 +92,7 @@ class TasksController extends ProjectsSectionController
      */
     public function show($task_id)
     {
-        $task    = Task::find($task_id);
-        $project = Project::find($task->project_id);
-
-        if(!empty($project))
-            $permissions = $project->client_project_permission();
-
-        $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
-
-        $activities = array();
-
-        return view('tasks.show', compact('task', 'perArr', 'project', 'activities'));
+        return $this->taskShow($task_id);
     }
 
     /**

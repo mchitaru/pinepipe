@@ -18,7 +18,6 @@ if($total_task!=0){
 }
 
 $label = $task->getProgressColor($percentage);
-
 @endphp
 
 @section('title')
@@ -66,10 +65,10 @@ $label = $task->getProgressColor($percentage);
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">Task</a>
+            <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='checklist')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">Task</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">Notes</a>
+            <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">Notes</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">Files</a>
@@ -80,7 +79,7 @@ $label = $task->getProgressColor($percentage);
         </ul>
         <div class="tab-content">
 
-        <div class="tab-pane fade show" id="task" role="tabpanel">
+        <div class="tab-pane fade show {{(empty(request()->segment(3)) | request()->segment(3)=='checklist')?'active':''}}" id="task" role="tabpanel">
 
             @can('create checklist')
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
@@ -124,10 +123,10 @@ $label = $task->getProgressColor($percentage);
                         <i class="material-icons">reorder</i>
                     </span>
                     <div class="custom-control custom-checkbox col">
-                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', $checkList->id)}}" data-remote="true" data-method="put" data-type="text">
+                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text">
                         <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
                         <div>
-                        <input type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', $checkList->id)}}" data-remote="true" data-method="put" data-type="text"/>
+                        <input type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text"/>
                         <div class="checklist-strikethrough"></div>
                         </div>
                     </div>
@@ -152,7 +151,7 @@ $label = $task->getProgressColor($percentage);
             @endcan
         </div>
         <!--end of tab-->
-        <div class="tab-pane fade show" id="tasknotes" role="tabpanel">
+        <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">
 
             <div class="content-list" data-filter-list="content-list-body">
             <div class="row content-list-head">
@@ -204,7 +203,7 @@ $label = $task->getProgressColor($percentage);
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
-                            <a href="{{route('tasks.comment.destroy', $comment->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
+                            <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
                                 {{__('Delete')}}
                             </a>
                         </div>
@@ -330,6 +329,7 @@ $label = $task->getProgressColor($percentage);
 @endsection
 
 <script>
+
     $(document).on("change", "#checklist input[type=checkbox]", function () {
 
         var checked = 0;

@@ -4,11 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use App\TaskComment;
-use App\Http\Requests\TaskCommentStoreRequest;
+use App\Http\Requests\TaskCommentRequest;
 use Illuminate\Http\Request;
+use App\Http\Traits\TaskTraits;
 
 class TaskCommentsController extends Controller
 {
+    use TaskTraits;
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Task $task)
+    {
+        return $this->taskShow($task->id);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -16,7 +27,7 @@ class TaskCommentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskCommentStoreRequest $request, Task $task)
+    public function store(TaskCommentRequest $request, Task $task)
     {
         $post = $request->validated();
 
@@ -25,7 +36,7 @@ class TaskCommentsController extends Controller
 
         $comment            = TaskComment::create($post);
 
-        return redirect()->route('tasks.show', $task->id)->with('success', __('Comment Created.'));
+        return redirect()->route('tasks.comment.index', $task->id)->with('success', __('Comment Created.'));
     }
 
     /**
@@ -35,7 +46,7 @@ class TaskCommentsController extends Controller
      * @param  \App\TaskComment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TaskComment $comment)
+    public function update(Request $request, Task $task, TaskComment $comment)
     {
         //
     }
@@ -46,10 +57,10 @@ class TaskCommentsController extends Controller
      * @param  \App\TaskComment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskComment $comment)
+    public function destroy(Task $task, TaskComment $comment)
     {
         $comment->delete();
 
-        return app('App\Http\Controllers\TasksController')->show($comment->task_id);
+        return $this->taskShow($comment->task_id);
    }
 }
