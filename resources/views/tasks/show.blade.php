@@ -193,8 +193,7 @@ $profile=asset(Storage::url('avatar/'));
                         <i class="material-icons">more_vert</i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            {{-- <a href="#" class="dropdown-item text-danger delete-comment" data-url="{{route('tasks.comment.destroy',[$task->id, $comment->id])}}"> --}}
+                            <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
                             <a href="{{route('tasks.comment.destroy', $comment->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
                                 {{__('Delete')}}
                             </a>
@@ -312,9 +311,8 @@ $profile=asset(Storage::url('avatar/'));
         </div>
         </div>
     </div>
-    @include('partials.errors')
 </div>
-{{-- </div> --}}
+@include('partials.errors')
 @endsection
 
 @section('footer')
