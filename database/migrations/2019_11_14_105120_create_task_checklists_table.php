@@ -16,9 +16,9 @@ class CreateTaskChecklistsTable extends Migration
         Schema::create('task_checklists', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('task_id')->default('0');
-            $table->integer('status')->default('0');
-            $table->integer('created_by')->default('0');
+            $table->unsignedInteger('task_id');
+            $table->boolean('status')->default(false);
+            $table->unsignedInteger('created_by');
             $table->timestamps();
         });
     }

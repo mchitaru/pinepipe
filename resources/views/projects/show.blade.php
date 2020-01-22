@@ -158,7 +158,7 @@ $(document).ready(function() {
                     <small class="card-text" style="float:right;">{{$percentage}}%</small>
                 </div>
                 <div class="progress mt-0">
-                        <div class="progress-bar bg-success" style="width:{{$percentage}}%;"></div>
+                        <div class="progress-bar {{$label}}" style="width:{{$percentage}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center">
@@ -423,7 +423,8 @@ $(document).ready(function() {
 @endsection
 
 @push('scripts')
-    <script>
+<script>
+
         Dropzone.autoDiscover = false;
         myDropzone = new Dropzone("#my-dropzone", {
             previewTemplate: document.querySelector('.dz-template').innerHTML,

@@ -7,6 +7,18 @@ use App\Project;
 
 $current_user=\Auth::user();
 $profile=asset(Storage::url('avatar/'));
+
+
+$total_task = $task->taskTotalCheckListCount();
+$completed_task=$task->taskCompleteCheckListCount();
+
+$percentage=0;
+if($total_task!=0){
+    $percentage = intval(($completed_task / $total_task) * 100);
+}
+
+$label = $task->getProgressColor($percentage);
+
 @endphp
 
 @section('title')
@@ -36,10 +48,10 @@ $profile=asset(Storage::url('avatar/'));
         <div>
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('create checklist',$perArr)))
             <div class="d-flex flex-row-reverse">
-                <small class="card-text" style="float:right;" id="taskProgressLabel">0%</small>
+                <small class="card-text" style="float:right;" >{{$percentage}}%</small>
             </div>
             <div class="progress mt-0">
-                <div class="progress-bar bg-success" style="width:0%;" id="taskProgress"></div>
+            <div class="progress-bar {{$label}}" style="width:{{$percentage}}%;"></div>
             </div>
             @endif
 
@@ -75,14 +87,13 @@ $profile=asset(Storage::url('avatar/'));
 
             <div class="content-list" data-filter-list="checklist">
             <div class="row content-list-head">
-                {{-- <form method="POST" id="form-checklist" data-action="{{ route('tasks.checklist.store',[$task->id]) }}"> --}}
                 <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.checklist.store',$task->id) }}">
                     <div class="form-group row align-items-center">
                         <div class ="col">
                             <h3>{{__('Checklist')}}</h3>
                         </div>
                         <div class ="col">
-                            <button type="submit" class="btn btn-round" data-disable-with="" data-title={{__('Add')}} >
+                            <button type="submit" class="btn btn-round" data-disable-with="..." data-title={{__('Add')}} >
                                 <i class="material-icons">add</i>
                             </button>
                         </div>
@@ -113,10 +124,10 @@ $profile=asset(Storage::url('avatar/'));
                         <i class="material-icons">reorder</i>
                     </span>
                     <div class="custom-control custom-checkbox col">
-                        <input type="checkbox" class="custom-control-input" id="checklist-{{$checkList->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$checkList->task_id,$checkList->id])}}">
+                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', $checkList->id)}}" data-remote="true" data-method="put" data-type="text">
                         <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
                         <div>
-                        <input type="text" name="name-{{$checkList->id}}" placeholder="Checklist item" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$checkList->task_id,$checkList->id])}}"/>
+                        <input type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', $checkList->id)}}" data-remote="true" data-method="put" data-type="text"/>
                         <div class="checklist-strikethrough"></div>
                         </div>
                     </div>
@@ -162,7 +173,6 @@ $profile=asset(Storage::url('avatar/'));
             <!--end of content list head-->
             <div class="content-list-body">
 
-                {{-- <form method="POST" id="form-comment" data-action="{{route('tasks.comment.store', $task->id)}}"> --}}
                 <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
                     <div class="form-group row align-items-center">
                         <div class ="col-11">
@@ -320,75 +330,43 @@ $profile=asset(Storage::url('avatar/'));
 @endsection
 
 <script>
+    $(document).on("change", "#checklist input[type=checkbox]", function () {
 
-$(document).on("change", "#checklist input[type=checkbox]", function () {
-    var status = $(this).is(":checked")?1:0;
+        var checked = 0;
+        var count = 0;
+        var percentage = 0;
 
-    console.log(status);
+        count = $("#checklist input[type=checkbox]").length;
+        checked = $("#checklist input[type=checkbox]:checked").length;
+        percentage = parseInt(((checked / count) * 100), 10);
+        if(isNaN(percentage)){
+            percentage=0;
+        }
 
-    $.ajax({
-            url: $(this).attr('data-url'),
-            type: 'PUT',
-            data: {status: status, _token: $('meta[name="csrf-token"]').attr('content')},
-            // dataType: 'JSON',
-            success: function (data) {
-                toastrs('Success', '{{ __("Checklist Updated Successfully!")}}', 'success');
-                // console.log(data);
-            },
-            error: function (data) {
-                data = data.responseJSON;
-                toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
-            }
-        });
-        taskCheckbox();
+        var id = $(this).data("id");
+        var selector = '#taskProgress' + id;
+
+        console.log(id);
+
+        $("#taskProgressLabel").text(percentage + "%");
+        $(selector).css('width', percentage + '%');
+
+
+        $(selector).removeClass('bg-warning');
+        $(selector).removeClass('bg-primary');
+        $(selector).removeClass('bg-success');
+        $(selector).removeClass('bg-danger');
+
+        if (percentage <= 15) {
+            $(selector).addClass('bg-danger');
+        } else if (percentage > 15 && percentage <= 33) {
+            $(selector).addClass('bg-warning');
+        } else if (percentage > 33 && percentage <= 70) {
+            $(selector).addClass('bg-primary');
+        } else {
+            $(selector).addClass('bg-success');
+        }
 });
-
-$(document).on("change", "#checklist input[type=text]", function () {
-
-        var name = $.trim($(this).val());
-
-        console.log(name);
-
-        $.ajax({
-            url: $(this).attr('data-url'),
-            type: 'PUT',
-            data: {name: name, _token: $('meta[name="csrf-token"]').attr('content')},
-            // dataType: 'JSON',
-            success: function (data) {
-                toastrs('Success', '{{ __("Checklist Updated Successfully!")}}', 'success');
-                // console.log(data);
-            },
-            error: function (data) {
-                data = data.responseJSON;
-                toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
-            }
-        });
-});
-
-
-// $(document).on("click", ".delete-comment", function () {
-//     if (confirm('Are You Sure ?')) {
-//         var btn = $(this);
-//         $.ajax({
-//             url: $(this).attr('data-url'),
-//             type: 'DELETE',
-//             data: {_token: $('meta[name="csrf-token"]').attr('content')},
-//             dataType: 'JSON',
-//             success: function (data) {
-//                 toastrs('Success', '{{ __("Comment Deleted Successfully!")}}', 'success');
-//                 btn.closest('.card-note').remove();
-//             },
-//             error: function (data) {
-//                 data = data.responseJSON;
-//                 if (data.message) {
-//                     toastrs('Error', data.message, 'error');
-//                 } else {
-//                     toastrs('Error', '{{ __("Some Thing Is Wrong!")}}', 'error');
-//                 }
-//             }
-//         });
-//     }
-// });
 
 Dropzone.autoDiscover = false;
 myDropzone = new Dropzone("#my-task-dropzone", {

@@ -46,7 +46,7 @@ class TaskCommentsController extends Controller
      * @param  \App\TaskComment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, TaskComment $comment)
+    public function destroy(TaskComment $comment)
     {
         $comment->delete();
 

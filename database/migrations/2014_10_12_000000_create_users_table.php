@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('type',20);
             $table->string('avatar',100)->default('');
             $table->string('lang',100);
-            $table->integer('created_by')->default(0);
+            $table->unsignedInteger('created_by')->default(0);
             $table->integer('plan')->nullable();
             $table->date('plan_expire_date')->nullable();
             $table->integer('delete_status')->default(1);

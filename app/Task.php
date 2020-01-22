@@ -52,6 +52,20 @@ class Task extends Model
         return $this->hasOne('App\Milestone','id','milestone_id');
     }
 
+    public static function getProgressColor($percentage)
+    {
+        $label='';
+        if($percentage<=15){
+            $label = 'bg-danger';
+        }else if ($percentage > 15 && $percentage <= 33) {
+            $label = 'bg-warning';
+        } else if ($percentage > 33 && $percentage <= 70) {
+            $label = 'bg-primary';
+        } else {
+            $label = 'bg-success';
+        }
 
+        return $label;
+    }
 
 }
