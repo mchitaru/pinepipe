@@ -178,7 +178,7 @@ $label = $task->getProgressColor($percentage);
                             <textarea class="form-control" name="comment" placeholder="{{ __('Write message')}}" id="example-textarea" rows="3" required></textarea>
                         </div>
                         <div class ="col-1">
-                            <button type="submit" class="btn btn-round" data-title={{__('Add')}}>
+                            <button type="submit" class="btn btn-round" data-disable-with="..." data-title={{__('Add')}}>
                                 <i class="material-icons">add</i>
                             </button>
                         </div>
