@@ -41,7 +41,7 @@ WorkspaceController extends Controller
             $lead['total_lead']      = $total_lead;
             $lead['lead_percentage'] = $lead_percentage;
 
-            $activities = ActivityLog::select('activity_logs.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'activity_logs.project_id')->where('user_projects.user_id', '=', \Auth::user()->authId())->get();
+            $activities = ActivityLog::select('activity_logs.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'activity_logs.project_id')->where('user_projects.user_id', '=', \Auth::user()->authId())->orderBy('id', 'desc')->get();
 
             if(\Auth::user()->type == 'company')
             {
@@ -133,7 +133,7 @@ WorkspaceController extends Controller
         }
         else
         {
-            $activities = ActivityLog::all();
+            $activities = ActivityLog::all()->orderBy('id', 'desc');
 
             $user=\Auth::user();
             $user['total_user']=$user->countCompany();

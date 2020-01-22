@@ -70,17 +70,7 @@ class ProjectTasksController extends Controller
         $task->created_by  = \Auth::user()->creatorId();
         $task->save();
 
-        ActivityLog::create(
-            [
-                'user_id' => \Auth::user()->creatorId(),
-                'project_id' => $project->id,
-                'log_type' => 'Create Task',
-                'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('created task') .
-                            ' <a href="#" data-url="'.route('tasks.show',$task->id).'" data-ajax-popup="true"  data-size="lg">'.$task->title.'</a>',
-            ]
-        );
+        ActivityLog::createTask($task);
 
         $request->session()->flash('success', __('Task successfully created.'));
 

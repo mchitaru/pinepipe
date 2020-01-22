@@ -65,7 +65,7 @@ class TasksController extends ProjectsSectionController
         $post = $request->validated();
 
         if(\Auth::user()->type != 'company'){
-            
+
             $post['assign_to'] = \Auth::user()->id;
         }
 
@@ -74,17 +74,7 @@ class TasksController extends ProjectsSectionController
         $task->created_by  = \Auth::user()->creatorId();
         $task->save();
 
-        ActivityLog::create(
-            [
-                'user_id' => \Auth::user()->creatorId(),
-                'project_id' => '0',
-                'log_type' => 'Create Task',
-                'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('create task') .
-                            ' <a href="' . route('tasks.show', $task->id) . '">'. $task->title.'</a>',
-            ]
-        );
+        ActivityLog::createTask($task);
 
         $request->session()->flash('success', __('Task successfully created.'));
 
