@@ -4,6 +4,30 @@
 //
 // Place your own custom CSS or SCSS rules below this line, these rules will override any Bootstrap and theme variables.
 
+.pace {
+    -webkit-pointer-events: none;
+    pointer-events: none;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  .pace-inactive {
+    display: none;
+  }
+
+  .pace .pace-progress {
+    background: $blue;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    height: 2px;
+  }
+
+
 .round { border-radius: 50%; }
 
 /* 1.12 Full Calendar */

@@ -24,6 +24,7 @@
 <!-- Required theme scripts (Do not remove) -->
 <script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script>
 
+<script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/avatar.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('assets/js/remote.js') }}"></script>
@@ -59,7 +60,7 @@
     function toastrs(title, message, status) {
         toastr[status](message, title)
     }
-    
+
 </script>
 
 @if ($message = Session::get('success'))
