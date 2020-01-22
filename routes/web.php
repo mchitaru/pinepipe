@@ -40,7 +40,7 @@ Route::group(
 
         //Users
         Route::resource('users', 'UsersController');
-        Route::get('profile/{id}', 'UsersController@profile')->name('profile');
+        Route::get('profile/{profile}', 'UsersController@profile')->name('profile');
         Route::put('edit-profile', 'UsersController@editprofile')->name('update.account');
         Route::resource('roles', 'UserRolesController');
         Route::resource('permissions', 'PermissionsController');
@@ -152,28 +152,28 @@ Route::group(
     
         Route::resource('projects', 'ProjectsController');
 
-        Route::get('projects/{id}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');
-        Route::post('projects/{id}/milestone', 'ProjectMilestonesController@store')->name('projects.milestone.store');
-        Route::get('projects/milestone/{id}/edit', 'ProjectMilestonesController@edit')->name('projects.milestone.edit');
-        Route::put('projects/milestone/{id}', 'ProjectMilestonesController@update')->name('projects.milestone.update');
-        Route::delete('projects/milestone/{id}', 'ProjectMilestonesController@destroy')->name('projects.milestone.destroy');
-        Route::get('projects/milestone/{id}/show', 'ProjectMilestonesController@show')->name('projects.milestone.show');
+        Route::get('projects/{project}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');
+        Route::post('projects/{project}/milestone', 'ProjectMilestonesController@store')->name('projects.milestone.store');
+        Route::get('projects/milestone/{milestone}/edit', 'ProjectMilestonesController@edit')->name('projects.milestone.edit');
+        Route::put('projects/milestone/{milestone}', 'ProjectMilestonesController@update')->name('projects.milestone.update');
+        Route::delete('projects/milestone/{milestone}', 'ProjectMilestonesController@destroy')->name('projects.milestone.destroy');
+        Route::get('projects/milestone/{milestone}/show', 'ProjectMilestonesController@show')->name('projects.milestone.show');
 
-        Route::post('projects/{id}/file', 'ProjectFilesController@store')->name('projects.file.upload');
-        Route::get('projects/{id}/file/{fid}', 'ProjectFilesController@show')->name('projects.file.download');
-        Route::delete('projects/{id}/file/delete/{fid}', 'ProjectFilesController@destroy')->name('projects.file.delete');
+        Route::post('projects/{project}/file', 'ProjectFilesController@store')->name('projects.file.upload');
+        Route::get('projects/file/{file}', 'ProjectFilesController@show')->name('projects.file.download');
+        Route::delete('projects/file/{file}', 'ProjectFilesController@destroy')->name('projects.file.delete');
         
-        Route::get('projects/{id}/task', 'ProjectTasksController@create')->name('projects.task.create');
-        Route::post('projects/{id}/task', 'ProjectTasksController@store')->name('projects.task.store');
-        Route::get('projects/{id}/board', 'ProjectTasksController@board')->name('projects.task.board');
+        Route::get('projects/{project}/task', 'ProjectTasksController@create')->name('projects.task.create');
+        Route::post('projects/{project}/task', 'ProjectTasksController@store')->name('projects.task.store');
+        Route::get('projects/{project}/board', 'ProjectTasksController@board')->name('projects.task.board');
 
-        Route::put('projects/{id}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO
+        Route::put('projects/{project}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO
         
-        Route::get('project-invite/{project_id}', 'ProjectsController@userInvite')->name('project.invite');
+        Route::get('project-invite/{project}', 'ProjectsController@userInvite')->name('project.invite');
         Route::post('invite/{project}', 'ProjectsController@Invite')->name('invite');
 
-        Route::get('projects/{id}/client/{cid}/permission', 'ProjectsController@clientPermission')->name('projects.client.permission');
-        Route::put('projects/{id}/client/{cid}/permission', 'ProjectsController@storeClientPermission')->name('projects.client.permission.store');
+        Route::get('projects/{project}/client/{client}/permission', 'ProjectsController@clientPermission')->name('projects.client.permission');
+        Route::put('projects/{project}/client/{client}/permission', 'ProjectsController@storeClientPermission')->name('projects.client.permission.store');
 }
 );
 
@@ -198,19 +198,19 @@ Route::group(
 
         Route::resource('tasks', 'TasksController');
 
-        Route::post('tasks/{tid}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');
-        Route::put('tasks/{id}/comment/{cid}', 'TaskCommentsController@update')->name('tasks.comment.update');
-        Route::post('tasks/{tid}/comment/{cid}', 'TaskCommentsController@show')->name('tasks.comment.show');
-        Route::delete('tasks/{id}/comment/{cid}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
+        Route::post('tasks/{task}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');
+        Route::put('tasks/comment/{comment}', 'TaskCommentsController@update')->name('tasks.comment.update');
+        Route::post('tasks/comment/{comment}', 'TaskCommentsController@show')->name('tasks.comment.show');
+        Route::delete('tasks/comment/{comment}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
 
-        Route::post('tasks/{id}/file', 'TaskFilesController@store')->name('tasks.file.upload');
-        Route::get('tasks/{id}/file/{fid}', 'TaskFilesController@show')->name('tasks.file.download');
-        Route::delete('tasks/{id}/file/delete/{fid}', 'TaskFilesController@destroy')->name('tasks.file.delete');
+        Route::post('tasks/{task}/file', 'TaskFilesController@store')->name('tasks.file.upload');
+        Route::get('tasks/file/{file}', 'TaskFilesController@show')->name('tasks.file.download');
+        Route::delete('tasks/file/{file}', 'TaskFilesController@destroy')->name('tasks.file.delete');
 
-        Route::post('tasks/{id}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.store');
-        Route::put('tasks/{id}/checklist/{cid}', 'TaskChecklistController@update')->name('tasks.checklist.update');
-        Route::post('tasks/{tid}/checklist/{cid}', 'TaskChecklistController@show')->name('tasks.checklist.show');
-        Route::delete('tasks/{id}/checklist/{cid}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
+        Route::post('tasks/{task}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.store');
+        Route::put('tasks/checklist/{checklist}', 'TaskChecklistController@update')->name('tasks.checklist.update');
+        Route::post('tasks/checklist/{checklist}', 'TaskChecklistController@show')->name('tasks.checklist.show');
+        Route::delete('tasks/checklist/{checklist}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
 }
 );
 
@@ -232,16 +232,16 @@ Route::group(
         //Invoices
         Route::resource('invoices', 'InvoicesController');
 
-        Route::get('invoices/{id}/products', 'InvoicesController@productAdd')->name('invoices.products.add');
-        Route::get('invoices/{id}/products/{pid}', 'InvoicesController@productEdit')->name('invoices.products.edit');
-        Route::post('invoices/{id}/products', 'InvoicesController@productStore')->name('invoices.products.store');
-        Route::put('invoices/{id}/products/{pid}', 'InvoicesController@productUpdate')->name('invoices.products.update');
-        Route::delete('invoices/{id}/products/{pid}', 'InvoicesController@productDelete')->name('invoices.products.delete');
+        Route::get('invoices/{invoice}/products', 'InvoicesController@productAdd')->name('invoices.products.add');
+        Route::get('invoices/{invoice}/products/{product}', 'InvoicesController@productEdit')->name('invoices.products.edit');
+        Route::post('invoices/{invoice}/products', 'InvoicesController@productStore')->name('invoices.products.store');
+        Route::put('invoices/{invoice}/products/{product}', 'InvoicesController@productUpdate')->name('invoices.products.update');
+        Route::delete('invoices/{invoice}/products/{product}', 'InvoicesController@productDelete')->name('invoices.products.delete');
         Route::post('invoices/milestone/task', 'InvoicesController@milestoneTask')->name('invoices.milestone.task');
 
         Route::get('invoices-payments', 'InvoicesController@payments')->name('invoices.payments');
-        Route::get('invoices/{id}/payments', 'InvoicesController@paymentAdd')->name('invoices.payments.create');
-        Route::post('invoices/{id}/payments', 'InvoicesController@paymentStore')->name('invoices.payments.store');
+        Route::get('invoices/{invoice}/payments', 'InvoicesController@paymentAdd')->name('invoices.payments.create');
+        Route::post('invoices/{invoice}/payments', 'InvoicesController@paymentStore')->name('invoices.payments.store');
 
 
 }

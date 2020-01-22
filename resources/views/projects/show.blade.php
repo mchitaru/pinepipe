@@ -205,9 +205,10 @@ $(document).ready(function() {
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
 
-                    <button class="btn btn-round" data-url="{{ route('projects.task.create',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
-                    <i class="material-icons">add</i>
-                    </button>
+                    <a href="{{ route('projects.task.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <i class="material-icons">add</i>
+                    </a>
+
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">

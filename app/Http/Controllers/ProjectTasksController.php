@@ -8,6 +8,7 @@ use App\Milestone;
 use App\UserProject;
 use App\ActivityLog;
 use App\ProjectStage;
+use App\Http\Requests\ProjectTaskStoreRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -55,69 +56,35 @@ class ProjectTasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $project_id)
+    public function store(ProjectTaskStoreRequest $request, Project $project)
     {
-        if(\Auth::user()->type == 'company')
-        {
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'title' => 'required',
-                                   'priority' => 'required',
-                                   'assign_to' => 'required',
-                                   'due_date' => 'required',
-                                   'start_date' => 'required',
-                               ]
-            );
-        }
-        else
-        {
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'title' => 'required',
-                                   'priority' => 'required',
-                                   'due_date' => 'required',
-                                   'start_date' => 'required',
-                               ]
-            );
-        }
-        if($validator->fails())
-        {
-            $messages = $validator->getMessageBag();
+        $post = $request->validated();
 
-            return redirect()->back()->with('error', $messages->first());
-        }
-
-        $project = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $project_id)->first();
-        if($project)
+        if(\Auth::user()->type != 'company')
         {
-            $post = $request->all();
-            if(\Auth::user()->type != 'company')
-            {
-                $post['assign_to'] = \Auth::user()->id;
-            }
-            $post['project_id'] = $project_id;
-            $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-            $task               = Task::make($post);
-            $task->created_by  = \Auth::user()->creatorId();
-            $task->save();
-    
-            ActivityLog::create(
-                [
-                    'user_id' => \Auth::user()->creatorId(),
-                    'project_id' => $project_id,
-                    'log_type' => 'Create Task',
-                    'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
-                    'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                                __('created task') .
-                                ' <a href="#" data-url="'.route('tasks.show',$task->id).'" data-ajax-popup="true"  data-size="lg">'.$task->title.'</a>',
-                ]
-            );
+            $post['assign_to'] = \Auth::user()->id;
+        }
+        $post['project_id'] = $project->id;
+        $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        $task               = Task::make($post);
+        $task->created_by  = \Auth::user()->creatorId();
+        $task->save();
 
-            return redirect()->back()->with('success', __('Task successfully created.'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('You can \'t Add Task.'));
-        }
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $project->id,
+                'log_type' => 'Create Task',
+                'remark' => \Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>",
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('created task') .
+                            ' <a href="#" data-url="'.route('tasks.show',$task->id).'" data-ajax-popup="true"  data-size="lg">'.$task->title.'</a>',
+            ]
+        );
+
+        $request->session()->flash('success', __('Task successfully created.'));
+
+        $url = route('projects.show', $project->id);
+        return "<script>window.location='{$url}'</script>";
     }
 }

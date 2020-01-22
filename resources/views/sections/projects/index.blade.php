@@ -116,9 +116,6 @@
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
-                    {{-- <button class="btn btn-round" data-url="{{ route('tasks.create') }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
-                        <i class="material-icons">add</i>
-                    </button> --}}
 
                     <a href="{{ route('tasks.create') }}" class="btn btn-round" data-remote="true" data-type="text" >
                         <i class="material-icons">add</i>
@@ -172,7 +169,6 @@
             </div>
             <!--end of tab-->
         </div>
-    </div>
     </div>
 </div>
 @endsection

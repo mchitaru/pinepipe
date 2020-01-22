@@ -195,7 +195,7 @@ $profile=asset(Storage::url('avatar/'));
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#">Edit</a>
                             {{-- <a href="#" class="dropdown-item text-danger delete-comment" data-url="{{route('tasks.comment.destroy',[$task->id, $comment->id])}}"> --}}
-                            <a href="{{route('tasks.comment.destroy',[$task->id, $comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
+                            <a href="{{route('tasks.comment.destroy', $comment->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
                                 {{__('Delete')}}
                             </a>
                         </div>

@@ -54,6 +54,12 @@
     };
 
     $("#search-element").easyAutocomplete(options);
+
+
+    function toastrs(title, message, status) {
+        toastr[status](message, title)
+    }
+    
 </script>
 
 @if ($message = Session::get('success'))

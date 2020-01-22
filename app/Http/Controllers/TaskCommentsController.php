@@ -85,12 +85,11 @@ class TaskCommentsController extends Controller
      * @param  \App\TaskComment  $taskComment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $task_id, $comment_id)
+    public function destroy(Request $request, $comment_id)
     {
-        // $comment = TaskComment::find($comment_id);
+        $comment = TaskComment::find($comment_id);
         // $comment->delete();
 
-        //return redirect()->route('tasks.show', $task_id)->with('success', __('Comment Deleted.'));
-        return redirect()->back();
+        return redirect()->route('tasks.edit', $comment->task_id)->with('success', __('Comment Deleted.'));
    }
 }

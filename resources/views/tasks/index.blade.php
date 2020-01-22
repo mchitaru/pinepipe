@@ -116,11 +116,14 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="#">Archive</a>
                             @can('delete task')
-                                <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('task-delete-form-{{$task->id}}').submit();">
+                                <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
+                                    {{__('Delete')}}
+                                </a>
+                                {{-- <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('task-delete-form-{{$task->id}}').submit();">
                                     {{__('Delete')}}
                                 </a>
                                 {!! Form::open(['method' => 'DELETE', 'route' => ['tasks.destroy', $task->id],'id'=>'task-delete-form-'.$task->id]) !!}
-                                {!! Form::close() !!}
+                                {!! Form::close() !!} --}}
                             @endcan
                         </div>
                         </div>

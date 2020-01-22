@@ -8,8 +8,9 @@ use App\Project;
 use App\Milestone;
 use App\UserProject;
 use App\ActivityLog;
+use App\Http\Requests\TaskDestroyRequest;
 use App\ProjectStage;
-use App\Http\Requests\TaskRequest;
+use App\Http\Requests\TaskStoreRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -59,12 +60,12 @@ class TasksController extends ProjectsSectionController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskRequest $request)
+    public function store(TaskStoreRequest $request)
     {
         $post = $request->validated();
 
-        if(\Auth::user()->type != 'company')
-        {
+        if(\Auth::user()->type != 'company'){
+            
             $post['assign_to'] = \Auth::user()->id;
         }
 
@@ -87,7 +88,6 @@ class TasksController extends ProjectsSectionController
 
         $request->session()->flash('success', __('Task successfully created.'));
 
-        // return redirect()->back()->with('success', __('Task successfully created.'));
         $url = route('tasks.index');
         return "<script>window.location='{$url}'</script>";
     }
@@ -180,21 +180,16 @@ class TasksController extends ProjectsSectionController
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $task_id)
+    public function destroy(TaskDestroyRequest $request, Task $task)
     {
-        dd($request);
-
-        $task    = Task::find($task_id);
-        if($task->created_by == \Auth::user()->creatorId())
-        {
-            $task->delete();
-
-            return redirect()->back()->with('success', __('Task successfully deleted'));
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
         }
-        else
-        {
-            return redirect()->back()->with('error', __('You can\'t Delete Task.'));
-        }
+
+        $task->delete();
+
+        return redirect()->back()->with('success', __('Task successfully deleted'));
     }
 }
 
