@@ -10,7 +10,7 @@ $factory->define(Lead::class, function (Faker $faker) {
         'name' => $faker->company,
         'price' => $faker->randomNumber(3),
         'stage'=> $faker->numberBetween(1, 4),
-        'owner'=> $faker->numberBetween(14, 33),
+        'owner'=> $faker->numberBetween(13, 32),
         'client' => $faker->numberBetween(3, 12),
         'source' => $faker->numberBetween(1, 4),
         'created_by' => $faker->numberBetween(15, 24),
