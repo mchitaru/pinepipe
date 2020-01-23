@@ -1,11 +1,19 @@
 @extends('layouts.modal')
 
 @section('form-start')
-{{ Form::open(array('route' => (!empty($project_id) ? array('projects.task.store', $project_id) : array('tasks.store')), 'data-remote' => 'true')) }}
+@if($is_create)
+    {{ Form::open(array('route' => (!empty($project_id) ? array('projects.task.store', $project_id) : array('tasks.store')), 'data-remote' => 'true')) }}
+@else
+    {{ Form::model($task, array('route' => array('tasks.update', $task->id), 'method' => 'PUT', 'data-remote' => 'true')) }}
+@endif
 @endsection
 
 @section('title')
-{{__('Add New Task')}}
+@if($is_create)
+    {{__('Add New Task')}}
+@else
+    {{__('Edit Task')}}
+@endif
 @endsection
 
 @section('content')
@@ -13,7 +21,7 @@
         <h6>{{__('General Details')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('title', __('Title'), array('class'=>'col-3')) }}
-            {{ Form::text('title', '', array('class' => 'form-control col', 'placeholder'=>'Task title', 'required'=>'required')) }}
+            {{ Form::text('title', null, array('class' => 'form-control col', 'placeholder'=>'Task title', 'required'=>'required')) }}
         </div>
         <div class="form-group row">
             {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
@@ -35,6 +43,12 @@
             {!! Form::select('assign_to', $users, null,array('class' => 'form-control col','required'=>'required')) !!}
         </div>
         @endif
+        @if(!$is_create)
+        <div class="form-group row align-items-center">
+            {{ Form::label('assign_to', __('Milestone'), array('class'=>'col-3')) }}
+            {!! Form::select('milestone_id', $milestones, null,array('class' => 'form-control col')) !!}
+        </div>
+        @endif        
         <hr>
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
@@ -53,7 +67,7 @@
 @endsection
 
 @section('footer')
-    {{Form::submit(__('Create'),array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
+{{Form::submit(($is_create?__('Create'):__('Update')),array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
 @endsection
 
 @section('form-end')

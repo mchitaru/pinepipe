@@ -5,9 +5,8 @@ use App\Project;
 
 trait TaskTraits
 {
-    public function taskShow($task_id)
+    public function taskShow(Task $task)
     {
-        $task    = Task::find($task_id);
         $project = Project::find($task->project_id);
 
         if(!empty($project))

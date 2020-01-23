@@ -18,7 +18,7 @@ class TaskCommentsController extends Controller
      */
     public function index(Task $task)
     {
-        return $this->taskShow($task->id);
+        return $this->taskShow($task);
     }
 
     /**
@@ -61,6 +61,6 @@ class TaskCommentsController extends Controller
     {
         $comment->delete();
 
-        return $this->taskShow($comment->task_id);
+        return $this->taskShow($task);
    }
 }

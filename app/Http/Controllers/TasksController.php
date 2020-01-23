@@ -51,9 +51,13 @@ class TasksController extends ProjectsSectionController
         {
             $users[$user->id] = ($user->name . ' - ' . $user->email);
         }
-        $project_id ='';
 
-        return view('tasks.create', compact('projects', 'priority', 'users', 'project_id'));
+        $task = '';
+        $project = '';
+        $milestones = '';
+        $is_create = true;
+
+        return view('tasks.create', compact('task', 'project', 'projects', 'users', 'priority', 'milestones', 'is_create'));
     }
 
     /**
@@ -90,9 +94,9 @@ class TasksController extends ProjectsSectionController
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show($task_id)
+    public function show(Task $task)
     {
-        return $this->taskShow($task_id);
+        return $this->taskShow($task);
     }
 
     /**
@@ -101,12 +105,12 @@ class TasksController extends ProjectsSectionController
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit($task_id)
+    public function edit(Task $task)
     {
-        $task       = Task::find($task_id);
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend('--', '0');
         $users      = array();
+        
         if(!empty($project)){
             $usersArr   = UserProject::where('project_id', '=', $task->project_id)->get();
             foreach($usersArr as $user)
@@ -122,8 +126,9 @@ class TasksController extends ProjectsSectionController
         }
         $priority   = Project::$priority;
         $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
+        $is_create = false;
 
-        return view('tasks.edit', compact('project', 'projects', 'users', 'task', 'priority', 'milestones'));
+        return view('tasks.create', compact('task', 'project', 'projects', 'users', 'priority', 'milestones', 'is_create'));
     }
 
     /**

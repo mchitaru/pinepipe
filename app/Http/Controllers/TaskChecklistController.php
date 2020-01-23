@@ -20,7 +20,7 @@ class TaskChecklistController extends Controller
      */
     public function index(Task $task)
     {
-        return $this->taskShow($task->id);
+        return $this->taskShow($task);
     }
 
     /**
@@ -65,7 +65,7 @@ class TaskChecklistController extends Controller
 
         $checklist->save();
 
-        return app('App\Http\Controllers\TasksController')->show($checklist->task_id);
+        return $this->taskShow($task);
     }
 
     /**
@@ -78,6 +78,6 @@ class TaskChecklistController extends Controller
     {
         $checklist->delete();
 
-        return $this->taskShow($checklist->task_id);
+        return $this->taskShow($task);
     }
 }
