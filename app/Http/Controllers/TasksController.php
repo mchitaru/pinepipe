@@ -24,9 +24,9 @@ class TasksController extends ProjectsSectionController
         if(\Auth::user()->can('show project'))
         {
             $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
-            $project_id = 0;
+            $project_id = null;
 
-            return view('tasks.board', compact('stages', $project_id));
+            return view('tasks.board', compact('stages', 'project_id'));
         }
         else
         {

@@ -11,7 +11,7 @@ use Carbon\Carbon;
 @endpush
 
 @section('page-title')
-    {{__('Leads Board')}}
+    {{__('Lead Board')}}
 @endsection
 
 @section('breadcrumb')
