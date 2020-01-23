@@ -41,6 +41,7 @@
             }
 
             $label = Project::getProgressColor($task_percentage);
+            
         @endphp
 
             <div class="card card-task">
@@ -54,15 +55,14 @@
                         <h6 data-filter-by="text">{{$task->title}}</h6>
                     </a>
 
-                    <span class="badge badge-secondary">
-                        @if($task->priority =='low')
-                                <div class="label label-soft-success"> {{ $task->priority }}</div>
-                            @elseif($task->priority =='medium')
-                                <div class="label label-soft-warning"> {{ $task->priority }}</div>
-                            @elseif($task->priority =='high')
-                                <div class="label label-soft-danger"> {{ $task->priority }}</div>
-                            @endif
-                     </span>
+                    
+                    @if($task->priority =='low')
+                        <span class="badge badge-success"> {{ $task->priority }}</span>
+                    @elseif($task->priority =='medium')
+                        <span class="badge badge-warning"> {{ $task->priority }}</span>
+                    @elseif($task->priority =='high')
+                        <span class="badge badge-danger"> {{ $task->priority }}</span>
+                    @endif
 
                      <p>
                         <span class="text-small">{{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
