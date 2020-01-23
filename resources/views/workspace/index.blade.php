@@ -349,7 +349,7 @@ if($client_project_budget_due_per<=15){
                                             $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
                                         }
 
-                                        $label = Projects::getProgressColor($task_percentage);
+                                        $label = Project::getProgressColor($task_percentage);
                                     @endphp
 
                                     <div class="card card-task">

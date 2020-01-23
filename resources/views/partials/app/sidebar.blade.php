@@ -63,9 +63,6 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('calendar.index') }}">{{__('Calendar')}}</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('notes.index') }}">{{__('Notes')}}</a>
-        </li>
         @endif
 
         @if(\Auth::user()->type=='super admin')

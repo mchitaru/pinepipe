@@ -9,9 +9,9 @@ $factory->define(Project::class, function (Faker $faker) {
     return [
         'name' => $faker->sentence(3),
         'price' => $faker->randomNumber(3),
-        'start_date' => $faker->date(),
-        'due_date' => $faker->date(),
-        'client' => '3',
+        'start_date' => $faker->dateTimeInInterval('-2 months'),
+        'due_date' => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
+        'client' => $faker->numberBetween(3, 12),
         'description' => $faker->text,
         'label' => $faker->randomNumber(5),
         'status' => 'on_going',

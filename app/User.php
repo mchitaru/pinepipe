@@ -444,7 +444,8 @@ class User extends Authenticatable
     {
         $employeeRole = Role::create(
             [
-                'name' => 'employee',
+                'name' => $this->name.' employee',//unique role for each company
+                // 'name' => 'employee',
                 'created_by' => $this->id,
             ]
         );

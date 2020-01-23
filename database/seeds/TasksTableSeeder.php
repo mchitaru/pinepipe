@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class LeadsTableSeeder extends Seeder
+class TasksTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,7 @@ class LeadsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Lead::class, 20)->create();
+        factory(App\Task::class, 50)->states('project')->create();
+        factory(App\Task::class, 50)->create();
     }
 }

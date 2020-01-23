@@ -9,11 +9,11 @@ $factory->define(Lead::class, function (Faker $faker) {
     return [
         'name' => $faker->company,
         'price' => $faker->randomNumber(3),
-        'stage'=> '1',
-        'owner'=> '4',
-        'client' => '3',
-        'source' => '1',
-        'created_by' => '2',
+        'stage'=> $faker->numberBetween(1, 4),
+        'owner'=> $faker->numberBetween(14, 33),
+        'client' => $faker->numberBetween(3, 12),
+        'source' => $faker->numberBetween(1, 4),
+        'created_by' => $faker->numberBetween(15, 24),
         'notes' => $faker->text
     ];
 });

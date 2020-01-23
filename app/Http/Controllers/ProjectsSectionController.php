@@ -14,12 +14,15 @@ class ProjectsSectionController extends Controller
         if(\Auth::user()->can('manage project'))
         {
             $user = \Auth::user();
-            if($user->type == 'client')
-            {
+            if($user->type == 'client'){
+
                 $projects = Project::where('client', '=', $user->id)->get();
             }
-            else
-            {
+            else if($user->type == 'company'){
+
+                $projects = Project::where('created_by', '=', \Auth::user()->creatorId())->get();
+            }else{
+
                 $projects = $user->projects;
 
             }

@@ -348,37 +348,47 @@ class UsersTableSeeder extends Seeder
             $permission = Permission::findByName($ap);
             $companyRole->givePermissionTo($permission);
         }
+
+        UsersTableSeeder::addCompany('Company');
+        // UsersTableSeeder::addCompany('Gemini');
+    }
+
+    private static function addCompany($name)
+    {
         $company = User::create(
             [
-                'name' => 'company',
-                'email' => 'company@example.com',
+                'name' => $name,
+                'email' => $name.'@example.com',
                 'password' => Hash::make('1234'),
                 'type' => 'company',
                 'lang' => 'en',
                 'avatar' => '',
                 'plan' => 1,
-                'created_by' => $superAdmin->id,
+                'created_by' => '1',
             ]
         );
-        $company->assignRole($companyRole);
+
+        $role = Role::findByName('company');
+        $company->assignRole($role);
         $company->makeEmployeeRole();
         $company->userDefaultData();
 
-        $client = User::create(
-            [
-                'name' => 'client',
-                'email' => 'client@example.com',
-                'email_verified_at' => now(),
-                'password' => Hash::make('1234'),
-                'remember_token' => Str::random(10),
-                'type' => 'client',
-                'lang' => 'en',
-                'avatar' => '',
-                'plan' => 1,
-                'created_by' => '2',
-            ]
-        );
+        factory(App\User::class, 10)->create()->each(function ($user) use($company) {
 
-        factory(App\User::class, 20)->create();
+            $role = Role::findByName('client');
+            $user->type = 'client';
+            $user->created_by = $company->id;
+            $user->assignRole($role);
+            $user->save();
+        });
+
+        factory(App\User::class, 20)->create()->each(function ($user) use($company) {
+
+            $role = Role::where('name', '=', 'employee')->where('created_by', '=', $user->creatorId())->first();
+            $user->type = $company->name.' employee';
+            $user->created_by = $company->id;
+            $user->assignRole($role);
+            $user->save();
+        });
     }
 }
