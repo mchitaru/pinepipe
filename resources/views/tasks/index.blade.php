@@ -105,9 +105,9 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            <a class="dropdown-item" href="#">Mark as done</a>
+                            <a class="dropdown-item" href="#">{{__('Mark as done')}}</a>
                             @can('edit task')
-                                <a href="#" class="dropdown-item" data-url="{{ route('tasks.edit',$task->id) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                                <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                                     {{__('Edit')}}
                                 </a>
                             @endcan
@@ -117,11 +117,6 @@
                                 <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}
                                 </a>
-                                {{-- <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('task-delete-form-{{$task->id}}').submit();">
-                                    {{__('Delete')}}
-                                </a>
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['tasks.destroy', $task->id],'id'=>'task-delete-form-'.$task->id]) !!}
-                                {!! Form::close() !!} --}}
                             @endcan
                         </div>
                         </div>

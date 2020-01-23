@@ -133,27 +133,16 @@ class TasksController extends ProjectsSectionController
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $task_id)
+    public function update(TaskStoreRequest $request, Task $task)
     {
-        if(\Auth::user()->type == 'company')
-        {
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'title' => 'required',
-                                   'priority' => 'required',
-                                   'assign_to' => 'required',
-                                   'due_date' => 'required',
-                                   'start_date' => 'required',
-                                   'milestone_id' => 'required',
-                               ]
-            );
-        }
+        $post = $request->validated();
 
-        $task    = Task::find($task_id);
-        $post    = $request->all();
         $task->update($post);
 
-        return redirect()->back()->with('success', __('Task Updated Successfully!'));
+        $request->session()->flash('success', __('Task successfully updated.'));
+
+        $url = route('tasks.index');
+        return "<script>window.location='{$url}'</script>";
     }
 
     /**

@@ -1,11 +1,15 @@
-{{ Form::model($task, array('route' => array('tasks.update', $task->id), 'method' => 'PUT')) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
+@extends('layouts.modal')
+
+@section('form-start')
+{{ Form::model($task, array('route' => array('tasks.update', $task->id), 'method' => 'PUT', 'data-remote' => 'true')) }}
+@endsection
+
+@section('title')
+{{__('Edit Task')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
     <div class="row">
         <div class="form-group  col-md-6">
             {{ Form::label('title', __('Title')) }}
@@ -46,8 +50,13 @@
     </div>
     @include('partials.errors')
 </div>
-<div class="modal-footer">
+@endsection
+
+@section('footer')
     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Update'),array('class'=>'btn btn-primary'))}}
-</div>
+    {{Form::submit(__('Update'),array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
+@endsection
+
+@section('form-end')
 {{ Form::close() }}
+@endsection

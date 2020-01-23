@@ -13,7 +13,15 @@ class TaskStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create task');
+        $task = $this->route()->parameter('task');
+
+        if(!$task){
+
+            return $this->user()->can('create task');
+        }else{
+
+            return $this->user()->can('edit task');
+        }
     }
 
     /**
@@ -30,6 +38,7 @@ class TaskStoreRequest extends FormRequest
                 'assign_to' => 'required',
                 'due_date' => 'required',
                 'start_date' => 'required',
+                'description' => 'nullable',
             ];
         }else{
             return [
@@ -37,18 +46,21 @@ class TaskStoreRequest extends FormRequest
                 'priority' => 'required',
                 'due_date' => 'required',
                 'start_date' => 'required',
+                'description' => 'nullable',
             ];
         }
     }
 
     protected function getRedirectUrl()
     {
-        // $task = $this->route()->parameter('task');
+        $task = $this->route()->parameter('task');
 
-        // if($task){
-        //     return route('tasks.edit', $task);
-        // }else{
+        if($task){
+
+            return route('tasks.edit', $task);
+        }else{
+
             return route('tasks.create');
-        // }
+        }
     }
 }
