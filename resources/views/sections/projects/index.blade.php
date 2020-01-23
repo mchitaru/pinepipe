@@ -99,7 +99,7 @@
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
 
-                    <a href="{{ route('tasks.create') }}" class="btn btn-round" data-remote="true" data-type="text" >
+                    <a href="{{ route('tasks.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                         <i class="material-icons">add</i>
                     </a>
 

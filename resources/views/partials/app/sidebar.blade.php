@@ -26,13 +26,13 @@
                 <a class="dropdown-item" href="{{route('profile',$users->id)}}">
                     {{__('Account Settings')}}
                 </a>
+                <div class="dropdown-divider"></div>
             @endcan
-            <div class="dropdown-divider"></div>
 
             @if(\Auth::user()->type!='client')
                 @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
                     @can('manage user')
-                    <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
+                        <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                     @endcan
                 @endif
                 @if(Gate::check('manage role'))
@@ -63,6 +63,9 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('calendar.index') }}">{{__('Calendar')}}</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('notes.index') }}">{{__('Notes')}}</a>
+        </li>
         @endif
 
         @if(\Auth::user()->type=='super admin')
@@ -85,128 +88,142 @@
             @endcan
         @endif
 
-        @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
-        <li class="nav-item">
-
-        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2">Clients</a>
-        <div id="submenu-2" class="collapse">
-            <ul class="nav nav-small flex-column">
-
-            <li class="nav-item ">
-                <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
-            </li>
-
+        @can('manage client')
             <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
-            </li>
 
-            @if(Gate::check('manage lead'))
-            <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Lead Board')}}</a>
-            </li>
-            @endif
-
-            </ul>
-        </div>
-
-        </li>
-        @endif
-
-        @if(Gate::check('manage project'))
-
-        <li class="nav-item">
-
-        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">Projects</a>
-        <div id="submenu-3" class="collapse">
-            <ul class="nav nav-small flex-column">
-
-            <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('tasks.index') }}">{{__('Tasks')}}</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="dropdown-item" href="{{ route('tasks.board') }}">{{__('Task Board')}}</a>
-            </li>
-
-            </ul>
-        </div>
-
-        </li>
-        @endif
-
-        @if((Gate::check('manage product') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')
-        <li class="nav-item">
-
-            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">Finance</a>
-            <div id="submenu-4" class="collapse">
+            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2">{{__('Clients')}}</a>
+            <div id="submenu-2" class="collapse">
                 <ul class="nav nav-small flex-column">
 
-                <li class="nav-item">
-                    <a class="dropdown-item disabled" href="#">{{__('Proposals')}}</a>
+                <li class="nav-item ">
+                    <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
+                    <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
                 </li>
 
-                @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
+                @if(Gate::check('manage lead'))
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
+                        <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
                 </li>
-                @endcan
-
-                @if(Gate::check('manage expense') || \Auth::user()->type=='client')
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
+                    <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Lead Board')}}</a>
                 </li>
                 @endif
 
                 </ul>
             </div>
 
-        </li>
-        @endif
+            </li>
+        @endcan
 
-        @if(Gate::check('manage project'))
-        <li class="nav-item">
+        @can('manage project')
+            <li class="nav-item">
 
-            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">Reports</a>
-            <div id="submenu-5" class="collapse">
+            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">{{__('Projects')}}</a>
+            <div id="submenu-3" class="collapse">
                 <ul class="nav nav-small flex-column">
 
                 <li class="nav-item">
-                    <a class="dropdown-item disabled" href="#">{{__('Timesheets')}}</a>
+                    <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('tasks.index') }}">{{__('Tasks')}}</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('tasks.board') }}">{{__('Task Board')}}</a>
+                </li>
+
                 </ul>
             </div>
 
-        </li>
+            </li>
+        @endcan
+
+        @if((Gate::check('manage product') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')
+            <li class="nav-item">
+
+                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">{{__('Finance')}}</a>
+                <div id="submenu-4" class="collapse">
+                    <ul class="nav nav-small flex-column">
+
+                    <li class="nav-item">
+                        <a class="dropdown-item disabled" href="#">{{__('Proposals')}}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
+                    </li>
+
+                    @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
+                    <li class="nav-item">
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
+                    </li>
+                    @endcan
+
+                    @if(Gate::check('manage expense') || \Auth::user()->type=='client')
+                    <li class="nav-item">
+                        <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
+                    </li>
+                    @endif
+
+                    </ul>
+                </div>
+
+            </li>
+        @endif
+
+        @if(Gate::check('manage project'))
+            <li class="nav-item">
+
+                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">{{__('Reports')}}</a>
+                <div id="submenu-5" class="collapse">
+                    <ul class="nav nav-small flex-column">
+
+                    <li class="nav-item">
+                        <a class="dropdown-item disabled" href="#">{{__('Timesheets')}}</a>
+                    </li>
+                    </ul>
+                </div>
+
+            </li>
+            <li class="nav-item">
+
+                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6">{{__('Files')}}</a>
+                <div id="submenu-6" class="collapse">
+                    <ul class="nav nav-small flex-column">
+
+                    <li class="nav-item">
+                        <a class="dropdown-item disabled" href="#">{{__('Wiki')}}</a>
+                        <a class="dropdown-item disabled" href="#">{{__('Sharepoint')}}</a>
+                    </li>
+                    </ul>
+                </div>
+
+            </li>
         @endif
 
     </ul>
     <hr>
     <div class="d-none d-lg-block w-100">
-        <span class="text-small text-muted">Quick Links</span>
+        <span class="text-small text-muted">{{__('Quick Links')}}</span>
         <ul class="nav nav-small flex-column mt-2">
-        <li class="nav-item">
-            <a href="nav-side-team.html" class="nav-link">Team Overview</a>
-        </li>
-        <li class="nav-item">
-            <a href="nav-side-project.html" class="nav-link">Project</a>
-        </li>
-        <li class="nav-item">
-            <a href="nav-side-task.html" class="nav-link">Single Task</a>
-        </li>
-        <li class="nav-item">
-            <a href="nav-side-kanban-board.html" class="nav-link">Kanban Board</a>
-        </li>
+        @can('manage client')
+            <li class="nav-item">
+                <a href="{{ route('contacts.index') }}" class="nav-link">{{__('Contacts')}}</a>
+            </li>
+        @endcan
+        @can('manage project')
+            <li class="nav-item">
+                <a href="{{ route('projects.index') }}" class="nav-link">{{__('Projects')}}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('tasks.index') }}" class="nav-link">{{__('Tasks')}}</a>
+            </li>
+        @endcan
         </ul>
         <hr>
     </div>
@@ -223,12 +240,12 @@
         @if(Gate::check('manage project'))
         <div class="dropdown mt-2">
             <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Add New
+              {{__('Add New')}}
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item disabled" href="#">{{__('Contact')}}</a>
-                <a class="dropdown-item disabled" href="#">{{__('Project')}}</a>
-                <a class="dropdown-item disabled" href="#">{{__('Task')}}</a>
+                <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
+                <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
+                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
             </div>
         </div>
         @endif
@@ -246,9 +263,8 @@
                 <a class="dropdown-item" href="{{route('profile',$users->id)}}">
                     {{__('Account Settings')}}
                 </a>
+                <div class="dropdown-divider"></div>
             @endcan
-
-            <div class="dropdown-divider"></div>
 
             @if(\Auth::user()->type!='client')
                 @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
