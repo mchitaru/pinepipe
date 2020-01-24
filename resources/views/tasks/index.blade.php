@@ -22,8 +22,8 @@
             <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#">Rename</a>
-            <a class="dropdown-item text-danger" href="#">Archive</a>
+            <a class="dropdown-item disabled" href="#">{{__('Rename')}}</a>
+            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
             </div>
         </div>
         </div>
@@ -105,14 +105,22 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            <a class="dropdown-item" href="#">{{__('Mark as done')}}</a>
                             @can('edit task')
+                                {!! Form::open(['method' => 'PATCH', 'route' => ['tasks.update', $task->id]]) !!}
+                                {!! Form::hidden('status', 'done') !!}
+                                {!! Form::submit(__('Mark as done'), array('class'=>'dropdown-item text-danger')) !!}
+                                {!! Form::close() !!}
+
+                                {{-- <a href="{{route('tasks.update',$task->id)}}" data-remote="true" data-method="patch" data-params="{&quot;status&quot;:&quot;done&quot;,&quot;stage&quot;:&quot;4&quot;}"  class="dropdown-item text-danger">
+                                    {{__('Mark as done')}}
+                                </a> --}}
+
                                 <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                                     {{__('Edit')}}
                                 </a>
                             @endcan
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="#">Archive</a>
+                            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
                             @can('delete task')
                                 <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}

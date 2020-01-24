@@ -31,36 +31,51 @@ class TaskStoreRequest extends FormRequest
      */
     public function rules()
     {
-        if(\Auth::user()->type == 'company') {
-            return [
-                'title' => 'required',
-                'priority' => 'required',
-                'assign_to' => 'required',
-                'due_date' => 'required',
-                'start_date' => 'required',
-                'description' => 'nullable',
-            ];
+        if (!$this->isMethod('patch')){
+
+            if(\Auth::user()->type == 'company') {
+                return [
+                    'title' => 'required',
+                    'priority' => 'required',
+                    'assign_to' => 'required',
+                    'due_date' => 'required',
+                    'start_date' => 'required',
+                    'description' => 'nullable',
+                ];
+            }else{
+                return [
+                    'title' => 'required',
+                    'priority' => 'required',
+                    'due_date' => 'required',
+                    'start_date' => 'required',
+                    'description' => 'nullable',
+                ];
+            }
         }else{
+
             return [
-                'title' => 'required',
-                'priority' => 'required',
-                'due_date' => 'required',
-                'start_date' => 'required',
-                'description' => 'nullable',
+                'status' => 'string',
+                'stage' => 'numeric'
             ];
         }
     }
 
     protected function getRedirectUrl()
     {
-        $task = $this->route()->parameter('task');
+        if (!$this->isMethod('patch')){
 
-        if($task){
+            $task = $this->route()->parameter('task');
 
-            return route('tasks.edit', $task);
+            if($task){
+
+                return route('tasks.edit', $task);
+            }else{
+
+                return route('tasks.create');
+            }
         }else{
 
-            return route('tasks.create');
+            return route('tasks.index');
         }
     }
 }

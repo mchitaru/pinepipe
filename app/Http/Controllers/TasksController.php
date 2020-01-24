@@ -84,7 +84,7 @@ class TasksController extends ProjectsSectionController
 
         $request->session()->flash('success', __('Task successfully created.'));
 
-        $url = route('tasks.index');
+        $url = redirect()->back()->getTargetUrl();
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -142,11 +142,17 @@ class TasksController extends ProjectsSectionController
     {
         $post = $request->validated();
 
+        if($post['status'] == 'done')
+        {
+            $stage = ProjectStage::all()->last();
+            $post['stage'] = $stage->id;
+        }
+
         $task->update($post);
 
         $request->session()->flash('success', __('Task successfully updated.'));
 
-        $url = route('tasks.index');
+        $url = redirect()->back()->getTargetUrl();
         return "<script>window.location='{$url}'</script>";
     }
 

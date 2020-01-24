@@ -14523,11 +14523,6 @@ pre[class*=language-] {
   }
 }
 
-.modal-open .container-fluid,
-.modal-open .container {
-  -webkit-filter: blur(5px) grayscale(90%);
-}
-
 .pace {
   -webkit-pointer-events: none;
   pointer-events: none;

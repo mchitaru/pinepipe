@@ -18,6 +18,7 @@ $factory->define(Task::class, function (Faker $faker) {
         'status' => 'todo',
         'order' => '0',
         'stage' => $faker->numberBetween(1, 4),
+        'created_by' => '2',
     ];
 });
 
