@@ -46,6 +46,11 @@ class Project extends Model
         return $this->hasMany('App\ProjectFile', 'project_id', 'id');
     }
 
+    public function users()
+    {
+        return $this->hasMany('App\User', 'user_projects', 'user_id', 'project_id');
+    }
+
     public function countTask()
     {
         return Task::where('project_id', '=', $this->id)->count();

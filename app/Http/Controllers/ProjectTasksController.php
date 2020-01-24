@@ -46,8 +46,9 @@ class ProjectTasksController extends Controller
             $users[$user->project_assign_user->id] = ($user->project_assign_user->name . ' - ' . $user->project_assign_user->email);
         }
         $project_id = $project->id;
+        $is_create = true;
 
-        return view('tasks.create', compact('project', 'projects', 'priority', 'users', 'milestones', 'project_id'));
+        return view('tasks.create', compact('project', 'projects', 'priority', 'users', 'milestones', 'project_id', 'is_create'));
     }
 
     /**

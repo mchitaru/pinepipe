@@ -374,7 +374,7 @@ class UsersTableSeeder extends Seeder
             $user->save();
         });
 
-        factory(App\User::class, 20)->create()->each(function ($user) use($company) {
+        factory(App\User::class, 10)->create()->each(function ($user) use($company) {
 
             $role = Role::where('name', '=', 'employee')->where('created_by', '=', $user->creatorId())->first();
             $user->type = $company->name.' employee';

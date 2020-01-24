@@ -8,7 +8,6 @@ use App\Client;
 use App\ProjectClientPermission;
 use App\TaskComment;
 use App\Invoice;
-use App\Label;
 use App\Lead;
 use App\Milestone;
 use App\PaymentPlan;
@@ -21,6 +20,7 @@ use App\TaskFile;
 use App\Timesheet;
 use App\User;
 use App\UserProject;
+use App\Http\Requests\ProjectStoreRequest;
 use App\Utility;
 use Auth;
 use File;
@@ -35,12 +35,11 @@ class ProjectsController extends ProjectsSectionController
         {
             $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
             $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
-            $labels  = Label::where('created_by', '=', \Auth::user()->creatorId())->get();
             $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             $is_create = true;
 
-            return view('projects.create', compact('clients', 'labels', 'users', 'leads', 'is_create'));
+            return view('projects.create', compact('clients', 'users', 'leads', 'is_create'));
         }
         else
         {
@@ -49,79 +48,46 @@ class ProjectsController extends ProjectsSectionController
     }
 
 
-    public function store(Request $request)
+    public function store(ProjectStoreRequest $request)
     {
+        $post = $request->validated();
 
-        if(\Auth::user()->can('create project'))
+        $objUser      = \Auth::user();
+        $total_client = $objUser->countProject();
+        $plan         = PaymentPlan::find($objUser->plan);
+
+        if($total_client < $plan->max_clients || $plan->max_clients == -1)
         {
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'name' => 'required|max:20',
-                                   'price' => 'required',
-                                   'start_date' => 'required',
-                                   'due_date' => 'required',
-                                   'user' => 'required',
-                                   'lead' => 'required',
-                               ]
+            $project              = Project::make($post);
+            $project->created_by  = \Auth::user()->creatorId();
+            $project->save();
+
+            User::find(\Auth::user()->creatorId())->projects()->attach($project->id);
+
+            foreach($post['user'] as $key => $user)
+            {
+                User::find($user)->projects()->attach($project->id);
+            }
+
+            $permissions = Project::$permission;
+            ProjectClientPermission::create(
+                [
+                    'client_id' => $project->client,
+                    'project_id' => $project->id,
+                    'permissions' => implode(',', $permissions),
+                ]
             );
-            if($validator->fails())
-            {
-                $messages = $validator->getMessageBag();
 
-                return redirect()->route('projects.index')->with('error', $messages->first());
-            }
 
-            $objUser      = \Auth::user();
-            $total_client = $objUser->countProject();
-            $plan         = PaymentPlan::find($objUser->plan);
-
-            if($total_client < $plan->max_clients || $plan->max_clients == -1)
-            {
-                $project              = new Project();
-                $project->name        = $request->name;
-                $project->price       = $request->price;
-                $project->start_date  = $request->start_date;
-                $project->due_date    = $request->due_date;
-                $project->client      = $request->client;
-                $project->description = $request->description;
-                $project->lead        = $request->lead;
-                $project->created_by  = \Auth::user()->creatorId();
-                $project->save();
-
-                $userproject             = new UserProject();
-                $userproject->user_id    = \Auth::user()->creatorId();
-                $userproject->project_id = $project->id;
-                $userproject->save();
-
-                foreach($request->user as $key => $user)
-                {
-                    $userproject             = new UserProject();
-                    $userproject->user_id    = $user;
-                    $userproject->project_id = $project->id;
-                    $userproject->save();
-                }
-
-                $permissions = Project::$permission;
-                ProjectClientPermission::create(
-                    [
-                        'client_id' => $project->client,
-                        'project_id' => $project->id,
-                        'permissions' => implode(',', $permissions),
-                    ]
-                );
-
-                return redirect()->route('projects.index')->with('success', __('Project successfully created.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Your project limit is over, Please upgrade plan.'));
-            }
-
+            $request->session()->flash('success', __('Project successfully created.'));
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            $request->session()->flash('error', __('Your project limit is over, Please upgrade plan.'));
         }
+
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
     }
 
 
@@ -131,12 +97,11 @@ class ProjectsController extends ProjectsSectionController
         if(\Auth::user()->can('edit project'))
         {
             $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
-            $labels  = Label::where('created_by', '=', \Auth::user()->creatorId())->get();
             $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $project = Project::findOrfail($id);
             if($project->created_by == \Auth::user()->creatorId())
             {
-                return view('projects.edit', compact('project', 'clients', 'labels', 'leads'));
+                return view('projects.edit', compact('project', 'clients', 'leads'));
             }
             else
             {
@@ -440,7 +405,6 @@ class ProjectsController extends ProjectsSectionController
 
     public function getSearchJson($search)
     {
-
         if(\Auth::user()->type == 'client')
         {
             $objProject = Project::select(
