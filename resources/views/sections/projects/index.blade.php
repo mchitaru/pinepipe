@@ -69,9 +69,11 @@
                     <div class="col-auto">
                     <h3>{{__('Projects')}}</h3>
                     @can('create project')
-                    <button class="btn btn-round" data-url="{{ route('projects.create') }}" data-ajax-popup="true" data-title="{{__('Create New Project')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+
+                    <a href="{{ route('projects.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                         <i class="material-icons">add</i>
-                    </button>
+                    </a>
+
                     @endcan
                     </div>
                     <form class="col-md-auto">

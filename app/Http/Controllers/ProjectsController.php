@@ -38,7 +38,9 @@ class ProjectsController extends ProjectsSectionController
             $labels  = Label::where('created_by', '=', \Auth::user()->creatorId())->get();
             $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('projects.create', compact('clients', 'labels', 'users', 'leads'));
+            $is_create = true;
+
+            return view('projects.create', compact('clients', 'labels', 'users', 'leads', 'is_create'));
         }
         else
         {
