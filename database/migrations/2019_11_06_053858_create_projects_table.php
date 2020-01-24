@@ -17,16 +17,15 @@ class CreateProjectsTable extends Migration
             'projects', function (Blueprint $table){
             $table->bigIncrements('id');
             $table->string('name', 100);
-            $table->float('price')->default('0.00');
+            $table->float('price')->default(0.00);
             $table->date('start_date');
             $table->date('due_date');
-            $table->integer('client')->default('0');
+            $table->unsignedInteger('client')->nullable();
             $table->text('description');
-            $table->integer('label')->default('0');
-            $table->integer('lead')->default('0');
+            $table->unsignedInteger('lead')->default(0);
             $table->string('status', 25)->default('on_going');
-            $table->integer('is_active')->default('1');
-            $table->integer('created_by')->default('0');
+            $table->boolean('is_active')->default(true);
+            $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
 
         }

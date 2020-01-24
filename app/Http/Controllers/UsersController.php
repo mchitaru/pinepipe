@@ -209,14 +209,7 @@ class UsersController extends Controller
             {
                 if(\Auth::user()->type == 'super admin')
                 {
-                    if($user->delete_status == 0)
-                    {
-                        $user->delete_status = 1;
-                    }
-                    else
-                    {
-                        $user->delete_status = 0;
-                    }
+                    $user->delete_status = !$user->delete_status;
                     $user->save();
                 }
                 else

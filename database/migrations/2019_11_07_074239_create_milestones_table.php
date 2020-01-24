@@ -15,10 +15,10 @@ class CreateMilestonesTable extends Migration
     {
         Schema::create('milestones', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('project_id')->default('0');
+            $table->unsignedInteger('project_id')->default(0);
             $table->string('title');
             $table->string('status');
-            $table->double('cost', 8, 2)->default('0.00');
+            $table->double('cost', 8, 2)->default(0.00);
             $table->text('description')->nullable();
             $table->timestamps();
         });

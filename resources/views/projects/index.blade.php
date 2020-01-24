@@ -35,7 +35,7 @@
 
             <div class="card-body">
                 @if(Gate::check('edit project') || Gate::check('delete project') || Gate::check('create user'))
-                    @if($project->is_active==1)
+                    @if($project->is_active)
                         <div class="dropdown card-options">
                             <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_vert</i>
@@ -65,7 +65,7 @@
                 @endif
                 <div class="card-title d-flex justify-content-between align-items-center">
                     @can('show project')
-                    @if($project->is_active==1)
+                    @if($project->is_active)
                         <a href="{{ route('projects.show',$project->id) }}">
                             <h5 data-filter-by="text">{{ $project->name }}</h5>
                         </a>
@@ -89,11 +89,11 @@
 
                     @foreach($project->project_user() as $project_user)
                     <li>
-                        @if($project->is_active==1)
+                        @if($project->is_active)
                         <a href="{{ route('users.index',$project_user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($project_user)?$project_user->name:'')}}">
                         @endif
                             <img alt="{{$project_user->name}}" {!! empty($project_user->avatar) ? "avatar='".$project_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$project_user->avatar))}}" data-filter-by="alt"/>
-                        @if($project->is_active==1)
+                        @if($project->is_active)
                         </a>
                         @endif
                     </li>
@@ -102,7 +102,7 @@
                 <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <i class="material-icons mr-1">playlist_add_check</i>
-                        @if($project->is_active==1)
+                        @if($project->is_active)
                         <a  href="{{ route('projects.show',$project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
                         @else
                         <a  href="#" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="material-icons mr-1">person</i>
-                        @if($project->is_active==1 && !empty($project->client()))
+                        @if($project->is_active && !empty($project->client()))
                         <a href="{{ route('clients.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>
                         @else
                         <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>

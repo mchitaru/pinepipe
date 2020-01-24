@@ -15,14 +15,14 @@ class CreateExpensesTable extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('category_id');
+            $table->unsignedInteger('category_id');
             $table->text('description')->nullable();
             $table->float('amount')->nullable();
             $table->date('date')->nullable();
-            $table->unsignedBigInteger('project')->default('0');
-            $table->unsignedBigInteger('user_id')->default('0');
+            $table->unsignedInteger('project')->default('0');
+            $table->unsignedInteger('user_id')->default('0');
             $table->string('attachment')->nullable();
-            $table->integer('created_by')->default('0');
+            $table->unsignedInteger('created_by')->default('0');
             $table->timestamps();
         });
     }

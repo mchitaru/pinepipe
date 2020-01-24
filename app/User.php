@@ -356,12 +356,12 @@ class User extends Authenticatable
                 $projectCount++;
                 if($projectCount <= $plan->max_projects)
                 {
-                    $project->is_active = 1;
+                    $project->is_active = true;
                     $project->save();
                 }
                 else
                 {
-                    $project->is_active = 0;
+                    $project->is_active = false;
                     $project->save();
                 }
             }
@@ -372,12 +372,12 @@ class User extends Authenticatable
                 $userCount++;
                 if($userCount <= $plan->max_users)
                 {
-                    $user->is_active = 1;
+                    $user->is_active = true;
                     $user->save();
                 }
                 else
                 {
-                    $user->is_active = 0;
+                    $user->is_active = false;
                     $user->save();
                 }
             }
@@ -387,12 +387,12 @@ class User extends Authenticatable
                 $clientCount++;
                 if($clientCount <= $plan->max_clients)
                 {
-                    $client->is_active = 1;
+                    $client->is_active = true;
                     $client->save();
                 }
                 else
                 {
-                    $client->is_active = 0;
+                    $client->is_active = false;
                     $client->save();
                 }
             }
@@ -551,16 +551,6 @@ class User extends Authenticatable
             'Loss' => 'bg-purple-medium bg-font-purple-medium',
             'Win' => 'bg-yellow-soft bg-font-yellow-soft',
         ];
-        foreach($labels as $label => $color)
-        {
-            Label::create(
-                [
-                    'name' => $label,
-                    'color' => $color,
-                    'created_by' => $id,
-                ]
-            );
-        }
 
         // ProductUnits
         $productUnits = [

@@ -17,7 +17,7 @@ class CreateSettingsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name','100');
             $table->string('value','100');
-            $table->integer('created_by');
+            $table->unsignedInteger('created_by');
             $table->unique(['name','created_by']);
             $table->timestamps();
         });

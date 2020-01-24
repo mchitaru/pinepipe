@@ -13,7 +13,6 @@ class Project extends Model
         'due_date',
         'client',
         'description',
-        'label',
         'status',
     ];
 
@@ -25,11 +24,6 @@ class Project extends Model
     public function tasks()
     {
         return $this->hasMany(Task::class);
-    }
-
-    public function label()
-    {
-        return $this->hasOne('App\Label', 'id', 'label')->first();
     }
 
     public function client()

@@ -19,9 +19,8 @@ class CreateTaskFilesTable extends Migration
             $table->string('name');
             $table->string('extension');
             $table->string('file_size');
-            $table->integer('task_id');
-            $table->String('user_type');
-            $table->integer('created_by');
+            $table->unsignedInteger('task_id');
+            $table->unsignedInteger('created_by');
             $table->timestamps();
         });
     }

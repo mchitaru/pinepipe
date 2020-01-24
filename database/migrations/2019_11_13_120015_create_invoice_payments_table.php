@@ -15,11 +15,11 @@ class CreateInvoicePaymentsTable extends Migration
     {
         Schema::create('invoice_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('transaction_id');
-            $table->unsignedBigInteger('invoice_id');
+            $table->unsignedInteger('transaction_id');
+            $table->unsignedInteger('invoice_id');
             $table->float('amount');
             $table->date('date');
-            $table->unsignedBigInteger('payment_id');
+            $table->unsignedInteger('payment_id');
             $table->text('notes');
             $table->timestamps();
         });

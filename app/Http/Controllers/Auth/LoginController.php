@@ -44,7 +44,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if($user->delete_status == 0)
+        if(!$user->delete_status)
         {
             auth()->logout();
         }
@@ -68,10 +68,10 @@ class LoginController extends Controller
                     foreach($projects as $project){
                         $projectCount++;
                         if($projectCount<=$free_plan->max_projects){
-                            $project->is_active=1;
+                            $project->is_active=true;
                             $project->save();
                         }else{
-                            $project->is_active=0;
+                            $project->is_active=false;
                             $project->save();
                         }
                     }
@@ -80,10 +80,10 @@ class LoginController extends Controller
                     foreach($users as $user){
                         $userCount++;
                         if($userCount<=$free_plan->max_users){
-                            $user->is_active=1;
+                            $user->is_active=true;
                             $user->save();
                         }else{
-                            $user->is_active=0;
+                            $user->is_active=false;
                             $user->save();
                         }
                     }
@@ -91,10 +91,10 @@ class LoginController extends Controller
                     foreach($clients as $client){
                         $clientCount++;
                         if($clientCount<=$free_plan->max_clients){
-                            $client->is_active=1;
+                            $client->is_active=true;
                             $client->save();
                         }else{
-                            $client->is_active=0;
+                            $client->is_active=false;
                             $client->save();
                         }
                     }

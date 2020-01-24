@@ -15,9 +15,9 @@ class CreateActivityLogTable extends Migration
     {
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->default('0');
-            $table->integer('project_id')->nullable();
-            $table->string('log_type',191);
+            $table->unsignedInteger('user_id')->default(0);
+            $table->unsignedInteger('project_id')->nullable();
+            $table->string('log_type');
             $table->text('remark')->nullable();
             $table->timestamps();
         });

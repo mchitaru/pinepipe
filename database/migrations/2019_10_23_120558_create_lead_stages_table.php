@@ -17,8 +17,8 @@ class CreateLeadStagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('color',25)->nullable();
-            $table->integer('created_by')->default(0);
-            $table->integer('order')->default(0);;
+            $table->unsignedInteger('created_by')->default(0);
+            $table->unsignedInteger('order')->default(0);
             $table->timestamps();
         });
     }

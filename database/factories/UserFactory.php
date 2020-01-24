@@ -26,6 +26,6 @@ $factory->define(User::class, function (Faker $faker) {
         'type' => 'employee',
         'lang' => 'en',
         'created_by' => '2',
-        'is_active' => '1'
+        'is_active' => true
     ];
 });

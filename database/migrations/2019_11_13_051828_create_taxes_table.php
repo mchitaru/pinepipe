@@ -16,8 +16,8 @@ class CreateTaxesTable extends Migration
         Schema::create('taxes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->float('rate')->default('0.00');
-            $table->integer('created_by');
+            $table->float('rate')->default(0.00);
+            $table->unsignedInteger('created_by');
             $table->timestamps();
         });
     }

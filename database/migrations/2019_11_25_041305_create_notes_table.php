@@ -18,7 +18,7 @@ class CreateNotesTable extends Migration
             $table->string('title');
             $table->text('text');
             $table->string('color');
-            $table->integer('created_by');
+            $table->unsignedInteger('created_by');
             $table->timestamps();
         });
     }

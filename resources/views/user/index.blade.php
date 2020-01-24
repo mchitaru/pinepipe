@@ -91,7 +91,7 @@
                                     </a>
                                 </span>
                                 <span class="text-small">
-                                    {{($user->delete_status==0)?'Soft deleted':''}}
+                                    {{(!$user->delete_status)?'Soft deleted':''}}
                                 </span>
                             </div>
                             <div class="card-meta col-2">
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                             <div class="dropdown card-options">
-                                    @if($user->is_active==1)
+                                    @if($user->is_active)
                                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">more_vert</i>
                                         </button>
@@ -136,7 +136,7 @@
                                             <div class="dropdown-divider"></div>
                                             @can('delete user')
                                                 <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$user['id']}}').submit();">
-                                                    <span>{{($user->delete_status!=0)?'Delete':'Remove Soft Delete'  }}</span>
+                                                    <span>{{($user->delete_status)?'Delete':'Remove Soft Delete'  }}</span>
                                                 </a>
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user['id']],'id'=>'delete-form-'.$user['id']]) !!}
                                                 {!! Form::close() !!}

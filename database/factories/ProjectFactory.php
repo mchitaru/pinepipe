@@ -13,7 +13,6 @@ $factory->define(Project::class, function (Faker $faker) {
         'due_date' => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
         'client' => $faker->numberBetween(3, 12),
         'description' => $faker->text,
-        'label' => $faker->randomNumber(5),
         'status' => 'on_going',
         'created_by' => '2',
     ];

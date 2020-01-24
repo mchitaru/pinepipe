@@ -15,8 +15,8 @@ class CreateProjectClientPermissionsTable extends Migration
     {
         Schema::create('project_client_permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('client_id');
-            $table->integer('project_id');
+            $table->unsignedInteger('client_id');
+            $table->unsignedInteger('project_id');
             $table->text('permissions')->nullable();
             $table->timestamps();
         });

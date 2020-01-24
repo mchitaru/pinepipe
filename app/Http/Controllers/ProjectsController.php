@@ -60,7 +60,6 @@ class ProjectsController extends ProjectsSectionController
                                    'price' => 'required',
                                    'start_date' => 'required',
                                    'due_date' => 'required',
-                                   'label' => 'required',
                                    'user' => 'required',
                                    'lead' => 'required',
                                ]
@@ -84,7 +83,6 @@ class ProjectsController extends ProjectsSectionController
                 $project->start_date  = $request->start_date;
                 $project->due_date    = $request->due_date;
                 $project->client      = $request->client;
-                $project->label       = $request->label;
                 $project->description = $request->description;
                 $project->lead        = $request->lead;
                 $project->created_by  = \Auth::user()->creatorId();
@@ -206,7 +204,6 @@ class ProjectsController extends ProjectsSectionController
                                        'name' => 'required|max:20',
                                        'price' => 'required',
                                        'date' => 'required',
-                                       'label' => 'required',
                                        'lead' => 'required',
                                    ]
                 );
@@ -222,7 +219,6 @@ class ProjectsController extends ProjectsSectionController
                 $project->price       = $request->price;
                 $project->due_date    = $request->date;
                 $project->client      = $request->client;
-                $project->label       = $request->label;
                 $project->lead        = $request->lead;
                 $project->description = $request->description;
                 $project->save();
