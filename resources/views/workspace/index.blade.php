@@ -3,6 +3,7 @@
 @php
 
 use App\Project;
+use Carbon\Carbon;
 
 @endphp
 
@@ -302,12 +303,9 @@ if($client_project_budget_due_per<=15){
                                             <a href="{{ route('projects.show',$project->id) }}">
                                             <h6 data-filter-by="text">{{$project->name}}</h6>
                                             </a>
-                                            <span class="text-small">@if($remain_task!=0) {{$remain_task . __(' Tasks Remain')}} @endif </span>
+                                            <span class="text-small">{{ Carbon::parse($project->due_date)->diffForHumans() }}</span>
                                         </div>
                                         <div class="card-meta">
-                                            <div class="d-flex align-items-center px-2">
-                                                <span class="text-small">{{ Auth::user()->dateFormat($project->due_date) }}</span>
-                                            </div>
                                             <div class="d-flex align-items-center">
                                                 <i class="material-icons">playlist_add_check</i>
                                                 <span>{{$completed_task}}/{{$total_task}}</span>
@@ -356,29 +354,37 @@ if($client_project_budget_due_per<=15){
                                         <div class="progress">
                                             <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                        <div class="card-body">
-                                        <div class="card-title">
+                                        <div class="card-body row">
+                                        <div class="card-title col-7">
                                             <a href="{{ route('tasks.show',$top_task->id) }}" data-remote="true">
                                                 <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                             </a>
+                                            <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>
 
-                                            {{-- <a data-url="{{ route('tasks.show',$top_task->id) }}" data-ajax-popup="true"  data-size="lg" class="text-body">
-                                                <h6 data-filter-by="text">{{$top_task->title}}</h6>
-                                            </a> --}}
+                                            <div class="d-flex">
+                                                <span class="badge badge-secondary">{{ $top_task->stage_name }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-meta col-2">
+                                            <div class="d-flex align-items-center px-2">
                                             @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
                                                 <span class="text-small">{{$top_task->project_name}}</span>
                                             @else
-                                                <span class="text-small">{{__('Assigned to ')}} {{$top_task->task_user->name}}</span>
+                                                <ul class="avatars">
+
+                                                <li>
+                                                    @if(!empty($top_task->task_user))
+                                                    <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($top_task->task_user)?$top_task->task_user->name:'')}}">
+                                                        <img alt="{{$top_task->task_user->name}}" {!! empty($top_task->task_user->avatar) ? "avatar='".$top_task->task_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$top_task->task_user->avatar))}}" data-filter-by="alt"/>
+                                                    </a>
+                                                    @endif
+                                                </li>
+
+                                                </ul>
                                             @endif
+                                            </div>
                                         </div>
-                                        <div class="card-meta">
-                                            <div class="d-flex align-items-center px-2">
-                                                <span class="text-small">{{ $top_task->stage_name }}</span>
-                                            </div>
-                                            <div class="d-flex align-items-center px-2">
-                                                <span class="text-small">{{ Auth::user()->dateFormat($top_task->task_due_date) }}</span>
-                                            </div>
-                                            <div class="dropdown card-options">
+                                        <div class="dropdown card-options col-1">
                                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="material-icons">more_vert</i>
                                             </button>
@@ -388,7 +394,6 @@ if($client_project_budget_due_per<=15){
                                                 <a class="dropdown-item text-danger" href="#">Archive</a>
                                             </div>
                                             </div>
-                                        </div>
                                         </div>
                                     </div>
                                     @endforeach
@@ -440,7 +445,7 @@ if($client_project_budget_due_per<=15){
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">
-                                <h6>{{__('Project Status')}}</h6>
+                                <h6>{{__('Projects Status')}}</h6>
                                 <button class="btn-options" type="button" data-toggle="collapse" data-target="#project-status">
                                     <i class="material-icons">more_horiz</i>
                                 </button>
