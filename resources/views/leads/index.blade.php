@@ -49,7 +49,7 @@
                         <div class="card-title col-xs-12 col-sm-2">
                             <div class="container row align-items-center">
                                 <span data-filter-by="text" class="badge badge-secondary mr-2">
-                                    {{$lead->user()->name}}
+                                    {{$lead->user->name}}
                                 </span>
                             </div>
                         </div>

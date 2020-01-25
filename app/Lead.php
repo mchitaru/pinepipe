@@ -19,12 +19,12 @@ class Lead extends Model
     ];
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'owner')->first();
+        return $this->hasOne('App\User', 'id', 'owner');
     }
 
     public function client()
     {
-        return $this->hasOne('App\User', 'id', 'client')->first();
+        return $this->hasOne('App\User', 'id', 'client');
     }
 
     public function removeProjectLead($lead_id){
@@ -33,6 +33,6 @@ class Lead extends Model
 
     public function sources()
     {
-        return $this->hasOne('App\Leadsource', 'id', 'source')->first();
+        return $this->hasOne('App\Leadsource', 'id', 'source');
     }
 }
