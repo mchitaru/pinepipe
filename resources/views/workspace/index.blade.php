@@ -354,48 +354,48 @@ if($client_project_budget_due_per<=15){
                                         <div class="progress">
                                             <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                        <div class="card-body row">
-                                        <div class="card-title col-7">
-                                            <a href="{{ route('tasks.show',$top_task->id) }}" data-remote="true">
-                                                <h6 data-filter-by="text">{{$top_task->title}}</h6>
-                                            </a>
-                                            <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                <a href="{{ route('tasks.show',$top_task->id) }}" data-remote="true">
+                                                    <h6 data-filter-by="text">{{$top_task->title}}</h6>
+                                                </a>
+                                                <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>
 
-                                            <div class="d-flex">
-                                                <span class="badge badge-secondary">{{ $top_task->stage_name }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-meta col-2">
-                                            <div class="d-flex align-items-center px-2">
-                                            @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
-                                                <span class="text-small">{{$top_task->project_name}}</span>
-                                            @else
-                                                <ul class="avatars">
+                                                @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
+                                                    <span class="text-small">{{$top_task->project_name}}</span>
+                                                @else
+                                                    <ul class="avatars">
 
-                                                <li>
-                                                    @if(!empty($top_task->task_user))
-                                                    <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($top_task->task_user)?$top_task->task_user->name:'')}}">
-                                                        <img alt="{{$top_task->task_user->name}}" {!! empty($top_task->task_user->avatar) ? "avatar='".$top_task->task_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$top_task->task_user->avatar))}}" data-filter-by="alt"/>
-                                                    </a>
-                                                    @endif
-                                                </li>
+                                                        @foreach($top_task->users as $user)
+                                                        <li>
+                                                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
+                                                                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
+                                                            </a>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
 
-                                                </ul>
-                                            @endif
+                                                @endif
+
                                             </div>
-                                        </div>
-                                        <div class="dropdown card-options col-1">
-                                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="material-icons">more_vert</i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Mark as done</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item text-danger" href="#">Archive</a>
-                                            </div>
+                                            <div class="card-meta float-right">
+                                                <div class="d-flex">
+                                                    <span class="badge badge-secondary">{{ $top_task->stage_name }}</span>
+                                                </div>
+
+                                            <div class="dropdown card-options">
+                                                <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="material-icons">more_vert</i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="#">Mark as done</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" href="#">Archive</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                     @endforeach
                                 </div>
                             </div>

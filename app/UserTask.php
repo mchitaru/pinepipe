@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tax extends Model
+class UserTask extends Model
 {
     protected $fillable = [
-        'name', 
-        'rate', 
-        'created_by'
+        'user_id', 
+        'task_id'
     ];
 }

@@ -27,8 +27,8 @@ class FinanceSectionController extends Controller
         {
             if(\Auth::user()->type == 'client')
             {
-                $invoices = Invoice::select(['invoices.*'])->join('projects', 'projects.id', '=', 'invoices.project_id')->where('projects.client', '=', \Auth::user()->id)->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
-                $expenses = Expense::select('expenses.*','projects.name')->join('projects','projects.id','=','expenses.project')->where('projects.client','=',\Auth::user()->id)->where('expenses.created_by', '=', \Auth::user()->creatorId())->get();
+                $invoices = Invoice::select(['invoices.*'])->join('projects', 'projects.id', '=', 'invoices.project_id')->where('projects.client_id', '=', \Auth::user()->id)->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
+                $expenses = Expense::select('expenses.*','projects.name')->join('projects','projects.id','=','expenses.project_id')->where('projects.client_id','=',\Auth::user()->id)->where('expenses.created_by', '=', \Auth::user()->creatorId())->get();
             }
             else 
             {

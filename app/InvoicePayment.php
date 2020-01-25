@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class InvoicePayment extends Model
 {
     protected $fillable = [
-        'transaction_id','invoice_id', 'amount','date','payment_id','notes'
+        'transaction_id',
+        'invoice_id', 
+        'amount',
+        'date',
+        'payment_id',
+        'notes'
     ];
 
     public function payment(){

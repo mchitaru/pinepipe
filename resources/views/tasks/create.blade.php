@@ -39,8 +39,8 @@
         @endif
         @if(\Auth::user()->type == 'company')
         <div class="form-group row align-items-center">
-            {{ Form::label('assign_to', __('Assigned To'), array('class'=>'col-3')) }}
-            {!! Form::select('assign_to', $users, null,array('class' => 'form-control col','required'=>'required')) !!}
+            {{ Form::label('user_id', __('Assigned To'), array('class'=>'col-3')) }}
+            {!! Form::select('user_id[]', $users, null,array('class' => 'form-control col')) !!}
         </div>
         @endif
         @if(!$is_create)

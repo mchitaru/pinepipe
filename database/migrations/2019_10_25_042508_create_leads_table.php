@@ -18,10 +18,11 @@ class CreateLeadsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->float('price')->default(0);
-            $table->unsignedInteger('stage')->default(0);
-            $table->unsignedInteger('owner')->default(0);
-            $table->unsignedInteger('client')->default(0);
-            $table->unsignedInteger('source')->default(0);
+            $table->unsignedInteger('stage_id')->default(0);
+            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('client_id')->nullable();
+            $table->unsignedInteger('contact_id')->nullable();
+            $table->unsignedInteger('source_id')->default(0);
             $table->unsignedInteger('created_by')->default(0);
             $table->text('notes');
             $table->unsignedInteger('item_order')->default(0);

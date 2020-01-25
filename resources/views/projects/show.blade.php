@@ -126,8 +126,8 @@ $(document).ready(function() {
                 <div class="d-flex align-items-center">
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
-                        <a href="{{ route('users.index',$project->client()->id) }}" data-toggle="tooltip">
-                            <span class="badge badge-secondary">{{ (!empty($project->client())?$project->client()->name:'') }}</span>
+                        <a href="{{ route('users.index',$project->client->id) }}" data-toggle="tooltip">
+                            <span class="badge badge-secondary">{{ (!empty($project->client)?$project->client->name:'') }}</span>
                         </a>
                     </div>
                 </div>

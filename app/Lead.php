@@ -7,24 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 class Lead extends Model
 {
     protected $fillable = [
-        'id',
         'name',
         'price',
-        'stage',
-        'owner',
-        'client',
-        'source',
+        'stage_id',
+        'user_id',
+        'client_id',
+        'source_id',
         'created_by',
         'notes'
     ];
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'owner');
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 
     public function client()
     {
-        return $this->hasOne('App\User', 'id', 'client');
+        return $this->hasOne('App\User', 'id', 'client_id');
+    }
+
+    public function stage()
+    {
+        return $this->hasOne('App\LeadStage', 'id', 'stage_id');
     }
 
     public function removeProjectLead($lead_id){
@@ -33,6 +37,6 @@ class Lead extends Model
 
     public function sources()
     {
-        return $this->hasOne('App\Leadsource', 'id', 'source');
+        return $this->hasOne('App\Leadsource', 'id', 'source_id');
     }
 }

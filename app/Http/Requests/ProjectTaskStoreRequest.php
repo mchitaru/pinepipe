@@ -34,7 +34,7 @@ class ProjectTaskStoreRequest extends FormRequest
             return [
                 'title' => 'required',
                 'priority' => 'required',
-                'assign_to' => 'required',
+                'user_id' => 'nullable',
                 'due_date' => 'required',
                 'start_date' => 'required'
             ];

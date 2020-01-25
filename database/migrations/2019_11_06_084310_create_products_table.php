@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name',100);
             $table->float('price')->default(0.00);
             $table->text('description');
-            $table->unsignedInteger('unit')->default(0);
+            $table->unsignedInteger('unit_id')->default(0);
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
 

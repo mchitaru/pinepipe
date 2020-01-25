@@ -39,7 +39,7 @@ class Invoice extends Model
 
     public function items()
     {
-        return $this->hasMany('App\InvoiceProduct','invoice_id','id');
+        return $this->hasMany('App\InvoiceProduct', 'invoice_id', 'id');
     }
 
     public function payments()

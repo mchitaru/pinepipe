@@ -124,7 +124,7 @@ class ClientsController extends ClientsSectionController
 
             $client = User::find($id);
             $contacts = Contact::where('created_by','=',$user->creatorId())->where('company','=',$client->name)->get();
-            $projects = Project::where('client', '=', $client->id)->get();
+            $projects = Project::where('client_id', '=', $client->id)->get();
 
             $project_status = Project::$project_status;
 
@@ -134,7 +134,7 @@ class ClientsController extends ClientsSectionController
                 $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 
                 foreach($stages as $stage){
-                    $leads_count = $leads_count + count($stage->leads()->where('client','=',$client->id)->get());
+                    $leads_count = $leads_count + count($stage->leads()->where('client_id','=',$client->id)->get());
                 }
             }
 

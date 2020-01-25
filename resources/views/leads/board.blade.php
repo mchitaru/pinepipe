@@ -75,7 +75,7 @@ use Carbon\Carbon;
 
                     @foreach($leads as $lead)
 
-                    @php($client = $lead->client())
+                    @php($client = $lead->client)
 
                     <div class="card card-kanban">
 

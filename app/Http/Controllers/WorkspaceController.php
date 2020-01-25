@@ -49,8 +49,8 @@ WorkspaceController extends Controller
             }
             elseif(\Auth::user()->type == 'client')
             {
-                $project['projects']       = Project::where('client', '=', \Auth::user()->authId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
-                $project['project_budget'] = Project::where('client', \Auth::user()->id)->sum('price');
+                $project['projects']       = Project::where('client_id', '=', \Auth::user()->authId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
+                $project['project_budget'] = Project::where('client_id', \Auth::user()->id)->sum('price');
 
             }
             else
@@ -60,7 +60,7 @@ WorkspaceController extends Controller
 
             $project_last_stages       = \Auth::user()->last_projectstage();
             $project_last_stage       = (!empty($project_last_stages)?$project_last_stages->id:0);
-            $project['total_project'] = \Auth::user()->user_project();
+            $project['total_project'] = \Auth::user()->user_projects_count();
             $total_project_task       = \Auth::user()->created_total_project_task();
             $complete_task            = \Auth::user()->project_complete_task($project_last_stage);
 

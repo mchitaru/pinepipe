@@ -9,7 +9,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'price',
-        'unit',
+        'unit_id',
         'description',
     ];
 
@@ -20,7 +20,7 @@ class Product extends Model
 
     public function unit()
     {
-        return $this->hasOne('App\ProductUnit', 'id', 'unit')->first();
+        return $this->hasOne('App\ProductUnit', 'id', 'unit_id')->first();
     }
 
 }

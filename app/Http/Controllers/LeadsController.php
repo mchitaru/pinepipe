@@ -54,7 +54,7 @@ class LeadsController extends ClientsSectionController
                                        'name' => 'required|max:20',
                                        'price' => 'required',
                                        'stage' => 'required',
-                                       'owner' => 'required',
+                                       'user_id' => 'required',
                                        'client' => 'required',
                                        'source' => 'required',
                                    ]
@@ -83,18 +83,18 @@ class LeadsController extends ClientsSectionController
             $leads        = new Lead();
             $leads->name  = $request->name;
             $leads->price = $request->price;
-            $leads->stage = $request->stage;
+            $leads->stage_id = $request->stage;
             if(\Auth::user()->type == 'company')
             {
-                $leads->owner = $request->owner;
+                $leads->user_id = $request->user_id;
             }
             else
             {
-                $leads->owner = \Auth::user()->id;
+                $leads->user_id = \Auth::user()->id;
             }
             $leads->source     = $request->source;
             $leads->notes      = $request->notes;
-            $leads->client     = $request->client;
+            $leads->client_id     = $request->client;
             $leads->created_by = \Auth::user()->creatorId();
             $leads->save();
 
@@ -146,7 +146,7 @@ class LeadsController extends ClientsSectionController
                                            'name' => 'required|max:20',
                                            'price' => 'required',
                                            'stage' => 'required',
-                                           'owner' => 'required',
+                                           'user_id' => 'required',
                                            'source' => 'required',
                                            'client' => 'required',
                                        ]
@@ -160,10 +160,10 @@ class LeadsController extends ClientsSectionController
                 }
                 $leads->name       = $request->name;
                 $leads->price      = $request->price;
-                $leads->stage      = $request->stage;
-                $leads->owner      = $request->owner;
+                $leads->stage_id      = $request->stage;
+                $leads->user_id      = $request->user_id;
                 $leads->source     = $request->source;
-                $leads->client    = $request->client;
+                $leads->client_id    = $request->client;
                 $leads->notes      = $request->notes;
                 $leads->created_by = \Auth::user()->creatorId();
                 $leads->save();

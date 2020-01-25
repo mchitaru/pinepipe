@@ -16,7 +16,7 @@ class ProjectsSectionController extends Controller
             $user = \Auth::user();
             if($user->type == 'client'){
 
-                $projects = Project::where('client', '=', $user->id)->get();
+                $projects = Project::where('client_id', '=', $user->id)->get();
             }
             else if($user->type == 'company'){
 
@@ -26,7 +26,7 @@ class ProjectsSectionController extends Controller
                 $projects = $user->projects;
 
             }
-
+            
             $project_status = Project::$project_status;
             $project_id = '';
 

@@ -20,11 +20,11 @@ class LeadStage extends Model
 
     public function leads()
     {
-        return $this->hasMany('App\Lead', 'stage', 'id')->orderBy('item_order');
+        return $this->hasMany('App\Lead', 'stage_id', 'id')->orderBy('item_order');
     }
 
     public function user_leads(){
-//        return LeadStage::select('leads.*','leadstages.name as stage_name' )->leftjoin('leads','leads.stage','=','leadstages.id')->where('leads.owner','=',\Auth::user()->id)->get();
-        return Lead::where('stage','=',$this->id)->where('owner','=',\Auth::user()->id)->get();
+//        return LeadStage::select('leads.*','leadstages.name as stage_name' )->leftjoin('leads','leads.stage','=','leadstages.id')->where('leads.user_id','=',\Auth::user()->id)->get();
+        return Lead::where('stage','=',$this->id)->where('user_id','=',\Auth::user()->id)->get();
     }
 }

@@ -37,7 +37,7 @@ class TaskStoreRequest extends FormRequest
                 return [
                     'title' => 'required',
                     'priority' => 'required',
-                    'assign_to' => 'required',
+                    'user_id' => 'nullable',
                     'due_date' => 'required',
                     'start_date' => 'required',
                     'description' => 'nullable',
@@ -55,7 +55,7 @@ class TaskStoreRequest extends FormRequest
 
             return [
                 'status' => 'string',
-                'stage' => 'numeric'
+                'stage_id' => 'numeric'
             ];
         }
     }

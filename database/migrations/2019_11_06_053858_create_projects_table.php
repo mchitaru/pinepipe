@@ -20,9 +20,9 @@ class CreateProjectsTable extends Migration
             $table->float('price')->default(0.00);
             $table->date('start_date');
             $table->date('due_date');
-            $table->unsignedInteger('client')->nullable();
+            $table->unsignedInteger('client_id')->nullable();
             $table->text('description');
-            $table->unsignedInteger('lead')->default(0);
+            $table->unsignedInteger('lead_id')->nullable();
             $table->string('status', 25)->default('on_going');
             $table->boolean('is_active')->default(true);
             $table->unsignedInteger('created_by')->default(0);

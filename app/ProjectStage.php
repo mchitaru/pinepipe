@@ -24,22 +24,22 @@ class ProjectStage extends Model
         {
             if(\Auth::user()->type == 'client' || \Auth::user()->type == 'company')
             {
-                return Task::where('stage', '=', $this->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
+                return Task::where('stage_id', '=', $this->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
             }
             else
             {
-                return Task::where('stage', '=', $this->id)->where('assign_to', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
+                return Task::where('stage_id', '=', $this->id)->where('assign_to', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
             }
         }
         else{
 
             if(\Auth::user()->type == 'client' || \Auth::user()->type == 'company')
             {
-                return Task::where('stage', '=', $this->id)->orderBy('order')->get();
+                return Task::where('stage_id', '=', $this->id)->orderBy('order')->get();
             }
             else
             {
-                return Task::where('stage', '=', $this->id)->where('assign_to', '=', \Auth::user()->id)->orderBy('order')->get();
+                return Task::where('stage_id', '=', $this->id)->where('assign_to', '=', \Auth::user()->id)->orderBy('order')->get();
             }
         }
     }
@@ -72,7 +72,7 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = Task::where('stage', '=', $stage->id)->whereDate('updated_at', '=', $d)->count();
+                    $data[] = Task::where('stage_id', '=', $stage->id)->whereDate('updated_at', '=', $d)->count();
                 }
 
                 $dataset['label'] = $stage->name;
@@ -98,7 +98,7 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = Task::join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client', '=', $usr->id)->where('stage', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    $data[] = Task::join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
                 }
 
                 $dataset['label']           = $stage->name;
@@ -122,7 +122,7 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = Task::where('assign_to', '=', $usr->id)->where('stage', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    $data[] = Task::where('assign_to', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
                 }
 
 

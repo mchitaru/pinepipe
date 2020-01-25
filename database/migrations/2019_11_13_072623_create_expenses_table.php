@@ -19,8 +19,8 @@ class CreateExpensesTable extends Migration
             $table->text('description')->nullable();
             $table->float('amount')->nullable();
             $table->date('date')->nullable();
-            $table->unsignedInteger('project')->default('0');
-            $table->unsignedInteger('user_id')->default('0');
+            $table->unsignedInteger('project_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
             $table->string('attachment')->nullable();
             $table->unsignedInteger('created_by')->default('0');
             $table->timestamps();

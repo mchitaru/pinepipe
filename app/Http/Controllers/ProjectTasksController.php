@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Task;
 use App\Project;
 use App\Milestone;
@@ -61,15 +62,19 @@ class ProjectTasksController extends Controller
     {
         $post = $request->validated();
 
-        if(\Auth::user()->type != 'company')
-        {
-            $post['assign_to'] = \Auth::user()->id;
-        }
         $post['project_id'] = $project->id;
-        $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
         $task               = Task::make($post);
-        $task->created_by  = \Auth::user()->creatorId();
+        $task->created_by   = \Auth::user()->creatorId();
         $task->save();
+
+        $users = $post['user_id'];
+        if(\Auth::user()->type != 'company'){        
+
+            $users->prepend(\Auth::user()->id);
+        }
+
+        $task->users()->sync($users);
 
         ActivityLog::createTask($task);
 

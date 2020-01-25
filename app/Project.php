@@ -11,7 +11,7 @@ class Project extends Model
         'price',
         'start_date',
         'due_date',
-        'client',
+        'client_id',
         'description',
         'status',
     ];
@@ -23,12 +23,12 @@ class Project extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany('App\Task', 'project_id', 'id');
     }
 
     public function client()
     {
-        return $this->hasOne('App\User', 'id', 'client')->first();
+        return $this->hasOne('App\User', 'id', 'client_id');
     }
 
     public function milestones()
@@ -44,6 +44,11 @@ class Project extends Model
     public function files()
     {
         return $this->hasMany('App\ProjectFile', 'project_id', 'id');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany('App\Expense', 'project_id', 'id');
     }
 
     public function users()
@@ -78,7 +83,7 @@ class Project extends Model
 
     public function user_project_complete_task($project_id, $user_id, $last_stage_id)
     {
-        return Task::where('project_id', '=', $project_id)->where('assign_to', '=', $user_id)->where('stage', '=', $last_stage_id)->count();
+        return Task::where('project_id', '=', $project_id)->where('assign_to', '=', $user_id)->where('stage_id', '=', $last_stage_id)->count();
     }
 
     public function project_total_task($project_id)
@@ -88,7 +93,7 @@ class Project extends Model
 
     public function project_complete_task($project_id, $last_stage_id)
     {
-        return Task::where('project_id', '=', $project_id)->where('stage', '=', $last_stage_id)->count();
+        return Task::where('project_id', '=', $project_id)->where('stage_id', '=', $last_stage_id)->count();
     }
 
     public function project_last_stage()
@@ -98,7 +103,7 @@ class Project extends Model
 
     public function client_project_permission()
     {
-        return ProjectClientPermission::where('project_id', $this->id)->where('client_id', $this->client)->first();
+        return ProjectClientPermission::where('project_id', $this->id)->where('client_id', $this->client_id)->first();
     }
 
     public function getProjectProgress()

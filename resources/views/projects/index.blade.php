@@ -110,10 +110,10 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="material-icons mr-1">person</i>
-                        @if($project->is_active && !empty($project->client()))
-                        <a href="{{ route('clients.index',$project->client()->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>
+                        @if($project->is_active && !empty($project->client))
+                        <a href="{{ route('clients.index',$project->client->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
                         @else
-                        <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client())?$project->client()->name:'')}}</a>
+                        <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
                         @endif
                     </div>
                     <span class="text-small" data-filter-by="text">{{__('Due on ')}}

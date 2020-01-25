@@ -103,7 +103,7 @@ class InvoicesController extends FinanceSectionController
             if($invoice->created_by == \Auth::user()->creatorId())
             {
                 $settings = \Auth::user()->settings();
-                $client   = $invoice->project->client;
+                $client   = $invoice->project->client_id;
                 if($client != 0)
                 {
                     $user = User::where('id', $client)->first();
@@ -520,7 +520,7 @@ class InvoicesController extends FinanceSectionController
         {
             if(\Auth::user()->type == 'client')
             {
-                $payments = InvoicePayment::select(['invoice_payments.*'])->join('invoices', 'invoice_payments.invoice_id', '=', 'invoices.id')->join('projects', 'invoices.project_id', '=', 'projects.id')->where('projects.client', '=', \Auth::user()->id)->where(
+                $payments = InvoicePayment::select(['invoice_payments.*'])->join('invoices', 'invoice_payments.invoice_id', '=', 'invoices.id')->join('projects', 'invoices.project_id', '=', 'projects.id')->where('projects.client_id', '=', \Auth::user()->id)->where(
                     'invoices.created_by', '=', \Auth::user()->creatorId()
                 )->get();
             }

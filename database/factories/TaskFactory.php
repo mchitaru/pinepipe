@@ -12,12 +12,11 @@ $factory->define(Task::class, function (Faker $faker) {
         'description' => $faker->text,
         'start_date' => $faker->dateTimeInInterval('-2 months'),
         'due_date'  => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
-        'assign_to' => $faker->numberBetween(13, 22),
         'project_id' => null,
         'milestone_id' => null,
         'status' => 'todo',
         'order' => '0',
-        'stage' => $faker->numberBetween(1, 4),
+        'stage_id' => $faker->numberBetween(1, 4),
         'created_by' => '2',
     ];
 });

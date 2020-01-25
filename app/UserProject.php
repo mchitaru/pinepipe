@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class UserProject extends Model
 {
     protected $fillable = [
-        'user_id', 'project_id'
+        'user_id', 
+        'project_id'
     ];
 
     public function project_assign_user(){

@@ -70,15 +70,18 @@ class TasksController extends ProjectsSectionController
     {
         $post = $request->validated();
 
-        if(\Auth::user()->type != 'company'){
-
-            $post['assign_to'] = \Auth::user()->id;
-        }
-
-        $post['stage']      = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
         $task               = Task::make($post);
         $task->created_by  = \Auth::user()->creatorId();
         $task->save();
+
+        $users = $post['user_id'];
+        if(\Auth::user()->type != 'company'){        
+
+            $users->prepend(\Auth::user()->id);
+        }
+
+        $task->users()->sync($users);
 
         ActivityLog::createTask($task);
 
@@ -142,13 +145,21 @@ class TasksController extends ProjectsSectionController
     {
         $post = $request->validated();
 
-        if($post['status'] == 'done')
+        if(isset($post['status']) && $post['status'] == 'done')
         {
             $stage = ProjectStage::all()->last();
-            $post['stage'] = $stage->id;
+            $post['stage_id'] = $stage->id;
         }
 
         $task->update($post);
+
+        $users = $post['user_id'];
+        if(\Auth::user()->type != 'company'){        
+
+            $users->prepend(\Auth::user()->id);
+        }
+
+        $task->users()->sync($users);
 
         $request->session()->flash('success', __('Task successfully updated.'));
 

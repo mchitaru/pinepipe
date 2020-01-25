@@ -64,7 +64,7 @@ class ProjectsController extends ProjectsSectionController
 
             User::find(\Auth::user()->creatorId())->projects()->attach($project->id);
 
-            foreach($post['user'] as $key => $user)
+            foreach($post['user_id'] as $key => $user)
             {
                 User::find($user)->projects()->attach($project->id);
             }
@@ -72,7 +72,7 @@ class ProjectsController extends ProjectsSectionController
             $permissions = Project::$permission;
             ProjectClientPermission::create(
                 [
-                    'client_id' => $project->client,
+                    'client_id' => $project->client_id,
                     'project_id' => $project->id,
                     'permissions' => implode(',', $permissions),
                 ]

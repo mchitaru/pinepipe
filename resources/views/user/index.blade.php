@@ -112,11 +112,11 @@
                                     @else
                                     <span class="badge badge-secondary mr-2">
                                         <i class="material-icons" title="Projects">folder</i>
-                                        {{$user->user_project()}}
+                                        {{$user->user_projects_count()}}
                                     </span>
                                     <span class="badge badge-secondary mr-2">
                                         <i class="material-icons" title="Tasks">playlist_add_check</i>
-                                        {{$user->user_assign_task()}}
+                                        {{$user->user_tasks_count()}}
                                     </span>
                                     @endif
                                 </div>

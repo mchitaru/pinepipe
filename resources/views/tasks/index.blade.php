@@ -77,21 +77,22 @@
                 <div class="card-title d-none d-xl-block">
                     <div class="row align-items-center">
                         <i class="material-icons">person</i>
-                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Client')}}">{{ !empty($task->project) ? $task->project->client()->name : '--' }}</span>
+                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Client')}}">{{ !empty($task->project) ? $task->project->client->name : '--' }}</span>
                     </div>
                 </div>
                 <div class="card-meta float-right">
+
                     <ul class="avatars">
 
-                    <li>
-                        @if(!empty($task->task_user))
-                        <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
-                            <img alt="{{$task->task_user->name}}" {!! empty($task->task_user->avatar) ? "avatar='".$task->task_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$task->task_user->avatar))}}" data-filter-by="alt"/>
-                        </a>
-                        @endif
-                    </li>
-
+                        @foreach($task->users as $user)
+                        <li>
+                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
+                                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
+                            </a>
+                        </li>
+                        @endforeach
                     </ul>
+
                     <div class="d-flex align-items-center">
                     <i class="material-icons">playlist_add_check</i>
                     <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">

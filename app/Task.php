@@ -17,7 +17,7 @@ class Task extends Model
         'milestone_id',
         'status',
         'order',
-        'stage',
+        'stage_id',
     ];
 
     public function project()
@@ -25,8 +25,9 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function task_user(){
-        return $this->hasOne('App\User','id','assign_to');
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'user_tasks');
     }
 
     public function comments(){
@@ -50,6 +51,11 @@ class Task extends Model
     }
     public function milestone(){
         return $this->hasOne('App\Milestone','id','milestone_id');
+    }
+
+    public function timesheets()
+    {
+        return $this->hasMany('App\Timesheet', 'task_id', 'id');
     }
 
     public static function getProgressColor($percentage)

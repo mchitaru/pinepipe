@@ -118,31 +118,57 @@ class User extends Authenticatable
         return $this->lang;
     }
 
+    public function contacts()
+    {
+        return $this->hasMany('App\Contact', 'user_id', 'id');
+    }
+
+    public function leads()
+    {
+        return $this->hasMany('App\Lead', 'user_id', 'id');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany('App\Expense', 'user_id', 'id');
+    }
+
+    public function timesheets()
+    {
+        return $this->hasMany('App\Timesheet', 'user_id', 'id');
+    }
+
     public function projects()
     {
         return $this->belongsToMany('App\Project', 'user_projects', 'user_id', 'project_id');
     }
 
-    public function user_project()
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task', 'user_tasks');
+    }
+
+    public function user_projects_count()
     {
         if(\Auth::user()->type != 'client')
         {
-            return $this->belongsToMany('App\Project', 'user_projects', 'user_id', 'project_id')->count();
+            return $this->projects()->count();
         }
         else
         {
             return Project::where('client', '=', $this->authId())->count();
         }
     }
+    
 
-    public function user_assign_task()
+    public function user_tasks_count()
     {
-        return Task::where('assign_to', '=', $this->authId())->count();
+        return $this->tasks()->count();
     }
 
     public function client_lead()
     {
-        return Lead::where('client', '=', $this->authId())->count();
+        return Lead::where('client_id', '=', $this->authId())->count();
     }
 
     public function user_expense()
@@ -152,12 +178,12 @@ class User extends Authenticatable
 
     public function client_project()
     {
-        return $this->hasMany('App\Project', 'client', 'id')->count();
+        return $this->hasMany('App\Project', 'client_id', 'id')->count();
     }
 
     public function client_project_budget()
     {
-        return $this->hasMany('App\Project', 'client', 'id')->sum('price');
+        return $this->hasMany('App\Project', 'client_id', 'id')->sum('price');
     }
 
     public function priceFormat($price)
@@ -207,11 +233,11 @@ class User extends Authenticatable
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Lead::where('client', '=', $this->authId())->count();
+            return Lead::where('client_id', '=', $this->authId())->count();
         }
         else
         {
-            return Lead::where('owner', '=', $this->authId())->count();
+            return Lead::where('user_id', '=', $this->authId())->count();
         }
     }
 
@@ -219,15 +245,15 @@ class User extends Authenticatable
     {
         if(\Auth::user()->type == 'company')
         {
-            return Lead::where('created_by', '=', $this->creatorId())->where('stage', '=', $last_leadstage)->count();
+            return Lead::where('created_by', '=', $this->creatorId())->where('stage_id', '=', $last_leadstage)->count();
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Lead::where('client', '=', $this->authId())->where('stage', '=', $last_leadstage)->count();
+            return Lead::where('client_id', '=', $this->authId())->where('stage_id', '=', $last_leadstage)->count();
         }
         else
         {
-            return Lead::where('owner', '=', $this->authId())->where('stage', '=', $last_leadstage)->count();
+            return Lead::where('user_id', '=', $this->authId())->where('stage', '=', $last_leadstage)->count();
         }
     }
 
@@ -239,7 +265,7 @@ class User extends Authenticatable
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client', '=', $this->authId())->count();
+            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->authId())->count();
         }
         else
         {
@@ -252,15 +278,15 @@ class User extends Authenticatable
     {
         if(\Auth::user()->type == 'company')
         {
-            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'tasks.assign_to', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
+            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'tasks.assign_to', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage', '=', 'project_stages.id')->where('projects.client', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
+            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.client', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
         }
         else
         {
-            return Task::select('tasks.*', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as project_name', 'project_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('project_stages', 'tasks.stage', '=', 'project_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
+            return Task::select('tasks.*', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as project_name', 'project_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
                 'tasks.due_date', 'ASC'
             )->get();
         }
@@ -269,15 +295,15 @@ class User extends Authenticatable
     {
         if(\Auth::user()->type == 'company')
         {
-            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority', 'tasks.due_date as task_due_date', 'tasks.assign_to', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
+            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority',  'tasks.priority','tasks.due_date as task_due_date', 'tasks.assign_to', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage', '=', 'project_stages.id')->where('projects.client', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
+            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority',  'tasks.priority','tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.client', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
         }
         else
         {
-            return Task::select('tasks.*','tasks.id as task_id', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as name', 'project_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('project_stages', 'tasks.stage', '=', 'project_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
+            return Task::select('tasks.*','tasks.id as task_id', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as name', 'project_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
                 'tasks.due_date', 'ASC'
             )->get();
         }
@@ -298,15 +324,15 @@ class User extends Authenticatable
 
         if(\Auth::user()->type == 'company')
         {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.stage', '=', $project_last_stage)->count();
+            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.stage_id', '=', $project_last_stage)->count();
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client', '=', $this->authId())->where('tasks.stage', '=', $project_last_stage)->count();
+            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->authId())->where('tasks.stage_id', '=', $project_last_stage)->count();
         }
         else
         {
-            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.stage', '=', $project_last_stage)->count();
+            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.stage_id', '=', $project_last_stage)->count();
         }
     }
 
@@ -611,17 +637,17 @@ class User extends Authenticatable
 
     public function removeUserLeadInfo($user_id)
     {
-        return Lead::where('owner', '=', $user_id)->update(array('owner' => 0));
+        return Lead::where('user_id', '=', $user_id)->update(array('user_id' => null));
     }
 
     public function removeUserExpenseInfo($user_id)
     {
-        return Expense::where('user_id', '=', $user_id)->update(array('user_id' => 0));
+        return Expense::where('user_id', '=', $user_id)->update(array('user_id' => null));
     }
 
     public function removeUserTaskInfo($user_id)
     {
-        return Task::where('assign_to', '=', $user_id)->update(array('assign_to' => 0));
+        return UserTask::where('user_id', '=', $user_id)->delete();
     }
 
     public function destroyUserNotesInfo($user_id)
@@ -638,12 +664,12 @@ class User extends Authenticatable
 
     public function removeClientProjectInfo($user_id)
     {
-        return Project::where('client', '=', $user_id)->update(array('client' => 0));
+        return Project::where('client_id', '=', $user_id)->update(array('client_id' => null));
     }
 
     public function removeClientLeadInfo($user_id)
     {
-        return Lead::where('client', '=', $user_id)->update(array('client' => 0));
+        return Lead::where('client_id', '=', $user_id)->update(array('client_id' => null));
     }
 
     public function total_company_user($company_id)

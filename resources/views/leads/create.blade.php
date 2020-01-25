@@ -22,8 +22,8 @@
         </div>
         @if(\Auth::user()->type=='company')
             <div class="form-group  col-md-6">
-                {{ Form::label('owner', __('Lead User')) }}
-                {!! Form::select('owner', $owners, null,array('class' => 'form-control font-style selectric','required'=>'required')) !!}
+                {{ Form::label('user_id', __('Lead User')) }}
+                {!! Form::select('user_id', $owners, null,array('class' => 'form-control font-style selectric','required'=>'required')) !!}
             </div>
         @endif
         <div class="form-group  col-md-6">

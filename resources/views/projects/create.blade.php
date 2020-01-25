@@ -37,21 +37,21 @@
         {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>'Project description']) !!}
     </div>
     <div class="form-group row">
-        {{ Form::label('client', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client', $clients, null,array('class' => 'form-control col','required'=>'required')) !!}
+        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col','required'=>'required')) !!}
     </div>
     <div class="form-group row">
-        {{ Form::label('client', __('Assigned to'), array('class'=>'col-3')) }}
-        {!! Form::select('user[]', $users, null,array('class' => 'form-control col','required'=>'required')) !!}
+        {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-3')) }}
+        {!! Form::select('user_id[]', $users, null,array('class' => 'form-control col','required'=>'required')) !!}
     </div>
 @if(!$is_create)    
     <div class="form-group row">
-        {{ Form::label('client', __('Budget'), array('class'=>'col-3')) }}
+        {{ Form::label('price', __('Budget'), array('class'=>'col-3')) }}
         {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required')) }}
     </div>
     <div class="form-group row">
-        {{ Form::label('client', __('Lead'), array('class'=>'col-3')) }}
-        {!! Form::select('lead', $leads, null,array('class' => 'form-control col','required'=>'required')) !!}
+        {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
+        {!! Form::select('lead_id', $leads, null,array('class' => 'form-control col','required'=>'required')) !!}
     </div>
 @endif    
     <hr>
