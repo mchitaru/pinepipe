@@ -142,16 +142,15 @@ use App\Project;
 
                         <ul class="avatars">
 
-                        <li>
-                            @if(!empty($task->task_user))
-                            <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
-                                <img alt="{{$task->task_user->name}}" {!! empty($task->task_user->avatar) ? "avatar='".$task->task_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$task->task_user->avatar))}}" data-filter-by="alt"/>
-                            </a>
-                            @endif
-                        </li>
-
+                            @foreach($task->users as $user)
+                            <li>
+                                <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
+                                    <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
+                                </a>
+                            </li>
+                            @endforeach
                         </ul>
-
+    
                         <div class="card-meta d-flex justify-content-between">
                         <div class="d-flex align-items-center">
                             <i class="material-icons">playlist_add_check</i>
