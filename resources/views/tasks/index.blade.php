@@ -49,7 +49,7 @@
                 <div class="progress-bar {{$label}}" id="taskProgress{{$task->id}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="card-body">
-                <div class="card-title">
+                <div class="card-title col-xs-12 col-sm-4">
 
                     <a href="{{route('tasks.show',$task->id)}}#task" class="text-body" data-remote="true" data-type="text">
                         <h6 data-filter-by="text">{{$task->title}}</h6>
@@ -68,19 +68,17 @@
                         <span class="text-small">{{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
                     </p>
                 </div>
-                <div class="card-title d-none d-xl-block">
+                <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">
                     <div class="row align-items-center">
                         <i class="material-icons">folder</i>
                         <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Project')}}">{{ !empty($task->project) ? $task->project->name : '--' }}</span>
                     </div>
-                </div>
-                <div class="card-title d-none d-xl-block">
                     <div class="row align-items-center">
                         <i class="material-icons">person</i>
                         <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Client')}}">{{ !empty($task->project) ? $task->project->client->name : '--' }}</span>
                     </div>
                 </div>
-                <div class="card-meta float-right">
+                <div class="card-meta col float-right">
 
                     <ul class="avatars">
 
