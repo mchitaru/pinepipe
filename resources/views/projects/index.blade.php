@@ -87,12 +87,12 @@
                 </div>
                 <ul class="avatars">
 
-                    @foreach($project->project_user() as $project_user)
+                    @foreach($project->users as $user)
                     <li>
                         @if($project->is_active)
-                        <a href="{{ route('users.index',$project_user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($project_user)?$project_user->name:'')}}">
+                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($user)?$user->name:'')}}">
                         @endif
-                            <img alt="{{$project_user->name}}" {!! empty($project_user->avatar) ? "avatar='".$project_user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$project_user->avatar))}}" data-filter-by="alt"/>
+                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
                         @if($project->is_active)
                         </a>
                         @endif

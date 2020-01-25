@@ -56,26 +56,6 @@ class Project extends Model
         return $this->hasMany('App\User', 'user_projects', 'user_id', 'project_id');
     }
 
-    public function countTask()
-    {
-        return Task::where('project_id', '=', $this->id)->count();
-    }
-
-    public function countTaskComments()
-    {
-        return Task::join('comments', 'comments.task_id', '=', 'tasks.id')->where('project_id', '=', $this->id)->count();
-    }
-
-    public function project_expenses()
-    {
-        return Expense::where('project', '=', $this->id)->sum('amount');
-    }
-
-    public function project_user()
-    {
-        return UserProject::select('user_projects.*', 'users.name', 'users.avatar', 'users.email', 'users.type')->join('users', 'users.id', '=', 'user_projects.user_id')->where('project_id', '=', $this->id)->whereNotIn('user_id', [$this->created_by])->get();
-    }
-
 
     public function project_total_task($project_id)
     {

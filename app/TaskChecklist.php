@@ -15,6 +15,6 @@ class TaskChecklist extends Model
 
     public function task()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo('App\Task');
     }
 }

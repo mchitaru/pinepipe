@@ -21,12 +21,12 @@ class Task extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo('App\Project');
     }
 
     public function stage()
     {
-        return $this->belongsTo('App\ProjectStage', 'id', 'stage_id');
+        return $this->belongsTo('App\ProjectStage');
     }
 
     public function users()

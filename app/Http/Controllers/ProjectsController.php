@@ -119,7 +119,6 @@ class ProjectsController extends ProjectsSectionController
         if(\Auth::user()->can('show project'))
         {
             $project        = Project::where('id', $project_id)->first();
-            $project_user   = UserProject::where('project_id', $project_id)->get();
             $project_id = $project->id;
             $project_status_list = Project::$project_status;
             $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
@@ -153,7 +152,7 @@ class ProjectsController extends ProjectsSectionController
                 $task_count = $task_count + count($stage->projectTasks($project_id));
             }
 
-            return view('projects.show', compact('project', 'project_user', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timeSheets', 'activities'));
+            return view('projects.show', compact('project', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timeSheets', 'activities'));
         }
         else
         {

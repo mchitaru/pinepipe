@@ -135,7 +135,7 @@ $(document).ready(function() {
             <div class="d-flex align-items-center">
                 <ul class="avatars">
 
-                    @foreach($project->project_user() as $user)
+                    @foreach($project->users as $user)
                     <li>
                         <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
                             <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
@@ -171,7 +171,7 @@ $(document).ready(function() {
                 </div>
                 <div class="d-flex align-items-center">
                     <i class="material-icons">people</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Members')}}">{{$project->project_user()->count()+1}}</span>
+                    <span data-toggle="tooltip" data-original-title="{{__('Members')}}">{{$project->users()->count()+1}}</span>
                 </div>
                 <div class="d-flex align-items-center">
                     <i class="material-icons">calendar_today</i>

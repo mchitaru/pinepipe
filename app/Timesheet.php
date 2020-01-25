@@ -17,11 +17,11 @@ class Timesheet extends Model
 
     public function task()
     {
-        return $this->belongsTo('App\Task', 'id', 'task_id');
+        return $this->belongsTo('App\Task');
     }
     
     public function user()
     {
-        return $this->belongsTo('App\User', 'id', 'user_id');
+        return $this->belongsTo('App\User');
     }
 }
