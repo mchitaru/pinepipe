@@ -23,6 +23,6 @@ $factory->define(Task::class, function (Faker $faker) {
 
 $factory->state(Task::class, 'project', function ($faker) {
     return [
-        'project_id' => $faker->numberBetween(0, 10),
+        'project_id' => $faker->numberBetween(0, 5),
     ];
 });

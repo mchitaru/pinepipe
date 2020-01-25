@@ -12,7 +12,6 @@ class Task extends Model
         'description',
         'due_date',
         'start_date',
-        'assign_to',
         'project_id',
         'milestone_id',
         'status',
@@ -23,6 +22,11 @@ class Task extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function stage()
+    {
+        return $this->belongsTo('App\ProjectStage', 'id', 'stage_id');
     }
 
     public function users()

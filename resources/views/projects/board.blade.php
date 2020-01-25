@@ -53,9 +53,9 @@ use App\Project;
             @foreach($stages as $stage)
             
             @if(\Auth::user()->type =='client' || \Auth::user()->type =='company')
-                @php $tasks =$stage->tasks($project_id)    @endphp
+                @php $tasks =$stage->projectTasks($project_id)    @endphp
             @else
-                @php $tasks =$stage->tasks($project_id)    @endphp
+                @php $tasks =$stage->projectTasks($project_id)    @endphp
             @endif
 
             <div class="kanban-col">

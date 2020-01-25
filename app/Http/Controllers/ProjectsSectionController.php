@@ -33,9 +33,10 @@ class ProjectsSectionController extends Controller
             $activities = array();
 
             $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
+            
             $task_count = 0;
             foreach($stages as $stage){
-                $task_count = $task_count + count($stage->tasks($project_id));
+                $task_count = $task_count + count($stage->projectTasks($project_id));
             }
 
             return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages', 'task_count', 'activities'));

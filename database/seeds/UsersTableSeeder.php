@@ -365,22 +365,22 @@ class UsersTableSeeder extends Seeder
         $company->makeEmployeeRole();
         $company->userDefaultData();
 
-        factory(App\User::class, 10)->create()->each(function ($user) use($company) {
+        factory(App\User::class, 2)->create()->each(function ($user) use($company) {
 
             $role = Role::findByName('client');
             $user->type = 'client';
             $user->created_by = $company->id;
-            $user->assignRole($role);
             $user->save();
+            $user->assignRole($role);
         });
 
-        factory(App\User::class, 10)->create()->each(function ($user) use($company) {
+        factory(App\User::class, 5)->create()->each(function ($user) use($company) {
 
             $role = Role::where('name', '=', 'employee')->where('created_by', '=', $user->creatorId())->first();
-            $user->type = $company->name.' employee';
+            $user->type = 'employee';
             $user->created_by = $company->id;
-            $user->assignRole($role);
             $user->save();
+            $user->assignRole($role);
         });
     }
 }

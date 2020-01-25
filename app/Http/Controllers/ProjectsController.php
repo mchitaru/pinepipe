@@ -148,7 +148,12 @@ class ProjectsController extends ProjectsSectionController
                 }
             }
 
-            return view('projects.show', compact('project', 'project_user', 'project_status', 'project_id', 'stages', 'project_files', 'timeSheets', 'activities'));
+            $task_count = 0;
+            foreach($stages as $stage){
+                $task_count = $task_count + count($stage->projectTasks($project_id));
+            }
+
+            return view('projects.show', compact('project', 'project_user', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timeSheets', 'activities'));
         }
         else
         {

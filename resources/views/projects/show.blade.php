@@ -184,7 +184,7 @@ $(document).ready(function() {
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
-                    <span class="badge badge-secondary">{{ $total_task }}</span>
+                    <span class="badge badge-secondary">{{ $task_count }}</span>
                 </a>
             </li>
             <li class="nav-item">

@@ -253,7 +253,7 @@ class User extends Authenticatable
         }
         else
         {
-            return Lead::where('user_id', '=', $this->authId())->where('stage', '=', $last_leadstage)->count();
+            return Lead::where('user_id', '=', $this->authId())->where('stage_id', '=', $last_leadstage)->count();
         }
     }
 
@@ -470,8 +470,8 @@ class User extends Authenticatable
     {
         $employeeRole = Role::create(
             [
-                'name' => $this->name.' employee',//unique role for each company
-                // 'name' => 'employee',
+                // 'name' => $this->name.' employee',//unique role for each company
+                'name' => 'employee',
                 'created_by' => $this->id,
             ]
         );

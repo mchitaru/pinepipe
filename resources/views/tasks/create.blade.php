@@ -45,7 +45,7 @@
         @endif
         @if(!$is_create)
         <div class="form-group row align-items-center">
-            {{ Form::label('assign_to', __('Milestone'), array('class'=>'col-3')) }}
+            {{ Form::label('milestone_id', __('Milestone'), array('class'=>'col-3')) }}
             {!! Form::select('milestone_id', $milestones, null,array('class' => 'form-control col')) !!}
         </div>
         @endif        

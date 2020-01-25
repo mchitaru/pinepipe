@@ -76,15 +76,6 @@ class Project extends Model
         return UserProject::select('user_projects.*', 'users.name', 'users.avatar', 'users.email', 'users.type')->join('users', 'users.id', '=', 'user_projects.user_id')->where('project_id', '=', $this->id)->whereNotIn('user_id', [$this->created_by])->get();
     }
 
-    public function user_project_total_task($project_id, $user_id)
-    {
-        return Task::where('project_id', '=', $project_id)->where('assign_to', '=', $user_id)->count();
-    }
-
-    public function user_project_complete_task($project_id, $user_id, $last_stage_id)
-    {
-        return Task::where('project_id', '=', $project_id)->where('assign_to', '=', $user_id)->where('stage_id', '=', $last_stage_id)->count();
-    }
 
     public function project_total_task($project_id)
     {

@@ -18,28 +18,33 @@ class ProjectStage extends Model
 
     ];
 
-    public function tasks($project_id)
+    public function tasks()
+    {
+        return $this->hasMany('App\Task', 'stage_id', 'id');
+    }
+
+    public function projectTasks($project_id)
     {
         if(!empty($project_id))
         {
             if(\Auth::user()->type == 'client' || \Auth::user()->type == 'company')
             {
-                return Task::where('stage_id', '=', $this->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
+                return $this->tasks()->where('project_id', '=', $project_id)->orderBy('order')->get();
             }
             else
             {
-                return Task::where('stage_id', '=', $this->id)->where('assign_to', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
+                return \Auth::user()->tasks()->where('stage_id', '=', $this->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
             }
         }
         else{
 
             if(\Auth::user()->type == 'client' || \Auth::user()->type == 'company')
             {
-                return Task::where('stage_id', '=', $this->id)->orderBy('order')->get();
+                return $this->tasks()->orderBy('order')->get();
             }
             else
             {
-                return Task::where('stage_id', '=', $this->id)->where('assign_to', '=', \Auth::user()->id)->orderBy('order')->get();
+                return \Auth::user()->tasks()->where('stage_id', '=', $this->id)->orderBy('order')->get();
             }
         }
     }
@@ -122,7 +127,7 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = Task::where('assign_to', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    $data[] = $usr->tasks()->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
                 }
 
 

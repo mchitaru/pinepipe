@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(UserProject::class, function (Faker $faker) {
     return [
-        'user_id' => $faker->numberBetween(13, 22), 
-        'project_id' => $faker->numberBetween(1, 10)
+        'user_id' => $faker->numberBetween(5, 9), 
+        'project_id' => $faker->numberBetween(1, 5)
     ];
 });

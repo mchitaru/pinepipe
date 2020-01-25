@@ -41,6 +41,7 @@ class TaskStoreRequest extends FormRequest
                     'due_date' => 'required',
                     'start_date' => 'required',
                     'description' => 'nullable',
+                    'project_id' => 'nullable'
                 ];
             }else{
                 return [
@@ -49,6 +50,7 @@ class TaskStoreRequest extends FormRequest
                     'due_date' => 'required',
                     'start_date' => 'required',
                     'description' => 'nullable',
+                    'project_id' => 'nullable'
                 ];
             }
         }else{
