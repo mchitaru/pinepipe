@@ -68,7 +68,12 @@ class ProjectTasksController extends Controller
         $task->created_by   = \Auth::user()->creatorId();
         $task->save();
 
-        $users = $post['user_id'];
+        $users = null;
+        if(isset($post['user_id'])){
+
+            $users = $post['user_id'];
+        }
+
         if(\Auth::user()->type != 'company'){        
 
             $users->prepend(\Auth::user()->id);

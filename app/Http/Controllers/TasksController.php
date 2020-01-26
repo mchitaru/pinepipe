@@ -46,15 +46,14 @@ class TasksController extends ProjectsSectionController
         $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
         $users      = array();
 
-        $users[''] = 'Unassigned';
         foreach($usersArr as $user)
         {
             $users[$user->id] = ($user->name . ' - ' . $user->email);
         }
 
-        $task = '';
-        $project = '';
-        $milestones = '';
+        $task = null;
+        $project = null;
+        $milestones = null;
         $is_create = true;
 
         return view('tasks.create', compact('task', 'project', 'projects', 'users', 'priority', 'milestones', 'is_create'));
@@ -75,7 +74,12 @@ class TasksController extends ProjectsSectionController
         $task->created_by  = \Auth::user()->creatorId();
         $task->save();
 
-        $users = $post['user_id'];
+        $users = null;
+        if(isset($post['user_id'])){
+
+            $users = $post['user_id'];
+        }
+
         if(\Auth::user()->type != 'company'){        
 
             $users->prepend(\Auth::user()->id);
