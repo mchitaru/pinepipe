@@ -53,7 +53,7 @@ class Project extends Model
 
     public function users()
     {
-        return $this->hasMany('App\User', 'user_projects', 'user_id', 'project_id');
+        return $this->belongsToMany('App\User', 'user_projects');
     }
 
 

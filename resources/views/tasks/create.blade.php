@@ -40,7 +40,7 @@
         @if(\Auth::user()->type == 'company')
         <div class="form-group row align-items-center">
             {{ Form::label('user_id', __('Assigned To'), array('class'=>'col-3')) }}
-            {!! Form::select('user_id[]', $users, null,array('class' => 'form-control col')) !!}
+            {!! Form::select('user_id[]', $users, null,array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
         @endif
         @if(!$is_create)

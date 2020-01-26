@@ -41,12 +41,12 @@ class TasksController extends ProjectsSectionController
      */
     public function create()
     {
-        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend('--', '');
+        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend(__('No Project'), null);
         $priority   = Project::$priority;
         $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
         $users      = array();
 
-        $users[''] = '--';
+        $users[''] = 'Unassigned';
         foreach($usersArr as $user)
         {
             $users[$user->id] = ($user->name . ' - ' . $user->email);
@@ -111,7 +111,7 @@ class TasksController extends ProjectsSectionController
     public function edit(Task $task)
     {
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
-        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend('--', '0');
+        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend(__('No Project'), null);
         $users      = array();
         
         if(!empty($project)){

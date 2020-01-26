@@ -27,6 +27,7 @@
 
 <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/avatar.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/modules/select2/js/select2.min.js') }}"></script> --}}
 {{-- <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('assets/js/remote.js') }}"></script>
 
@@ -62,6 +63,7 @@
         toastr[status](message, title)
     }
 
+    $.fn.select2.defaults.set( "theme", "bootstrap" ); 
 </script>
 
 @if ($message = Session::get('success'))

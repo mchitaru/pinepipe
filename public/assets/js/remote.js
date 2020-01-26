@@ -6,6 +6,7 @@ $(document).on('ajax:success', function(e, data, status, xhr){
    $('#modal').html(xhr.responseText).modal('show');
 
    flatpickr('[data-flatpickr]');
+    $('select').select2();
    LetterAvatar.transform();
 });
 
