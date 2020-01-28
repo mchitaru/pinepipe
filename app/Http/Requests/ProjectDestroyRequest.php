@@ -13,6 +13,13 @@ class ProjectDestroyRequest extends FormRequest
      */
     public function authorize()
     {
+        if($this->user()->can('delete project'))
+        {
+            $project = $this->route()->parameter('project');
+
+            return $project->created_by == \Auth::user()->creatorId();
+        }
+
         return false;
     }
 
@@ -26,5 +33,10 @@ class ProjectDestroyRequest extends FormRequest
         return [
             //
         ];
+    }
+
+    protected function getRedirectUrl()
+    {
+        return route('projects.index');
     }
 }

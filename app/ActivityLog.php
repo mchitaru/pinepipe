@@ -39,4 +39,18 @@ class ActivityLog extends Model
             ]
         );
     }
+
+    public static function deleteTask(Task $task)
+    {
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $task->project_id,
+                'log_type' => 'Delete Task',
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('deleted task') .
+                            ' <b>'. $task->title.'</b>',
+            ]
+        );
+    }
 }

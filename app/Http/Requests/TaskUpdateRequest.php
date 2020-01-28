@@ -13,7 +13,14 @@ class TaskUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('edit task');
+        if($this->user()->can('edit task'))
+        {
+            $task = $this->route()->parameter('task');
+
+            return $task->created_by == \Auth::user()->creatorId();
+        }
+
+        return false;
     }
 
     /**
@@ -27,7 +34,7 @@ class TaskUpdateRequest extends FormRequest
         {
             if(\Auth::user()->type == 'company') {
                 return [
-                    'title' => 'required|string|min:2',
+                    'title' => 'required|string|min:2|max:20',
                     'description' => 'nullable|string',
                     'priority' => 'required|string',
                     'user_id' => 'nullable|array', //+
@@ -37,7 +44,7 @@ class TaskUpdateRequest extends FormRequest
                 ];
             }else{
                 return [
-                    'title' => 'required|string|min:2',
+                    'title' => 'required|string|min:2|max:20',
                     'description' => 'nullable|string',
                     'priority' => 'required|string',
                     'project_id' => 'nullable|integer',

@@ -145,4 +145,36 @@ class Task extends Model
         ActivityLog::updateTask($this);
     }
 
+    public function detachTask()
+    {
+        if(!$this->users->isEmpty())
+        {
+            $this->users()->detach();
+        }
+
+        TaskComment::whereIn('task_id', $this->id)->delete();
+        TaskChecklist::whereIn('task_id', $this->id)->delete();
+
+        $taskFile = TaskFile::select('file')->whereIn('task_id', $this->id)->get()->map(
+            function ($file){
+                $dir        = storage_path('app/public/tasks/');
+                $file->file = $dir . $file->file;
+
+                return $file;
+            }
+        );
+        
+        if(!empty($taskFile))
+        {
+            foreach($taskFile->pluck('file') as $file)
+            {
+                File::delete($file);
+            }
+        }
+
+        TaskFile::whereIn('task_id', $this->id)->delete();
+
+        ActivityLog::deleteTask($this);
+    }
+
 }

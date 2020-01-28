@@ -1,91 +1,83 @@
-{{ Form::model($project, array('route' => array('projects.update', $project->id), 'method' => 'PUT')) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
+@extends('layouts.modal')
+
+@section('form-start')
+    {{ Form::model($project, array('route' => array('projects.update', $project->id), 'method' => 'PUT', 'data-remote' => 'true')) }}
+@endsection
+
+@section('title')
+    {{__('Edit Project')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
+    <h6>{{__('General Details')}}</h6>
+    <div class="form-group row align-items-center required">
+        {{ Form::label('name', __('Project Name'), array('class'=>'col-3')) }}
+        {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Project name', 'required'=>'required')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
+        {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>'Project description']) !!}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col','required'=>'required')) !!}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-3')) }}
+        {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required')) !!}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('price', __('Budget'), array('class'=>'col-3')) }}
+        {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
+        {!! Form::select('lead_id', $leads, null,array('class' => 'form-control col','required'=>'required')) !!}
+    </div>
+    <hr>
+    <h6>{{__('Timeline')}}</h6>
+    <div class="form-group row align-items-center">
+        {{ Form::label('start_date', __('Start Date'), array('class'=>'col-3')) }}
+        {{ Form::date('start_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $start_date, 'data-alt-input')) }}
+    </div>
+    <div class="form-group row align-items-center">
+        {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
+        {{ Form::date('due_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $due_date, 'data-alt-input')) }}
+    </div>
+    <div class="alert alert-warning text-small" role="alert">
+    <span>{{__('You can change due dates at any time.')}}</span>
+    </div>
+    <hr>
+    <h6>{{__('Visibility')}}</h6>
     <div class="row">
-        <div class="form-group  col-md-6">
-            {{ Form::label('name', __('Projects Name')) }}
-            {{ Form::text('name', null, array('class' => 'form-control font-style','required'=>'required')) }}
-            @error('name')
-            <span class="invalid-name" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('price', __('Projects Price')) }}
-            {{ Form::number('price', null, array('class' => 'form-control','required'=>'required')) }}
-            @error('price')
-            <span class="invalid-price" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('date', __('Due Date')) }}
-            {{ Form::date('date', $project->due_date, array('class' => 'form-control','required'=>'required')) }}
-            @error('date')
-                <span class="invalid-date" role="alert">
-                <strong class="text-danger">{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
-
-        <div class="form-group  col-md-6">
-            {{ Form::label('client', __('Client')) }}
-            {!! Form::select('client', $clients, null,array('class' => 'form-control font-style','required'=>'required')) !!}
-            @error('client')
-            <span class="invalid-client" role="alert">
-                <strong class="text-danger">{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-
-        <div class="form-group col-md-12">
-            {{ Form::label('lead', __('Lead')) }}
-            {!! Form::select('lead', $leads, null,array('class' => 'form-control font-style','required'=>'required')) !!}
-            @error('lead')
-            <span class="invalid-lead" role="alert">
-                <strong class="text-danger">{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-
-        <div class="form-group  col-md-12">
-            {{ Form::label('label', __('Label')) }}
-            <div class="container-fluid">
-                <div class="row">
-                    @foreach($labels as $label)
-                        <div class="col-auto col-md-1 col-sm-1 col-xs-2">
-                            <label class="colorinput">
-                                <input name="label" type="radio" value="{{$label->id}}" {{($label->id==$project->label)?'checked':''}} class="colorinput-input">
-                                <span class="colorinput-color {{$label->color}}"></span>
-                            </label>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
+    <div class="col">
+        <div class="custom-control custom-radio">
+        <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" checked>
+        <label class="custom-control-label" for="visibility-everyone">Everyone</label>
         </div>
     </div>
-
-    <div class="row">
-        <div class="form-group col-md-12">
-            {{ Form::label('description', __('Description')) }}
-            {!! Form::textarea('description', null, ['class'=>'form-control font-style','rows'=>'2']) !!}
-            @error('description')
-            <span class="invalid-description" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
+    <div class="col">
+        <div class="custom-control custom-radio">
+        <input type="radio" id="visibility-members" name="visibility" class="custom-control-input">
+        <label class="custom-control-label" for="visibility-members">Members</label>
         </div>
     </div>
+    <div class="col">
+        <div class="custom-control custom-radio">
+        <input type="radio" id="visibility-me" name="visibility" class="custom-control-input">
+        <label class="custom-control-label" for="visibility-me">Just me</label>
+        </div>
+    </div>
+    </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Update'),array('class'=>'btn btn-primary'))}}
-</div>
+@include('partials.errors')
+@endsection
+
+@section('footer')
+{{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
+@endsection
+
+@section('form-end')
 {{ Form::close() }}
+@endsection

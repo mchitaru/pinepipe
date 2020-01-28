@@ -55,7 +55,7 @@ class ProjectTasksController extends Controller
     {
         $post = $request->validated();
 
-        $project->addTask($post);
+        $project->createTask($post);
         
         $request->session()->flash('success', __('Task successfully created.'));
 

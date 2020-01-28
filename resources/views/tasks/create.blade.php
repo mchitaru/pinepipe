@@ -48,6 +48,22 @@
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>
         </div>
+        <hr>
+        <h6>{{__('Visibility')}}</h6>
+        <div class="row">
+        <div class="col">
+            <div class="custom-control custom-radio">
+            <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" checked>
+            <label class="custom-control-label" for="visibility-everyone">Everyone</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-control custom-radio">
+            <input type="radio" id="visibility-me" name="visibility" class="custom-control-input">
+            <label class="custom-control-label" for="visibility-me">Just me</label>
+            </div>
+        </div>
+        </div>    
     </div>
     @include('partials.errors')
 @endsection

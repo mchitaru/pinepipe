@@ -13,6 +13,13 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function authorize()
     {
+        if(\Auth::user()->can('edit project'))
+        {
+            $project = $this->route()->parameter('project');
+
+            return ($project->created_by == \Auth::user()->creatorId());
+        }
+
         return false;
     }
 
@@ -24,7 +31,19 @@ class ProjectUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|min:2|max:20',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+            'client_id' => 'nullable|integer',
+            'user_id' => 'nullable|integer',
+            'lead_id' => 'nullable|integer',
+            'price' => 'nullable|numeric',
+            'description' => 'nullable|string',
         ];
+    }
+
+    protected function getRedirectUrl()
+    {
+        return route('projects.edit');
     }
 }

@@ -21,6 +21,8 @@ use App\Timesheet;
 use App\User;
 use App\UserProject;
 use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
+use App\Http\Requests\ProjectDestroyRequest;
 use App\Utility;
 use Auth;
 use File;
@@ -31,20 +33,11 @@ class ProjectsController extends ProjectsSectionController
 
     public function create()
     {
-        if(\Auth::user()->can('create project'))
-        {
-            $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
-            $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
-            $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
+        $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+        $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            $is_create = true;
-
-            return view('projects.create', compact('clients', 'users', 'leads', 'is_create'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+        return view('projects.create', compact('clients', 'users', 'leads'));
     }
 
 
@@ -52,32 +45,12 @@ class ProjectsController extends ProjectsSectionController
     {
         $post = $request->validated();
 
-        $objUser      = \Auth::user();
-        $total_client = $objUser->countProject();
-        $plan         = PaymentPlan::find($objUser->plan);
+        $total_client = \Auth::user()->countProject();
+        $plan         = PaymentPlan::find(\Auth::user()->plan);
 
         if($total_client < $plan->max_clients || $plan->max_clients == -1)
         {
-            $project              = Project::make($post);
-            $project->created_by  = \Auth::user()->creatorId();
-            $project->save();
-
-            User::find(\Auth::user()->creatorId())->projects()->attach($project->id);
-
-            foreach($post['user_id'] as $key => $user)
-            {
-                User::find($user)->projects()->attach($project->id);
-            }
-
-            $permissions = Project::$permission;
-            ProjectClientPermission::create(
-                [
-                    'client_id' => $project->client_id,
-                    'project_id' => $project->id,
-                    'permissions' => implode(',', $permissions),
-                ]
-            );
-
+            Project::createProject($post);
 
             $request->session()->flash('success', __('Project successfully created.'));
         }
@@ -91,41 +64,39 @@ class ProjectsController extends ProjectsSectionController
     }
 
 
-    public function edit($id)
+    public function edit(Project $project)
     {
 
-        if(\Auth::user()->can('edit project'))
-        {
-            $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
-            $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $project = Project::findOrfail($id);
-            if($project->created_by == \Auth::user()->creatorId())
-            {
-                return view('projects.edit', compact('project', 'clients', 'leads'));
-            }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+        $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+        $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
+        $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        
+        return view('projects.edit', compact('project', 'clients', 'users', 'leads'));
     }
 
-    public function show($project_id)
+    public function update(ProjectUpdateRequest $request, Project $project)
+    {
+        $post = $request->validated();
+
+        $project->updateProject($post);
+
+        $request->session()->flash('success', __('Project successfully updated.'));
+
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
+    }
+
+    public function show(Project $project)
     {
         if(\Auth::user()->can('show project'))
         {
-            $project        = Project::where('id', $project_id)->first();
             $project_id = $project->id;
             $project_status_list = Project::$project_status;
             $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
             $project_files = ProjectFile::where('project_id', $project_id)->get();
             $activities = $project->activities;
 
-            $timeSheets = '';
+            $timeSheets = null;
             if(\Auth::user()->can('manage timesheet'))
             {
                 if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
@@ -160,162 +131,55 @@ class ProjectsController extends ProjectsSectionController
         }
     }
 
-    public function update(Request $request, $id)
+    public function destroy(ProjectDestroyRequest $request, Project $project)
     {
-        if(\Auth::user()->can('edit project'))
-        {
-            $project = Project::findOrfail($id);
-            if($project->created_by == \Auth::user()->creatorId())
-            {
-
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'name' => 'required|max:20',
-                                       'price' => 'required',
-                                       'date' => 'required',
-                                       'lead' => 'required',
-                                   ]
-                );
-
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
-
-                    return redirect()->route('users')->with('error', $messages->first());
-                }
-
-                $project->name        = $request->name;
-                $project->price       = $request->price;
-                $project->due_date    = $request->date;
-                $project->client_id   = $request->client;
-                $project->lead_id     = $request->lead;
-                $project->description = $request->description;
-                $project->save();
-
-                ProjectClientPermission::where('client_id','=',$project->client_id)->where('project_id','=', $project->id)->delete();
-                $permissions = Project::$permission;
-                ProjectClientPermission::create(
-                    [
-                        'client_id' => $project->client_id,
-                        'project_id' => $project->id,
-                        'permissions' => implode(',', $permissions),
-                    ]
-                );
-
-                return redirect()->route('projects.index')->with('success', __('Project successfully updated.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
         }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+
+        $project->detachProject();
+
+        $project->delete();
+
+        return redirect()->back()->with('success', __('Project successfully deleted.'));
     }
 
-    public function updateStatus(Request $request, $id)
-    {
-        if(\Auth::user()->can('edit project'))
-        {
-            $project = Project::findOrfail($id);
-            if($project->created_by == \Auth::user()->creatorId())
-            {
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'status' => 'required',
-                                   ]
-                );
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     if(\Auth::user()->can('edit project'))
+    //     {
+    //         $project = Project::findOrfail($id);
+    //         if($project->created_by == \Auth::user()->creatorId())
+    //         {
+    //             $validator = \Validator::make(
+    //                 $request->all(), [
+    //                                    'status' => 'required',
+    //                                ]
+    //             );
 
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
+    //             if($validator->fails())
+    //             {
+    //                 $messages = $validator->getMessageBag();
 
-                    return redirect()->back()->with('error', 'Project Status is required.');
-                }
+    //                 return redirect()->back()->with('error', 'Project Status is required.');
+    //             }
 
-                $project->status = $request->status;
-                $project->save();
+    //             $project->status = $request->status;
+    //             $project->save();
 
-                return redirect()->route('projects.show', compact('id'))->with('success', __('Status Updated!'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
-    }
-
-    public function destroy($id)
-    {
-        if(\Auth::user()->can('delete project'))
-        {
-            $project = Project::findOrfail($id);
-            if($project->created_by == \Auth::user()->creatorId())
-            {
-                //                $project->delete();
-                Milestone::where('project_id', $id)->delete();
-                UserProject::where('project_id', $id)->delete();
-                ActivityLog::where('project_id', $id)->delete();
-
-                $projectFile = ProjectFile::select('file_path')->where('project_id', $id)->get()->map(
-                    function ($file){
-                        $dir        = storage_path('app/public/project_files/');
-                        $file->file = $dir . $file->file;
-
-                        return $file;
-                    }
-                );
-                if(!empty($projectFile))
-                {
-                    foreach($projectFile->pluck('file_path') as $file)
-                    {
-                        File::delete($file);
-                    }
-                }
-                ProjectFile::where('project_id', $id)->delete();
-
-                Invoice::where('project_id', $id)->update(array('project_id' => 0));
-                $tasks     = Task::select('id')->where('project_id', $id)->get()->pluck('id');
-                $comment   = TaskComment::whereIn('task_id', $tasks)->delete();
-                $checklist = TaskChecklist::whereIn('task_id', $tasks)->delete();
-
-                $taskFile = TaskFile::select('file')->whereIn('task_id', $tasks)->get()->map(
-                    function ($file){
-                        $dir        = storage_path('app/public/tasks/');
-                        $file->file = $dir . $file->file;
-
-                        return $file;
-                    }
-                );
-                if(!empty($taskFile))
-                {
-                    foreach($taskFile->pluck('file') as $file)
-                    {
-                        File::delete($file);
-                    }
-                }
-                TaskFile::whereIn('task_id', $tasks)->delete();
-
-                Task::where('project_id', $id)->delete();
-
-                return redirect()->route('projects.index')->with('success', __('Project successfully deleted.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
-    }
+    //             return redirect()->route('projects.show', compact('id'))->with('success', __('Status Updated!'));
+    //         }
+    //         else
+    //         {
+    //             return redirect()->back()->with('error', __('Permission denied.'));
+    //         }
+    //     }
+    //     else
+    //     {
+    //         return redirect()->back()->with('error', 'Permission denied.');
+    //     }
+    // }
 
     public function userInvite($project_id)
     {

@@ -148,7 +148,7 @@ class Project extends Model
         return $projectData;
     }
 
-    public function addTask($post)
+    public function createTask($post)
     {
         $post['project_id'] = $this->id;
         $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
@@ -174,6 +174,111 @@ class Project extends Model
         ActivityLog::createTask($task);
 
         return $task;
+    }
+
+    public static function createProject($post)
+    {
+        $project              = Project::make($post);
+        $project->created_by  = \Auth::user()->creatorId();
+        $project->save();
+
+        if(isset($post['user_id']))
+        {
+            $users = $post['user_id'];
+        }else{
+
+            $users = collect();
+        }
+
+        if(\Auth::user()->type != 'company')
+        {        
+            $users->prepend(\Auth::user()->id);
+        }
+
+        $project->users()->sync($users);
+
+        $permissions = Project::$permission;
+        ProjectClientPermission::create(
+            [
+                'client_id' => $project->client_id,
+                'project_id' => $project->id,
+                'permissions' => implode(',', $permissions),
+            ]
+        );
+
+        ActivityLog::createProject($project);
+
+        return $project;
+    }
+
+    public function updateProject($post)
+    {
+        $this->update($post);
+
+        if(isset($post['user_id']))
+        {
+            $users = $post['user_id'];
+        }else{
+
+            $users = collect();
+        }
+
+        if(\Auth::user()->type != 'company' &&
+            empty($users))
+        {        
+            $users->prepend(\Auth::user()->id);
+        }
+
+        $this->users()->sync($users);
+
+        ProjectClientPermission::where('client_id','=',$this->client_id)->where('project_id','=', $this->id)->delete();
+        $permissions = Project::$permission;
+        ProjectClientPermission::create(
+            [
+                'client_id' => $this->client_id,
+                'project_id' => $this->id,
+                'permissions' => implode(',', $permissions),
+            ]
+        );
+
+        ActivityLog::updateProject($this);
+    }
+
+    public function detachProject()
+    {
+        $users = collect();
+
+        $this->users()->sync($users);
+
+        Milestone::where('project_id', $this->id)->delete();
+        ActivityLog::where('project_id', $this->id)->delete();
+
+        $projectFile = ProjectFile::select('file_path')->where('project_id', $this->id)->get()->map(
+            function ($file){
+                $dir        = storage_path('app/public/project_files/');
+                $file->file = $dir . $file->file;
+
+                return $file;
+            }
+        );
+
+        if(!empty($projectFile))
+        {
+            foreach($projectFile->pluck('file_path') as $file)
+            {
+                File::delete($file);
+            }
+        }
+        ProjectFile::where('project_id', $this->id)->delete();
+
+        Invoice::where('project_id', $this->id)->update(array('project_id' => 0));
+
+        foreach($this->tasks as $task)
+        {
+            $task->detachTask();
+
+            $task->delete();
+        }
     }
 
     static function humanFileSize($bytes, $decimals = 2) {

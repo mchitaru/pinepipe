@@ -145,6 +145,8 @@ class TasksController extends ProjectsSectionController
             return view('helpers.destroy');
         }
 
+        $task->detachTask();
+
         $task->delete();
 
         return redirect()->back()->with('success', __('Task successfully deleted'));

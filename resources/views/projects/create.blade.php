@@ -1,25 +1,17 @@
 @extends('layouts.modal')
 
 @section('form-start')
-@if($is_create)
     {{ Form::open(array('url' => 'projects', 'data-remote' => 'true')) }}
-@else
-    {{ Form::model($project, array('route' => array('projects.update', $project->id), 'method' => 'PUT', 'data-remote' => 'true')) }}
-@endif
 @endsection
 
 @section('title')
-@if($is_create)
     {{__('Add New Project')}}
-@else
-    {{__('Edit Project')}}
-@endif
 @endsection
 
 @section('content')
 <div class="tab-content">
     <h6>{{__('General Details')}}</h6>
-    <div class="form-group row align-items-center">
+    <div class="form-group row align-items-center required">
         {{ Form::label('name', __('Project Name'), array('class'=>'col-3')) }}
         {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Project name', 'required'=>'required')) }}
     </div>
@@ -35,17 +27,6 @@
         {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-3')) }}
         {!! Form::select('user_id[]', $users, null, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required')) !!}
     </div>
-
-@if(!$is_create)    
-    <div class="form-group row">
-        {{ Form::label('price', __('Budget'), array('class'=>'col-3')) }}
-        {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required')) }}
-    </div>
-    <div class="form-group row">
-        {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
-        {!! Form::select('lead_id', $leads, null,array('class' => 'form-control col','required'=>'required')) !!}
-    </div>
-@endif    
     <hr>
     <h6>{{__('Timeline')}}</h6>
     <div class="form-group row align-items-center">
@@ -86,7 +67,7 @@
 @endsection
 
 @section('footer')
-{{Form::submit(($is_create?__('Create'):__('Update')),array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
+{{Form::submit(__('Create'), array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
 @endsection
 
 @section('form-end')

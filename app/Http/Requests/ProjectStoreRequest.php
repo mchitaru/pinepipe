@@ -24,14 +24,14 @@ class ProjectStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:20',
-            'start_date' => 'required',
-            'due_date' => 'required',
-            'client_id' => 'nullable',
-            'user_id' => 'nullable',
-            'lead_id' => 'nullable',
-            'price' => 'nullable',
-            'description' => 'nullable',
+            'name' => 'required|min:2|max:20',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+            'client_id' => 'nullable|integer',
+            'user_id' => 'nullable|integer',
+            'lead_id' => 'nullable|integer',
+            'price' => 'nullable|numeric',
+            'description' => 'nullable|string',
         ];
     }
 
