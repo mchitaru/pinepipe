@@ -8,9 +8,10 @@ use App\Project;
 use App\Milestone;
 use App\UserProject;
 use App\ActivityLog;
-use App\Http\Requests\TaskDestroyRequest;
 use App\ProjectStage;
 use App\Http\Requests\TaskStoreRequest;
+use App\Http\Requests\TaskUpdateRequest;
+use App\Http\Requests\TaskDestroyRequest;
 use App\Http\Traits\TaskTraits;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -47,9 +48,8 @@ class TasksController extends ProjectsSectionController
 
         $project_id = null;
         $milestones = null;
-        $is_create = true;
 
-        return view('tasks.create', compact('project_id', 'projects', 'users', 'priority', 'milestones', 'is_create'));
+        return view('tasks.create', compact('project_id', 'projects', 'users', 'priority', 'milestones'));
     }
 
     /**
@@ -90,27 +90,24 @@ class TasksController extends ProjectsSectionController
     public function edit(Task $task)
     {
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
-        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend(__('No Project'), null);
-        $users      = array();
-        
-        if(!empty($project)){
-            $usersArr   = UserProject::where('project_id', '=', $task->project_id)->get();
-            foreach($usersArr as $user)
-            {
-                $users[$user->project_assign_user->id] = ($user->project_assign_user->name . ' - ' . $user->project_assign_user->email);
-            }
-        }else{
-            $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
-            foreach($usersArr as $user)
-            {
-                $users[$user->id] = ($user->name . ' - ' . $user->email);
-            }
+        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                
+        if(!empty($project))
+        {
+            $project_id = $project->id;
+            $users   = $project->users()->get()->pluck('name', 'id');
+        }else
+        {
+            $project_id = null;
+            $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         }
+
+        $user_id = $task->users()->get()->pluck('name', 'id');
+
         $priority   = Project::$priority;
         $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
-        $is_create = false;
 
-        return view('tasks.create', compact('task', 'project', 'projects', 'users', 'priority', 'milestones', 'is_create'));
+        return view('tasks.edit', compact('task', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones'));
     }
 
     /**
@@ -120,25 +117,11 @@ class TasksController extends ProjectsSectionController
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskStoreRequest $request, Task $task)
+    public function update(TaskUpdateRequest $request, Task $task)
     {
         $post = $request->validated();
 
-        if(isset($post['status']) && $post['status'] == 'done')
-        {
-            $stage = ProjectStage::all()->last();
-            $post['stage_id'] = $stage->id;
-        }
-
-        $task->update($post);
-
-        $users = $post['user_id'];
-        if(\Auth::user()->type != 'company'){        
-
-            $users->prepend(\Auth::user()->id);
-        }
-
-        $task->users()->sync($users);
+        $task->updateTask($post);
 
         $request->session()->flash('success', __('Task successfully updated.'));
 

@@ -71,11 +71,11 @@
                 <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">
                     <div class="row align-items-center">
                         <i class="material-icons">folder</i>
-                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Project')}}">{{ !empty($task->project) ? $task->project->name : __('No Project') }}</span>
+                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Project')}}">{{ !empty($task->project) ? $task->project->name : '---' }}</span>
                     </div>
                     <div class="row align-items-center">
                         <i class="material-icons">person</i>
-                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Client')}}">{{ !empty($task->project) ? $task->project->client->name : __('Unassigned') }}</span>
+                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Client')}}">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
                     </div>
                 </div>
                 <div class="card-meta col float-right">

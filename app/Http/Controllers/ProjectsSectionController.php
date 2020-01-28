@@ -20,6 +20,7 @@ class ProjectsSectionController extends Controller
             $project_status = Project::$project_status;
 
             $stages  = $user->getProjectStages();            
+
             $task_count = $user->getTasksByUserType()->count();
 
             $project_id = null;

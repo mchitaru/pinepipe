@@ -41,9 +41,8 @@ class ProjectTasksController extends Controller
         $priority   = Project::$priority;
         $users      = $project->users()->get()->pluck('name', 'id');
         $project_id = $project->id;
-        $is_create = true;
 
-        return view('tasks.create', compact('project_id', 'projects', 'priority', 'users', 'milestones', 'is_create'));
+        return view('tasks.create', compact('project_id', 'projects', 'priority', 'users', 'milestones'));
     }
 
     /**

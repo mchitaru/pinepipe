@@ -30,22 +30,14 @@ class ProjectTaskStoreRequest extends FormRequest
      */
     public function rules()
     {
-        if(\Auth::user()->type == 'company') {
-            return [
-                'title' => 'required|string|min:2',
-                'priority' => 'required|string',
-                'user_id' => 'nullable|numeric',
-                'due_date' => 'required|date',
-                'start_date' => 'required|date'
-            ];
-        }else{
-            return [
-                'title' => 'required|string|min:2',
-                'priority' => 'required|string',
-                'due_date' => 'required|date',
-                'start_date' => 'required|date',
-            ];
-        }
+        return [
+            'title' => 'required|string|min:2',
+            'description' => 'nullable|string',
+            'priority' => 'required|string',
+            'user_id' => 'nullable|array',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+        ];
     }
 
     protected function getRedirectUrl()

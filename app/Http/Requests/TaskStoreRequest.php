@@ -13,15 +13,7 @@ class TaskStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        $task = $this->route()->parameter('task');
-
-        if(!$task){
-
-            return $this->user()->can('create task');
-        }else{
-
-            return $this->user()->can('edit task');
-        }
+        return $this->user()->can('create task');
     }
 
     /**
@@ -31,53 +23,30 @@ class TaskStoreRequest extends FormRequest
      */
     public function rules()
     {
-        if (!$this->isMethod('patch')){
-
-            if(\Auth::user()->type == 'company') {
-                return [
-                    'title' => 'required|string|min:2',
-                    'priority' => 'required|string',
-                    'user_id' => 'nullable|integer',
-                    'due_date' => 'required|date',
-                    'start_date' => 'required|date',
-                    'description' => 'nullable|string',
-                    'project_id' => 'nullable|integer'
-                ];
-            }else{
-                return [
-                    'title' => 'required|string|min:2',
-                    'priority' => 'required|string',
-                    'due_date' => 'required|date',
-                    'start_date' => 'required|date',
-                    'description' => 'nullable|string',
-                    'project_id' => 'nullable|integer'
-                ];
-            }
-        }else{
-
+        if(\Auth::user()->type == 'company') {
             return [
-                'status' => 'string',
-                'stage_id' => 'integer'
+                'title' => 'required|string|min:2',
+                'description' => 'nullable|string',
+                'priority' => 'required|string',
+                'user_id' => 'nullable|array', //+
+                'project_id' => 'nullable|integer',
+                'start_date' => 'required|date',
+                'due_date' => 'required|date',
+            ];
+        }else{
+            return [
+                'title' => 'required|string|min:2',
+                'description' => 'nullable|string',
+                'priority' => 'required|string',
+                'project_id' => 'nullable|integer',
+                'start_date' => 'required|date',
+                'due_date' => 'required|date',
             ];
         }
     }
 
     protected function getRedirectUrl()
     {
-        if (!$this->isMethod('patch')){
-
-            $task = $this->route()->parameter('task');
-
-            if($task){
-
-                return route('tasks.edit', $task);
-            }else{
-
-                return route('tasks.create');
-            }
-        }else{
-
-            return route('tasks.index');
-        }
+        return route('tasks.create');
     }
 }

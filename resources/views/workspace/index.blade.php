@@ -352,26 +352,26 @@ if($client_project_budget_due_per<=15){
                                         </div>
                                         <div class="card-body">
                                             <div class="card-title">
-                                                <a href="{{ route('tasks.show', $top_task->task_id) }}" data-remote="true">
+                                                <a href="{{ route('tasks.show', $top_task->id) }}" data-remote="true">
                                                     <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                                 </a>
-                                                <span class="text-small">{{ Carbon::parse($top_task->task_due_date)->diffForHumans() }}</span>
-
-                                                @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
-                                                    <span class="text-small">{{$top_task->project->name}}</span>
-                                                @else
-                                                    <ul class="avatars">
-
-                                                        @foreach($top_task->users as $user)
-                                                        <li>
-                                                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
-                                                                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
-                                                            </a>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-
+                                                <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>
+                                                @if(!empty($top_task->project))
+                                                    <p><span class="text-small">{{$top_task->project->name}}</span></p>
                                                 @endif
+
+                                            </div>
+                                            <div class="card-title">
+                                                <ul class="avatars">
+
+                                                    @foreach($top_task->users as $user)
+                                                    <li>
+                                                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
+                                                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
+                                                        </a>
+                                                    </li>
+                                                    @endforeach
+                                                </ul>
 
                                             </div>
                                             <div class="card-meta float-right">

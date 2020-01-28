@@ -156,10 +156,12 @@ class Project extends Model
         $task->created_by   = \Auth::user()->creatorId();
         $task->save();
 
-        $users = null;
         if(isset($post['user_id']))
         {
             $users = $post['user_id'];
+        }else{
+
+            $users = collect();
         }
 
         if(\Auth::user()->type != 'company')

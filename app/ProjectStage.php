@@ -41,14 +41,7 @@ class ProjectStage extends Model
 
             }else
             {
-                return $this->tasks()->whereHas('project', function ($query) {
-                    // only include tasks with projects where...
-                    $query->whereHas('users', function ($query) {
-
-                        // ...the current user is assigned.
-                        $query->where('users.id', \Auth::user()->id);
-                    });
-                })->where('stage_id', '=', $this->id)->orderBy('order')->get();
+                return \Auth::user()->staffTasks()->where('stage_id', '=', $this->id)->orderBy('order')->get();
             }
         }
     }

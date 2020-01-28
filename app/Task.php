@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Iatstuti\Database\Support\NullableFields;
 
 class Task extends Model
 {
+    use NullableFields;
+
     protected $fillable = [
         'title',
         'priority',
@@ -18,6 +21,12 @@ class Task extends Model
         'order',
         'stage_id',
     ];
+
+    protected $nullable = [
+        'project_id',
+        'milestone_id',
+        'description'
+	];
 
     public function project()
     {
@@ -81,16 +90,17 @@ class Task extends Model
     public static function createTask($post)
     {
         $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-        $post['project_id'] = !empty($post['project_id']) ? $post['project_id'] : null;
 
         $task               = Task::make($post);
         $task->created_by  = \Auth::user()->creatorId();
         $task->save();
 
-        $users = null;
         if(isset($post['user_id'])){
 
             $users = $post['user_id'];
+        }else{
+
+            $users = collect();
         }
 
         if(\Auth::user()->type != 'company')
@@ -103,6 +113,36 @@ class Task extends Model
         ActivityLog::createTask($task);
 
         return $task;
+    }
+
+    public function updateTask($post)
+    {
+        if(isset($post['status']) && $post['status'] == 'done')
+        {
+            $stage = ProjectStage::all()->last();
+            $post['stage_id'] = $stage->id;
+        }
+
+        $this->update($post);
+
+        if(isset($post['user_id']))
+        {
+            $users = $post['user_id'];
+        }else{
+
+            $users = collect();
+        }
+
+        if(\Auth::user()->type != 'company' &&
+            empty($users))
+        {        
+            $users->prepend(\Auth::user()->id);
+        }
+
+
+        $this->users()->sync($users);
+
+        ActivityLog::updateTask($this);
     }
 
 }
