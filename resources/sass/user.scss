@@ -9,6 +9,11 @@
 //     -webkit-filter: blur(5px) grayscale(90%);
 // }
 
+.form-group.required label:after { 
+  content:"*";
+  color:red;
+}
+
 //pace load progress
 .pace {
     -webkit-pointer-events: none;

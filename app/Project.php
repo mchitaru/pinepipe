@@ -124,9 +124,9 @@ class Project extends Model
         }
         else if(\Auth::user()->type == 'client')
         {
-            $on_going  = Project::where('status', '=', 'on_going')->where('client', '=', \Auth::user()->id)->count();
-            $on_hold   = Project::where('status', '=', 'on_hold')->where('client', '=', \Auth::user()->id)->count();
-            $completed = Project::where('status', '=', 'completed')->where('client', '=', \Auth::user()->id)->count();
+            $on_going  = Project::where('status', '=', 'on_going')->where('client_id', '=', \Auth::user()->id)->count();
+            $on_hold   = Project::where('status', '=', 'on_hold')->where('client_id', '=', \Auth::user()->id)->count();
+            $completed = Project::where('status', '=', 'completed')->where('client_id', '=', \Auth::user()->id)->count();
             $total     = $on_going + $on_hold + $completed;
 
             $projectData['on_going']  = ($total != 0 ? number_format(($on_going / $total) * 100, 2) : 0);
@@ -146,6 +146,30 @@ class Project extends Model
         }
 
         return $projectData;
+    }
+
+    public function addTask($post)
+    {
+        $post['project_id'] = $this->id;
+        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        $task               = Task::make($post);
+        $task->created_by   = \Auth::user()->creatorId();
+        $task->save();
+
+        $users = null;
+        if(isset($post['user_id']))
+        {
+            $users = $post['user_id'];
+        }
+
+        if(\Auth::user()->type != 'company')
+        {        
+            $users->prepend(\Auth::user()->id);
+        }
+
+        $task->users()->sync($users);
+
+        ActivityLog::createTask($task);
     }
 
     static function humanFileSize($bytes, $decimals = 2) {

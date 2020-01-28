@@ -52,11 +52,7 @@ use App\Project;
 
             @foreach($stages as $stage)
             
-            @if(\Auth::user()->type =='client' || \Auth::user()->type =='company')
-                @php $tasks =$stage->projectTasks($project_id)    @endphp
-            @else
-                @php $tasks =$stage->projectTasks($project_id)    @endphp
-            @endif
+            @php $tasks =$stage->getTasksByUserType($project_id)    @endphp
 
             <div class="kanban-col">
                 <div class="card-list">

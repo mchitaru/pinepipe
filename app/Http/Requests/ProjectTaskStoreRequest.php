@@ -32,24 +32,26 @@ class ProjectTaskStoreRequest extends FormRequest
     {
         if(\Auth::user()->type == 'company') {
             return [
-                'title' => 'required',
-                'priority' => 'required',
-                'user_id' => 'nullable',
-                'due_date' => 'required',
-                'start_date' => 'required'
+                'title' => 'required|string|min:2',
+                'priority' => 'required|string',
+                'user_id' => 'nullable|numeric',
+                'due_date' => 'required|date',
+                'start_date' => 'required|date'
             ];
         }else{
             return [
-                'title' => 'required',
-                'priority' => 'required',
-                'due_date' => 'required',
-                'start_date' => 'required',
+                'title' => 'required|string|min:2',
+                'priority' => 'required|string',
+                'due_date' => 'required|date',
+                'start_date' => 'required|date',
             ];
         }
     }
 
     protected function getRedirectUrl()
     {
-        return route('tasks.create');
+        $project = $this->route()->parameter('project');
+
+        return route('projects.task.create', $project->id);
     }
 }

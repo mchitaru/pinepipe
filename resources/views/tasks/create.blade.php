@@ -19,7 +19,7 @@
 @section('content')
     <div class="tab-content">
         <h6>{{__('General Details')}}</h6>
-        <div class="form-group row align-items-center">
+        <div class="form-group row align-items-center required">
             {{ Form::label('title', __('Title'), array('class'=>'col-3')) }}
             {{ Form::text('title', null, array('class' => 'form-control col', 'placeholder'=>'Task title', 'required'=>'required')) }}
         </div>

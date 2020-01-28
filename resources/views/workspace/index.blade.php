@@ -276,11 +276,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="card-list-body collapse show" id="projects">
                                     @foreach($project['projects'] as $project)
                                     @php
-                                        $datetime1 = new DateTime($project->due_date);
-                                        $datetime2 = new DateTime(date('Y-m-d'));
-                                        $interval = $datetime1->diff($datetime2);
-                                        $days = $interval->format('%a');
-
+                                    
                                         $project_last_stage = ($project->project_last_stage($project->id))?$project->project_last_stage($project->id)->id:'';
                                         $total_task = $project->project_total_task($project->id);
                                         $completed_task=$project->project_complete_task($project->id,$project_last_stage);
@@ -356,13 +352,13 @@ if($client_project_budget_due_per<=15){
                                         </div>
                                         <div class="card-body">
                                             <div class="card-title">
-                                                <a href="{{ route('tasks.show',$top_task->id) }}" data-remote="true">
+                                                <a href="{{ route('tasks.show', $top_task->task_id) }}" data-remote="true">
                                                     <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                                 </a>
-                                                <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>
+                                                <span class="text-small">{{ Carbon::parse($top_task->task_due_date)->diffForHumans() }}</span>
 
                                                 @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
-                                                    <span class="text-small">{{$top_task->project_name}}</span>
+                                                    <span class="text-small">{{$top_task->project->name}}</span>
                                                 @else
                                                     <ul class="avatars">
 

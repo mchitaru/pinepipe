@@ -15,11 +15,11 @@ use Carbon\Carbon;
 
 class ProjectTasksController extends Controller
 {
-    public function board($project_id)
+    public function board(Project $project)
     {
         if(\Auth::user()->can('show project'))
         {
-            $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
+            $stages  = \Auth::user()->getProjectStages();
 
             return view('tasks.board', compact('stages', 'project_id'));
         }
@@ -34,22 +34,16 @@ class ProjectTasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($project_id)
+    public function create(Project $project)
     {
-        $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $milestones = Milestone::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
         $priority   = Project::$priority;
-        $usersArr   = UserProject::where('project_id', '=', $project->id)->get();
-        $users      = array();
-        foreach($usersArr as $user)
-        {
-            $users[$user->project_assign_user->id] = ($user->project_assign_user->name . ' - ' . $user->project_assign_user->email);
-        }
+        $users      = $project->users()->get()->pluck('name', 'id');
         $project_id = $project->id;
         $is_create = true;
 
-        return view('tasks.create', compact('project', 'projects', 'priority', 'users', 'milestones', 'project_id', 'is_create'));
+        return view('tasks.create', compact('project_id', 'projects', 'priority', 'users', 'milestones', 'is_create'));
     }
 
     /**
@@ -62,27 +56,8 @@ class ProjectTasksController extends Controller
     {
         $post = $request->validated();
 
-        $post['project_id'] = $project->id;
-        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-        $task               = Task::make($post);
-        $task->created_by   = \Auth::user()->creatorId();
-        $task->save();
-
-        $users = null;
-        if(isset($post['user_id'])){
-
-            $users = $post['user_id'];
-        }
-
-        if(\Auth::user()->type != 'company'){        
-
-            $users->prepend(\Auth::user()->id);
-        }
-
-        $task->users()->sync($users);
-
-        ActivityLog::createTask($task);
-
+        $project->addTask($post);
+        
         $request->session()->flash('success', __('Task successfully created.'));
 
         $url = route('projects.show', $project->id);

@@ -1,10 +1,10 @@
 @php
-    $users=\Auth::user();
-    $profile=asset(Storage::url('avatar/'));
-    $logo=asset(Storage::url('logo/'));
+    $user=\Auth::user();
+    $avatar = asset(Storage::url('avatar/'.$user->avatar));
+    $logo = asset(Storage::url('logo/'));
 
-    $currantLang = $users->currentLanguage();
-    $languages=$users->languages();
+    $currantLang = $user->currentLanguage();
+    $languages=$user->languages();
 
 @endphp
 
@@ -19,11 +19,11 @@
     <div class="d-block d-lg-none ml-2">
         <div class="dropdown">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img width="36" height="36" alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="round" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
+            <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".asset(Storage::url('avatar/'.$user->avatar))."'" : "" !!} data-filter-by="alt"/>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
             @can('manage account')
-                <a class="dropdown-item" href="{{route('profile',$users->id)}}">
+                <a class="dropdown-item" href="{{route('profile',$user->id)}}">
                     {{__('Account Settings')}}
                 </a>
                 <div class="dropdown-divider"></div>
@@ -252,12 +252,12 @@
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img width="36" height="36" alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="round" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
+                <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".asset(Storage::url('avatar/'.$user->avatar))."'" : "" !!} data-filter-by="alt"/>
             </a>
         </a>
         <div class="dropdown-menu">
             @can('manage account')
-                <a class="dropdown-item" href="{{route('profile',$users->id)}}">
+                <a class="dropdown-item" href="{{route('profile',$user->id)}}">
                     {{__('Account Settings')}}
                 </a>
                 <div class="dropdown-divider"></div>

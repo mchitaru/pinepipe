@@ -27346,6 +27346,11 @@ pre[class*=language-] {
   }
 }
 
+.form-group.required label:after {
+  content: "*";
+  color: red;
+}
+
 .pace {
   -webkit-pointer-events: none;
   pointer-events: none;

@@ -23,28 +23,32 @@ class ProjectStage extends Model
         return $this->hasMany('App\Task', 'stage_id', 'id');
     }
 
-    public function projectTasks($project_id)
+    public function getTasksByUserType($project_id)
     {
         if(!empty($project_id))
         {
-            if(\Auth::user()->type == 'client' || \Auth::user()->type == 'company')
-            {
-                return $this->tasks()->where('project_id', '=', $project_id)->orderBy('order')->get();
-            }
-            else
-            {
-                return \Auth::user()->tasks()->where('stage_id', '=', $this->id)->where('project_id', '=', $project_id)->orderBy('order')->get();
-            }
+            return $this->tasks()->where('project_id', '=', $project_id)->orderBy('order')->get();
         }
-        else{
+        else
+        {
+            if(\Auth::user()->type == 'client')
+            {
+                return \Auth::user()->clientTasks()->where('stage_id', '=', $this->id)->orderBy('order')->get();
 
-            if(\Auth::user()->type == 'client' || \Auth::user()->type == 'company')
+            }else if(\Auth::user()->type == 'company')
             {
                 return $this->tasks()->orderBy('order')->get();
-            }
-            else
+
+            }else
             {
-                return \Auth::user()->tasks()->where('stage_id', '=', $this->id)->orderBy('order')->get();
+                return $this->tasks()->whereHas('project', function ($query) {
+                    // only include tasks with projects where...
+                    $query->whereHas('users', function ($query) {
+
+                        // ...the current user is assigned.
+                        $query->where('users.id', \Auth::user()->id);
+                    });
+                })->where('stage_id', '=', $this->id)->orderBy('order')->get();
             }
         }
     }
@@ -103,7 +107,7 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = Task::join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    $data[] = Task::join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
                 }
 
                 $dataset['label']           = $stage->name;

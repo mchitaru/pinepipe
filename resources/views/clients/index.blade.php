@@ -29,11 +29,11 @@
                 <div class="d-flex align-items-center justify-content-end">
                     <span class="badge badge-secondary mr-2">
                         <i class="material-icons" title="Projects">folder</i>
-                        {{$client->client_project()}}
+                        {{$client->clientProjects()->count()}}
                     </span>
                     <span class="badge badge-secondary mr-2">
                         <i class="material-icons" title="Leads">phone</i>
-                        {{$client->client_lead()}}
+                        {{$client->clientLeads()->count()}}
                     </span>
                 </div>
             </div>

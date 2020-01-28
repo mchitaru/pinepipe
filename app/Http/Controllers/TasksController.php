@@ -23,7 +23,7 @@ class TasksController extends ProjectsSectionController
     {
         if(\Auth::user()->can('show project'))
         {
-            $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
+            $stages  = \Auth::user()->getProjectStages();
             $project_id = null;
 
             return view('tasks.board', compact('stages', 'project_id'));
@@ -41,22 +41,15 @@ class TasksController extends ProjectsSectionController
      */
     public function create()
     {
-        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend(__('No Project'), null);
+        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend('No Project', null);
         $priority   = Project::$priority;
-        $usersArr   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
-        $users      = array();
+        $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-        foreach($usersArr as $user)
-        {
-            $users[$user->id] = ($user->name . ' - ' . $user->email);
-        }
-
-        $task = null;
-        $project = null;
+        $project_id = null;
         $milestones = null;
         $is_create = true;
 
-        return view('tasks.create', compact('task', 'project', 'projects', 'users', 'priority', 'milestones', 'is_create'));
+        return view('tasks.create', compact('project_id', 'projects', 'users', 'priority', 'milestones', 'is_create'));
     }
 
     /**

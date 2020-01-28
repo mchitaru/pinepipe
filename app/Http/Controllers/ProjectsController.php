@@ -149,7 +149,7 @@ class ProjectsController extends ProjectsSectionController
 
             $task_count = 0;
             foreach($stages as $stage){
-                $task_count = $task_count + count($stage->projectTasks($project_id));
+                $task_count = $task_count + count($stage->getTasksByUserType($project_id));
             }
 
             return view('projects.show', compact('project', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timeSheets', 'activities'));
@@ -187,16 +187,16 @@ class ProjectsController extends ProjectsSectionController
                 $project->name        = $request->name;
                 $project->price       = $request->price;
                 $project->due_date    = $request->date;
-                $project->client      = $request->client;
-                $project->lead        = $request->lead;
+                $project->client_id   = $request->client;
+                $project->lead_id     = $request->lead;
                 $project->description = $request->description;
                 $project->save();
 
-                ProjectClientPermission::where('client_id','=',$project->client)->where('project_id','=', $project->id)->delete();
+                ProjectClientPermission::where('client_id','=',$project->client_id)->where('project_id','=', $project->id)->delete();
                 $permissions = Project::$permission;
                 ProjectClientPermission::create(
                     [
-                        'client_id' => $project->client,
+                        'client_id' => $project->client_id,
                         'project_id' => $project->id,
                         'permissions' => implode(',', $permissions),
                     ]
@@ -416,7 +416,7 @@ class ProjectsController extends ProjectsSectionController
                     'projects.id',
                     'projects.name',
                 ]
-            )->where('projects.client', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
+            )->where('projects.client_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
             $arrProject = [];
             foreach($objProject as $project)
             {
@@ -431,7 +431,7 @@ class ProjectsController extends ProjectsSectionController
                     'tasks.project_id',
                     'tasks.title',
                 ]
-            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
+            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
             $arrTask = [];
             foreach($objTask as $task)
             {
