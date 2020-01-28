@@ -78,7 +78,7 @@
                         <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Client')}}">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
                     </div>
                 </div>
-                <div class="card-meta col float-right">
+                <div class="card-title col-xs-12 col-sm-3 text-right">
 
                     <ul class="avatars">
 
@@ -90,13 +90,9 @@
                         </li>
                         @endforeach
                     </ul>
+                </div>
+                <div class="card-meta float-right">
 
-                    <div class="d-flex align-items-center">
-                    <i class="material-icons">playlist_add_check</i>
-                    <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
-                        <span>{{$completed_subtask}}/{{$total_subtask}}</span>
-                    </p>
-                    </div>
                     @if(Gate::check('edit task') || Gate::check('delete task'))
                         <div class="dropdown card-options">
                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

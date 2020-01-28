@@ -29,7 +29,7 @@
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('user_id', __('Assigned To'), array('class'=>'col-3')) }}
-            {!! Form::select('user_id[]', $users, null, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
+            {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('milestone_id', __('Milestone'), array('class'=>'col-3')) }}
@@ -39,11 +39,11 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('start_date', __('Start Date'), array('class'=>'col-3')) }}
-            {{ Form::date('start_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-alt-input')) }}
+            {{ Form::date('start_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $start_date, 'data-alt-input')) }}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-            {{ Form::date('due_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-alt-input')) }}
+            {{ Form::date('due_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $due_date, 'data-alt-input')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>

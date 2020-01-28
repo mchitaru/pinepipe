@@ -102,12 +102,15 @@ class TasksController extends ProjectsSectionController
             $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         }
 
-        $user_id = $task->users()->get()->pluck('name', 'id');
+        $user_id = $task->users()->get()->pluck('id');
 
         $priority   = Project::$priority;
         $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
 
-        return view('tasks.edit', compact('task', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones'));
+        $start_date = $task->start_date;
+        $due_date = $task->due_date;
+
+        return view('tasks.edit', compact('task', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'start_date', 'due_date'));
     }
 
     /**
