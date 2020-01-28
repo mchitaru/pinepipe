@@ -78,4 +78,31 @@ class Task extends Model
         return $label;
     }
 
+    public static function createTask($post)
+    {
+        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        $post['project_id'] = !empty($post['project_id']) ? $post['project_id'] : null;
+
+        $task               = Task::make($post);
+        $task->created_by  = \Auth::user()->creatorId();
+        $task->save();
+
+        $users = null;
+        if(isset($post['user_id'])){
+
+            $users = $post['user_id'];
+        }
+
+        if(\Auth::user()->type != 'company')
+        {        
+            $users->prepend(\Auth::user()->id);
+        }
+
+        $task->users()->sync($users);
+
+        ActivityLog::createTask($task);
+
+        return $task;
+    }
+
 }

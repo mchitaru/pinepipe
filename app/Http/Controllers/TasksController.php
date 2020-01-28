@@ -41,7 +41,7 @@ class TasksController extends ProjectsSectionController
      */
     public function create()
     {
-        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->prepend('No Project', null);
+        $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $priority   = Project::$priority;
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
@@ -62,25 +62,7 @@ class TasksController extends ProjectsSectionController
     {
         $post = $request->validated();
 
-        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-        $task               = Task::make($post);
-        $task->created_by  = \Auth::user()->creatorId();
-        $task->save();
-
-        $users = null;
-        if(isset($post['user_id'])){
-
-            $users = $post['user_id'];
-        }
-
-        if(\Auth::user()->type != 'company'){        
-
-            $users->prepend(\Auth::user()->id);
-        }
-
-        $task->users()->sync($users);
-
-        ActivityLog::createTask($task);
+        Task::createTask($post);
 
         $request->session()->flash('success', __('Task successfully created.'));
 

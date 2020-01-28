@@ -35,29 +35,29 @@ class TaskStoreRequest extends FormRequest
 
             if(\Auth::user()->type == 'company') {
                 return [
-                    'title' => 'required',
-                    'priority' => 'required',
-                    'user_id' => 'nullable',
-                    'due_date' => 'required',
-                    'start_date' => 'required',
-                    'description' => 'nullable',
-                    'project_id' => 'nullable'
+                    'title' => 'required|string|min:2',
+                    'priority' => 'required|string',
+                    'user_id' => 'nullable|integer',
+                    'due_date' => 'required|date',
+                    'start_date' => 'required|date',
+                    'description' => 'nullable|string',
+                    'project_id' => 'nullable|integer'
                 ];
             }else{
                 return [
-                    'title' => 'required',
-                    'priority' => 'required',
-                    'due_date' => 'required',
-                    'start_date' => 'required',
-                    'description' => 'nullable',
-                    'project_id' => 'nullable'
+                    'title' => 'required|string|min:2',
+                    'priority' => 'required|string',
+                    'due_date' => 'required|date',
+                    'start_date' => 'required|date',
+                    'description' => 'nullable|string',
+                    'project_id' => 'nullable|integer'
                 ];
             }
         }else{
 
             return [
                 'status' => 'string',
-                'stage_id' => 'numeric'
+                'stage_id' => 'integer'
             ];
         }
     }

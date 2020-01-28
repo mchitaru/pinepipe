@@ -170,6 +170,8 @@ class Project extends Model
         $task->users()->sync($users);
 
         ActivityLog::createTask($task);
+
+        return $task;
     }
 
     static function humanFileSize($bytes, $decimals = 2) {
