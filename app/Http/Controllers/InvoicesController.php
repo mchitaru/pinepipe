@@ -104,17 +104,9 @@ class InvoicesController extends FinanceSectionController
             if($invoice->created_by == \Auth::user()->creatorId())
             {
                 $settings = \Auth::user()->settings();
-                $client   = $invoice->project->client_id;
-                if($client != 0)
-                {
-                    $user = User::where('id', $client)->first();
-                }
-                else
-                {
-                    $user = '';
-                }
+                $client   = $invoice->project->client;
 
-                return view('invoices.view', compact('invoice', 'settings', 'user'));
+                return view('invoices.view', compact('invoice', 'settings', 'client'));
             }
             else
             {

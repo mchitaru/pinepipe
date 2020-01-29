@@ -74,7 +74,19 @@
                 <div class="card">
                     <div class="card-header row align-items-center">
                         <div class="col-11">
-                            <h6>{{ Auth::user()->invoiceNumberFormat($invoice->id) }}</h6>
+                            <h6>{{ Auth::user()->invoiceNumberFormat($invoice->id) }}
+                                @if($invoice->status == 0)
+                                    <span class="badge badge-primary">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                @elseif($invoice->status == 1)
+                                    <span class="badge badge-danger">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                @elseif($invoice->status == 2)
+                                    <span class="badge badge-warning">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                @elseif($invoice->status == 3)
+                                    <span class="badge badge-success">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                @elseif($invoice->status == 4)
+                                    <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                @endif
+                            </h6>
                         </div>
 
                         <div class="col-1 dropdown card-options">
@@ -83,6 +95,10 @@
                             </button>
 
                             <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">
+                                    <span>{{__('Export PDF')}}</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
                                 @can('create invoice product')
                                 <a class="dropdown-item" href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Add Item')}}</span>
@@ -112,55 +128,48 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-12 text-md-center">
                                             <address>
-                                                <strong>{{__('Billed To')}} : </strong><br>
+                                                <span class="row align-items-center justify-content-center">
+                                                    <img width="60" height="60" alt="{{$settings['company_name']}}" {!! empty($settings['company_logo']) ? "avatar='".$settings['company_name']."'" : "" !!} class="rounded" src="{{asset(Storage::url("avatar/".$settings['company_logo']))}}" data-filter-by="alt"/>
+                                                </span>
+                                                <span class="row align-items-center justify-content-center">
+                                                    <h5>{{$client->name}} invoice</h5>
+                                                </span>
+                                                <span class="row align-items-center justify-content-center">
+                                                    <i class="material-icons" title="{{__('Project')}}">folder</i>
+                                                    {{$invoice->project->name }}
+                                                </span>
+                                            </address>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-6">
+                                            <address>
+                                                <strong>{{__('From')}} : </strong><br>
                                                 {{$settings['company_name']}}<br>
                                                 {{$settings['company_address']}}<br>
                                                 {{$settings['company_city']}}, {{$settings['company_state']}}-{{$settings['company_zipcode']}}<br>
                                                 {{$settings['company_country']}}
                                             </address>
                                         </div>
-                                        <div class="col-md-6 text-md-right">
+                                        <div class="col-xs-12 col-md-6 text-md-right">
                                             <address>
-                                                <strong>{{__('Shipped To')}}:</strong><br>
-                                                {{(!empty($user))?$user->name:''}}<br>
-                                                {{(!empty($user))?$user->email:''}}<br>
+                                                <strong>{{__('To')}}:</strong><br>
+                                                {{(!empty($client))?$client->name:''}}<br>
+                                                {{(!empty($client))?$client->email:''}}<br>
                                             </address>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <address>
-                                                <strong>{{__('Status')}}:</strong><br>
-                                                <div class="font-weight-bold font-style">
-                                                    @if($invoice->status == 0)
-                                                        <span class="badge badge-primary">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                                    @elseif($invoice->status == 1)
-                                                        <span class="badge badge-danger">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                                    @elseif($invoice->status == 2)
-                                                        <span class="badge badge-warning">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                                    @elseif($invoice->status == 3)
-                                                        <span class="badge badge-success">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                                    @elseif($invoice->status == 4)
-                                                        <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                                    @endif
-                                                </div>
-                                            </address>
-                                        </div>
-                                        <div class="col-md-3 text-md-center">
-
-                                            <strong>{{__('Project')}}:</strong><br>
-                                            {{ $invoice->project->name }}<br><br>
-
-                                        </div>
-                                        <div class="col-md-3 text-md-center">
+                                        <div class="col-xs-12 col-md-6 text-md-left">
 
                                             <strong>{{__('Issue Date')}}:</strong><br>
                                             {{ AUth::user()->dateFormat($invoice->issue_date) }}<br>
 
                                         </div>
-                                        <div class="col-md-3 text-md-right">
+                                        <div class="col-xs-12 col-md-6 text-md-right">
 
                                             <strong>{{__('Due Date')}}:</strong><br>
                                             {{ AUth::user()->dateFormat($invoice->due_date) }}<br><br>
@@ -169,15 +178,15 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <hr>
                             <div class="row ">
                                 <div class="col-md-12">
-                                    <div class="section-title">{{__('Order Summary')}}
+                                    <div class="section-title"><b>{{__('Order Summary')}}</b>
                                         <div class="col-md-12 text-right">
                                             @can('create invoice product')
-                                                <a class="btn btn-sm btn-primary" href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
+                                                <a href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
                                                     <span><i class="fas fa-plus"></i></span>
-                                                    {{__('Add')}}
+                                                    <u>{{__('Add Item')}}</u>
                                                 </a>
                                             @endcan
                                         </div>
@@ -250,8 +259,8 @@
                                     <div class="invoice-detail-value"> {{Auth::user()->priceFormat($tax)}}</div>
                                 </div>
                                 <div class="col-md-3 text-md-center">
-                                    <div class="invoice-detail-name"><b>{{__('Total')}}</b></div>
-                                    <div class="invoice-detail-value">{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</div>
+                                    <div class="invoice-detail-name" style="color: #000000"><b>{{__('Total')}}</b></div>
+                                    <div class="invoice-detail-value" style="color: #000000">{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</div>
                                 </div>
                                 <div class="col-md-2 text-md-right">
                                     <div class="invoice-detail-name"><b>{{__('Due Amount')}}</b></div>
@@ -261,8 +270,15 @@
                             <hr>
                             <div class="row ">
                                 <div class="col-md-12">
-                                    <div class="section-title">
-                                        {{__('Payment History')}}
+                                    <div class="section-title">{{__('Payment History')}}
+                                        <div class="col-md-12 text-right">
+                                            @can('create invoice payment')
+                                                <a href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
+                                                    <span><i class="fas fa-plus"></i></span>
+                                                    <u>{{__('Add Payment')}}</u>
+                                                </a>
+                                            @endcan
+                                        </div>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-striped table-hover table-md">

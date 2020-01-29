@@ -71,6 +71,7 @@ class User extends Authenticatable
                 "site_date_format" => "M j, Y",
                 "site_time_format" => "g:i A",
                 "company_name" => "",
+                "company_logo" => "",
                 "company_address" => "",
                 "company_city" => "",
                 "company_state" => "",
@@ -264,14 +265,7 @@ class User extends Authenticatable
 
     public function user_projects_count()
     {
-        if(\Auth::user()->type != 'client')
-        {
-            return $this->projects()->count();
-        }
-        else
-        {
-            return $this->clientProjects()->count();
-        }
+        return $this->projectsByUserType()->count();
     }
     
 
