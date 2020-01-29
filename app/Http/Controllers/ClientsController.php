@@ -63,10 +63,10 @@ class ClientsController extends ClientsSectionController
 
 
 
-    public function edit($id)
+    public function edit(User $client)
     {
-        if(\Auth::user()->can('edit client')) {
-            $client = User::findOrFail($id);
+        if(\Auth::user()->can('edit client')) 
+        {
             return view('clients.edit', compact('client'));
         }else{
             return redirect()->back();
@@ -75,13 +75,13 @@ class ClientsController extends ClientsSectionController
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $client)
     {
-        if(\Auth::user()->can('edit client')) {
-            $client = User::findOrFail($id);
+        if(\Auth::user()->can('edit client')) 
+        {
             $this->validate($request, [
                 'name'=>'required|max:120',
-                'email'=>'required|email|unique:users,email,'.$id,
+                'email'=>'required|email|unique:users,email,'.$client->id,
             ]);
 
             $input = $request->all();
@@ -95,35 +95,34 @@ class ClientsController extends ClientsSectionController
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $request, User $client)
     {
-        if(\Auth::user()->can('delete client')) {
-            $user = User::find($id);
-            if($user) {
-                $user->delete();
-                $user->destroyUserNotesInfo($user->id);
-                $user->removeClientProjectInfo($user->id);
-                $user->removeClientLeadInfo($user->id);
-                $user->destroyUserTaskAllInfo($user->id);
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
 
-                return redirect()->route('clients.index')->with('success',  __('Client Deleted Successfully.'));
-            }else{
-                return redirect()->back()->with('error',__('Something is wrong.'));
-            }
+        if(\Auth::user()->can('delete client')) 
+        {
+            $client->delete();
+            $client->destroyUserNotesInfo($client->id);
+            $client->removeClientProjectInfo($client->id);
+            $client->removeClientLeadInfo($client->id);
+            $client->destroyUserTaskAllInfo($client->id);
+
+            return redirect()->route('clients.index')->with('success',  __('Client Deleted Successfully.'));
         }else{
             return redirect()->back();
         }
     }
 
-    public function show($id)
+    public function show(User $client)
     {
-        $user=\Auth::user();
-
         if(\Auth::user()->can('manage client'))
         {
 
-            $client = User::find($id);
-            $contacts = Contact::where('created_by','=',$user->creatorId())->where('company','=',$client->name)->get();
+            $client = User::find($client->id);
+            $contacts = Contact::where('created_by','=',$client->creatorId())->where('company','=',$client->name)->get();
             $projects = Project::where('client_id', '=', $client->id)->get();
 
             $project_status = Project::$project_status;

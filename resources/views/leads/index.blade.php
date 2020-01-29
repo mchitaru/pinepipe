@@ -66,17 +66,15 @@
                             @if(Gate::check('edit lead') || Gate::check('delete lead'))
                             <div class="dropdown-menu dropdown-menu-right">
                                 @can('edit lead')
-                                <a class="dropdown-item" href="#" data-url="{{ route('leads.edit',$lead->id) }}" data-ajax-popup="true" data-title="{{__('Edit Lead')}}">
+                                <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 @endcan
                                 <div class="dropdown-divider"></div>
                                 @can('delete lead')
-                                    <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$lead->id}}').submit();">
+                                    <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
                                         <span>{{'Delete'}}</span>
                                     </a>
-                                    {!! Form::open(['method' => 'DELETE', 'route' => ['leads.destroy', $lead->id],'id'=>'delete-form-'.$lead->id]) !!}
-                                    {!! Form::close() !!}
                                 @endcan
                             </div>
                             @endif

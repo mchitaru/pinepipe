@@ -123,7 +123,7 @@ use App\Project;
                         </div>
                         </div>
                         <div class="card-title">
-                            <a href="{{route('tasks.show',$task->id)}}#task" class="text-body" data-remote="true" data-type="text">
+                            <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text">
                                 <h6 data-filter-by="text" class="text-truncate" style="max-width: 150px;">{{$task->title}}</h6>
                             </a>        
                         </div>

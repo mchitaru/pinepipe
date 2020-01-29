@@ -113,7 +113,7 @@ $label = $task->getProgressColor($percentage);
             <div class="content-list-body">
                 <form class="checklist" id="checklist">
 
-                @foreach($task->taskCheckList as $checkList)
+                @foreach($task->checklist as $checkList)
 
                 @can('create checklist')
                 @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('edit checklist',$perArr)))
@@ -466,11 +466,7 @@ function dropzoneBtn(file, response) {
     });
 }
 
-@php
-    $files = $task->taskFiles;
-@endphp
-
-@foreach($files as $file)
+@foreach($task->files as $file)
 var mockFile = {name: "{{$file->name}}", size: {{filesize(storage_path('app/public/tasks/'.$file->file))}} };
 myDropzone.emit("addedfile", mockFile);
 myDropzone.emit("processing", mockFile);

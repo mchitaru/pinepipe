@@ -31,11 +31,18 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">Edit Team</a>
-            <a class="dropdown-item" href="#">Share</a>
+            @can('create project')
+                <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('New Project')}}</a>
+            @endcan
+            @can('create task')
+                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text">{{__('New Task')}}</a>
+            @endcan
+            
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="#">Leave</a>
-
+            
+            @can('manage task')
+                <a class="dropdown-item" href="{{route('tasks.board')}}">{{__('Task Board')}}</a>
+            @endcan
         </div>
     </div>
 </div>

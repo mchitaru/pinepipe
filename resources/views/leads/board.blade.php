@@ -75,8 +75,6 @@ use Carbon\Carbon;
 
                     @foreach($leads as $lead)
 
-                    @php($client = $lead->client)
-
                     <div class="card card-kanban">
 
                     <div class="card-body">
@@ -94,7 +92,7 @@ use Carbon\Carbon;
                                 <h6>{{$lead->name}}</h6>
                             </a>
                             <p>
-                                <span class="text-small">{{ $client->name }}</span>
+                                <span class="text-small">{{ $lead->client->name }}</span>
                             </p>
                         </div>
 
@@ -104,7 +102,7 @@ use Carbon\Carbon;
                             </span>
                             <div class="float-right">
                                 <a href="#" data-toggle="tooltip" title="Ravi">
-                                    <img alt="{{$client->name}}" {!! empty($client->avatar) ? "avatar='".$client->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$client->avatar))}}" data-filter-by="alt"/>
+                                    <img alt="{{$lead->client->name}}" {!! empty($lead->client->avatar) ? "avatar='".$lead->client->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$lead->client->avatar))}}" data-filter-by="alt"/>
                                 </a>
                             </div>
                          </div>

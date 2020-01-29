@@ -1,49 +1,53 @@
-{{ Form::model($lead, array('route' => array('leads.update', $lead->id), 'method' => 'PUT')) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="row ">
-        <div class="form-group col-md-6">
-            {{ Form::label('name', __('Name')) }}
-            {{ Form::text('name', null, array('class' => 'form-control font-style','required'=>'required')) }}
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('price', __('Price')) }}
-            {{ Form::number('price', null, array('class' => 'form-control','required'=>'required')) }}
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('stage', __('Stage')) }}
-            {{ Form::select('stage', $stages,null, array('class' => 'form-control font-style selectric','required'=>'required')) }}
-        </div>
-        @if(\Auth::user()->type=='company')
-        <div class="form-group  col-md-6">
-            {{ Form::label('user_id', __('Lead User')) }}
-            {!! Form::select('user_id', $owners, null,array('class' => 'form-control font-style selectric','required'=>'required')) !!}
-        </div>
-        @endif
+@extends('layouts.modal')
 
-        <div class="form-group col-md-6">
-            {{ Form::label('client', __('Client')) }}
-            {!! Form::select('client', $clients, null,array('class' => 'form-control font-style selectric','required'=>'required')) !!}
-        </div>
-        <div class="form-group col-md-6">
-            {{ Form::label('source', __('Source')) }}
-            {!! Form::select('source', $sources, null,array('class' => 'form-control font-style selectric','required'=>'required')) !!}
-        </div>
+@section('form-start')
+    {{ Form::model($lead, array('route' => array('leads.update', $lead->id), 'method' => 'PUT')) }}
+@endsection
 
-        <div class="form-group col-md-12">
-            {{ Form::label('notes', __('Notes')) }}
-            {!! Form::textarea('notes', null,array('class' => 'form-control font-style','rows'=>'3')) !!}
+@section('title')
+    {{__('Edit Lead')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
+    <div class="form-group row align-items-center required">
+        {{ Form::label('name', __('Name'), array('class'=>'col-3')) }}
+        {{ Form::text('name', null, array('class' => 'form-control col','required'=>'required')) }}
+    </div>
+    <div class="form-group row required">
+        {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
+        {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
+        {{ Form::select('stage_id', $stages,null, array('class' => 'form-control col font-style selectric','required'=>'required')) }}
+    </div>
+    @if(\Auth::user()->type=='company')
+        <div class="form-group row">
+            {{ Form::label('user_id', __('Lead User'), array('class'=>'col-3')) }}
+            {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
         </div>
+    @endif
+    <div class="form-group row">
+        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('source_id', __('Source'), array('class'=>'col-3')) }}
+        {!! Form::select('source_id', $sources, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
+        {!! Form::textarea('notes', '',array('class' => 'form-control col','rows'=>'3')) !!}
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Update'),array('class'=>'btn btn-primary'))}}
-</div>
+@include('partials.errors')
+@endsection
 
+@section('footer')
+    {{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+@endsection
+
+@section('form-end')
 {{ Form::close() }}
+@endsection

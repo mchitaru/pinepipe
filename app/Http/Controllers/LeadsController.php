@@ -53,10 +53,10 @@ class LeadsController extends ClientsSectionController
                     $request->all(), [
                                        'name' => 'required|max:20',
                                        'price' => 'required',
-                                       'stage' => 'required',
+                                       'stage_id' => 'required',
                                        'user_id' => 'required',
-                                       'client' => 'required',
-                                       'source' => 'required',
+                                       'client_id' => 'required',
+                                       'source_id' => 'required',
                                    ]
                 );
             }
@@ -66,9 +66,9 @@ class LeadsController extends ClientsSectionController
                     $request->all(), [
                                        'name' => 'required|max:20',
                                        'price' => 'required',
-                                       'stage' => 'required',
-                                       'source' => 'required',
-                                       'client' => 'required',
+                                       'stage_id' => 'required',
+                                       'source_id' => 'required',
+                                       'client_id' => 'required',
                                    ]
                 );
             }
@@ -83,7 +83,7 @@ class LeadsController extends ClientsSectionController
             $leads        = new Lead();
             $leads->name  = $request->name;
             $leads->price = $request->price;
-            $leads->stage_id = $request->stage;
+            $leads->stage_id = $request->stage_id;
             if(\Auth::user()->type == 'company')
             {
                 $leads->user_id = $request->user_id;
@@ -92,9 +92,9 @@ class LeadsController extends ClientsSectionController
             {
                 $leads->user_id = \Auth::user()->id;
             }
-            $leads->source     = $request->source;
+            $leads->source_id     = $request->source_id;
             $leads->notes      = $request->notes;
-            $leads->client_id     = $request->client;
+            $leads->client_id     = $request->client_id;
             $leads->created_by = \Auth::user()->creatorId();
             $leads->save();
 
@@ -106,12 +106,10 @@ class LeadsController extends ClientsSectionController
         }
     }
 
-    public function edit($id)
+    public function edit(Lead $lead)
     {
         if(\Auth::user()->can('edit lead'))
         {
-            $lead = Lead::findOrfail($id);
-
             if($lead->created_by == \Auth::user()->creatorId())
             {
                 $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -132,12 +130,11 @@ class LeadsController extends ClientsSectionController
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Lead $lead)
     {
         if(\Auth::user()->can('edit lead'))
         {
-            $leads = Lead::findOrfail($id);
-            if($leads->created_by == \Auth::user()->creatorId())
+            if($lead->created_by == \Auth::user()->creatorId())
             {
                 if(\Auth::user()->type == 'company')
                 {
@@ -145,10 +142,10 @@ class LeadsController extends ClientsSectionController
                         $request->all(), [
                                            'name' => 'required|max:20',
                                            'price' => 'required',
-                                           'stage' => 'required',
+                                           'stage_id' => 'required',
                                            'user_id' => 'required',
-                                           'source' => 'required',
-                                           'client' => 'required',
+                                           'source_id' => 'required',
+                                           'client_id' => 'required',
                                        ]
                     );
                 }
@@ -158,15 +155,15 @@ class LeadsController extends ClientsSectionController
 
                     return redirect()->route('leads.index')->with('error', $messages->first());
                 }
-                $leads->name       = $request->name;
-                $leads->price      = $request->price;
-                $leads->stage_id      = $request->stage;
-                $leads->user_id      = $request->user_id;
-                $leads->source     = $request->source;
-                $leads->client_id    = $request->client;
-                $leads->notes      = $request->notes;
-                $leads->created_by = \Auth::user()->creatorId();
-                $leads->save();
+                $lead->name       = $request->name;
+                $lead->price      = $request->price;
+                $lead->stage_id   = $request->stage_id;
+                $lead->user_id    = $request->user_id;
+                $lead->source_id  = $request->source_id;
+                $lead->client_id  = $request->client_id;
+                $lead->notes      = $request->notes;
+                $lead->created_by = \Auth::user()->creatorId();
+                $lead->save();
 
                 return redirect()->route('leads.index')->with('success', __('Lead successfully updated.'));
             }
@@ -181,15 +178,19 @@ class LeadsController extends ClientsSectionController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, Lead $lead)
     {
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
+
         if(\Auth::user()->can('delete lead'))
         {
-            $leads = Lead::findOrfail($id);
-            if($leads->created_by == \Auth::user()->creatorId())
+            if($lead->created_by == \Auth::user()->creatorId())
             {
-                $leads->delete();
-                $leads->removeProjectLead($id);
+                $lead->removeProjectLead();
+                $lead->delete();
 
                 return redirect()->route('leads.index')->with('success', __('Lead successfully deleted.'));
             }
@@ -226,10 +227,8 @@ class LeadsController extends ClientsSectionController
         }
     }
 
-    public function show($id)
+    public function show(Lead $lead)
     {
-        $lead = Lead::findOrfail($id);
-
         return view('leads.show', compact('lead'));
     }
 }

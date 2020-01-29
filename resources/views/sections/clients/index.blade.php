@@ -46,12 +46,12 @@ $(document).ready(function() {
         <div class="dropdown-menu dropdown-menu-right">
 
             @can('create client')
-                <a class="dropdown-item" href="#" data-url="{{ route('clients.create') }}" data-ajax-popup="true" data-title="{{__('Create New Client')}}">{{__('New Client')}}</a>
-                <a class="dropdown-item" href="#" data-url="{{ route('contacts.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}">{{__('New Contact')}}</a>
+                <a class="dropdown-item" href="{{ route('clients.create') }}" data-remote="true" data-type="text">{{__('New Client')}}</a>
+                <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('New Contact')}}</a>
             @endcan
             
             @can('create lead')
-                <a class="dropdown-item" href="#" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Lead')}}">{{__('New Lead')}}</a>
+                <a class="dropdown-item" href="{{ route('leads.create') }}" data-remote="true" data-type="text">{{__('New Lead')}}</a>
             @endcan
             
             <div class="dropdown-divider"></div>
@@ -96,9 +96,9 @@ $(document).ready(function() {
                 <div class="col-auto">
                     <h3>{{__('Clients')}}</h3>
                     @can('create client')
-                    <button class="btn btn-round" data-url="{{ route('clients.create') }}" data-ajax-popup="true" data-title="{{__('Create New Client')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                    <a href="{{ route('clients.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                         <i class="material-icons">add</i>
-                    </button>
+                    </a>
                     @endcan
                 </div>
                 <form class="col-md-auto">
@@ -152,9 +152,9 @@ $(document).ready(function() {
                     <div class="col-auto">
                         <h3>{{__('Leads')}}</h3>
                         @can('create lead')
-                        <button class="btn btn-round" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Lead')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                        <a href="{{ route('leads.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
-                        </button>
+                        </a>
                         @endcan
                     </div>
                     <form class="col-md-auto">

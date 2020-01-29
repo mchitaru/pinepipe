@@ -12,7 +12,7 @@
                     <h6 data-filter-by="text">{{$client->name}}</h6>
                 </a>
                 @if(array_key_exists($client->name, $contacts_count))
-                    <span class="text-small">{{$contacts_count[$client->name]}} contact(s)</span>
+                    <span class="text-small">{{$contacts_count[$client->name]}} {{__('contact(s)')}}</span>
                 @endif
             </div>
             <div class="card-title col-xs-12 col-sm-5">
@@ -45,17 +45,15 @@
 
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('edit client')
-                    <a class="dropdown-item" href="#" data-url="{{ route('clients.edit',$client->id) }}" data-ajax-popup="true" data-title="{{__('Update Client')}}">
+                    <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
                     @can('delete client')
-                        <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$client['id']}}').submit();">
+                        <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{'Delete'}}</span>
                         </a>
-                        {!! Form::open(['method' => 'DELETE', 'route' => ['clients.destroy', $client['id']],'id'=>'delete-form-'.$client['id']]) !!}
-                        {!! Form::close() !!}
                     @endcan
                 </div>
                 @else

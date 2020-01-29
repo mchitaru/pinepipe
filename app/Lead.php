@@ -31,8 +31,9 @@ class Lead extends Model
         return $this->hasOne('App\LeadStage', 'id', 'stage_id');
     }
 
-    public function removeProjectLead($lead_id){
-        return Project::where('lead','=',$lead_id)->update(array('lead' => 0));
+    public function removeProjectLead()
+    {
+        return Project::where('lead_id','=',$this->id)->update(array('lead_id' => 0));
     }
 
     public function sources()
