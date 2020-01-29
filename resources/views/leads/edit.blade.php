@@ -38,7 +38,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
-        {!! Form::textarea('notes', '',array('class' => 'form-control col','rows'=>'3')) !!}
+        {!! Form::textarea('notes', null, array('class' => 'form-control col','rows'=>'5')) !!}
     </div>
 </div>
 @include('partials.errors')

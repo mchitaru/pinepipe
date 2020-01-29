@@ -32,7 +32,7 @@
                     <div class="pl-2 position-absolute">
                     </div>
                     <div class="card-body p-2">
-                        <div class="card-title col-xs-12 col-sm-4">
+                        <div class="card-title col-xs-12 col-sm-3">
                             <a href="#">
                             <h6 data-filter-by="text">{{$lead->name}}</h6>
                             </a>
@@ -46,19 +46,21 @@
                                 {{ \Auth::user()->priceFormat($lead->price) }}
                             </span>
                         </div>
-                        <div class="card-title col-xs-12 col-sm-2">
+                        <div class="card-title col-xs-12 col-sm-3">
                             <div class="container row align-items-center">
                                 <span data-filter-by="text" class="badge badge-secondary mr-2">
                                     {{$lead->user->name}}
                                 </span>
                             </div>
                         </div>
-                        <div class="card-meta col">
+                        <div class="card-meta col-1">
                             <div class="d-flex align-items-center justify-content-end">
-                                <span data-filter-by="text" title="{{ $lead->notes }}" class="text-small text-truncate" style="max-width: 150px;">{{ $lead->notes }}</span>
+                                <span data-filter-by="text" title="{{ $lead->notes }}" class="badge badge-secondary mr-2">
+                                    <i class="material-icons">note</i>
+                                </span>
                             </div>
                         </div>
-                        <div class="dropdown card-options">
+                        <div class="dropdown card-options float-right">
                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
                             </button>

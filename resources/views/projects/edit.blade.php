@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('size')
-modal-lg
+modal-md
 @endsection
 
 @section('form-start')
