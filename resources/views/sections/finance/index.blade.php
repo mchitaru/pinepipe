@@ -90,9 +90,9 @@
                     <div class="col-auto">
                         <h3>{{__('Invoices')}}</h3>
                         @can('create invoice')
-                        <button class="btn btn-round" data-url="{{ route('invoices.create') }}" data-ajax-popup="true" data-title="{{__('Create New Invoice')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                        <a href="{{ route('invoices.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
-                        </button>
+                        </a>
                         @endcan
                     </div>
                     <form class="col-md-auto">
@@ -118,9 +118,9 @@
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>
                         @can('create invoice')
-                        <button class="btn btn-round" data-url="{{ route('expenses.create') }}" data-ajax-popup="true" data-title="{{__('Add New Expense')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                        <a href="{{ route('expenses.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
-                        </button>
+                        </a>
                         @endcan
                     </div>
                     <form class="col-md-auto">

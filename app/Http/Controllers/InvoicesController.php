@@ -14,6 +14,7 @@ use App\Products;
 use App\Task;
 use App\Tax;
 use App\User;
+use App\Product;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class InvoicesController extends FinanceSectionController
         if(\Auth::user()->can('create invoice'))
         {
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $projects = \Auth::user()->projects->pluck('name', 'id');
+            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
             return view('invoices.create', compact('projects', 'taxes'));
         }
@@ -133,7 +134,7 @@ class InvoicesController extends FinanceSectionController
             if($invoice->created_by == \Auth::user()->creatorId())
             {
                 $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $projects = \Auth::user()->projects->pluck('name', 'id');
+                $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
                 return view('invoices.edit', compact('invoice', 'projects', 'taxes'));
             }
@@ -193,8 +194,13 @@ class InvoicesController extends FinanceSectionController
         }
     }
 
-    public function destroy(Invoice $invoice)
+    public function destroy(Request $request, Invoice $invoice)
     {
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
+
         if(\Auth::user()->can('delete invoice'))
         {
             if($invoice->created_by == \Auth::user()->creatorId())
@@ -216,14 +222,13 @@ class InvoicesController extends FinanceSectionController
         }
     }
 
-    public function productAdd($id)
+    public function productAdd(Invoice $invoice)
     {
         if(\Auth::user()->can('create invoice product'))
         {
-            $invoice = Invoice::find($id);
             if($invoice->created_by == \Auth::user()->creatorId())
             {
-                $products   = Products::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $products   = Product::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $milestones = Milestone::where('project_id', $invoice->project_id)->get();
                 $tasks      = Task::where('project_id', $invoice->project_id)->get();
 
@@ -240,12 +245,10 @@ class InvoicesController extends FinanceSectionController
         }
     }
 
-    public function productStore($id, Request $request)
+    public function productStore(Request $request, Invoice $invoice)
     {
         if(\Auth::user()->can('create invoice product'))
         {
-            $invoice = Invoice::find($id);
-
             if($invoice->getTotal() == 0.0)
             {
                 Invoice::change_status($invoice->id, 1);
@@ -321,15 +324,13 @@ class InvoicesController extends FinanceSectionController
         }
     }
 
-    public function productEdit($id, $product_id)
+    public function productEdit(Invoice $invoice, InvoiceProduct $product)
     {
         if(\Auth::user()->can('edit invoice product'))
         {
-            $invoice = Invoice::find($id);
             if($invoice->created_by == \Auth::user()->creatorId())
             {
-                $product  = InvoiceProduct::find($product_id);
-                $products = Products::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $products = Product::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
                 return view('invoices.product', compact('invoice', 'products', 'product'));
             }
@@ -344,11 +345,10 @@ class InvoicesController extends FinanceSectionController
         }
     }
 
-    public function productUpdate($id, $product_id, Request $request)
+    public function productUpdate(Invoice $invoice, InvoiceProduct $product, Request $request)
     {
         if(\Auth::user()->can('edit invoice product'))
         {
-            $invoice = Invoice::find($id);
             if($invoice->created_by == \Auth::user()->creatorId())
             {
 
@@ -364,8 +364,7 @@ class InvoicesController extends FinanceSectionController
 
                     return redirect()->route('invoices.show', $invoice->id)->with('error', $messages->first());
                 }
-                $product                     = Products::find($request->product_id);
-                $invoiceProduct              = InvoiceProduct::find($product_id);
+                $invoiceProduct              = InvoiceProduct::find($product->id);
                 $invoiceProduct->product_id  = $product->id;
                 $invoiceProduct->price       = $product->price;
                 $invoiceProduct->quantity    = $request->quantity;
@@ -385,15 +384,18 @@ class InvoicesController extends FinanceSectionController
         }
     }
 
-    public function productDelete($id, $product_id)
+    public function productDelete(Request $request, Invoice $invoice, InvoiceProduct $product)
     {
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
+
         if(\Auth::user()->can('delete invoice product'))
         {
-            $invoice = Invoice::find($id);
             if($invoice->created_by == \Auth::user()->creatorId())
             {
-                $invoiceProduct = InvoiceProduct::find($product_id);
-                $invoiceProduct->delete();
+                $product->delete();
                 if($invoice->getDue() <= 0.0)
                 {
                     Invoice::change_status($invoice->id, 3);

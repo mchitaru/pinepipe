@@ -10,7 +10,7 @@
         <div class="card-body p-2">
             <div class="card-title col-sm-3">
                 @can('show invoice')
-                <a href="{{ route('invoices.show',$invoice->id) }}">
+                <a href="{{ route('invoices.show', $invoice->id) }}">
                 @endcan
                     <h6 data-filter-by="text">{{ Auth::user()->dateFormat($invoice->issue_date) }}
                         @if($invoice->status == 0)
@@ -65,17 +65,15 @@
 
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('edit invoice')
-                    <a class="dropdown-item" href="#" data-url="{{ route('invoices.edit',$invoice->id) }}" data-ajax-popup="true" data-title="{{__('Edit Invoice')}}">
+                    <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
                     @can('delete invoice')
-                        <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$invoice->id}}').submit();">
+                        <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{'Delete'}}</span>
                         </a>
-                        {!! Form::open(['method' => 'DELETE', 'route' => ['invoices.destroy', $invoice->id],'id'=>'delete-form-'.$invoice->id]) !!}
-                        {!! Form::close() !!}
                     @endcan
                 </div>
             </div>

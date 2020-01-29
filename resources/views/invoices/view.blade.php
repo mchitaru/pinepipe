@@ -84,27 +84,25 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 @can('create invoice product')
-                                <a class="dropdown-item" href="#" data-url="{{ route('invoices.products.add',$invoice->id) }}" data-ajax-popup="true" data-title="{{__('Add Item')}}">
+                                <a class="dropdown-item" href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Add Item')}}</span>
                                 </a>
                                 @endcan
                                 @can('create invoice payment')
-                                <a class="dropdown-item" href="#" data-url="{{ route('invoices.payments.create',$invoice->id) }}" data-ajax-popup="true" data-title="{{__('Add Payment')}}">
+                                <a class="dropdown-item" href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Add Payment')}}</span>
                                 </a>
                                 @endcan
                                 @can('edit invoice')
-                                <a class="dropdown-item" href="#" data-url="{{ route('invoices.edit',$invoice->id) }}" data-ajax-popup="true" data-title="{{__('Edit')}}">
+                                <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 @endcan
                                 <div class="dropdown-divider"></div>
                                 @can('delete invoice')
-                                    <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$invoice->id}}').submit();">
+                                    <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
                                         <span>{{'Delete'}}</span>
                                     </a>
-                                    {!! Form::open(['method' => 'DELETE', 'route' => ['invoices.destroy', $invoice->id],'id'=>'delete-form-'.$invoice->id]) !!}
-                                    {!! Form::close() !!}
                                 @endcan
                             </div>
                         </div>
@@ -177,7 +175,7 @@
                                     <div class="section-title">{{__('Order Summary')}}
                                         <div class="col-md-12 text-right">
                                             @can('create invoice product')
-                                                <a href="#" class="btn btn-sm btn-primary" data-url="{{ route('invoices.products.add',$invoice->id) }}" data-ajax-popup="true" data-title="{{__('Add Item')}}">
+                                                <a class="btn btn-sm btn-primary" href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
                                                     <span><i class="fas fa-plus"></i></span>
                                                     {{__('Add')}}
                                                 </a>
@@ -209,11 +207,19 @@
                                                     </td>
                                                     <td class="table-actions text-right">
                                                         @can('delete invoice product')
-                                                            <a href="#" class="table-action table-action-delete" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$items->id}}').submit();">
-                                                                <i class="fas fa-trash"></i>
-                                                            </a>
-                                                            {!! Form::open(['method' => 'DELETE', 'route' => ['invoices.products.delete', $invoice->id,$items->id],'id'=>'delete-form-'.$items->id]) !!}
-                                                            {!! Form::close() !!}
+
+                                                        <div class="dropdown float-right">
+                                                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="material-icons">more_vert</i>
+                                                            </button>
+                                            
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a class="dropdown-item text-danger" href="{{ route('invoices.products.delete', [$invoice->id, $items->id]) }}" data-method="delete" data-remote="true" data-type="text">
+                                                                    <span>{{'Delete'}}</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                            
                                                         @endcan
                                                     </td>
                                                 </tr>
@@ -236,7 +242,7 @@
                                 </div>
                                 <div class="col-md-2 text-md-center">
                                     <div class="invoice-detail-name"><b>{{__('Discount')}}</b></div>
-                                    <div class="invoice-detail-value"> {{Auth::user()->priceFormat($invoice->discount)}}</div>
+                                    <div class="invoice-detail-value"> {{$invoice->discount}}%</div>
                                 </div>
 
                                 <div class="col-md-3 text-md-center">

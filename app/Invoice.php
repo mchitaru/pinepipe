@@ -61,14 +61,18 @@ class Invoice extends Model
 
     public function getTax()
     {
-        $tax = (($this->getSubTotal() - $this->discount) * (!empty($this->tax)?$this->tax->rate:0)) / 100.00;
+        $discount_factor = 1 - $this->discount/100.0;
+
+        $tax = ($this->getSubTotal() * $discount_factor * (!empty($this->tax)?$this->tax->rate:0)) / 100.00;
 
         return $tax;
     }
 
     public function getTotal()
     {
-        return $this->getSubTotal() - $this->discount + $this->getTax();
+        $discount_factor = 1 - $this->discount/100.0;
+
+        return ($this->getSubTotal() * $discount_factor) + $this->getTax();
     }
 
     public function getDue()

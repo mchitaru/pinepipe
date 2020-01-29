@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Products;
+use App\Product;
 use App\ProductUnit;
 use Illuminate\Http\Request;
 
@@ -54,7 +54,7 @@ class ProductsController extends Controller
                 return redirect()->route('products.index')->with('error', $messages->first());
             }
 
-            $products              = new Products;
+            $products              = new Product;
             $products->name        = $request->name;
             $products->price = $request->price;
             $products->unit = $request->unit;
@@ -77,7 +77,7 @@ class ProductsController extends Controller
         if(\Auth::user()->can('edit product'))
         {
             $productunits = ProductUnit::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $product = Products::findOrfail($id);
+            $product = Product::findOrfail($id);
             if($product->created_by == \Auth::user()->creatorId())
             {
                 return view('products.edit', compact('product','productunits'));
@@ -99,7 +99,7 @@ class ProductsController extends Controller
 
         if(\Auth::user()->can('edit product'))
         {
-            $product = Products::findOrfail($id);
+            $product = Product::findOrfail($id);
             if($product->created_by == \Auth::user()->creatorId())
             {
 
@@ -140,7 +140,7 @@ class ProductsController extends Controller
     {
         if(\Auth::user()->can('delete product'))
         {
-            $product = Products::findOrfail($id);
+            $product = Product::findOrfail($id);
             if($product->created_by == \Auth::user()->creatorId())
             {
                 $product->delete();
