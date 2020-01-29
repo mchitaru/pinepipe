@@ -32,8 +32,8 @@
         @foreach($tasks as $task)
 
         @php
-            $total_subtask = $task->taskTotalCheckListCount();
-            $completed_subtask = $task->taskCompleteCheckListCount();
+            $total_subtask = $task->getTotalChecklistCount();
+            $completed_subtask = $task->getCompleteChecklistCount();
 
             $task_percentage=0;
             if($total_subtask!=0){

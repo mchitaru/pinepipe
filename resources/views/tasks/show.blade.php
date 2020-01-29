@@ -9,8 +9,8 @@ $current_user=\Auth::user();
 $profile=asset(Storage::url('avatar/'));
 
 
-$total_task = $task->taskTotalCheckListCount();
-$completed_task=$task->taskCompleteCheckListCount();
+$total_task = $task->getTotalChecklistCount();
+$completed_task=$task->getCompleteChecklistCount();
 
 $percentage=0;
 if($total_task!=0){

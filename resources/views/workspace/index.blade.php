@@ -335,8 +335,8 @@ if($client_project_budget_due_per<=15){
                                     @foreach($top_tasks as $top_task)
 
                                     @php
-                                        $total_subtask = $top_task->taskTotalCheckListCount();
-                                        $completed_subtask = $top_task->taskCompleteCheckListCount();
+                                        $total_subtask = $top_task->getTotalChecklistCount();
+                                        $completed_subtask = $top_task->getCompleteChecklistCount();
 
                                         $task_percentage=0;
                                         if($total_subtask!=0){

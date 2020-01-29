@@ -43,32 +43,39 @@ class Task extends Model
         return $this->belongsToMany('App\User', 'user_tasks');
     }
 
-    public function comments(){
-        return $this->hasMany('App\TaskComment','task_id','id')->orderBy('id','DESC');
+    public function comments()
+    {
+        return $this->hasMany('App\TaskComment','task_id','id');
     }
 
-    public function taskFiles(){
-        return $this->hasMany('App\TaskFile','task_id','id')->orderBy('id','DESC');
+    public function files()
+    {
+        return $this->hasMany('App\TaskFile','task_id','id');
     }
 
-    public function taskCheckList(){
-        return $this->hasMany('App\TaskChecklist','task_id','id')->orderBy('id','DESC');
+    public function checklist()
+    {
+        return $this->hasMany('App\TaskChecklist','task_id','id');
     }
 
-    public function taskCompleteCheckListCount(){
-        return $this->hasMany('App\TaskChecklist','task_id','id')->where('status','=','1')->count();
-    }
-
-    public function taskTotalCheckListCount(){
-        return $this->hasMany('App\TaskChecklist','task_id','id')->count();
-    }
-    public function milestone(){
+    public function milestone()
+    {
         return $this->hasOne('App\Milestone','id','milestone_id');
     }
 
     public function timesheets()
     {
         return $this->hasMany('App\Timesheet', 'task_id', 'id');
+    }    
+
+    public function getCompleteChecklistCount()
+    {
+        return $this->checklist()->where('status','=','1')->count();
+    }
+
+    public function getTotalChecklistCount()
+    {
+        return $this->checklist()->count();
     }
 
     public static function getProgressColor($percentage)
@@ -147,32 +154,19 @@ class Task extends Model
 
     public function detachTask()
     {
-        if(!$this->users->isEmpty())
+        $this->users()->detach();
+
+        $this->comments()->delete();
+        $this->checklist()->delete();
+
+        $dir = storage_path('app/public/tasks/');
+
+        foreach($this->files as $file)
         {
-            $this->users()->detach();
+            File::delete($dir . $file->file);
         }
 
-        TaskComment::whereIn('task_id', $this->id)->delete();
-        TaskChecklist::whereIn('task_id', $this->id)->delete();
-
-        $taskFile = TaskFile::select('file')->whereIn('task_id', $this->id)->get()->map(
-            function ($file){
-                $dir        = storage_path('app/public/tasks/');
-                $file->file = $dir . $file->file;
-
-                return $file;
-            }
-        );
-        
-        if(!empty($taskFile))
-        {
-            foreach($taskFile->pluck('file') as $file)
-            {
-                File::delete($file);
-            }
-        }
-
-        TaskFile::whereIn('task_id', $this->id)->delete();
+        $this->files()->delete();
 
         ActivityLog::deleteTask($this);
     }
