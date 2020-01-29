@@ -9,6 +9,7 @@ require('chart.js');
 require('jquery-ujs');
 require('select2');
 
+
 // window.Vue = require('vue');
 
 // /**

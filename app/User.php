@@ -393,19 +393,20 @@ class User extends Authenticatable
     }
     public function project_due_task()
     {
-        if(\Auth::user()->type == 'company')
-        {
-            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
-        }
-        elseif(\Auth::user()->type == 'client')
-        {
-            return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority',  'tasks.priority','tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.client_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
-        }
-        else
-        {
-            return Task::select('tasks.*','tasks.id as task_id', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as name', 'project_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
-                'tasks.due_date', 'ASC')->get();
-        }
+        return  \Auth::user()->tasksByUserType()->where('due_date', '>', date('Y-m-d'))->orderBy('due_date', 'ASC')->get();
+        // if(\Auth::user()->type == 'company')
+        // {
+        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
+        // }
+        // elseif(\Auth::user()->type == 'client')
+        // {
+        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority',  'tasks.priority','tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.client_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
+        // }
+        // else
+        // {
+        //     return Task::select('tasks.*','tasks.id as task_id', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as name', 'project_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
+        //         'tasks.due_date', 'ASC')->get();
+        // }
     }
 
     public function total_project()

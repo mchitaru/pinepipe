@@ -1,43 +1,66 @@
 @extends('layouts.app')
 
 @push('stylesheets')
-    <link rel="stylesheet" href="assets/css/fullcalendar.min.css">
+    <link href='assets/module/fullcalendar/css/core.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/css/daygrid.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/css/list.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/css/timegrid.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/css/bootstrap.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/css/bootstrap.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/css/all.min.css' rel='stylesheet' />
+
+
+    {{-- <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'> --}}
 @endpush
 
 @push('scripts')
-    <script src="{{asset('assets/js/fullcalendar.min.js')}}"></script>
-    <script>
+    <script src="{{asset('assets/module/fullcalendar/js/core.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/js/daygrid.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/js/list.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/js/timegrid.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/js/all.min.js')}}"></script>
+
+    <script type="module">
         var tasks = {!! ($due_tasks) !!};
 
         $(document).on('click', '.fc-day-grid-event', function (e) {
-            if (!$(this).hasClass('deal')) {
                 e.preventDefault();
                 var event = $(this);
                 var url = $(this).attr('href');
                 $.ajax({
                     url: url,
-                    success: function (data) {
-                        $('#commonModal .modal-content').html(data);
-                        $("#commonModal").modal('show');
-                    },
-                    error: function (data) {
-                        data = data.responseJSON;
-                        toastr('Error', data.error, 'error')
-                    }
+                    type: 'get',
+                    dataType: 'text',
+                        success: function(data, status, xhr) {
+                            $(document).trigger('ajax:success', [data, status, xhr]);
+                        },
+                        complete: function(xhr, status) {
+                            $(document).trigger('ajax:complete', [xhr, status]);
+                        },
+                        error: function(xhr, status, error) {
+                            $(document).trigger('ajax:error', [xhr, status, error]);
+                        }
                 });
-            }
         });
 
-    $("#myEvent").fullCalendar({
-    height: 'auto',
-    header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay,listWeek'
-    },
-    editable: false,
-    events: tasks,
-    });
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap' ],
+        timeZone: 'UTC',
+        themeSystem: 'bootstrap',
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        },
+        weekNumbers: true,
+        eventLimit: true, // allow "more" link when too many events
+        events: tasks
+        });
+
+        calendar.render();
 
     </script>
 @endpush
@@ -66,10 +89,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">Edit Team</a>
-            <a class="dropdown-item" href="#">Share</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="#">Leave</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">New Event</a>
 
         </div>
     </div>
@@ -79,16 +99,6 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="container-fluid">
-            <div class="row pt-5">
-                <div class="col">
-                    <div class="fc-overflow">
-                        <div id="myEvent"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="pt-3" id="calendar"></div>
 </div>
 @endsection
