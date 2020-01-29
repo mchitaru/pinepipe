@@ -47,8 +47,10 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="#">{{__('New Contract')}}</a>
-            <a class="dropdown-item" href="#">{{__('New Invoice')}}</a>
+            <a class="dropdown-item disabled" href="#">{{__('New Proposal')}}</a>
+            <a class="dropdown-item disabled" href="#">{{__('New Contract')}}</a>
+            <a class="dropdown-item" href="{{ route('invoices.create') }}" data-remote="true" data-type="text">{{__('New Invoice')}}</a>
+            <a class="dropdown-item" href="{{ route('expenses.create') }}" data-remote="true" data-type="text">{{__('New Expense')}}</a>
 
         </div>
     </div>

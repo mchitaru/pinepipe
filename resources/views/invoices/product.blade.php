@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-    {{__('Create Invoice')}}
+    {{__('Add Invoiced Product')}}
 @endsection
 
 @section('content')
@@ -71,7 +71,7 @@
 
 @section('footer')
 @if(isset($invoice))
-    {{Form::submit(__('Save'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+    {{Form::submit(__('Add'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
 @else
 {{Form::submit(__('Create'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
 @endif

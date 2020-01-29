@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-    {{__('Create Invoice')}}
+    {{__('Create Payment')}}
 @endsection
 
 @section('content')
