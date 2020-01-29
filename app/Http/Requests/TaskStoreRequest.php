@@ -25,7 +25,7 @@ class TaskStoreRequest extends FormRequest
     {
         if(\Auth::user()->type == 'company') {
             return [
-                'title' => 'required|string|min:2|max:20',
+                'title' => 'required|string|min:2|max:60',
                 'description' => 'nullable|string',
                 'priority' => 'required|string',
                 'user_id' => 'nullable|array', //+

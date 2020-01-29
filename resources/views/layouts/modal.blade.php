@@ -1,4 +1,4 @@
-<div class="modal-dialog" role="document">
+<div class="modal-dialog @yield('size')" role="document">
     <div class="modal-content">
         @yield('form-start')
         <div class="modal-header">

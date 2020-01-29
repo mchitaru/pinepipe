@@ -1,5 +1,9 @@
 @extends('layouts.modal')
 
+@section('size')
+modal-lg
+@endsection
+
 @section('form-start')
     {{ Form::model($project, array('route' => array('projects.update', $project->id), 'method' => 'PUT', 'data-remote' => 'true')) }}
 @endsection
@@ -9,66 +13,83 @@
 @endsection
 
 @section('content')
+
+<ul class="nav nav-tabs nav-fill" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="project-add-details-tab" data-toggle="tab" href="#project-add-details" role="tab" aria-controls="project-add-details" aria-selected="true">{{__('Details')}}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="project-timeline-tab" data-toggle="tab" href="#project-timeline" role="tab" aria-controls="project-timeline" aria-selected="false">{{__('Timeline')}}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="project-visibility-tab" data-toggle="tab" href="#project-visibility" role="tab" aria-controls="project-visibility" aria-selected="false">{{__('Visibility')}}</a>
+    </li>
+</ul>
+  
 <div class="tab-content">
-    <h6>{{__('General Details')}}</h6>
-    <div class="form-group row align-items-center required">
-        {{ Form::label('name', __('Project Name'), array('class'=>'col-3')) }}
-        {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Project name', 'required'=>'required')) }}
-    </div>
-    <div class="form-group row">
-        {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
-        {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>'Project description']) !!}
-    </div>
-    <div class="form-group row">
-        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col','required'=>'required')) !!}
-    </div>
-    <div class="form-group row">
-        {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-3')) }}
-        {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required')) !!}
-    </div>
-    <div class="form-group row">
-        {{ Form::label('price', __('Budget'), array('class'=>'col-3')) }}
-        {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required')) }}
-    </div>
-    <div class="form-group row">
-        {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
-        {!! Form::select('lead_id', $leads, null,array('class' => 'form-control col','required'=>'required')) !!}
-    </div>
-    <hr>
-    <h6>{{__('Timeline')}}</h6>
-    <div class="form-group row align-items-center">
-        {{ Form::label('start_date', __('Start Date'), array('class'=>'col-3')) }}
-        {{ Form::date('start_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $start_date, 'data-alt-input')) }}
-    </div>
-    <div class="form-group row align-items-center">
-        {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-        {{ Form::date('due_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $due_date, 'data-alt-input')) }}
-    </div>
-    <div class="alert alert-warning text-small" role="alert">
-    <span>{{__('You can change due dates at any time.')}}</span>
-    </div>
-    <hr>
-    <h6>{{__('Visibility')}}</h6>
-    <div class="row">
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" checked>
-        <label class="custom-control-label" for="visibility-everyone">Everyone</label>
+    <div class="tab-pane fade show active" id="project-add-details" role="tabpanel">
+        <h6>{{__('General Details')}}</h6>
+        <div class="form-group row align-items-center required">
+            {{ Form::label('name', __('Project Name'), array('class'=>'col-4')) }}
+            {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Project name', 'required'=>'required')) }}
+        </div>
+        <div class="form-group row">
+            {{ Form::label('description', __('Description'), array('class'=>'col-4')) }}
+            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Project description']) !!}
+        </div>
+        <div class="form-group row">
+            {{ Form::label('client_id', __('Client'), array('class'=>'col-4')) }}
+            {!! Form::select('client_id', $clients, null,array('class' => 'form-control col','required'=>'required')) !!}
+        </div>
+        <div class="form-group row">
+            {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-4')) }}
+            {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required')) !!}
+        </div>
+        <div class="form-group row">
+            {{ Form::label('price', __('Budget'), array('class'=>'col-4')) }}
+            {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required')) }}
+        </div>
+        <div class="form-group row">
+            {{ Form::label('lead_id', __('Lead'), array('class'=>'col-4')) }}
+            {!! Form::select('lead_id', $leads, null, ['placeholder' => __('Select a lead...')], array('class' => 'form-control col','required'=>'required')) !!}
         </div>
     </div>
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-members" name="visibility" class="custom-control-input">
-        <label class="custom-control-label" for="visibility-members">Members</label>
+    <div class="tab-pane fade show" id="project-timeline" role="tabpanel">
+        <h6>{{__('Timeline')}}</h6>
+        <div class="form-group row align-items-center">
+            {{ Form::label('start_date', __('Start Date'), array('class'=>'col-4')) }}
+            {{ Form::date('start_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $start_date, 'data-alt-input')) }}
+        </div>
+        <div class="form-group row align-items-center">
+            {{ Form::label('due_date', __('Due Date'), array('class'=>'col-4')) }}
+            {{ Form::date('due_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 'data-flatpickr', 'data-default-date'=> $due_date, 'data-alt-input')) }}
+        </div>
+        <div class="alert alert-warning text-small" role="alert">
+        <span>{{__('You can change due dates at any time.')}}</span>
         </div>
     </div>
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-me" name="visibility" class="custom-control-input">
-        <label class="custom-control-label" for="visibility-me">Just me</label>
+    <div class="tab-pane fade show" id="project-visibility" role="tabpanel">
+        <h6>{{__('Visibility')}}</h6>
+        <div class="row">
+            <div class="col">
+                <div class="custom-control custom-radio">
+                <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" checked>
+                <label class="custom-control-label" for="visibility-everyone">Everyone</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="custom-control custom-radio">
+                <input type="radio" id="visibility-members" name="visibility" class="custom-control-input">
+                <label class="custom-control-label" for="visibility-members">Members</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="custom-control custom-radio">
+                <input type="radio" id="visibility-me" name="visibility" class="custom-control-input">
+                <label class="custom-control-label" for="visibility-me">Just me</label>
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 @include('partials.errors')

@@ -53,4 +53,47 @@ class ActivityLog extends Model
             ]
         );
     }
+
+    public static function createProject(Project $project)
+    {
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $project->project_id,
+                'log_type' => 'Create Project',
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('created project') .
+                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->title.'</a>',
+            ]
+        );
+    }
+
+    public static function updateProject(Project $project)
+    {
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $project->project_id,
+                'log_type' => 'Update Project',
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('updated task') .
+                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->title.'</a>',
+            ]
+        );
+    }
+
+    public static function deleteProject(Project $project)
+    {
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $project->project_id,
+                'log_type' => 'Delete Task',
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('deleted task') .
+                            ' <b>'. $project->name.'</b>',
+            ]
+        );
+    }
+
 }

@@ -31,11 +31,11 @@ class ProjectUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:20',
+            'name' => 'required|min:2|max:60',
             'start_date' => 'required|date',
             'due_date' => 'required|date',
             'client_id' => 'nullable|integer',
-            'user_id' => 'nullable|integer',
+            'user_id' => 'nullable|array',
             'lead_id' => 'nullable|integer',
             'price' => 'nullable|numeric',
             'description' => 'nullable|string',
@@ -44,6 +44,8 @@ class ProjectUpdateRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('projects.edit');
+        $project = $this->route()->parameter('project');
+
+        return route('projects.edit', $project);
     }
 }

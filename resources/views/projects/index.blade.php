@@ -42,22 +42,21 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                             @can('edit project')
-                                <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}">
+                                <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                                     {{__('Edit')}}
                                 </a>
                             @endcan
                             @can('manage invite user')
-                                <a class="dropdown-item" href="#" data-url="{{ route('project.invite',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add User')}}" class="" data-toggle="tooltip" data-original-title="{{__('Add User')}}">
+                                <a class="dropdown-item" href="{{ route('project.invite', $project->id) }}" data-remote="true" data-type="text">
                                     {{__('Add User')}}
                                 </a>
                             @endcan
                             <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
                             @can('delete project')
-                                <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
+                                <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}
                                 </a>
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['projects.destroy', $project->id],'id'=>'delete-form-'.$project->id]) !!}
-                                {!! Form::close() !!}
                             @endcan
                             </div>
                         </div>
@@ -66,7 +65,7 @@
                 <div class="card-title d-flex justify-content-between align-items-center">
                     @can('show project')
                     @if($project->is_active)
-                        <a href="{{ route('projects.show',$project->id) }}">
+                        <a href="{{ route('projects.show', $project->id) }}">
                             <h5 data-filter-by="text">{{ $project->name }}</h5>
                         </a>
                     @else
@@ -90,7 +89,7 @@
                     @foreach($project->users as $user)
                     <li>
                         @if($project->is_active)
-                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($user)?$user->name:'')}}">
+                            <a href="{{ route('users.index', $user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($user)?$user->name:'')}}">
                         @endif
                             <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
                         @if($project->is_active)
@@ -103,7 +102,7 @@
                     <div class="d-flex align-items-center">
                         <i class="material-icons mr-1">playlist_add_check</i>
                         @if($project->is_active)
-                        <a  href="{{ route('projects.show',$project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                        <a  href="{{ route('projects.show', $project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
                         @else
                         <a  href="#" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
                         @endif
@@ -111,7 +110,7 @@
                     <div class="d-flex align-items-center">
                         <i class="material-icons mr-1">person</i>
                         @if($project->is_active && !empty($project->client))
-                        <a href="{{ route('clients.index',$project->client->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
+                        <a href="{{ route('clients.show', $project->client->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
                         @else
                         <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
                         @endif

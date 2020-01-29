@@ -8,12 +8,13 @@ class Project extends Model
 {
     protected $fillable = [
         'name',
+        'description',
         'price',
+        'client_id',
+        'lead_id',
+        'status',
         'start_date',
         'due_date',
-        'client_id',
-        'description',
-        'status',
     ];
 
 
@@ -250,26 +251,17 @@ class Project extends Model
 
         $this->users()->sync($users);
 
-        Milestone::where('project_id', $this->id)->delete();
-        ActivityLog::where('project_id', $this->id)->delete();
+        $this->milestones()->delete();
+        // ActivityLog::where('project_id', $this->id)->delete();
 
-        $projectFile = ProjectFile::select('file_path')->where('project_id', $this->id)->get()->map(
-            function ($file){
-                $dir        = storage_path('app/public/project_files/');
-                $file->file = $dir . $file->file;
+        $dir = storage_path('app/public/project_files/');
 
-                return $file;
-            }
-        );
-
-        if(!empty($projectFile))
+        foreach($this->files as $file)
         {
-            foreach($projectFile->pluck('file_path') as $file)
-            {
-                File::delete($file);
-            }
+            File::delete($dir . $file->file);
         }
-        ProjectFile::where('project_id', $this->id)->delete();
+
+        $this->files()->delete();
 
         Invoice::where('project_id', $this->id)->update(array('project_id' => 0));
 
@@ -279,6 +271,8 @@ class Project extends Model
 
             $task->delete();
         }
+
+        ActivityLog::deleteProject($this);
     }
 
     static function humanFileSize($bytes, $decimals = 2) {
@@ -299,7 +293,7 @@ class Project extends Model
         'high' => 'High',
     ];
     public static $project_status = [
-        'on_going' => 'On Going',
+        'on_going' => 'Ongoing',
         'on_hold' => 'On Hold',
         'completed' => 'Completed',
     ];

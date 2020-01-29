@@ -31,7 +31,7 @@ class ProjectTaskStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|min:2',
+            'title' => 'required|string|min:2|max:60',
             'description' => 'nullable|string',
             'priority' => 'required|string',
             'user_id' => 'nullable|array',

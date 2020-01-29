@@ -147,9 +147,9 @@ $(document).ready(function() {
 
                 @can('invite user project')
 
-                <button class="btn btn-round" data-url="{{ route('project.invite',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add User')}}">
+                <a href="{{ route('project.invite', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" data-original-title="{{__('Invite Users')}}">
                     <i class="material-icons">add</i>
-                </button>
+                </a>
                 @endcan
 
             </div>

@@ -66,12 +66,16 @@ class ProjectsController extends ProjectsSectionController
 
     public function edit(Project $project)
     {
-
         $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
         $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
+        $user_id = $project->users()->get()->pluck('id');
         
-        return view('projects.edit', compact('project', 'clients', 'users', 'leads'));
+        $start_date = $project->start_date;
+        $due_date = $project->due_date;
+
+        return view('projects.edit', compact('project', 'clients', 'user_id', 'users', 'leads', 'start_date', 'due_date'));
     }
 
     public function update(ProjectUpdateRequest $request, Project $project)
@@ -191,25 +195,25 @@ class ProjectsController extends ProjectsSectionController
 
     public function Invite(Request $request, $project_id)
     {
-        $validator = \Validator::make(
-            $request->all(), [
-                               'user' => 'required',
-                           ]
-        );
-        if($validator->fails())
-        {
-            $messages = $validator->getMessageBag();
+        // $validator = \Validator::make(
+        //     $request->all(), [
+        //                        'user' => 'required',
+        //                    ]
+        // );
+        // if($validator->fails())
+        // {
+        //     $messages = $validator->getMessageBag();
 
-            return redirect()->route('projects.show', $project_id)->with('error', $messages->first());
-        }
+        //     return redirect()->route('projects.show', $project_id)->with('error', $messages->first());
+        // }
 
-        foreach($request->user as $key => $user)
-        {
-            $userproject             = new UserProject();
-            $userproject->user_id    = $user;
-            $userproject->project_id = $project_id;
-            $userproject->save();
-        }
+        // foreach($request->user as $key => $user)
+        // {
+        //     $userproject             = new UserProject();
+        //     $userproject->user_id    = $user;
+        //     $userproject->project_id = $project_id;
+        //     $userproject->save();
+        // }
 
 
         return redirect()->route('projects.show', $project_id)->with('success', __('User successfully Invited.'));

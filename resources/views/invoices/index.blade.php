@@ -48,7 +48,7 @@
                 <div class="container row align-items-center">
                     <i class="material-icons">person</i>
                     <span data-filter-by="text" class="text-small">
-                        <a href="{{ route('clients.index',$invoice->project->client->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{$invoice->project->client->name}}</a>
+                        <a href="{{ route('clients.show',$invoice->project->client->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{$invoice->project->client->name}}</a>
                     </span>
                 </div>
             </div>

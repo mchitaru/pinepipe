@@ -13,7 +13,7 @@ $factory->define(Lead::class, function (Faker $faker) {
         'user_id'=> $faker->numberBetween(5, 9),
         'client_id' => $faker->numberBetween(3, 4),
         'source_id' => $faker->numberBetween(1, 4),
-        'created_by' => $faker->numberBetween(5, 9),
+        'created_by' => 2,
         'notes' => $faker->text
     ];
 });
