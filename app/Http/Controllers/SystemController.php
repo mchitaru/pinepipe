@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use File;
 
 class SystemController extends Controller
 {
@@ -132,7 +133,32 @@ class SystemController extends Controller
                     'company_email_from_name' => 'required|string',
                 ]
             );
+            
             $post = $request->all();
+            if($request->hasFile('company_logo'))
+            {
+                $filenameWithExt = $request->file('company_logo')->getClientOriginalName();
+                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension       = $request->file('company_logo')->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+    
+                $dir        = storage_path('app/public/avatar/');
+                $image_path = $dir . $user->settings['company_logo'];
+    
+                if(File::exists($image_path))
+                {
+                    File::delete($image_path);
+                }
+    
+                if(!file_exists($dir))
+                {
+                    mkdir($dir, 0777, true);
+                }
+    
+                $path = $request->file('company_logo')->storeAs('public/avatar', $fileNameToStore);
+                $post['company_logo'] = $fileNameToStore;
+            }
+        
             unset($post['_token']);
 
             foreach($post as $key => $data)

@@ -91,18 +91,18 @@
                         <img width="60" height="60" alt="{{$userDetail->name}}" {!! empty($userDetail->avatar) ? "avatar='".$userDetail->name."'" : "" !!} class="round" src="{{asset(Storage::url("avatar/".$userDetail->avatar))}}" data-filter-by="alt"/>
                         <span class="badge badge-secondary">{{$userDetail->type}}</span>
                     </div>
-                <div class="media-body ml-3">
-                    <div class="custom-file custom-file-naked d-block mb-1">
-                        <input type="file" class="custom-file-input d-none" name="avatar" id="avatar">
-                        <label class="custom-file-label position-relative" for="avatar">
-                        <span class="btn btn-primary">
-                            {{__('Upload avatar')}}
-                        </span>
-                        </label>
-                        <label class="file-label position-relative"></label>
+                    <div class="media-body ml-3">
+                        <div class="custom-file custom-file-naked d-block mb-1">
+                            <input type="file" class="custom-file-input d-none" name="avatar" id="avatar">
+                            <label class="custom-file-label position-relative" for="avatar">
+                            <span class="btn btn-primary">
+                                {{__('Upload avatar')}}
+                            </span>
+                            </label>
+                            <label class="file-label position-relative"></label>
+                        </div>
+                        <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
                     </div>
-                    <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
-                </div>
                 </div>
                 <!--end of avatar-->
                 <div class="form-group row align-items-center">
@@ -184,9 +184,28 @@
             </div>
             @can('manage company settings')
             <div class="tab-pane fade show" role="tabpanel" id="company">
-                {{Form::model($userDetail->settings,array('route'=>'company.settings','method'=>'post'))}}
+                {{Form::model($userDetail->settings,array('route'=>'company.settings','method'=>'post', 'enctype' => 'multipart/form-data'))}}
                 <div class="card-body">
                     <div class="row">
+                        <div class="media mb-4">
+                            <div class="d-flex flex-column">
+                                <img width="60" height="60" alt="{{$userDetail->settings['company_name']}}" {!! empty($userDetail->settings['company_logo']) ? "avatar='".$userDetail->settings['company_name']."'" : "" !!} class="rounded" src="{{asset(Storage::url("avatar/".$userDetail->settings['company_logo']))}}" data-filter-by="alt"/>
+                            </div>
+                            <div class="media-body ml-3">
+                                <div class="custom-file custom-file-naked d-block mb-1">
+                                    <input type="file" class="custom-file-input d-none" name="company_logo" id="company_logo">
+                                    <label class="custom-file-label position-relative" for="company_logo">
+                                    <span class="btn btn-primary">
+                                        {{__('Upload logo')}}
+                                    </span>
+                                    </label>
+                                    <label class="file-label position-relative"></label>
+                                </div>
+                                <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
+                            </div>
+                        </div>
+                        <!--end of logo-->
+        
                         <div class="form-group col-md-6">
                             {{Form::label('company_name *',__('Company Name *')) }}
                             {{Form::text('company_name',null,array('class'=>'form-control font-style'))}}
