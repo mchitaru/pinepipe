@@ -186,7 +186,7 @@ $(document).ready(function() {
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#timesheets" role="tab" aria-controls="timesheets" aria-selected="false">Timesheets
-                    <span class="badge badge-secondary">{{ count($timeSheets) }}</span>
+                    <span class="badge badge-secondary">{{ count($timesheets) }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -233,7 +233,7 @@ $(document).ready(function() {
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
 
-                    <a href="{{ route('timesheets.create',$project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                    <a href="{{ route('projects.timesheet.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
                         <i class="material-icons">add</i>
                     </a>
                 </div>
@@ -250,58 +250,9 @@ $(document).ready(function() {
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-                    @foreach($timeSheets as $timeSheet)
 
-                        <div class="card card-task mb-1">
-                            <div class="card-body p-2" style="min-height: 77px;">
-                            <div class="card-title col-xs-12 col-sm-3">
-                                <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timeSheet->date) }}</h6>
-                                <p>
-                                    <span class="text-small">{{ !empty($timeSheet->task())? $timeSheet->task()->title : ''}}</span>
-                                </p>
-                            </div>
-                            <div class="card-title col-xs-12 col-sm-2">
-                                <div class="container row align-items-center">
-                                    <i class="material-icons">access_time</i>
-                                    <span class="text-small" data-filter-by="text">{{ $timeSheet->hours }}h</span>
-                                </div>
-                            </div>
-                            <div class="card-title col-xs-12 col-sm-3">
-                                <div class="container row align-items-center">
-                                    <i class="material-icons">note</i>
-                                    <span data-filter-by="text" title="{{ $timeSheet->remark }}" class="text-small text-truncate" style="max-width: 150px;">{{ $timeSheet->remark }}</span>
-                                </div>
-                            </div>
-                            <div class="card-meta">
-                                @if(!empty($timeSheet->user()))
-                                <a href="#" data-toggle="tooltip" title="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}">
-                                    <img alt="{{$timeSheet->user()->name}}" {!! empty($timeSheet->user()->avatar) ? "avatar='".$timeSheet->user()->name."'" : "" !!} class="avatar" src="{{Storage::url($timeSheet->user()->avatar)}}" data-filter-by="alt"/>
-                                </a>
-                                @endif
-                                @if(\Auth::user()->type!='client')
-                                    <div class="dropdown card-options">
-                                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-
-                                        <a href="{{ route('timesheets.edit',[$project->id,$timeSheet->id]) }}" class="dropdown-item" data-remote="true" data-type="text">
-                                            {{__('Edit')}}
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" href="#">Archive</a>
-                                        <a class="dropdown-item text-danger" href="{{ route('timesheets.destroy', [$project->id,$timeSheet->id]) }}" data-method="delete" data-remote="true" data-type="text">
-                                            {{__('Delete')}}
-                                        </a>
-                                    </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                @endforeach
-            </div>
+                    @include('timesheets.index')
+                </div>
             </div>
             <!--end of tab-->
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show uploading',$perArr)))

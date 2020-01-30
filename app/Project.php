@@ -37,6 +37,11 @@ class Project extends Model
         return $this->hasMany('App\Milestone', 'project_id', 'id');
     }
 
+    public function timesheets()
+    {
+        return $this->hasMany('App\Timesheet', 'project_id', 'id');
+    }
+
     public function activities()
     {
         return $this->hasMany('App\ActivityLog', 'project_id', 'id')->orderBy('id', 'desc');
@@ -56,7 +61,6 @@ class Project extends Model
     {
         return $this->belongsToMany('App\User', 'user_projects');
     }
-
 
     public function project_total_task($project_id)
     {

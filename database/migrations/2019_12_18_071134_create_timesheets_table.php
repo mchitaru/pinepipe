@@ -16,11 +16,12 @@ class CreateTimesheetsTable extends Migration
         Schema::create(
             'timesheets', function (Blueprint $table){
             $table->bigIncrements('id');
-            $table->unsignedInteger('project_id')->default(0);
             $table->unsignedInteger('user_id')->default(0);
-            $table->unsignedInteger('task_id')->default(0);
+            $table->unsignedInteger('project_id')->nullable();
+            $table->unsignedInteger('task_id')->nullable();
             $table->date('date');
             $table->float('hours')->default(0.0);
+            $table->float('rate')->default(0.0);
             $table->text('remark')->nullable();
             $table->timestamps();
         }

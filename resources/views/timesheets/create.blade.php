@@ -1,58 +1,45 @@
-@php
-    $project_id= Request::segment(2)
-@endphp
-{{ Form::open(array('route' => array('timesheets.store',$project_id))) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="row">
-        <div class="form-group col-md-6">
-            {{ Form::label('task_id', __('Task')) }}
-            {!! Form::select('task_id', $tasks, null,array('class' => 'form-control font-style selectric','required'=>'required')) !!}
-            @error('task_id')
-            <span class="invalid-task_id" role="alert">
-                <strong class="text-danger">{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="form-group col-md-6">
-            {{ Form::label('date', __('Task Date')) }}
-            {{ Form::text('date', '', array('class' => 'form-control datepicker','required'=>'required')) }}
-            @error('date')
-            <span class="invalid-date" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
-        <div class="form-group col-md-12">
-            {{ Form::label('hours', __('Task Hours')) }}
-            {{ Form::number('hours', '', array('class' => 'form-control','required'=>'required')) }}
-            @error('hours')
-            <span class="invalid-hours" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
+@extends('layouts.modal')
 
+@section('form-start')
+    {{ Form::open(array('route' => array('projects.timesheet.store', $project_id))) }}
+@endsection
+
+@section('title')
+    {{__('Create Timesheet')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
+    <div class="form-group row required">
+        {{ Form::label('hours', __('Hours'), array('class'=>'col-3')) }}
+        {{ Form::number('hours', null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Logged time')) }}
     </div>
-    <div class="row">
-        <div class="form-group  col-md-12">
-            {{ Form::label('remark', __('Remark')) }}
-            {!! Form::textarea('remark', null, ['class'=>'form-control','rows'=>'2']) !!}
-            @error('remark')
-            <span class="invalid-remark" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
+    <div class="form-group row required">
+        {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
+        {{ Form::date('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
+                                        'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-alt-input')) }}
+    </div>
+    <div class="form-group row required">
+        {{ Form::label('rate', __('Hourly Rate'), array('class'=>'col-3')) }}
+        {{ Form::number('rate', '0', array('class' => 'form-control col', 'required'=>'required')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
+        {!! Form::select('task_id', $tasks, null,array('class' => 'form-control col', 'placeholder'=>'Select Task...')) !!}
+    </div>
+
+    <div class="form-group row">
+        {{ Form::label('remark', __('Remark'), array('class'=>'col-3')) }}
+        {!! Form::textarea('remark', null, ['class'=>'form-control col','rows'=>'3']) !!}
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
-</div>
+@include('partials.errors')
+@endsection
+
+@section('footer')
+    {{Form::submit(__('Create'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+@endsection
+
+@section('form-end')
 {{ Form::close() }}
+@endsection

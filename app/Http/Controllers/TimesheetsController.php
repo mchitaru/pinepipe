@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
+use App\Project;
 use App\Timesheet;
 use Illuminate\Http\Request;
 
@@ -22,19 +24,19 @@ class TimesheetsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project)
     {
-        // if(\Auth::user()->can('create timesheet'))
-        // {
+        if(\Auth::user()->can('create timesheet'))
+        {
+            $project_id = $project->id;
+            $tasks = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
 
-        //     $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
-
-        //     return view('projects.timesheetCreate', compact('tasks'));
-        // }
-        // else
-        // {
-        //     return redirect()->back()->with('error', 'Permission denied.');
-        // }
+            return view('timesheets.create', compact('project_id', 'tasks'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
     }
 
     /**
@@ -43,25 +45,26 @@ class TimesheetsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        // if(\Auth::user()->can('create timesheet'))
-        // {
-        //     $timeSheet             = new Timesheet();
-        //     $timeSheet->project_id = $project_id;
-        //     $timeSheet->task_id    = $request->task_id;
-        //     $timeSheet->date       = $request->date;
-        //     $timeSheet->hours      = $request->hours;
-        //     $timeSheet->remark     = $request->remark;
-        //     $timeSheet->user_id    = \Auth::user()->id;
-        //     $timeSheet->save();
+        if(\Auth::user()->can('create timesheet'))
+        {
+            $timeSheet             = new Timesheet();
+            $timeSheet->project_id = $project->id;
+            $timeSheet->task_id    = $request->task_id;
+            $timeSheet->date       = $request->date;
+            $timeSheet->hours      = $request->hours;
+            $timeSheet->rate       = $request->rate;
+            $timeSheet->remark     = $request->remark;
+            $timeSheet->user_id    = \Auth::user()->id;
+            $timeSheet->save();
 
-        //     return redirect()->route('task.timesheetRecord', $project_id)->with('success', __('Task timesheet successfully created.'));
-        // }
-        // else
-        // {
-        //     return redirect()->back()->with('error', 'Permission denied.');
-        // }
+            return redirect()->back()->with('success', __('Task timesheet successfully created.'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
     }
 
     /**
@@ -81,20 +84,19 @@ class TimesheetsController extends Controller
      * @param  \App\Timesheet  $timesheet
      * @return \Illuminate\Http\Response
      */
-    public function edit(Timesheet $timesheet)
+    public function edit(Project $project, Timesheet $timesheet)
     {
-        // if(\Auth::user()->can('edit timesheet'))
-        // {
+        if(\Auth::user()->can('edit timesheet'))
+        {
+            $project_id = $project->id;
+            $tasks     = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
 
-        //     $timeSheet = Timesheet::find($timeSheet_id);
-        //     $tasks     = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
-
-        //     return view('projects.timesheetEdit', compact('tasks', 'timeSheet', 'project_id'));
-        // }
-        // else
-        // {
-        //     return redirect()->back()->with('error', 'Permission denied.');
-        // }
+            return view('timesheets.edit', compact('tasks', 'timesheet', 'project_id'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
     }
 
     /**
@@ -104,24 +106,24 @@ class TimesheetsController extends Controller
      * @param  \App\Timesheet  $timesheet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Timesheet $timesheet)
+    public function update(Request $request, Project $project, Timesheet $timesheet)
     {
-        // if(\Auth::user()->can('edit timesheet'))
-        // {
+        if(\Auth::user()->can('edit timesheet'))
+        {
 
-        //     $timeSheet          = Timesheet::find($timeSheet_id);
-        //     $timeSheet->task_id = $request->task_id;
-        //     $timeSheet->date    = $request->date;
-        //     $timeSheet->hours   = $request->hours;
-        //     $timeSheet->remark  = $request->remark;
-        //     $timeSheet->save();
+            $timesheet->task_id = $request->task_id;
+            $timesheet->date    = $request->date;
+            $timesheet->hours   = $request->hours;
+            $timesheet->rate    = $request->rate;
+            $timesheet->remark  = $request->remark;
+            $timesheet->save();
 
-        //     return redirect()->route('projects.show', $project_id)->with('success', __('Task timesheet successfully updated.'));
-        // }
-        // else
-        // {
-        //     return redirect()->back()->with('error', 'Permission denied.');
-        // }
+            return redirect()->back()->with('success', __('Task timesheet successfully updated.'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
     }
 
     /**
@@ -130,18 +132,22 @@ class TimesheetsController extends Controller
      * @param  \App\Timesheet  $timesheet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Timesheet $timesheet)
+    public function destroy(Request $request, Project $project, Timesheet $timesheet)
     {
-        // if(\Auth::user()->can('delete timesheet'))
-        // {
-        //     $timeSheet = Timesheet::find($timeSheet_id);
-        //     $timeSheet->delete();
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
 
-        //     return redirect()->route('task.timesheetRecord', $project_id)->with('success', __('Task timesheet successfully deleted.'));
-        // }
-        // else
-        // {
-        //     return redirect()->back()->with('error', 'Permission denied.');
-        // }
+        if(\Auth::user()->can('delete timesheet'))
+        {
+            $timesheet->delete();
+
+            return redirect()->back()->with('success', __('Task timesheet successfully deleted.'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
     }
 }

@@ -100,16 +100,16 @@ class ProjectsController extends ProjectsSectionController
             $project_files = ProjectFile::where('project_id', $project_id)->get();
             $activities = $project->activities;
 
-            $timeSheets = null;
+            $timesheets = null;
             if(\Auth::user()->can('manage timesheet'))
             {
                 if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
                 {
-                    $timeSheets = Timesheet::where('project_id', '=', $project_id)->get();
+                    $timesheets = Timesheet::where('project_id', '=', $project_id)->get();
                 }
                 else
                 {
-                    $timeSheets = Timesheet::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
+                    $timesheets = Timesheet::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
                 }
             }
 
@@ -127,7 +127,7 @@ class ProjectsController extends ProjectsSectionController
                 $task_count = $task_count + count($stage->getTasksByUserType($project_id));
             }
 
-            return view('projects.show', compact('project', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timeSheets', 'activities'));
+            return view('projects.show', compact('project', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'activities'));
         }
         else
         {

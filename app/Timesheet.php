@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Iatstuti\Database\Support\NullableFields;
 
 class Timesheet extends Model
 {
+    use NullableFields;
+
     protected $fillable = [
         'project_id', 
         'user_id', 
@@ -14,6 +17,16 @@ class Timesheet extends Model
         'hours',
         'remark'
     ];
+
+    protected $nullable = [
+        'project_id', 
+        'task_id',
+	];
+
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }
 
     public function task()
     {
