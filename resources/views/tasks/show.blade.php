@@ -466,10 +466,10 @@ function dropzoneBtn(file, response) {
 }
 
 @foreach($task->files as $file)
-var mockFile = {name: "{{$file->name}}", size: {{filesize(storage_path('app/public/tasks/'.$file->file))}} };
+var mockFile = {name: "{{$file->name}}", size: {{filesize(storage_path('app/'.$file->file))}} };
 myDropzone.emit("addedfile", mockFile);
 myDropzone.emit("processing", mockFile);
-myDropzone.emit("thumbnail", mockFile, "{{asset('app/public/tasks/'.$file->file)}}");
+// myDropzone.emit("thumbnail", mockFile, "{{asset('app/'.$file->file)}}");
 myDropzone.emit("complete", mockFile);
 
 dropzoneBtn(mockFile, {download: "{{route('task.file.download',[$task->id,$file->id])}}", delete: "{{route('task.file.delete',[$task->id,$file->id])}}"});

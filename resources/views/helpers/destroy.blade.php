@@ -5,11 +5,11 @@
 @endsection
 
 @section('title') 
-    Are you sure? 
+    {{__('Are you sure? ')}}
 @endsection
 
 @section('content')
-    <p>This action can not be undone. Do you want to continue?</p>
+    <p>{{__('This action can not be undone. Do you want to continue?')}}</p>
     @include('partials.errors')
 @endsection
 

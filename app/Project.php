@@ -258,7 +258,7 @@ class Project extends Model
         $this->milestones()->delete();
         // ActivityLog::where('project_id', $this->id)->delete();
 
-        $dir = storage_path('app/public/project_files/');
+        $dir = storage_path('app/'.\Auth::user()->creatorId());
 
         foreach($this->files as $file)
         {

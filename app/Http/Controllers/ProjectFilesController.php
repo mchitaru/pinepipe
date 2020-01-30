@@ -26,9 +26,8 @@ class ProjectFilesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, Project $project)
     {        
-        $project = Project::find($id);
         $request->validate(['file' => 'required|mimes:png,jpeg,jpg,pdf,doc,txt|max:2048']);
 
         if($request->hasFile('file'))
@@ -66,7 +65,7 @@ class ProjectFilesController extends Controller
                 'log_type' => 'Upload File',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
                             __('uploaded file') .
-                            ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file_name.'</a>',
+                            ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file->file_name.'</a>',
             ]
         );
 
@@ -79,36 +78,23 @@ class ProjectFilesController extends Controller
      * @param  \App\ProjectFile  $projectFile
      * @return \Illuminate\Http\Response
      */
-    public function show(ProjectFile $projectFile)
+    public function show(Project $project, ProjectFile $file)
     {
-        // $project = Project::find($id);
-        // $file    = ProjectFile::find($file_id);
-        // if($file)
-        // {
-        //     $file_path = storage_path('app/public/project_files/' . $file->file_path);
-        //     $filename  = $file->file_name;
+        if($file)
+        {
+            $file_path = storage_path('app/' . $file->file_path);
+            $filename  = $file->file_name;
 
-        //     return \Response::download(
-        //         $file_path, $filename, [
-        //                       'Content-Length: ' . filesize($file_path),
-        //                   ]
-        //     );
-        // }
-        // else
-        // {
-        //     return redirect()->back()->with('error', __('File is not exist.'));
-        // }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ProjectFile  $projectFile
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ProjectFile $projectFile)
-    {
-        //
+            return \Response::download(
+                $file_path, $filename, [
+                              'Content-Length: ' . filesize($file_path),
+                          ]
+            );
+        }
+        else
+        {
+            return redirect()->back()->with('error', __('File does not exist.'));
+        }
     }
 
     /**
@@ -117,30 +103,34 @@ class ProjectFilesController extends Controller
      * @param  \App\ProjectFile  $projectFile
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProjectFile $projectFile)
+    public function destroy(Request $request, Project $project, ProjectFile $file)
     {
-        // $project = Project::find($id);
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
 
-        // $file = ProjectFile::find($file_id);
-        // if($file)
-        // {
-        //     $path = storage_path('app/public/project_files/' . $file->file_path);
-        //     if(file_exists($path))
-        //     {
-        //         \File::delete($path);
-        //     }
-        //     $file->delete();
+        if($file)
+        {
+            $path = storage_path('app/' . $file->file_path);
+            if(file_exists($path))
+            {
+                \File::delete($path);
+            }
+            $file->delete();
 
-        //     return response()->json(['is_success' => true], 200);
-        // }
-        // else
-        // {
-        //     return response()->json(
-        //         [
-        //             'is_success' => false,
-        //             'error' => __('File is not exist.'),
-        //         ], 200
-        //     );
-        // }
+            // return response()->json(['is_success' => true], 200);
+            return redirect()->route('projects.index')->with('success', __('Expense successfully deleted.'));
+        }
+        else
+        {
+            // return response()->json(
+            //     [
+            //         'is_success' => false,
+            //         'error' => __('File is not exist.'),
+            //     ], 200
+            // );
+            return redirect()->back()->with('error', __('File does not exist.'));
+        }
     }
 }

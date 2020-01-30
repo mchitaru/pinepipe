@@ -155,8 +155,8 @@ Route::group(
         Route::get('projects/milestone/{milestone}/show', 'ProjectMilestonesController@show')->name('projects.milestone.show');
 
         Route::post('projects/{project}/file', 'ProjectFilesController@store')->name('projects.file.upload');
-        Route::get('projects/file/{file}', 'ProjectFilesController@show')->name('projects.file.download');
-        Route::delete('projects/file/{file}', 'ProjectFilesController@destroy')->name('projects.file.delete');
+        Route::get('projects/{project}/file/{file}', 'ProjectFilesController@show')->name('projects.file.download');
+        Route::delete('projects/{project}/file/{file}', 'ProjectFilesController@destroy')->name('projects.file.delete');
         
         Route::get('projects/{project}/task', 'TasksController@create')->name('projects.task.create');
         Route::get('projects/{project}/board', 'TasksController@board')->name('projects.task.board');

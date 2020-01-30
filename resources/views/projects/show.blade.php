@@ -374,7 +374,8 @@ $(document).ready(function() {
                                 <a class="dropzone-file dropdown-item" href="#">Download</a>
                                 <a class="dropzone-file dropdown-item" href="#">Share</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">Delete</a>
+                                {{-- <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text"> --}}
+                                <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" title="{{__('Delete')}}" data-method="delete" data-remote="true" data-type="text">Delete</a>
 
                                 </div>
                             </div>
@@ -502,7 +503,7 @@ $(document).ready(function() {
                 $(this).attr("href", response.download);
             });
 
-            $('[data-delete]', $(".dz-preview").last()).each(function() {
+            $('.dropzone-delete', $(".dz-preview").last()).each(function() {
 
                 $(this).attr("href", response.delete);
 
@@ -540,10 +541,10 @@ $(document).ready(function() {
         @endphp
 
         @foreach($files as $file)
-        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/public/project_files/'.$file->file_path))}} };
+        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
         myDropzone.emit("addedfile", mockFile);
         myDropzone.emit("processing", mockFile);
-        myDropzone.emit("thumbnail", mockFile, "{{asset('app/public/project_files/'.$file->file_path)}}");
+        myDropzone.emit("thumbnail", mockFile, "{{asset('app/'.$file->file_path)}}");
         myDropzone.emit("complete", mockFile);
 
         dropzoneBtn(mockFile, {download: "{{route('projects.file.download',[$project->id,$file->id])}}", delete: "{{route('projects.file.delete',[$project->id,$file->id])}}"});
