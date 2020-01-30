@@ -25,8 +25,9 @@ class CreateContactsTable extends Migration
             $table->string('website');
             $table->date('birthday');
             $table->text('notes');
+            $table->unsignedInteger('client_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('created_by')->default(0);
-            $table->unsignedInteger('item_order')->default(0);
             $table->timestamps();
         }
         );

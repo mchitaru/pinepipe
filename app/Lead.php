@@ -12,6 +12,7 @@ class Lead extends Model
         'stage_id',
         'user_id',
         'client_id',
+        'contact_id',
         'source_id',
         'created_by',
         'notes'
@@ -23,12 +24,17 @@ class Lead extends Model
 
     public function client()
     {
-        return $this->hasOne('App\User', 'id', 'client_id');
+        return $this->belongsTo('App\User');
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo('App\Contact');
     }
 
     public function stage()
     {
-        return $this->hasOne('App\LeadStage', 'id', 'stage_id');
+        return $this->belongsTo('App\LeadStage');
     }
 
     public function removeProjectLead()
