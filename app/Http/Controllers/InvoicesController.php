@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 
 class InvoicesController extends FinanceSectionController
 {
-    public function create()
+    public function create($project_id)
     {
 
         if(\Auth::user()->can('create invoice'))
@@ -28,7 +28,7 @@ class InvoicesController extends FinanceSectionController
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-            return view('invoices.create', compact('projects', 'taxes'));
+            return view('invoices.create', compact('projects', 'project_id', 'taxes'));
         }
         else
         {
@@ -106,7 +106,7 @@ class InvoicesController extends FinanceSectionController
                 $settings = \Auth::user()->settings();
                 $client   = $invoice->project->client;
 
-                return view('invoices.view', compact('invoice', 'settings', 'client'));
+                return view('invoices.show', compact('invoice', 'settings', 'client'));
             }
             else
             {

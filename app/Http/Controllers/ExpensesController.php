@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ExpensesController extends FinanceSectionController
 {
-    public function create()
+    public function create($project_id)
     {
         if(\Auth::user()->can('create expense'))
         {
@@ -18,7 +18,7 @@ class ExpensesController extends FinanceSectionController
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
             $users    = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
 
-            return view('expenses.create', compact('category', 'projects', 'users'));
+            return view('expenses.create', compact('category', 'project_id', 'projects', 'users'));
         }
         else
         {

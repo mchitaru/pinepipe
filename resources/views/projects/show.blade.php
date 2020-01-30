@@ -190,6 +190,16 @@ $(document).ready(function() {
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#invoices" role="tab" aria-controls="timesheets" aria-selected="false">Invoices
+                    <span class="badge badge-secondary">{{ count($invoices) }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="timesheets" aria-selected="false">Expenses
+                    <span class="badge badge-secondary">{{ count($expenses) }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
             </li>
             <li class="nav-item">
@@ -252,6 +262,60 @@ $(document).ready(function() {
                 <div class="content-list-body">
 
                     @include('timesheets.index')
+                </div>
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade" id="invoices" role="tabpanel" data-filter-list="card-list-body">
+                <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>{{__('Invoices')}}</h3>
+
+                    <a href="{{ route('projects.invoice.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+                <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Filter Invoices" aria-label="Filter Invoices">
+                    </div>
+                </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body">
+
+                    @include('invoices.index')
+                </div>
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade" id="expenses" role="tabpanel" data-filter-list="card-list-body">
+                <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>{{__('Expenses')}}</h3>
+
+                    <a href="{{ route('projects.expense.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+                <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Filter Expenses" aria-label="Filter Expenses">
+                    </div>
+                </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body">
+
+                    @include('expenses.index')
                 </div>
             </div>
             <!--end of tab-->

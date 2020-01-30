@@ -92,7 +92,7 @@
                     <div class="col-auto">
                         <h3>{{__('Invoices')}}</h3>
                         @can('create invoice')
-                        <a href="{{ route('invoices.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                        <a href="{{ route('projects.invoice.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
                         @endcan
@@ -120,7 +120,7 @@
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>
                         @can('create invoice')
-                        <a href="{{ route('expenses.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                        <a href="{{ route('projects.expense.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
                         @endcan

@@ -18,6 +18,7 @@ use App\SubTask;
 use App\Task;
 use App\TaskFile;
 use App\Timesheet;
+use App\Expense;
 use App\User;
 use App\UserProject;
 use App\Http\Requests\ProjectStoreRequest;
@@ -113,6 +114,32 @@ class ProjectsController extends ProjectsSectionController
                 }
             }
 
+            $invoices = null;
+            if(\Auth::user()->can('manage timesheet'))
+            {
+                if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
+                {
+                    $invoices = Invoice::where('project_id', '=', $project_id)->get();
+                }
+                else
+                {
+                    $invoices = Invoice::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
+                }
+            }
+
+            $expenses = null;
+            if(\Auth::user()->can('manage timesheet'))
+            {
+                if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
+                {
+                    $expenses = Expense::where('project_id', '=', $project_id)->get();
+                }
+                else
+                {
+                    $expenses = Expense::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
+                }
+            }
+
             $project_status = __('Unknown');
             foreach($project_status_list as $key => $status)
             {
@@ -127,7 +154,7 @@ class ProjectsController extends ProjectsSectionController
                 $task_count = $task_count + count($stage->getTasksByUserType($project_id));
             }
 
-            return view('projects.show', compact('project', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'activities'));
+            return view('projects.show', compact('project', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'invoices', 'expenses', 'activities'));
         }
         else
         {

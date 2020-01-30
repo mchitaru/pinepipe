@@ -170,8 +170,12 @@ Route::group(
         Route::get('projects/{project}/client/{client}/permission', 'ProjectsController@clientPermission')->name('projects.client.permission');
         Route::put('projects/{project}/client/{client}/permission', 'ProjectsController@storeClientPermission')->name('projects.client.permission.store');
 
-        Route::get('projects/{project}/timesheet/create', 'TimesheetsController@create')->name('projects.timesheet.create');
-        Route::post('projects/{project}/timesheet/create', 'TimesheetsController@store')->name('projects.timesheet.store');
+
+        Route::get('projects/{project}/invoice', 'InvoicesController@create')->name('projects.invoice.create');
+        Route::get('projects/{project}/expense', 'ExpensesController@create')->name('projects.expense.create');
+
+        Route::get('projects/{project}/timesheet', 'TimesheetsController@create')->name('projects.timesheet.create');
+        Route::post('projects/{project}/timesheet', 'TimesheetsController@store')->name('projects.timesheet.store');
         Route::get('projects/{project}/timesheet/{timesheet}/edit', 'TimesheetsController@edit')->name('projects.timesheet.edit');
         Route::put('projects/{project}/timesheet/{timesheet}/update', 'TimesheetsController@update')->name('projects.timesheet.update');
         Route::delete('projects/{project}/timesheet/{timesheet}/destroy', 'TimesheetsController@destroy')->name('projects.timesheet.destroy');    

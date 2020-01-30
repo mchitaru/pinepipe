@@ -12,7 +12,7 @@
 <div class="tab-content">
     <div class="form-group row required">
         {{ Form::label('amount', __('Amount'), array('class'=>'col-3')) }}
-        {{ Form::number('amount', '', array('class' => 'form-control col','required'=>'required')) }}
+        {{ Form::number('amount', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Expense ammount')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
@@ -21,7 +21,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) }}
+        {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('user_id', __('User'), array('class'=>'col-3')) }}
