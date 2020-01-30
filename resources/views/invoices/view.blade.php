@@ -131,7 +131,7 @@
                                         <div class="col-12 text-md-center">
                                             <address>
                                                 <span class="row align-items-center justify-content-center">
-                                                    <img width="60" height="60" alt="{{$settings['company_name']}}" {!! empty($settings['company_logo']) ? "avatar='".$settings['company_name']."'" : "" !!} class="rounded" src="{{asset(Storage::url("avatar/".$settings['company_logo']))}}" data-filter-by="alt"/>
+                                                    <img width="60" height="60" alt="{{$settings['company_name']}}" {!! empty($settings['company_logo']) ? "avatar='".$settings['company_name']."'" : "" !!} class="rounded" src="{{Storage::url($settings['company_logo'])}}" data-filter-by="alt"/>
                                                 </span>
                                                 <span class="row align-items-center justify-content-center">
                                                     <h5>{{$client->name}} invoice</h5>

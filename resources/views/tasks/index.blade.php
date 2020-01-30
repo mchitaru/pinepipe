@@ -3,7 +3,6 @@
     use App\Project;
 
     $current_user=\Auth::user();
-    $profile=asset(Storage::url('avatar/'));
 @endphp
 
 @foreach($stages as $stage)
@@ -85,7 +84,7 @@
                         @foreach($task->users as $user)
                         <li>
                             <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
-                                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
+                                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
                             </a>
                         </li>
                         @endforeach

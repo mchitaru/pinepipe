@@ -57,28 +57,8 @@ class PaymentPlansController extends Controller
                 $validation['max_users']    = 'required|numeric';
                 $validation['max_clients']  = 'required|numeric';
                 $validation['max_projects'] = 'required|numeric';
-                if($request->image)
-                {
-                    $validation['image'] = 'required|max:2048';
-                }
                 $request->validate($validation);
                 $post = $request->all();
-
-                if($request->hasFile('image'))
-                {
-                    $filenameWithExt = $request->file('image')->getClientOriginalName();
-                    $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    $extension       = $request->file('image')->getClientOriginalExtension();
-                    $fileNameToStore = 'plan_' . time() . '.' . $extension;
-
-                    $dir = storage_path('app/public/plan/');
-                    if(!file_exists($dir))
-                    {
-                        mkdir($dir, 0777, true);
-                    }
-                    $path          = $request->file('image')->storeAs('public/plan/', $fileNameToStore);
-                    $post['image'] = $fileNameToStore;
-                }
 
                 if(PaymentPlan::create($post))
                 {

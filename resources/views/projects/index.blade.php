@@ -91,7 +91,7 @@
                         @if($project->is_active)
                             <a href="{{ route('users.index', $user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($user)?$user->name:'')}}">
                         @endif
-                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
+                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
                         @if($project->is_active)
                         </a>
                         @endif

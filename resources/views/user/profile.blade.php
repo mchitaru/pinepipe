@@ -1,7 +1,5 @@
 @extends('layouts.app')
-@php
-    $avatar=asset(Storage::url('avatar/'));
-@endphp
+
 @push('stylesheets')
 @endpush
 
@@ -88,7 +86,7 @@
                 {{Form::model($userDetail,array('route' => array('update.account'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
                 <div class="media mb-4">
                     <div class="d-flex flex-column">
-                        <img width="60" height="60" alt="{{$userDetail->name}}" {!! empty($userDetail->avatar) ? "avatar='".$userDetail->name."'" : "" !!} class="round" src="{{asset(Storage::url("avatar/".$userDetail->avatar))}}" data-filter-by="alt"/>
+                        <img width="60" height="60" alt="{{$userDetail->name}}" {!! empty($userDetail->avatar) ? "avatar='".$userDetail->name."'" : "" !!} class="round" src="{{Storage::url($userDetail->avatar)}}" data-filter-by="alt"/>
                         <span class="badge badge-secondary">{{$userDetail->type}}</span>
                     </div>
                     <div class="media-body ml-3">
@@ -189,7 +187,7 @@
                     <div class="row">
                         <div class="media mb-4">
                             <div class="d-flex flex-column">
-                                <img width="60" height="60" alt="{{$userDetail->settings['company_name']}}" {!! empty($userDetail->settings['company_logo']) ? "avatar='".$userDetail->settings['company_name']."'" : "" !!} class="rounded" src="{{asset(Storage::url("avatar/".$userDetail->settings['company_logo']))}}" data-filter-by="alt"/>
+                                <img width="60" height="60" alt="{{$userDetail->settings['company_name']}}" {!! empty($userDetail->settings['company_logo']) ? "avatar='".$userDetail->settings['company_name']."'" : "" !!} class="rounded" src="{{Storage::url($userDetail->settings['company_logo'])}}" data-filter-by="alt"/>
                             </div>
                             <div class="media-body ml-3">
                                 <div class="custom-file custom-file-naked d-block mb-1">

@@ -5,7 +5,6 @@
     use App\Project;
 
     $current_user=\Auth::user();
-    $profile=asset(Storage::url('avatar/'));
 @endphp
 
 @push('stylesheets')
@@ -138,7 +137,7 @@ $(document).ready(function() {
                     @foreach($project->users as $user)
                     <li>
                         <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
-                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$user->avatar))}}" data-filter-by="alt"/>
+                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
                         </a>
                     </li>
                     @endforeach
@@ -278,7 +277,7 @@ $(document).ready(function() {
                             <div class="card-meta">
                                 @if(!empty($timeSheet->user()))
                                 <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}">
-                                    <img alt="{{$timeSheet->user()->name}}" {!! empty($timeSheet->user()->avatar) ? "avatar='".$timeSheet->user()->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$timeSheet->user()->avatar))}}" data-filter-by="alt"/>
+                                    <img alt="{{$timeSheet->user()->name}}" {!! empty($timeSheet->user()->avatar) ? "avatar='".$timeSheet->user()->name."'" : "" !!} class="avatar" src="{{Storage::url($timeSheet->user()->avatar)}}" data-filter-by="alt"/>
                                 </a>
                                 @endif
                                 @if(\Auth::user()->type!='client')
@@ -342,7 +341,7 @@ $(document).ready(function() {
                             </li>
                             <li>
                                 <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img alt="{{$current_user->name}}" title="{{$current_user->name}}" src="{{(!empty($current_user->avatar)? $profile.'/'.$current_user->avatar : $profile.'/avatar.png')}}" class="avatar" />
+                                    <img alt="{{$current_user->name}}" {!! empty($current_user->avatar) ? "avatar='".$current_user->name."'" : "" !!} class="avatar" src="{{Storage::url($current_user->avatar)}}" data-filter-by="alt"/>
                                 </a>
                             </li>
                             </ul>

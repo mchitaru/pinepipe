@@ -1,6 +1,5 @@
 @php
     $user=\Auth::user();
-    $avatar = asset(Storage::url('avatar/'.$user->avatar));
     $logo = asset(Storage::url('logo/'));
 
     $currantLang = $user->currentLanguage();
@@ -19,7 +18,7 @@
     <div class="d-block d-lg-none ml-2">
         <div class="dropdown">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".asset(Storage::url('avatar/'.$user->avatar))."'" : "" !!} data-filter-by="alt"/>
+            <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".Storage::url($user->avatar)."'" : "" !!} data-filter-by="alt"/>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
             @can('manage account')
@@ -29,18 +28,16 @@
                 <div class="dropdown-divider"></div>
             @endcan
 
-            @if(\Auth::user()->type!='client')
-                @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
-                    @can('manage user')
-                        <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-                    @endcan
+            @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
+                @if(Gate::check('manage user'))
+                    <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                 @endif
                 @if(Gate::check('manage role'))
                     <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
                 @endif
-            @endif
 
-            <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div>
+            @endif
 
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                 {{__('Logout')}}
@@ -252,7 +249,7 @@
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".asset(Storage::url('avatar/'.$user->avatar))."'" : "" !!} data-filter-by="alt"/>
+                <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".Storage::url($user->avatar)."'" : "" !!} data-filter-by="alt"/>
             </a>
         </a>
         <div class="dropdown-menu">
@@ -263,18 +260,15 @@
                 <div class="dropdown-divider"></div>
             @endcan
 
-            @if(\Auth::user()->type!='client')
-                @if(\Auth::user()->type=='super admin' || Gate::check('manage user'))
-                    @can('manage user')
+            @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
+                @if(Gate::check('manage user'))
                     <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-                    @endcan
                 @endif
                 @if(Gate::check('manage role'))
                     <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
                 @endif
+                <div class="dropdown-divider"></div>
             @endif
-
-            <div class="dropdown-divider"></div>
 
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                 {{__('Logout')}}

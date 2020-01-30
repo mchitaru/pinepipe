@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@php
-    $profile=asset(Storage::url('avatar/'));
-@endphp
-
 @push('stylesheets')
 @endpush
 

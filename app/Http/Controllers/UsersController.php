@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Session;
 use Spatie\Permission\Models\Role;
-
+use App\Http\Helpers;
 
 class UsersController extends Controller
 {
@@ -257,31 +257,10 @@ class UsersController extends Controller
         );
         if($request->hasFile('avatar'))
         {
-            $filenameWithExt = $request->file('avatar')->getClientOriginalName();
-            $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension       = $request->file('avatar')->getClientOriginalExtension();
-            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-
-            $dir        = storage_path('app/public/avatar/');
-            $image_path = $dir . $userDetail['avatar'];
-
-            if(File::exists($image_path))
-            {
-                File::delete($image_path);
-            }
-
-            if(!file_exists($dir))
-            {
-                mkdir($dir, 0777, true);
-            }
-
-            $path = $request->file('avatar')->storeAs('public/avatar', $fileNameToStore);
+            $path = Helpers::storePublicFile($request->file('avatar'));
+            $user['avatar'] = $path;
         }
 
-        if(!empty($request->avatar))
-        {
-            $user['avatar'] = $fileNameToStore;
-        }
         $user['name']  = $request['name'];
         $user['email'] = $request['email'];
         $user->save();

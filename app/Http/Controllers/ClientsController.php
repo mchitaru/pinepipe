@@ -10,6 +10,7 @@ use App\LeadStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use App\Http\Helpers;
 
 class ClientsController extends ClientsSectionController
 {
@@ -157,29 +158,13 @@ class ClientsController extends ClientsSectionController
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users,email,'.$userDetail['id'],
         ]);
-        if($request->hasFile('profile')) {
-            $filenameWithExt = $request->file('profile')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('profile')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
 
-            $dir= storage_path('app/public/avatar/');
-            $image_path = $dir .$userDetail['avatar'];
-
-            if(File::exists($image_path)) {
-                File::delete($image_path);
-            }
-
-            if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
-            }
-            $path = $request->file('profile')->storeAs('public/avatar/', $fileNameToStore);
-
+        if($request->hasFile('profile')) 
+        {
+            $path = Helpers::storePublicFile($request->file('profile'));
+            $user['avatar'] = $path;
         }
 
-        if(!empty($request->profile)){
-            $user['avatar'] = $fileNameToStore;
-        }
         $user['name'] = $request['name'];
         $user['email'] = $request['email'];
         $user->save();

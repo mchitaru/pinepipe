@@ -3,7 +3,7 @@
     <div class="container row align-items-center" style="min-height: 67px;">
         <div class="pl-2 position-absolute">
             <a href="#" data-toggle="tooltip" title={{$client->name}}>
-                <img alt="{{$client->name}}" {!! empty($client->avatar) ? "avatar='".$client->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$client->avatar))}}" data-filter-by="alt"/>
+                <img alt="{{$client->name}}" {!! empty($client->avatar) ? "avatar='".$client->name."'" : "" !!} class="avatar" src="{{Storage::url($client->avatar)}}" data-filter-by="alt"/>
             </a>
         </div>
         <div class="card-body p-2 pl-5">

@@ -1,6 +1,5 @@
 @php
     $users=\Auth::user();
-    $profile=asset(Storage::url('avatar/'));
     $logo=asset(Storage::url('logo/'));
 
     $currantLang = $users->currentLanguage();
@@ -158,7 +157,7 @@
         <div class="dropdown mx-lg-2 float-right">
             <div class="dropdown dropdown-toggle">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="avatar" src="{{asset(Storage::url("avatar/".$users->avatar))}}" data-filter-by="alt"/>
+                <img alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="avatar" src="{{Storage::url($users->avatar)}}" data-filter-by="alt"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @can('manage account')

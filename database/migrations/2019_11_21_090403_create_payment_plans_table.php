@@ -22,7 +22,6 @@ class CreatePaymentPlansTable extends Migration
             $table->unsignedInteger('max_clients')->default(0);
             $table->unsignedInteger('max_projects')->default(0);
             $table->text('description')->nullable();
-            $table->string('image');
             $table->timestamps();
         });
     }

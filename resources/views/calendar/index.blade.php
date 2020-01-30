@@ -65,10 +65,6 @@
     </script>
 @endpush
 
-@php
-    $profile=asset(Storage::url('avatar/'));
-@endphp
-
 @section('page-title')
     {{__('Calendar')}}
 @endsection

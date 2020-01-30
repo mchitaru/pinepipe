@@ -15,7 +15,6 @@ class PaymentPlan extends Model
         'max_clients',
         'max_projects',
         'description',
-        'image',
     ];
 
     public static $arrDuration = [
