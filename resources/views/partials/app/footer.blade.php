@@ -13,7 +13,7 @@
 <!-- Flatpickr (calendar/date/time picker UI) -->
 <script type="text/javascript" src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <!-- Prism - displays formatted code boxes -->
-<script type="text/javascript" src="{{ asset('assets/js/prism.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/prism.min.js') }}"></script>
 <!-- Shopify Draggable - drag, drop and sort items on page -->
 <script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.legacy.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/swap-animation.js') }}"></script>
@@ -23,12 +23,10 @@
 <script type="text/javascript" src="{{ asset('assets/js/list.min.js') }}"></script>
 
 <!-- Required theme scripts (Do not remove) -->
-<script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/theme.min.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/avatar.js') }}"></script>
-{{-- <script type="text/javascript" src="{{ asset('assets/modules/select2/js/select2.min.js') }}"></script> --}}
-{{-- <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script> --}}
+<script type="text/javascript" src="{{ asset('assets/js/avatar.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/remote.js') }}"></script>
 
 <script>
