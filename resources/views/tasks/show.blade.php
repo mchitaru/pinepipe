@@ -4,6 +4,7 @@
 @php
 use Carbon\Carbon;
 use App\Project;
+use App\Http\Helpers;
 
 $current_user=\Auth::user();
 
@@ -35,7 +36,7 @@ $label = $task->getProgressColor($percentage);
             <li>
                 @if(!empty($task->task_user))
                 <a href="#" data-toggle="tooltip" title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
-                    <img alt="{{$task->task_user->name}}" {!! empty($task->task_user->avatar) ? "avatar='".$task->task_user->name."'" : "" !!} class="avatar" src="{{Storage::url($task->task_user->avatar)}}" data-filter-by="alt"/>
+                    {!!Helpers::buildAvatar($task->task_user)!!}
                 </a>
                 @endif
             </li>
@@ -188,7 +189,7 @@ $label = $task->getProgressColor($percentage);
                 <div class="card card-note">
                 <div class="card-header p-1">
                     <div class="media align-items-center">
-                    <img alt="{{$comment->user->name}}" {!! empty($comment->user->avatar) ? "avatar='".$comment->user->name."'" : "" !!} class="avatar" src="{{Storage::url($comment->user->avatar)}}" data-filter-by="alt"/>
+                        {!!Helpers::buildAvatar($comment->user)!!}
                     <div class="media-body">
                         <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
                     </div>
@@ -248,7 +249,7 @@ $label = $task->getProgressColor($percentage);
                         </li>
                         <li>
                             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img alt="{{$current_user->name}}" {!! empty($current_user->avatar) ? "avatar='".$current_user->name."'" : "" !!} class="avatar" src="{{Storage::url($current_user->avatar)}}" data-filter-by="alt"/>
+                                {!!Helpers::buildAvatar($current_user)!!}
                             </a>
                         </li>
                     </ul>

@@ -1,5 +1,6 @@
 @php
     use Carbon\Carbon;
+    use App\Http\Helpers;
 @endphp
 
 @foreach ($expenses as $expense)
@@ -46,7 +47,7 @@
                     </a>
                 @endif
                 <a href="#" data-toggle="tooltip" title={{$expense->user->name}}>
-                    <img alt="{{$expense->user->name}}" {!! empty($expense->user->avatar) ? "avatar='".$expense->user->name."'" : "" !!} class="avatar" src="{{Storage::url($expense->user->avatar)}}" data-filter-by="alt"/>
+                    {!!Helpers::buildAvatar($expense->user)!!}
                 </a>
             </div>
             @endif

@@ -1,9 +1,11 @@
 @php
-    $user=\Auth::user();
-    $logo = asset(Storage::url('logo/'));
+use App\Http\Helpers;
 
-    $currantLang = $user->currentLanguage();
-    $languages=$user->languages();
+$user=\Auth::user();
+$logo = asset(Storage::url('logo/'));
+
+$currantLang = $user->currentLanguage();
+$languages=$user->languages();
 
 @endphp
 
@@ -18,7 +20,7 @@
     <div class="d-block d-lg-none ml-2">
         <div class="dropdown">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".Storage::url($user->avatar)."'" : "" !!} data-filter-by="alt"/>
+            {!!Helpers::buildAvatar($user, 36, 'round')!!}
         </a>
         <div class="dropdown-menu dropdown-menu-right">
             @can('manage account')
@@ -246,7 +248,7 @@
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img width="36" height="36" alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="round" {!! !empty($user->avatar) ? "src='".Storage::url($user->avatar)."'" : "" !!} data-filter-by="alt"/>
+                {!!Helpers::buildAvatar($user, 36, 'round')!!}
             </a>
         </a>
         <div class="dropdown-menu">

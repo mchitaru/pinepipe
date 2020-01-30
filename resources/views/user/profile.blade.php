@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+use App\Http\Helpers;
+@endphp
+
 @push('stylesheets')
 @endpush
 
@@ -83,11 +87,11 @@
         <div class="card-body">
             <div class="tab-content">
             <div class="tab-pane fade show" role="tabpanel" id="profile">
-                {{Form::model($userDetail,array('route' => array('update.account'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
+                {{Form::model($user,array('route' => array('update.account'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
                 <div class="media mb-4">
                     <div class="d-flex flex-column">
-                        <img width="60" height="60" alt="{{$userDetail->name}}" {!! empty($userDetail->avatar) ? "avatar='".$userDetail->name."'" : "" !!} class="round" src="{{Storage::url($userDetail->avatar)}}" data-filter-by="alt"/>
-                        <span class="badge badge-secondary">{{$userDetail->type}}</span>
+                        {!!Helpers::buildAvatar($user, 60, 'round')!!}
+                        <span class="badge badge-secondary">{{$user->type}}</span>
                     </div>
                     <div class="media-body ml-3">
                         <div class="custom-file custom-file-naked d-block mb-1">
@@ -140,7 +144,7 @@
                 {{Form::close()}}
             </div>
             <div class="tab-pane fade" role="tabpanel" id="password">
-                {{Form::model($userDetail,array('route' => array('update.password',$userDetail->id), 'method' => 'put'))}}
+                {{Form::model($user,array('route' => array('update.password',$user->id), 'method' => 'put'))}}
                 <div class="form-group row align-items-center">
                     {{Form::label('current_password',__('Current Password'), array('class'=>'col-3'))}}
                     <div class="col">
@@ -182,12 +186,12 @@
             </div>
             @can('manage company settings')
             <div class="tab-pane fade show" role="tabpanel" id="company">
-                {{Form::model($userDetail->settings,array('route'=>'company.settings','method'=>'post', 'enctype' => 'multipart/form-data'))}}
+                {{Form::model($user->settings,array('route'=>'company.settings','method'=>'post', 'enctype' => 'multipart/form-data'))}}
                 <div class="card-body">
                     <div class="row">
                         <div class="media mb-4">
                             <div class="d-flex flex-column">
-                                <img width="60" height="60" alt="{{$userDetail->settings['company_name']}}" {!! empty($userDetail->settings['company_logo']) ? "avatar='".$userDetail->settings['company_name']."'" : "" !!} class="rounded" src="{{Storage::url($userDetail->settings['company_logo'])}}" data-filter-by="alt"/>
+                                <img width="60" height="60" alt="{{$user->settings['company_name']}}" {!! empty($user->settings['company_logo']) ? "avatar='".$user->settings['company_name']."'" : "" !!} class="rounded" src="{{!empty($user->settings['company_logo'])?Storage::url($user->settings['company_logo']):""}}" data-filter-by="alt"/>
                             </div>
                             <div class="media-body ml-3">
                                 <div class="custom-file custom-file-naked d-block mb-1">

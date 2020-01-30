@@ -1,3 +1,7 @@
+@php
+use App\Http\Helpers;
+@endphp
+
 @foreach ($projects as $project)
 
 @php
@@ -91,7 +95,7 @@
                         @if($project->is_active)
                             <a href="{{ route('users.index', $user->id) }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
                         @endif
-                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
+                            {!!Helpers::buildAvatar($user)!!}
                         @if($project->is_active)
                         </a>
                         @endif

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,5 +20,12 @@ class Helpers
         $path = $file->store('upload/'.\Auth::user()->creatorId(), 'local');
 
         return $path;
+    }
+
+    public static function buildAvatar(User $user, $size = 36, $class = 'avatar')
+    {
+        return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$user->name."'".
+                    (empty($user->avatar) ? (" class='".$class."' avatar='".$user->name."'") : 
+                                            (" class='".$class."' src='".Storage::url($user->avatar)."'"))."/>";
     }
 }

@@ -1,3 +1,7 @@
+@php
+use App\Http\Helpers;
+@endphp
+
 @foreach($timesheets as $timesheet)
 
 <div class="card card-task mb-1">
@@ -23,7 +27,7 @@
     <div class="card-meta">
         @if(!empty($timesheet->user))
         <a href="#" data-toggle="tooltip" title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
-            <img alt="{{$timesheet->user->name}}" {!! empty($timesheet->user->avatar) ? "avatar='".$timesheet->user->name."'" : "" !!} class="avatar" src="{{Storage::url($timesheet->user->avatar)}}" data-filter-by="alt"/>
+            {!!Helpers::buildAvatar($timesheet->user)!!}
         </a>
         @endif
         @if(\Auth::user()->type!='client')

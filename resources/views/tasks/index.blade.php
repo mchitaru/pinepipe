@@ -1,6 +1,7 @@
 @php
     use Carbon\Carbon;
     use App\Project;
+    use App\Http\Helpers;
 
     $current_user=\Auth::user();
 @endphp
@@ -84,7 +85,7 @@
                         @foreach($task->users as $user)
                         <li>
                             <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
+                                {!!Helpers::buildAvatar($user)!!}
                             </a>
                         </li>
                         @endforeach

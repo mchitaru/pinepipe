@@ -2,6 +2,7 @@
 
 @php
 use Carbon\Carbon;
+use App\Http\Helpers;
 @endphp
 
 @push('stylesheets')
@@ -103,7 +104,7 @@ use Carbon\Carbon;
                             @if(!empty($lead->user))
                             <div class="float-right">
                                 <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
-                                    <img alt="{{$lead->user->name}}" {!! empty($lead->user->avatar) ? "avatar='".$lead->user->name."'" : "" !!} class="avatar" src="{{Storage::url($lead->user->avatar)}}" data-filter-by="alt"/>
+                                    {!!Helpers::buildAvatar($lead->user)!!}
                                 </a>
                             </div>
                             @endif

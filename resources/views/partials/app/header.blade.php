@@ -1,9 +1,11 @@
 @php
-    $users=\Auth::user();
-    $logo=asset(Storage::url('logo/'));
+use App\Http\Helpers;
 
-    $currantLang = $users->currentLanguage();
-    $languages=$users->languages();
+$user=\Auth::user();
+$logo=asset(Storage::url('logo/'));
+
+$currantLang = $user->currentLanguage();
+$languages=$user->languages();
 
 @endphp
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
@@ -157,11 +159,11 @@
         <div class="dropdown mx-lg-2 float-right">
             <div class="dropdown dropdown-toggle">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img alt="{{$users->name}}" {!! empty($users->avatar) ? "avatar='".$users->name."'" : "" !!} class="avatar" src="{{Storage::url($users->avatar)}}" data-filter-by="alt"/>
+                {!!Helpers::buildAvatar($user)!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @can('manage account')
-                <a href="{{route('profile',$users->id)}}" class="dropdown-item">
+                <a href="{{route('profile',$user->id)}}" class="dropdown-item">
                     {{__('Profile')}}
                 </a>
                 @endcan

@@ -3,6 +3,7 @@
 @php
     use Carbon\Carbon;
     use App\Project;
+    use App\Http\Helpers;
 
     $current_user=\Auth::user();
 @endphp
@@ -135,7 +136,7 @@ $(document).ready(function() {
                     @foreach($project->users as $user)
                     <li>
                         <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                            <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
+                            {!!Helpers::buildAvatar($user)!!}
                         </a>
                     </li>
                     @endforeach
@@ -352,7 +353,7 @@ $(document).ready(function() {
                             </li>
                             <li>
                                 <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img alt="{{$current_user->name}}" {!! empty($current_user->avatar) ? "avatar='".$current_user->name."'" : "" !!} class="avatar" src="{{Storage::url($current_user->avatar)}}" data-filter-by="alt"/>
+                                    {!!Helpers::buildAvatar($current_user)!!}
                                 </a>
                             </li>
                             </ul>

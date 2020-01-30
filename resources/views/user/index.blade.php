@@ -1,9 +1,13 @@
+@php
+use App\Http\Helpers;
+@endphp
+
 @foreach($users as $user)
 <div class="card card-task mb-1" style="min-height: 67px;">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
             <a href="#" data-toggle="tooltip" title={{$user->name}}>
-                <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
+                {!!Helpers::buildAvatar($user)!!}
             </a>
         </div>
         <div class="card-body p-2 pl-5">

@@ -1,5 +1,6 @@
 @php
-    use Carbon\Carbon;
+use Carbon\Carbon;
+use App\Http\Helpers;
 @endphp
 
 @foreach($stages as $stage)
@@ -59,7 +60,7 @@
                             <div class="container row align-items-center">
                                 @if(!empty($lead->user))
                                 <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
-                                    <img alt="{{$lead->user->name}}" {!! empty($lead->user->avatar) ? "avatar='".$lead->user->name."'" : "" !!} class="avatar" src="{{Storage::url($lead->user->avatar)}}" data-filter-by="alt"/>
+                                    {!!Helpers::buildAvatar($lead->user)!!}
                                 </a>
                                 @endif
                             </div>
