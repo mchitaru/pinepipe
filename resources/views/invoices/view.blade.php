@@ -72,54 +72,55 @@
         <div class="row pt-5">
             <div class="col">
                 <div class="card">
-                    <div class="card-header row align-items-center">
-                        <div class="col-11">
-                            <h6>{{ Auth::user()->invoiceNumberFormat($invoice->id) }}
-                                @if($invoice->status == 0)
-                                    <span class="badge badge-primary">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                @elseif($invoice->status == 1)
-                                    <span class="badge badge-danger">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                @elseif($invoice->status == 2)
-                                    <span class="badge badge-warning">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                @elseif($invoice->status == 3)
-                                    <span class="badge badge-success">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                @elseif($invoice->status == 4)
-                                    <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
-                                @endif
-                            </h6>
-                        </div>
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-11">
+                                <h6>{{ Auth::user()->invoiceNumberFormat($invoice->id) }}
+                                    @if($invoice->status == 0)
+                                        <span class="badge badge-primary">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                    @elseif($invoice->status == 1)
+                                        <span class="badge badge-danger">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                    @elseif($invoice->status == 2)
+                                        <span class="badge badge-warning">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                    @elseif($invoice->status == 3)
+                                        <span class="badge badge-success">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                    @elseif($invoice->status == 4)
+                                        <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                    @endif
+                                </h6>
+                            </div>
+                            <div class="col-1 dropdown card-options d-print-none">
+                                <button class="btn-options float-right" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </button>
 
-                        <div class="col-1 dropdown card-options">
-                            <button class="btn-options float-right" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">
-                                    <span>{{__('Export PDF')}}</span>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                @can('create invoice product')
-                                <a class="dropdown-item" href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
-                                    <span>{{__('Add Item')}}</span>
-                                </a>
-                                @endcan
-                                @can('create invoice payment')
-                                <a class="dropdown-item" href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
-                                    <span>{{__('Add Payment')}}</span>
-                                </a>
-                                @endcan
-                                @can('edit invoice')
-                                <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
-                                    <span>{{__('Edit')}}</span>
-                                </a>
-                                @endcan
-                                <div class="dropdown-divider"></div>
-                                @can('delete invoice')
-                                    <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                        <span>{{'Delete'}}</span>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">
+                                        <span>{{__('Export PDF')}}</span>
                                     </a>
-                                @endcan
+                                    <div class="dropdown-divider"></div>
+                                    @can('create invoice product')
+                                    <a class="dropdown-item" href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
+                                        <span>{{__('Add Item')}}</span>
+                                    </a>
+                                    @endcan
+                                    @can('create invoice payment')
+                                    <a class="dropdown-item" href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
+                                        <span>{{__('Add Payment')}}</span>
+                                    </a>
+                                    @endcan
+                                    @can('edit invoice')
+                                    <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
+                                        <span>{{__('Edit')}}</span>
+                                    </a>
+                                    @endcan
+                                    <div class="dropdown-divider"></div>
+                                    @can('delete invoice')
+                                        <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                            <span>{{'Delete'}}</span>
+                                        </a>
+                                    @endcan
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,14 +183,14 @@
                             <div class="row ">
                                 <div class="col-md-12">
                                     <div class="section-title"><b>{{__('Order Summary')}}</b>
-                                        <div class="col-md-12 text-right">
-                                            @can('create invoice product')
-                                                <a href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
-                                                    <span><i class="fas fa-plus"></i></span>
-                                                    <u>{{__('Add Item')}}</u>
-                                                </a>
-                                            @endcan
+                                        @can('create invoice product')
+                                        <div class="col-md-12 text-right d-print-none">
+                                            <a href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
+                                                <span><i class="fas fa-plus"></i></span>
+                                                <u>{{__('Add Item')}}</u>
+                                            </a>
                                         </div>
+                                        @endcan
                                     </div>
 
                                     <div class="table-responsive">
@@ -271,14 +272,14 @@
                             <div class="row ">
                                 <div class="col-md-12">
                                     <div class="section-title">{{__('Payment History')}}
-                                        <div class="col-md-12 text-right">
-                                            @can('create invoice payment')
-                                                <a href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
-                                                    <span><i class="fas fa-plus"></i></span>
-                                                    <u>{{__('Add Payment')}}</u>
-                                                </a>
-                                            @endcan
+                                        @can('create invoice payment')
+                                        <div class="col-md-12 text-right d-print-none">
+                                            <a href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
+                                                <span><i class="fas fa-plus"></i></span>
+                                                <u>{{__('Add Payment')}}</u>
+                                            </a>
                                         </div>
+                                        @endcan
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-striped table-hover table-md">
