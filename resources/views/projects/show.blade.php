@@ -58,15 +58,15 @@ $(document).ready(function() {
             @if(Gate::check('edit project') || Gate::check('delete project'))
 
             @can('edit project')
-                <a class="dropdown-item" href="#">Mark as Complete</a>
+                <a class="dropdown-item disabled" href="#">Mark as Complete</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" title="{{__('Edit Project')}}" data-toggle="tooltip">
+                <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                     {{__('Edit Project')}}
                 </a>
             @endcan
 
             @can('client permission project')
-                <a class="dropdown-item" href="#" data-url="{{ route('projects.client.permission',[$project->id,$project->client]) }}" data-ajax-popup="true" title="{{__('Edit Client Permission')}}" data-toggle="tooltip" data-size="lg">
+                <a class="dropdown-item" href="{{ route('projects.client.permission',[$project->id,$project->client]) }}" data-remote="true" data-type="text">
                     {{__('Edit Client Permission')}}
                 </a>
             @endcan

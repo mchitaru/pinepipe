@@ -12,32 +12,8 @@ use Session;
 use Spatie\Permission\Models\Role;
 use App\Http\Helpers;
 
-class UsersController extends Controller
+class UsersController extends UsersSectionController
 {
-
-    public function index()
-    {
-        $user = \Auth::user();
-        if(\Auth::user()->can('manage user'))
-        {
-            if(\Auth::user()->type == 'super admin')
-            {
-                $users = User::where('created_by', '=', $user->creatorId())->where('type', '=', 'company')->get();
-            }
-            else
-            {
-                $users = User::where('created_by', '=', $user->creatorId())->where('type', '!=', 'client')->get();
-            }
-
-            return view('user.index')->with('users', $users);
-        }
-        else
-        {
-            return redirect()->back();
-        }
-
-    }
-
 
     public function create()
     {
@@ -130,14 +106,11 @@ class UsersController extends Controller
 
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user  = \Auth::user();
-        $roles = Role::where('created_by', '=', $user->creatorId())->get()->pluck('name', 'id');
+        $roles = Role::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         if(\Auth::user()->can('edit user'))
         {
-            $user = User::findOrFail($id);
-
             return view('user.edit', compact('user', 'roles'));
         }
         else
@@ -148,18 +121,17 @@ class UsersController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
 
         if(\Auth::user()->can('edit user'))
         {
             if(\Auth::user()->type == 'super admin')
             {
-                $user = User::findOrFail($id);
                 $this->validate(
                     $request, [
                                 'name' => 'required|max:120',
-                                'email' => 'required|email|unique:users,email,' . $id,
+                                'email' => 'required|email|unique:users,email,' . $user->id,
                             ]
                 );
                 $input = $request->all();
@@ -175,7 +147,7 @@ class UsersController extends Controller
                 $this->validate(
                     $request, [
                                 'name' => 'required|max:120',
-                                'email' => 'required|email|unique:users,email,' . $id,
+                                'email' => 'required|email|unique:users,email,' . $user->id,
                                 'role' => 'required',
                             ]
                 );
@@ -200,35 +172,32 @@ class UsersController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $request, User $user)
     {
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
+
         if(\Auth::user()->can('delete user'))
         {
-            $user = User::find($id);
-            if($user)
+            if(\Auth::user()->type == 'super admin')
             {
-                if(\Auth::user()->type == 'super admin')
-                {
-                    $user->delete_status = !$user->delete_status;
-                    $user->save();
-                }
-                else
-                {
-                    $user->delete();
-                    $user->destroyUserProjectInfo($user->id);
-                    $user->removeUserLeadInfo($user->id);
-                    $user->destroyUserNotesInfo($user->id);
-                    $user->removeUserExpenseInfo($user->id);
-                    $user->removeUserTaskInfo($user->id);
-                    $user->destroyUserTaskAllInfo($user->id);
-                }
-
-                return redirect()->route('users.index')->with('success', __('User Deleted Successfully.'));
+                $user->delete_status = !$user->delete_status;
+                $user->save();
             }
             else
             {
-                return redirect()->back()->with('error', __('Something is wrong.'));
+                $user->delete();
+                $user->destroyUserProjectInfo($user->id);
+                $user->removeUserLeadInfo($user->id);
+                $user->destroyUserNotesInfo($user->id);
+                $user->removeUserExpenseInfo($user->id);
+                $user->removeUserTaskInfo($user->id);
+                $user->destroyUserTaskAllInfo($user->id);
             }
+
+            return redirect()->route('users.index')->with('success', __('User Deleted Successfully.'));
         }
         else
         {

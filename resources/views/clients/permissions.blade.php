@@ -1,11 +1,19 @@
-{{ Form::model($selected, array('route' => array('projects.client.permission.store', $project_id,$client_id), 'method' => 'PUT')) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
+@extends('layouts.modal')
+
+@section('size')
+modal-lg
+@endsection
+
+@section('form-start')
+    {{ Form::model($selected, array('route' => array('projects.client.permission.store', $project_id,$client_id), 'method' => 'PUT')) }}
+@endsection
+
+@section('title')
+    {{__('Edit Client Permissions')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -77,8 +85,13 @@
         </div>
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
-</div>
-{{Form::close()}}
+@include('partials.errors')
+@endsection
+
+@section('footer')
+    {{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+@endsection
+
+@section('form-end')
+{{ Form::close() }}
+@endsection

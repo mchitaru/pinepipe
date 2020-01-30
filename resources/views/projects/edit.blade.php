@@ -1,9 +1,5 @@
 @extends('layouts.modal')
 
-@section('size')
-modal-md
-@endsection
-
 @section('form-start')
     {{ Form::model($project, array('route' => array('projects.update', $project->id), 'method' => 'PUT', 'data-remote' => 'true')) }}
 @endsection

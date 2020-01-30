@@ -8,20 +8,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Auth;
 
-class UserRolesController extends Controller
+class UserRolesController extends UsersSectionController
 {
-
-    public function index()
-    {
-        if(\Auth::user()->can('manage role')){
-            $roles = Role::where('created_by','=',\Auth::user()->creatorId())->get();
-            return view('role.index')->with('roles', $roles);
-        }else{
-            return redirect()->back()->with('error','Permission denied.');
-        }
-
-    }
-
 
     public function create()
     {
@@ -37,7 +25,7 @@ class UserRolesController extends Controller
                 }
                 $permissions = $permissions->pluck('name','id')->toArray();
             }
-            return view('role.create', ['permissions' => $permissions]);
+            return view('roles.create', ['permissions' => $permissions]);
         }else{
             return redirect()->back()->with('error','Permission denied.');
         }
@@ -67,7 +55,7 @@ class UserRolesController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->route('roles.index')->with(
+            return redirect()->back()->with(
                 'Role successfully created.', 'Role ' . $role->name . ' added!'
             );
         }else{
@@ -93,7 +81,7 @@ class UserRolesController extends Controller
                 $permissions = $permissions->pluck('name','id')->toArray();
             }
 
-            return view('role.edit', compact('role', 'permissions'));
+            return view('roles.edit', compact('role', 'permissions'));
         }else{
             return redirect()->back()->with('error','Permission denied.');
         }
@@ -128,7 +116,7 @@ class UserRolesController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->route('roles.index')->with(
+            return redirect()->back()->with(
                 'Role successfully updated.', 'Role ' . $role->name . ' updated!'
             );
         }else{
@@ -138,12 +126,17 @@ class UserRolesController extends Controller
     }
 
 
-    public function destroy(Role $role)
+    public function destroy(Request $request, Role $role)
     {
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
+
         if(\Auth::user()->can('delete role')){
             $role->delete();
 
-            return redirect()->route('roles.index')->with(
+            return redirect()->back()->with(
                 'success', 'Role successfully deleted.'
             );
         }else{
