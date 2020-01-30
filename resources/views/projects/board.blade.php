@@ -140,7 +140,7 @@ use App\Project;
 
                         <li>
                             @if(!empty($task->task_user))
-                            <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
+                            <a href="#" data-toggle="tooltip" title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
                                 <img alt="{{$task->task_user->name}}" {!! empty($task->task_user->avatar) ? "avatar='".$task->task_user->name."'" : "" !!} class="avatar" src="{{Storage::url($task->task_user->avatar)}}" data-filter-by="alt"/>
                             </a>
                             @endif

@@ -12,7 +12,7 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, null, ['placeholder' => __('Select a project...')], array('class' => 'form-control col','required'=>'required')) }}
+        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Select Project...')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}

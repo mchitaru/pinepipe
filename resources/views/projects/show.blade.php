@@ -60,13 +60,13 @@ $(document).ready(function() {
             @can('edit project')
                 <a class="dropdown-item" href="#">Mark as Complete</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" data-title="{{__('Edit Project')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                <a class="dropdown-item" href="#" data-url="{{ route('projects.edit',$project->id) }}" data-ajax-popup="true" title="{{__('Edit Project')}}" data-toggle="tooltip">
                     {{__('Edit Project')}}
                 </a>
             @endcan
 
             @can('client permission project')
-                <a class="dropdown-item" href="#" data-url="{{ route('projects.client.permission',[$project->id,$project->client]) }}" data-ajax-popup="true" data-title="{{__('Edit Client Permission')}}" data-toggle="tooltip" data-size="lg" data-original-title="{{__('Edit')}}">
+                <a class="dropdown-item" href="#" data-url="{{ route('projects.client.permission',[$project->id,$project->client]) }}" data-ajax-popup="true" title="{{__('Edit Client Permission')}}" data-toggle="tooltip" data-size="lg">
                     {{__('Edit Client Permission')}}
                 </a>
             @endcan
@@ -83,11 +83,9 @@ $(document).ready(function() {
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Archive</a>
             @can('delete project')
-                <a class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$project->id}}').submit();">
+                <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                     {{__('Delete')}}
                 </a>
-                {!! Form::open(['method' => 'DELETE', 'route' => ['projects.destroy', $project->id],'id'=>'delete-form-'.$project->id]) !!}
-                {!! Form::close() !!}
             @endcan
 
             @endif
@@ -136,7 +134,7 @@ $(document).ready(function() {
 
                     @foreach($project->users as $user)
                     <li>
-                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
+                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
                             <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
                         </a>
                     </li>
@@ -146,7 +144,7 @@ $(document).ready(function() {
 
                 @can('invite user project')
 
-                <a href="{{ route('project.invite', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" data-original-title="{{__('Invite Users')}}">
+                <a href="{{ route('project.invite', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
                     <i class="material-icons">add</i>
                 </a>
                 @endcan
@@ -160,21 +158,21 @@ $(document).ready(function() {
                         <div class="progress-bar {{$label}}" style="width:{{$percentage}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
                     <i class="material-icons">done</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Status')}}">{{$project_status}}</span>
+                    <span>{{$project_status}}</span>
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
                     <i class="material-icons">playlist_add_check</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</span>
+                    <span>{{$completed_task}}/{{$total_task}}</span>
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Members')}}">
                     <i class="material-icons">people</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Members')}}">{{$project->users()->count()+1}}</span>
+                    <span>{{$project->users()->count()+1}}</span>
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Days Remaining')}}">
                     <i class="material-icons">calendar_today</i>
-                    <span data-toggle="tooltip" data-original-title="{{__('Days Remaining')}}">{{$days_remaining}}</span>
+                    <span>{{$days_remaining}}</span>
                 </div>
                 <span>{{__('Due') }} {{ \Auth::user()->dateFormat($project->due_date) }}</span>
                 </div>
@@ -235,9 +233,9 @@ $(document).ready(function() {
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
 
-                    <button class="btn btn-round" data-url="{{ route('timesheets.create',$project->id) }}" data-ajax-popup="true" data-title="{{__('Add')}}" data-toggle="tooltip" data-original-title="{{__('Add')}}">
-                    <i class="material-icons">add</i>
-                    </button>
+                    <a href="{{ route('timesheets.create',$project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <i class="material-icons">add</i>
+                    </a>
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -276,7 +274,7 @@ $(document).ready(function() {
                             </div>
                             <div class="card-meta">
                                 @if(!empty($timeSheet->user()))
-                                <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}">
+                                <a href="#" data-toggle="tooltip" title="{{(!empty($timeSheet->user())?$timeSheet->user()->name:'')}}">
                                     <img alt="{{$timeSheet->user()->name}}" {!! empty($timeSheet->user()->avatar) ? "avatar='".$timeSheet->user()->name."'" : "" !!} class="avatar" src="{{Storage::url($timeSheet->user()->avatar)}}" data-filter-by="alt"/>
                                 </a>
                                 @endif
@@ -287,16 +285,14 @@ $(document).ready(function() {
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
 
-                                        <a href="#" class="dropdown-item" data-url="{{ route('timesheets.edit',[$project->id,$timeSheet->id]) }}" data-ajax-popup="true" data-title="{{__('Edit')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
+                                        <a href="{{ route('timesheets.edit',[$project->id,$timeSheet->id]) }}" class="dropdown-item" data-remote="true" data-type="text">
                                             {{__('Edit')}}
                                         </a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item text-danger" href="#">Archive</a>
-                                        <a href="#" class="dropdown-item text-danger" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('delete-form-{{$timeSheet->id}}').submit();">
+                                        <a class="dropdown-item text-danger" href="{{ route('timesheets.destroy', [$project->id,$timeSheet->id]) }}" data-method="delete" data-remote="true" data-type="text">
                                             {{__('Delete')}}
                                         </a>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['timesheets.destroy', $project->id,$timeSheet->id],'id'=>'delete-form-'.$timeSheet->id]) !!}
-                                        {!! Form::close() !!}
                                     </div>
                                     </div>
                                 @endif
@@ -362,7 +358,7 @@ $(document).ready(function() {
                                 <a class="dropzone-file dropdown-item" href="#">Download</a>
                                 <a class="dropzone-file dropdown-item" href="#">Share</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">Delete</a>
+                                <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">Delete</a>
 
                                 </div>
                             </div>

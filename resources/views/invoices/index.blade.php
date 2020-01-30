@@ -39,16 +39,16 @@
                 </div>
             </div>
             <div class="card-title col-sm-3">
-                <div class="container row align-items-center">
+                <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
                     <span data-filter-by="text" class="text-small">{{ $invoice->project->name }}</span>
                 </div>
             </div>
             <div class="card-title col-sm-2">
-                <div class="container row align-items-center">
+                <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                     <i class="material-icons">person</i>
                     <span data-filter-by="text" class="text-small">
-                        <a href="{{ route('clients.show',$invoice->project->client->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{$invoice->project->client->name}}</a>
+                        <a href="{{ route('clients.show',$invoice->project->client->id) }}" data-filter-by="text">{{$invoice->project->client->name}}</a>
                     </span>
                 </div>
             </div>

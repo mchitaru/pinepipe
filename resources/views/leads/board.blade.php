@@ -101,7 +101,7 @@ use Carbon\Carbon;
                                 {{ \Auth::user()->priceFormat($lead->price) }}
                             </span>
                             <div class="float-right">
-                                <a href="#" data-toggle="tooltip" title="Ravi">
+                                <a href="#" data-toggle="tooltip" title="{{$lead->client->name}}">
                                     <img alt="{{$lead->client->name}}" {!! empty($lead->client->avatar) ? "avatar='".$lead->client->name."'" : "" !!} class="avatar" src="{{Storage::url($lead->client->avatar)}}" data-filter-by="alt"/>
                                 </a>
                             </div>

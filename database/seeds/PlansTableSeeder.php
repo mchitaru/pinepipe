@@ -20,7 +20,6 @@ class PlansTableSeeder extends Seeder
                 'max_users' => 5,
                 'max_clients' => 5,
                 'max_projects' => 5,
-                'image'=>'free_plan.png',
             ]
         );
     }

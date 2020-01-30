@@ -68,13 +68,13 @@
                     </p>
                 </div>
                 <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center" data-toggle="tooltip" title="{{__('Project')}}">
                         <i class="material-icons">folder</i>
-                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Project')}}">{{ !empty($task->project) ? $task->project->name : '---' }}</span>
+                        <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->name : '---' }}</span>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                         <i class="material-icons">person</i>
-                        <span data-filter-by="text" class="text-small" data-toggle="tooltip" data-original-title="{{__('Client')}}">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
+                        <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
                     </div>
                 </div>
                 <div class="card-title col-xs-12 col-sm-3 text-right">
@@ -83,7 +83,7 @@
 
                         @foreach($task->users as $user)
                         <li>
-                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" data-original-title="{{$user->name}}">
+                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
                                 <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
                             </a>
                         </li>

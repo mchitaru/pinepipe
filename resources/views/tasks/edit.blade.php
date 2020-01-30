@@ -39,7 +39,7 @@
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-            {!! Form::select('project_id', $projects, null, ['placeholder' => __('Select a project...')], array('class' => 'form-control col')) !!}
+            {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) !!}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('user_id', __('Assigned To'), array('class'=>'col-3')) }}

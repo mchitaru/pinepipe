@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 @foreach ($expenses as $expense)
 <div class="card card-task mb-1" style="min-height: 77px;">
     <div class="container row align-items-center">
@@ -8,7 +12,7 @@
                 @can('edit expense')
                     <a href="#" data-url="{{ route('expenses.edit',$expense->id) }}" data-ajax-popup="true" data-title="{{__('Edit Expense')}}">
                 @endcan
-                    <h6 data-filter-by="text">{{  (!empty($expense->category)?$expense->category->name:'')}}
+                    <h6 data-filter-by="text">{{  (!empty($expense->category)?$expense->category->name:'---')}}
                     </h6>
                 @can('edit expense')
                 </a>
@@ -19,9 +23,9 @@
 
             </div>
             <div class="card-title col-sm-2">
-                <div class="container row align-items-center">
+                <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
-                    <span data-filter-by="text" class="text-small">{{ $expense->projects->name }}</span>
+                    <span data-filter-by="text" class="text-small">{{ !empty($expense->project)?$expense->project->name:'---' }}</span>
                 </div>
             </div>
             <div class="card-title col-sm-2">
@@ -54,17 +58,15 @@
 
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('edit expense')
-                    <a class="dropdown-item" href="#" data-url="{{ route('expenses.edit',$expense->id) }}" data-ajax-popup="true" data-title="{{__('Edit Expense')}}">
+                    <a href="{{ route('expenses.edit',$expense->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
                     @can('delete expense')
-                        <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('expense-delete-form-{{$expense->id}}').submit();">
+                        <a href="{{route('expenses.destroy',$expense->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                             <span>{{'Delete'}}</span>
                         </a>
-                        {!! Form::open(['method' => 'DELETE', 'route' => ['expenses.destroy', $expense->id],'id'=>'expense-delete-form-'.$expense->id]) !!}
-                        {!! Form::close() !!}
                     @endcan
                 </div>
             </div>

@@ -34,7 +34,7 @@ $label = $task->getProgressColor($percentage);
 
             <li>
                 @if(!empty($task->task_user))
-                <a href="#" data-toggle="tooltip" title="" data-original-title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
+                <a href="#" data-toggle="tooltip" title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
                     <img alt="{{$task->task_user->name}}" {!! empty($task->task_user->avatar) ? "avatar='".$task->task_user->name."'" : "" !!} class="avatar" src="{{Storage::url($task->task_user->avatar)}}" data-filter-by="alt"/>
                 </a>
                 @endif
@@ -269,7 +269,7 @@ $label = $task->getProgressColor($percentage);
                             <a class="dropdown-item dropzone-file" href="#">Download</a>
                             <a class="dropdown-item dropzone-file" href="#">Share</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">Delete</a>
+                            <a class="dropzone-delete dropdown-item text-danger" href="#" data-toggle="tooltip" title="{{__('Delete')}}" data-delete="Are You Sure?|This action can not be undone. Do you want to continue?">Delete</a>
                         </div>
                         </div>
                         <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>

@@ -89,7 +89,7 @@
                     @foreach($project->users as $user)
                     <li>
                         @if($project->is_active)
-                            <a href="{{ route('users.index', $user->id) }}" data-toggle="tooltip" data-original-title="{{(!empty($user)?$user->name:'')}}">
+                            <a href="{{ route('users.index', $user->id) }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
                         @endif
                             <img alt="{{$user->name}}" {!! empty($user->avatar) ? "avatar='".$user->name."'" : "" !!} class="avatar" src="{{Storage::url($user->avatar)}}" data-filter-by="alt"/>
                         @if($project->is_active)
@@ -99,20 +99,20 @@
                     @endforeach
                 </ul>
                 <div class="card-meta d-flex justify-content-between">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
                         <i class="material-icons mr-1">playlist_add_check</i>
                         @if($project->is_active)
-                        <a  href="{{ route('projects.show', $project->id) }}" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                        <a  href="{{ route('projects.show', $project->id) }}">{{$completed_task}}/{{$total_task}}</a>
                         @else
-                        <a  href="#" data-toggle="tooltip" data-original-title="{{__('Completed Tasks')}}">{{$completed_task}}/{{$total_task}}</a>
+                        <a  href="#">{{$completed_task}}/{{$total_task}}</a>
                         @endif
                     </div>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                         <i class="material-icons mr-1">person</i>
                         @if($project->is_active && !empty($project->client))
-                        <a href="{{ route('clients.show', $project->client->id) }}" data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
+                        <a href="{{ route('clients.show', $project->client->id) }}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
                         @else
-                        <a data-toggle="tooltip" data-original-title="{{__('Client')}}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
+                        <a data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
                         @endif
                     </div>
                     <span class="text-small" data-filter-by="text">{{__('Due on ')}}

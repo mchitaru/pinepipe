@@ -1,79 +1,52 @@
-{{ Form::open(array('url' => 'expenses','enctype' => "multipart/form-data")) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="row">
-        <div class="form-group  col-md-6">
-            {{ Form::label('category_id', __('Category')) }}
-            {{ Form::select('category_id', $category,null, array('class' => 'form-control font-style selectric','required'=>'required')) }}
-            @error('category_id')
-            <span class="invalid-category_id" role="alert">
-                <strong class="text-danger">{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('amount', __('Amount')) }}
-            {{ Form::number('amount', '', array('class' => 'form-control','required'=>'required')) }}
-            @error('amount')
-            <span class="invalid-amount" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('date', __('Date')) }}
-            {{ Form::text('date', '', array('class' => 'form-control datepicker','required'=>'required')) }}
-            @error('date')
-            <span class="invalid-date" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('project_id', __('Project')) }}
-            {{ Form::select('project_id', $projects,null, array('class' => 'form-control font-style selectric','required'=>'required')) }}
-            @error('project_id')
-            <span class="invalid-project_id" role="alert">
-                <strong class="text-danger">{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('user_id', __('User')) }}
-            {{ Form::select('user_id', $users,null, array('class' => 'form-control font-style selectric','required'=>'required')) }}
-            @error('user_id')
-            <span class="invalid-user_id" role="alert">
-                <strong class="text-danger">{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-6">
-            {{ Form::label('attachment', __('Attachment')) }}
-            {{ Form::file('attachment', array('class' => 'form-control','accept'=>'.jpeg,.jpg,.png,.doc,.pdf')) }}
-            @error('attachment')
-            <span class="invalid-attachment" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
-        <div class="form-group  col-md-12">
-            {{ Form::label('description', __('Description')) }}
-            {!! Form::textarea('description', null, ['class'=>'form-control','rows'=>'2']) !!}
-            @error('terms')
-            <span class="invalid-terms" role="alert">
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-            @enderror
-        </div>
+@extends('layouts.modal')
+
+@section('form-start')
+    {{ Form::open(array('url' => 'expenses','enctype' => "multipart/form-data")) }}
+@endsection
+
+@section('title')
+    {{__('Create Expense')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
+    <div class="form-group row required">
+        {{ Form::label('amount', __('Amount'), array('class'=>'col-3')) }}
+        {{ Form::number('amount', '', array('class' => 'form-control col','required'=>'required')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
+        {{ Form::text('date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
+                                        'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-alt-input')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
+        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('user_id', __('User'), array('class'=>'col-3')) }}
+        {{ Form::select('user_id', $users,null, array('class' => 'form-control col', 'placeholder'=>'Select Spender...')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
+        {{ Form::select('category_id', $category, null, array('class' => 'form-control col', 'placeholder'=>'Select Category...')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('attachment', __('Attachment'), array('class'=>'col-3')) }}
+        {{ Form::file('attachment', array('class' => 'form-control col','accept'=>'.jpeg,.jpg,.png,.doc,.pdf')) }}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
+        {!! Form::textarea('description', null, ['class'=>'form-control col','rows'=>'2']) !!}
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
-</div>
+@include('partials.errors')
+@endsection
+
+@section('footer')
+    {{Form::submit(__('Create'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+@endsection
+
+@section('form-end')
 {{ Form::close() }}
+@endsection
