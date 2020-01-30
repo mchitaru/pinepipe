@@ -6,6 +6,7 @@ use App\Project;
 use App\ProjectFile;
 use App\ActivityLog;
 use Illuminate\Http\Request;
+use App\Http\Helpers;
 
 class ProjectFilesController extends Controller
 {
@@ -29,17 +30,20 @@ class ProjectFilesController extends Controller
     {        
         $project = Project::find($id);
         $request->validate(['file' => 'required|mimes:png,jpeg,jpg,pdf,doc,txt|max:2048']);
-        $file_name = $request->file->getClientOriginalName();
-        $file_path = $project->id . "_" . md5(time()) . "_" . $request->file->getClientOriginalName();
-        $request->file->storeAs('public/project_files', $file_path);
 
-        $file                 = ProjectFile::create(
-            [
-                'project_id' => $project->id,
-                'file_name' => $file_name,
-                'file_path' => $file_path,
-            ]
-        );
+        if($request->hasFile('file'))
+        {
+            $path = Helpers::storePrivateFile($request->file('file'));
+
+            $file                 = ProjectFile::create(
+                [
+                    'project_id' => $project->id,
+                    'file_name' => $request->file('file')->getClientOriginalName(),
+                    'file_path' => $path,
+                ]
+            );
+        }
+
         $return               = [];
         $return['is_success'] = true;
         $return['download']   = route(

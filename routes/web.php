@@ -114,12 +114,7 @@ Route::group(
         Route::resource('leads', 'LeadsController');
 }
 );
-Route::resource('labels', 'LabelsController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
+
 Route::resource('productunits', 'ProductUnitsController')->middleware(
     [
         'auth',

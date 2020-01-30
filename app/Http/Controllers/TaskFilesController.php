@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\TaskFile;
 use Illuminate\Http\Request;
+use App\Http\Helpers;
 
 class TaskFilesController extends Controller
 {
@@ -32,19 +33,22 @@ class TaskFilesController extends Controller
         // $request->validate(
         //     ['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048']
         // );
-        // $fileName = $task_id . time() . "_" . $request->file->getClientOriginalName();
 
-        // $request->file->storeAs('public/tasks', $fileName);
-        // $post['task_id']    = $task_id;
-        // $post['file']       = $fileName;
-        // $post['name']       = $request->file->getClientOriginalName();
-        // $post['extension']  = "." . $request->file->getClientOriginalExtension();
-        // $post['file_size']  = round(($request->file->getSize() / 1024) / 1024, 2) . ' MB';
-        // $post['created_by'] = \Auth::user()->authId();
-        // $post['user_type']  = \Auth::user()->type;
+        // if($request->hasFile('file'))
+        // {
+        //     $path = Helpers::storePrivateFile($request->file('file'));
 
-        // $file            = TaskFile::create($post);
-        // $file->deleteUrl = route('task.file.delete', [$task_id, $file->id]);
+        //     $post['task_id']    = $task_id;
+        //     $post['file']       = $path;
+        //     $post['name']       = $request->file->getClientOriginalName();
+        //     $post['extension']  = "." . $request->file->getClientOriginalExtension();
+        //     $post['file_size']  = round(($request->file->getSize() / 1024) / 1024, 2) . ' MB';
+        //     $post['created_by'] = \Auth::user()->authId();
+        //     $post['user_type']  = \Auth::user()->type;
+
+        //     $file            = TaskFile::create($post);
+        //     $file->deleteUrl = route('task.file.delete', [$task_id, $file->id]);
+        // }
 
         // $return               = [];
         // $return['is_success'] = true;

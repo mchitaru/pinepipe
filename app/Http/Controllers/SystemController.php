@@ -22,30 +22,6 @@ class SystemController extends Controller
         }
     }
 
-    public function store(Request $request)
-    {
-
-        if(\Auth::user()->can('manage system settings'))
-        {
-            $request->validate(
-                [
-                    'logo' => 'required|image|mimes:png|max:1024',
-                ]
-            );
-            if($request->logo)
-            {
-                $logoName = 'logo.png';
-                $path     = $request->file('logo')->storeAs('public/logo/', $logoName);
-
-                return redirect()->back()->with('success', 'Logo successfully updated.');
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
-    }
-
     public function saveEmailSettings(Request $request)
     {
         if(\Auth::user()->can('manage system settings'))

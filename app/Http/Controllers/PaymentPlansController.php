@@ -119,28 +119,6 @@ class PaymentPlansController extends Controller
 
                     $post = $request->all();
 
-                    if($request->hasFile('image'))
-                    {
-                        $filenameWithExt = $request->file('image')->getClientOriginalName();
-                        $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                        $extension       = $request->file('image')->getClientOriginalExtension();
-                        $fileNameToStore = 'plan_' . time() . '.' . $extension;
-
-                        $dir = storage_path('app/public/plan/');
-                        if(!file_exists($dir))
-                        {
-                            mkdir($dir, 0777, true);
-                        }
-                        $image_path = $dir . '/' . $plan->image;  // Value is not URL but directory file path
-                        if(File::exists($image_path))
-                        {
-                            chmod($image_path, 0755);
-                            File::delete($image_path);
-                        }
-                        $path          = $request->file('image')->storeAs('public/plan/', $fileNameToStore);
-                        $post['image'] = $fileNameToStore;
-                    }
-
                     if($plan->update($post))
                     {
                         return redirect()->back()->with('success', __('PaymentPlan Successfully updated.'));
