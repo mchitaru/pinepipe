@@ -128,7 +128,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('tasks.board') }}">{{__('Task Board')}}</a>
+                    <a class="dropdown-item" href="{{ route('projects.task.board', '0') }}">{{__('Task Board')}}</a>
                 </li>
 
                 </ul>

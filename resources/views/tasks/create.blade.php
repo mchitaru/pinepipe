@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::open(array('route' => (!empty($project_id) ? array('projects.task.store', $project_id) : array('tasks.store')), 'data-remote' => 'true')) }}
+    {{ Form::open(array('route' => array('tasks.store'), 'data-remote' => 'true')) }}
 @endsection
 
 @section('title')
@@ -23,12 +23,10 @@
             {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}
             {!! Form::select('priority', $priority, null,array('class' => 'form-control col','required'=>'required')) !!}
         </div>
-        @if(empty($project_id))
         <div class="form-group row align-items-center">
             {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-            {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) !!}
+            {!! Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) !!}
         </div>
-        @endif
         @if(\Auth::user()->type == 'company')
         <div class="form-group row align-items-center">
             {{ Form::label('user_id', __('Assigned To'), array('class'=>'col-3')) }}

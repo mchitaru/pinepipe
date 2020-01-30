@@ -158,9 +158,8 @@ Route::group(
         Route::get('projects/file/{file}', 'ProjectFilesController@show')->name('projects.file.download');
         Route::delete('projects/file/{file}', 'ProjectFilesController@destroy')->name('projects.file.delete');
         
-        Route::get('projects/{project}/task', 'ProjectTasksController@create')->name('projects.task.create');
-        Route::post('projects/{project}/task', 'ProjectTasksController@store')->name('projects.task.store');
-        Route::get('projects/{project}/board', 'ProjectTasksController@board')->name('projects.task.board');
+        Route::get('projects/{project}/task', 'TasksController@create')->name('projects.task.create');
+        Route::get('projects/{project}/board', 'TasksController@board')->name('projects.task.board');
 
         Route::put('projects/{project}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO
         
@@ -191,8 +190,6 @@ Route::group(
     ], function (){
 
         //Tasks
-        Route::get('tasks/board', 'TasksController@board')->name('tasks.board');
-
         Route::resource('tasks', 'TasksController');
 
         Route::get('tasks/{task}/comment', 'TaskCommentsController@index')->name('tasks.comment.index');

@@ -37,7 +37,7 @@
             <div class="dropdown-divider"></div>
             
             @can('manage task')
-                <a class="dropdown-item" href="{{route('tasks.board')}}">{{__('Task Board')}}</a>
+                <a class="dropdown-item" href="{{route('projects.task.board', '0')}}">{{__('Task Board')}}</a>
             @endcan
         </div>
     </div>
@@ -104,7 +104,7 @@
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
 
-                    <a href="{{ route('tasks.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                    <a href="{{ route('projects.task.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
                         <i class="material-icons">add</i>
                     </a>
 

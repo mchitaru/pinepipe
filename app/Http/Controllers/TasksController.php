@@ -20,12 +20,11 @@ class TasksController extends ProjectsSectionController
 {
     use TaskTraits;
 
-    public function board()
+    public function board($project_id)
     {
         if(\Auth::user()->can('show project'))
         {
             $stages  = \Auth::user()->getProjectStages();
-            $project_id = null;
 
             return view('tasks.board', compact('stages', 'project_id'));
         }
@@ -40,13 +39,12 @@ class TasksController extends ProjectsSectionController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($project_id)
     {
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $priority   = Project::$priority;
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-        $project_id = null;
         $milestones = null;
 
         return view('tasks.create', compact('project_id', 'projects', 'users', 'priority', 'milestones'));

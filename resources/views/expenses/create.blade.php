@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::open(array('url' => 'expenses','enctype' => "multipart/form-data")) }}
+    {{ Form::open(array('url' => 'expenses', 'enctype' => "multipart/form-data")) }}
 @endsection
 
 @section('title')
