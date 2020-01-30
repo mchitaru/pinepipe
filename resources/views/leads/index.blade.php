@@ -46,18 +46,22 @@
                                 {{ \Auth::user()->priceFormat($lead->price) }}
                             </span>
                         </div>
+                        @if(!empty($lead->notes))
                         <div class="card-title col-xs-12 col-sm-3">
-                            <div class="container row align-items-center">
-                                <span data-filter-by="text" class="badge badge-secondary mr-2">
-                                    {{$lead->user->name}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="card-meta col-1">
-                            <div class="d-flex align-items-center justify-content-end">
+                            <div class="d-flex align-items-center">
                                 <span data-filter-by="text" title="{{ $lead->notes }}" class="badge badge-secondary mr-2">
                                     <i class="material-icons">note</i>
                                 </span>
+                            </div>
+                        </div>
+                        @endif
+                        <div class="card-meta col-1 float-right">
+                            <div class="container row align-items-center">
+                                @if(!empty($lead->user))
+                                <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
+                                    <img alt="{{$lead->user->name}}" {!! empty($lead->user->avatar) ? "avatar='".$lead->user->name."'" : "" !!} class="avatar" src="{{Storage::url($lead->user->avatar)}}" data-filter-by="alt"/>
+                                </a>
+                                @endif
                             </div>
                         </div>
                         <div class="dropdown card-options float-right">

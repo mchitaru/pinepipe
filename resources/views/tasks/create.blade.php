@@ -53,13 +53,13 @@
         <div class="row">
         <div class="col">
             <div class="custom-control custom-radio">
-            <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" checked>
+            <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" checked>
             <label class="custom-control-label" for="visibility-everyone">Everyone</label>
             </div>
         </div>
         <div class="col">
             <div class="custom-control custom-radio">
-            <input type="radio" id="visibility-me" name="visibility" class="custom-control-input">
+            <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true">
             <label class="custom-control-label" for="visibility-me">Just me</label>
             </div>
         </div>

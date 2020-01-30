@@ -100,11 +100,13 @@ use Carbon\Carbon;
                             <span class="text-small" data-filter-by="text">
                                 {{ \Auth::user()->priceFormat($lead->price) }}
                             </span>
+                            @if(!empty($lead->user))
                             <div class="float-right">
-                                <a href="#" data-toggle="tooltip" title="{{$lead->client->name}}">
-                                    <img alt="{{$lead->client->name}}" {!! empty($lead->client->avatar) ? "avatar='".$lead->client->name."'" : "" !!} class="avatar" src="{{Storage::url($lead->client->avatar)}}" data-filter-by="alt"/>
+                                <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
+                                    <img alt="{{$lead->user->name}}" {!! empty($lead->user->avatar) ? "avatar='".$lead->user->name."'" : "" !!} class="avatar" src="{{Storage::url($lead->user->avatar)}}" data-filter-by="alt"/>
                                 </a>
                             </div>
+                            @endif
                          </div>
                     </div>
                     </div>
