@@ -15,3 +15,4 @@ app/.DS_Store
 public/.DS_Store
 public/js/app.js
 storage/.DS_Store
+config/laravel-page-speed.php
