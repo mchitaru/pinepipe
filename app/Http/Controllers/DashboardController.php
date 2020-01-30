@@ -9,7 +9,7 @@ use App\Project;
 use App\User;
 
 class
-WorkspaceController extends Controller
+DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -22,7 +22,7 @@ WorkspaceController extends Controller
     }
 
     /**
-     * Show the application workspace.
+     * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -129,7 +129,7 @@ WorkspaceController extends Controller
             $projectData     = \App\Project::getProjectStatus();
             $taskData        = \App\ProjectStage::getChartData();
 
-            return view('workspace.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'project_status', 'projectData', 'taskData', 'activities'));
+            return view('dashboard.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'project_status', 'projectData', 'taskData', 'activities'));
         }
         else
         {
@@ -144,7 +144,7 @@ WorkspaceController extends Controller
             $user['most_purchese_plan']=(!empty(PaymentPlan::most_purchese_plan())?PaymentPlan::most_purchese_plan()->total:0);
             $chartData = $this->getOrderChart(['duration'=>'week']);
 
-            return view('workspace.admin',compact('user','chartData','activities'));
+            return view('dashboard.admin',compact('user','chartData','activities'));
         }
 
     }

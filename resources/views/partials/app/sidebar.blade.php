@@ -53,7 +53,7 @@
     <ul class="navbar-nav d-lg-block">
 
         <li class="nav-item active">
-            <a class="nav-link" href="{{ route('home') }}">{{__('Workspace')}}</a>
+            <a class="nav-link" href="{{ route('home') }}">{{__('Dashboard')}}</a>
         </li>
 
         @if(\Auth::user()->type!='super admin')
@@ -99,7 +99,7 @@
 
                 @if(Gate::check('manage lead'))
                 <li class="nav-item">
-                        <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
+                    <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Lead Board')}}</a>

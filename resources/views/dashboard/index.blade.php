@@ -89,7 +89,7 @@ use Carbon\Carbon;
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Workspace</li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
         </ol>
     </nav>
 
@@ -173,7 +173,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$lead_percentage}}%;"></div>
                                 </div>
-                                <div class="card-body">
+                                <a class="card-body" href="{{ route('leads.index') }}">
                                     <div class="number">
                                         <h3 class="card-title">{{$lead['total_lead']}}</h3>
                                         <small class="card-text">{{__('LEADS')}}</small>
@@ -181,7 +181,7 @@ if($client_project_budget_due_per<=15){
                                     <div class="icon">
                                         <i class="material-icons">phone</i>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div class="col">
@@ -189,15 +189,16 @@ if($client_project_budget_due_per<=15){
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$project_percentage}}%;"></div>
                                 </div>
-                                <div class="card-body">
+                                <a class="card-body" href="{{ route('projects.index') }}">
                                     <div class="number">
+
                                         <h3 class="card-title">{{$project['total_project']}}</h3>
                                         <small class="card-text">{{__('PROJECTS')}}</small>
                                     </div>
                                     <div class="icon">
                                         <i class="material-icons">folder</i>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         @if(Auth::user()->type =='company' || Auth::user()->type =='client')
@@ -206,7 +207,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$invoice_percentage}}%;"></div>
                                 </div>
-                                <div class="card-body">
+                                <a class="card-body" href="{{ route('invoices.index') }}">
                                     <div class="number">
                                         <h3 class="card-title">{{$invoice['total_invoice']}}</h3>
                                         <small class="card-text">{{__('INVOICES')}}</small>
@@ -214,7 +215,7 @@ if($client_project_budget_due_per<=15){
                                     <div class="icon">
                                         <i class="material-icons">description</i>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         @endif
@@ -223,15 +224,15 @@ if($client_project_budget_due_per<=15){
                             <div class="card card-info">
                                 <div class="progress">
                                 </div>
-                                <div class="card-body">
+                                <a class="card-body" href="{{ route('clients.index') }}">
                                     <div class="number">
-                                        <h3 class="card-title">{{$users['staff']}}</h3>
-                                        <small class="card-text">{{__('STAFF')}}</small>
+                                        <h3 class="card-title">{{$users['client']}}</h3>
+                                        <small class="card-text">{{__('CLIENTS')}}</small>
                                     </div>
                                     <div class="icon">
                                         <i class="material-icons">people</i>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         @endif
@@ -258,7 +259,9 @@ if($client_project_budget_due_per<=15){
                         <div class="col">
                             <div class="card card-info">
                                 <div class="card-body">
-                                    <h5 class="card-title">Tasks overview</h5>
+                                    <a href="{{ route('tasks.index') }}">
+                                        <h5 class="card-title">{{__('Tasks overview')}}</h5>
+                                    </a>                                    
                                     <canvas id="task-area-chart" width="800" height="200"></canvas>
                                 </div>
                             </div>

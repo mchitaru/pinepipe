@@ -22,9 +22,9 @@ Route::group(
         ],
     ], function (){
 
-        //Workspace
-        Route::get('/', 'WorkspaceController@index')->name('home');
-        Route::get('/home', 'WorkspaceController@index')->name('home');
+        //Dashboard
+        Route::get('/', 'DashboardController@index')->name('home');
+        Route::get('/home', 'DashboardController@index')->name('home');
 }
 );
 

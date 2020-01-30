@@ -19,7 +19,7 @@
     <ul class="navbar-nav">
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('home') }}">{{__('Workspace')}}</a>
+        <a class="nav-link" href="{{ route('home') }}">{{__('Dashboard')}}</a>
     </li>
 
     @if(\Auth::user()->type!='super admin')
