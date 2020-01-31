@@ -13,8 +13,7 @@ class CalendarController extends Controller
         foreach($top_tasks as $task)
         {
             $due_task['title']  = $task->title;
-            $due_task['start']  = $task->start_date;
-            $due_task['end']    = $task->due_date;            
+            $due_task['start']  = $task->due_date;
             $due_task['url'] = route('tasks.show', $task->id);
             $due_tasks[]     = $due_task;
         }

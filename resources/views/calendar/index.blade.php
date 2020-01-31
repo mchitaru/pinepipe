@@ -24,26 +24,6 @@
     <script type="module">
         var tasks = {!! ($due_tasks) !!};
 
-        $(document).on('click', '.fc-day-grid-event', function (e) {
-                e.preventDefault();
-                var event = $(this);
-                var url = $(this).attr('href');
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    dataType: 'text',
-                        success: function(data, status, xhr) {
-                            $(document).trigger('ajax:success', [data, status, xhr]);
-                        },
-                        complete: function(xhr, status) {
-                            $(document).trigger('ajax:complete', [xhr, status]);
-                        },
-                        error: function(xhr, status, error) {
-                            $(document).trigger('ajax:error', [xhr, status, error]);
-                        }
-                });
-        });
-
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -57,7 +37,29 @@
         },
         weekNumbers: true,
         eventLimit: true, // allow "more" link when too many events
-        events: tasks
+        events: tasks,
+
+        eventClick: function(info) {
+            info.jsEvent.preventDefault(); // don't let the browser navigate
+
+            if (info.event.url) {
+
+                $.ajax({
+                    url: info.event.url,
+                    type: 'get',
+                    dataType: 'text',
+                        success: function(data, status, xhr) {
+                            $(document).trigger('ajax:success', [data, status, xhr]);
+                        },
+                        complete: function(xhr, status) {
+                            $(document).trigger('ajax:complete', [xhr, status]);
+                        },
+                        error: function(xhr, status, error) {
+                            $(document).trigger('ajax:error', [xhr, status, error]);
+                        }
+                });
+            }
+        }        
         });
 
         calendar.render();
