@@ -18,13 +18,6 @@ class ClientsSectionController extends Controller
             $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->get();            
             $contacts = Contact::where('created_by','=',$client->creatorId())->get();
 
-            $contact_clients = array();
-        
-            foreach($contacts as $key => $contact)
-                $contact_clients[$key] = $contact->company;
-
-            $contacts_count = array_count_values($contact_clients);    
-
             $leads_count = 0;
             if(\Auth::user()->can('manage lead'))
             {
@@ -34,9 +27,10 @@ class ClientsSectionController extends Controller
                     $leads_count = $leads_count + count($stage->leads()->get());
             }    
 
+            $client_id = null;
             $activities = array();
 
-            return view('sections.clients.index', compact('clients', 'contacts', 'contacts_count', 'stages', 'leads_count', 'activities'));
+            return view('sections.clients.index', compact('clients', 'client_id', 'contacts', 'stages', 'leads_count', 'activities'));
         }
         else
         {

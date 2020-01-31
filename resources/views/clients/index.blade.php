@@ -15,8 +15,8 @@ use App\Http\Helpers;
                 <a href="{{ route('clients.show',$client->id) }}">
                     <h6 data-filter-by="text">{{$client->name}}</h6>
                 </a>
-                @if(array_key_exists($client->name, $contacts_count))
-                    <span class="text-small">{{$contacts_count[$client->name]}} {{__('contact(s)')}}</span>
+                @if(!$client->clientContacts->isEmpty())
+                    <span class="text-small">{{$client->clientContacts->count()}} {{__('contact(s)')}}</span>
                 @endif
             </div>
             <div class="card-title col-xs-12 col-sm-5">
@@ -49,9 +49,9 @@ use App\Http\Helpers;
 
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('edit client')
-                    <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
-                        <span>{{__('Edit')}}</span>
-                    </a>
+                        <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
+                            <span>{{__('Edit')}}</span>
+                        </a>
                     @endcan
                     <div class="dropdown-divider"></div>
                     @can('delete client')

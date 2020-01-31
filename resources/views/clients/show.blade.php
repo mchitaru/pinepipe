@@ -95,7 +95,7 @@ $(document).ready(function() {
                     <div class="row content-list-head">
                         <div class="col-auto">
                             <h3>{{__('Contacts')}}</h3>
-                            @can('create client')
+                            @can('create contact')
                             <button class="btn btn-round" data-url="{{ route('contacts.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
                                 <i class="material-icons">add</i>
                             </button>
@@ -123,7 +123,7 @@ $(document).ready(function() {
                     <div class="row content-list-head">
                         <div class="col-auto">
                             <h3>{{__('Leads')}}</h3>
-                            @can('create client')
+                            @can('create lead')
                             <button class="btn btn-round" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
                                 <i class="material-icons">add</i>
                             </button>

@@ -218,7 +218,7 @@ $languages=$user->languages();
     <div class="d-none d-lg-block w-100">
         <span class="text-small text-muted">{{__('Quick Links')}}</span>
         <ul class="nav nav-small flex-column mt-2">
-        @can('manage client')
+        @can('manage contact')
             <li class="nav-item">
                 <a href="{{ route('contacts.index') }}" class="nav-link">{{__('Contacts')}}</a>
             </li>
@@ -252,7 +252,7 @@ $languages=$user->languages();
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
                 <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
-                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
+                <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
             </div>
         </div>
         @endif

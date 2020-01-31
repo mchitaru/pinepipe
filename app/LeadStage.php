@@ -20,11 +20,32 @@ class LeadStage extends Model
 
     public function leads()
     {
-        return $this->hasMany('App\Lead', 'stage_id', 'id')->orderBy('item_order');
+        return $this->hasMany('App\Lead', 'stage_id', 'id');
     }
 
-    public function user_leads(){
-//        return LeadStage::select('leads.*','leadstages.name as stage_name' )->leftjoin('leads','leads.stage','=','leadstages.id')->where('leads.user_id','=',\Auth::user()->id)->get();
-        return Lead::where('stage','=',$this->id)->where('user_id','=',\Auth::user()->id)->get();
+    public function getLeadsByUserType($client_id)
+    {
+        if(!empty($client_id))
+        {
+            if(\Auth::user()->type == 'company')
+            {
+                return $this->leads()->where('client_id','=',$client_id)->orderBy('order')->get();
+
+            }else
+            {
+                return \Auth::user()->leads()->where('stage_id', '=', $this->id)->where('client_id','=',$client_id)->orderBy('order')->get();
+            }
+        }
+        else
+        {
+            if(\Auth::user()->type == 'company')
+            {
+                return $this->leads()->orderBy('order')->get();
+
+            }else
+            {
+                return \Auth::user()->leads()->where('stage_id', '=', $this->id)->orderBy('order')->get();
+            }
+        }
     }
 }

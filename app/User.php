@@ -182,6 +182,11 @@ class User extends Authenticatable
         return $this->hasManyThrough('App\Task', 'App\Project', 'client_id', 'project_id', 'id');
     }
 
+    public function clientContacts()
+    {
+        return $this->hasMany('App\Contact', 'client_id', 'id');
+    }
+
     public function companyLeads()
     {
         return Lead::where('created_by', '=', $this->creatorId());

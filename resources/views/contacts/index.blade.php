@@ -5,8 +5,8 @@
         </div>
         <div class="card-body p-2">
             <div class="card-title col-xs-12 col-sm-3">
-                <a href="#">
-                <h6 data-filter-by="text">{{$contact->name}}</h6>
+                <a href="{{ route('contacts.edit', $contact->id) }}" data-remote="true" data-type="text">
+                    <h6 data-filter-by="text">{{$contact->name}}</h6>
                 </a>
             </div>
             <div class="card-title col-xs-12 col-sm-5">
@@ -26,7 +26,7 @@
             <div class="card-meta col">
                 <div class="d-flex align-items-center justify-content-end">
                     <span data-filter-by="text" class="badge badge-secondary mr-2">
-                        {{$contact->company}}
+                        {{!empty($contact->client)?$contact->client->name:$contact->company}}
                     </span>
                 </div>
             </div>
@@ -36,18 +36,16 @@
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit client')
-                    <a class="dropdown-item" href="#" data-url="{{ route('contacts.edit',$contact->id) }}" data-ajax-popup="true" data-title="{{__('Update Contact')}}">
+                    @can('edit contact')
+                    <a class="dropdown-item" href="{{ route('contacts.edit', $contact->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
-                    @can('delete client')
-                        <a class="dropdown-item text-danger" href="#" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="document.getElementById('contact-delete-form-{{$contact['id']}}').submit();">
+                    @can('delete contact')
+                        <a class="dropdown-item text-danger" href="{{ route('contacts.destroy', $contact->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{'Delete'}}</span>
                         </a>
-                        {!! Form::open(['method' => 'DELETE', 'route' => ['contacts.destroy', $contact['id']],'id'=>'contact-delete-form-'.$contact['id']]) !!}
-                        {!! Form::close() !!}
                     @endcan
                 </div>
             </div>

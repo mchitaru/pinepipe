@@ -10,6 +10,7 @@ class Lead extends Model
         'name',
         'price',
         'stage_id',
+        'order',
         'user_id',
         'client_id',
         'contact_id',

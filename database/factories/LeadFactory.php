@@ -13,7 +13,15 @@ $factory->define(Lead::class, function (Faker $faker) {
         'user_id'=> $faker->numberBetween(5, 9),
         'client_id' => $faker->numberBetween(3, 4),
         'source_id' => $faker->numberBetween(1, 4),
+        'contact_id' => null,
         'created_by' => 2,
-        'notes' => $faker->text
+        'notes' => null
+    ];
+});
+
+$factory->state(Lead::class, 'contact', function ($faker) {
+    return [
+        'client_id' => null,
+        'contact_id' => $faker->numberBetween(1, 10),
     ];
 });

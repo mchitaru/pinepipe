@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Iatstuti\Database\Support\NullableFields;
 
 class Contact extends Model
 {
+    use NullableFields;
+
     protected $fillable = [
         'name',
         'email',
@@ -21,6 +24,18 @@ class Contact extends Model
         'created_by',
     ];
 
+    protected $nullable = [
+        'email',
+        'phone',
+        'address',
+        'company',
+        'job',
+        'website',
+        'birthday',
+        'notes',
+        'client_id',
+	];
+
     public function user()
     {
         return $this->hasOne('App\User', 'id', 'user_id');
@@ -35,4 +50,30 @@ class Contact extends Model
     {
         return $this->hasMany('App\Lead', 'contact_id', 'id');
     }
+
+    public static function createContact($post)
+    {
+        $post['user_id']   = \Auth::user()->id;
+
+        $contact                = Contact::make($post);
+        $contact->created_by    = \Auth::user()->creatorId();
+        $contact->save();
+
+        // ActivityLog::createContact($contact);
+
+        return $contact;
+    }
+
+    public function updateContact($post)
+    {
+        $this->update($post);
+
+        // ActivityLog::updateTask($this);
+    }
+
+    public function detachContact()
+    {
+        // ActivityLog::deleteContact($this);
+    }
+
 }

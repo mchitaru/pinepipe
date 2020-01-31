@@ -31,7 +31,7 @@
                 <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('New Project')}}</a>
             @endcan
             @can('create task')
-                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text">{{__('New Task')}}</a>
+                <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('New Task')}}</a>
             @endcan
             
             <div class="dropdown-divider"></div>

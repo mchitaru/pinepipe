@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::open(array('route' => array('tasks.store'), 'data-remote' => 'true')) }}
+    {{ Form::open(array('route' => array('projects.task.store', $project_id), 'data-remote' => 'true')) }}
 @endsection
 
 @section('title')

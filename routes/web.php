@@ -159,6 +159,7 @@ Route::group(
         Route::delete('projects/{project}/file/{file}', 'ProjectFilesController@destroy')->name('projects.file.delete');
         
         Route::get('projects/{project}/task', 'TasksController@create')->name('projects.task.create');
+        Route::post('projects/{project}/task', 'TasksController@store')->name('projects.task.store');
         Route::get('projects/{project}/board', 'TasksController@board')->name('projects.task.board');
 
         Route::put('projects/{project}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO

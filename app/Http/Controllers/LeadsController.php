@@ -221,7 +221,7 @@ class LeadsController extends ClientsSectionController
         foreach($post['order'] as $key => $item)
         {
             $lead_order             = Lead::find($item);
-            $lead_order->item_order = $key;
+            $lead_order->order      = $key;
             $lead_order->stage      = $post['stage_id'];
             $lead_order->save();
         }

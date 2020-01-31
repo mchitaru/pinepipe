@@ -5,11 +5,7 @@ use App\Http\Helpers;
 
 @foreach($stages as $stage)
 
-    @if(\Auth::user()->type == 'company')
-        @php($leads = $stage->leads)
-    @else
-        @php($leads = $stage->user_leads())
-    @endif
+    @php($leads = $stage->getLeadsByUserType($client_id))
 
     <div class="card-list">
         <div class="card-list-head">
@@ -47,8 +43,15 @@ use App\Http\Helpers;
                                 {{ \Auth::user()->priceFormat($lead->price) }}
                             </span>
                         </div>
-                        @if(!empty($lead->notes))
                         <div class="card-title col-xs-12 col-sm-3">
+                            <div class="d-flex align-items-center">
+                                <span data-filter-by="text" data-toggle="tooltip" title="{{!empty($lead->client)?__('Client'):__('Contact')}}" class="badge badge-secondary mr-2">
+                                    {{ !empty($lead->client)?$lead->client->name:$lead->contact->name }}
+                                </span>
+                            </div>
+                        </div>
+                        @if(!empty($lead->notes))
+                        <div class="card-title col-xs-12 col-sm-1">
                             <div class="d-flex align-items-center">
                                 <span data-filter-by="text" title="{{ $lead->notes }}" class="badge badge-secondary mr-2">
                                     <i class="material-icons">note</i>

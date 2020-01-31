@@ -27,7 +27,6 @@ class ClientsController extends ClientsSectionController
 
     public function store(Request $request)
     {
-
         if(\Auth::user()->can('create client')) {
             $this->validate($request, [
                 'name'=>'required|max:120',
@@ -121,9 +120,7 @@ class ClientsController extends ClientsSectionController
     {
         if(\Auth::user()->can('manage client'))
         {
-
-            $client = User::find($client->id);
-            $contacts = Contact::where('created_by','=',$client->creatorId())->where('company','=',$client->name)->get();
+            $contacts = $client->clientContacts;
             $projects = Project::where('client_id', '=', $client->id)->get();
 
             $project_status = Project::$project_status;
@@ -138,9 +135,10 @@ class ClientsController extends ClientsSectionController
                 }
             }
 
+            $client_id = $client->id;
             $activities = array();
 
-            return view('clients.show', compact('client', 'contacts', 'projects', 'project_status', 'stages', 'leads_count', 'activities'));
+            return view('clients.show', compact('client', 'client_id', 'contacts', 'projects', 'project_status', 'stages', 'leads_count', 'activities'));
         }else{
             return redirect()->back()->with('error', 'Permission denied.');;
         }

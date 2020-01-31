@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\ContactStoreRequest;
+use App\Http\Requests\ContactUpdateRequest;
+use App\Http\Requests\ContactDestroyRequest;
 
 class ContactsController extends ClientsSectionController
 {
@@ -15,11 +19,9 @@ class ContactsController extends ClientsSectionController
      */
     public function create()
     {
-        if(\Auth::user()->can('create client')) {
-            return view('clients.create');
-        }else{
-            return redirect()->back();
-        }
+        $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+
+        return view('contacts.create', compact('clients'));
     }
 
     /**
@@ -28,9 +30,16 @@ class ContactsController extends ClientsSectionController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactStoreRequest $request)
     {
-        //
+        $post = $request->validated();
+
+        Contact::createContact($post);
+
+        $request->session()->flash('success', __('Contact successfully created.'));
+
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
     }
 
     /**
@@ -53,9 +62,12 @@ class ContactsController extends ClientsSectionController
      */
     public function edit(Contact $contact)
     {
-        if(\Auth::user()->can('edit client')) {
-            $client = User::findOrFail($id);
-            return view('clients.edit', compact('client'));
+        if(\Auth::user()->can('edit contact')) 
+        {
+            $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+
+            return view('contacts.edit', compact('contact', 'clients'));
+
         }else{
             return redirect()->back();
         }
@@ -68,9 +80,16 @@ class ContactsController extends ClientsSectionController
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(ContactUpdateRequest $request, Contact $contact)
     {
-        //
+        $post = $request->validated();
+
+        $contact->updateContact($post);
+
+        $request->session()->flash('success', __('Contact successfully updated.'));
+
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
     }
 
     /**
@@ -79,23 +98,17 @@ class ContactsController extends ClientsSectionController
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact)
+    public function destroy(ContactDestroyRequest $request, Contact $contact)
     {
-        if(\Auth::user()->can('delete client')) {
-            $user = User::find($id);
-            if($user) {
-                $user->delete();
-                $user->destroyUserNotesInfo($user->id);
-                $user->removeClientProjectInfo($user->id);
-                $user->removeClientLeadInfo($user->id);
-                $user->destroyUserTaskAllInfo($user->id);
-
-                return redirect()->route('clients.index')->with('success',  __('Client Deleted Successfully.'));
-            }else{
-                return redirect()->back()->with('error',__('Something is wrong.'));
-            }
-        }else{
-            return redirect()->back();
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
         }
+
+        $contact->detachContact();
+
+        $contact->delete();
+
+        return redirect()->back()->with('success', __('Contact successfully deleted'));
     }
 }

@@ -52,11 +52,7 @@ use App\Http\Helpers;
                 
             @foreach($stages as $stage)
 
-            @if(\Auth::user()->type == 'company')
-                @php($leads = $stage->leads)
-            @else
-                @php($leads = $stage->user_leads())
-            @endif
+            @php($leads = $stage->getLeadsByUserType(null))
 
             <div class="kanban-col">
                 <div class="card-list">

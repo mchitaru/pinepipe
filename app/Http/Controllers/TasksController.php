@@ -56,7 +56,7 @@ class TasksController extends ProjectsSectionController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskStoreRequest $request)
+    public function store(TaskStoreRequest $request, $project_id)
     {
         $post = $request->validated();
 

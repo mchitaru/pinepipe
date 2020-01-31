@@ -47,6 +47,9 @@ $(document).ready(function() {
 
             @can('create client')
                 <a class="dropdown-item" href="{{ route('clients.create') }}" data-remote="true" data-type="text">{{__('New Client')}}</a>
+            @endcan
+            
+            @can('create contact')
                 <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('New Contact')}}</a>
             @endcan
             
@@ -123,7 +126,7 @@ $(document).ready(function() {
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Contacts')}}</h3>
-                        @can('create client')
+                        @can('create contact')
                         <a href="{{ route('contacts.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>

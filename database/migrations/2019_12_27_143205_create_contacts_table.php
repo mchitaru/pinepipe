@@ -17,14 +17,14 @@ class CreateContactsTable extends Migration
             'contacts', function (Blueprint $table){
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('address');
-            $table->string('company');
-            $table->string('job');
-            $table->string('website');
-            $table->date('birthday');
-            $table->text('notes');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('company')->nullable();
+            $table->string('job')->nullable();
+            $table->string('website')->nullable();
+            $table->date('birthday')->nullable();
+            $table->text('notes')->nullable();
             $table->unsignedInteger('client_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('created_by')->default(0);

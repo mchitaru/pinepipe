@@ -47,6 +47,7 @@ class TaskStoreRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('tasks.create');
+        $project_id = $this->route()->parameter('project');
+        return route('projects.task.create', $project_id);
     }
 }
