@@ -327,7 +327,6 @@ $(document).ready(function() {
                     <div class="col-auto">
                     <h3>{{__('Files')}}</h3>
                     </div>
-
                     <form class="col-md-auto">
                         <div class="input-group input-group-round">
                             <div class="input-group-prepend">

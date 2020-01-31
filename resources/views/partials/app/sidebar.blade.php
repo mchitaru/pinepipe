@@ -183,7 +183,7 @@ $languages=$user->languages();
             </li>
         @endif
 
-        @if(Gate::check('manage project'))
+        @if(Gate::check('manage project') || \Auth::user()->type!='super admin')
             <li class="nav-item">
 
                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">{{__('Reports')}}</a>
@@ -205,7 +205,7 @@ $languages=$user->languages();
 
                     <li class="nav-item">
                         <a class="dropdown-item disabled" href="#">{{__('Wiki')}}</a>
-                        <a class="dropdown-item disabled" href="#">{{__('Sharepoint')}}</a>
+                        <a class="dropdown-item" href="{{ route('sharepoint') }}">{{__('Sharepoint')}}</a>
                     </li>
                     </ul>
                 </div>

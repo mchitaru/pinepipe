@@ -25,6 +25,7 @@ Route::group(
         //Dashboard
         Route::get('/', 'DashboardController@index')->name('home');
         Route::get('/home', 'DashboardController@index')->name('home');
+        Route::get('/files', 'FilesController@index')->name('sharepoint');
 }
 );
 
@@ -292,4 +293,3 @@ Route::group(
 
 }
 );
-

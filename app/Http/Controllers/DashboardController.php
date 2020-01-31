@@ -133,7 +133,8 @@ DashboardController extends Controller
         }
         else
         {
-            $activities = ActivityLog::all()->orderBy('id', 'desc');
+            // $activities = ActivityLog::all()->orderBy('id', 'desc');
+            $activities = ActivityLog::orderBy('id', 'desc')->get();
 
             $user=\Auth::user();
             $user['total_user']=$user->countCompany();
