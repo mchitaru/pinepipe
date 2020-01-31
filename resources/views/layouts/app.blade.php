@@ -9,8 +9,8 @@
 
     {{-- <div class="layout layout-nav-top"> --}}
 
-        @include('partials.app.sidebar')
         {{-- @include('partials.app.header') --}}
+        @include('partials.app.sidebar')
 
         <div class="main-container">
 
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    @include('partials.app.social')
+    {{-- @include('partials.app.social') --}}
     @include('partials.app.footer')
 
 </body>

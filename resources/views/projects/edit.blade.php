@@ -39,7 +39,7 @@
         </div>
         <div class="form-group row">
             {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-4')) }}
-            {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required')) !!}
+            {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('price', __('Budget'), array('class'=>'col-4')) }}
@@ -47,7 +47,7 @@
         </div>
         <div class="form-group row">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-4')) }}
-            {!! Form::select('lead_id', $leads, null, ['placeholder' => __('Select a lead...')], array('class' => 'form-control col','required'=>'required')) !!}
+            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col','required'=>'required', 'placeholder' => __('Select a lead...'))) !!}
         </div>
     </div>
     <div class="tab-pane fade show" id="project-timeline" role="tabpanel">

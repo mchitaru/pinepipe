@@ -51,9 +51,12 @@ class ProjectsController extends ProjectsSectionController
 
         if($total_client < $plan->max_clients || $plan->max_clients == -1)
         {
-            Project::createProject($post);
+            $project = Project::createProject($post);
 
             $request->session()->flash('success', __('Project successfully created.'));
+
+            $url = redirect()->route('projects.show', $project->id)->getTargetUrl();
+            return "<script>window.location='{$url}'</script>";
         }
         else
         {

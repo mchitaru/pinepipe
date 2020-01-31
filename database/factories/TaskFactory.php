@@ -10,7 +10,7 @@ $factory->define(Task::class, function (Faker $faker) {
         'title' => $faker->sentence(3),
         'priority' => $faker->randomElement(['low', 'medium', 'high']),
         'description' => $faker->text,
-        'start_date' => $faker->dateTimeInInterval('-2 months'),
+        'start_date' => $faker->dateTimeInInterval('-1 months'),
         'due_date'  => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
         'project_id' => null,
         'milestone_id' => null,
@@ -23,6 +23,6 @@ $factory->define(Task::class, function (Faker $faker) {
 
 $factory->state(Task::class, 'project', function ($faker) {
     return [
-        'project_id' => $faker->numberBetween(0, 5),
+        'project_id' => $faker->numberBetween(0, 2),
     ];
 });

@@ -9,44 +9,58 @@ $languages=$user->languages();
 
 @endphp
 
-<div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
-        <a class="navbar-brand" href="{{ route('home') }}">
+<div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible">
+    <div class="d-block mw-100">
+        <a class="navbar-brand float-left" href="{{ route('home') }}">
             <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
         </a>
-    <div class="d-flex align-items-center">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="d-block d-lg-none ml-2">
-        <div class="dropdown">
-        <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {!!Helpers::buildAvatar($user, 36, 'round')!!}
-        </a>
-        <div class="dropdown-menu dropdown-menu-right">
-            @can('manage account')
-                <a class="dropdown-item" href="{{route('profile',$user->id)}}">
-                    {{__('Account Settings')}}
-                </a>
-                <div class="dropdown-divider"></div>
-            @endcan
-
-            @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
-                @if(Gate::check('manage user'))
-                    <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-                @endif
-                @if(Gate::check('manage role'))
-                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
-                @endif
-
-                <div class="dropdown-divider"></div>
-            @endif
-
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-                {{__('Logout')}}
+        {{-- <div class="dropdown float-right">
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="material-icons">notifications_none</i>
             </a>
-        </div>
-        </div>
+            
+            <div class="dropdown-menu">
+                <a class="dropdown-item disabled" href="#">
+                    Nothing to display
+                </a>
+            </div>
+        </div> --}}
+
     </div>
+    <div class="d-flex align-items-center">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="d-block d-lg-none ml-2">
+            <div class="dropdown">
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {!!Helpers::buildAvatar($user, 36, 'round')!!}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                @can('manage account')
+                    <a class="dropdown-item" href="{{route('profile',$user->id)}}">
+                        {{__('Account Settings')}}
+                    </a>
+                    <div class="dropdown-divider"></div>
+                @endcan
+
+                @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
+                    @if(Gate::check('manage user'))
+                        <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
+                    @endif
+                    @if(Gate::check('manage role'))
+                        <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
+                    @endif
+
+                    <div class="dropdown-divider"></div>
+                @endif
+
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                    {{__('Logout')}}
+                </a>
+            </div>
+            </div>
+        </div>
     </div>
     <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
     <ul class="navbar-nav d-lg-block">
@@ -247,9 +261,7 @@ $languages=$user->languages();
     <div class="d-none d-lg-block">
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildAvatar($user, 36, 'round')!!}
-            </a>
+            {!!Helpers::buildAvatar($user, 36, 'round')!!}
         </a>
         <div class="dropdown-menu">
             @can('manage account')

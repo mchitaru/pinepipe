@@ -92,20 +92,6 @@ use App\Http\Helpers;
             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
         </ol>
     </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-            <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">Edit Team</a>
-            <a class="dropdown-item" href="#">Share</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="#">Leave</a>
-
-        </div>
-    </div>
 </div>
 @endsection
 
