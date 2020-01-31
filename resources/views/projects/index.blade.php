@@ -112,7 +112,7 @@ use App\Http\Helpers;
                         @endif
                     </div>
                     <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
-                        <i class="material-icons mr-1">person</i>
+                        <i class="material-icons mr-1">apartment</i>
                         @if($project->is_active && !empty($project->client))
                         <a href="{{ route('clients.show', $project->client->id) }}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
                         @else

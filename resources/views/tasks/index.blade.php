@@ -75,7 +75,7 @@
                         <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->name : '---' }}</span>
                     </div>
                     <div class="row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
-                        <i class="material-icons">person</i>
+                        <i class="material-icons">apartment</i>
                         <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
                     </div>
                 </div>

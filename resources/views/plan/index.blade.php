@@ -76,7 +76,7 @@
                         </li>
                         <li class="row">
                             <div class="col text-right">
-                                <i class="material-icons">person</i>
+                                <i class="material-icons">people</i>
                             </div>
                             <div class="col text-left">
                                 {{$plan->max_users}} {{__('Users')}}
@@ -84,7 +84,7 @@
                         </li>
                         <li class="row">
                             <div class="col text-right">
-                                <i class="material-icons">storefront</i>
+                                <i class="material-icons">apartment</i>
                             </div>
                             <div class="col text-left">
                                 {{$plan->max_clients}} {{__('Clients')}}

@@ -46,7 +46,7 @@
             </div>
             <div class="card-title col-sm-2">
                 <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
-                    <i class="material-icons">person</i>
+                    <i class="material-icons">apartment</i>
                     <span data-filter-by="text" class="text-small">
                         <a href="{{ route('clients.show',$invoice->project->client->id) }}" data-filter-by="text">{{$invoice->project->client->name}}</a>
                     </span>

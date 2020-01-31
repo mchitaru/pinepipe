@@ -216,7 +216,7 @@ if($client_project_budget_due_per<=15){
                                         <small class="card-text">{{__('CLIENTS')}}</small>
                                     </div>
                                     <div class="icon">
-                                        <i class="material-icons">people</i>
+                                        <i class="material-icons">apartment</i>
                                     </div>
                                 </a>
                             </div>
