@@ -12,9 +12,13 @@ use App\Http\Helpers;
         </div>
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-4">
-                <a href="#">
+                @can('edit user')
+                <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}" data-remote="true" data-type="text">
+                @endcan
                 <h6 data-filter-by="text">{{$user->name}}</h6>
+                @can('edit user')
                 </a>
+                @endcan
                 <span class="text-small">{{$user->type}}</span>
             </div>
             <div class="card-title col-xs-12 col-sm-4">

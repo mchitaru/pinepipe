@@ -54,6 +54,7 @@ use App\Http\Helpers;
                         </a>
                     @endcan
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
                     @can('delete client')
                         <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{'Delete'}}</span>

@@ -11,12 +11,11 @@
         <div class="card-body p-2">
             <div class="card-title col-sm-3">
                 @can('edit expense')
-                    <a href="#" data-url="{{ route('expenses.edit',$expense->id) }}" data-ajax-popup="true" data-title="{{__('Edit Expense')}}">
+                    <a href="{{ route('expenses.edit',$expense->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                 @endcan
-                    <h6 data-filter-by="text">{{  (!empty($expense->category)?$expense->category->name:'---')}}
-                    </h6>
+                        <h6 data-filter-by="text">{{  (!empty($expense->category)?$expense->category->name:'---')}}</h6>
                 @can('edit expense')
-                </a>
+                    </a>
                 @endcan
                 <p>
                     <span class="text-small">{{ Carbon::parse($expense->date)->diffForHumans() }}</span>

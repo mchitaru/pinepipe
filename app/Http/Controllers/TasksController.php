@@ -89,6 +89,7 @@ class TasksController extends ProjectsSectionController
     {
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $stages     = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 
         if(!empty($project))
         {
@@ -108,7 +109,7 @@ class TasksController extends ProjectsSectionController
         $start_date = $task->start_date;
         $due_date = $task->due_date;
 
-        return view('tasks.edit', compact('task', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'start_date', 'due_date'));
+        return view('tasks.edit', compact('task', 'stages', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'start_date', 'due_date'));
     }
 
     /**

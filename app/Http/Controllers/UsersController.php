@@ -207,11 +207,11 @@ class UsersController extends UsersSectionController
 
     public function profile()
     {
-        $userDetail = \Auth::user();
+        $user = \Auth::user();
         $plans = PaymentPlan::get();
         $settings = \Auth::user()->settings();
 
-        return view('user.profile', compact('userDetail', 'plans', 'settings'));
+        return view('user.profile', compact('user', 'plans', 'settings'));
     }
 
     public function editprofile(Request $request)

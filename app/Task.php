@@ -17,7 +17,6 @@ class Task extends Model
         'start_date',
         'project_id',
         'milestone_id',
-        'status',
         'order',
         'stage_id',
     ];
@@ -124,12 +123,6 @@ class Task extends Model
 
     public function updateTask($post)
     {
-        if(isset($post['status']) && $post['status'] == 'done')
-        {
-            $stage = ProjectStage::all()->last();
-            $post['stage_id'] = $stage->id;
-        }
-
         $this->update($post);
 
         if(isset($post['user_id']))

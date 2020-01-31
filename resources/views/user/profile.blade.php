@@ -90,7 +90,7 @@ use App\Http\Helpers;
                 {{Form::model($user,array('route' => array('update.account'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
                 <div class="media mb-4">
                     <div class="d-flex flex-column">
-                        {!!Helpers::buildAvatar($user, 60, 'round')!!}
+                        {!!Helpers::buildAvatar($user, 60, 'rounded')!!}
                         <span class="badge badge-secondary">{{$user->type}}</span>
                     </div>
                     <div class="media-body ml-3">

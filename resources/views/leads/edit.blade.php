@@ -19,16 +19,16 @@
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
         {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Lead Value')) }}
     </div>
+    <div class="form-group row">
+        {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
+        {{ Form::select('stage_id', $stages,null, array('class' => 'form-control col font-style selectric','required'=>'required')) }}
+    </div>
     @if(\Auth::user()->type=='company')
         <div class="form-group row required">
             {{ Form::label('user_id', __('Assign To'), array('class'=>'col-3')) }}
             {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
         </div>
     @endif
-    <div class="form-group row">
-        {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
-        {{ Form::select('stage_id', $stages,null, array('class' => 'form-control col font-style selectric','required'=>'required')) }}
-    </div>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}

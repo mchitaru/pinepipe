@@ -5,9 +5,13 @@
         </div>
         <div class="card-body p-2">
             <div class="card-title col-xs-12 col-sm-3">
+                @can('edit contact')
                 <a href="{{ route('contacts.edit', $contact->id) }}" data-remote="true" data-type="text">
+                @endcan
                     <h6 data-filter-by="text">{{$contact->name}}</h6>
+                @can('edit contact')
                 </a>
+                @endcan
             </div>
             <div class="card-title col-xs-12 col-sm-5">
                 <div class="container row align-items-center">

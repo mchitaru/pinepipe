@@ -3,9 +3,13 @@
     <div class="pl-3 row align-items-center">
         <div class="card-body">
             <div class="card-title mr-3 col-xs">
-                <a href="#">
+                @can('edit role')
+                <a class="dropdown-item" href="{{ route('roles.edit',$role->id) }}" data-remote="true" data-type="text">
+                @endcan
                 <h6 data-filter-by="text">{{ $role->name }}</h6>
+                @can('edit role')
                 </a>
+                @endcan
             </div>
             <div class="card-meta col-xl">
                 <div class="d-flex flex-wrap">

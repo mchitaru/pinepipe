@@ -1,6 +1,7 @@
 @php
     use Carbon\Carbon;
     use App\Project;
+    use App\ProjectStage;
     use App\Http\Helpers;
 
     $current_user=\Auth::user();
@@ -102,7 +103,7 @@
 
                             @can('edit task')
                                 {!! Form::open(['method' => 'PATCH', 'route' => ['tasks.update', $task->id]]) !!}
-                                {!! Form::hidden('status', 'done') !!}
+                                {!! Form::hidden('stage_id', ProjectStage::all()->last()->id) !!}
                                 {!! Form::submit(__('Mark as done'), array('class'=>'dropdown-item text-danger')) !!}
                                 {!! Form::close() !!}
 

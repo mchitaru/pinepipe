@@ -89,6 +89,16 @@ $(document).ready(function() {
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show" id="profile" role="tabpanel" data-filter-list="content-list-body">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                            <h3>{{__('Profile')}}</h3>
+                        </div>
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body">
+                        @include('clients.profile')
+                    </div>
+                    <!--end of content list body-->
                 </div>
                 <!--end of tab-->
                 <div class="tab-pane fade show" id="contacts" role="tabpanel" data-filter-list="content-list-body">
@@ -111,12 +121,12 @@ $(document).ready(function() {
                             <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Contacts')}}" aria-label="{{__('Filter Contacts')}}">
                             </div>
                         </form>
-                        </div>
-                        <!--end of content list head-->
-                        <div class="content-list-body">
-                            @include('contacts.index')
-                        </div>
-                        <!--end of content list body-->
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body">
+                        @include('contacts.index')
+                    </div>
+                    <!--end of content list body-->
                 </div>
                 <!--end of tab-->
                 <div class="tab-pane fade show {{(Request::segment(1)=='leads')?'active':''}}" id="leads" role="tabpanel" data-filter-list="content-list-body">

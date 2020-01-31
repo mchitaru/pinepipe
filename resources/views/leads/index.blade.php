@@ -30,9 +30,13 @@ use App\Http\Helpers;
                     </div>
                     <div class="card-body p-2">
                         <div class="card-title col-xs-12 col-sm-3">
-                            <a href="#">
-                            <h6 data-filter-by="text">{{$lead->name}}</h6>
+                            @can('edit lead')
+                            <a href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
+                            @endcan
+                                <h6 data-filter-by="text">{{$lead->name}}</h6>
+                            @can('edit lead')
                             </a>
+                            @endcan
                             <p>
                                 <span class="text-small">{{__('Updated')}} {{ Carbon::parse($lead->updated_at)->diffForHumans() }}</span>
                             </p>

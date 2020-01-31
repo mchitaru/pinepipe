@@ -85,9 +85,13 @@ use App\Http\Helpers;
                         </div>
                         </div>
                         <div class="card-title">
-                            <a href="#" data-toggle="modal" data-target="#task-modal">
+                            @can('edit lead')
+                            <a href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
+                            @endcan
                                 <h6>{{$lead->name}}</h6>
+                            @can('edit lead')
                             </a>
+                            @endcan
                             <p>
                                 <span class="text-small">{{ $lead->client->name }}</span>
                             </p>

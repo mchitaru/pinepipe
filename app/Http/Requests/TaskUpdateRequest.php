@@ -41,6 +41,7 @@ class TaskUpdateRequest extends FormRequest
                     'project_id' => 'nullable|integer',
                     'start_date' => 'required|date',
                     'due_date' => 'required|date',
+                    'stage_id' => 'integer'
                 ];
             }else{
                 return [
@@ -50,12 +51,12 @@ class TaskUpdateRequest extends FormRequest
                     'project_id' => 'nullable|integer',
                     'start_date' => 'required|date',
                     'due_date' => 'required|date',
+                    'stage_id' => 'integer'
                 ];
             }
         }else{
 
             return [
-                'status' => 'string',
                 'stage_id' => 'integer'
             ];
         }

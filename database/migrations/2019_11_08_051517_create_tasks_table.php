@@ -22,7 +22,6 @@ class CreateTasksTable extends Migration
             $table->date('due_date')->nullable();
             $table->unsignedInteger('project_id')->nullable();
             $table->unsignedInteger('milestone_id')->nullable();
-            $table->string('status')->default('todo');
             $table->unsignedInteger('stage_id')->default(0);
             $table->unsignedInteger('order')->default(0);
             $table->unsignedInteger('created_by')->default(0);
