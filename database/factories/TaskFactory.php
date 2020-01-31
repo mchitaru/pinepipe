@@ -14,7 +14,6 @@ $factory->define(Task::class, function (Faker $faker) {
         'due_date'  => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
         'project_id' => null,
         'milestone_id' => null,
-        'status' => 'todo',
         'order' => '0',
         'stage_id' => $faker->numberBetween(1, 4),
         'created_by' => '2',
