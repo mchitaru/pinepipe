@@ -10,24 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('searchJson/{search?}', 'ProjectsController@getSearchJson')->name('search.json')->middleware(['auth','xss']);
-
-Auth::routes();
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
-
-        //Dashboard
-        Route::get('/', 'DashboardController@index')->name('home');
-        Route::get('/home', 'DashboardController@index')->name('home');
-        Route::get('/files', 'FilesController@index')->name('sharepoint');
-}
-);
+Auth::routes(['verify' => true]);
 
 Route::put('change-password', 'UsersController@updatePassword')->name('update.password');
 
@@ -36,8 +19,17 @@ Route::group(
         'middleware' => [
             'auth',
             'xss',
+            'verified'
         ],
     ], function (){
+
+        //Search
+        Route::get('searchJson/{search?}', 'ProjectsController@getSearchJson')->name('search.json');
+
+        //Dashboard
+        Route::get('/', 'DashboardController@index')->name('home');
+        Route::get('/home', 'DashboardController@index')->name('home');
+        Route::get('/files', 'FilesController@index')->name('sharepoint');
 
         //Users
         Route::resource('users', 'UsersController');
@@ -49,17 +41,6 @@ Route::group(
         //Clients
         Route::resource('clients', 'ClientsController');
         Route::resource('contacts', 'ContactsController');
-}
-);
-
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
 
         //Language
         Route::get('change-language/{lang}', 'LanguagesController@changeLanquage')->name('change.language');
@@ -67,16 +48,6 @@ Route::group(
         Route::post('store-language-data/{lang}', 'LanguagesController@storeLanguageData')->name('store.language.data');
         Route::get('create-language', 'LanguagesController@createLanguage')->name('create.language');
         Route::post('store-language', 'LanguagesController@storeLanguage')->name('store.language');
-}
-);
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
 
         //System
         Route::resource('systems', 'SystemController');
@@ -85,17 +56,7 @@ Route::group(
         Route::post('stripe-settings', 'SystemController@saveStripeSettings')->name('stripe.settings');
         Route::post('system-settings', 'SystemController@saveSystemSettings')->name('system.settings');
         Route::get('company-setting', 'SystemController@companyIndex')->name('company.setting');
-}
-);
 
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
-    
         //Leads
         Route::resource('leadstages', 'LeadStagesController');
         Route::post(
@@ -113,29 +74,9 @@ Route::group(
             'uses' => 'LeadsController@order',
         ]);
         Route::resource('leads', 'LeadsController');
-}
-);
 
-Route::resource('productunits', 'ProductUnitsController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-Route::resource('expensescategory', 'ExpenseCategoriesController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
+        //PaymentPlans
+        Route::resource('plans', 'PaymentPlansController');
 
         //Projects
         Route::resource('projectstages', 'ProjectStagesController');
@@ -180,16 +121,6 @@ Route::group(
         Route::get('projects/{project}/timesheet/{timesheet}/edit', 'TimesheetsController@edit')->name('projects.timesheet.edit');
         Route::put('projects/{project}/timesheet/{timesheet}/update', 'TimesheetsController@update')->name('projects.timesheet.update');
         Route::delete('projects/{project}/timesheet/{timesheet}/destroy', 'TimesheetsController@destroy')->name('projects.timesheet.destroy');    
-}
-);
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
 
         //Tasks
         Route::resource('tasks', 'TasksController');
@@ -208,23 +139,8 @@ Route::group(
         Route::post('tasks/{task}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.store');
         Route::put('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@update')->name('tasks.checklist.update');
         Route::delete('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
-}
-);
 
-Route::resource('calendar', 'CalendarController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
+        Route::resource('calendar', 'CalendarController');
 
         //Invoices
         Route::resource('invoices', 'InvoicesController');
@@ -240,56 +156,18 @@ Route::group(
         Route::get('invoices/{invoice}/payments', 'InvoicesController@paymentAdd')->name('invoices.payments.create');
         Route::post('invoices/{invoice}/payments', 'InvoicesController@paymentStore')->name('invoices.payments.store');
 
+        Route::resource('productunits', 'ProductUnitsController');
+        Route::resource('expensescategory', 'ExpenseCategoriesController');
+        Route::resource('taxes', 'TaxesController');
+        Route::resource('products', 'ProductsController');
+        Route::resource('expenses', 'ExpensesController');
 
-}
-);
-Route::resource('taxes', 'TaxesController');
-Route::resource('plans', 'PaymentPlansController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);;
-
-
-Route::resource('products', 'ProductsController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-Route::resource('expenses', 'ExpensesController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-
-Route::resource('payments', 'PaymentsController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-Route::resource('notes', 'NotesController')->middleware(
-    [
-        'auth',
-        'xss',
-    ]
-);
-
-
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'xss',
-        ],
-    ], function (){
-
-    Route::get('/orders', 'StripePaymentsController@index')->name('order.index');
-    Route::get('/stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');
-    Route::post('/stripe', 'StripePaymentsController@stripePost')->name('stripe.post');
-
-}
-);
+        //Payments
+        Route::resource('payments', 'PaymentsController');
+        Route::get('/orders', 'StripePaymentsController@index')->name('order.index');
+        Route::get('/stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');
+        Route::post('/stripe', 'StripePaymentsController@stripePost')->name('stripe.post');
+    
+        //Notes
+        // Route::resource('notes', 'NotesController');
+});

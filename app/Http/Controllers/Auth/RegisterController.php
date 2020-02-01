@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use App\Providers\RouteServiceProvider;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -94,8 +96,9 @@ class RegisterController extends Controller
                 'lang' => 'en',
             ]
         );
-        $role_r = Role::findByName('company');
 
-        return $user->assignRole($role_r);
+        $role = Role::findByName('company');
+
+        return $user->assignRole($role);
     }
 }
