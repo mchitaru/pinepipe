@@ -178,11 +178,12 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Super Admin',
                 'email' => 'superadmin@example.com',
-                'password' => Hash::make('1234'),
+                'password' => Hash::make('metallicarulz'),
                 'type' => 'super admin',
                 'lang' => 'en',
                 'avatar' => '',
                 'created_by' => 0,
+                'email_verified_at' => now(),
             ]
         );
         $superAdmin->assignRole($superAdminRole);
@@ -365,6 +366,7 @@ class UsersTableSeeder extends Seeder
                 'avatar' => '',
                 'plan' => 1,
                 'created_by' => '1',
+                'email_verified_at' => now(),
             ]
         );
 
