@@ -11,6 +11,6 @@ class UserTasksTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\UserTask::class, 15)->create();
+        factory(App\UserTask::class, App\Task::$PROJECT_SEED)->create();
     }
 }

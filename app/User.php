@@ -239,11 +239,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return ProjectStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'ASC');
     }
 
-    public function getProjectStages()
-    {
-        return $this->projectStages()->get();
-    }
-
     public function getProjectsByUserType()
     {
         return $this->projectsByUserType()->get();

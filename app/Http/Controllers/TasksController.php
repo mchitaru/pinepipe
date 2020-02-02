@@ -24,7 +24,10 @@ class TasksController extends ProjectsSectionController
     {
         if(\Auth::user()->can('show project'))
         {
-            $stages  = \Auth::user()->getProjectStages();
+            $stages = ProjectStage::with('tasks.checklist')
+                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->orderBy('order', 'ASC')
+                                    ->get();
 
             return view('tasks.board', compact('stages', 'project_id'));
         }

@@ -19,9 +19,14 @@ class ProjectsSectionController extends Controller
             
             $project_status = Project::$project_status;
 
-            $stages  = $user->getProjectStages();            
+            $stages = ProjectStage::with('tasks.checklist')
+                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->orderBy('order', 'ASC')
+                                    ->get();
 
-            $task_count = $user->getTasksByUserType()->count();
+            $task_count = 0;
+            foreach($stages as $stage)
+                $task_count = $task_count + $stage->tasks->count();
 
             $project_id = null;
             $activities = array();

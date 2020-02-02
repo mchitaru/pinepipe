@@ -27,6 +27,9 @@ class Task extends Model
         'description'
 	];
 
+    public static $PROJECT_SEED = 10;
+    public static $SEED = 5;
+
     public function project()
     {
         return $this->belongsTo('App\Project');
@@ -69,12 +72,17 @@ class Task extends Model
 
     public function getCompleteChecklistCount()
     {
-        return $this->checklist()->where('status','=','1')->count();
+        $count = 0;
+        foreach($this->checklist as $check) {
+            if($check->status) $count++;
+        }
+
+        return $count;    
     }
 
     public function getTotalChecklistCount()
     {
-        return $this->checklist()->count();
+        return $this->checklist->count();
     }
 
     public static function getProgressColor($percentage)

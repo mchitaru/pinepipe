@@ -11,6 +11,6 @@ class UserProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\UserProject::class, 5)->create();
+        factory(App\UserProject::class, App\Project::$SEED)->create();
     }
 }

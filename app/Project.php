@@ -22,6 +22,8 @@ class Project extends Model
 
     ];
 
+    public static $SEED = 2;
+
     public function tasks()
     {
         return $this->hasMany('App\Task', 'project_id', 'id');

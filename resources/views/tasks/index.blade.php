@@ -5,6 +5,7 @@
     use App\Http\Helpers;
 
     $current_user=\Auth::user();
+    $stage_done = ProjectStage::all()->last()->id;
 @endphp
 
 @foreach($stages as $stage)
@@ -30,9 +31,10 @@
         </div>
         <div class="card-list-body">
 
-        @foreach($tasks as $task)
+        @foreach($tasks as $key=>$task)
 
         @php
+
             $total_subtask = $task->getTotalChecklistCount();
             $completed_subtask = $task->getCompleteChecklistCount();
 
@@ -103,13 +105,9 @@
 
                             @can('edit task')
                                 {!! Form::open(['method' => 'PATCH', 'route' => ['tasks.update', $task->id]]) !!}
-                                {!! Form::hidden('stage_id', ProjectStage::all()->last()->id) !!}
+                                {!! Form::hidden('stage_id', $stage_done) !!}
                                 {!! Form::submit(__('Mark as done'), array('class'=>'dropdown-item text-danger')) !!}
                                 {!! Form::close() !!}
-
-                                {{-- <a href="{{route('tasks.update',$task->id)}}" data-remote="true" data-method="patch" data-params="{&quot;status&quot;:&quot;done&quot;,&quot;stage&quot;:&quot;4&quot;}"  class="dropdown-item text-danger">
-                                    {{__('Mark as done')}}
-                                </a> --}}
 
                                 <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                                     {{__('Edit')}}
