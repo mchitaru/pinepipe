@@ -8,6 +8,7 @@ require('./bootstrap');
 require('chart.js');
 require('jquery-ujs');
 require('select2');
+// require('./mrare');
 
 
 // window.Vue = require('vue');

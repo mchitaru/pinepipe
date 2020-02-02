@@ -17,7 +17,7 @@ class Helpers
 
     public static function storePrivateFile(UploadedFile $file)
     {
-        $path = $file->store('upload/'.\Auth::user()->creatorId(), 'local');
+        $path = $file->store('users/'.\Auth::user()->creatorId(), 'local');
 
         return $path;
     }

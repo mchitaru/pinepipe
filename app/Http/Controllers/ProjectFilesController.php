@@ -11,16 +11,6 @@ use App\Http\Helpers;
 class ProjectFilesController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -28,7 +18,7 @@ class ProjectFilesController extends Controller
      */
     public function store(Request $request, Project $project)
     {        
-        $request->validate(['file' => 'required|mimes:png,jpeg,jpg,pdf,doc,txt|max:2048']);
+        $request->validate(['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048']);
 
         if($request->hasFile('file'))
         {
@@ -39,6 +29,7 @@ class ProjectFilesController extends Controller
                     'project_id' => $project->id,
                     'file_name' => $request->file('file')->getClientOriginalName(),
                     'file_path' => $path,
+                    'created_by'=> \Auth::user()->authId()
                 ]
             );
         }
@@ -58,16 +49,7 @@ class ProjectFilesController extends Controller
                                   ]
         );
 
-        ActivityLog::create(
-            [
-                'user_id' => \Auth::user()->creatorId(),
-                'project_id' => $project->id,
-                'log_type' => 'Upload File',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('uploaded file') .
-                            ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file->file_name.'</a>',
-            ]
-        );
+        ActivityLog::createProjectFile($file);
 
         return response()->json($return);
     }
@@ -80,21 +62,14 @@ class ProjectFilesController extends Controller
      */
     public function show(Project $project, ProjectFile $file)
     {
-        if($file)
-        {
-            $file_path = storage_path('app/' . $file->file_path);
-            $filename  = $file->file_name;
+        $file_path = storage_path('app/' . $file->file_path);
+        $filename  = $file->file_name;
 
-            return \Response::download(
-                $file_path, $filename, [
-                              'Content-Length: ' . filesize($file_path),
-                          ]
-            );
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('File does not exist.'));
-        }
+        return \Response::download(
+            $file_path, $filename, [
+                            'Content-Length: ' . filesize($file_path),
+                        ]
+        );
     }
 
     /**
@@ -110,27 +85,13 @@ class ProjectFilesController extends Controller
             return view('helpers.destroy');
         }
 
-        if($file)
+        $path = storage_path('app/' . $file->file_path);
+        if(file_exists($path))
         {
-            $path = storage_path('app/' . $file->file_path);
-            if(file_exists($path))
-            {
-                \File::delete($path);
-            }
-            $file->delete();
+            \File::delete($path);
+        }
+        $file->delete();
 
-            // return response()->json(['is_success' => true], 200);
-            return redirect()->route('projects.index')->with('success', __('Expense successfully deleted.'));
-        }
-        else
-        {
-            // return response()->json(
-            //     [
-            //         'is_success' => false,
-            //         'error' => __('File is not exist.'),
-            //     ], 200
-            // );
-            return redirect()->back()->with('error', __('File does not exist.'));
-        }
+        return redirect()->back()->with('success', __('File successfully deleted'));
     }
 }

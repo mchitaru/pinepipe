@@ -7,6 +7,7 @@
 
 import jQuery from 'jquery';
 import Draggable from '@shopify/draggable/lib/draggable';
+import Sortable from '@shopify/draggable/lib/sortable';
 import SwapAnimation from '@shopify/draggable/lib/plugins';
 import mrUtil from './util';
 

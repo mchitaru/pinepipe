@@ -1,36 +1,59 @@
-@extends('layouts.app')
+@php
+    use App\Http\Helpers;
+@endphp
 
-@push('stylesheets')
-<link href='assets/module/fullcalendar/css/all.min.css' rel='stylesheet' />
-<link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
-@endpush
-
-@push('scripts')
-<script src="{{asset('assets/module/fullcalendar/js/all.min.js')}}"></script>
-<script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
-@endpush
-
-@section('page-title')
-    {{__('Sharepoint')}}
-@endsection
-
-@section('breadcrumb')
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
+<div class="col">
+    <ul class="d-none dz-template">
+        <li class="list-group-item dz-preview dz-file-preview">
+        <div class="media align-items-center dz-details">
+            <ul class="avatars">
+            <li>
+                <div class="avatar bg-primary dz-file-representation">
+                <i class="material-icons">attach_file</i>
+                </div>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('Sharepoint')}}</li>
-        </ol>
-    </nav>
+            <li>
+                {{-- <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> --}}
+                    {!!Helpers::buildAvatar($current_user)!!}
+                {{-- </a> --}}
+            </li>
+            </ul>
+            <div class="media-body d-flex justify-content-between align-items-center">
+            <div class="dz-file-details">
+                <a href="#" class="dropzone-file dz-filename">
+                <span data-dz-name></span>
+                </a>
+                <br>
+                <span class="text-small dz-size" data-dz-size></span>
+            </div>
+            <img alt="Loader" src="{{ asset('assets/img/loader.svg') }}" class="dz-loading" />
+            <div class="dropdown">
+                <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropzone-file dropdown-item" href="#">{{__('Download')}}</a>
+                <a class="dropzone-file dropdown-item disabled" href="#">{{__('Share')}}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropzone-delete dropdown-item text-danger" href="#" data-method="delete" data-remote="true" data-type="text">{{__('Delete')}}</a>
 
-</div>
-@endsection
+                </div>
+            </div>
+            <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
+                {{__('Cancel')}}
+            </button>
+            </div>
+        </div>
+        <div class="progress dz-progress">
+            <div class="progress-bar dz-upload" data-dz-uploadprogress></div>
+        </div>
+        </li>
+    </ul>
 
-@section('content')
-<div class="container">
-    <div class="pt-3" style="height: 800px;">
-        <div id="fm"></div>
+    <form class="dropzone" id="{{$dz_id}}">
+        <span class="dz-message">{{__('Drop files here or click here to upload')}}</span>
+    </form>
+
+    <ul id="{{$dz_id}}-previews" class="list-group list-group-activity dropzone-previews flex-column-reverse">
+    </ul>
     </div>
-</div>
-@endsection

@@ -96,4 +96,32 @@ class ActivityLog extends Model
         );
     }
 
+    public static function createProjectFile(ProjectFile $file)
+    {
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $file->project->id,
+                'log_type' => 'Upload File',
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('uploaded file') .
+                            ' <a href="' . route('projects.file.download', [$file->project->id, $file->id]) . '">'. $file->file_name.'</a>',
+            ]
+        );
+    }
+
+    public static function createTaskFile(TaskFile $file)
+    {
+        ActivityLog::create(
+            [
+                'user_id' => \Auth::user()->creatorId(),
+                'project_id' => $file->task->project_id,
+                'log_type' => 'Upload File',
+                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                            __('uploaded file') .
+                            ' <a href="' . route('tasks.file.download', [$file->task->id, $file->id]) . '">'. $file->file_name.'</a>',
+            ]
+        );
+    }
+
 }

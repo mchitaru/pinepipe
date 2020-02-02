@@ -7,12 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class TaskFile extends Model
 {
     protected $fillable = [
-        'file',
-        'name',
-        'extension',
-        'file_size',
         'task_id',
-        'user_type',
+        'file_name',
+        'file_path',
         'created_by'
     ];
 

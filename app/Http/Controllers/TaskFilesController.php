@@ -6,18 +6,13 @@ use App\Task;
 use App\TaskFile;
 use Illuminate\Http\Request;
 use App\Http\Helpers;
+use App\ActivityLog;
+use App\Http\Requests\TaskFileRequest;
+use App\Http\Traits\TaskTraits;
 
 class TaskFilesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Task $task)
-    {
-        //
-    }
+    use TaskTraits;
 
     /**
      * Store a newly created resource in storage.
@@ -25,58 +20,42 @@ class TaskFilesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskFileRequest $request, Task $task)
     {
-        // $task    = Task::find($task_id);
-        // $project = Project::find($task->project_id);
+        $post = $request->validated();
 
-        // $request->validate(
-        //     ['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048']
-        // );
+        if($request->hasFile('file'))
+        {
+            $path = Helpers::storePrivateFile($request->file('file'));
 
-        // if($request->hasFile('file'))
-        // {
-        //     $path = Helpers::storePrivateFile($request->file('file'));
+            $file                 = TaskFile::create(
+                [
+                    'task_id'   => $task->id,
+                    'file_name' => $request->file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'created_by'=> \Auth::user()->authId()
+                ]
+            );
+        }
 
-        //     $post['task_id']    = $task_id;
-        //     $post['file']       = $path;
-        //     $post['name']       = $request->file->getClientOriginalName();
-        //     $post['extension']  = "." . $request->file->getClientOriginalExtension();
-        //     $post['file_size']  = round(($request->file->getSize() / 1024) / 1024, 2) . ' MB';
-        //     $post['created_by'] = \Auth::user()->authId();
-        //     $post['user_type']  = \Auth::user()->type;
+        $return               = [];
+        $return['is_success'] = true;
+        $return['download']   = route(
+            'tasks.file.download', [
+                                        $task->id,
+                                        $file->id,
+                                    ]
+        );
+        $return['delete']     = route(
+            'tasks.file.delete', [
+                                      $task->id,
+                                      $file->id,
+                                  ]
+        );
 
-        //     $file            = TaskFile::create($post);
-        //     $file->deleteUrl = route('task.file.delete', [$task_id, $file->id]);
-        // }
+        ActivityLog::createTaskFile($file);
 
-        // $return               = [];
-        // $return['is_success'] = true;
-        // $return['download']   = route(
-        //     'task.file.download', [
-        //                                 $task_id,
-        //                                 $file->id,
-        //                             ]
-        // );
-        // $return['delete']     = route(
-        //     'task.file.delete', [
-        //                               $task_id,
-        //                               $file->id,
-        //                           ]
-        // );
-
-        // ActivityLog::create(
-        //     [
-        //         'user_id' => \Auth::user()->creatorId(),
-        //         'project_id' => $project->id,
-        //         'log_type' => 'Upload File',
-        //         'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-        //                     __('uploaded file') .
-        //                     ' <a href="' . route('task.file.download', [$task_id, $file->id]) . '">'. $request->file->getClientOriginalName().'</a>',
-        //     ]
-        // );
-
-        // return response()->json($return);
+        return response()->json($return);
     }
 
     /**
@@ -85,24 +64,16 @@ class TaskFilesController extends Controller
      * @param  \App\TaskFile  $taskFile
      * @return \Illuminate\Http\Response
      */
-    public function show(TaskFile $taskFile)
+    public function show(TaskFile $file)
     {
-        // $file    = TaskFile::find($file_id);
-        // if($file)
-        // {
-        //     $file_path = storage_path('app/public/tasks/' . $file->file);
-        //     $filename  = $file->name;
+        $file_path = storage_path('app/' . $file->file_path);
+        $filename  = $file->file_name;
 
-        //     return \Response::download(
-        //         $file_path, $filename, [
-        //                       'Content-Length: ' . filesize($file_path),
-        //                   ]
-        //     );
-        // }
-        // else
-        // {
-        //     return redirect()->back()->with('error', __('File does not exist.'));
-        // }
+        return \Response::download(
+            $file_path, $filename, [
+                            'Content-Length: ' . filesize($file_path),
+                        ]
+        );
     }
 
     /**
@@ -111,28 +82,15 @@ class TaskFilesController extends Controller
      * @param  \App\TaskFile  $taskFile
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskFile $taskFile)
+    public function destroy(Request $request, Task $task, TaskFile $file)
     {
-        // $file = TaskFile::find($file_id);
-        // if($file)
-        // {
-        //     $path = storage_path('app/public/tasks/' . $file->file);
-        //     if(file_exists($path))
-        //     {
-        //         \File::delete($path);
-        //     }
-        //     $file->delete();
+        $path = storage_path('app/' . $file->file_path);
+        if(file_exists($path))
+        {
+            \File::delete($path);
+        }
+        $file->delete();
 
-        //     return response()->json(['is_success' => true], 200);
-        // }
-        // else
-        // {
-        //     return response()->json(
-        //         [
-        //             'is_success' => false,
-        //             'error' => __('File is not exist.'),
-        //         ], 200
-        //     );
-        // }
+        return $this->taskShow($task);
     }
 }
