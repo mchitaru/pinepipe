@@ -2,7 +2,7 @@
 use App\Http\Helpers;
 @endphp
 
-@foreach ($projects as $project)
+@foreach ($projects as $key=>$project)
 
 @php
     $permissions=$project->client_project_permission();

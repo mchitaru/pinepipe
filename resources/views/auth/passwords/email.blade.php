@@ -1,7 +1,36 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
+
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-7">
+            <div class="text-center">
+                <h1 class="h2">{{_('Forgot password')}} &#x1f62B;</h1>
+                <p class="lead">{{__('Enter your email address to reset')}}</p>
+
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+                    <div class="form-group">
+                        <input id="email" class="form-control type="email" placeholder="{{__('Email Address')}}" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus/>
+                    </div>
+                    @include('partials.errors')
+                    <button class="btn btn-lg btn-block btn-primary" role="button" type="submit">
+                        {{__('Send reset link')}}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -43,5 +72,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection

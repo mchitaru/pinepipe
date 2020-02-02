@@ -17,7 +17,7 @@
 @endphp
 
     <div class="card-list">
-        <div class="card-list-head">
+    <div class="card-list-head ">
         <h6>{{$stage->name}} ({{ count($tasks) }})</h6>
         <div class="dropdown">
             <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,7 +34,6 @@
         @foreach($tasks as $key=>$task)
 
         @php
-
             $total_subtask = $task->getTotalChecklistCount();
             $completed_subtask = $task->getCompleteChecklistCount();
 
