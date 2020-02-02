@@ -99,6 +99,7 @@ class RegisterController extends Controller
 
         $role = Role::findByName('company');
 
+        $user->initCompanyDefaults();
         return $user->assignRole($role);
     }
 }

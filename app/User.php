@@ -599,7 +599,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function userDefaultData()
+    public function initCompanyDefaults()
     {
         $id = $this->id;
 

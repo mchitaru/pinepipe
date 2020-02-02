@@ -373,7 +373,7 @@ class UsersTableSeeder extends Seeder
         $role = Role::findByName('company');
         $company->assignRole($role);
         $company->makeEmployeeRole();
-        $company->userDefaultData();
+        $company->initCompanyDefaults();
 
         factory(App\User::class, 2)->create()->each(function ($user) use($company) {
 
