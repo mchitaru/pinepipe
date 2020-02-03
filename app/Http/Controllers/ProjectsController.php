@@ -120,14 +120,7 @@ class ProjectsController extends ProjectsSectionController
             $invoices = null;
             if(\Auth::user()->can('manage timesheet'))
             {
-                if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
-                {
-                    $invoices = Invoice::where('project_id', '=', $project_id)->get();
-                }
-                else
-                {
-                    $invoices = Invoice::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
-                }
+                $invoices = Invoice::where('project_id', '=', $project_id)->get();
             }
 
             $expenses = null;

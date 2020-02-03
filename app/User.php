@@ -563,15 +563,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function makeEmployeeRole()
     {
-        $employeeRole = Role::create(
-            [
-                // 'name' => $this->name.' employee',//unique role for each company
-                'name' => 'employee',
-                'created_by' => $this->id,
-            ]
-        );
-
-        $empPermission = [
+        $permissions = [
             'manage account',
             'change password account',
             'edit account',
@@ -592,15 +584,23 @@ class User extends Authenticatable implements MustVerifyEmail
             'edit timesheet',
             'delete timesheet'
         ];
-        foreach($empPermission as $ap)
+
+        $role               =   new Role();
+        $role->name         =   'employee';
+        $role->created_by   =   $this->id;
+        $role->save();
+
+        foreach($permissions as $ap)
         {
             $permission = Permission::findByName($ap);
-            $employeeRole->givePermissionTo($permission);
+            $role->givePermissionTo($permission);
         }
     }
 
     public function initCompanyDefaults()
     {
+        $this->makeEmployeeRole();
+
         $id = $this->id;
 
         $colors = [

@@ -56,8 +56,8 @@ class UsersController extends UsersSectionController
                 $user->save();
 
                 $role_r = Role::findByName('company');
-                $user->assignRole($role_r);
                 $user->initCompanyDefaults();
+                $user->assignRole($role_r);
             }
             else
             {
