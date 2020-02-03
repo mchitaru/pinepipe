@@ -44,7 +44,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if(!$user->delete_status)
+        if(!$user->delete_status || !$user->is_active)
         {
             auth()->logout();
         }
@@ -62,7 +62,6 @@ class LoginController extends Controller
                     return redirect()->route(RouteServiceProvider::HOME)->with('error', 'Your payment plan expired. Please upgrade to continue using all the features!');
                 }
             }
-
         }
 
     }
