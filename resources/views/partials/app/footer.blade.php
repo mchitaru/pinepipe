@@ -1,4 +1,6 @@
 
+<script type="text/javascript" src="{{ asset('js/manifest.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/vendor.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
 <!-- Required vendor scripts (Do not remove) -->
