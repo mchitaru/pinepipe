@@ -29,13 +29,13 @@
             {{ Form::label('name', __('Project Name'), array('class'=>'col-4')) }}
             {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Project name', 'required'=>'required')) }}
         </div>
+        <div class="form-group row required">
+            {{ Form::label('client_id', __('Client'), array('class'=>'col-4')) }}
+            {!! Form::select('client_id', $clients, null,array('class' => 'form-control col','required'=>'required')) !!}
+        </div>
         <div class="form-group row">
             {{ Form::label('description', __('Description'), array('class'=>'col-4')) }}
             {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Project description']) !!}
-        </div>
-        <div class="form-group row">
-            {{ Form::label('client_id', __('Client'), array('class'=>'col-4')) }}
-            {!! Form::select('client_id', $clients, null,array('class' => 'form-control col','required'=>'required')) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-4')) }}

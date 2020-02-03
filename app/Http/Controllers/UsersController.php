@@ -52,7 +52,7 @@ class UsersController extends UsersSectionController
                 $user['type']       = 'company';
                 $user['lang']       = 'en';
                 $user['created_by'] = \Auth::user()->creatorId();
-                $user['plan']       = PaymentPlan::first()->id;
+                $user['plan_id']    = PaymentPlan::first()->id;
                 $user->save();
 
                 $role_r = Role::findByName('company');
@@ -73,9 +73,8 @@ class UsersController extends UsersSectionController
 
 
                 $objUser    = \Auth::user();
-                $total_user = $objUser->countUsers();
-                $plan       = PaymentPlan::find($objUser->plan);
-                if($total_user < $plan->max_users || $plan->max_users == -1)
+ 
+                if(\Auth::user()->checkUserLimit())
                 {
                     $role_r                = Role::findById($request->role);
                     $request['password']   = Hash::make($request->password);
@@ -89,7 +88,7 @@ class UsersController extends UsersSectionController
                 }
                 else
                 {
-                    return redirect()->back()->with('error', __('Your user limit is over, Please upgrade plan.'));
+                    return redirect()->back()->with('error', __('Your have reached your user limit. Please upgrade your plan to add more users!'));
                 }
             }
 

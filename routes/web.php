@@ -27,7 +27,7 @@ Route::group(
         Route::get('searchJson/{search?}', 'ProjectsController@getSearchJson')->name('search.json');
 
         //Dashboard
-        Route::get('/', 'DashboardController@index')->name('home');
+        Route::get('/', 'DashboardController@index');
         Route::get('/home', 'DashboardController@index')->name('home');
         Route::get('/sharepoint', 'SharepointController@index')->name('sharepoint');
 

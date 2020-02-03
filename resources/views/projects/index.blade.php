@@ -39,49 +39,42 @@ use App\Http\Helpers;
 
             <div class="card-body">
                 @if(Gate::check('edit project') || Gate::check('delete project') || Gate::check('create user'))
-                    @if($project->is_active)
                         <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                            @can('edit project')
-                                <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
-                                    {{__('Edit')}}
-                                </a>
-                            @endcan
-                            @can('manage invite user')
-                                <a class="dropdown-item" href="{{ route('project.invite', $project->id) }}" data-remote="true" data-type="text">
-                                    {{__('Add User')}}
-                                </a>
-                            @endcan
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
-                            @can('delete project')
-                                <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                    {{__('Delete')}}
-                                </a>
-                            @endcan
-                            </div>
+                            @if($project->is_active)
+                                <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                @can('edit project')
+                                    <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
+                                        {{__('Edit')}}
+                                    </a>
+                                @endcan
+                                @can('manage invite user')
+                                    <a class="dropdown-item" href="{{ route('project.invite', $project->id) }}" data-remote="true" data-type="text">
+                                        {{__('Add User')}}
+                                    </a>
+                                @endcan
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
+                                @can('delete project')
+                                    <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                        {{__('Delete')}}
+                                    </a>
+                                @endcan
+                                </div>
+                            @else
+                                <i class="material-icons">lock</i>
+                            @endif
                         </div>
-                    @endif
                 @endif
                 <div class="card-title d-flex justify-content-between align-items-center">
                     @can('show project')
-                    @if($project->is_active)
-                        <a href="{{ route('projects.show', $project->id) }}">
-                            <h5 data-filter-by="text">{{ $project->name }}</h5>
-                        </a>
-                    @else
-                        <a href="#">
-                            <h5 data-filter-by="text">{{ $project->name }}</h5>
-                        </a>
-                    @endif
-                    @else
-                        <a href="#">
-                            <h5 data-filter-by="text">{{ $project->name }}</h5>
-                        </a>
+                        <a href="{{ $project->is_active?route('projects.show', $project->id):'#' }}">
                     @endcan
+                            <h5 data-filter-by="text">{{ $project->name }}</h5>
+                        </a>
+
                     @foreach($project_status as $key => $status)
                     @if($key== $project->status)
                         <span class="badge badge-secondary">{{ $status}}</span>
@@ -92,32 +85,24 @@ use App\Http\Helpers;
 
                     @foreach($project->users as $user)
                     <li>
-                        @if($project->is_active)
-                            <a href="{{ route('users.index', $user->id) }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
-                        @endif
-                            {!!Helpers::buildAvatar($user)!!}
-                        @if($project->is_active)
-                        </a>
-                        @endif
+                            <a href="{{ $project->is_active?route('users.index', $user->id):'#' }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
+                                {!!Helpers::buildAvatar($user)!!}
+                            </a>
                     </li>
                     @endforeach
                 </ul>
                 <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
                         <i class="material-icons mr-1">playlist_add_check</i>
-                        @if($project->is_active)
-                        <a  href="{{ route('projects.show', $project->id) }}">{{$completed_task}}/{{$total_task}}</a>
-                        @else
-                        <a  href="#">{{$completed_task}}/{{$total_task}}</a>
-                        @endif
+                            <a  href="{{ $project->is_active?route('projects.show', $project->id):'#' }}">
+                                {{$completed_task}}/{{$total_task}}
+                            </a>
                     </div>
                     <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                         <i class="material-icons mr-1">apartment</i>
-                        @if($project->is_active && !empty($project->client))
-                        <a href="{{ route('clients.show', $project->client->id) }}" data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
-                        @else
-                        <a data-filter-by="text">{{(!empty($project->client)?$project->client->name:'')}}</a>
-                        @endif
+                            <a href="{{ $project->is_active?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
+                                {{(!empty($project->client)?$project->client->name:'---')}}
+                            </a>
                     </div>
                     <span class="text-small" data-filter-by="text">{{__('Due on ')}}
                         {{ \Auth::user()->dateFormat($project->due_date) }}

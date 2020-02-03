@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'avatar',
         'lang',
         'delete_status',
-        'plan',
+        'plan_id',
         'plan_expire_date',
         'created_by',
     ];
@@ -118,6 +118,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function currentLanguage()
     {
         return $this->lang;
+    }
+
+    public function plan()
+    {
+        return $this->hasOne('App\PaymentPlan', 'id', 'plan_id');
     }
 
     public function contacts()
@@ -446,17 +451,50 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function getPlan()
+    public function checkProjectLimit()
     {
-        return $this->hasOne('App\PaymentPlan', 'id', 'plan');
+        $company        = User::find($this->creatorId());
+        $plan           = PaymentPlan::find($company->plan_id);
+
+        if($plan->max_projects == null) return true;
+
+        $total_projects = Project::where('created_by', '=', $company->id)->count();
+
+
+        return $total_projects < $plan->max_projects;
+    }
+
+    public function checkClientLimit()
+    {
+        $company        = User::find($this->creatorId());
+        $plan           = PaymentPlan::find($company->plan_id);
+
+        if($plan->max_clients == null) return true;
+
+        $total_clients = User::where('type', '=', 'client')->where('created_by', '=', $company->id)->count();
+
+        return $total_clients < $plan->max_clients;
+    }
+
+    public function checkUserLimit()
+    {
+        $company        = User::find($this->creatorId());
+        $plan           = PaymentPlan::find($company->plan_id);
+
+        if($plan->max_users == null) return true;
+
+        $total_users = User::where('type', '!=', 'client')->where('created_by', '=', $company->id)->count();
+
+        return $total_users < $plan->max_users;
     }
 
     public function assignPlan($planID)
     {
         $plan = PaymentPlan::find($planID);
+
         if($plan)
         {
-            $this->plan = $plan->id;
+            $this->plan_id = $plan->id;
             if($plan->duration == 'month')
             {
                 $this->plan_expire_date = Carbon::now()->addMonths(1)->isoFormat('YYYY-MM-DD');
@@ -464,6 +502,10 @@ class User extends Authenticatable implements MustVerifyEmail
             elseif($plan->duration == 'year')
             {
                 $this->plan_expire_date = Carbon::now()->addYears(1)->isoFormat('YYYY-MM-DD');
+            }
+            else
+            {
+                $this->plan_expire_date = null;
             }
             $this->save();
 
@@ -529,23 +571,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function countUsers()
-    {
-
-        return User::where('type', '!=', 'client')->where('created_by', '=', \Auth::user()->id)->count();
-    }
-
-    public function countClient()
-    {
-
-        return User::where('type', '=', 'client')->where('created_by', '=', \Auth::user()->id)->count();
-    }
-
-    public function countProject()
-    {
-        return Project::where('created_by', '=', \Auth::user()->id)->count();
-    }
-
     public function countCompany()
     {
         return User::where('type', '=', 'company')->where('created_by', '=', \Auth::user()->id)->count();
@@ -554,7 +579,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function countPaidCompany()
     {
         return User::where('type', '=', 'company')->whereNotIn(
-            'plan', [
+            'plan_id', [
                       0,
                       1,
                   ]
@@ -579,8 +604,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'edit note',
             'delete note',
             'manage lead',
-            'manage timesheet',
             'create timesheet',
+            'manage timesheet',
             'edit timesheet',
             'delete timesheet'
         ];

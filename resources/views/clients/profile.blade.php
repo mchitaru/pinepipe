@@ -47,26 +47,26 @@ use App\Http\Helpers;
                     </div> --}}
                     <div class="dropdown card-options">
                         @if($client->is_active)
-                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                        </button>
-        
-                        <div class="dropdown-menu dropdown-menu-right">
-                            @can('edit client')
-                                <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
-                                    <span>{{__('Edit')}}</span>
-                                </a>
-                            @endcan
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
-                            @can('delete client')
-                                <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                    <span>{{'Delete'}}</span>
-                                </a>
-                            @endcan
-                        </div>
+                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+            
+                            <div class="dropdown-menu dropdown-menu-right">
+                                @can('edit client')
+                                    <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
+                                        <span>{{__('Edit')}}</span>
+                                    </a>
+                                @endcan
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
+                                @can('delete client')
+                                    <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                        <span>{{'Delete'}}</span>
+                                    </a>
+                                @endcan
+                            </div>
                         @else
-                        <i class="material-icons">lock</i>
+                            <i class="material-icons">lock</i>
                         @endif
                     </div>
                 </div>

@@ -52,54 +52,14 @@ class LoginController extends Controller
         if($user->type == 'company')
         {
             $free_plan = PaymentPlan::where('price', '=', '0.0')->first();
-            if($user->plan != $free_plan->id)
+
+            if($user->plan_id != $free_plan->id)//to do: move to cron!!
             {
                 if(date('Y-m-d') > $user->plan_expire_date)
                 {
-                    $user->plan             = $free_plan->id;
-                    $user->plan_expire_date = null;
-                    $user->save();
+                    $user->assignPlan($free_plan->id);
 
-                    $projects=Project::where('created_by','=',\Auth::user()->creatorId())->get();
-                    $users=User::where('created_by','=',\Auth::user()->creatorId())->where('type','!=','client')->get();
-                    $clients=User::where('created_by','=',\Auth::user()->creatorId())->where('type','client')->get();
-
-                    $projectCount=0;
-                    foreach($projects as $project){
-                        $projectCount++;
-                        if($projectCount<=$free_plan->max_projects){
-                            $project->is_active=true;
-                            $project->save();
-                        }else{
-                            $project->is_active=false;
-                            $project->save();
-                        }
-                    }
-
-                    $userCount=0;
-                    foreach($users as $user){
-                        $userCount++;
-                        if($userCount<=$free_plan->max_users){
-                            $user->is_active=true;
-                            $user->save();
-                        }else{
-                            $user->is_active=false;
-                            $user->save();
-                        }
-                    }
-                    $clientCount=0;
-                    foreach($clients as $client){
-                        $clientCount++;
-                        if($clientCount<=$free_plan->max_clients){
-                            $client->is_active=true;
-                            $client->save();
-                        }else{
-                            $client->is_active=false;
-                            $client->save();
-                        }
-                    }
-
-                    return redirect()->route(RouteServiceProvider::HOME)->with('error', 'Your plan expired limit is over, please upgrade your plan');
+                    return redirect()->route(RouteServiceProvider::HOME)->with('error', 'Your payment plan expired. Please upgrade to continue using all the features!');
                 }
             }
 

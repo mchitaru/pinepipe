@@ -46,10 +46,7 @@ class ProjectsController extends ProjectsSectionController
     {
         $post = $request->validated();
 
-        $total_client = \Auth::user()->countProject();
-        $plan         = PaymentPlan::find(\Auth::user()->plan);
-
-        if($total_client < $plan->max_clients || $plan->max_clients == -1)
+        if(\Auth::user()->checkProjectLimit())
         {
             $project = Project::createProject($post);
 
@@ -60,7 +57,7 @@ class ProjectsController extends ProjectsSectionController
         }
         else
         {
-            $request->session()->flash('error', __('Your project limit is over, Please upgrade plan.'));
+            $request->session()->flash('error', __('Your have reached your project limit. Please upgrade your plan to add more projects!'));
         }
 
         $url = redirect()->back()->getTargetUrl();
@@ -104,7 +101,6 @@ class ProjectsController extends ProjectsSectionController
             $project_files = ProjectFile::where('project_id', $project_id)->get();
             $activities = $project->activities;
 
-            $timesheets = null;
             if(\Auth::user()->can('manage timesheet'))
             {
                 if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
@@ -116,15 +112,21 @@ class ProjectsController extends ProjectsSectionController
                     $timesheets = Timesheet::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
                 }
             }
+            else
+            {
+                $timesheets = array();
+            }
 
-            $invoices = null;
-            if(\Auth::user()->can('manage timesheet'))
+            if(\Auth::user()->can('manage invoice'))
             {
                 $invoices = Invoice::where('project_id', '=', $project_id)->get();
             }
+            else
+            {
+                $invoices = array();
+            }
 
-            $expenses = null;
-            if(\Auth::user()->can('manage timesheet'))
+            if(\Auth::user()->can('manage expense'))
             {
                 if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
                 {
@@ -134,6 +136,10 @@ class ProjectsController extends ProjectsSectionController
                 {
                     $expenses = Expense::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
                 }
+            }
+            else
+            {
+                $expenses = array();
             }
 
             $project_status = __('Unknown');

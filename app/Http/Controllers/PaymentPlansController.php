@@ -100,7 +100,7 @@ class PaymentPlansController extends Controller
         {
             if(empty(env('STRIPE_KEY')) || empty(env('STRIPE_SECRET')))
             {
-                return redirect()->back()->with('error', __('Please set stripe api key & secret key for add new plan.'));
+                return redirect()->back()->with('error', __('Please set stripe api key & secret key to add new plan.'));
             }
             else
             {
@@ -145,14 +145,14 @@ class PaymentPlansController extends Controller
     public function userPlan(Request $request)
     {
 
-        $objUser = \Auth::user();
         $planID  = \Illuminate\Support\Facades\Crypt::decrypt($request->code);
         $plan    = PaymentPlan::find($planID);
+
         if($plan)
         {
             if($plan->price <= 0)
             {
-                $objUser->assignPlan($plan->id);
+                \Auth::user()->assignPlan($plan->id);
 
                 return redirect()->route('plans.index')->with('success', __('PaymentPlan Successfully activated.'));
             }

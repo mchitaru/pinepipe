@@ -13,11 +13,11 @@ use App\Http\Helpers;
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-4">
                 @can('edit user')
-                <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}" data-remote="true" data-type="text">
+                    <a class="dropdown-item" href="{{ $user->is_active?route('users.edit',$user->id):'#' }}" data-remote="true" data-type="text">
                 @endcan
-                <h6 data-filter-by="text">{{$user->name}}</h6>
+                    <h6 data-filter-by="text">{{$user->name}}</h6>
                 @can('edit user')
-                </a>
+                    </a>
                 @endcan
                 <span class="text-small">{{$user->type}}</span>
             </div>
@@ -81,7 +81,7 @@ use App\Http\Helpers;
                             @endcan
                         </div>
                     @else
-                    <i class="material-icons">lock</i>
+                        <i class="material-icons">lock</i>
                     @endif
                 </div>
             </div>

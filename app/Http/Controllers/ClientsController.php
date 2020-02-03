@@ -27,18 +27,15 @@ class ClientsController extends ClientsSectionController
 
     public function store(Request $request)
     {
-        if(\Auth::user()->can('create client')) {
+        if(\Auth::user()->can('create client')) 
+        {
             $this->validate($request, [
                 'name'=>'required|max:120',
                 'email'=>'required|email|unique:users',
                 'password'=>'required|min:6',
             ]);
 
-            $objUser = \Auth::user();
-            $total_client=$objUser->countClient();
-            $plan    = PaymentPlan::find($objUser->plan);
-
-            if($total_client < $plan->max_clients || $plan->max_clients == -1)
+            if(\Auth::user()->checkClientLimit())
             {
 
                 $request['password'] = Hash::make($request->password);
@@ -52,7 +49,7 @@ class ClientsController extends ClientsSectionController
                 return redirect()->route('clients.index')
                                  ->with('success','Client successfully added.');
             }else{
-                return redirect()->back()->with('error', __('Your client limit is over, Please upgrade plan.'));
+                return redirect()->back()->with('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
             }
 
         }else{

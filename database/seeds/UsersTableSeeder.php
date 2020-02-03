@@ -363,9 +363,9 @@ class UsersTableSeeder extends Seeder
                 'password' => Hash::make('1234'),
                 'type' => 'company',
                 'lang' => 'en',
-                'avatar' => '',
-                'plan' => 1,
-                'created_by' => '1',
+                'avatar' => null,
+                'plan_id' => 1,
+                'created_by' => 1,
                 'email_verified_at' => now(),
             ]
         );
