@@ -386,7 +386,7 @@ use App\Http\Helpers;
                                 </li>
                             </ul>
                             <div class="custom-control custom-radio d-inline-block">
-                                <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->type=='company' && \Auth::user()->plan == $plan->id)?'checked':''}} disabled>
+                                <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->type=='company' && \Auth::user()->plan_id == $plan->id)?'checked':''}} disabled>
                                 <label class="custom-control-label" for="plan-radio-1"></label>
                             </div>
                         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Project;
 
 class TaskStoreRequest extends FormRequest
 {
@@ -13,6 +14,11 @@ class TaskStoreRequest extends FormRequest
      */
     public function authorize()
     {
+        $project = Project::find($this->project_id);
+
+        if($project && !$project->is_active)
+            return false;            
+        
         return $this->user()->can('create task');
     }
 
