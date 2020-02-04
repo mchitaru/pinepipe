@@ -126,6 +126,7 @@ class ClientsController extends ClientsSectionController
             $project_status = Project::$project_status;
 
             $leads_count = 0;
+            $stages = null;
             if(\Auth::user()->can('manage lead'))
             {
                 $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();

@@ -244,15 +244,23 @@ $languages=$user->languages();
         </form>
         @endif
 
-        @if(Gate::check('manage project'))
+        @if(Gate::check('create contact') || 
+            Gate::check('create project') ||
+            Gate::check('create tasks'))
         <div class="dropdown mt-2">
             <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{__('Add New')}}
             </button>
             <div class="dropdown-menu">
+            @can('create contact')
                 <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
+            @endcan
+            @can('create project')
                 <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
+            @endcan
+            @can('create task')
                 <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
+            @endcan
             </div>
         </div>
         @endif

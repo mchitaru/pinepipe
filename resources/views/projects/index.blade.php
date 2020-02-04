@@ -73,7 +73,9 @@ use App\Http\Helpers;
                         <a href="{{ $project->is_active?route('projects.show', $project->id):'#' }}">
                     @endcan
                             <h5 data-filter-by="text">{{ $project->name }}</h5>
+                    @can('show project')
                         </a>
+                    @endcan
 
                     @foreach($project_status as $key => $status)
                     @if($key== $project->status)
@@ -100,9 +102,13 @@ use App\Http\Helpers;
                     </div>
                     <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                         <i class="material-icons mr-1">apartment</i>
+                        @can('show client')
                             <a href="{{ $project->is_active?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
+                        @endcan
                                 {{(!empty($project->client)?$project->client->name:'---')}}
+                        @can('show client')
                             </a>
+                        @endcan
                     </div>
                     <span class="text-small" data-filter-by="text">{{__('Due on ')}}
                         {{ \Auth::user()->dateFormat($project->due_date) }}

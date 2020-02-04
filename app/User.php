@@ -375,7 +375,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function created_top_due_task()
     {
-        return  \Auth::user()->tasksByUserType()->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date', 'ASC')->get();
+        return  \Auth::user()->tasksByUserType()->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('tasks.due_date', 'ASC')->get();
 
         // if(\Auth::user()->type == 'company')
         // {
@@ -393,7 +393,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function project_due_task()
     {
-        return  \Auth::user()->tasksByUserType()->where('due_date', '>', date('Y-m-d'))->orderBy('due_date', 'ASC')->get();
+        return  \Auth::user()->tasksByUserType()->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('tasks.due_date', 'ASC')->get();
         // if(\Auth::user()->type == 'company')
         // {
         //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title','tasks.priority', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->orderBy('task_due_date', 'ASC')->get();
@@ -599,10 +599,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'move task',
             'show task',
             'create checklist',
-            'manage note',
-            'create note',
-            'edit note',
-            'delete note',
             'manage lead',
             'create timesheet',
             'manage timesheet',

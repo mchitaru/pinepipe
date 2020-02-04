@@ -12,9 +12,13 @@ use App\Http\Helpers;
         </div>
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-3">
+                @can('show client')
                 <a href="{{ $client->is_active?route('clients.show',$client->id):'#' }}">
+                @endcan
                     <h6 data-filter-by="text">{{$client->name}}</h6>
+                @can('show client')
                 </a>
+                @endcan
                 @if(!$client->clientContacts->isEmpty())
                     <span class="text-small">{{$client->clientContacts->count()}} {{__('contact(s)')}}</span>
                 @endif

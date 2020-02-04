@@ -19,6 +19,7 @@ class ClientsSectionController extends Controller
             $contacts = Contact::where('created_by','=',$client->creatorId())->get();
 
             $leads_count = 0;
+            $stages = null;
             if(\Auth::user()->can('manage lead'))
             {
                 $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();

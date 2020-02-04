@@ -48,7 +48,13 @@
                 <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                     <i class="material-icons">apartment</i>
                     <span data-filter-by="text" class="text-small">
-                        <a href="{{ route('clients.show',$invoice->project->client->id) }}" data-filter-by="text">{{$invoice->project->client->name}}</a>
+                        @can('show client')
+                        <a href="{{ route('clients.show', $invoice->project->client->id) }}" data-filter-by="text">
+                        @endcan
+                            {{$invoice->project->client->name}}
+                        @can('show client')
+                        </a>
+                        @endcan
                     </span>
                 </div>
             </div>

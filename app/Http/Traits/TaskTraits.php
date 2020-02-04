@@ -7,7 +7,7 @@ trait TaskTraits
 {
     public function taskShow(Task $task)
     {
-        if(\Auth::user()->can('show project'))
+        if(\Auth::user()->can('show task'))
         {
             $project = Project::find($task->project_id);
 

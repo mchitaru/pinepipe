@@ -230,11 +230,8 @@ if($client_project_budget_due_per<=15){
                                 </div>
                                 <div class="card-body">
                                     <div class="number">
-                                        <h3 class="card-title">{{ Auth::user()->priceFormat($project['project_budget']) }}</h3>
-                                        <small class="card-text">{{__('PPROJECTS BUDGET')}}</small>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="material-icons">attach_money</i>
+                                        <h3 class="card-title row">{{ Auth::user()->priceFormat($project['project_budget']) }}</h3>
+                                        <small class="card-text">{{__('BUDGET')}}</small>
                                     </div>
                                 </div>
                             </div>

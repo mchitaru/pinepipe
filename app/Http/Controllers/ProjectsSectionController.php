@@ -24,11 +24,11 @@ class ProjectsSectionController extends Controller
                                     ->orderBy('order', 'ASC')
                                     ->get();
 
+            $project_id = null;
             $task_count = 0;
             foreach($stages as $stage)
-                $task_count = $task_count + $stage->tasks->count();
+                $task_count = $task_count + $stage->getTasksByUserType($project_id)->count();
 
-            $project_id = null;
             $activities = array();
 
             return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages', 'task_count', 'activities'));
