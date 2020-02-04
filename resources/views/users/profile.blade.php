@@ -189,7 +189,7 @@ use App\Http\Helpers;
             </div>
             @can('manage company settings')
             <div class="tab-pane fade show" role="tabpanel" id="company">
-                {{Form::model($user->settings,array('route'=>'company.settings','method'=>'post', 'enctype' => 'multipart/form-data'))}}
+                {{Form::model($user->settings,array('route'=>'settings.company','method'=>'post', 'enctype' => 'multipart/form-data'))}}
                 <div class="card-body">
                     <div class="row">
                         <div class="media mb-4">
@@ -544,7 +544,7 @@ use App\Http\Helpers;
             </div>
             @can('manage company settings')
             <div class="tab-pane fade show" role="tabpanel" id="system">
-                {{Form::model($settings,array('route'=>'system.settings','method'=>'post'))}}
+                {{Form::model($settings,array('route'=>'settings.system','method'=>'post'))}}
                 <div class="card-body">
                     <div class="row">
                         <div class="form-group col-md-6">

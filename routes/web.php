@@ -37,9 +37,6 @@ Route::group(
 
         //Users
         Route::resource('users', 'UsersController');
-
-        Route::get('profile', 'UserProfileController@show')->name('profile.show');
-        Route::put('profile', 'UserProfileController@update')->name('profile.update');
         
         Route::resource('roles', 'UserRolesController');
         Route::resource('permissions', 'PermissionsController');
@@ -67,13 +64,15 @@ Route::group(
         Route::get('create-language', 'LanguagesController@createLanguage')->name('create.language');
         Route::post('store-language', 'LanguagesController@storeLanguage')->name('store.language');
 
-        //System
-        Route::resource('systems', 'SystemController');
-        Route::post('email-settings', 'SystemController@saveEmailSettings')->name('email.settings');
-        Route::post('company-settings', 'SystemController@saveCompanySettings')->name('company.settings');
-        Route::post('stripe-settings', 'SystemController@saveStripeSettings')->name('stripe.settings');
-        Route::post('system-settings', 'SystemController@saveSystemSettings')->name('system.settings');
-        Route::get('company-setting', 'SystemController@companyIndex')->name('company.setting');
+        //Profile
+        Route::get('profile', 'UserProfileController@show')->name('profile.show');
+        Route::put('profile', 'UserProfileController@update')->name('profile.update');
+
+        //Settings
+        Route::post('settings/email', 'UserSettingsController@updateEmail')->name('settings.email');
+        Route::post('settings/company', 'UserSettingsController@updateCompany')->name('settings.company');
+        Route::post('settings/stripe', 'UserSettingsController@updateStripe')->name('settings.stripe');
+        Route::post('settings/system', 'UserSettingsController@updateSystem')->name('settings.system');
 
         //Leads
         Route::resource('leadstages', 'LeadStagesController');
@@ -205,9 +204,10 @@ Route::group(
 
         //Payments
         Route::resource('payments', 'PaymentsController');
-        Route::get('/orders', 'StripePaymentsController@index')->name('order.index');
-        Route::get('/stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');
-        Route::post('/stripe', 'StripePaymentsController@stripePost')->name('stripe.post');
+        Route::get('orders', 'StripePaymentsController@index')->name('order.index');
+
+        Route::get('stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');
+        Route::post('stripe', 'StripePaymentsController@stripePost')->name('stripe.post');
     
         //Notes
         // Route::resource('notes', 'NotesController');

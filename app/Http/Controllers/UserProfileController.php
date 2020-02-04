@@ -8,7 +8,7 @@ use App\User;
 use App\Http\Helpers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\UserProfileRequest;
 use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
@@ -22,7 +22,7 @@ class UserProfileController extends Controller
         return view('users.profile', compact('user', 'plans', 'settings'));
     }
 
-    public function update(ProfileUpdateRequest $request)
+    public function update(UserProfileRequest $request)
     {
         $post = $request->validated();
 
@@ -40,7 +40,7 @@ class UserProfileController extends Controller
         return Redirect::to(URL::previous() . "#profile")->with('success', __('Profile updated successfully.'));
     }
 
-    public function password(ProfileUpdateRequest $request)
+    public function password(UserProfileRequest $request)
     {
         $post = $request->validated();
 
