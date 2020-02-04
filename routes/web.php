@@ -12,7 +12,8 @@
 */
 Auth::routes(['verify' => true]);
 
-Route::put('change-password', 'UsersController@updatePassword')->name('update.password');
+// Route::put('change-password', 'UsersController@updatePassword')->name('update.password');
+Route::patch('profile', 'UserProfileController@password')->name('profile.password');
 
 Route::group(
     [
@@ -24,23 +25,40 @@ Route::group(
     ], function (){
 
         //Search
-        Route::get('searchJson/{search?}', 'ProjectsController@getSearchJson')->name('search.json');
+        Route::get('search/{search?}', 'ProjectsController@search')->name('search');
 
         //Dashboard
         Route::get('/', 'DashboardController@index');
-        Route::get('/home', 'DashboardController@index')->name('home');
-        Route::get('/sharepoint', 'SharepointController@index')->name('sharepoint');
+        Route::get('home', 'DashboardController@index')->name('home');
+
+        Route::get('sharepoint', 'SharepointController@index')->name('sharepoint');
+
+        Route::get('finances', 'FinancesSectionController@index')->name('finances.index');
 
         //Users
         Route::resource('users', 'UsersController');
-        Route::get('profile/{profile}', 'UsersController@profile')->name('profile');
-        Route::put('edit-profile', 'UsersController@editprofile')->name('update.account');
+
+        Route::get('profile', 'UserProfileController@show')->name('profile.show');
+        Route::put('profile', 'UserProfileController@update')->name('profile.update');
+        
         Route::resource('roles', 'UserRolesController');
         Route::resource('permissions', 'PermissionsController');
 
         //Clients
-        Route::resource('clients', 'ClientsController');
-        Route::resource('contacts', 'ContactsController');
+        Route::get('clients', 'ClientsSectionController@index')->name('clients.index');
+        Route::get('clients/create', 'ClientsController@create')->name('clients.create');
+        Route::post('clients', 'ClientsController@store')->name('clients.store');
+        Route::get('clients/{client}', 'ClientsController@show')->name('clients.show');
+        Route::get('clients/{client}/edit', 'ClientsController@edit')->name('clients.edit');
+        Route::put('clients/{client}', 'ClientsController@update')->name('clients.update');
+        Route::delete('clients/{client}', 'ClientsController@destroy')->name('clients.destroy');
+
+        Route::get('contacts/create', 'ContactsController@create')->name('contacts.create');
+        Route::post('contacts', 'ContactsController@store')->name('contacts.store');
+        Route::get('contacts/{contact}', 'ContactsController@show')->name('contacts.show');
+        Route::get('contacts/{contact}/edit', 'ContactsController@edit')->name('contacts.edit');
+        Route::put('contacts/{contact}', 'ContactsController@update')->name('contacts.update');
+        Route::delete('contacts/{contact}', 'ContactsController@destroy')->name('contacts.destroy');
 
         //Language
         Route::get('change-language/{lang}', 'LanguagesController@changeLanquage')->name('change.language');
@@ -73,7 +91,13 @@ Route::group(
             'as' => 'leads.order',
             'uses' => 'LeadsController@order',
         ]);
-        Route::resource('leads', 'LeadsController');
+
+        Route::get('leads/create', 'LeadsController@create')->name('leads.create');
+        Route::post('leads', 'LeadsController@store')->name('leads.store');
+        Route::get('leads/{lead}', 'LeadsController@show')->name('leads.show');
+        Route::get('leads/{lead}/edit', 'LeadsController@edit')->name('leads.edit');
+        Route::put('leads/{lead}', 'LeadsController@update')->name('leads.update');
+        Route::delete('leads/{lead}', 'LeadsController@destroy')->name('leads.destroy');
 
         //PaymentPlans
         Route::resource('plans', 'PaymentPlansController');
@@ -87,7 +111,13 @@ Route::group(
                                   ]
         );
     
-        Route::resource('projects', 'ProjectsController');
+        Route::get('projects', 'ProjectsSectionController@index')->name('projects.index');
+        Route::get('projects/create', 'ProjectsController@create')->name('projects.create');
+        Route::post('projects', 'ProjectsController@store')->name('projects.store');
+        Route::get('projects/{project}', 'ProjectsController@show')->name('projects.show');
+        Route::get('projects/{project}/edit', 'ProjectsController@edit')->name('projects.edit');
+        Route::put('projects/{project}', 'ProjectsController@update')->name('projects.update');
+        Route::delete('projects/{project}', 'ProjectsController@destroy')->name('projects.destroy');
 
         Route::get('projects/{project}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');
         Route::post('projects/{project}/milestone', 'ProjectMilestonesController@store')->name('projects.milestone.store');
@@ -123,7 +153,13 @@ Route::group(
         Route::delete('projects/{project}/timesheet/{timesheet}/destroy', 'TimesheetsController@destroy')->name('projects.timesheet.destroy');    
 
         //Tasks
-        Route::resource('tasks', 'TasksController');
+        Route::get('tasks/create', 'TasksController@create')->name('tasks.create');
+        Route::post('tasks', 'TasksController@store')->name('tasks.store');
+        Route::get('tasks/{task}', 'TasksController@show')->name('tasks.show');
+        Route::get('tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
+        Route::put('tasks/{task}', 'TasksController@update')->name('tasks.update');
+        Route::patch('tasks/{task}', 'TasksController@update')->name('tasks.update');
+        Route::delete('tasks/{task}', 'TasksController@destroy')->name('tasks.destroy');
 
         Route::get('tasks/{task}/comment', 'TaskCommentsController@index')->name('tasks.comment.index');
         Route::post('tasks/{task}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');
@@ -143,7 +179,12 @@ Route::group(
         Route::resource('calendar', 'CalendarController');
 
         //Invoices
-        Route::resource('invoices', 'InvoicesController');
+        Route::get('invoices/create', 'InvoicesController@create')->name('invoices.create');
+        Route::post('invoices', 'InvoicesController@store')->name('invoices.store');
+        Route::get('invoices/{invoice}', 'InvoicesController@show')->name('invoices.show');
+        Route::get('invoices/{invoice}/edit', 'InvoicesController@edit')->name('invoices.edit');
+        Route::put('invoices/{invoice}', 'InvoicesController@update')->name('invoices.update');
+        Route::delete('invoices/{invoice}', 'InvoicesController@destroy')->name('invoices.destroy');
 
         Route::get('invoices/{invoice}/products', 'InvoicesController@productAdd')->name('invoices.products.add');
         Route::get('invoices/{invoice}/products/{product}', 'InvoicesController@productEdit')->name('invoices.products.edit');
@@ -152,7 +193,7 @@ Route::group(
         Route::delete('invoices/{invoice}/products/{product}', 'InvoicesController@productDelete')->name('invoices.products.delete');
         Route::post('invoices/milestone/task', 'InvoicesController@milestoneTask')->name('invoices.milestone.task');
 
-        Route::get('invoices-payments', 'InvoicesController@payments')->name('invoices.payments');
+        Route::get('invoices/payments', 'InvoicesController@payments')->name('invoices.payments');
         Route::get('invoices/{invoice}/payments', 'InvoicesController@paymentAdd')->name('invoices.payments.create');
         Route::post('invoices/{invoice}/payments', 'InvoicesController@paymentStore')->name('invoices.payments.store');
 

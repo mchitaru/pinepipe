@@ -22,7 +22,7 @@ use App\Http\Helpers;
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item"><a href="{{ route('tasks.index') }}">{{__('Tasks')}}</a>
+            <li class="breadcrumb-item"><a href="{{ route('projects.index').'/#tasks' }}">{{__('Tasks')}}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">{{__('Task Board')}}</li>
         </ol>

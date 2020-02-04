@@ -38,6 +38,6 @@ class TaskDestroyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('tasks.index');
+        return route('projects.index').'/#tasks';
     }
 }

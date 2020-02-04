@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Http\Helpers;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class ClientsController extends ClientsSectionController
 {
@@ -46,10 +48,10 @@ class ClientsController extends ClientsSectionController
                 $role_r = Role::findByName('client');
                 $user->assignRole($role_r);
 
-                return redirect()->route('clients.index')
-                                 ->with('success','Client successfully added.');
-            }else{
-                return redirect()->back()->with('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
+                return Redirect::to(URL::previous() . "#clients")->with('success', __('Client successfully created.'));
+            }else
+            {
+                return Redirect::to(URL::previous() . "#clients")->with('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
             }
 
         }else{
@@ -84,10 +86,10 @@ class ClientsController extends ClientsSectionController
             $input = $request->all();
             $client->fill($input)->save();
 
-            return redirect()->route('clients.index')
-                             ->with('success','Client successfully updated.');
-        }else{
-            return redirect()->back();
+            return Redirect::to(URL::previous() . "#clients")->with('success', __('Client successfully updated.'));
+        }else
+        {
+            return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));
         }
     }
 
@@ -107,9 +109,10 @@ class ClientsController extends ClientsSectionController
             $client->removeClientLeadInfo($client->id);
             $client->destroyUserTaskAllInfo($client->id);
 
-            return redirect()->route('clients.index')->with('success',  __('Client Deleted Successfully.'));
-        }else{
-            return redirect()->back();
+            return Redirect::to(URL::previous() . "#clients")->with('success', __('Client successfully deleted.'));
+        }else
+        {
+            return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));
         }
     }
 
@@ -136,8 +139,9 @@ class ClientsController extends ClientsSectionController
             $activities = array();
 
             return view('clients.show', compact('client', 'client_id', 'contacts', 'projects', 'project_status', 'stages', 'leads_count', 'activities'));
-        }else{
-            return redirect()->back()->with('error', 'Permission denied.');;
+        }else
+        {
+            return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));
         }
     }
 
@@ -163,8 +167,8 @@ class ClientsController extends ClientsSectionController
         $user['name'] = $request['name'];
         $user['email'] = $request['email'];
         $user->save();
-        return redirect()->route('dashboard')
-                         ->with('success', 'Profile successfully updated.');
+
+        return Redirect::to(URL::previous() . "#clients")->with('error', __('Profile successfully updated.'));
     }
 
     public function convert($id)

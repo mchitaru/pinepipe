@@ -4,6 +4,26 @@
 @endpush
 
 @push('scripts')
+<script>
+
+    // keep active tab
+    $(document).ready(function() {
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+        {
+            window.history.replaceState(null, null, $(e.target).attr('href'));
+            window.location.hash = $(e.target).attr('href');
+            $(window).scrollTop(0);
+        });
+    
+        var hash = window.location.hash ? window.location.hash : '#users';
+    
+        $('.nav-tabs a[href="' + hash + '"]').tab('show');
+
+    });
+       
+</script>
+
 @endpush
 
 @section('page-title')
@@ -44,18 +64,18 @@
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{(Request::segment(1)=='users')?'active':''}}" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">{{__('Users')}}
+                <a class="nav-link " data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">{{__('Users')}}
                     <span class="badge badge-secondary">{{ count($users) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{(Request::segment(1)=='roles')?'active':''}}" data-toggle="tab" href="#roles" role="tab" aria-controls="roles" aria-selected="false">{{__('roles')}}
+                <a class="nav-link " data-toggle="tab" href="#roles" role="tab" aria-controls="roles" aria-selected="false">{{__('roles')}}
                     <span class="badge badge-secondary">{{ count($roles) }}</span>
                 </a>
             </li>
         </ul>
         <div class="tab-content">
-        <div class="tab-pane fade show {{(Request::segment(1)=='users')?'active':''}}" id="users" role="tabpanel" data-filter-list="content-list-body">
+        <div class="tab-pane fade show " id="users" role="tabpanel" data-filter-list="content-list-body">
             <div class="row content-list-head">
             <div class="col-auto">
                 <h3>{{__('Users')}}</h3>
@@ -79,12 +99,12 @@
             <!--end of content list head-->
             <div class="content-list-body">
 
-                @include('user.index');
+                @include('users.index');
 
             </div>
             </div>
             <!--end of modal body-->
-            <div class="tab-pane fade show {{(Request::segment(1)=='roles')?'active':''}}" id="roles" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show " id="roles" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('User Roles')}}</h3>

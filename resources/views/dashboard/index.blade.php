@@ -159,7 +159,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$lead_percentage}}%;"></div>
                                 </div>
-                                <a class="card-body" href="{{ route('leads.index') }}">
+                                <a class="card-body" href="{{ route('clients.index') }}/#leads">
                                     <div class="number">
                                         <h3 class="card-title">{{$lead['total_lead']}}</h3>
                                         <small class="card-text">{{__('LEADS')}}</small>
@@ -193,7 +193,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$invoice_percentage}}%;"></div>
                                 </div>
-                                <a class="card-body" href="{{ route('invoices.index') }}">
+                                <a class="card-body" href="{{ route('finances.index') }}/#invoices">
                                     <div class="number">
                                         <h3 class="card-title">{{$invoice['total_invoice']}}</h3>
                                         <small class="card-text">{{__('INVOICES')}}</small>
@@ -245,7 +245,7 @@ if($client_project_budget_due_per<=15){
                         <div class="col">
                             <div class="card card-info">
                                 <div class="card-body">
-                                    <a href="{{ route('tasks.index') }}">
+                                    <a href="{{ route('projects.index').'/#tasks' }}">
                                         <h5 class="card-title">{{__('Tasks overview')}}</h5>
                                     </a>                                    
                                     <canvas id="task-area-chart" width="800" height="200"></canvas>

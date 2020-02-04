@@ -15,22 +15,24 @@
 
 <script>
 
-// keep active tab
-$(document).ready(function() {
+    // keep active tab
+    $(document).ready(function() {
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        window.location.hash = $(e.target).attr('href');
-        $(window).scrollTop(0);
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+        {
+            window.history.replaceState(null, null, $(e.target).attr('href'));
+            window.location.hash = $(e.target).attr('href');
+            $(window).scrollTop(0);
+        });
+    
+        var hash = window.location.hash ? window.location.hash : '#tasks';
+    
+        $('.nav-tabs a[href="' + hash + '"]').tab('show');
+
     });
-
-    var hash = window.location.hash ? window.location.hash : '#tasks';
-
-    $('.nav-tabs a[href="' + hash + '"]').tab('show');
-
-});
-
+       
 </script>
-
+    
 @endpush
 
 @section('page-title')
@@ -242,7 +244,7 @@ $(document).ready(function() {
                 <!--end of content list-->
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade" id="timesheets" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="timesheets" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
@@ -269,7 +271,7 @@ $(document).ready(function() {
                 </div>
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade" id="invoices" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="invoices" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Invoices')}}</h3>
@@ -296,7 +298,7 @@ $(document).ready(function() {
                 </div>
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade" id="expenses" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Expenses')}}</h3>
@@ -324,7 +326,7 @@ $(document).ready(function() {
             </div>
             <!--end of tab-->
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show uploading',$perArr)))
-            <div class="tab-pane fade" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">
+            <div class="tab-pane fade show" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">

@@ -7,6 +7,8 @@ use App\ProjectFile;
 use App\ActivityLog;
 use Illuminate\Http\Request;
 use App\Http\Helpers;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class ProjectFilesController extends Controller
 {
@@ -92,6 +94,6 @@ class ProjectFilesController extends Controller
         }
         $file->delete();
 
-        return redirect()->back()->with('success', __('File successfully deleted'));
+        return Redirect::to(URL::previous() . "#files")->with('success', __('File successfully deleted'));
     }
 }

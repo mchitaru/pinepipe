@@ -17,7 +17,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
-class FinanceSectionController extends Controller
+class FinancesSectionController extends Controller
 {
     public function index()
     {

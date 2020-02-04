@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
 use App\Http\Requests\ContactDestroyRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class ContactsController extends ClientsSectionController
 {
@@ -38,7 +40,7 @@ class ContactsController extends ClientsSectionController
 
         $request->session()->flash('success', __('Contact successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->back()->getTargetUrl().'/#contacts';
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -68,8 +70,9 @@ class ContactsController extends ClientsSectionController
 
             return view('contacts.edit', compact('contact', 'clients'));
 
-        }else{
-            return redirect()->back();
+        }else
+        {
+            return Redirect::to(URL::previous() . "#contacts")->with('error', __('Permission denied.'));
         }
     }
 
@@ -88,7 +91,7 @@ class ContactsController extends ClientsSectionController
 
         $request->session()->flash('success', __('Contact successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->back()->getTargetUrl().'/#contacts';
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -109,6 +112,6 @@ class ContactsController extends ClientsSectionController
 
         $contact->delete();
 
-        return redirect()->back()->with('success', __('Contact successfully deleted'));
+        return Redirect::to(URL::previous() . "#contacts")->with('success', __('Contact successfully deleted.'));
     }
 }

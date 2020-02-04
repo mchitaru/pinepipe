@@ -8,20 +8,20 @@
 <script>
 
     // keep active tab
-    // $(document).ready(function() {
+    $(document).ready(function() {
 
-    //     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    //         window.location.hash = $(e.target).attr('href');
-    //         $(window).scrollTop(0);
-    //     });
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+        {
+            window.history.replaceState(null, null, $(e.target).attr('href'));
+            window.location.hash = $(e.target).attr('href');
+            $(window).scrollTop(0);
+        });
+    
+        var hash = window.location.hash ? window.location.hash : '#invoices';
+    
+        $('.nav-tabs a[href="' + hash + '"]').tab('show');
 
-    //     if(window.location.hash)
-    //     {
-    //         var hash = window.location.hash ? window.location.hash : '#invoices';
-
-    //         $('.nav-tabs a[href="' + hash + '"]').tab('show');
-    //     }
-    // });
+    });
 
 </script>
 
@@ -73,21 +73,21 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(Request::segment(1)=='invoices')?'active':''}}" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">{{__('Invoices')}}
+            <a class="nav-link" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">{{__('Invoices')}}
                 <span class="badge badge-secondary">{{ count($invoices) }}</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(Request::segment(1)=='expenses')?'active':''}}" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses" aria-selected="false">{{__('Expenses')}}
+            <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses" aria-selected="false">{{__('Expenses')}}
                 <span class="badge badge-secondary">{{ count($expenses) }}</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(Request::segment(1)=='activity')?'active':''}}" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
+            <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
         </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane fade show {{(Request::segment(1)=='invoices')?'active':''}}" id="invoices" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show" id="invoices" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Invoices')}}</h3>
@@ -115,7 +115,7 @@
                     <!--end of content list body-->
                 </div>
             <!--end of tab-->
-            <div class="tab-pane fade show {{Request::segment(1)=='expenses'?'active':''}}" id="expenses" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>
@@ -143,7 +143,7 @@
                 <!--end of content list body-->
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade {{(Request::segment(1)=='activity')?'active':''}}" id="activity" role="tabpanel" data-filter-list="list-group-activity">
+            <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">

@@ -10,14 +10,16 @@
 // keep active tab
 $(document).ready(function() {
 
-    // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    //     window.location.hash = $(e.target).attr('href');
-    //     $(window).scrollTop(0);
-    // });
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+    {
+        window.history.replaceState(null, null, $(e.target).attr('href'));
+        window.location.hash = $(e.target).attr('href');
+        $(window).scrollTop(0);
+    });
 
-    // var hash = window.location.hash ? window.location.hash : '#clients';
+    var hash = window.location.hash ? window.location.hash : '#clients';
 
-    // $('.nav-tabs a[href="' + hash + '"]').tab('show');
+    $('.nav-tabs a[href="' + hash + '"]').tab('show');
 
 });
 
@@ -75,26 +77,26 @@ $(document).ready(function() {
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{(Request::segment(1)=='clients')?'active':''}}" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">{{__('Clients')}}
+                <a class="nav-link " data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">{{__('Clients')}}
                     <span class="badge badge-secondary">{{ count($clients) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{(Request::segment(1)=='contacts')?'active':''}}" data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">{{__('Contacts')}}
+                <a class="nav-link " data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">{{__('Contacts')}}
                     <span class="badge badge-secondary">{{ count($contacts) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{(Request::segment(1)=='leads')?'active':''}}" data-toggle="tab" href="#leads" role="tab" aria-controls="leads" aria-selected="false">{{__('Leads')}}
+                <a class="nav-link " data-toggle="tab" href="#leads" role="tab" aria-controls="leads" aria-selected="false">{{__('Leads')}}
                     <span class="badge badge-secondary">{{ $leads_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{(Request::segment(1)=='activity')?'active':''}}" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
+                <a class="nav-link " data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show {{(Request::segment(1)=='clients')?'active':''}}" id="clients" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show " id="clients" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Clients')}}</h3>
@@ -122,7 +124,7 @@ $(document).ready(function() {
                 <!--end of content list body-->
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade show {{(Request::segment(1)=='contacts')?'active':''}}" id="contacts" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show " id="contacts" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Contacts')}}</h3>
@@ -150,7 +152,7 @@ $(document).ready(function() {
                     <!--end of content list body-->
                 </div>
             <!--end of tab-->
-            <div class="tab-pane fade show {{(Request::segment(1)=='leads')?'active':''}}" id="leads" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show " id="leads" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Leads')}}</h3>
@@ -178,7 +180,7 @@ $(document).ready(function() {
                 <!--end of content list body-->
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade {{(Request::segment(1)=='activity')?'active':''}}" id="activity" role="tabpanel" data-filter-list="list-group-activity">
+            <div class="tab-pane fade " id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">

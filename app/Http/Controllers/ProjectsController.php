@@ -60,7 +60,7 @@ class ProjectsController extends ProjectsSectionController
             $request->session()->flash('error', __('Your have reached your project limit. Please upgrade your plan to add more projects!'));
         }
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->back()->getTargetUrl().'/#projects';
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -87,7 +87,7 @@ class ProjectsController extends ProjectsSectionController
 
         $request->session()->flash('success', __('Project successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->back()->getTargetUrl().'/#projects';
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -160,7 +160,7 @@ class ProjectsController extends ProjectsSectionController
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#projects")->with('error', __('Permission denied.'));
         }
     }
 
@@ -175,7 +175,7 @@ class ProjectsController extends ProjectsSectionController
 
         $project->delete();
 
-        return redirect()->back()->with('success', __('Project successfully deleted.'));
+        return Redirect::to(URL::previous() . "#projects")->with('success', __('Project successfully deleted'));
     }
 
     // public function updateStatus(Request $request, $id)
@@ -304,7 +304,7 @@ class ProjectsController extends ProjectsSectionController
 
     }
 
-    public function getSearchJson($search)
+    public function search($search)
     {
         if(\Auth::user()->type == 'client')
         {

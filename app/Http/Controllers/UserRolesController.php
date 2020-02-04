@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class UserRolesController extends UsersSectionController
 {
@@ -26,8 +28,9 @@ class UserRolesController extends UsersSectionController
                 $permissions = $permissions->pluck('name','id')->toArray();
             }
             return view('roles.create', ['permissions' => $permissions]);
-        }else{
-            return redirect()->back()->with('error','Permission denied.');
+        }else
+        {
+            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
         }
 
     }
@@ -55,11 +58,10 @@ class UserRolesController extends UsersSectionController
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->back()->with(
-                'Role successfully created.', 'Role ' . $role->name . ' added!'
-            );
-        }else{
-            return redirect()->back()->with('error','Permission denied.');
+            return Redirect::to(URL::previous() . "#roles")->with('success', __('Role successfully created.'));
+        }else
+        {
+            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
         }
 
 
@@ -82,8 +84,9 @@ class UserRolesController extends UsersSectionController
             }
 
             return view('roles.edit', compact('role', 'permissions'));
-        }else{
-            return redirect()->back()->with('error','Permission denied.');
+        }else
+        {
+            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
         }
 
 
@@ -116,11 +119,10 @@ class UserRolesController extends UsersSectionController
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->back()->with(
-                'Role successfully updated.', 'Role ' . $role->name . ' updated!'
-            );
-        }else{
-            return redirect()->back()->with('error','Permission denied.');
+            return Redirect::to(URL::previous() . "#roles")->with('success', __('Role successfully updated.'));
+        }else
+        {
+            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
         }
 
     }
@@ -136,13 +138,11 @@ class UserRolesController extends UsersSectionController
         if(\Auth::user()->can('delete role')){
             $role->delete();
 
-            return redirect()->back()->with(
-                'success', 'Role successfully deleted.'
-            );
-        }else{
-            return redirect()->back()->with('error','Permission denied.');
+            return Redirect::to(URL::previous() . "#roles")->with('success', __('Role successfully deleted.'));
+        }else
+        {
+            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
         }
-
-
+        
     }
 }

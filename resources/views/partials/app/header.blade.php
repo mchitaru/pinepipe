@@ -58,9 +58,9 @@ $languages=$user->languages();
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Clients')}}</a>
             <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="{{ route('clients.index') }}/#clients">{{__('Clients')}}</a>
+                <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
 
-                <a class="dropdown-item" href="{{ route('contacts.index') }}/#contacts">{{__('Contacts')}}</a>
+                <a class="dropdown-item" href="{{ route('clients.index') }}/#contacts">{{__('Contacts')}}</a>
 
                 @if(Gate::check('manage lead'))
                     <a class="dropdown-item disabled" href="#">{{__('Leads')}}</a>
@@ -101,11 +101,11 @@ $languages=$user->languages();
             <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
 
             @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
-                <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
+                <a class="dropdown-item" href="{{ route('finances.index') }}/#invoices">{{__('Invoices')}}</a>
             @endcan
 
             @if(Gate::check('manage expense') || \Auth::user()->type=='client')
-                <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
+                <a class="dropdown-item" href="{{ route('finances.index') }}/#expenses">{{__('Expenses')}}</a>
             @endif
 
         </div>
@@ -177,7 +177,7 @@ $languages=$user->languages();
                     @endcan
                 @endif
                 @if(Gate::check('manage role'))
-                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
+                    <a class="dropdown-item" href="{{ route('users.index') }}/#roles">{{__('User Roles')}}</a>
                 @endif
                 @endif
 

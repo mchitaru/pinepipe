@@ -34,7 +34,7 @@
 <script>
     var options = {
         url: function(phrase) {
-            return "{{route('search.json')}}/" + phrase ;
+            return "{{route('search')}}/" + phrase ;
         },
         categories: [
             {

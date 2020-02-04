@@ -8,6 +8,8 @@ use App\Leadsource;
 use App\LeadStage;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class LeadsController extends ClientsSectionController
 {
@@ -21,7 +23,7 @@ class LeadsController extends ClientsSectionController
         }    
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
         }
     }
 
@@ -38,7 +40,7 @@ class LeadsController extends ClientsSectionController
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
         }
     }
 
@@ -78,7 +80,7 @@ class LeadsController extends ClientsSectionController
             {
                 $messages = $validator->getMessageBag();
 
-                return redirect()->route('leads.index')->with('error', $messages->first());
+                return Redirect::to(URL::previous() . "#leads")->with('error', $messages->first());
             }
             $leads        = new Lead();
             $leads->name  = $request->name;
@@ -98,11 +100,11 @@ class LeadsController extends ClientsSectionController
             $leads->created_by = \Auth::user()->creatorId();
             $leads->save();
 
-            return redirect()->route('leads.index')->with('success', __('Lead successfully created.'));
+            return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully created.'));
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
         }
     }
 
@@ -126,7 +128,7 @@ class LeadsController extends ClientsSectionController
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
         }
     }
 
@@ -153,7 +155,7 @@ class LeadsController extends ClientsSectionController
                 {
                     $messages = $validator->getMessageBag();
 
-                    return redirect()->route('leads.index')->with('error', $messages->first());
+                    return Redirect::to(URL::previous() . "#leads")->with('error', $messages->first());
                 }
                 $lead->name       = $request->name;
                 $lead->price      = $request->price;
@@ -165,16 +167,16 @@ class LeadsController extends ClientsSectionController
                 $lead->created_by = \Auth::user()->creatorId();
                 $lead->save();
 
-                return redirect()->route('leads.index')->with('success', __('Lead successfully updated.'));
+                return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully updated.'));
             }
             else
             {
-                return redirect()->back()->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
         }
     }
 
@@ -192,16 +194,16 @@ class LeadsController extends ClientsSectionController
                 $lead->removeProjectLead();
                 $lead->delete();
 
-                return redirect()->route('leads.index')->with('success', __('Lead successfully deleted.'));
+                return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully deleted.'));
             }
             else
             {
-                return redirect()->back()->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
         }
     }
 

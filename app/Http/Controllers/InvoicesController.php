@@ -17,8 +17,10 @@ use App\User;
 use App\Product;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
-class InvoicesController extends FinanceSectionController
+class InvoicesController extends FinancesSectionController
 {
     public function create($project_id)
     {
@@ -53,7 +55,7 @@ class InvoicesController extends FinanceSectionController
             {
                 $messages = $validator->getMessageBag();
 
-                return redirect()->route('invoices.index')->with('error', $messages->first());
+                return Redirect::to(URL::previous() . "#invoices")->with('error', $messages->first());
             }
 
             $invoice             = new Invoice();
@@ -81,7 +83,7 @@ class InvoicesController extends FinanceSectionController
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
         }
     }
 
@@ -110,12 +112,12 @@ class InvoicesController extends FinanceSectionController
             }
             else
             {
-                return redirect()->back()->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
         }
     }
 
@@ -162,7 +164,7 @@ class InvoicesController extends FinanceSectionController
                 {
                     $messages = $validator->getMessageBag();
 
-                    return redirect()->route('invoices.index')->with('error', $messages->first());
+                    return Redirect::to(URL::previous() . "#invoices")->with('error', $messages->first());
                 }
 
                 $invoice->project_id = $request->project_id;
@@ -173,16 +175,16 @@ class InvoicesController extends FinanceSectionController
                 $invoice->discount   = $request->discount;
                 $invoice->save();
 
-                return redirect()->back()->with('success', __('Invoice successfully updated.'));
+                return Redirect::to(URL::previous() . "#invoices")->with('success', __('Invoice successfully updated.'));
             }
             else
             {
-                return redirect()->back()->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
         }
     }
 
@@ -201,16 +203,16 @@ class InvoicesController extends FinanceSectionController
                 InvoicePayment::where('invoice_id', '=', $invoice->id)->delete();
                 InvoiceProduct::where('invoice_id', '=', $invoice->id)->delete();
 
-                return redirect()->route('invoices.index')->with('success', __('Invoice successfully deleted.'));
+                return Redirect::to(URL::previous() . "#invoices")->with('success', __('Invoice successfully deleted.'));
             }
             else
             {
-                return redirect()->back()->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
         }
     }
 

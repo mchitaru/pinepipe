@@ -40,6 +40,7 @@ class ContactUpdateRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('contacts.edit');
+        $contact = $this->route()->parameter('contact');
+        return route('contacts.edit', $contact);
     }
 }

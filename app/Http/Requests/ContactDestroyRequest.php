@@ -36,6 +36,6 @@ class ContactDestroyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('contacts.index');
+        return route('clients.index').'#contacts';
     }
 }

@@ -13,15 +13,17 @@ use App\Http\Helpers;
     // keep active tab
     $(document).ready(function() {
 
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+        {
+            window.history.replaceState(null, null, $(e.target).attr('href'));
             window.location.hash = $(e.target).attr('href');
             $(window).scrollTop(0);
         });
-
+    
         var hash = window.location.hash ? window.location.hash : '#profile';
-        
+    
         $('.nav-tabs a[href="' + hash + '"]').tab('show');
-        
+
     });
 
     // Add the following code if you want the name of the file appear on select
@@ -29,6 +31,7 @@ use App\Http\Helpers;
       var fileName = $(this).val().split("\\").pop();
       $(this).siblings(".file-label").addClass("selected").html(fileName);
     });
+    
 </script>
 @endpush
 
@@ -87,7 +90,7 @@ use App\Http\Helpers;
         <div class="card-body">
             <div class="tab-content">
             <div class="tab-pane fade show" role="tabpanel" id="profile">
-                {{Form::model($user,array('route' => array('update.account'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
+                {{Form::model($user,array('route' => array('profile.update'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
                 <div class="media mb-4">
                     <div class="d-flex flex-column">
                         {!!Helpers::buildAvatar($user, 60, 'rounded')!!}
@@ -144,7 +147,7 @@ use App\Http\Helpers;
                 {{Form::close()}}
             </div>
             <div class="tab-pane fade" role="tabpanel" id="password">
-                {{Form::model($user,array('route' => array('update.password',$user->id), 'method' => 'put'))}}
+                {{Form::model($user,array('route' => array('profile.password',$user->id), 'method' => 'patch'))}}
                 <div class="form-group row align-items-center">
                     {{Form::label('current_password',__('Current Password'), array('class'=>'col-3'))}}
                     <div class="col">
@@ -168,10 +171,10 @@ use App\Http\Helpers;
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    {{Form::label('confirm_password',__('Confirm Password'), array('class'=>'col-3'))}}
+                    {{Form::label('new_password_confirmation',__('Confirm Password'), array('class'=>'col-3'))}}
                     <div class="col">
-                        {{Form::password('confirm_password',array('class'=>'form-control','placeholder'=>_('Confirm Password')))}}
-                        @error('confirm_password')
+                        {{Form::password('new_password_confirmation',array('class'=>'form-control','placeholder'=>_('Confirm Password')))}}
+                        @error('new_password_confirmation')
                         <span class="invalid-confirm_password" role="alert">
                         <strong class="text-danger">{{ $message }}</strong>
                         </span>

@@ -15,6 +15,8 @@ use App\Http\Requests\TaskDestroyRequest;
 use App\Http\Traits\TaskTraits;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class TasksController extends ProjectsSectionController
 {
@@ -33,7 +35,7 @@ class TasksController extends ProjectsSectionController
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#tasks")->with('error', __('Permission denied.'));
         }
     }
 
@@ -67,7 +69,7 @@ class TasksController extends ProjectsSectionController
 
         $request->session()->flash('success', __('Task successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->back()->getTargetUrl().'/#tasks';
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -130,7 +132,7 @@ class TasksController extends ProjectsSectionController
 
         $request->session()->flash('success', __('Task successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->back()->getTargetUrl().'/#tasks';
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -151,7 +153,7 @@ class TasksController extends ProjectsSectionController
 
         $task->delete();
 
-        return redirect()->back()->with('success', __('Task successfully deleted'));
+        return Redirect::to(URL::previous() . "#tasks")->with('success', __('Task successfully deleted'));
     }
 }
 

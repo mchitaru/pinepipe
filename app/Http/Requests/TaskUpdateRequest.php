@@ -71,7 +71,7 @@ class TaskUpdateRequest extends FormRequest
             return route('tasks.edit', $task);
         }else{
 
-            return route('tasks.index');
+            return route('projects.index').'/#tasks';
         }
     }
 }

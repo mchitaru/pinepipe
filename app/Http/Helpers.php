@@ -28,4 +28,9 @@ class Helpers
                     (empty($user->avatar) ? (" class='".$class."' avatar='".$user->name."'") : 
                                             (" class='".$class."' src='".Storage::url($user->avatar)."'"))."/>";
     }
+
+    function fragment($route, $fragment) 
+    {
+        return route($route) . "/#{$fragment}";
+    }
 }

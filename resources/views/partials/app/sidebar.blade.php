@@ -38,7 +38,7 @@ $languages=$user->languages();
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @can('manage account')
-                    <a class="dropdown-item" href="{{route('profile',$user->id)}}">
+                    <a class="dropdown-item" href="{{route('profile.show')}}">
                         {{__('Account Settings')}}
                     </a>
                     <div class="dropdown-divider"></div>
@@ -49,7 +49,7 @@ $languages=$user->languages();
                         <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                     @endif
                     @if(Gate::check('manage role'))
-                        <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
+                        <a class="dropdown-item" href="{{ route('users.index') }}/#roles">{{__('User Roles')}}</a>
                     @endif
 
                     <div class="dropdown-divider"></div>
@@ -107,12 +107,12 @@ $languages=$user->languages();
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
+                    <a class="dropdown-item" href="{{ route('clients.index') }}/#contacts">{{__('Contacts')}}</a>
                 </li>
 
                 @if(Gate::check('manage lead'))
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('leads.index') }}">{{__('Leads')}}</a>
+                    <a class="dropdown-item" href="{{ route('clients.index') }}/#leads">{{__('Leads')}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Lead Board')}}</a>
@@ -133,15 +133,15 @@ $languages=$user->languages();
                 <ul class="nav nav-small flex-column">
 
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
+                    <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>                    
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('tasks.index') }}">{{__('Tasks')}}</a>
+                    <a class="dropdown-item" href="{{ route('projects.index') }}/#tasks">{{__('Tasks')}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('projects.task.board', '0') }}">{{__('Task Board')}}</a>
+                    <a class="dropdown-item" href="{{ route('projects.task.board','*') }}">{{__('Task Board')}}</a>
                 </li>
 
                 </ul>
@@ -153,7 +153,7 @@ $languages=$user->languages();
         @if((Gate::check('manage product') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')
             <li class="nav-item">
 
-                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">{{__('Finance')}}</a>
+                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">{{__('Finances')}}</a>
                 <div id="submenu-4" class="collapse">
                     <ul class="nav nav-small flex-column">
 
@@ -167,13 +167,13 @@ $languages=$user->languages();
 
                     @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
                     <li class="nav-item">
-                        <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
+                        <a class="dropdown-item" href="{{ route('finances.index') }}/#invoices">{{__('Invoices')}}</a>
                     </li>
                     @endcan
 
                     @if(Gate::check('manage expense') || \Auth::user()->type=='client')
                     <li class="nav-item">
-                        <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
+                        <a class="dropdown-item" href="{{ route('finances.index') }}/#expenses">{{__('Expenses')}}</a>
                     </li>
                     @endif
 
@@ -220,15 +220,15 @@ $languages=$user->languages();
         <ul class="nav nav-small flex-column mt-2">
         @can('manage contact')
             <li class="nav-item">
-                <a href="{{ route('contacts.index') }}" class="nav-link">{{__('Contacts')}}</a>
+                <a href="{{ route('clients.index').'/#contacts' }}" class="nav-link">{{__('Contacts')}}</a>
             </li>
         @endcan
         @can('manage project')
             <li class="nav-item">
-                <a href="{{ route('projects.index') }}" class="nav-link">{{__('Projects')}}</a>
+                <a href="{{ route('projects.index').'/#projects' }}" class="nav-link">{{__('Projects')}}</a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('tasks.index') }}" class="nav-link">{{__('Tasks')}}</a>
+                <a href="{{ route('projects.index').'/#tasks' }}" class="nav-link">{{__('Tasks')}}</a>
             </li>
         @endcan
         </ul>
@@ -265,7 +265,7 @@ $languages=$user->languages();
         </a>
         <div class="dropdown-menu">
             @can('manage account')
-                <a class="dropdown-item" href="{{route('profile',$user->id)}}">
+                <a class="dropdown-item" href="{{route('profile.show')}}">
                     {{__('Account Settings')}}
                 </a>
                 <div class="dropdown-divider"></div>
@@ -276,7 +276,7 @@ $languages=$user->languages();
                     <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                 @endif
                 @if(Gate::check('manage role'))
-                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('User Roles')}}</a>
+                    <a class="dropdown-item" href="{{ route('users.index') }}/#roles">{{__('User Roles')}}</a>
                 @endif
                 <div class="dropdown-divider"></div>
             @endif

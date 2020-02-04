@@ -7,8 +7,10 @@ use App\ExpenseCategory;
 use App\Project;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
-class ExpensesController extends FinanceSectionController
+class ExpensesController extends FinancesSectionController
 {
     public function create($project_id)
     {
@@ -36,7 +38,7 @@ class ExpensesController extends FinanceSectionController
                 'amount' => 'required',
                 'date' => 'required',
                 'category_id' => 'integer',
-                'project_id' => 'interger',
+                'project_id' => 'integer',
             ];
             if($request->attachment)
             {
@@ -49,7 +51,7 @@ class ExpensesController extends FinanceSectionController
             {
                 $messages = $validator->getMessageBag();
 
-                return redirect()->route('invoices.index')->with('error', $messages->first());
+                return Redirect::to(URL::previous() . "#expenses")->with('error', $messages->first());
             }
 
             $expense              = new Expense();
@@ -79,11 +81,11 @@ class ExpensesController extends FinanceSectionController
                 $expense->save();
             }
 
-            return redirect()->route('expenses.index')->with('success', __('Expense successfully created.'));
+            return Redirect::to(URL::previous() . "#expenses")->with('success', __('Expense successfully created.'));
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
         }
     }
 
@@ -137,7 +139,7 @@ class ExpensesController extends FinanceSectionController
                 {
                     $messages = $validator->getMessageBag();
 
-                    return redirect()->route('expenses.index')->with('error', $messages->first());
+                    return Redirect::to(URL::previous() . "#expenses")->with('error', $messages->first());
                 }
                 $expense->category_id = $request->category_id;
                 $expense->description = $request->description;
@@ -168,16 +170,16 @@ class ExpensesController extends FinanceSectionController
                     $expense->save();
                 }
 
-                return redirect()->route('expenses.index')->with('success', __('Expense successfully updated.'));
+                return Redirect::to(URL::previous() . "#expenses")->with('success', __('Expense successfully updated.'));
             }
             else
             {
-                return redirect()->back()->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
         }
     }
 
@@ -194,16 +196,17 @@ class ExpensesController extends FinanceSectionController
             if($expense->created_by == \Auth::user()->creatorId())
             {
                 $expense->delete();
-                return redirect()->route('expenses.index')->with('success', __('Expense successfully deleted.'));
+
+                return Redirect::to(URL::previous() . "#expenses")->with('success', __('Expense successfully deleted.'));
             }
             else
             {
-                return redirect()->back()->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
         }
     }
 }
