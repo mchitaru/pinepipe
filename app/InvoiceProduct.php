@@ -8,7 +8,7 @@ class InvoiceProduct extends Model
 {
     protected $fillable = [
         'invoice_id', 
-        'iteam',
+        'item',
         'price',
         'type'
     ];

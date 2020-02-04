@@ -742,7 +742,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
         foreach($payments as $payment)
         {
-            Payment::create(
+            PaymentType::create(
                 [
                     'name' => $payment,
                     'created_by' => $id,

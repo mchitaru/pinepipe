@@ -31,6 +31,10 @@ Route::group(
         Route::get('/', 'DashboardController@index');
         Route::get('home', 'DashboardController@index')->name('home');
 
+        //Calendar
+        Route::resource('calendar', 'CalendarController');
+
+        //Sharepoint
         Route::get('sharepoint', 'SharepointController@index')->name('sharepoint');
 
         Route::get('finances', 'FinancesSectionController@index')->name('finances.index');
@@ -175,8 +179,6 @@ Route::group(
         Route::put('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@update')->name('tasks.checklist.update');
         Route::delete('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
 
-        Route::resource('calendar', 'CalendarController');
-
         //Invoices
         Route::get('invoices/create', 'InvoicesController@create')->name('invoices.create');
         Route::post('invoices', 'InvoicesController@store')->name('invoices.store');
@@ -185,16 +187,19 @@ Route::group(
         Route::put('invoices/{invoice}', 'InvoicesController@update')->name('invoices.update');
         Route::delete('invoices/{invoice}', 'InvoicesController@destroy')->name('invoices.destroy');
 
-        Route::get('invoices/{invoice}/products', 'InvoicesController@productAdd')->name('invoices.products.add');
-        Route::get('invoices/{invoice}/products/{product}', 'InvoicesController@productEdit')->name('invoices.products.edit');
-        Route::post('invoices/{invoice}/products', 'InvoicesController@productStore')->name('invoices.products.store');
-        Route::put('invoices/{invoice}/products/{product}', 'InvoicesController@productUpdate')->name('invoices.products.update');
-        Route::delete('invoices/{invoice}/products/{product}', 'InvoicesController@productDelete')->name('invoices.products.delete');
+        //Invoice products
+        Route::get('invoices/{invoice}/products', 'InvoiceProductsController@create')->name('invoices.products.create');
+        Route::get('invoices/{invoice}/products/{product}', 'InvoiceProductsController@edit')->name('invoices.products.edit');
+        Route::post('invoices/{invoice}/products', 'InvoiceProductsController@store')->name('invoices.products.store');
+        Route::put('invoices/{invoice}/products/{product}', 'InvoiceProductsController@update')->name('invoices.products.update');
+        Route::delete('invoices/{invoice}/products/{product}', 'InvoiceProductsController@delete')->name('invoices.products.delete');
+
         Route::post('invoices/milestone/task', 'InvoicesController@milestoneTask')->name('invoices.milestone.task');
 
-        Route::get('invoices/payments', 'InvoicesController@payments')->name('invoices.payments');
-        Route::get('invoices/{invoice}/payments', 'InvoicesController@paymentAdd')->name('invoices.payments.create');
-        Route::post('invoices/{invoice}/payments', 'InvoicesController@paymentStore')->name('invoices.payments.store');
+        //Invoice payments
+        Route::get('invoices/payments', 'InvoicePaymentsController@index')->name('invoices.payments.index');
+        Route::get('invoices/{invoice}/payments', 'InvoicePaymentsController@create')->name('invoices.payments.create');
+        Route::post('invoices/{invoice}/payments', 'InvoicePaymentsController@store')->name('invoices.payments.store');
 
         Route::resource('productunits', 'ProductUnitsController');
         Route::resource('expensescategory', 'ExpenseCategoriesController');
@@ -203,7 +208,7 @@ Route::group(
         Route::resource('expenses', 'ExpensesController');
 
         //Payments
-        Route::resource('payments', 'PaymentsController');
+        Route::resource('payments', 'PaymentTypesController');
         Route::get('orders', 'StripePaymentsController@index')->name('order.index');
 
         Route::get('stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');

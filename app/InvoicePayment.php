@@ -15,8 +15,8 @@ class InvoicePayment extends Model
         'notes'
     ];
 
-    public function payment(){
-        return $this->hasOne('App\Payment','id','payment_id');
+    public function paymentType(){
+        return $this->hasOne('App\PaymentType','id','payment_id');
     }
     public function invoice(){
         return $this->hasOne('App\Invoice','id','invoice_id');

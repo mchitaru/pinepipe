@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\InvoicePayment;
-use App\Payment;
+use App\PaymentType;
 use Illuminate\Http\Request;
 
-class PaymentsController extends Controller
+class PaymentTypesController extends Controller
 {
     public function index()
     {
         if(\Auth::user()->can('manage payment')) {
-            $payments = Payment::where('created_by','=',\Auth::user()->creatorId())->get();
+            $payments = PaymentType::where('created_by','=',\Auth::user()->creatorId())->get();
             return view('payments.index')->with('payments', $payments);
         }else{
             return redirect()->back()->with('error',__('Permission denied.'));
@@ -42,7 +42,7 @@ class PaymentsController extends Controller
                 return redirect()->route('payments.index')->with('error', $messages->first());
             }
 
-            $payment = new Payment();
+            $payment = new PaymentType();
             $payment->name = $request->name;
             $payment->created_by = \Auth::user()->creatorId();
             $payment->save();
@@ -53,12 +53,12 @@ class PaymentsController extends Controller
     }
 
 
-    public function show(Payment $payment)
+    public function show(PaymentType $payment)
     {
         return redirect()->route('payments.index');
     }
 
-    public function edit(Payment $payment)
+    public function edit(PaymentType $payment)
     {
         if(\Auth::user()->can('edit payment')) {
             if($payment->created_by == \Auth::user()->creatorId()) {
@@ -72,7 +72,7 @@ class PaymentsController extends Controller
     }
 
 
-    public function update(Request $request, Payment $payment)
+    public function update(Request $request, PaymentType $payment)
     {
         if(\Auth::user()->can('edit payment')) {
             if($payment->created_by == \Auth::user()->creatorId()) {
@@ -94,7 +94,7 @@ class PaymentsController extends Controller
         }
     }
 
-    public function destroy(Payment $payment)
+    public function destroy(PaymentType $payment)
     {
         if(\Auth::user()->can('delete payment')) {
             if($payment->created_by == \Auth::user()->creatorId()) {

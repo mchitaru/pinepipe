@@ -100,7 +100,7 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     @can('create invoice product')
-                                    <a class="dropdown-item" href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
+                                    <a class="dropdown-item" href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
                                         <span>{{__('Add Item')}}</span>
                                     </a>
                                     @endcan
@@ -185,7 +185,7 @@
                                     <div class="section-title"><b>{{__('Order Summary')}}</b>
                                         @can('create invoice product')
                                         <div class="col-md-12 text-right d-print-none">
-                                            <a href="{{ route('invoices.products.add',$invoice->id) }}" data-remote="true" data-type="text">
+                                            <a href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
                                                 <span><i class="fas fa-plus"></i></span>
                                                 <u>{{__('Add Item')}}</u>
                                             </a>
@@ -210,7 +210,7 @@
                                                         {{++$i}}
                                                     </td>
                                                     <td class="text-center font-style">
-                                                        {{$items->iteam}}
+                                                        {{$items->item}}
                                                     </td>
                                                     <td class="text-center">
                                                         {{Auth::user()->priceFormat($items->price)}}

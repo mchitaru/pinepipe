@@ -9,7 +9,7 @@ use App\Invoice;
 use App\InvoicePayment;
 use App\InvoiceProduct;
 use App\Milestone;
-use App\Payment;
+use App\PaymentType;
 use App\Products;
 use App\Task;
 use App\Tax;
