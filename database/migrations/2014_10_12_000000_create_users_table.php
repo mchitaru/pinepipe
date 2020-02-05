@@ -25,6 +25,13 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('created_by')->default(0);
             $table->unsignedInteger('plan_id')->nullable();
             $table->date('plan_expire_date')->nullable();
+            $table->boolean('notify_task_assign')->default(true);
+            $table->boolean('notify_project_assign')->default(true);
+            $table->boolean('notify_project_activity')->default(false);
+            $table->boolean('notify_item_overdue')->default(true);
+            $table->boolean('notify_newsletter')->default(false);
+            $table->boolean('notify_major_updates')->default(true);
+            $table->boolean('notify_minor_updates')->default(false);
             $table->boolean('delete_status')->default(true);
             $table->boolean('is_active')->default(true);
             $table->rememberToken();

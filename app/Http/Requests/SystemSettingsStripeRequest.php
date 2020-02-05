@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserSettingsCompanyRequest extends FormRequest
+class SystemSettingsStripeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UserSettingsCompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->can('manage company settings');
+        return \Auth::user()->can('manage stripe settings');
     }
 
     /**
@@ -24,14 +24,14 @@ class UserSettingsCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_name' => 'required|string|max:50',
-            'company_email' => 'required',
-            'company_email_from_name' => 'required|string',
+            'stripe_key' => 'required|string|max:50',
+            'stripe_secret' => 'required|string|max:50',
         ];
     }
 
     protected function getRedirectUrl()
     {
-        return route('profile.show').'/#company';
+        return route('profile.show').'/#stripe';
     }
+
 }

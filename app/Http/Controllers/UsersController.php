@@ -202,6 +202,13 @@ class UsersController extends UsersSectionController
         return redirect()->back();
     }
 
+    public function readNotifications()
+    {
+        \Auth::user()->unreadNotifications->markAsRead();
+        
+        return true;
+    }
+
     public function authRouteAPI(Request $request){
         return $request->user();
      }

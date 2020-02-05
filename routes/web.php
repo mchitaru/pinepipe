@@ -40,6 +40,7 @@ Route::group(
         Route::get('finances', 'FinancesSectionController@index')->name('finances.index');
 
         //Users
+        Route::post('users/notifications', 'UsersController@readNotifications')->name('users.notifications');
         Route::resource('users', 'UsersController');
         
         Route::resource('roles', 'UserRolesController');
@@ -73,10 +74,10 @@ Route::group(
         Route::put('profile', 'UserProfileController@update')->name('profile.update');
 
         //Settings
-        Route::post('settings/email', 'UserSettingsController@updateEmail')->name('settings.email');
-        Route::post('settings/company', 'UserSettingsController@updateCompany')->name('settings.company');
-        Route::post('settings/stripe', 'UserSettingsController@updateStripe')->name('settings.stripe');
-        Route::post('settings/system', 'UserSettingsController@updateSystem')->name('settings.system');
+        Route::post('settings/email', 'SystemSettingsController@updateEmail')->name('settings.email');
+        Route::post('settings/company', 'SystemSettingsController@updateCompany')->name('settings.company');
+        Route::post('settings/stripe', 'SystemSettingsController@updateStripe')->name('settings.stripe');
+        Route::post('settings/system', 'SystemSettingsController@updateSystem')->name('settings.system');
 
         //Leads
         Route::resource('leadstages', 'LeadStagesController');

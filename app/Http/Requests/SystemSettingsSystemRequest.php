@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserSettingsStripeRequest extends FormRequest
+class SystemSettingsSystemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UserSettingsStripeRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->can('manage stripe settings');
+        return \Auth::user()->can('manage company settings');
     }
 
     /**
@@ -24,14 +24,13 @@ class UserSettingsStripeRequest extends FormRequest
     public function rules()
     {
         return [
-            'stripe_key' => 'required|string|max:50',
-            'stripe_secret' => 'required|string|max:50',
+            'site_currency' => 'required',
         ];
     }
 
     protected function getRedirectUrl()
     {
-        return route('profile.show').'/#stripe';
+        return route('profile.show').'/#system';
     }
 
 }

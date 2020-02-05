@@ -5,6 +5,7 @@ namespace App\Http;
 use App\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Helpers 
 {
@@ -29,7 +30,7 @@ class Helpers
                                             (" class='".$class."' src='".Storage::url($user->avatar)."'"))."/>";
     }
 
-    function fragment($route, $fragment) 
+    static function fragment($route, $fragment) 
     {
         return route($route) . "/#{$fragment}";
     }

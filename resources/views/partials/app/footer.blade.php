@@ -9,6 +9,7 @@
 <script type="text/javascript" src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script> --}}
 
 <!-- Autosize - resizes textarea inputs as user types -->
 <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>
@@ -58,26 +59,49 @@
 
     $("#search-element").easyAutocomplete(options);
 
-
-    function toastrs(title, message, status) {
-        toastr[status](message, title)
-    }
-
     $.fn.select2.defaults.set( "theme", "bootstrap" ); 
 
+    // $.notify("Hello World");
+
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": true,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+
+    function toastrs(message, status) {
+        toastr[status](message)
+    }
+
+    $("#notification-bell").click(function()
+    {
+        $(this).children('i').html('<i class="material-icons">notifications_none</i>');
+    });
 
 </script>
 
 @if ($message = Session::get('success'))
-    <script>toastrs('Success', '{!! $message !!}', 'success')</script>
+    <script>toastrs('{!! $message !!}', 'success')</script>
 @endif
 
 @if ($message = Session::get('error'))
-    <script>toastrs('Error', '{!! $message !!}', 'error')</script>
+    <script>toastrs('{!! $message !!}', 'error')</script>
 @endif
 
 @if ($message = Session::get('info'))
-    <script>toastrs('Info', '{!! $message !!}', 'info')</script>
+    <script>toastrs('{!! $message !!}', 'info')</script>
 @endif
 
 @stack('scripts')

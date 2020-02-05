@@ -7,15 +7,15 @@ use File;
 use App\Http\Helpers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
-use App\Http\Requests\UserSettingsCompanyRequest;
-use App\Http\Requests\UserSettingsEmailRequest;
-use App\Http\Requests\UserSettingsStripeRequest;
-use App\Http\Requests\UserSettingsSystemRequest;
+use App\Http\Requests\SystemSettingsCompanyRequest;
+use App\Http\Requests\SystemSettingsEmailRequest;
+use App\Http\Requests\SystemSettingsStripeRequest;
+use App\Http\Requests\SystemSettingsSystemRequest;
 
-class UserSettingsController extends Controller
+class SystemSettingsController extends Controller
 {
 
-    public function updateEmail(UserSettingsEmailRequest $request)
+    public function updateEmail(SystemSettingsEmailRequest $request)
     {
         $post = $request->validated();
 
@@ -73,7 +73,7 @@ class UserSettingsController extends Controller
         }
     }
 
-    public function updateCompany(UserSettingsCompanyRequest $request)
+    public function updateCompany(SystemSettingsCompanyRequest $request)
     {
             
         $post = $request->validated();
@@ -100,7 +100,7 @@ class UserSettingsController extends Controller
         return Redirect::to(URL::previous() . "#company")->with('success', __('Settings updated successfully.'));
     }
 
-    public function updateStripe(UserSettingsStripeRequest $request)
+    public function updateStripe(SystemSettingsStripeRequest $request)
     {
         $post = $request->validated();
 
@@ -123,7 +123,7 @@ class UserSettingsController extends Controller
         return Redirect::to(URL::previous() . "#stripe")->with('success', __('Stripe settings updated successfully.'));
     }
 
-    public function updateSystem(UserSettingsSystemRequest $request)
+    public function updateSystem(SystemSettingsSystemRequest $request)
     {
         $post = $request->validated();
         unset($post['_token']);

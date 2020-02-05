@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserSettingsSystemRequest extends FormRequest
+class SystemSettingsCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,14 @@ class UserSettingsSystemRequest extends FormRequest
     public function rules()
     {
         return [
-            'site_currency' => 'required',
+            'company_name' => 'required|string|max:50',
+            'company_email' => 'required',
+            'company_email_from_name' => 'required|string',
         ];
     }
 
     protected function getRedirectUrl()
     {
-        return route('profile.show').'/#system';
+        return route('profile.show').'/#company';
     }
-
 }
