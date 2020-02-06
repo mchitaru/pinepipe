@@ -28,7 +28,7 @@
             },
             error: function (data) {
                 data = data.responseJSON;
-                toastrs('Error', data.error, 'error')
+                toastrs(data.error, 'error')
             }
         });
     }

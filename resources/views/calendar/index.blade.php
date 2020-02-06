@@ -21,7 +21,7 @@
     <script src="{{asset('assets/module/fullcalendar/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/js/all.min.js')}}"></script>
 
-    <script type="module">
+    <script>
         var tasks = {!! ($due_tasks) !!};
 
         var calendarEl = document.getElementById('calendar');

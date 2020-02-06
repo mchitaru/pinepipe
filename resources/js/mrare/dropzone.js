@@ -7,10 +7,11 @@
 
 
 import jQuery from 'jquery';
-// import Dropzone from 'dropzone';
+import Dropzone from 'dropzone';
 
-window.Dropzone.autoDiscover = false;
+Dropzone.autoDiscover = false;
 
+/*
 (($) => {
   $(() => {
     let template = `<li class="list-group-item dz-preview dz-file-preview">
@@ -55,3 +56,4 @@ window.Dropzone.autoDiscover = false;
     });
   });
 })(jQuery);
+*/

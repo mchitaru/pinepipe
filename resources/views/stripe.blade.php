@@ -60,7 +60,7 @@
 
             function stripeResponseHandler(status, response) {
                 if (response.error) {
-                    toastrs('Error',response.error.message,'error');
+                    toastrs(response.error.message,'error');
                     $form.find('[type="submit"]').removeAttr('disabled');
                 } else {
                     // token contains id, last4, and card type

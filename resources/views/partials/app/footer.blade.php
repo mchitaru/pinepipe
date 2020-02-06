@@ -11,7 +11,7 @@
 {{-- <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script> --}}
 
 <!-- Autosize - resizes textarea inputs as user types -->
-<script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>
 <!-- Flatpickr (calendar/date/time picker UI) -->
 <script type="text/javascript" src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <!-- Prism - displays formatted code boxes -->
@@ -25,7 +25,8 @@
 <script type="text/javascript" src="{{ asset('assets/js/list.min.js') }}"></script>
 
 <!-- Required theme scripts (Do not remove) -->
-<script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script> --}}
+{{-- <script type="text/javascript" src="{{ asset('assets/js/dropzone.min.js') }}"></script> --}}
 
 <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/avatar.min.js') }}"></script>
@@ -66,7 +67,7 @@
       "closeButton": true,
       "debug": false,
       "newestOnTop": true,
-      "progressBar": true,
+      "progressBar": false,
       "positionClass": "toast-top-right",
       "preventDuplicates": false,
       "onclick": null,

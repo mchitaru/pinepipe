@@ -7,9 +7,11 @@
 
 import jQuery from 'jquery';
 import Draggable from '@shopify/draggable/lib/draggable';
-import Sortable from '@shopify/draggable/lib/sortable';
+// import Sortable from '@shopify/draggable/lib/sortable';
+import { Sortable, Plugins } from '@shopify/draggable';
 import SwapAnimation from '@shopify/draggable/lib/plugins';
 import mrUtil from './util';
+
 
 const mrAutoWidth = (($) => {
   /*
@@ -148,11 +150,12 @@ const mrAutoWidth = (($) => {
 })(jQuery);
 
 const mrChecklist = {
-  sortableChecklists: new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
-    plugins: [SwapAnimation],
+  sortableChecklists: new Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
+    // plugins: [SwapAnimation],
+    plugins: [Plugins.SwapAnimation],
     draggable: '.checklist > .row',
     handle: '.form-group > span > i',
   }),
 };
 
-export { mrChecklist, mrAutoWidth };
+export default { mrChecklist, mrAutoWidth };

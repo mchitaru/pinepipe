@@ -320,7 +320,7 @@ $dz_id = 'task-files-dz';
         }
     });
 
-    myTaskDropzone = new Dropzone("#{{$dz_id}}", {
+    dzTask = $('#{{$dz_id}}').dropzone({
         previewTemplate: document.querySelector('.dz-template').innerHTML,
         createImageThumbnails: false,
         previewsContainer: "#{{$dz_id}}-previews",
@@ -332,27 +332,27 @@ $dz_id = 'task-files-dz';
 
         success: function (file, response) {
             if (response.is_success) {
-                // toastrs('Success', 'File uploaded', 'success');
+                toastrs('File uploaded', 'success');
                 dropzoneBtn(file, response);
                 LetterAvatar.transform();
             } else {
                 this.removeFile(file);
-                // toastrs('Error', response.error, 'error');
+                toastrs(response.error, 'error');
             }
         },
         error: function (file, response) {
             this.removeFile(file);
             if (response.error) {
-                // toastrs('Error', response.error, 'error');
+                toastrs(response.error, 'error');
             } else {
-                // toastrs('Error', response.error, 'error');
+                toastrs(response.error, 'error');
             }
         },
         sending: function(file, xhr, formData) {
             formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
             formData.append("task_id", {{$task->id}});
         },
-    });
+    })[0];
 
     function deleteDropzoneFile(btn) {
 
@@ -364,15 +364,15 @@ $dz_id = 'task-files-dz';
                 if (response.is_success) {
                     btn.closest('.list-group-item').remove();
                 } else {
-                    toastrs('Error', response.error, 'error');
+                    toastrs(response.error, 'error');
                 }
             },
             error: function (response) {
                 response = response.responseJSON;
                 if (response.is_success) {
-                    toastrs('Error', response.error, 'error');
+                    toastrs(response.error, 'error');
                 } else {
-                    toastrs('Error', response.error, 'error');
+                    toastrs(response.error, 'error');
                 }
             }
         });
@@ -395,9 +395,9 @@ $dz_id = 'task-files-dz';
 
     @foreach($files as $file)
         var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
-        myTaskDropzone.emit("addedfile", mockFile);
-        myTaskDropzone.emit("processing", mockFile);
-        myTaskDropzone.emit("complete", mockFile);
+        dzTask.dropzone.emit("addedfile", mockFile);
+        dzTask.dropzone.emit("processing", mockFile);
+        dzTask.dropzone.emit("complete", mockFile);
 
         dropzoneBtn(mockFile, {download: "{{route('tasks.file.download',[$task->id,$file->id])}}", delete: "{{route('tasks.file.delete',[$task->id,$file->id])}}"});
     @endforeach

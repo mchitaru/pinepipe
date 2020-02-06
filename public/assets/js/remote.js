@@ -5,12 +5,14 @@ $(document).on('ajax:success', function(e, data, status, xhr){
     }
    $('#modal').html(xhr.responseText).modal('show');
 
-   flatpickr('[data-flatpickr]');
-    $('select').select2();
+   $('select').select2();
+   $('[data-flatpickr]').mrFlatpickr();
+//    $('form.checklist, .drop-to-delete').mrChecklist();
+//    $('form.checklist .custom-checkbox div input').mrAutoWidth();
    LetterAvatar.transform();
 });
 
 $(document).on('ajax:error', function(e, xhr, status, error){
 
-    toastrs('Error', error, 'error')
+    toastrs(error, 'error')
 });
