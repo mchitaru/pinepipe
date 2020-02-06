@@ -338,6 +338,38 @@ class ProjectsController extends ProjectsSectionController
                 ];
             }
         }
+        else if(\Auth::user()->type == 'company')
+        {
+            $objProject = Project::select(
+                [
+                    'projects.id',
+                    'projects.name',
+                ]
+            )->where('projects.created_by', '=', \Auth::user()->id)->where('projects.name', 'LIKE', $search . "%")->get();
+            $arrProject = [];
+            foreach($objProject as $project)
+            {
+                $arrProject[] = [
+                    'text' => $project->name,
+                    'link' => route('projects.show', [$project->id]),
+                ];
+            }
+
+            $objTask = Task::select(
+                [
+                    'tasks.project_id',
+                    'tasks.title',
+                ]
+            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.created_by', '=', \Auth::user()->id)->where('tasks.title', 'LIKE', $search . "%")->get();
+            $arrTask = [];
+            foreach($objTask as $task)
+            {
+                $arrTask[] = [
+                    'text' => $task->title,
+                    'link' => route('projects.show', [$task->project_id]),
+                ];
+            }
+        }
         else
         {
             $objProject = Project::select(
@@ -373,7 +405,7 @@ class ProjectsController extends ProjectsSectionController
 
         return json_encode(
             [
-                'Project' => $arrProject,
+                'Projects' => $arrProject,
                 'Tasks' => $arrTask,
             ]
         );

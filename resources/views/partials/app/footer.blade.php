@@ -6,7 +6,6 @@
 <!-- Required vendor scripts (Do not remove) -->
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
-<script type="text/javascript" src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script> --}}
@@ -40,11 +39,11 @@
         categories: [
             {
                 listLocation: "Projects",
-                header: "{{ __('PROJECTS') }}"
+                header: "<b>{{ __('PROJECTS') }}</b>"
             },
             {
                 listLocation: "Tasks",
-                header: "{{ __('TASKS') }}"
+                header: "<b>{{ __('TASKS') }}</b>"
             }
         ],
         getValue: "text",
