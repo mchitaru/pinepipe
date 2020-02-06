@@ -200,7 +200,7 @@ $languages=$user->languages();
 
                     <li class="nav-item">
                         <a class="dropdown-item disabled" href="#">{{__('Wiki')}}</a>
-                        <a class="dropdown-item" href="{{ route('sharepoint') }}">{{__('Sharepoint')}}</a>
+                        <a class="dropdown-item disabled" href="{{ route('sharepoint') }}">{{__('Sharepoint')}}</a>
                     </li>
                     </ul>
                 </div>

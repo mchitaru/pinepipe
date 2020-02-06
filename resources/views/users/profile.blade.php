@@ -138,7 +138,7 @@ use App\Http\Helpers;
                     <label class="col-3">Bio</label>
                     <div class="col">
                     <textarea placeholder="Tell us a little about yourself" name="profile-bio" class="form-control" rows="4"></textarea>
-                    <small>This will be displayed on your public profile</small>
+                    <small>{{__('This will be displayed on your public profile')}}</small>
                     </div>
                 </div>
                 <div class="row justify-content-end">
@@ -304,59 +304,59 @@ use App\Http\Helpers;
             @endcan
             <div class="tab-pane fade" role="tabpanel" id="notifications">
                 <form>
-                <h6>Activity Notifications</h6>
+                <h6>{{__('Activity Notifications')}}</h6>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox custom-checkbox-switch">
                     <input type="checkbox" class="custom-control-input" id="notify-1" checked>
-                    <label class="custom-control-label" for="notify-1">Someone assigns me to a task</label>
+                    <label class="custom-control-label" for="notify-1">{{__('Someone assigns me to a task')}}</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox custom-checkbox-switch">
                     <input type="checkbox" class="custom-control-input" id="notify-3" checked>
-                    <label class="custom-control-label" for="notify-3">Someone adds me to a project</label>
+                    <label class="custom-control-label" for="notify-3">{{__('Someone adds me to a project')}}</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox custom-checkbox-switch">
                     <input type="checkbox" class="custom-control-input" id="notify-4">
-                    <label class="custom-control-label" for="notify-4">Activity on a project I am a member of</label>
+                    <label class="custom-control-label" for="notify-4">{{__('Activity on a project I am a member of')}}</label>
                     </div>
                 </div>
                 <div class="form-group mb-md-4">
                     <div class="custom-control custom-checkbox custom-checkbox-switch">
                     <input type="checkbox" class="custom-control-input" id="notify-2" checked>
-                    <label class="custom-control-label" for="notify-2">My items (tasks, invoices ...) are overdue</label>
+                    <label class="custom-control-label" for="notify-2">{{__('My items (tasks, invoices ...) are overdue')}}</label>
                     </div>
                 </div>
-                <h6>Service Notifications</h6>
+                <h6>{{__('Service Notifications')}}</h6>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox custom-checkbox-switch">
                     <input type="checkbox" class="custom-control-input" id="notify-5">
-                    <label class="custom-control-label" for="notify-5">Monthly newsletter</label>
+                    <label class="custom-control-label" for="notify-5">{{__('Monthly newsletter')}}</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox custom-checkbox-switch">
                     <input type="checkbox" class="custom-control-input" id="notify-6" checked>
-                    <label class="custom-control-label" for="notify-6">Major feature enhancements</label>
+                    <label class="custom-control-label" for="notify-6">{{__('Major feature enhancements')}}</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox custom-checkbox-switch">
                     <input type="checkbox" class="custom-control-input" id="notify-7">
-                    <label class="custom-control-label" for="notify-7">Minor updates and bug fixes</label>
+                    <label class="custom-control-label" for="notify-7">{{__('Minor updates and bug fixes')}}</label>
                     </div>
                 </div>
                 <div class="row justify-content-end">
-                    <button type="submit" class="btn btn-primary">Save preferences</button>
+                    <button type="submit" class="btn btn-primary">{{__('Save preferences')}}</button>
                 </div>
                 </form>
             </div>
             @can('manage plan')
             <div class="tab-pane fade" role="tabpanel" id="billing">
                 <form>
-                <h6>Plan Details</h6>
+                <h6>{{__('Plan Details')}}</h6>
                 <div class="card text-center">
                     <div class="card-body">
                     <div class="row">
@@ -375,7 +375,7 @@ use App\Http\Helpers;
                             </div>
             
                             <div class="mb-4">
-                                <h6>Free</h6>
+                                <h6>{{__('Free')}}</h6>
                                 <h5 class="display-4 d-block mb-2 font-weight-normal">${{$plan->price}}</h5>
                                 <span class="text-muted text-small">{{$plan->duration}}</span>
                             </div>
@@ -401,7 +401,7 @@ use App\Http\Helpers;
                 </div>
                 </form>
                 <form class="mt-4">
-                <h6>Payment Method</h6>
+                <h6>{{__('Payment Method')}}</h6>
 
                 <div class="card">
                     <div class="card-body">
@@ -420,8 +420,8 @@ use App\Http\Helpers;
                         <small class="ml-2">Exp: 06/21</small>
                         </div>
                         <div class="col-auto">
-                        <button class="btn btn-sm btn-danger">
-                            Remove Card
+                        <button class="btn btn-sm btn-danger disabled">
+                            {{__('Remove Card')}}
                         </button>
                         </div>
                     </div>
@@ -446,8 +446,8 @@ use App\Http\Helpers;
 
                         </div>
                         <div class="col-auto">
-                        <button class="btn btn-sm btn-primary">
-                            Manage account
+                        <button class="btn btn-sm btn-primary disabled">
+                            {{__('Manage account')}}
                         </button>
                         </div>
                     </div>
@@ -472,8 +472,8 @@ use App\Http\Helpers;
                         </div>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-sm btn-danger">
-                        Revoke
+                        <button class="btn btn-sm btn-danger disabled">
+                        {{__('Revoke')}}
                         </button>
                     </div>
                     </div>
@@ -493,8 +493,8 @@ use App\Http\Helpers;
                         </div>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-sm btn-danger">
-                        Revoke
+                        <button class="btn btn-sm btn-danger disabled">
+                        {{__('Revoke')}}
                         </button>
                     </div>
                     </div>
@@ -514,8 +514,8 @@ use App\Http\Helpers;
                         </div>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-sm btn-danger">
-                        Revoke
+                        <button class="btn btn-sm btn-danger disabled">
+                        {{__('Revoke')}}
                         </button>
                     </div>
                     </div>
@@ -535,8 +535,8 @@ use App\Http\Helpers;
                         </div>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-sm btn-danger">
-                        Revoke
+                        <button class="btn btn-sm btn-danger disabled">
+                        {{__('Revoke')}}
                         </button>
                     </div>
                     </div>
