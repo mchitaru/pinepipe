@@ -59,6 +59,6 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return $this->tasks->toArray();
+        return $this->tasks->pluck('title', 'id')->toArray();
     }
 }

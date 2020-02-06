@@ -11,10 +11,16 @@ $languages=$user->languages();
 
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible">
     <div class="w-100 d-none d-lg-block">
-        @include('partials.app.brand')
+        <a class="navbar-brand float-left" href="{{ route('home') }}">
+            <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
+        </a>        
+        @include('partials.app.notifications')
     </div>
     <div class="d-lg-none">
-        @include('partials.app.brand')
+        <a class="navbar-brand float-left" href="{{ route('home') }}">
+            <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
+        </a>        
+        @include('partials.app.notifications')
     </div>
     <div class="d-flex align-items-center">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
