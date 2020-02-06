@@ -1,24 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name') }}</title>
-    <link rel="stylesheet" href="/vendor/translation/css/main.css">
-</head>
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<link rel="stylesheet" href="/vendor/translation/css/main.css">
+
+@include('partials.app.head')
+
 <body>
+    <div class="layout layout-nav-side">
+
+    {{-- <div class="layout layout-nav-top"> --}}
     
-    <div id="app">
-        
-        @include('translation::nav')
-        @include('translation::notifications')
-        
-        @yield('body')
-        
+        @include('partials.app.sidebar')
+        {{-- @include('partials.app.header') --}}
+
+        <div class="main-container">
+
+        <div id="app">
+            
+            @include('translation::nav')
+            @include('translation::notifications')
+            
+            @yield('body')
+            
+        </div>
     </div>
-    
-    <script src="/vendor/translation/js/app.js"></script>
+
+</div>
+
+@include('partials.app.footer')
+<script src="/vendor/translation/js/app.js"></script>
+
 </body>
+
 </html>

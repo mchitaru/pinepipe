@@ -62,13 +62,6 @@ Route::group(
         Route::put('contacts/{contact}', 'ContactsController@update')->name('contacts.update');
         Route::delete('contacts/{contact}', 'ContactsController@destroy')->name('contacts.destroy');
 
-        //Language
-        // Route::get('languages/{lang}', 'LanguageController@changeLanquage')->name('language.change');
-        // Route::get('languages/{lang}', 'LanguageController@index')->name('languages.index');
-        // Route::get('languages', 'LanguageController@create')->name('language.create');
-        // Route::post('languages', 'LanguageController@store')->name('languages.store');
-        // Route::put('languages/{lang}', 'LanguageController@update')->name('languages.update');
-
         //Profile
         Route::get('profile', 'UserProfileController@show')->name('profile.show');
         Route::put('profile', 'UserProfileController@update')->name('profile.update');
