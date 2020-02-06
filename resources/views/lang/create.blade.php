@@ -1,11 +1,15 @@
-{{ Form::open(array('route' => array('store.language'))) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
+@extends('layouts.modal')
+
+@section('form-start')
+    {{ Form::open(array('route' => array('languages.store'))) }}
+@endsection
+
+@section('title')
+    {{__('Add New Language')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
     <div class="row">
         <div class="form-group col-md-12">
             {{ Form::label('code', __('Language Code')) }}
@@ -18,9 +22,15 @@
         </div>
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
-</div>
+@include('partials.errors')
+@endsection
+
+@section('footer')
+    {{Form::submit(__('Create'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+@endsection
+
+@section('form-end')
 {{ Form::close() }}
+@endsection
+
 

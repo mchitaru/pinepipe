@@ -31,9 +31,9 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between w-100">
                             <h4>{{__('Languages')}}</h4>
-                            <button class="btn btn-round" data-url="{{ route('create.language') }}" data-ajax-popup="true" data-title="{{__('Create New Language')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                            <a href="{{ route('language.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
-                            </button>        
+                            </a>        
                         </div>
                     </div>
                     <div class="card-body">
@@ -45,7 +45,7 @@
 
                                             @foreach($languages as $lang)
                                                 <li class="nav-item">
-                                                    <a  href="{{route('manage.language',[$lang])}}" class="nav-link {{($currantLang == $lang)?'active':''}}">{{Str::upper($lang)}}</a>
+                                                    <a  href="{{route('languages.index',[$lang])}}" class="nav-link {{($currantLang == $lang)?'active':''}}">{{Str::upper($lang)}}</a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -67,8 +67,9 @@
                                                 </ul>
                                                 <div class="tab-content" id="myTabContent">
                                                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                                        <form method="post" action="{{route('store.language.data',[$currantLang])}}">
+                                                        <form method="post" action="{{route('languages.update',[$currantLang])}}">
                                                             @csrf
+                                                            @method('PUT')
                                                             <div class="row">
                                                                 @foreach($arrLabel as $label => $value)
                                                                     <div class="col-md-6">
@@ -86,8 +87,9 @@
                                                         </form>
                                                     </div>
                                                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                                        <form method="post" action="{{route('store.language.data',[$currantLang])}}">
+                                                        <form method="post" action="{{route('languages.update',[$currantLang])}}">
                                                             @csrf
+                                                            @method('PUT')
                                                             <div class="row">
                                                                 @foreach($arrMessage as $fileName => $fileValue)
                                                                     <div class="col-lg-12">

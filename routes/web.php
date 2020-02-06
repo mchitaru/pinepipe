@@ -63,11 +63,11 @@ Route::group(
         Route::delete('contacts/{contact}', 'ContactsController@destroy')->name('contacts.destroy');
 
         //Language
-        Route::get('change-language/{lang}', 'LanguagesController@changeLanquage')->name('change.language');
-        Route::get('manage-language/{lang}', 'LanguagesController@manageLanguage')->name('manage.language');
-        Route::post('store-language-data/{lang}', 'LanguagesController@storeLanguageData')->name('store.language.data');
-        Route::get('create-language', 'LanguagesController@createLanguage')->name('create.language');
-        Route::post('store-language', 'LanguagesController@storeLanguage')->name('store.language');
+        // Route::get('languages/{lang}', 'LanguageController@changeLanquage')->name('language.change');
+        // Route::get('languages/{lang}', 'LanguageController@index')->name('languages.index');
+        // Route::get('languages', 'LanguageController@create')->name('language.create');
+        // Route::post('languages', 'LanguageController@store')->name('languages.store');
+        // Route::put('languages/{lang}', 'LanguageController@update')->name('languages.update');
 
         //Profile
         Route::get('profile', 'UserProfileController@show')->name('profile.show');

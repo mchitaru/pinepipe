@@ -33,7 +33,7 @@ $languages=$user->languages();
     @if(\Auth::user()->type=='super admin')
         @can('create language')
         <li class="nav-item">
-            <a class="nav-link" href="{{route('manage.language',[$currantLang])}}">{{__('Languages')}}</a>
+            <a class="nav-link" href="{{route('languages.index',[$currantLang])}}">{{__('Languages')}}</a>
         </li>
         @endcan
 

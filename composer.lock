@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0313c8e4dca7aa9ea49e0a2246143bfb",
+    "content-hash": "fa90c5f3508eb85bf508a3ce92d71821",
     "packages": [
         {
             "name": "alexusmai/laravel-file-manager",
@@ -772,6 +772,52 @@
                 "tokenizer"
             ],
             "time": "2018-03-21T22:21:57+00:00"
+        },
+        {
+            "name": "joedixon/laravel-translation",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joedixon/laravel-translation.git",
+                "reference": "d46cd7f9667bad5950a7e690d914599fdf17795f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joedixon/laravel-translation/zipball/d46cd7f9667bad5950a7e690d914599fdf17795f",
+                "reference": "d46cd7f9667bad5950a7e690d914599fdf17795f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JoeDixon\\Translation\\TranslationServiceProvider",
+                        "JoeDixon\\Translation\\TranslationBindingsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JoeDixon\\Translation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joe Dixon",
+                    "email": "hello@joedixon.co.uk"
+                }
+            ],
+            "description": "A tool for managing all of your Laravel translations",
+            "time": "2020-02-05T20:16:39+00:00"
         },
         {
             "name": "laravel/framework",
