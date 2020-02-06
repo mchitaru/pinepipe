@@ -48,21 +48,5 @@ class LoginController extends Controller
         {
             auth()->logout();
         }
-
-        if($user->type == 'company')
-        {
-            $free_plan = PaymentPlan::where('price', '=', '0.0')->first();
-
-            if($user->plan_id != $free_plan->id)//to do: move to cron!!
-            {
-                if(date('Y-m-d') > $user->plan_expire_date)
-                {
-                    $user->assignPlan($free_plan->id);
-
-                    return redirect()->route(RouteServiceProvider::HOME)->with('error', 'Your payment plan expired. Please upgrade to continue using all the features!');
-                }
-            }
-        }
-
     }
 }

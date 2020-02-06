@@ -208,6 +208,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return Task::with('project')->where('created_by', '=', $this->creatorId());
     }
     
+    public function planByUserType()
+    {
+        if($this->type == 'client' || 
+            $this->type == 'company'){
+
+            return $this->plan;
+        }else{
+
+            $company = User::with('plan')->find($this->creatorId());
+            return $company->plan;
+        }    
+    }
+
     public function projectsByUserType()
     {
         if($this->type == 'client'){
@@ -488,9 +501,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $total_users < $plan->max_users;
     }
 
-    public function assignPlan($planID)
+    public function assignPlan($planId)
     {
-        $plan = PaymentPlan::find($planID);
+        $plan = PaymentPlan::find($planId);
 
         if($plan)
         {
@@ -509,9 +522,9 @@ class User extends Authenticatable implements MustVerifyEmail
             }
             $this->save();
 
-            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $users    = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
-            $clients  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', 'client')->get();
+            $projects = Project::where('created_by', '=', $this->creatorId())->get();
+            $users    = User::where('created_by', '=', $this->creatorId())->where('type', '!=', 'client')->get();
+            $clients  = User::where('created_by', '=', $this->creatorId())->where('type', 'client')->get();
 
             $projectCount = 0;
             foreach($projects as $project)

@@ -15,13 +15,25 @@
             <div class="dropdown-divider"></div> --}}
 
             @foreach ($user->notifications as $notification)
-                @foreach ($notification->data as $key=>$task)
-                <li>
-                    <a class="dropdown-item" href="{{route('tasks.show', $key)}}" data-remote="true" data-type="text">
-                            {!!__('Task ').'<u>'.$task.'</u>'.__(' is overdue')!!}
-                    </a>
-                </li>
-                @endforeach
+                @if($notification->type == 'App\Notifications\TaskOverdueAlert')
+                    @foreach ($notification->data as $key=>$task)
+                    <li>
+                        <a class="dropdown-item" href="{{route('tasks.show', $key)}}" data-remote="true" data-type="text">
+                                {!!__('Task ').'<u>'.$task.'</u>'.__(' is overdue')!!}
+                                <small class="badge badge-info">{{ $notification->created_at->diffForHumans() }}</small>
+                        </a>
+                    </li>
+                    @endforeach
+                @elseif($notification->type == 'App\Notifications\PaymentPlanExpiredAlert')
+                    @foreach ($notification->data as $key=>$message)
+                    <li>
+                        <a class="dropdown-item" href="{{route('profile.show')}}/#billing">
+                                {!! $message !!}
+                                <small class="badge badge-info">{{ $notification->created_at->diffForHumans() }}</small>
+                        </a>
+                    </li>
+                    @endforeach
+            @endif
             @endforeach                
         @else
             <li>{{__('Nothing to see here')}}</li>

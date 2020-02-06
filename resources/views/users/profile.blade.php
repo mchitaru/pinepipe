@@ -72,9 +72,11 @@ use App\Http\Helpers;
         <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">{{__('Email Notifications')}}</a>
         </li>
+        @can('manage plan')
         <li class="nav-item">
             <a class="nav-link" id="billing-tab" data-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">{{__('Billing Details')}}</a>
         </li>
+        @endcan
         <li class="nav-item">
             <a class="nav-link" id="integrations-tab" data-toggle="tab" href="#integrations" role="tab" aria-controls="integrations" aria-selected="false">{{__('Integrations')}}</a>
         </li>
@@ -389,7 +391,7 @@ use App\Http\Helpers;
                                 </li>
                             </ul>
                             <div class="custom-control custom-radio d-inline-block">
-                                <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->type=='company' && \Auth::user()->plan_id == $plan->id)?'checked':''}} disabled>
+                                <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->planByUserType()->id == $plan->id)?'checked':''}} disabled>
                                 <label class="custom-control-label" for="plan-radio-1"></label>
                             </div>
                         </div>

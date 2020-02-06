@@ -4,22 +4,23 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Jobs\TaskReminderJob;
+use App\Jobs\PaymentPlanReminderJob;
 
-class AppReminders extends Command
+class DailyReminders extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:reminders';
+    protected $signature = 'app:dailyreminders';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send reminders for app items';
+    protected $description = 'Send daily reminders for app items';
 
     /**
      * Create a new command instance.
@@ -39,6 +40,7 @@ class AppReminders extends Command
     public function handle()
     {
         TaskReminderJob::dispatch();
+        PaymentPlanReminderJob::dispatch();
 
         $this->info('Reminders sent successfully');
     }
