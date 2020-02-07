@@ -8,9 +8,6 @@
     <link href='assets/module/fullcalendar/css/bootstrap.min.css' rel='stylesheet' />
     <link href='assets/module/fullcalendar/css/bootstrap.min.css' rel='stylesheet' />
     <link href='assets/module/fullcalendar/css/all.min.css' rel='stylesheet' />
-
-
-    {{-- <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'> --}}
 @endpush
 
 @push('scripts')
@@ -36,19 +33,32 @@
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
+        defaultView: (localStorage.getItem("fcDefaultView") ? localStorage.getItem("fcDefaultView") : "listMonth"),
         weekNumbers: true,
         eventLimit: true, // allow "more" link when too many events
         selectable: true,
         events: events,
 
-        dateClick: function(info) {
-            alert('Clicked on: ' + info.dateStr);
-            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            alert('Current view: ' + info.view.type);
-            // change the day's background color just for fun
-            info.dayEl.style.backgroundColor = 'red';
-        },        
-        eventClick: function(info) {
+        select: function(info)
+        {
+            $.ajax({
+                url: '{{url("/events/create")}}',
+                type: 'get',
+                data: {start: info.startStr, end: info.endStr, "_token": $('meta[name="csrf-token"]').attr('content')},
+                dataType: 'text',
+                    success: function(data, status, xhr) {
+                        $(document).trigger('ajax:success', [data, status, xhr]);
+                    },
+                    complete: function(xhr, status) {
+                        $(document).trigger('ajax:complete', [xhr, status]);
+                    },
+                    error: function(xhr, status, error) {
+                        $(document).trigger('ajax:error', [xhr, status, error]);
+                    }
+            });
+        },
+        eventClick: function(info) 
+        {
             info.jsEvent.preventDefault(); // don't let the browser navigate
 
             if (info.event.url) {
@@ -68,6 +78,11 @@
                         }
                 });
             }
+        },
+        datesRender: function (info) 
+        {
+            // when the view changes, we update our localStorage value with the new view name
+            localStorage.setItem("fcDefaultView", info.view.type);
         }        
         });
 

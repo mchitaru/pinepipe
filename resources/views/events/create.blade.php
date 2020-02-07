@@ -23,13 +23,13 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('start', __('Start Date'), array('class'=>'col-3')) }}
-            {{ Form::date('start', '', array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Select Date', 
-                                                'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> date('Y-m-d H:i'), 'data-alt-input')) }}
+            {{ Form::date('start', null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Select Date', 
+                                                'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $start?$start:date('Y-m-d H:i'), 'data-alt-input')) }}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('end', __('End Date'), array('class'=>'col-3')) }}
-            {{ Form::date('end', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
-                                                'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> date('Y-m-d H:i'), 'data-alt-input')) }}
+            {{ Form::date('end', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
+                                                'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $end?$end:date('Y-m-d H:i'), 'data-alt-input')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>

@@ -29,12 +29,15 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $start = $request->start;
+        $end = $request->end;
+        
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
 
-        return view('events.create', compact('categories', 'owners'));
+        return view('events.create', compact('categories', 'owners', 'start', 'end'));
     }
 
     /**
@@ -46,7 +49,6 @@ class EventController extends Controller
     public function store(EventStoreRequest $request)
     {
         $post = $request->validated();
-        dump($post);
 
         Event::createEvent($post);
 
