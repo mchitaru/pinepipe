@@ -206,7 +206,7 @@ class UsersController extends UsersSectionController
     {
         \Auth::user()->unreadNotifications->markAsRead();
         
-        return true;
+        return response('');
     }
 
     public function authRouteAPI(Request $request){

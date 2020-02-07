@@ -67,7 +67,7 @@
       "closeButton": true,
       "debug": false,
       "newestOnTop": true,
-      "progressBar": false,
+      "progressBar": true,
       "positionClass": "toast-top-right",
       "preventDuplicates": false,
       "onclick": null,
