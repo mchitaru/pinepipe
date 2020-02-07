@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('queue:work --queue=default --tries=1 --timeout=40 --stop-when-empty')->everyMinute();
-        $schedule->command('app:reminders')->daily()->name('reminders')->withoutOverlapping(5);
-        // $schedule->command('app:dailyreminders')->everyMinute()->name('reminders')->withoutOverlapping(5);
+        // $schedule->command('event:reminders')->everyMinute()->withoutOverlapping(5);
+        $schedule->command('app:dailyreminders')->everyMinute()->withoutOverlapping(5);
 
         // $schedule->command('inspire')
         //          ->hourly();
