@@ -34,6 +34,9 @@ Route::group(
         //Calendar
         Route::resource('calendar', 'CalendarController');
 
+        //Events
+        Route::resource('events', 'EventController');
+
         //Sharepoint
         Route::get('sharepoint', 'SharepointController@index')->name('sharepoint');
 

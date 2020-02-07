@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class LeadsTableSeeder extends Seeder
+class EventCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,6 @@ class LeadsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Lead::class, 5)->create();
-        // factory(App\Lead::class, 5)->states('contact')->create();
+        //
     }
 }

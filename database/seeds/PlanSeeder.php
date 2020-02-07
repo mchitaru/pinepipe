@@ -3,7 +3,7 @@
 use App\PaymentPlan;
 use Illuminate\Database\Seeder;
 
-class PlansTableSeeder extends Seeder
+class PlanSeeder extends Seeder
 {
     /**
      * Run the database seeds.

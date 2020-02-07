@@ -18,6 +18,7 @@ class Lead extends Model
         'created_by',
         'notes'
     ];
+    
     public function user()
     {
         return $this->hasOne('App\User', 'id', 'user_id');

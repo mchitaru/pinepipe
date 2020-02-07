@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class UsersTableSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -68,6 +68,11 @@ class UsersTableSeeder extends Seeder
             'create lead',
             'edit lead',
             'delete lead',
+            'manage event',
+            'create event',
+            'show event',
+            'edit event',
+            'delete event',
             'manage project',
             'create project',
             'edit project',
@@ -275,6 +280,11 @@ class UsersTableSeeder extends Seeder
             "create lead",
             "edit lead",
             "delete lead",
+            'manage event',
+            'create event',
+            'show event',
+            'edit event',
+            'delete event',
             "manage project",
             "create project",
             "edit project",
@@ -336,8 +346,8 @@ class UsersTableSeeder extends Seeder
             $companyRole->givePermissionTo($permission);
         }
 
-        UsersTableSeeder::addCompany('Company');
-        // UsersTableSeeder::addCompany('Gemini');
+        UserSeeder::addCompany('Company');
+        // UserSeeder::addCompany('Gemini');
     }
 
     private static function addCompany($name)

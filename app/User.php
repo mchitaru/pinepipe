@@ -155,6 +155,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany('App\Task', 'user_tasks');
     }
 
+    public function events()
+    {
+        return $this->hasMany('App\Event', 'user_id', 'id');
+    }
+
     public function staffTasks()
     {
         return Task::whereHas('users', function ($query) {
@@ -605,6 +610,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'manage account',
             'change password account',
             'edit account',
+            'create event',
+            'manage event',
+            'edit event',
+            'show event',
             'manage project',
             'show project',
             'create task',
@@ -758,6 +767,26 @@ class User extends Authenticatable implements MustVerifyEmail
                 ]
             );
         }
+
+        // EventCategory
+        $eventCat = [
+            'Call',
+            'Meeting',
+            'ToDo',
+            'Deadline',
+            'Email',
+            'Lunch'            
+        ];
+        foreach($eventCat as $category)
+        {
+            EventCategory::create(
+                [
+                    'name' => $category,
+                    'created_by' => $id,
+                ]
+            );
+        }
+
     }
 
     public function destroyUserProjectInfo($user_id)

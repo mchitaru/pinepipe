@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TaxTableSeeder extends Seeder
+class LeadSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,7 @@ class TaxTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Tax::class, 1)->create();
+        factory(App\Lead::class, 5)->create();
+        // factory(App\Lead::class, 5)->states('contact')->create();
     }
 }

@@ -18,16 +18,17 @@
     <script src="{{asset('assets/module/fullcalendar/js/daygrid.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/js/list.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/js/timegrid.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/js/interaction.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/js/all.min.js')}}"></script>
 
     <script>
-        var tasks = {!! ($due_tasks) !!};
+        var events = {!! ($events) !!};
 
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap' ],
+        plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap', 'interaction' ],
         timeZone: 'UTC',
         themeSystem: 'bootstrap',
         header: {
@@ -37,8 +38,16 @@
         },
         weekNumbers: true,
         eventLimit: true, // allow "more" link when too many events
-        events: tasks,
+        selectable: true,
+        events: events,
 
+        dateClick: function(info) {
+            alert('Clicked on: ' + info.dateStr);
+            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+            alert('Current view: ' + info.view.type);
+            // change the day's background color just for fun
+            info.dayEl.style.backgroundColor = 'red';
+        },        
         eventClick: function(info) {
             info.jsEvent.preventDefault(); // don't let the browser navigate
 
@@ -75,9 +84,9 @@
 <div class="breadcrumb-bar navbar bg-white sticky-top">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a>
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Calendar</li>
+            <li class="breadcrumb-item active" aria-current="page">{{__('Calendar')}}</li>
         </ol>
     </nav>
 
@@ -87,7 +96,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">New Event</a>
+            <a class="dropdown-item" href="{{ route('events.create') }}" data-remote="true" data-type="text">{{__('New Event')}}</a>
 
         </div>
     </div>
