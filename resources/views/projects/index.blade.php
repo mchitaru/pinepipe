@@ -51,7 +51,7 @@ use App\Http\Helpers;
                                     </a>
                                 @endcan
                                 @can('manage invite user')
-                                    <a class="dropdown-item" href="{{ route('project.invite', $project->id) }}" data-remote="true" data-type="text">
+                                    <a class="dropdown-item" href="{{ route('projects.invite.create', $project->id) }}" data-remote="true" data-type="text">
                                         {{__('Add User')}}
                                     </a>
                                 @endcan

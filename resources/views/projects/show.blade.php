@@ -148,7 +148,7 @@
 
                 @can('invite user project')
 
-                <a href="{{ route('project.invite', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
+                <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
                     <i class="material-icons">add</i>
                 </a>
                 @endcan

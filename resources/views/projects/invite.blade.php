@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::open(array('route' => array('invite',$project_id))) }}
+    {{ Form::open(array('route' => array('projects.invite.store',$project->id))) }}
 @endsection
 
 @section('title')

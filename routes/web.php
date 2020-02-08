@@ -132,8 +132,8 @@ Route::group(
         
         Route::put('projects/{project}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO
         
-        Route::get('projects/invite/{project}', 'ProjectsController@userInvite')->name('project.invite');
-        Route::post('projects/invite/{project}', 'ProjectsController@Invite')->name('invite');
+        Route::get('projects/{project}/invite', 'ProjectInviteController@create')->name('projects.invite.create');
+        Route::post('projects/{project}/invite', 'ProjectInviteController@store')->name('projects.invite.store');
 
         Route::get('projects/{project}/client/{client}/permission', 'ProjectsController@clientPermission')->name('projects.client.permission');
         Route::put('projects/{project}/client/{client}/permission', 'ProjectsController@storeClientPermission')->name('projects.client.permission.store');
