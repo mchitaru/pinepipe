@@ -117,6 +117,7 @@ Route::group(
         Route::get('projects/{project}', 'ProjectsController@show')->name('projects.show');
         Route::get('projects/{project}/edit', 'ProjectsController@edit')->name('projects.edit');
         Route::put('projects/{project}', 'ProjectsController@update')->name('projects.update');
+        Route::patch('projects/{project}', 'ProjectsController@update')->name('projects.update');
         Route::delete('projects/{project}', 'ProjectsController@destroy')->name('projects.destroy');
 
         Route::get('projects/{project}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');

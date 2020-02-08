@@ -28,6 +28,8 @@ use App\Utility;
 use Auth;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class ProjectsController extends ProjectsSectionController
 {

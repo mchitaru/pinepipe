@@ -56,7 +56,14 @@ use App\Http\Helpers;
                                     </a>
                                 @endcan
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
+
+                                @can('edit project')
+                                    {!! Form::open(['method' => 'PATCH', 'route' => ['projects.update', $project->id]]) !!}
+                                    {!! Form::hidden('archived', !$project->archived?1:0) !!}
+                                    {!! Form::submit(!$project->archived?__('Archive'):__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+
                                 @can('delete project')
                                     <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                         {{__('Delete')}}
@@ -77,7 +84,11 @@ use App\Http\Helpers;
                         </a>
                     @endcan
 
-                    <span class="badge badge-secondary">{{!$project->archived?__('Active'):__('Completed')}}</span>
+                    @if(!$project->archived)
+                        <span class="badge badge-primary">{{__('Active')}}</span>
+                    @else
+                        <span class="badge badge-secondary">{{__('Archived')}}</span>
+                    @endif
                 </div>
                 <ul class="avatars">
 

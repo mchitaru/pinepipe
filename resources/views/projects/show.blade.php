@@ -84,7 +84,12 @@
             @endcan
             <a class="dropdown-item" href="#">Share</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Archive</a>
+            @can('edit project')
+                {!! Form::open(['method' => 'PATCH', 'route' => ['projects.update', $project->id]]) !!}
+                {!! Form::hidden('archived', !$project->archived?1:0) !!}
+                {!! Form::submit(!$project->archived?__('Archive'):__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
+                {!! Form::close() !!}
+            @endcan
             @can('delete project')
                 <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                     {{__('Delete')}}
@@ -163,8 +168,11 @@
                 </div>
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
-                    <i class="material-icons">done</i>
-                    <span>{{!$project->archived?__('Active'):__('Completed')}}</span>
+                    @if(!$project->archived)
+                        <span class="badge badge-primary">{{__('Active')}}</span>
+                    @else
+                        <span class="badge badge-secondary">{{__('Archived')}}</span>
+                    @endif
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
                     <i class="material-icons">playlist_add_check</i>

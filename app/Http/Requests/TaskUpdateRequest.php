@@ -64,8 +64,8 @@ class TaskUpdateRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        if ($this->isMethod('put')){
-
+        if ($this->isMethod('put'))
+        {
             $task = $this->route()->parameter('task');
 
             return route('tasks.edit', $task);

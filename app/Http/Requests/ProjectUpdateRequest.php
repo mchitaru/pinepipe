@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\URL;
 
 class ProjectUpdateRequest extends FormRequest
 {
@@ -30,22 +31,37 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|min:2|max:60',
-            'start_date' => 'required|date',
-            'due_date' => 'required|date',
-            'client_id' => 'nullable|integer',
-            'user_id' => 'nullable|array',
-            'lead_id' => 'nullable|integer',
-            'price' => 'required|numeric',
-            'description' => 'nullable|string',
-        ];
+        if ($this->isMethod('put'))
+        {
+            return [
+                'name' => 'required|min:2|max:60',
+                'start_date' => 'required|date',
+                'due_date' => 'required|date',
+                'client_id' => 'nullable|integer',
+                'user_id' => 'nullable|array',
+                'lead_id' => 'nullable|integer',
+                'price' => 'required|numeric',
+                'description' => 'nullable|string',
+            ];
+        }else
+        {
+            return [
+                'archived' => 'nullable|boolean'
+            ];
+        }
     }
 
     protected function getRedirectUrl()
     {
-        $project = $this->route()->parameter('project');
+        if ($this->isMethod('put'))
+        {
+            $project = $this->route()->parameter('project');
 
-        return route('projects.edit', $project);
+            return route('projects.edit', $project);
+        }
+        else
+        {
+            return URL::previous();
+        }
     }
 }
