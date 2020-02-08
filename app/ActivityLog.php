@@ -18,7 +18,7 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
-                'log_type' => 'Create Task',
+                'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
                             __('created task') .
                             ' <a href="' . route('tasks.show', $task->id) . '" data-remote="true" data-type="text">'. $task->title.'</a>',
@@ -32,7 +32,7 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
-                'log_type' => 'Update Task',
+                'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
                             __('updated task') .
                             ' <a href="' . route('tasks.show', $task->id) . '" data-remote="true" data-type="text">'. $task->title.'</a>',
@@ -46,7 +46,7 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
-                'log_type' => 'Delete Task',
+                'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
                             __('deleted task') .
                             ' <b>'. $task->title.'</b>',
@@ -60,10 +60,10 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
-                'log_type' => 'Create Project',
+                'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
                             __('created project') .
-                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->title.'</a>',
+                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->name.'</a>',
             ]
         );
     }
@@ -74,10 +74,10 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
-                'log_type' => 'Update Project',
+                'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('updated task') .
-                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->title.'</a>',
+                            __('updated project') .
+                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->name.'</a>',
             ]
         );
     }
@@ -88,9 +88,9 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
-                'log_type' => 'Delete Task',
+                'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('deleted task') .
+                            __('deleted project') .
                             ' <b>'. $project->name.'</b>',
             ]
         );
@@ -102,7 +102,7 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $file->project->id,
-                'log_type' => 'Upload File',
+                'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
                             __('uploaded file') .
                             ' <a href="' . route('projects.file.download', [$file->project->id, $file->id]) . '">'. $file->file_name.'</a>',
@@ -116,7 +116,7 @@ class ActivityLog extends Model
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $file->task->project_id,
-                'log_type' => 'Upload File',
+                'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
                             __('uploaded file') .
                             ' <a href="' . route('tasks.file.download', [$file->task->id, $file->id]) . '">'. $file->file_name.'</a>',
