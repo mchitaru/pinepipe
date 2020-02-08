@@ -15,11 +15,11 @@ class UsersSectionController extends Controller
         {
             if(\Auth::user()->type == 'super admin')
             {
-                $users = User::where('created_by', '=', $user->creatorId())->where('type', '=', 'company')->get();
+                $users = User::withTrashed()->where('created_by', '=', $user->creatorId())->where('type', '=', 'company')->get();
             }
             else
             {
-                $users = User::where('created_by', '=', $user->creatorId())->where('type', '!=', 'client')->get();
+                $users = User::withTrashed()->where('created_by', '=', $user->creatorId())->where('type', '!=', 'client')->get();
             }
 
             if(\Auth::user()->can('manage role'))

@@ -58,10 +58,16 @@ use App\Http\Helpers;
                                 <div class="dropdown-divider"></div>
 
                                 @can('edit project')
-                                    {!! Form::open(['method' => 'PATCH', 'route' => ['projects.update', $project->id]]) !!}
-                                    {!! Form::hidden('archived', !$project->archived?1:0) !!}
-                                    {!! Form::submit(!$project->archived?__('Archive'):__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
-                                    {!! Form::close() !!}
+                                    @if(!$project->archived)
+                                        <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="patch" data-remote="true" data-type="text">
+                                            <span>{{__('Archive')}}</span>
+                                        </a>
+                                    @else
+                                        {!! Form::open(['method' => 'PATCH', 'route' => ['projects.update', $project->id]]) !!}
+                                        {!! Form::hidden('archived', 0) !!}
+                                        {!! Form::submit(__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
+                                        {!! Form::close() !!}
+                                    @endif
                                 @endcan
 
                                 @can('delete project')

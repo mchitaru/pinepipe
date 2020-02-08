@@ -10,12 +10,13 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasRoles;
     use Notifiable;
-
+    use SoftDeletes;
 
     protected $appends = ['profile'];
 
@@ -26,7 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'type',
         'avatar',
         'lang',
-        'delete_status',
         'plan_id',
         'plan_expire_date',
         'created_by',

@@ -83,6 +83,11 @@ class ProjectsController extends ProjectsSectionController
 
     public function update(ProjectUpdateRequest $request, Project $project)
     {
+        if($request->ajax())
+        {
+            return view('helpers.archive');
+        }
+
         $post = $request->validated();
 
         $project->updateProject($post);

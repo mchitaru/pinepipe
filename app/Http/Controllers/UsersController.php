@@ -116,51 +116,79 @@ class UsersController extends UsersSectionController
     }
 
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, $user_id)
     {
-
-        if(\Auth::user()->can('edit user'))
+        if($request->ajax())
         {
-            if(\Auth::user()->type == 'super admin')
+            return view('helpers.archive');
+        }
+
+        if($request->isMethod('put'))
+        {
+            $user = User::find($user_id);
+            
+            if(\Auth::user()->can('edit user'))
             {
-                $this->validate(
-                    $request, [
-                                'name' => 'required|max:120',
-                                'email' => 'required|email|unique:users,email,' . $user->id,
-                            ]
-                );
-                $input = $request->all();
-                $user->fill($input)->save();
+                if(\Auth::user()->type == 'super admin')
+                {
+                    $this->validate(
+                        $request, [
+                                    'name' => 'required|max:120',
+                                    'email' => 'required|email|unique:users,email,' . $user->id,
+                                ]
+                    );
+                    $input = $request->all();
+                    $user->fill($input)->save();
 
-                return redirect()->route('users.index')->with(
-                    'success', 'User successfully updated.'
-                );
-            }
-            else
-            {
-                $this->validate(
-                    $request, [
-                                'name' => 'required|max:120',
-                                'email' => 'required|email|unique:users,email,' . $user->id,
-                                'role' => 'required',
-                            ]
-                );
+                    return redirect()->route('users.index')->with(
+                        'success', 'User successfully updated.'
+                    );
+                }
+                else
+                {
+                    $this->validate(
+                        $request, [
+                                    'name' => 'required|max:120',
+                                    'email' => 'required|email|unique:users,email,' . $user->id,
+                                    'role' => 'required',
+                                ]
+                    );
 
-                $role          = Role::findById($request->role);
-                $input         = $request->all();
-                $input['type'] = $role->name;
-                $user->fill($input)->save();
+                    $role          = Role::findById($request->role);
+                    $input         = $request->all();
+                    $input['type'] = $role->name;
+                    $user->fill($input)->save();
 
-                $roles[] = $request->role;
-                $user->roles()->sync($roles);
+                    $roles[] = $request->role;
+                    $user->roles()->sync($roles);
 
-                return Redirect::to(URL::previous() . "#users")->with('success', __('User successfully updated.'));
+                    return Redirect::to(URL::previous() . "#users")->with('success', __('User successfully updated.'));
+                }
             }
         }
         else
-        {
-            return redirect()->back();
+        {    
+            //soft delete
+            if(\Auth::user()->can('delete user'))
+            {
+                $user = User::withTrashed()->find($user_id);
+                
+                if(!$user->trashed())
+                {    
+                    $user->delete();
+                    $request->session()->flash('success', __('User successfully deleted.'));
+                }
+                else
+                {
+                    $user->restore();
+                    $request->session()->flash('success', __('User successfully restored.'));
+                }
+        
+                return Redirect::to(URL::previous() . "#users");
+            }
         }
+
+        return redirect()->back();
     }
 
 
@@ -173,21 +201,13 @@ class UsersController extends UsersSectionController
 
         if(\Auth::user()->can('delete user'))
         {
-            if(\Auth::user()->type == 'super admin')
-            {
-                $user->delete_status = !$user->delete_status;
-                $user->save();
-            }
-            else
-            {
-                $user->delete();
-                $user->destroyUserProjectInfo($user->id);
-                $user->removeUserLeadInfo($user->id);
-                $user->destroyUserNotesInfo($user->id);
-                $user->removeUserExpenseInfo($user->id);
-                $user->removeUserTaskInfo($user->id);
-                $user->destroyUserTaskAllInfo($user->id);
-            }
+            $user->delete();
+            $user->destroyUserProjectInfo($user->id);
+            $user->removeUserLeadInfo($user->id);
+            $user->destroyUserNotesInfo($user->id);
+            $user->removeUserExpenseInfo($user->id);
+            $user->removeUserTaskInfo($user->id);
+            $user->destroyUserTaskAllInfo($user->id);
 
             return Redirect::to(URL::previous() . "#users")->with('success', __('User successfully deleted.'));
         }

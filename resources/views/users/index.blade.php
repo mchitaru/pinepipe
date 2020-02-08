@@ -30,9 +30,9 @@ use App\Http\Helpers;
                         </span>
                     </a>
                 </span>
-                <span class="text-small">
-                    {{(!$user->delete_status)?'Soft deleted':''}}
-                </span>
+                    @if($user->trashed())
+                        <span class="badge badge-danger">{{__('Deleted')}}</span>
+                    @endif
             </div>
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
@@ -69,15 +69,27 @@ use App\Http\Helpers;
 
                         <div class="dropdown-menu dropdown-menu-right">
                             @can('edit user')
+                            @if(!$user->trashed())
                             <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}" data-remote="true" data-type="text">
                                 <span>{{__('Edit')}}</span>
                             </a>
-                            @endcan
                             <div class="dropdown-divider"></div>
+                            @endif
+                            @endcan
                             @can('delete user')
-                                <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                    <span>{{($user->delete_status)?'Delete':'Undelete'  }}</span>
+
+                            @if(!$user->trashed())
+                                <a class="dropdown-item text-danger" href="{{ route('users.update', $user->id) }}" data-method="patch" data-remote="true" data-type="text">
+                                    <span>{{__('Delete')}}</span>
                                 </a>
+                            @else
+                                {!! Form::open(['method' => 'PATCH', 'route' => ['users.update', $user->id]]) !!}
+                                {!! Form::submit(__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
+                                {!! Form::close() !!}
+                            @endif
+                            {{-- <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                <span>{{__('Delete')}}</span>
+                            </a> --}}
                             @endcan
                         </div>
                     @else
