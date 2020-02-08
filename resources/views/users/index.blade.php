@@ -68,25 +68,27 @@ use App\Http\Helpers;
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            @can('edit user')
-                            @if(!$user->trashed())
-                            <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}" data-remote="true" data-type="text">
-                                <span>{{__('Edit')}}</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            @endif
-                            @endcan
-                            @can('delete user')
 
+                            {{-- Add items to menu only if user not deleted !!--}}
                             @if(!$user->trashed())
-                                <a class="dropdown-item text-danger" href="{{ route('users.update', $user->id) }}" data-method="patch" data-remote="true" data-type="text">
-                                    <span>{{__('Delete')}}</span>
+                                @can('edit user')
+                                <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}" data-remote="true" data-type="text">
+                                    <span>{{__('Edit')}}</span>
                                 </a>
-                            @else
-                                {!! Form::open(['method' => 'PATCH', 'route' => ['users.update', $user->id]]) !!}
-                                {!! Form::submit(__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
-                                {!! Form::close() !!}
+                                <div class="dropdown-divider"></div>
+                                @endcan
                             @endif
+                            
+                            @can('delete user')
+                                @if(!$user->trashed())
+                                    <a class="dropdown-item text-danger" href="{{ route('users.update', $user->id) }}" data-method="patch" data-remote="true" data-type="text">
+                                        <span>{{__('Delete')}}</span>
+                                    </a>
+                                @else
+                                    {!! Form::open(['method' => 'PATCH', 'route' => ['users.update', $user->id]]) !!}
+                                    {!! Form::submit(__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
+                                    {!! Form::close() !!}
+                                @endif
                             {{-- <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a> --}}
