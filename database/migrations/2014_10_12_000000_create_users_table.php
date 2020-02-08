@@ -33,7 +33,7 @@ class CreateUsersTable extends Migration
             $table->boolean('notify_major_updates')->default(true);
             $table->boolean('notify_minor_updates')->default(false);
             $table->boolean('delete_status')->default(true);
-            $table->boolean('is_active')->default(true);
+            $table->boolean('enabled')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

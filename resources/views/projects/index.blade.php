@@ -40,7 +40,7 @@ use App\Http\Helpers;
             <div class="card-body">
                 @if(Gate::check('edit project') || Gate::check('delete project') || Gate::check('create user'))
                         <div class="dropdown card-options">
-                            @if($project->is_active)
+                            @if($project->enabled)
                                 <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">more_vert</i>
                                 </button>
@@ -70,24 +70,20 @@ use App\Http\Helpers;
                 @endif
                 <div class="card-title d-flex justify-content-between align-items-center">
                     @can('show project')
-                        <a href="{{ $project->is_active?route('projects.show', $project->id):'#' }}">
+                        <a href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
                     @endcan
                             <h5 data-filter-by="text">{{ $project->name }}</h5>
                     @can('show project')
                         </a>
                     @endcan
 
-                    @foreach($project_status as $key => $status)
-                    @if($key== $project->status)
-                        <span class="badge badge-secondary">{{ $status}}</span>
-                    @endif
-                    @endforeach
+                    <span class="badge badge-secondary">{{!$project->archived?__('Active'):__('Completed')}}</span>
                 </div>
                 <ul class="avatars">
 
                     @foreach($project->users as $user)
                     <li>
-                            <a href="{{ $project->is_active?route('users.index', $user->id):'#' }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
+                            <a href="{{ $project->enabled?route('users.index', $user->id):'#' }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
                                 {!!Helpers::buildAvatar($user)!!}
                             </a>
                     </li>
@@ -96,14 +92,14 @@ use App\Http\Helpers;
                 <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
                         <i class="material-icons mr-1">playlist_add_check</i>
-                            <a  href="{{ $project->is_active?route('projects.show', $project->id):'#' }}">
+                            <a  href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
                                 {{$completed_task}}/{{$total_task}}
                             </a>
                     </div>
                     <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                         <i class="material-icons mr-1">apartment</i>
                         @can('show client')
-                            <a href="{{ $project->is_active?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
+                            <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
                         @endcan
                                 {{(!empty($project->client)?$project->client->name:'---')}}
                         @can('show client')

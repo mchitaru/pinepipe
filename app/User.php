@@ -524,12 +524,12 @@ class User extends Authenticatable implements MustVerifyEmail
                 $projectCount++;
                 if($projectCount <= $plan->max_projects)
                 {
-                    $project->is_active = true;
+                    $project->enabled = true;
                     $project->save();
                 }
                 else
                 {
-                    $project->is_active = false;
+                    $project->enabled = false;
                     $project->save();
                 }
             }
@@ -540,12 +540,12 @@ class User extends Authenticatable implements MustVerifyEmail
                 $userCount++;
                 if($userCount <= $plan->max_users)
                 {
-                    $user->is_active = true;
+                    $user->enabled = true;
                     $user->save();
                 }
                 else
                 {
-                    $user->is_active = false;
+                    $user->enabled = false;
                     $user->save();
                 }
             }
@@ -555,12 +555,12 @@ class User extends Authenticatable implements MustVerifyEmail
                 $clientCount++;
                 if($clientCount <= $plan->max_clients)
                 {
-                    $client->is_active = true;
+                    $client->enabled = true;
                     $client->save();
                 }
                 else
                 {
-                    $client->is_active = false;
+                    $client->enabled = false;
                     $client->save();
                 }
             }

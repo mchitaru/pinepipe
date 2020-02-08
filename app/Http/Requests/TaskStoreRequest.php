@@ -16,7 +16,7 @@ class TaskStoreRequest extends FormRequest
     {
         $project = Project::find($this->project_id);
 
-        if($project && !$project->is_active)
+        if($project && !$project->enabled)
             return false;            
         
         return $this->user()->can('create task');

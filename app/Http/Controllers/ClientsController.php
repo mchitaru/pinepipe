@@ -123,8 +123,6 @@ class ClientsController extends ClientsSectionController
             $contacts = $client->clientContacts;
             $projects = Project::where('client_id', '=', $client->id)->get();
 
-            $project_status = Project::$project_status;
-
             $leads_count = 0;
             $stages = null;
             if(\Auth::user()->can('manage lead'))
@@ -139,7 +137,7 @@ class ClientsController extends ClientsSectionController
             $client_id = $client->id;
             $activities = array();
 
-            return view('clients.show', compact('client', 'client_id', 'contacts', 'projects', 'project_status', 'stages', 'leads_count', 'activities'));
+            return view('clients.show', compact('client', 'client_id', 'contacts', 'projects', 'stages', 'leads_count', 'activities'));
         }else
         {
             return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));

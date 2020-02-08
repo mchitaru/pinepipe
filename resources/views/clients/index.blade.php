@@ -13,7 +13,7 @@ use App\Http\Helpers;
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-3">
                 @can('show client')
-                <a href="{{ $client->is_active?route('clients.show',$client->id):'#' }}">
+                <a href="{{ $client->enabled?route('clients.show',$client->id):'#' }}">
                 @endcan
                     <h6 data-filter-by="text">{{$client->name}}</h6>
                 @can('show client')
@@ -46,7 +46,7 @@ use App\Http\Helpers;
                 </div>
             </div>
             <div class="dropdown card-options">
-                @if($client->is_active)
+                @if($client->enabled)
                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
                     </button>

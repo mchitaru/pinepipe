@@ -125,11 +125,10 @@ DashboardController extends Controller
             $users['staff']  = User::where('created_by', '=', \Auth::user()->creatorId())->count();
             $users['user']   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->count();
             $users['client'] = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->count();
-            $project_status  = array_values(Project::$project_status);
             $projectData     = \App\Project::getProjectStatus();
             $taskData        = \App\ProjectStage::getChartData();
 
-            return view('dashboard.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'project_status', 'projectData', 'taskData', 'activities'));
+            return view('dashboard.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'projectData', 'taskData', 'activities'));
         }
         else
         {

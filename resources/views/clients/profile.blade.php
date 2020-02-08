@@ -46,7 +46,7 @@ use App\Http\Helpers;
                         </div>
                     </div> --}}
                     <div class="dropdown card-options">
-                        @if($client->is_active)
+                        @if($client->enabled)
                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
                             </button>

@@ -44,7 +44,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if(!$user->delete_status || !$user->is_active)
+        if(!$user->delete_status || !$user->enabled)
         {
             auth()->logout();
         }

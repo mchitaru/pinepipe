@@ -54,11 +54,11 @@ use App\Http\Helpers;
     var myChart2 = new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: {!! json_encode($project_status) !!},
+            labels: {!! json_encode(['Active', 'Completed']) !!},
             datasets: [
                         {
                             data: {!! json_encode(array_values($projectData)) !!},
-                            backgroundColor: ["#40c5d2", "#f36a5b", "#67b7dc"],
+                            backgroundColor: ["#40c5d2", "#67b7dc"],
                             borderColor: "transparent",
                             borderWidth: "3"
                         }
@@ -439,9 +439,8 @@ if($client_project_budget_due_per<=15){
                                             <canvas id="project-status-chart"></canvas>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 graph-div"><span class="graph-font">{{ number_format($projectData['on_going'],2) }} % </span><br> On Going</div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 graph-div"><span class="graph-font">{{ number_format($projectData['on_hold'],2) }} % </span> <br>On Hold</div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 graph-div"><span class="graph-font">{{ number_format($projectData['completed'],2) }} % </span><br> Completed</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 graph-div text-left"><span class="graph-font">{{ number_format($projectData['active'],2) }} % </span><br>{{__('Active')}}</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 graph-div text-right"><span class="graph-font">{{ number_format($projectData['completed'],2) }} % </span><br>{{__('Completed')}}</div>
                                         </div>
                                     </div>
                                 </div>

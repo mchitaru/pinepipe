@@ -17,8 +17,6 @@ class ProjectsSectionController extends Controller
 
             $projects = $user->getProjectsByUserType();
             
-            $project_status = Project::$project_status;
-
             $stages = ProjectStage::with('tasks.checklist')
                                     ->where('created_by', '=', \Auth::user()->creatorId())
                                     ->orderBy('order', 'ASC')
@@ -31,7 +29,7 @@ class ProjectsSectionController extends Controller
 
             $activities = array();
 
-            return view('sections.projects.index', compact('projects', 'project_status', 'project_id', 'stages', 'task_count', 'activities'));
+            return view('sections.projects.index', compact('projects', 'project_id', 'stages', 'task_count', 'activities'));
         }
         else
         {

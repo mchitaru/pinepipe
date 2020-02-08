@@ -43,11 +43,11 @@
         </div>
         <div class="form-group row">
             {{ Form::label('price', __('Budget'), array('class'=>'col-4')) }}
-            {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required')) }}
+            {{ Form::number('price', null, array('class' => 'form-control col', 'required'=>'required')) }}
         </div>
         <div class="form-group row">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-4')) }}
-            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col','required'=>'required', 'placeholder' => __('Select a lead...'))) !!}
+            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col', 'placeholder' => __('Select a lead...'))) !!}
         </div>
     </div>
     <div class="tab-pane fade show" id="project-timeline" role="tabpanel">

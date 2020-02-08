@@ -37,7 +37,7 @@ class ProjectUpdateRequest extends FormRequest
             'client_id' => 'nullable|integer',
             'user_id' => 'nullable|array',
             'lead_id' => 'nullable|integer',
-            'price' => 'nullable|numeric',
+            'price' => 'required|numeric',
             'description' => 'nullable|string',
         ];
     }

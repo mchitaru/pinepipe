@@ -256,7 +256,10 @@ $languages=$user->languages();
             @can('create task')
                 <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
             @endcan
-            </div>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Contract')}}</a>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Proposal')}}</a>
+            <a class="dropdown-item" href="{{ route('projects.invoice.create', '*') }}" data-remote="true" data-type="text">{{__('Invoice')}}</a>
+        </div>
         </div>
         @endif
     </div>

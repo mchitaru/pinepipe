@@ -13,7 +13,7 @@ use App\Http\Helpers;
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-4">
                 @can('edit user')
-                    <a class="dropdown-item" href="{{ $user->is_active?route('users.edit',$user->id):'#' }}" data-remote="true" data-type="text">
+                    <a class="dropdown-item" href="{{ $user->enabled?route('users.edit',$user->id):'#' }}" data-remote="true" data-type="text">
                 @endcan
                     <h6 data-filter-by="text">{{$user->name}}</h6>
                 @can('edit user')
@@ -62,7 +62,7 @@ use App\Http\Helpers;
                 </div>
             </div>
             <div class="dropdown card-options">
-                    @if($user->is_active)
+                    @if($user->enabled)
                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_vert</i>
                         </button>

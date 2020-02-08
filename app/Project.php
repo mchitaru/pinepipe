@@ -3,20 +3,29 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Iatstuti\Database\Support\NullableFields;
 
 class Project extends Model
 {
+    use NullableFields;
+
     protected $fillable = [
         'name',
         'description',
         'price',
         'client_id',
         'lead_id',
-        'status',
+        'archived',
         'start_date',
         'due_date',
     ];
 
+    protected $nullable = [
+        'client_id',
+        'user_id',
+        'lead_id',
+        'description',
+    ];
 
     protected $hidden = [
 
@@ -120,35 +129,29 @@ class Project extends Model
         $projectData = [];
         if(\Auth::user()->type == 'company')
         {
-            $on_going  = Project::where('status', '=', 'on_going')->where('created_by', '=', \Auth::user()->id)->count();
-            $on_hold   = Project::where('status', '=', 'on_hold')->where('created_by', '=', \Auth::user()->id)->count();
-            $completed = Project::where('status', '=', 'completed')->where('created_by', '=', \Auth::user()->id)->count();
-            $total     = $on_going + $on_hold + $completed;
+            $active  = Project::where('archived', '=', false)->where('created_by', '=', \Auth::user()->id)->count();
+            $completed = Project::where('archived', '=', true)->where('created_by', '=', \Auth::user()->id)->count();
+            $total     = $active + $completed;
 
-            $projectData['on_going']  = ($total != 0 ? number_format(($on_going / $total) * 100, 2) : 0);
-            $projectData['on_hold']   = ($total != 0 ? number_format(($on_hold / $total) * 100, 2) : 0);
+            $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
             $projectData['completed'] = ($total != 0 ? number_format(($completed / $total) * 100, 2) : 0);
         }
         else if(\Auth::user()->type == 'client')
         {
-            $on_going  = Project::where('status', '=', 'on_going')->where('client_id', '=', \Auth::user()->id)->count();
-            $on_hold   = Project::where('status', '=', 'on_hold')->where('client_id', '=', \Auth::user()->id)->count();
-            $completed = Project::where('status', '=', 'completed')->where('client_id', '=', \Auth::user()->id)->count();
-            $total     = $on_going + $on_hold + $completed;
+            $active  = Project::where('archived', '=', false)->where('client_id', '=', \Auth::user()->id)->count();
+            $completed = Project::where('archived', '=', true)->where('client_id', '=', \Auth::user()->id)->count();
+            $total     = $active + $completed;
 
-            $projectData['on_going']  = ($total != 0 ? number_format(($on_going / $total) * 100, 2) : 0);
-            $projectData['on_hold']   = ($total != 0 ? number_format(($on_hold / $total) * 100, 2) : 0);
+            $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
             $projectData['completed'] = ($total != 0 ? number_format(($completed / $total) * 100, 2) : 0);
         }
         else
         {
-            $on_going  = UserProject::join('projects', 'user_projects.project_id', '=', 'projects.id')->where('projects.status', '=', 'on_going')->where('user_id', '=', \Auth::user()->id)->count();
-            $on_hold   = UserProject::join('projects', 'user_projects.project_id', '=', 'projects.id')->where('projects.status', '=', 'on_hold')->where('user_id', '=', \Auth::user()->id)->count();
-            $completed = UserProject::join('projects', 'user_projects.project_id', '=', 'projects.id')->where('projects.status', '=', 'completed')->where('user_id', '=', \Auth::user()->id)->count();
-            $total     = $on_going + $on_hold + $completed;
+            $active  = UserProject::join('projects', 'user_projects.project_id', '=', 'projects.id')->where('projects.archived', '=', false)->where('user_id', '=', \Auth::user()->id)->count();
+            $completed = UserProject::join('projects', 'user_projects.project_id', '=', 'projects.id')->where('projects.archived', '=', true)->where('user_id', '=', \Auth::user()->id)->count();
+            $total     = $active + $completed;
 
-            $projectData['on_going']  = ($total != 0 ? number_format(($on_going / $total) * 100, 2) : 0);
-            $projectData['on_hold']   = ($total != 0 ? number_format(($on_hold / $total) * 100, 2) : 0);
+            $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
             $projectData['completed'] = ($total != 0 ? number_format(($completed / $total) * 100, 2) : 0);
         }
 
@@ -298,14 +301,9 @@ class Project extends Model
         'medium' => 'Medium',
         'high' => 'High',
     ];
-    public static $project_status = [
-        'on_going' => 'Ongoing',
-        'on_hold' => 'On Hold',
-        'completed' => 'Completed',
-    ];
 
     public static $permission = [
-        '',
+        // '',
         'show activity',
         'show milestone',
         'create milestone',

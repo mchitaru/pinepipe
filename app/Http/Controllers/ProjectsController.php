@@ -87,7 +87,7 @@ class ProjectsController extends ProjectsSectionController
 
         $request->session()->flash('success', __('Project successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#projects';
+        $url = redirect()->back()->getTargetUrl();
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -96,7 +96,6 @@ class ProjectsController extends ProjectsSectionController
         if(\Auth::user()->can('show project'))
         {
             $project_id = $project->id;
-            $project_status_list = Project::$project_status;
             $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
             $project_files = ProjectFile::where('project_id', $project_id)->get();
             $activities = $project->activities;
@@ -142,21 +141,12 @@ class ProjectsController extends ProjectsSectionController
                 $expenses = array();
             }
 
-            $project_status = __('Unknown');
-            foreach($project_status_list as $key => $status)
-            {
-                if($key== $project->status)
-                {
-                    $project_status = $status;
-                }
-            }
-
             $task_count = 0;
             foreach($stages as $stage){
                 $task_count = $task_count + count($stage->getTasksByUserType($project_id));
             }
 
-            return view('projects.show', compact('project', 'project_status', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'invoices', 'expenses', 'activities'));
+            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'invoices', 'expenses', 'activities'));
         }
         else
         {

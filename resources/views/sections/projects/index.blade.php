@@ -56,7 +56,7 @@
             <div class="dropdown-divider"></div>
             
             @can('manage task')
-                <a class="dropdown-item" href="{{route('projects.task.board', '0')}}">{{__('Task Board')}}</a>
+                <a class="dropdown-item" href="{{route('projects.task.board', '*')}}">{{__('Task Board')}}</a>
             @endcan
         </div>
     </div>

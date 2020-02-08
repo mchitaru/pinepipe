@@ -164,7 +164,7 @@
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
                     <i class="material-icons">done</i>
-                    <span>{{$project_status}}</span>
+                    <span>{{!$project->archived?__('Active'):__('Completed')}}</span>
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
                     <i class="material-icons">playlist_add_check</i>
