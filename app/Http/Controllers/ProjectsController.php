@@ -121,7 +121,7 @@ class ProjectsController extends ProjectsSectionController
             }
             else
             {
-                $timesheets = new LengthAwarePaginator(array(), 0, 0);
+                $timesheets = new LengthAwarePaginator(array(), 0, 1);
             }
 
             if(\Auth::user()->can('manage invoice'))
@@ -130,7 +130,7 @@ class ProjectsController extends ProjectsSectionController
             }
             else
             {
-                $invoices = new LengthAwarePaginator(array(), 0, 0);
+                $invoices = new LengthAwarePaginator(array(), 0, 1);
             }
 
             if(\Auth::user()->can('manage expense'))
@@ -146,7 +146,7 @@ class ProjectsController extends ProjectsSectionController
             }
             else
             {
-                $expenses = new LengthAwarePaginator(array(), 0, 0);
+                $expenses = new LengthAwarePaginator(array(), 0, 1);
             }
 
             $task_count = 0;

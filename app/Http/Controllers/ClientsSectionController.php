@@ -6,6 +6,7 @@ use App\User;
 use App\Contact;
 use App\LeadStage;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientsSectionController extends Controller
 {
@@ -15,8 +16,10 @@ class ClientsSectionController extends Controller
 
         if(\Auth::user()->can('manage client'))
         {
+            // $clients = new LengthAwarePaginator(array(), 0, 1);
             $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->paginate(25, ['*'], 'client-page');
 
+            // $contacts = new LengthAwarePaginator(array(), 0, 1);
             $contacts = Contact::where('created_by','=',$client->creatorId())->paginate(25, ['*'], 'contact-page');
 
             $leads_count = 0;
@@ -26,7 +29,7 @@ class ClientsSectionController extends Controller
                 $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 
                 foreach($stages as $stage)
-                    $leads_count = $leads_count + count($stage->leads()->get());
+                    $leads_count = $leads_count + $stage->leads->count();
             }    
 
             $client_id = null;
