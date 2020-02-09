@@ -56,7 +56,7 @@
             <!--end of content list head-->
             <div class="content-list-body">
             @foreach($plans as $plan)
-            <div class="w-25 card text-center">
+            <div class="w-25 card text-center" style="max-width: 250px;">
                 <div class="card-body">
                 <div class="row">
                     <div class="col sm">

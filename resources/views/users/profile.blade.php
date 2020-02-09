@@ -72,11 +72,11 @@ use App\Http\Helpers;
         <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">{{__('Email Notifications')}}</a>
         </li>
-        @can('manage plan')
+        @if($user->type != 'super admin' && Gate::check('manage plan'))
         <li class="nav-item">
             <a class="nav-link" id="billing-tab" data-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">{{__('Billing Details')}}</a>
         </li>
-        @endcan
+        @endif
         <li class="nav-item">
             <a class="nav-link" id="integrations-tab" data-toggle="tab" href="#integrations" role="tab" aria-controls="integrations" aria-selected="false">{{__('Integrations')}}</a>
         </li>
@@ -353,7 +353,7 @@ use App\Http\Helpers;
                 </div>
                 </form>
             </div>
-            @can('manage plan')
+            @if($user->type != 'super admin' && Gate::check('manage plan'))
             <div class="tab-pane fade" role="tabpanel" id="billing">
                 <form>
                 <h6>{{__('Plan Details')}}</h6>
@@ -456,7 +456,7 @@ use App\Http\Helpers;
 
                 </form>
             </div>
-            @endcan
+            @endif
             <div class="tab-pane fade" role="tabpanel" id="integrations">
 
                 <div class="card">
