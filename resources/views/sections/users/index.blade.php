@@ -46,10 +46,8 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">Edit Team</a>
-            <a class="dropdown-item" href="#">Share</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="#">Leave</a>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Export')}}</a>
 
         </div>
     </div>

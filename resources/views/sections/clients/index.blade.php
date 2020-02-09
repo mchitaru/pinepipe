@@ -64,6 +64,11 @@ $(document).ready(function() {
             @can('manage lead')
                 <a class="dropdown-item" href="{{route('leads.board')}}">{{__('Lead Board')}}</a>
             @endcan
+
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Export')}}</a>
+
         </div>
     </div>
 </div>

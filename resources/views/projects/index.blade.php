@@ -131,3 +131,4 @@ use App\Http\Helpers;
         </div>
     </div>
 @endforeach
+{{ $projects->fragment('projects')->links() }}

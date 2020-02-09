@@ -273,29 +273,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return ProjectStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'ASC');
     }
 
-    public function getProjectsByUserType()
-    {
-        return $this->projectsByUserType()->get();
-    }
-
-    public function getTasksByUserType()
-    {
-        return $this->tasksByUserType()->get();
-    }
-
     public function getProfileAttribute()
     {
         return null;
     }
 
-    public static function getCompanyStaff()
+    public static function companyStaff()
     {
-        User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get();
+        User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client');
     }
 
-    public static function getCompanyClients()
+    public static function companyClients()
     {
-        User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get();
+        User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client');
     }
 
     public function user_projects_count()

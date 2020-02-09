@@ -25,25 +25,25 @@ class ProjectStage extends Model
         return $this->hasMany('App\Task', 'stage_id', 'id');
     }
 
-    public function getTasksByUserType($project_id)
+    public function tasksByUserType($project_id)
     {
         if(!empty($project_id))
         {
-            return $this->tasks()->where('project_id', '=', $project_id)->orderBy('order')->get();
+            return $this->tasks()->where('project_id', '=', $project_id)->orderBy('order');
         }
         else
         {
             if(\Auth::user()->type == 'client')
             {
-                return \Auth::user()->clientTasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order')->get();
+                return \Auth::user()->clientTasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order');
 
             }else if(\Auth::user()->type == 'company')
             {
-                return $this->tasks()->orderBy('order')->get();
+                return $this->tasks()->orderBy('order');
 
             }else
             {
-                return \Auth::user()->staffTasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order')->get();
+                return \Auth::user()->staffTasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order');
             }
         }
     }

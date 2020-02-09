@@ -63,3 +63,4 @@ use App\Http\Helpers;
 </div>
 
 @endforeach
+{{ $timesheets->fragment('timesheets')->links() }}

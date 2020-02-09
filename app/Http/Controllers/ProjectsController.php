@@ -30,6 +30,7 @@ use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProjectsController extends ProjectsSectionController
 {
@@ -111,46 +112,46 @@ class ProjectsController extends ProjectsSectionController
             {
                 if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
                 {
-                    $timesheets = Timesheet::where('project_id', '=', $project_id)->get();
+                    $timesheets = Timesheet::where('project_id', '=', $project_id)->paginate(25, ['*'], 'timesheet-page');
                 }
                 else
                 {
-                    $timesheets = Timesheet::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
+                    $timesheets = Timesheet::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->paginate(25, ['*'], 'timesheet-page');
                 }
             }
             else
             {
-                $timesheets = array();
+                $timesheets = new LengthAwarePaginator(array(), 0, 0);
             }
 
             if(\Auth::user()->can('manage invoice'))
             {
-                $invoices = Invoice::where('project_id', '=', $project_id)->get();
+                $invoices = Invoice::where('project_id', '=', $project_id)->paginate(25, ['*'], 'invoice-page');
             }
             else
             {
-                $invoices = array();
+                $invoices = new LengthAwarePaginator(array(), 0, 0);
             }
 
             if(\Auth::user()->can('manage expense'))
             {
                 if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
                 {
-                    $expenses = Expense::where('project_id', '=', $project_id)->get();
+                    $expenses = Expense::where('project_id', '=', $project_id)->paginate(25, ['*'], 'expense-page');
                 }
                 else
                 {
-                    $expenses = Expense::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->get();
+                    $expenses = Expense::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->paginate(25, ['*'], 'expense-page');
                 }
             }
             else
             {
-                $expenses = array();
+                $expenses = new LengthAwarePaginator(array(), 0, 0);
             }
 
             $task_count = 0;
             foreach($stages as $stage){
-                $task_count = $task_count + count($stage->getTasksByUserType($project_id));
+                $task_count = $task_count + $stage->tasksByUserType($project_id)->count();
             }
 
             return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'invoices', 'expenses', 'activities'));

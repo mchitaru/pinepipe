@@ -25,28 +25,28 @@ class LeadStage extends Model
         return $this->hasMany('App\Lead', 'stage_id', 'id');
     }
 
-    public function getLeadsByUserType($client_id)
+    public function leadsByUserType($client_id)
     {
         if(!empty($client_id))
         {
             if(\Auth::user()->type == 'company')
             {
-                return $this->leads()->where('client_id','=',$client_id)->orderBy('order')->get();
+                return $this->leads()->where('client_id','=',$client_id)->orderBy('order');
 
             }else
             {
-                return \Auth::user()->leads()->where('stage_id', '=', $this->id)->where('client_id','=',$client_id)->orderBy('order')->get();
+                return \Auth::user()->leads()->where('stage_id', '=', $this->id)->where('client_id','=',$client_id)->orderBy('order');
             }
         }
         else
         {
             if(\Auth::user()->type == 'company')
             {
-                return $this->leads()->orderBy('order')->get();
+                return $this->leads()->orderBy('order');
 
             }else
             {
-                return \Auth::user()->leads()->where('stage_id', '=', $this->id)->orderBy('order')->get();
+                return \Auth::user()->leads()->where('stage_id', '=', $this->id)->orderBy('order');
             }
         }
     }

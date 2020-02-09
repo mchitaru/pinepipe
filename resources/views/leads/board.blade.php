@@ -52,7 +52,7 @@ use App\Http\Helpers;
                 
             @foreach($stages as $stage)
 
-            @php($leads = $stage->getLeadsByUserType(null))
+            @php($leads = $stage->leadsByUserType(null)->get())
 
             <div class="kanban-col">
                 <div class="card-list">

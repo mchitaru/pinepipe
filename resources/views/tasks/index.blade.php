@@ -8,11 +8,11 @@
     $stage_done = ProjectStage::all()->last()->id;
 @endphp
 
-@foreach($stages as $stage)
+@foreach($stages as $key=>$stage)
 
 @php 
 
-    $tasks = $stage->getTasksByUserType($project_id)    
+    $tasks = $stage->tasksByUserType($project_id)->paginate(25, ['*'], 'page-'.$key);
     
 @endphp
 
@@ -129,5 +129,6 @@
         @endforeach
 
         </div>
+        {{ $tasks->fragment('tasks')->links() }}
     </div>
 @endforeach

@@ -15,7 +15,7 @@ class ProjectsSectionController extends Controller
         {
             $user = \Auth::user();
 
-            $projects = $user->getProjectsByUserType();
+            $projects = $user->projectsByUserType()->paginate(25, ['*'], 'project-page');
             
             $stages = ProjectStage::with('tasks.checklist')
                                     ->where('created_by', '=', \Auth::user()->creatorId())
@@ -25,7 +25,7 @@ class ProjectsSectionController extends Controller
             $project_id = null;
             $task_count = 0;
             foreach($stages as $stage)
-                $task_count = $task_count + $stage->getTasksByUserType($project_id)->count();
+                $task_count = $task_count + $stage->tasksByUserType($project_id)->count();
 
             $activities = array();
 

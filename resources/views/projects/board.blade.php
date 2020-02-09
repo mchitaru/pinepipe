@@ -53,7 +53,7 @@ use App\Http\Helpers;
 
             @foreach($stages as $stage)
             
-            @php $tasks = $stage->getTasksByUserType($project_id)    @endphp
+            @php $tasks = $stage->tasksByUserType($project_id)->get()    @endphp
 
             <div class="kanban-col">
                 <div class="card-list">

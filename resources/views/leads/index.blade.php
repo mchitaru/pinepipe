@@ -3,9 +3,9 @@ use Carbon\Carbon;
 use App\Http\Helpers;
 @endphp
 
-@foreach($stages as $stage)
+@foreach($stages as $key=>$stage)
 
-    @php($leads = $stage->getLeadsByUserType($client_id))
+    @php($leads = $stage->leadsByUserType($client_id)->paginate(25, ['*'], 'page-'.$key))
 
     <div class="card-list">
         <div class="card-list-head">
@@ -100,5 +100,7 @@ use App\Http\Helpers;
         @endforeach
 
         </div>
+        
+        {{ $leads->fragment('leads')->links() }}
     </div>
 @endforeach
