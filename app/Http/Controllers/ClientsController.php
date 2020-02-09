@@ -120,8 +120,8 @@ class ClientsController extends ClientsSectionController
     {
         if(\Auth::user()->can('manage client'))
         {
-            $contacts = $client->clientContacts;
-            $projects = Project::where('client_id', '=', $client->id)->get();
+            $contacts = $client->clientContacts()->paginate(25, ['*'], 'contact-page');;
+            $projects = Project::where('client_id', '=', $client->id)->paginate(25, ['*'], 'project-page');
 
             $leads_count = 0;
             $stages = null;
