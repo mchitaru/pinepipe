@@ -136,7 +136,7 @@ $languages=$user->languages();
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('projects.task.board','*') }}">{{__('Task Board')}}</a>
+                    <a class="dropdown-item" href="{{ route('projects.task.board','0') }}">{{__('Task Board')}}</a>
                 </li>
 
                 </ul>
@@ -258,7 +258,7 @@ $languages=$user->languages();
             @endcan
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Contract')}}</a>
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Proposal')}}</a>
-            <a class="dropdown-item" href="{{ route('projects.invoice.create', '*') }}" data-remote="true" data-type="text">{{__('Invoice')}}</a>
+            <a class="dropdown-item" href="{{ route('projects.invoice.create', '0') }}" data-remote="true" data-type="text">{{__('Invoice')}}</a>
         </div>
         </div>
         @endif

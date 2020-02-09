@@ -49,8 +49,8 @@
 
             <a class="dropdown-item disabled" href="#">{{__('New Proposal')}}</a>
             <a class="dropdown-item disabled" href="#">{{__('New Contract')}}</a>
-            <a class="dropdown-item" href="{{ route('projects.invoice.create', '*') }}" data-remote="true" data-type="text">{{__('New Invoice')}}</a>
-            <a class="dropdown-item" href="{{ route('projects.expense.create', '*') }}" data-remote="true" data-type="text">{{__('New Expense')}}</a>
+            <a class="dropdown-item" href="{{ route('projects.invoice.create', '0') }}" data-remote="true" data-type="text">{{__('New Invoice')}}</a>
+            <a class="dropdown-item" href="{{ route('projects.expense.create', '0') }}" data-remote="true" data-type="text">{{__('New Expense')}}</a>
 
             <div class="dropdown-divider"></div>
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
