@@ -41,7 +41,7 @@ class UserRolesController extends UsersSectionController
         if(\Auth::user()->can('create role')){
             $this->validate(
                 $request, [
-                            'name' => 'required|max:100|unique:roles,name,NULL,id,created_by,'.\Auth::user()->creatorId(),
+                            'name' => 'required|not_in:super admin|max:100|unique:roles,name,NULL,id,created_by,'.\Auth::user()->creatorId(),
                             'permissions' => 'required',
                         ]
             );
@@ -97,7 +97,7 @@ class UserRolesController extends UsersSectionController
         if(\Auth::user()->can('edit role')){
             $this->validate(
                 $request, [
-                            'name' => 'required|max:100|unique:roles,name,'. $role['id'].',id,created_by,'.\Auth::user()->creatorId(),
+                            'name' => 'required|not_in:super admin|max:100|unique:roles,name,'. $role['id'].',id,created_by,'.\Auth::user()->creatorId(),
                             'permissions' => 'required',
                         ]
             );
