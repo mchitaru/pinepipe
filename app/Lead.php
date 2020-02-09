@@ -18,6 +18,8 @@ class Lead extends Model
         'created_by',
         'notes'
     ];
+ 
+    public static $SEED = 50;
     
     public function user()
     {

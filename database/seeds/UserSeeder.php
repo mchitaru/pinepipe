@@ -346,46 +346,5 @@ class UserSeeder extends Seeder
             $companyRole->givePermissionTo($permission);
         }
 
-        UserSeeder::addCompany('Company');
-        // UserSeeder::addCompany('Gemini');
-    }
-
-    private static function addCompany($name)
-    {
-        $company = User::create(
-            [
-                'name' => $name,
-                'email' => $name.'@example.com',
-                'password' => Hash::make('1234'),
-                'type' => 'company',
-                'lang' => 'en',
-                'avatar' => null,
-                'plan_id' => 1,
-                'created_by' => 1,
-                'email_verified_at' => now(),
-            ]
-        );
-
-        $role = Role::findByName('company');
-        $company->initCompanyDefaults();
-        $company->assignRole($role);
-
-        factory(App\User::class, 2)->create()->each(function ($user) use($company) {
-
-            $role = Role::findByName('client');
-            $user->type = 'client';
-            $user->created_by = $company->id;
-            $user->save();
-            $user->assignRole($role);
-        });
-
-        factory(App\User::class, 5)->create()->each(function ($user) use($company) {
-
-            $role = Role::where('name', '=', 'employee')->where('created_by', '=', $user->creatorId())->first();
-            $user->type = 'employee';
-            $user->created_by = $company->id;
-            $user->save();
-            $user->assignRole($role);
-        });
     }
 }

@@ -18,6 +18,8 @@ class ProjectStage extends Model
 
     ];
 
+    public static $SEED = 4;
+
     public function tasks()
     {
         return $this->hasMany('App\Task', 'stage_id', 'id');

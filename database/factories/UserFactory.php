@@ -25,7 +25,7 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
         'type' => 'employee',
         'lang' => 'en',
-        'created_by' => '2',
+        'created_by' => User::$SEED_COMPANY_ID,
         'enabled' => true
     ];
 });

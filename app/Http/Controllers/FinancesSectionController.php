@@ -27,20 +27,28 @@ class FinancesSectionController extends Controller
         {
             if(\Auth::user()->type == 'client')
             {
-                $invoices = Invoice::select(['invoices.*'])->join('projects', 'projects.id', '=', 'invoices.project_id')->where('projects.client_id', '=', \Auth::user()->id)->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
-                $expenses = Expense::select('expenses.*','projects.name')->join('projects','projects.id','=','expenses.project_id')->where('projects.client_id','=',\Auth::user()->id)->where('expenses.created_by', '=', \Auth::user()->creatorId())->get();
+                $invoices = Invoice::select(['invoices.*'])
+                                    ->join('projects', 'projects.id', '=', 'invoices.project_id')
+                                    ->where('projects.client_id', '=', \Auth::user()->id)
+                                    ->where('invoices.created_by', '=', \Auth::user()->creatorId())
+                                    ->paginate(25, ['*'], 'invoice-page');
+                $expenses = Expense::select('expenses.*','projects.name')
+                                    ->join('projects','projects.id','=','expenses.project_id')
+                                    ->where('projects.client_id','=',\Auth::user()->id)
+                                    ->where('expenses.created_by', '=', \Auth::user()->creatorId())
+                                    ->paginate(25, ['*'], 'expense-page');
             }
             else 
             {
                 
                 if(\Auth::user()->can('manage invoice'))
                 {
-                    $invoices = Invoice::where('created_by', '=', \Auth::user()->creatorId())->get();
+                    $invoices = Invoice::where('created_by', '=', \Auth::user()->creatorId())->paginate(25, ['*'], 'invoice-page');
                 }
                 
                 if(\Auth::user()->can('manage expense'))
                 {
-                    $expenses = Expense::where('created_by', '=', \Auth::user()->creatorId())->get();
+                    $expenses = Expense::where('created_by', '=', \Auth::user()->creatorId())->paginate(25, ['*'], 'expense-page');
                 }
             }
 

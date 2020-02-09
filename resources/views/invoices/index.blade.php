@@ -88,3 +88,4 @@
     </div>
 </div>
 @endforeach
+{{ $invoices->fragment('invoices')->links() }}

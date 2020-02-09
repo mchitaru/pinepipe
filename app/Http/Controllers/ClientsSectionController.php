@@ -15,8 +15,9 @@ class ClientsSectionController extends Controller
 
         if(\Auth::user()->can('manage client'))
         {
-            $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->get();            
-            $contacts = Contact::where('created_by','=',$client->creatorId())->get();
+            $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->paginate(25, ['*'], 'client-page');
+
+            $contacts = Contact::where('created_by','=',$client->creatorId())->paginate(25, ['*'], 'contact-page');
 
             $leads_count = 0;
             $stages = null;

@@ -57,3 +57,4 @@
     </div>
 </div>
 @endforeach
+{{ $contacts->fragment('contacts')->links() }}

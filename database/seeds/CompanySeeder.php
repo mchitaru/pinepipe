@@ -1,0 +1,57 @@
+<?php
+
+use App\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Database\Seeder;
+
+class CompanySeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $faker = Faker\Factory::create();
+
+        $company = User::create(
+            [
+                'name' => $faker->company(),
+                'email' => $faker->companyEmail(),
+                'password' => Hash::make('1234'),
+                'type' => 'company',
+                'lang' => 'en',
+                'avatar' => null,
+                'plan_id' => 1,
+                'created_by' => 1,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        User::$SEED_COMPANY_IDX++;
+        User::$SEED_COMPANY_ID = $company->id;
+
+        $role = Role::findByName('company');
+        $company->initCompanyDefaults();
+        $company->assignRole($role);
+
+        factory(App\User::class, App\User::$SEED_CLIENT_COUNT)->create()->each(function ($user) use($company) {
+
+            $role = Role::findByName('client');
+            $user->type = 'client';
+            $user->created_by = $company->id;
+            $user->save();
+            $user->assignRole($role);
+        });
+
+        factory(App\User::class, App\User::$SEED_STAFF_COUNT)->create()->each(function ($user) use($company) {
+
+            $role = Role::where('name', '=', 'employee')->where('created_by', '=', $user->creatorId())->first();
+            $user->type = 'employee';
+            $user->created_by = $company->id;
+            $user->save();
+            $user->assignRole($role);
+        });
+    }
+}

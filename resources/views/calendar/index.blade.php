@@ -31,7 +31,7 @@
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            right: 'dayGridMonth,timeGridWeek,timeGridDay listMonth'
         },
         defaultView: (localStorage.getItem("fcDefaultView") ? localStorage.getItem("fcDefaultView") : "listMonth"),
         weekNumbers: true,

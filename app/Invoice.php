@@ -18,6 +18,8 @@ class Invoice extends Model
         'created_by',
     ];
 
+    public static $SEED = 100;
+
     public static $statues = [
         'Open',
         'Not Paid',

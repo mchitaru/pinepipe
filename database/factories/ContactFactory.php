@@ -1,14 +1,14 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
+use App\User;
 use App\Contact;
 use Faker\Generator as Faker;
 
 $factory->define(Contact::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'client_id' => $faker->numberBetween(3, 4),
+        'client_id' => $faker->numberBetween(User::$SEED_COMPANY_ID + 1, User::$SEED_COMPANY_ID + User::$SEED_CLIENT_COUNT),
         'email' => $faker->unique()->safeEmail,
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,
@@ -17,6 +17,6 @@ $factory->define(Contact::class, function (Faker $faker) {
         'website' => 'https:\\www.basecrm.io',
         'birthday' => $faker->date,
         'notes' => $faker->text,
-        'created_by' => '2'
+        'created_by' => User::$SEED_COMPANY_ID
     ];
 });

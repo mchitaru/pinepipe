@@ -12,7 +12,7 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-        factory(Task::class, Task::$PROJECT_SEED)->states('project')->create();
-        factory(Task::class, Task::$SEED)->create();
+        factory(Task::class, Task::$SEED_PROJECT)->states('project')->create();
+        factory(Task::class, Task::$SEED_FREE)->create();
     }
 }

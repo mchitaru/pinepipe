@@ -75,3 +75,4 @@
     </div>
 </div>
 @endforeach
+{{ $expenses->fragment('expenses')->links() }}

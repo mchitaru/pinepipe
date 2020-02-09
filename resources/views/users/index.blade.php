@@ -102,3 +102,4 @@ use App\Http\Helpers;
     </div>
 </div>
 @endforeach
+{{ $users->fragment('users')->links() }}

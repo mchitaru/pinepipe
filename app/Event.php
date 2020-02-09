@@ -25,6 +25,8 @@ class Event extends Model
         'notes'
 	];
 
+    public static $SEED = 100;
+
     public function user()
     {
         return $this->hasOne('App\User', 'id', 'user_id');

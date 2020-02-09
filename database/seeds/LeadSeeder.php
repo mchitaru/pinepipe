@@ -11,7 +11,7 @@ class LeadSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Lead::class, 5)->create();
+        factory(App\Lead::class, App\Lead::$SEED)->create();
         // factory(App\Lead::class, 5)->states('contact')->create();
     }
 }

@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\User;
 use App\Event;
 use Faker\Generator as Faker;
 use Carbon\Carbon;
@@ -18,7 +19,8 @@ $factory->define(Event::class, function (Faker $faker) {
         'end' => Carbon::parse($date)->addHours($faker->numberBetween(1, 24)),
         'busy' => true,
         'notes' => null,
-        'user_id' => $faker->numberBetween(5, 9),
-        'created_by' => '2',
+        'user_id' => $faker->numberBetween(User::$SEED_COMPANY_ID + User::$SEED_CLIENT_COUNT + 1, 
+                                            User::$SEED_COMPANY_ID + User::$SEED_CLIENT_COUNT + User::$SEED_STAFF_COUNT),
+        'created_by' => User::$SEED_COMPANY_ID,
     ];
 });

@@ -11,6 +11,6 @@ class UserTaskSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\UserTask::class, App\Task::$PROJECT_SEED)->create();
+        factory(App\UserTask::class, App\Task::$SEED_PROJECT)->create();
     }
 }

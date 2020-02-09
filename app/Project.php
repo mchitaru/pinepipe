@@ -31,7 +31,7 @@ class Project extends Model
 
     ];
 
-    public static $SEED = 2;
+    public static $SEED = 10;
 
     public function tasks()
     {

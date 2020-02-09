@@ -18,6 +18,8 @@ class LeadStage extends Model
 
     ];
 
+    public static $SEED = 4;
+
     public function leads()
     {
         return $this->hasMany('App\Lead', 'stage_id', 'id');
