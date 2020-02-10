@@ -17,7 +17,11 @@ class LeadsController extends ClientsSectionController
     {
         if(\Auth::user()->can('manage lead'))
         {
-            $stages = LeadStage::with('leads')->where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+            clock()->startEvent('LeadsController', "Load leads");
+
+            $stages = LeadStage::stagesByUserType()->get();
+
+            clock()->endEvent('LeadsController');
 
             return view('leads.board', compact('stages'));
         }    

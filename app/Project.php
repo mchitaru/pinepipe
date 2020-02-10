@@ -63,6 +63,11 @@ class Project extends Model
         return $this->hasMany('App\ProjectFile', 'project_id', 'id');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany('App\Invoice', 'project_id', 'id');
+    }
+
     public function expenses()
     {
         return $this->hasMany('App\Expense', 'project_id', 'id');
@@ -73,38 +78,62 @@ class Project extends Model
         return $this->belongsToMany('App\User', 'user_projects');
     }
 
-    public function project_total_task($project_id)
+    public function permissions()
     {
-        return Task::where('project_id', '=', $project_id)->count();
+        return $this->hasOne('App\ProjectClientPermissions', 'project_id', 'id');
     }
 
-    public function project_complete_task($project_id, $last_stage_id)
+    public function stagesByUserType()
     {
-        return Task::where('project_id', '=', $project_id)->where('stage_id', '=', $last_stage_id)->count();
-    }
+        if(\Auth::user()->type == 'client')
+        {
+            return ProjectStage::with(['tasks' => function ($query) 
+            {
+                $query->where('project_id', '=', $this->id);
+                $query->where('client_id', '=', \Auth::user()->id);    
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC');
 
-    public function project_last_stage()
-    {
-        return ProjectStage::where('created_by', '=', $this->created_by)->orderBy('order', 'desc')->first();
-    }
-
-    public function client_project_permission()
-    {
-        return ProjectClientPermission::where('project_id', $this->id)->where('client_id', $this->client_id)->first();
-    }
-
-    public function getProjectProgress()
-    {
-        $project_last_stage = ($this->project_last_stage($this->id))?$this->project_last_stage($this->id)->id:'';
-        $total_task = $this->project_total_task($this->id);
-        $completed_task = $this->project_complete_task($this->id, $project_last_stage);
-        
-        $percentage=0;
-        if($total_task!=0){
-            $percentage = intval(($completed_task / $total_task) * 100);
+        }else if(\Auth::user()->type == 'company')
+        {
+            return ProjectStage::with(['tasks' => function ($query)
+            {
+                $query->where('project_id', '=', $this->id);
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC');
+        }else
+        {
+            return ProjectStage::with(['tasks' => function ($query)
+            {
+                $query->where('project_id', '=', $this->id);
+                $query->whereHas('users', function ($query) 
+                {
+                    // tasks with the current user assigned.
+                    $query->where('users.id', \Auth::user()->id);
+                });            
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC');
         }
+    }    
 
-        return $percentage;
+    public function computeStatistics($last_stage_id)
+    {   
+        $this->progress = 0;
+        $this->completed_tasks = 0;  
+
+        if(!$this->tasks->isEmpty())
+        {
+            foreach($this->tasks as $task)
+            {
+                if($task->stage_id == $last_stage_id)
+                    $this->completed_tasks++;
+            }
+
+            $this->progress = intval(($this->completed_tasks / $this->tasks->count()) * 100);
+        }
     }
 
     public static function getProgressColor($percentage)
@@ -208,7 +237,7 @@ class Project extends Model
         $project->users()->sync($users);
 
         $permissions = Project::$permission;
-        ProjectClientPermission::create(
+        ProjectClientPermissions::create(
             [
                 'client_id' => $project->client_id,
                 'project_id' => $project->id,
@@ -241,9 +270,9 @@ class Project extends Model
 
         $this->users()->sync($users);
 
-        ProjectClientPermission::where('client_id','=',$this->client_id)->where('project_id','=', $this->id)->delete();
+        ProjectClientPermissions::where('client_id','=',$this->client_id)->where('project_id','=', $this->id)->delete();
         $permissions = Project::$permission;
-        ProjectClientPermission::create(
+        ProjectClientPermissions::create(
             [
                 'client_id' => $this->client_id,
                 'project_id' => $this->id,

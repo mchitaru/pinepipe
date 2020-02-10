@@ -30,6 +30,23 @@ class Helpers
                                             (" class='".$class."' src='".Storage::url($user->avatar)."'"))."/>";
     }
 
+    public static function getProgressColor($progress)
+    {
+        $color = '';
+
+        if($progress<=15){
+            $color='bg-danger';
+        }else if ($progress > 15 && $progress <= 33) {
+            $color='bg-warning';
+        } else if ($progress > 33 && $progress <= 70) {
+            $color='bg-primary';
+        } else {
+            $color='bg-success';
+        }    
+
+        return $color;
+    }
+
     static function fragment($route, $fragment) 
     {
         return route($route) . "/#{$fragment}";

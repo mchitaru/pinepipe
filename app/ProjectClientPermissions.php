@@ -4,10 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectClientPermission extends Model
+class ProjectClientPermissions extends Model
 {
     protected $fillable = [
-        'client_id', 
         'project_id',
         'permissions'
     ];

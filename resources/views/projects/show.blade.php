@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @php
-    use Carbon\Carbon;
-    use App\Project;
-    use App\Http\Helpers;
+use Carbon\Carbon;
+use App\Project;
+use App\Http\Helpers;
 
-    $current_user=\Auth::user();
+$current_user=\Auth::user();
+$dz_id = 'project-files-dz';
+$perArr = ($project->permissions? explode(',',$project->permissions->permissions):[]);
 @endphp
 
 @push('stylesheets')
@@ -111,27 +113,6 @@
 @endsection
 
 @section('content')
-    @php
-        $permissions=$project->client_project_permission();
-        $perArr=(!empty($permissions)? explode(',',$permissions->permissions):[]);
-        $project_last_stage = ($project->project_last_stage($project->id))? $project->project_last_stage($project->id)->id:'';
-
-        $total_task = $project->project_total_task($project->id);
-        $completed_task=$project->project_complete_task($project->id,$project_last_stage);
-
-        $percentage=0;
-            if($total_task!=0){
-                $percentage = intval(($completed_task / $total_task) * 100);
-            }
-
-        $label = $project->getProgressColor($percentage);
-
-        $datetime1 = new DateTime($project->due_date);
-        $datetime2 = new DateTime(date('Y-m-d'));
-        $interval = $datetime1->diff($datetime2);
-        $days_remaining = $interval->format('%a');
-        $dz_id = 'project-files-dz';
-    @endphp
 
 <div class="container">
     <div class="row justify-content-center">
@@ -169,10 +150,10 @@
             </div>
             <div>
                 <div class="d-flex flex-row-reverse">
-                    <small class="card-text" style="float:right;">{{$percentage}}%</small>
+                    <small class="card-text" style="float:right;">{{$project->progress}}%</small>
                 </div>
                 <div class="progress mt-0">
-                        <div class="progress-bar {{$label}}" style="width:{{$percentage}}%;"></div>
+                        <div class="progress-bar {{Helpers::getProgressColor($project->progress)}}" style="width:{{$project->progress}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
@@ -184,39 +165,35 @@
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
                     <i class="material-icons">playlist_add_check</i>
-                    <span>{{$completed_task}}/{{$total_task}}</span>
+                    <span>{{$project->completed_tasks}}/{{$project->tasks->count()}}</span>
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Members')}}">
                     <i class="material-icons">people</i>
                     <span>{{$project->users()->count()+1}}</span>
                 </div>
-                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Days Remaining')}}">
-                    <i class="material-icons">calendar_today</i>
-                    <span>{{$days_remaining}}</span>
-                </div>
-                <span>{{__('Due') }} {{ \Auth::user()->dateFormat($project->due_date) }}</span>
+                <span>{{__('Due') }} {{ Carbon::parse($project->due_date)->diffForHumans() }}</span>
                 </div>
             </div>
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
-                    <span class="badge badge-secondary">{{ $task_count }}</span>
+                    <span class="badge badge-secondary">{{ $project->tasks->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#timesheets" role="tab" aria-controls="timesheets" aria-selected="false">Timesheets
-                    <span class="badge badge-secondary">{{ count($timesheets) }}</span>
+                    <span class="badge badge-secondary">{{ $timesheets->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">Invoices
-                    <span class="badge badge-secondary">{{ count($invoices) }}</span>
+                    <span class="badge badge-secondary">{{ $invoices->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses" aria-selected="false">Expenses
-                    <span class="badge badge-secondary">{{ count($expenses) }}</span>
+                    <span class="badge badge-secondary">{{ $expenses->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -234,10 +211,11 @@
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
 
-                    <a href="{{ route('projects.task.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
-                        <i class="material-icons">add</i>
-                    </a>
-
+                    @can('create task')
+                        <a href="{{ route('projects.task.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                            <i class="material-icons">add</i>
+                        </a>
+                    @endcan
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -253,8 +231,9 @@
                 <!--end of content list head-->
                 <div class="content-list-body">
 
-                    @include('tasks.index')
-                    
+                    @can('manage task')
+                        @include('tasks.index')
+                    @endcan                    
                 <!--end of content list body-->
                 </div>
                 <!--end of content list-->
@@ -265,9 +244,12 @@
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
 
-                    <a href="{{ route('projects.timesheet.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
-                        <i class="material-icons">add</i>
-                    </a>
+                    @can('create timesheet')
+                        <a href="{{ route('projects.timesheet.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                            <i class="material-icons">add</i>
+                        </a>
+                    @endcan
+
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -282,8 +264,9 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-
-                    @include('timesheets.index')
+                    @can('manage timesheet')
+                        @include('timesheets.index')
+                    @endcan
                 </div>
             </div>
             <!--end of tab-->
@@ -292,9 +275,11 @@
                 <div class="col-auto">
                     <h3>{{__('Invoices')}}</h3>
 
-                    <a href="{{ route('projects.invoice.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
-                        <i class="material-icons">add</i>
-                    </a>
+                    @can('create invoice')
+                        <a href="{{ route('projects.invoice.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                            <i class="material-icons">add</i>
+                        </a>
+                    @endcan
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -309,8 +294,9 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-
-                    @include('invoices.index')
+                    @can('manage invoice')
+                        @include('invoices.index')
+                    @endcan
                 </div>
             </div>
             <!--end of tab-->
@@ -319,9 +305,11 @@
                 <div class="col-auto">
                     <h3>{{__('Expenses')}}</h3>
 
-                    <a href="{{ route('projects.expense.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
-                        <i class="material-icons">add</i>
-                    </a>
+                    @can('create expense')
+                        <a href="{{ route('projects.expense.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                            <i class="material-icons">add</i>
+                        </a>
+                    @endcan
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -336,8 +324,9 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-
-                    @include('expenses.index')
+                    @can('manage expense')
+                        @include('expenses.index')
+                    @endcan
                 </div>
             </div>
             <!--end of tab-->

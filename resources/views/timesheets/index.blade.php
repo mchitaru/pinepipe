@@ -1,3 +1,5 @@
+@php clock()->startEvent('timesheets.index', "Display timesheets"); @endphp
+
 @php
 use App\Http\Helpers;
 @endphp
@@ -63,4 +65,5 @@ use App\Http\Helpers;
 </div>
 
 @endforeach
-{{ $timesheets->fragment('timesheets')->links() }}
+
+@php clock()->endEvent('timesheets.index'); @endphp

@@ -1,3 +1,5 @@
+@php clock()->startEvent('files.index', "Display files"); @endphp
+
 @php
     use App\Http\Helpers;
 @endphp
@@ -56,4 +58,6 @@
 
     <ul id="{{$dz_id}}-previews" class="list-group list-group-activity dropzone-previews flex-column-reverse">
     </ul>
-    </div>
+</div>
+
+@php clock()->endEvent('files.index'); @endphp

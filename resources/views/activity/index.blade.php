@@ -1,3 +1,5 @@
+@php clock()->startEvent('activities.index', "Display activities"); @endphp
+
 <ol class="list-group list-group-activity">
 
     @foreach($activities as $activity)
@@ -22,3 +24,5 @@
     @endforeach
 
 </ol>
+
+@php clock()->endEvent('activities.index'); @endphp

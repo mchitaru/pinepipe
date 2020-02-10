@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\ActivityLog;
 use App\TaskChecklist;
 use App\Client;
-use App\ProjectClientPermission;
+use App\ProjectClientPermissions;
 use App\TaskComment;
 use App\Invoice;
 use App\Lead;
@@ -101,59 +101,41 @@ class ProjectsController extends ProjectsSectionController
 
     public function show(Project $project)
     {
+        $user = \Auth::user();
+
         if(\Auth::user()->can('show project'))
         {
+            clock()->startEvent('ProjectsController', "Load project");
+
             $project_id = $project->id;
-            $stages  = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
-            $project_files = ProjectFile::where('project_id', $project_id)->get();
-            $activities = $project->activities;
-
-            if(\Auth::user()->can('manage timesheet'))
-            {
-                if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
-                {
-                    $timesheets = Timesheet::where('project_id', '=', $project_id)->paginate(25, ['*'], 'timesheet-page');
-                }
-                else
-                {
-                    $timesheets = Timesheet::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->paginate(25, ['*'], 'timesheet-page');
-                }
-            }
-            else
-            {
-                $timesheets = new LengthAwarePaginator(array(), 0, 1);
-            }
-
-            if(\Auth::user()->can('manage invoice'))
-            {
-                $invoices = Invoice::where('project_id', '=', $project_id)->paginate(25, ['*'], 'invoice-page');
-            }
-            else
-            {
-                $invoices = new LengthAwarePaginator(array(), 0, 1);
-            }
-
-            if(\Auth::user()->can('manage expense'))
-            {
-                if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
-                {
-                    $expenses = Expense::where('project_id', '=', $project_id)->paginate(25, ['*'], 'expense-page');
-                }
-                else
-                {
-                    $expenses = Expense::where('user_id', '=', \Auth::user()->id)->where('project_id', '=', $project_id)->paginate(25, ['*'], 'expense-page');
-                }
-            }
-            else
-            {
-                $expenses = new LengthAwarePaginator(array(), 0, 1);
-            }
+            
+            $stages = $project->stagesByUserType()->get();
 
             $task_count = 0;
-            foreach($stages as $stage){
-                $task_count = $task_count + $stage->tasksByUserType($project_id)->count();
+            foreach($stages as $stage)
+            {
+                $task_count += $stage->tasks->count();
+            }
+            
+            $project_files = $project->files;            
+            $invoices = $project->invoices;
+            $activities = $project->activities;
+            
+            if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
+            {
+                $timesheets = $project->timesheets;
+                $expenses = $project->expenses;
+            }
+            else
+            {
+                $timesheets = $project->timesheets()->where('user_id', '=', \Auth::user()->id);
+                $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id);
             }
 
+            $project->computeStatistics($user->last_projectstage()->id);
+
+            clock()->endEvent('ProjectsController');
+            
             return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'invoices', 'expenses', 'activities'));
         }
         else
@@ -214,7 +196,7 @@ class ProjectsController extends ProjectsSectionController
             }
             else
             {
-                ProjectClientPermission::create(
+                ProjectClientPermissions::create(
                     [
                         'client_id' => $client->id,
                         'project_id' => $project->id,

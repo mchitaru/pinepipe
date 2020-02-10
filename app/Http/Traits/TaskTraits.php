@@ -12,7 +12,7 @@ trait TaskTraits
             $project = Project::find($task->project_id);
 
             if(!empty($project))
-                $permissions = $project->client_project_permission();
+                $permissions = $project->permissions;
 
             $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
 

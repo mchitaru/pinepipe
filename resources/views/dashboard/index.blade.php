@@ -261,24 +261,11 @@ if($client_project_budget_due_per<=15){
                                 </div>
                                 <div class="card-list-body collapse show" id="projects">
                                     @foreach($project['projects'] as $project)
-                                    @php
-                                    
-                                        $project_last_stage = ($project->project_last_stage($project->id))?$project->project_last_stage($project->id)->id:'';
-                                        $total_task = $project->project_total_task($project->id);
-                                        $completed_task=$project->project_complete_task($project->id,$project_last_stage);
-                                        $remain_task=$total_task-$completed_task;
+                                    @php $project->computeStatistics($last_project_stage->id); @endphp
 
-                                        $project_percentage=0;
-                                        if($total_task!=0){
-                                            $project_percentage = intval(($completed_task / $total_task) * 100);
-                                        }
-
-                                        $label = $project->getProgressColor($project_percentage);
-
-                                    @endphp
                                     <div class="card card-task">
                                         <div class="progress">
-                                            <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$project_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar {{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <div class="card-body">
                                         <div class="card-title">
@@ -290,7 +277,7 @@ if($client_project_budget_due_per<=15){
                                         <div class="card-meta">
                                             <div class="d-flex align-items-center">
                                                 <i class="material-icons">playlist_add_check</i>
-                                                <span>{{$completed_task}}/{{$total_task}}</span>
+                                                <span>{{$project->completed_tasks}}/{{$project->tasks->count()}}</span>
                                             </div>
                                             <div class="dropdown card-options">
                                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

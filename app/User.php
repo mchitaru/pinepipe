@@ -335,12 +335,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function clientPermission($project_id)
     {
-        return ProjectClientPermission::where('client_id', '=', $this->id)->where('project_id', '=', $project_id)->first();
+        return ProjectClientPermissions::where('client_id', '=', $this->id)->where('project_id', '=', $project_id)->first();
     }
 
     public function last_leadstage()
     {
         return LeadStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
+    }
+
+    public function last_projectstage()
+    {
+        return ProjectStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
     }
 
     public function total_lead()
@@ -414,11 +419,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function total_project()
     {
         return Project::where('created_by', '=', $this->creatorId())->count();
-    }
-
-    public function last_projectstage()
-    {
-        return ProjectStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
     }
 
     public function project_complete_task($project_last_stage)

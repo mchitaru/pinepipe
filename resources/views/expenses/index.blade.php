@@ -1,3 +1,5 @@
+@php clock()->startEvent('expenses.index', "Display expenses"); @endphp
+
 @php
     use Carbon\Carbon;
     use App\Http\Helpers;
@@ -75,4 +77,5 @@
     </div>
 </div>
 @endforeach
-{{ $expenses->fragment('expenses')->links() }}
+
+@php clock()->endEvent('expenses.index'); @endphp

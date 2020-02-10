@@ -31,6 +31,8 @@ DashboardController extends Controller
 
         if(\Auth::user()->type != 'super admin')
         {
+            $last_project_stage = \Auth::user()->last_projectstage();
+
             $total_lead     = \Auth::user()->total_lead();
             $last_leadstage = \Auth::user()->last_leadstage();
 
@@ -128,7 +130,7 @@ DashboardController extends Controller
             $projectData     = \App\Project::getProjectStatus();
             $taskData        = \App\ProjectStage::getChartData();
 
-            return view('dashboard.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'projectData', 'taskData', 'activities'));
+            return view('dashboard.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'projectData', 'taskData', 'last_project_stage', 'activities'));
         }
         else
         {

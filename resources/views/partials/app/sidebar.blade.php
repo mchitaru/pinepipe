@@ -128,28 +128,15 @@ $languages=$user->languages();
         @endcan
 
         @can('manage project')
-            <li class="nav-item">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
+        </li>
+        @endcan
 
-            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">{{__('Projects')}}</a>
-            <div id="submenu-3" class="collapse">
-                <ul class="nav nav-small flex-column">
-
-                <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>                    
-                </li>
-
-                <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('projects.index') }}/#tasks">{{__('Tasks')}}</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('projects.task.board','0') }}">{{__('Task Board')}}</a>
-                </li>
-
-                </ul>
-            </div>
-
-            </li>
+        @can('manage task')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('projects.task.board', '0') }}">{{__('Tasks')}}</a>
+        </li>
         @endcan
 
         @if((Gate::check('manage product') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')

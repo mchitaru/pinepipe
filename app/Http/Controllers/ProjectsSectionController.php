@@ -11,25 +11,19 @@ class ProjectsSectionController extends Controller
 {
     public function index()
     {
-        if(\Auth::user()->can('manage project'))
+        $user = \Auth::user();
+
+        if($user->can('manage project'))
         {
-            $user = \Auth::user();
+            clock()->startEvent('ProjectsSectionController', "Load projects");
 
-            $projects = $user->projectsByUserType()->paginate(25, ['*'], 'project-page');
+            $projects = $user->projectsByUserType()
+                            ->with(['tasks', 'users', 'client'])
+                            ->paginate(25, ['*'], 'project-page');
+
+            clock()->endEvent('ProjectsSectionController');
             
-            $stages = ProjectStage::with('tasks.checklist')
-                                    ->where('created_by', '=', \Auth::user()->creatorId())
-                                    ->orderBy('order', 'ASC')
-                                    ->get();
-
-            $project_id = null;
-            $task_count = 0;
-            foreach($stages as $stage)
-                $task_count = $task_count + $stage->tasksByUserType($project_id)->count();
-
-            $activities = array();
-
-            return view('sections.projects.index', compact('projects', 'project_id', 'stages', 'task_count', 'activities'));
+            return view('sections.projects.index', compact('projects'));
         }
         else
         {

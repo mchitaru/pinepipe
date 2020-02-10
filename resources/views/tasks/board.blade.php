@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php clock()->startEvent('tasks.board', "Display tasks"); @endphp
+
 @php
 use Carbon\Carbon;
 use App\Project;
@@ -22,9 +24,7 @@ use App\Http\Helpers;
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item"><a href="{{ route('projects.index').'/#tasks' }}">{{__('Tasks')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('Task Board')}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{__('Tasks')}}</li>
         </ol>
     </nav>
 
@@ -42,23 +42,45 @@ use App\Http\Helpers;
 @endsection
 
 @section('content')
-    <div class="container-kanban">
+    <div class="container-kanban" data-filter-list="card-list-body">
         <div class="container-fluid page-header d-flex justify-content-between align-items-start">
-            <div class="row align-items-center">
-                <h3>Task Board</h3>
-                <span class="badge badge-secondary">demo</span>
+            <div class="col">
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                        <h3>{{__('Tasks')}}</h3>
+
+                        <a href="{{ route('projects.task.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
+                            <i class="material-icons">add</i>
+                        </a>
+
+                    </div>
+                    <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                            </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="Filter tasks" aria-label="Filter Tasks">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+        {{-- <div class="content-list-body">
+
+            @include('tasks.index')
+        <!--end of content list body-->
+        </div> --}}
+
         <div class="kanban-board container-fluid mt-lg-3">
 
             @foreach($stages as $stage)
             
-            @php $tasks =$stage->tasksByUserType($project_id)->get()    @endphp
-
             <div class="kanban-col">
                 <div class="card-list">
                 <div class="card-list-header">
-                    <h6>{{$stage->name}} ({{ count($tasks) }})</h6>
+                    <h6>{{$stage->name}} ({{ $stage->tasks->count() }})</h6>
                     <div class="dropdown">
                     <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
@@ -92,7 +114,7 @@ use App\Http\Helpers;
                     </div>
                     </div> --}}
 
-                    @foreach($tasks as $task)
+                    @foreach($stage->tasks as $task)
     
                     @php
                         $total_subtask = $task->getTotalChecklistCount();
@@ -179,3 +201,5 @@ use App\Http\Helpers;
         </div>
     </div>
 @endsection
+
+@php clock()->endEvent('tasks.board'); @endphp

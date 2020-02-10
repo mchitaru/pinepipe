@@ -25,6 +25,48 @@ class ProjectStage extends Model
         return $this->hasMany('App\Task', 'stage_id', 'id');
     }
 
+    public static function stagesByUserType()
+    {
+        if(\Auth::user()->type == 'client')
+        {
+            return ProjectStage::with(['tasks' => function ($query) 
+            {
+                $query->where('client_id', '=', \Auth::user()->id);    
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC');
+
+        }else if(\Auth::user()->type == 'company')
+        {
+            return ProjectStage::with('tasks')
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC');
+        }else
+        {
+            return ProjectStage::with(['tasks' => function ($query)
+            {
+                $query->whereHas('users', function ($query) 
+                {
+                    // tasks with the current user assigned.
+                    $query->where('users.id', \Auth::user()->id);
+
+                })->orWhereHas('project', function ($query) {
+                    
+                    // only include tasks with projects where...
+                    $query->whereHas('users', function ($query) {
+
+                        // ...the current user is assigned.
+                        $query->where('users.id', \Auth::user()->id);
+                    });
+                });
+
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC');
+        }
+    }    
+
+
     public function tasksByUserType($project_id)
     {
         if(!empty($project_id))

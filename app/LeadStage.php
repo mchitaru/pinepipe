@@ -25,15 +25,33 @@ class LeadStage extends Model
         return $this->hasMany('App\Lead', 'stage_id', 'id');
     }
 
-    public function leadsByUserType()
+    public static function stagesByUserType()
     {
-        if(\Auth::user()->type == 'company')
+        if(\Auth::user()->type == 'client')
         {
-            return $this->leads()->with(['client', 'user'])->orderBy('order');
+            return LeadStage::with(['leads' => function ($query) {
+
+                        $query->where('leads.client_id', \Auth::user()->id);
+                    },
+                    'leads.client','leads.user'])
+                    ->where('created_by', '=', \Auth::user()->creatorId())
+                    ->orderBy('order');
+        }
+        elseif(\Auth::user()->type == 'company')
+        {
+            return LeadStage::with(['leads','leads.client','leads.user'])
+                    ->where('created_by', '=', \Auth::user()->creatorId())
+                    ->orderBy('order');
 
         }else
         {
-            return $this->leads()->with(['client', 'user'])->where('user_id', '=', \Auth::user()->id)->orderBy('order');
+            return LeadStage::with(['leads'=> function ($query) {
+
+                        $query->where('leads.user_id', \Auth::user()->id);
+                    },
+                    'leads.client','leads.user'])
+                    ->where('created_by', '=', \Auth::user()->creatorId())
+                    ->orderBy('order');
         }
     }
 }

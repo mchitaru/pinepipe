@@ -1,3 +1,5 @@
+@php clock()->startEvent('invoices.index', "Display invoices"); @endphp
+
 @php
     use Carbon\Carbon;
 @endphp
@@ -88,4 +90,5 @@
     </div>
 </div>
 @endforeach
-{{ $invoices->fragment('invoices')->links() }}
+
+@php clock()->endEvent('invoices.index'); @endphp

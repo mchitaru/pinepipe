@@ -101,7 +101,10 @@
                     </div>
                     <!--end of content list head-->
                     <div class="content-list-body">
-                        @include('invoices.index')
+                        @can('manage invoice')
+                            @include('invoices.index')
+                            {{ $invoices->fragment('invoices')->links() }}
+                        @endcan
                     </div>
                     <!--end of content list body-->
                 </div>
@@ -110,7 +113,7 @@
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>
-                        @can('create invoice')
+                        @can('create expense')
                         <a href="{{ route('projects.expense.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
@@ -129,7 +132,10 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-                    @include('expenses.index')
+                    @can('manage expense')
+                        @include('expenses.index')
+                        {{ $expenses->fragment('expenses')->links() }}
+                    @endcan
                 </div>
                 <!--end of content list body-->
             </div>

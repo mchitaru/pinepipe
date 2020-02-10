@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php clock()->startEvent('leads.board', "Display lead board"); @endphp
+
 @php
 use Carbon\Carbon;
 use App\Http\Helpers;
@@ -43,8 +45,6 @@ use App\Http\Helpers;
 
 @section('content')
 
-@php clock()->startEvent('leads.board', "Display lead board"); @endphp
-
     <div class="container-kanban" data-filter-list="card-list-body">
         <div class="container-fluid page-header d-flex justify-content-between align-items-start">
             <div class="col">
@@ -74,12 +74,10 @@ use App\Http\Helpers;
                 
             @foreach($stages as $stage)
 
-            @php ($leads = $stage->leadsByUserType()->get()) @endphp
-
             <div class="kanban-col">
                 <div class="card-list">
                 <div class="card-list-header">
-                    <h6>{{$stage->name}} ({{ $leads->count() }})</h6>
+                    <h6>{{$stage->name}} ({{ $stage->leads->count() }})</h6>
                     <div class="dropdown">
                     <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
@@ -92,7 +90,7 @@ use App\Http\Helpers;
                 </div>
                 <div class="card-list-body">
 
-                    @foreach($leads as $lead)
+                    @foreach($stage->leads as $lead)
 
                     <div class="card card-kanban">
 
@@ -120,7 +118,7 @@ use App\Http\Helpers;
                         </div>
 
                         <div class="card-title">
-                            <span class="text-small" data-filter-by="text">
+                            <span class="text-small">
                                 {{ \Auth::user()->priceFormat($lead->price) }}
                             </span>
                             @if(!empty($lead->user))

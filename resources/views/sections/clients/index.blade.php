@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php clock()->startEvent('clientsection.index', "Display client section"); @endphp
+
 @push('stylesheets')
 @endpush
 
@@ -32,8 +34,6 @@ $(document).ready(function() {
 @endsection
 
 @section('breadcrumb')
-
-@php clock()->startEvent('clientsection.index', "Display client section"); @endphp
 
 <div class="breadcrumb-bar navbar bg-white sticky-top">
     <nav aria-label="breadcrumb">
@@ -120,6 +120,6 @@ $(document).ready(function() {
     </div>
 </div>
 
-@php clock()->endEvent('clientsection.index'); @endphp
-
 @endsection
+
+@php clock()->endEvent('clientsection.index'); @endphp

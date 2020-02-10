@@ -1,3 +1,5 @@
+@php clock()->startEvent('tasks.index', "Display tasks"); @endphp
+
 @php
     use Carbon\Carbon;
     use App\Project;
@@ -10,15 +12,9 @@
 
 @foreach($stages as $key=>$stage)
 
-@php 
-
-    $tasks = $stage->tasksByUserType($project_id)->paginate(25, ['*'], 'page-'.$key);
-    
-@endphp
-
     <div class="card-list">
     <div class="card-list-head ">
-        <h6>{{$stage->name}} ({{ count($tasks) }})</h6>
+        <h6>{{$stage->name}} ({{ $stage->tasks->count() }})</h6>
         <div class="dropdown">
             <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="material-icons">more_vert</i>
@@ -31,7 +27,7 @@
         </div>
         <div class="card-list-body">
 
-        @foreach($tasks as $key=>$task)
+        @foreach($stage->tasks as $key=>$task)
 
         @php
             $total_subtask = $task->getTotalChecklistCount();
@@ -129,6 +125,7 @@
         @endforeach
 
         </div>
-        {{ $tasks->fragment('tasks')->links() }}
     </div>
 @endforeach
+
+@php clock()->endEvent('tasks.index'); @endphp
