@@ -27,7 +27,7 @@ class ContactStoreRequest extends FormRequest
             'name'=>'required|string|min:3',
             'client_id'=>'required|integer',
             'email'=>'nullable|email',
-            'phone'=>'nullable|numeric',
+            'phone'=>'nullable|string',
         ];
     }
 

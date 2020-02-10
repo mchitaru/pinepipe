@@ -47,8 +47,6 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item disabled" href="#">{{__('New Proposal')}}</a>
-            <a class="dropdown-item disabled" href="#">{{__('New Contract')}}</a>
             <a class="dropdown-item" href="{{ route('projects.invoice.create', '0') }}" data-remote="true" data-type="text">{{__('New Invoice')}}</a>
             <a class="dropdown-item" href="{{ route('projects.expense.create', '0') }}" data-remote="true" data-type="text">{{__('New Expense')}}</a>
 
@@ -69,14 +67,6 @@
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#proposals" role="tab" aria-controls="proposals" aria-selected="true">{{__('Proposals')}}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#contracts" role="tab" aria-controls="contracts" aria-selected="false">{{__('Contracts')}}
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">{{__('Invoices')}}
                 <span class="badge badge-secondary">{{ count($invoices) }}</span>
             </a>
@@ -85,9 +75,6 @@
             <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses" aria-selected="false">{{__('Expenses')}}
                 <span class="badge badge-secondary">{{ count($expenses) }}</span>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
         </li>
         </ul>
         <div class="tab-content">
@@ -145,32 +132,6 @@
                     @include('expenses.index')
                 </div>
                 <!--end of content list body-->
-            </div>
-            <!--end of tab-->
-            <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
-                <div class="content-list">
-                <div class="row content-list-head">
-                    <div class="col-auto">
-                    <h3>Activity</h3>
-                    </div>
-                    <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                        </span>
-                        </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity">
-                    </div>
-                    </form>
-                </div>
-                <!--end of content list head-->
-                <div class="content-list-body">
-                    @include('activity.index')
-                </div>
-                </div>
-                <!--end of content list-->
-            </div>
             </div>
             <!--end of tab-->
         </div>

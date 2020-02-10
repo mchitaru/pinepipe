@@ -90,6 +90,18 @@ $languages=$user->languages();
             @endcan
         @endif
 
+        @can('manage contact')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
+        </li>
+        @endcan
+
+        @can('manage lead')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
+        </li>
+        @endcan
+
         @can('manage client')
             <li class="nav-item">
 
@@ -102,17 +114,12 @@ $languages=$user->languages();
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('clients.index') }}/#contacts">{{__('Contacts')}}</a>
+                    <a class="dropdown-item disabled" href="#">{{__('Proposals')}}</a>
                 </li>
 
-                @if(Gate::check('manage lead'))
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('clients.index') }}/#leads">{{__('Leads')}}</a>
+                    <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
                 </li>
-                <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Lead Board')}}</a>
-                </li>
-                @endif
 
                 </ul>
             </div>
@@ -152,13 +159,6 @@ $languages=$user->languages();
                 <div id="submenu-4" class="collapse">
                     <ul class="nav nav-small flex-column">
 
-                    <li class="nav-item">
-                        <a class="dropdown-item disabled" href="#">{{__('Proposals')}}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="dropdown-item disabled" href="#">{{__('Contracts')}}</a>
-                    </li>
 
                     @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
                     <li class="nav-item">
@@ -215,7 +215,7 @@ $languages=$user->languages();
         <ul class="nav nav-small flex-column mt-2">
         @can('manage contact')
             <li class="nav-item">
-                <a href="{{ route('clients.index').'/#contacts' }}" class="nav-link">{{__('Contacts')}}</a>
+                <a href="{{ route('clients.index') }}" class="nav-link">{{__('Clients')}}</a>
             </li>
         @endcan
         @can('manage project')

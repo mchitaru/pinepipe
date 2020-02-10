@@ -11,8 +11,29 @@ use App\Http\Requests\ContactDestroyRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class ContactsController extends ClientsSectionController
+class ContactsController extends Controller
 {
+
+    public function index()
+    {
+        $user = \Auth::user();
+
+        if($user->can('manage contact'))
+        {
+            clock()->startEvent('ContactsController', "Load contacts");
+
+            $contacts = Contact::with('client')->where('created_by','=',$user->creatorId())
+                        ->paginate(25, ['*'], 'contact-page');
+
+            clock()->endEvent('ContactsController');
+
+            return view('sections.contacts.index', compact('contacts'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -40,7 +61,7 @@ class ContactsController extends ClientsSectionController
 
         $request->session()->flash('success', __('Contact successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#contacts';
+        $url = redirect()->back()->getTargetUrl();
         return "<script>window.location='{$url}'</script>";
     }
 

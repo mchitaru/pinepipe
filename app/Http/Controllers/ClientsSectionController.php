@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Contact;
-use App\LeadStage;
+use App\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -12,30 +12,20 @@ class ClientsSectionController extends Controller
 {
     public function index()
     {
-        $client=\Auth::user();
+        $user = \Auth::user();
 
-        if(\Auth::user()->can('manage client'))
+        if($user->can('manage client'))
         {
-            // $clients = new LengthAwarePaginator(array(), 0, 1);
-            $clients = User::where('created_by','=',$client->creatorId())->where('type','=','client')->paginate(25, ['*'], 'client-page');
+            clock()->startEvent('ClientsSectionController', "Load clients");
 
-            // $contacts = new LengthAwarePaginator(array(), 0, 1);
-            $contacts = Contact::where('created_by','=',$client->creatorId())->paginate(25, ['*'], 'contact-page');
+            $clients = User::with(['clientContacts:id','clientProjects:id', 'clientLeads:id'])
+                        ->where('created_by','=',$user->creatorId())
+                        ->where('type','=','client')
+                        ->paginate(25, ['*'], 'client-page');
 
-            $leads_count = 0;
-            $stages = null;
-            if(\Auth::user()->can('manage lead'))
-            {
-                $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+            clock()->endEvent('ClientsSectionController');
 
-                foreach($stages as $stage)
-                    $leads_count = $leads_count + $stage->leads->count();
-            }    
-
-            $client_id = null;
-            $activities = array();
-
-            return view('sections.clients.index', compact('clients', 'client_id', 'contacts', 'stages', 'leads_count', 'activities'));
+            return view('sections.clients.index', compact('clients'));
         }
         else
         {

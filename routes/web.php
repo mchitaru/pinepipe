@@ -58,6 +58,7 @@ Route::group(
         Route::put('clients/{client}', 'ClientsController@update')->name('clients.update');
         Route::delete('clients/{client}', 'ClientsController@destroy')->name('clients.destroy');
 
+        Route::get('contacts', 'ContactsController@index')->name('contacts.index');
         Route::get('contacts/create', 'ContactsController@create')->name('contacts.create');
         Route::post('contacts', 'ContactsController@store')->name('contacts.store');
         Route::get('contacts/{contact}', 'ContactsController@show')->name('contacts.show');

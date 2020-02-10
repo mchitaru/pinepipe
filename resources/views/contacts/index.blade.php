@@ -1,3 +1,5 @@
+@php clock()->startEvent('contacts.index', "Display contacts"); @endphp
+
 @foreach($contacts as $contact)
 <div class="card card-task mb-1">
     <div class="container row align-items-center" style="min-height: 77px;">
@@ -29,9 +31,13 @@
             </div>
             <div class="card-meta col">
                 <div class="d-flex align-items-center justify-content-end">
-                    <span data-filter-by="text" class="badge badge-secondary mr-2">
-                        {{!empty($contact->client)?$contact->client->name:$contact->company}}
-                    </span>
+                    @can('show client')
+                    <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $contact->client->enabled?route('clients.show',$contact->client->id):'#' }}">
+                    @endcan
+                        {{$contact->client->name}}
+                    @can('show client')
+                    </a>
+                    @endcan        
                 </div>
             </div>
             <div class="dropdown card-options">
@@ -58,3 +64,5 @@
 </div>
 @endforeach
 {{ $contacts->fragment('contacts')->links() }}
+
+@php clock()->endEvent('contacts.index'); @endphp

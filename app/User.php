@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
 
-    public static $SEED_COMPANY_COUNT = 100;
+    public static $SEED_COMPANY_COUNT = 2;
     public static $SEED_CLIENT_COUNT = 5;
     public static $SEED_STAFF_COUNT = 10;
     

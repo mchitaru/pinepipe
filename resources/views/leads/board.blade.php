@@ -21,9 +21,7 @@ use App\Http\Helpers;
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            <li class="breadcrumb-item"><a href="{{ route('clients.index') }}/#leads">{{__('Clients')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('Lead Board')}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{__('Leads')}}</li>
         </ol>
     </nav>
 
@@ -35,29 +33,53 @@ use App\Http\Helpers;
 
             <a class="dropdown-item disabled" href="#">{{__('New Lead')}}</a>
 
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
+            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Export')}}</a>
         </div>
     </div>
 </div>
 @endsection
 
 @section('content')
-    <div class="container-kanban">
+
+@php clock()->startEvent('leads.board', "Display lead board"); @endphp
+
+    <div class="container-kanban" data-filter-list="card-list-body">
         <div class="container-fluid page-header d-flex justify-content-between align-items-start">
-            <div class="row align-items-center">
-                <h3>Lead Board</h3>
-                <span class="badge badge-secondary">demo</span>
+            <div class="col">
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                        <h3>{{__('Leads')}}</h3>
+                        @can('create lead')
+                        <a href="{{ route('leads.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                            <i class="material-icons">add</i>
+                        </a>
+                        @endcan
+                    </div>
+                    <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                            </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Leads')}}" aria-label="{{__('Filter Leads')}}">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="kanban-board container-fluid mt-lg-3">
                 
             @foreach($stages as $stage)
 
-            @php($leads = $stage->leadsByUserType(null)->get())
+            @php ($leads = $stage->leadsByUserType()->get()) @endphp
 
             <div class="kanban-col">
                 <div class="card-list">
                 <div class="card-list-header">
-                    <h6>{{$stage->name}} ({{ count($leads) }})</h6>
+                    <h6>{{$stage->name}} ({{ $leads->count() }})</h6>
                     <div class="dropdown">
                     <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
@@ -88,7 +110,7 @@ use App\Http\Helpers;
                             @can('edit lead')
                             <a href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                             @endcan
-                                <h6>{{$lead->name}}</h6>
+                                <h6 data-filter-by="text">{{$lead->name}}</h6>
                             @can('edit lead')
                             </a>
                             @endcan
@@ -128,3 +150,5 @@ use App\Http\Helpers;
         </div>
     </div>
 @endsection
+
+@php clock()->endEvent('leads.board'); @endphp

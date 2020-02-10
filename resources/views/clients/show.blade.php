@@ -70,17 +70,17 @@ $(document).ready(function() {
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">{{__('Contacts')}}
-                    <span class="badge badge-secondary">{{ count($contacts) }}</span>
+                    <span class="badge badge-secondary">{{ $contacts->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#leads" role="tab" aria-controls="leads" aria-selected="false">{{__('Leads')}}
-                    <span class="badge badge-secondary">{{ $leads_count }}</span>
+                    <span class="badge badge-secondary">{{ $leads->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">{{__('Projects')}}
-                    <span class="badge badge-secondary">{{ count($projects) }}</span>
+                    <span class="badge badge-secondary">{{ $projects->count() }}</span>
                 </a>
             </li>    
             <li class="nav-item">

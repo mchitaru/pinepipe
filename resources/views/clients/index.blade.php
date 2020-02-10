@@ -2,6 +2,8 @@
 use App\Http\Helpers;
 @endphp
 
+@php clock()->startEvent('clients.index', "Display clients"); @endphp
+
 @foreach($clients as $client)
 <div class="card card-task mb-1">
     <div class="container row align-items-center" style="min-height: 67px;">
@@ -74,3 +76,5 @@ use App\Http\Helpers;
 </div>
 @endforeach
 {{ $clients->fragment('clients')->links() }}
+
+@php clock()->endEvent('clients.index'); @endphp

@@ -52,9 +52,7 @@ class FinancesSectionController extends Controller
                 }
             }
 
-            $activities = array();
-
-            return view('sections.finance.index', compact('invoices', 'expenses', 'activities'));
+            return view('sections.finance.index', compact('invoices', 'expenses'));
         }
         else
         {

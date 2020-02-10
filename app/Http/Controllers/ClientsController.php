@@ -6,7 +6,7 @@ use App\PaymentPlan;
 use App\User;
 use App\Contact;
 use App\Project;
-use App\LeadStage;
+use App\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -118,26 +118,45 @@ class ClientsController extends ClientsSectionController
 
     public function show(User $client)
     {
-        if(\Auth::user()->can('manage client'))
+        $user = \Auth::user();
+
+        if($user->can('manage client'))
         {
-            $contacts = $client->clientContacts()->paginate(25, ['*'], 'contact-page');;
-            $projects = Project::where('client_id', '=', $client->id)->paginate(25, ['*'], 'project-page');
+            clock()->startEvent('ClientsController', "Load contacts, leads, projects");
 
-            $leads_count = 0;
-            $stages = null;
-            if(\Auth::user()->can('manage lead'))
-            {
-                $stages = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+            $contacts = Contact::where('client_id', '=', $client->id)
+                        ->where('created_by','=',$user->creatorId())
+                        ->paginate(25, ['*'], 'contact-page');
 
-                foreach($stages as $stage){
-                    $leads_count = $leads_count + count($stage->leads()->where('client_id','=',$client->id)->get());
-                }
-            }
+            $projects = Project::where('client_id', '=', $client->id)
+                        ->paginate(25, ['*'], 'project-page');
 
-            $client_id = $client->id;
+            if($user->can('manage lead'))
+            {        
+                if($user->type == 'company')
+                {
+                    $leads = Lead::with(['client', 'user', 'stage'])
+                            ->where('client_id', '=', $client->id)
+                            ->where('created_by', '=', $user->creatorId())
+                            ->orderBy('order')
+                            ->paginate(25, ['*'], 'lead-page');
+    
+                }else
+                {
+                    $leads = $user->leads()
+                                ->with(['client', 'user', 'stage'])
+                                ->where('client_id', '=', $client->id)
+                                ->where('created_by', '=', $user->creatorId())
+                                ->orderBy('order')
+                                ->paginate(25, ['*'], 'lead-page');
+                }        
+            }    
+
             $activities = array();
 
-            return view('clients.show', compact('client', 'client_id', 'contacts', 'projects', 'stages', 'leads_count', 'activities'));
+            clock()->endEvent('ClientsController');
+
+            return view('clients.show', compact('client', 'contacts', 'projects', 'leads', 'activities'));
         }else
         {
             return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));
