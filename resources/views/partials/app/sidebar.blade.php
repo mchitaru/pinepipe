@@ -90,17 +90,30 @@ $languages=$user->languages();
             @endcan
         @endif
 
-        @can('manage contact')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
-        </li>
-        @endcan
+        @if(Gate::check('manage contact') || Gate::check('manage lead'))
+            <li class="nav-item">
 
-        @can('manage lead')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
-        </li>
-        @endcan
+            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">{{__('Contacts')}}</a>
+            <div id="submenu-1" class="collapse">
+                <ul class="nav nav-small flex-column">
+
+                @can('manage contact')
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
+                </li>
+                @endcan
+            
+                @can('manage lead')
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
+                </li>
+                @endcan
+        
+                </ul>
+            </div>
+
+            </li>
+        @endif
 
         @can('manage client')
             <li class="nav-item">
@@ -127,17 +140,31 @@ $languages=$user->languages();
             </li>
         @endcan
 
-        @can('manage project')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
-        </li>
-        @endcan
+        
+        @if(Gate::check('manage project') || Gate::check('manage task'))
+            <li class="nav-item">
 
-        @can('manage task')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('projects.task.board', '0') }}">{{__('Tasks')}}</a>
-        </li>
-        @endcan
+            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">{{__('Projects')}}</a>
+            <div id="submenu-3" class="collapse">
+                <ul class="nav nav-small flex-column">
+
+                @can('manage project')
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
+                </li>
+                @endcan
+                        
+                @can('manage task')
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('projects.task.board', '0') }}">{{__('Tasks')}}</a>
+                </li>
+                @endcan
+                
+                </ul>
+            </div>
+
+            </li>
+        @endif
 
         @if((Gate::check('manage product') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')
             <li class="nav-item">
@@ -207,10 +234,10 @@ $languages=$user->languages();
         @endcan
         @can('manage project')
             <li class="nav-item">
-                <a href="{{ route('projects.index').'/#projects' }}" class="nav-link">{{__('Projects')}}</a>
+                <a href="{{ route('projects.index') }}" class="nav-link">{{__('Projects')}}</a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('projects.index').'/#tasks' }}" class="nav-link">{{__('Tasks')}}</a>
+                <a href="{{ route('projects.task.board', '0') }}" class="nav-link">{{__('Tasks')}}</a>
             </li>
         @endcan
         </ul>
