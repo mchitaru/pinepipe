@@ -276,11 +276,20 @@ if($client_project_budget_due_per<=15){
                                             </a>
                                             <span class="text-small">{{ Carbon::parse($project->due_date)->diffForHumans() }}</span>
                                         </div>
+                                        <div class="card-title">
+                                            <ul class="avatars">
+
+                                                @foreach($project->users as $user)
+                                                <li>
+                                                    <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                                                        {!!Helpers::buildAvatar($user)!!}
+                                                    </a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+
+                                        </div>
                                         <div class="card-meta">
-                                            <div class="d-flex align-items-center">
-                                                <i class="material-icons">playlist_add_check</i>
-                                                <span>{{$project->completed_tasks}}/{{$project->tasks->count()}}</span>
-                                            </div>
                                             <div class="dropdown card-options">
                                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="material-icons">more_vert</i>
@@ -332,7 +341,13 @@ if($client_project_budget_due_per<=15){
                                                 </a>
                                                 <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>
                                                 @if(!empty($top_task->project))
-                                                    <p><span class="text-small">{{$top_task->project->name}}</span></p>
+                                                    @can('show project')
+                                                        <a href="{{ $top_task->project?route('projects.show', $top_task->project->id):'#' }}">
+                                                    @endcan
+                                                        <p><span class="text-small">{{$top_task->project->name}}</span></p>
+                                                    @can('show project')
+                                                        </a>
+                                                    @endcan
                                                 @endif
 
                                             </div>
