@@ -82,13 +82,13 @@ class Project extends Model
     {
         return $this->hasOne('App\ProjectClientPermissions', 'project_id', 'id');
     }
-
+       
     public function stages()
     {
         return ProjectStage::with(['tasks' => function ($query) 
         {
             $query->where('project_id', '=', $this->id);
-        }])
+        }], 'tasks.users')
         ->where('created_by', '=', \Auth::user()->creatorId())
         ->orderBy('order', 'ASC');
     }    

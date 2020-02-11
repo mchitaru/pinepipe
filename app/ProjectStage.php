@@ -37,13 +37,13 @@ class ProjectStage extends Model
                     $query->where('client_id', '=', \Auth::user()->id);
 
                 });
-            }])
+            },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
 
         }else if(\Auth::user()->type == 'company')
         {
-            return ProjectStage::with('tasks')
+            return ProjectStage::with(['tasks','tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
         }else
@@ -65,7 +65,7 @@ class ProjectStage extends Model
                     });
                 });
 
-            }])
+            }],'tasks.users')
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
         }
