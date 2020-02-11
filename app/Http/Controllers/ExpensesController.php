@@ -17,6 +17,8 @@ class ExpensesController extends Controller
         if(\Auth::user()->can('manage expense') || 
            \Auth::user()->type == 'client')
         {
+            clock()->startEvent('ExpensesController', "Load expenses");
+
             if(\Auth::user()->type == 'client')
             {
                 $expenses = Expense::with(['user','project'])
@@ -41,6 +43,8 @@ class ExpensesController extends Controller
                                     ->paginate(25, ['*'], 'expense-page');
                 }
             }
+
+            clock()->endEvent('ExpensesController');
 
             return view('expenses.page', compact('expenses'));
         }

@@ -27,6 +27,8 @@ class InvoicesController extends Controller
         if(\Auth::user()->can('manage invoice') || 
            \Auth::user()->type == 'client')
         {
+            clock()->startEvent('InvoicesController', "Load invoices");
+
             if(\Auth::user()->type == 'client')
             {
                 $invoices = Invoice::with('project')
@@ -50,6 +52,8 @@ class InvoicesController extends Controller
                                 ->paginate(25, ['*'], 'invoice-page');
                 }                
             }
+
+            clock()->endEvent('InvoicesController');
 
             return view('invoices.page', compact('invoices'));
         }
