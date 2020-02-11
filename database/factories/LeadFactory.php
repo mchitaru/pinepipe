@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(Lead::class, function (Faker $faker) {
     return [
         'name' => $faker->company,
-        'price' => $faker->randomNumber(3),
+        'price' => $faker->randomNumber(4),
         'stage_id'=> $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*LeadStage::$SEED + 1, 
                                             User::$SEED_COMPANY_IDX*LeadStage::$SEED),
         'user_id'=> $faker->numberBetween(User::$SEED_COMPANY_ID + User::$SEED_CLIENT_COUNT + 1, 

@@ -31,7 +31,7 @@ class TasksController extends ProjectsSectionController
             if($project_id)
             {
                 $project = Project::find($project_id)->first();
-                $stages = $project->stagesByUserType()->get();
+                $stages = $project->stages()->get();
             }
             else
             {

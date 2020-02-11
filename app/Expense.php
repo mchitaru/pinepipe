@@ -24,7 +24,9 @@ class Expense extends Model
         'project_id',
         'category_id',
         'user_id'
-	];
+    ];
+    
+    public static $SEED = 200;
 
     public function category(){
         return $this->hasOne('App\ExpenseCategory','id','category_id');

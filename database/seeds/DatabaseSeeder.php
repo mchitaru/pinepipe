@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             $this->call(UserTaskSeeder::class);
             $this->call(TaxSeeder::class);
             $this->call(InvoiceSeeder::class);
+            $this->call(ExpenseSeeder::class);
+            $this->call(TimesheetSeeder::class);
         }
      }
 }

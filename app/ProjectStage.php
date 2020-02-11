@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ProjectStage extends Model
 {
@@ -31,7 +32,11 @@ class ProjectStage extends Model
         {
             return ProjectStage::with(['tasks' => function ($query) 
             {
-                $query->where('client_id', '=', \Auth::user()->id);    
+                $query->WhereHas('project', function ($query) {
+                    
+                    $query->where('client_id', '=', \Auth::user()->id);
+
+                });
             }])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
@@ -107,7 +112,57 @@ class ProjectStage extends Model
             $arrDate[]         = $date;
         }
 
-        $stages  = ProjectStage::where('created_by', '=', $usr->creatorId())->get();
+        if(\Auth::user()->type == 'client')
+        {
+            $stages = ProjectStage::with(['tasks' => function ($query) use ($arrDate)
+            {                
+                $query->whereIn(DB::raw("DATE(updated_at)"), $arrDate);
+                $query->WhereHas('project', function ($query) {
+                    
+                    $query->where('client_id', '=', \Auth::user()->id);
+
+                });
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC')
+            ->get();
+
+        }else if(\Auth::user()->type == 'company')
+        {
+            $stages = ProjectStage::with(['tasks' => function ($query) use ($arrDate)
+            {
+                $query->whereIn(DB::raw("DATE(updated_at)"), $arrDate);
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC')
+            ->get();
+        }else
+        {
+            $stages = ProjectStage::with(['tasks' => function ($query) use ($arrDate)
+            {
+                $query->whereIn(DB::raw("DATE(updated_at)"), $arrDate);
+                $query->whereHas('users', function ($query) 
+                {
+                    // tasks with the current user assigned.
+                    $query->where('users.id', \Auth::user()->id);
+
+                })->orWhereHas('project', function ($query) {
+                    
+                    // only include tasks with projects where...
+                    $query->whereHas('users', function ($query) {
+
+                        // ...the current user is assigned.
+                        $query->where('users.id', \Auth::user()->id);
+                    });
+                });
+
+            }])
+            ->where('created_by', '=', \Auth::user()->creatorId())
+            ->orderBy('order', 'ASC')
+            ->get();
+        }
+
+        // $stages  = ProjectStage::where('created_by', '=', $usr->creatorId())->get();
         $arrTask = [];
 
         $i = 0;
@@ -118,7 +173,10 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = Task::where('stage_id', '=', $stage->id)->whereDate('updated_at', '=', $d)->count();
+                    // $data[] = Task::where('stage_id', '=', $stage->id)->whereDate('updated_at', '=', $d)->count();
+                    $data[] = $stage->tasks->filter(function ($item) use($d,$format) {
+                        return date($format, strtotime($item['updated_at'])) == $d;
+                    })->count();
                 }
 
                 $dataset['label'] = $stage->name;
@@ -144,7 +202,10 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = Task::join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    // $data[] = Task::join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    $data[] = $stage->tasks->filter(function ($item) use($d,$format) {
+                        return date($format, strtotime($item['updated_at'])) == $d;
+                    })->count();
                 }
 
                 $dataset['label']           = $stage->name;
@@ -168,7 +229,10 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    $data[] = $usr->tasks()->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    // $data[] = $usr->tasks()->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
+                    $data[] = $stage->tasks->filter(function ($item) use($d,$format) {
+                        return date($format, strtotime($item['updated_at'])) == $d;
+                    })->count();
                 }
 
 

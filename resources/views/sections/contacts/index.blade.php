@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php clock()->startEvent('contactssection.index', "Display contacts section"); @endphp
+
 @push('stylesheets')
 @endpush
 
@@ -11,8 +13,6 @@
 @endsection
 
 @section('breadcrumb')
-
-@php clock()->startEvent('contactssection.index', "Display contacts section"); @endphp
 
 <div class="breadcrumb-bar navbar bg-white sticky-top">
     <nav aria-label="breadcrumb">
@@ -80,7 +80,6 @@
         </div>
     </div>
 </div>
+@endsection
 
 @php clock()->endEvent('contactssection.index'); @endphp
-
-@endsection

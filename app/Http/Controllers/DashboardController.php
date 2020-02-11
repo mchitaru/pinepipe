@@ -8,19 +8,8 @@ use App\PaymentPlan;
 use App\Project;
 use App\User;
 
-class
-DashboardController extends Controller
+class DashboardController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -28,9 +17,10 @@ DashboardController extends Controller
      */
     public function index()
     {
-
         if(\Auth::user()->type != 'super admin')
         {
+            clock()->startEvent('DahsboardController', "Load dash");
+
             $last_project_stage = \Auth::user()->last_projectstage();
 
             $total_lead     = \Auth::user()->total_lead();
@@ -127,13 +117,18 @@ DashboardController extends Controller
             $users['staff']  = User::where('created_by', '=', \Auth::user()->creatorId())->count();
             $users['user']   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->count();
             $users['client'] = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->count();
+            
             $projectData     = \App\Project::getProjectStatus();
             $taskData        = \App\ProjectStage::getChartData();
+
+            clock()->endEvent('DashboardController');
 
             return view('dashboard.index', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'projectData', 'taskData', 'last_project_stage', 'activities'));
         }
         else
         {
+            clock()->startEvent('DahsboardController', "Load dash");
+
             // $activities = ActivityLog::all()->orderBy('id', 'desc');
             $activities = ActivityLog::orderBy('id', 'desc')->get();
 
@@ -146,9 +141,10 @@ DashboardController extends Controller
             $user['most_purchese_plan']=(!empty(PaymentPlan::most_purchese_plan())?PaymentPlan::most_purchese_plan()->total:0);
             $chartData = $this->getOrderChart(['duration'=>'week']);
 
+            clock()->endEvent('DashboardController');
+
             return view('dashboard.admin',compact('user','chartData','activities'));
         }
-
     }
 
     public function getOrderChart($arrParam){

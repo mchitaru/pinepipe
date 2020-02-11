@@ -23,6 +23,7 @@ class CreateTimesheetsTable extends Migration
             $table->float('hours')->default(0.0);
             $table->float('rate')->default(0.0);
             $table->text('remark')->nullable();
+            $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
         }
         );

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php clock()->startEvent('dashboard.index', "Display dash"); @endphp
+
 @php
 
 use App\Project;
@@ -161,7 +163,7 @@ if($client_project_budget_due_per<=15){
                                 </div>
                                 <a class="card-body" href="{{ route('clients.index') }}/#leads">
                                     <div class="number">
-                                        <h3 class="card-title">{{$lead['total_lead']}}</h3>
+                                        <h3 class="card-title row">{{$lead['total_lead']}}</h3>
                                         <small class="card-text">{{__('LEADS')}}</small>
                                     </div>
                                     <div class="icon">
@@ -178,7 +180,7 @@ if($client_project_budget_due_per<=15){
                                 <a class="card-body" href="{{ route('projects.index') }}">
                                     <div class="number">
 
-                                        <h3 class="card-title">{{$project['total_project']}}</h3>
+                                        <h3 class="card-title row">{{$project['total_project']}}</h3>
                                         <small class="card-text">{{__('PROJECTS')}}</small>
                                     </div>
                                     <div class="icon">
@@ -195,7 +197,7 @@ if($client_project_budget_due_per<=15){
                                 </div>
                                 <a class="card-body" href="{{ route('finances.index') }}/#invoices">
                                     <div class="number">
-                                        <h3 class="card-title">{{$invoice['total_invoice']}}</h3>
+                                        <h3 class="card-title row">{{$invoice['total_invoice']}}</h3>
                                         <small class="card-text">{{__('INVOICES')}}</small>
                                     </div>
                                     <div class="icon">
@@ -212,7 +214,7 @@ if($client_project_budget_due_per<=15){
                                 </div>
                                 <a class="card-body" href="{{ route('clients.index') }}">
                                     <div class="number">
-                                        <h3 class="card-title">{{$users['client']}}</h3>
+                                        <h3 class="card-title row">{{$users['client']}}</h3>
                                         <small class="card-text">{{__('CLIENTS')}}</small>
                                     </div>
                                     <div class="icon">
@@ -469,3 +471,5 @@ if($client_project_budget_due_per<=15){
     </div>
 </div>
 @endsection
+
+@php clock()->endEvent('dashboard.index'); @endphp

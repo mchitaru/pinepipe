@@ -21,7 +21,9 @@ class Timesheet extends Model
     protected $nullable = [
         'project_id', 
         'task_id',
-	];
+    ];
+    
+    public static $SEED = 500;
 
     public function project()
     {

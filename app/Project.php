@@ -31,7 +31,7 @@ class Project extends Model
 
     ];
 
-    public static $SEED = 5;
+    public static $SEED = 20;
 
     public function tasks()
     {
@@ -83,40 +83,14 @@ class Project extends Model
         return $this->hasOne('App\ProjectClientPermissions', 'project_id', 'id');
     }
 
-    public function stagesByUserType()
+    public function stages()
     {
-        if(\Auth::user()->type == 'client')
+        return ProjectStage::with(['tasks' => function ($query) 
         {
-            return ProjectStage::with(['tasks' => function ($query) 
-            {
-                $query->where('project_id', '=', $this->id);
-                $query->where('client_id', '=', \Auth::user()->id);    
-            }])
-            ->where('created_by', '=', \Auth::user()->creatorId())
-            ->orderBy('order', 'ASC');
-
-        }else if(\Auth::user()->type == 'company')
-        {
-            return ProjectStage::with(['tasks' => function ($query)
-            {
-                $query->where('project_id', '=', $this->id);
-            }])
-            ->where('created_by', '=', \Auth::user()->creatorId())
-            ->orderBy('order', 'ASC');
-        }else
-        {
-            return ProjectStage::with(['tasks' => function ($query)
-            {
-                $query->where('project_id', '=', $this->id);
-                $query->whereHas('users', function ($query) 
-                {
-                    // tasks with the current user assigned.
-                    $query->where('users.id', \Auth::user()->id);
-                });            
-            }])
-            ->where('created_by', '=', \Auth::user()->creatorId())
-            ->orderBy('order', 'ASC');
-        }
+            $query->where('project_id', '=', $this->id);
+        }])
+        ->where('created_by', '=', \Auth::user()->creatorId())
+        ->orderBy('order', 'ASC');
     }    
 
     public function computeStatistics($last_stage_id)

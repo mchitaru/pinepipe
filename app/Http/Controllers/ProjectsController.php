@@ -109,7 +109,7 @@ class ProjectsController extends ProjectsSectionController
 
             $project_id = $project->id;
             
-            $stages = $project->stagesByUserType()->get();
+            $stages = $project->stages()->get();
 
             $task_count = 0;
             foreach($stages as $stage)
