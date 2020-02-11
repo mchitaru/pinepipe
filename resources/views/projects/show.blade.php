@@ -169,7 +169,7 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Members')}}">
                     <i class="material-icons">people</i>
-                    <span>{{$project->users()->count()+1}}</span>
+                    <span>{{$project->users()->count()}}</span>
                 </div>
                 <span>{{__('Due') }} {{ Carbon::parse($project->due_date)->diffForHumans() }}</span>
                 </div>

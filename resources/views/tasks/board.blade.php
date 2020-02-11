@@ -24,6 +24,10 @@ use App\Http\Helpers;
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
+            @if($project)
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ route('projects.show',$project->id) }}">{{$project->name}}</a>
+                </li>
+            @endif
             <li class="breadcrumb-item active" aria-current="page">{{__('Tasks')}}</li>
         </ol>
     </nav>

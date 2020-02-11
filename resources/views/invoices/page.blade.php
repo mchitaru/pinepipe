@@ -69,7 +69,7 @@
                     <div class="content-list-body">
                         @can('manage invoice')
                             @include('invoices.index')
-                            {{ $invoices->fragment('invoices')->links() }}
+                            {{ $invoices->links() }}
                         @endcan
                     </div>
                     <!--end of content list body-->

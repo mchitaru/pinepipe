@@ -28,13 +28,18 @@ class Expense extends Model
     
     public static $SEED = 200;
 
-    public function category(){
+    public function category()
+    {
         return $this->hasOne('App\ExpenseCategory','id','category_id');
     }
-    public function projects(){
+    
+    public function project()
+    {
         return $this->hasOne('App\Project','id','project_id');
     }
-    public function user(){
+
+    public function user()
+    {
         return $this->hasOne('App\User','id','user_id');
     }
 }

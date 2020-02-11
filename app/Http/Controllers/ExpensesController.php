@@ -19,18 +19,26 @@ class ExpensesController extends Controller
         {
             if(\Auth::user()->type == 'client')
             {
-                $expenses = Expense::select('expenses.*','projects.name')
-                                    ->join('projects','projects.id','=','expenses.project_id')
-                                    ->where('projects.client_id','=',\Auth::user()->id)
-                                    ->where('expenses.created_by', '=', \Auth::user()->creatorId())
-                                    ->paginate(25, ['*'], 'expense-page');
+                $expenses = Expense::with(['user','project'])
+                            ->whereHas('project', function ($query)
+                            {
+                                $query->whereHas('client', function ($query) 
+                                {
+                                    $query->where('id', \Auth::user()->id);                
+                                });
+                            })
+                            ->where('created_by', '=', \Auth::user()->creatorId())
+                            ->paginate(25, ['*'], 'invoice-page');
+
             }
             else 
             {
                 
                 if(\Auth::user()->can('manage expense'))
                 {
-                    $expenses = Expense::where('created_by', '=', \Auth::user()->creatorId())->paginate(25, ['*'], 'expense-page');
+                    $expenses = Expense::with(['user','project'])
+                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->paginate(25, ['*'], 'expense-page');
                 }
             }
 

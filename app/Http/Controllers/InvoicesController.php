@@ -29,18 +29,25 @@ class InvoicesController extends Controller
         {
             if(\Auth::user()->type == 'client')
             {
-                $invoices = Invoice::select(['invoices.*'])
-                                    ->join('projects', 'projects.id', '=', 'invoices.project_id')
-                                    ->where('projects.client_id', '=', \Auth::user()->id)
-                                    ->where('invoices.created_by', '=', \Auth::user()->creatorId())
-                                    ->paginate(25, ['*'], 'invoice-page');
+                $invoices = Invoice::with('project')
+                            ->whereHas('project', function ($query)
+                            {
+                                $query->whereHas('client', function ($query) 
+                                {
+                                    $query->where('id', \Auth::user()->id);                
+                                });
+                            })
+                            ->where('created_by', '=', \Auth::user()->creatorId())
+                            ->paginate(25, ['*'], 'invoice-page');
             }
             else 
             {
                 
                 if(\Auth::user()->can('manage invoice'))
                 {
-                    $invoices = Invoice::where('created_by', '=', \Auth::user()->creatorId())->paginate(25, ['*'], 'invoice-page');
+                    $invoices = Invoice::with('project')
+                                ->where('created_by', '=', \Auth::user()->creatorId())
+                                ->paginate(25, ['*'], 'invoice-page');
                 }                
             }
 

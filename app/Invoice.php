@@ -33,7 +33,6 @@ class Invoice extends Model
         return $this->hasOne('App\Project', 'id', 'project_id');
     }
 
-
     public function tax()
     {
         return $this->hasOne('App\Tax', 'id', 'tax_id');

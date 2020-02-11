@@ -35,12 +35,13 @@ class TasksController extends Controller
             }
             else
             {
+                $project = null;
                 $stages = ProjectStage::stagesByUserType()->get();
             }
 
             clock()->endEvent('TasksController');
 
-            return view('tasks.board', compact('stages', 'project_id'));
+            return view('tasks.board', compact('stages', 'project'));
         }
         else
         {

@@ -205,6 +205,8 @@ class UserSeeder extends Seeder
             'create task',
             'move task',
             'show task',
+            'manage invoice',
+            'show invoice',
             'create checklist',
             'edit checklist',
             'create milestone',
