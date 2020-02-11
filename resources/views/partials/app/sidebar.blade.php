@@ -44,7 +44,7 @@ $languages=$user->languages();
                         <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                     @endif
                     @if(Gate::check('manage role'))
-                        <a class="dropdown-item" href="{{ route('users.index') }}/#roles">{{__('User Roles')}}</a>
+                        <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
                     @endif
 
                     <div class="dropdown-divider"></div>
@@ -176,13 +176,13 @@ $languages=$user->languages();
 
                     @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
                     <li class="nav-item">
-                        <a class="dropdown-item" href="{{ route('finances.index') }}/#invoices">{{__('Invoices')}}</a>
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
                     </li>
                     @endcan
 
                     @if(Gate::check('manage expense') || \Auth::user()->type=='client')
                     <li class="nav-item">
-                        <a class="dropdown-item" href="{{ route('finances.index') }}/#expenses">{{__('Expenses')}}</a>
+                        <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
                     </li>
                     @endif
 
@@ -296,7 +296,7 @@ $languages=$user->languages();
                     <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                 @endif
                 @if(Gate::check('manage role'))
-                    <a class="dropdown-item" href="{{ route('users.index') }}/#roles">{{__('User Roles')}}</a>
+                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
                 @endif
                 <div class="dropdown-divider"></div>
             @endif

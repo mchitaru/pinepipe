@@ -14,9 +14,32 @@ use App\Http\Helpers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class ClientsController extends ClientsSectionController
+class ClientsController extends Controller
 {
  
+    public function index()
+    {
+        $user = \Auth::user();
+
+        if($user->can('manage client'))
+        {
+            clock()->startEvent('ClientsController', "Load clients");
+
+            $clients = User::with(['clientContacts:id','clientProjects:id', 'clientLeads:id'])
+                        ->where('created_by','=',$user->creatorId())
+                        ->where('type','=','client')
+                        ->paginate(25, ['*'], 'client-page');
+
+            clock()->endEvent('ClientsController');
+
+            return view('clients.page', compact('clients'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
+    }
+
     public function create()
     {
         if(\Auth::user()->can('create client')) {

@@ -27,7 +27,7 @@ class ContactsController extends Controller
 
             clock()->endEvent('ContactsController');
 
-            return view('sections.contacts.index', compact('contacts'));
+            return view('contacts.page', compact('contacts'));
         }
         else
         {

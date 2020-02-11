@@ -195,7 +195,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$invoice_percentage}}%;"></div>
                                 </div>
-                                <a class="card-body" href="{{ route('finances.index') }}/#invoices">
+                                <a class="card-body" href="{{ route('invoices.index') }}">
                                     <div class="number">
                                         <h3 class="card-title row">{{$invoice['total_invoice']}}</h3>
                                         <small class="card-text">{{__('INVOICES')}}</small>

@@ -18,7 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class TasksController extends ProjectsSectionController
+class TasksController extends Controller
 {
     use TaskTraits;
 

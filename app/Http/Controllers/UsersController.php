@@ -11,8 +11,37 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class UsersController extends UsersSectionController
+class UsersController extends Controller
 {
+
+    public function index()
+    {
+        $user = \Auth::user();
+        if(\Auth::user()->can('manage user'))
+        {
+            if(\Auth::user()->type == 'super admin')
+            {
+                $users = User::withTrashed()
+                                ->where('created_by', '=', $user->creatorId())
+                                ->where('type', '=', 'company')
+                                ->paginate(25, ['*'], 'user-page');
+            }
+            else
+            {
+                $users = User::withTrashed()
+                                ->where('created_by', '=', $user->creatorId())
+                                ->where('type', '!=', 'client')
+                                ->paginate(25, ['*'], 'user-page');
+            }
+    
+            return view('users.page', compact('users'));
+        }
+        else
+        {
+            return redirect()->back();
+        }
+
+    }
 
     public function create()
     {

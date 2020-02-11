@@ -57,7 +57,7 @@
                 <a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
-                <a href="{{ route('finances.index') }}/#invoices">{{__('Invoices')}}</a>
+                <a href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">{{ Auth::user()->invoiceNumberFormat($invoice->id) }}</li>
         </ol>

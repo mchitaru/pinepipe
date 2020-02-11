@@ -32,8 +32,30 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProjectsController extends ProjectsSectionController
+class ProjectsController extends Controller
 {
+
+    public function index()
+    {
+        $user = \Auth::user();
+
+        if($user->can('manage project'))
+        {
+            clock()->startEvent('ProjectsController.index', "Load projects");
+
+            $projects = $user->projectsByUserType()
+                            ->with(['tasks', 'users', 'client'])
+                            ->paginate(25, ['*'], 'project-page');
+
+            clock()->endEvent('ProjectsController.index');
+            
+            return view('projects.page', compact('projects'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Permission denied.');
+        }
+    }
 
     public function create()
     {

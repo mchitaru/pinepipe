@@ -10,9 +10,25 @@ use Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class UserRolesController extends UsersSectionController
+class UserRolesController extends Controller
 {
 
+    public function index()
+    {
+        $user = \Auth::user();
+        if(\Auth::user()->can('manage role'))
+        {
+            $roles = Role::where('created_by','=',\Auth::user()->creatorId())->get();
+    
+            return view('roles.page', compact('roles'));
+        }
+        else
+        {
+            return redirect()->back();
+        }
+
+    }
+    
     public function create()
     {
         if(\Auth::user()->can('create role')){

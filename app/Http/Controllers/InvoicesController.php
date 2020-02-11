@@ -20,8 +20,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class InvoicesController extends FinancesSectionController
+class InvoicesController extends Controller
 {
+    public function index()
+    {
+        if(\Auth::user()->can('manage invoice') || 
+           \Auth::user()->type == 'client')
+        {
+            if(\Auth::user()->type == 'client')
+            {
+                $invoices = Invoice::select(['invoices.*'])
+                                    ->join('projects', 'projects.id', '=', 'invoices.project_id')
+                                    ->where('projects.client_id', '=', \Auth::user()->id)
+                                    ->where('invoices.created_by', '=', \Auth::user()->creatorId())
+                                    ->paginate(25, ['*'], 'invoice-page');
+            }
+            else 
+            {
+                
+                if(\Auth::user()->can('manage invoice'))
+                {
+                    $invoices = Invoice::where('created_by', '=', \Auth::user()->creatorId())->paginate(25, ['*'], 'invoice-page');
+                }                
+            }
+
+            return view('invoices.page', compact('invoices'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
+    }
+
     public function create($project_id)
     {
 

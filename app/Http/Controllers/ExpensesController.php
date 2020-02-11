@@ -10,8 +10,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class ExpensesController extends FinancesSectionController
+class ExpensesController extends Controller
 {
+    public function index()
+    {
+        if(\Auth::user()->can('manage expense') || 
+           \Auth::user()->type == 'client')
+        {
+            if(\Auth::user()->type == 'client')
+            {
+                $expenses = Expense::select('expenses.*','projects.name')
+                                    ->join('projects','projects.id','=','expenses.project_id')
+                                    ->where('projects.client_id','=',\Auth::user()->id)
+                                    ->where('expenses.created_by', '=', \Auth::user()->creatorId())
+                                    ->paginate(25, ['*'], 'expense-page');
+            }
+            else 
+            {
+                
+                if(\Auth::user()->can('manage expense'))
+                {
+                    $expenses = Expense::where('created_by', '=', \Auth::user()->creatorId())->paginate(25, ['*'], 'expense-page');
+                }
+            }
+
+            return view('expenses.page', compact('expenses'));
+        }
+        else
+        {
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
+    }
+
     public function create($project_id)
     {
         if(\Auth::user()->can('create expense'))

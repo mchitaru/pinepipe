@@ -40,8 +40,6 @@ Route::group(
         //Sharepoint
         Route::get('sharepoint', 'SharepointController@index')->name('sharepoint');
 
-        Route::get('finances', 'FinancesSectionController@index')->name('finances.index');
-
         //Users
         Route::post('users/notifications', 'UsersController@readNotifications')->name('users.notifications');
         Route::resource('users', 'UsersController');
@@ -50,7 +48,7 @@ Route::group(
         Route::resource('permissions', 'PermissionsController');
 
         //Clients
-        Route::get('clients', 'ClientsSectionController@index')->name('clients.index');
+        Route::get('clients', 'ClientsController@index')->name('clients.index');
         Route::get('clients/create', 'ClientsController@create')->name('clients.create');
         Route::post('clients', 'ClientsController@store')->name('clients.store');
         Route::get('clients/{client}', 'ClientsController@show')->name('clients.show');
@@ -112,7 +110,7 @@ Route::group(
                                   ]
         );
     
-        Route::get('projects', 'ProjectsSectionController@index')->name('projects.index');
+        Route::get('projects', 'ProjectsController@index')->name('projects.index');
         Route::get('projects/create', 'ProjectsController@create')->name('projects.create');
         Route::post('projects', 'ProjectsController@store')->name('projects.store');
         Route::get('projects/{project}', 'ProjectsController@show')->name('projects.show');
@@ -173,6 +171,7 @@ Route::group(
 
         //Invoices
         Route::get('projects/{project}/invoice', 'InvoicesController@create')->name('projects.invoice.create');
+        Route::get('invoices', 'InvoicesController@index')->name('invoices.index');
         Route::post('invoices', 'InvoicesController@store')->name('invoices.store');
         Route::get('invoices/{invoice}', 'InvoicesController@show')->name('invoices.show');
         Route::get('invoices/{invoice}/edit', 'InvoicesController@edit')->name('invoices.edit');
@@ -200,6 +199,7 @@ Route::group(
 
         //Expenses
         Route::get('projects/{project}/expense', 'ExpensesController@create')->name('projects.expense.create');
+        Route::get('expenses', 'ExpensesController@index')->name('expenses.index');
         Route::post('expenses', 'ExpensesController@store')->name('expenses.store');
         Route::get('expenses/{expense}', 'ExpensesController@show')->name('expenses.show');
         Route::get('expenses/{expense}/edit', 'ExpensesController@edit')->name('expenses.edit');

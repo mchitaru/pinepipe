@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class LeadsController extends ClientsSectionController
+class LeadsController extends Controller
 {
     public function board()
     {
