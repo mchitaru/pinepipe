@@ -12,6 +12,29 @@ use App\Http\Helpers;
 @endpush
 
 @push('scripts')
+<script type="module">
+
+// import {mrKanban} from '/js/app.js';
+
+// mrKanban.sortableKanbanCards.on('sortable:stop', (evt) => {
+
+// console.log(evt);
+
+// $.ajax({
+//     url: '{{route("tasks.update","'+evt.newIndex+'")}}',
+//     type: 'PATCH',
+//     data: {stage_id: evt.oldIndex, order: evt.newIndex, "_token": $('meta[name="csrf-token"]').attr('content')},
+//     success: function (data) {
+//         console.log('success');
+//     },
+//     error: function (data) {
+//         console.log('error');
+//     }
+// });
+
+// })
+
+</script>
 @endpush
 
 @section('page-title')
