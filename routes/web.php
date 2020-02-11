@@ -48,21 +48,10 @@ Route::group(
         Route::resource('permissions', 'PermissionsController');
 
         //Clients
-        Route::get('clients', 'ClientsController@index')->name('clients.index');
-        Route::get('clients/create', 'ClientsController@create')->name('clients.create');
-        Route::post('clients', 'ClientsController@store')->name('clients.store');
-        Route::get('clients/{client}', 'ClientsController@show')->name('clients.show');
-        Route::get('clients/{client}/edit', 'ClientsController@edit')->name('clients.edit');
-        Route::put('clients/{client}', 'ClientsController@update')->name('clients.update');
-        Route::delete('clients/{client}', 'ClientsController@destroy')->name('clients.destroy');
+        Route::resource('clients', 'ClientsController');
 
-        Route::get('contacts', 'ContactsController@index')->name('contacts.index');
-        Route::get('contacts/create', 'ContactsController@create')->name('contacts.create');
-        Route::post('contacts', 'ContactsController@store')->name('contacts.store');
-        Route::get('contacts/{contact}', 'ContactsController@show')->name('contacts.show');
-        Route::get('contacts/{contact}/edit', 'ContactsController@edit')->name('contacts.edit');
-        Route::put('contacts/{contact}', 'ContactsController@update')->name('contacts.update');
-        Route::delete('contacts/{contact}', 'ContactsController@destroy')->name('contacts.destroy');
+        //Contacts
+        Route::resource('contacts', 'ContactsController');
 
         //Profile
         Route::get('profile', 'UserProfileController@show')->name('profile.show');
@@ -91,12 +80,7 @@ Route::group(
             'uses' => 'LeadsController@order',
         ]);
 
-        Route::get('leads/create', 'LeadsController@create')->name('leads.create');
-        Route::post('leads', 'LeadsController@store')->name('leads.store');
-        Route::get('leads/{lead}', 'LeadsController@show')->name('leads.show');
-        Route::get('leads/{lead}/edit', 'LeadsController@edit')->name('leads.edit');
-        Route::put('leads/{lead}', 'LeadsController@update')->name('leads.update');
-        Route::delete('leads/{lead}', 'LeadsController@destroy')->name('leads.destroy');
+        Route::resource('leads', 'LeadsController');
 
         //PaymentPlans
         Route::resource('plans', 'PaymentPlansController');
@@ -110,14 +94,7 @@ Route::group(
                                   ]
         );
     
-        Route::get('projects', 'ProjectsController@index')->name('projects.index');
-        Route::get('projects/create', 'ProjectsController@create')->name('projects.create');
-        Route::post('projects', 'ProjectsController@store')->name('projects.store');
-        Route::get('projects/{project}', 'ProjectsController@show')->name('projects.show');
-        Route::get('projects/{project}/edit', 'ProjectsController@edit')->name('projects.edit');
-        Route::put('projects/{project}', 'ProjectsController@update')->name('projects.update');
-        Route::patch('projects/{project}', 'ProjectsController@update')->name('projects.update');
-        Route::delete('projects/{project}', 'ProjectsController@destroy')->name('projects.destroy');
+        Route::resource('projects', 'ProjectsController');
 
         Route::get('projects/{project}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');
         Route::post('projects/{project}/milestone', 'ProjectMilestonesController@store')->name('projects.milestone.store');
@@ -171,12 +148,7 @@ Route::group(
 
         //Invoices
         Route::get('projects/{project}/invoice', 'InvoicesController@create')->name('projects.invoice.create');
-        Route::get('invoices', 'InvoicesController@index')->name('invoices.index');
-        Route::post('invoices', 'InvoicesController@store')->name('invoices.store');
-        Route::get('invoices/{invoice}', 'InvoicesController@show')->name('invoices.show');
-        Route::get('invoices/{invoice}/edit', 'InvoicesController@edit')->name('invoices.edit');
-        Route::put('invoices/{invoice}', 'InvoicesController@update')->name('invoices.update');
-        Route::delete('invoices/{invoice}', 'InvoicesController@destroy')->name('invoices.destroy');
+        Route::resource('invoices', 'InvoicesController');
 
         //Invoice products
         Route::get('invoices/{invoice}/products', 'InvoiceProductsController@create')->name('invoices.products.create');
@@ -199,12 +171,7 @@ Route::group(
 
         //Expenses
         Route::get('projects/{project}/expense', 'ExpensesController@create')->name('projects.expense.create');
-        Route::get('expenses', 'ExpensesController@index')->name('expenses.index');
-        Route::post('expenses', 'ExpensesController@store')->name('expenses.store');
-        Route::get('expenses/{expense}', 'ExpensesController@show')->name('expenses.show');
-        Route::get('expenses/{expense}/edit', 'ExpensesController@edit')->name('expenses.edit');
-        Route::put('expenses/{expense}', 'ExpensesController@update')->name('expenses.update');
-        Route::delete('expenses/{expense}', 'ExpensesController@destroy')->name('expenses.destroy');
+        Route::resource('expenses', 'ExpensesController');
 
         //Payments
         Route::resource('payments', 'PaymentTypesController');
