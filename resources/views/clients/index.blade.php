@@ -5,7 +5,7 @@ use App\Http\Helpers;
 @php clock()->startEvent('clients.index', "Display clients"); @endphp
 
 @foreach($clients as $client)
-<div class="card card-task mb-1">
+<div class="card card-task">
     <div class="container row align-items-center" style="min-height: 67px;">
         <div class="pl-2 position-absolute">
             <a href="#" data-toggle="tooltip" title={{$client->name}}>

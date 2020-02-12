@@ -1,7 +1,7 @@
 @php clock()->startEvent('contacts.index', "Display contacts"); @endphp
 
 @foreach($contacts as $contact)
-<div class="card card-task mb-1">
+<div class="card card-task">
     <div class="container row align-items-center" style="min-height: 77px;">
         <div class="pl-2 position-absolute">
         </div>

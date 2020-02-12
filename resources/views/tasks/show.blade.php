@@ -73,9 +73,6 @@ $dz_id = 'task-files-dz';
         <li class="nav-item">
             <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">Files</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#taskactivity" role="tab" aria-controls="taskactivity" aria-selected="false">Activity</a>
-        </li>
         </ul>
         <div class="tab-content">
 
@@ -84,7 +81,7 @@ $dz_id = 'task-files-dz';
             @can('create checklist')
             @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
 
-            <div class="content-list" data-filter-list="checklist">
+            <div class="content-list">
             <div class="row content-list-head">
                 <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.checklist.store',$task->id) }}">
                     <div class="form-group row align-items-center">
@@ -97,16 +94,6 @@ $dz_id = 'task-files-dz';
                             </button>
                         </div>
                     </div>
-                </form>
-                <form class="col-md-auto">
-                <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                    </span>
-                    </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter checklist" aria-label="Filter checklist">
-                </div>
                 </form>
             </div>
             <!--end of content list head-->
@@ -153,21 +140,11 @@ $dz_id = 'task-files-dz';
         <!--end of tab-->
         <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">
 
-            <div class="content-list" data-filter-list="content-list-body">
+            <div class="content-list">
             <div class="row content-list-head">
                 <div class="col-auto">
-                <h3>{{__('Notes')}}</h3>
+                    <h3>{{__('Notes')}}</h3>
                 </div>
-                <form class="col-md-auto">
-                <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                    </span>
-                    </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter notes" aria-label="Filter notes">
-                </div>
-                </form>
             </div>
             <!--end of content list head-->
             <div class="content-list-body">
@@ -224,48 +201,14 @@ $dz_id = 'task-files-dz';
             <div class="content-list">
             <div class="row content-list-head">
                 <div class="col-auto">
-                <h3>Files</h3>
+                    <h3>Files</h3>
                 </div>
-                <form class="col-md-auto">
-                <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                    </span>
-                    </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter files" aria-label="Filter Tasks">
-                </div>
-                </form>
             </div>
             <!--end of content list head-->
             <div class="content-list-body row">
 
                 @include('files.index')
 
-            </div>
-            </div>
-            <!--end of content list-->
-        </div>
-        <div class="tab-pane fade" id="taskactivity" role="tabpanel" data-filter-list="list-group-activity">
-            <div class="content-list">
-            <div class="row content-list-head">
-                <div class="col-auto">
-                <h3>{{__('Activity')}}</h3>
-                </div>
-                <form class="col-md-auto">
-                <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                    </span>
-                    </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity">
-                </div>
-                </form>
-            </div>
-            <!--end of content list head-->
-            <div class="content-list-body">
-                @include('activity.index')
             </div>
             </div>
             <!--end of content list-->
