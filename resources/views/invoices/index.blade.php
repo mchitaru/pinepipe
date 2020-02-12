@@ -40,16 +40,14 @@
                     <span data-filter-by="text" class="text-small">{{ Auth::user()->invoiceNumberFormat($invoice->id) }}</span>
                 </div>
             </div>
-            <div class="card-title col-sm-3">
+            <div class="card-title col-sm-5">
                 <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
-                    <span data-filter-by="text" class="text-small">{{ $invoice->project->name }}</span>
+                    <span data-filter-by="text" class="text-truncate text-small">{{ $invoice->project->name }}</span>
                 </div>
-            </div>
-            <div class="card-title col-sm-2">
                 <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                     <i class="material-icons">apartment</i>
-                    <span data-filter-by="text" class="text-small">
+                    <span data-filter-by="text" class="text-small text-truncate ">
                         @can('show client')
                         <a href="{{ route('clients.show', $invoice->project->client->id) }}" data-filter-by="text">
                         @endcan

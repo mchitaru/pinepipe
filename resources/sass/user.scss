@@ -61,15 +61,23 @@
 }
 
 a {
-    color: $link-color;
-    text-decoration: $link-decoration;
+    color: $user-link-color;
+    text-decoration: $user-link-decoration;
     background-color: transparent; // Remove the gray background on active links in IE 10.
 
-    @include hover {
-        cursor: pointer;
-        color: $link-hover-color;
-        text-decoration: $link-hover-decoration;
-    }
+    &:hover {
+        // color: $user-link-hover-color;
+        text-decoration: $user-link-hover-decoration;
+    }        
+
+    h1, h2, h3, h4, h5, h6 {
+        // color: $user-link-color;
+        // text-decoration: $user-link-decoration;
+        &:hover {
+            // color: $user-link-hover-color;
+            text-decoration: $user-link-hover-decoration;
+        }        
+    }    
  }
 
  .text-truncate {
@@ -77,13 +85,13 @@ a {
     max-width: 180px;
  }
 
-.card{
+ .card{
     &:hover {
-        box-shadow: 0 1px 10px 0 transparentize($dark, .5);
+        box-shadow: 0 1px 2px 0 transparentize($dark, .5);
       }
     margin: $spacer/4;
 }
-
+  
 .card-list {
     padding: 0.5rem;
 }
@@ -92,6 +100,13 @@ a {
     padding-left: 0.5rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+}
+
+.card-kanban{
+    &:hover {
+        box-shadow: 0 1px 10px 0 transparentize($dark, .5);
+      }
+    margin: $spacer/4;
 }
 
 .kanban-col{

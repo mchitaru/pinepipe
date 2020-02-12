@@ -13,7 +13,7 @@ use App\Http\Helpers;
             </a>
         </div>
         <div class="card-body p-2 pl-5">
-            <div class="card-title col-xs-12 col-sm-3">
+            <div class="card-title col-xs-12 col-sm-4">
                 @can('show client')
                 <a href="{{ $client->enabled?route('clients.show',$client->id):'#' }}">
                 @endcan
@@ -37,11 +37,11 @@ use App\Http\Helpers;
             </div>
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
-                    <span class="badge badge-secondary mr-2">
+                    <span class="badge badge-light mr-2">
                         <i class="material-icons" data-toggle="tooltip" title="Projects">folder</i>
                         {{$client->clientProjects->count()}}
                     </span>
-                    <span class="badge badge-secondary mr-2">
+                    <span class="badge badge-light mr-2">
                         <i class="material-icons" data-toggle="tooltip" title="Leads">phone</i>
                         {{$client->clientLeads->count()}}
                     </span>

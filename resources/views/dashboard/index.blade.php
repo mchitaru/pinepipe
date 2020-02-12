@@ -157,11 +157,11 @@ if($client_project_budget_due_per<=15){
                 <div class="col-xs-6 col-sm-9">
                     <div class="row">
                         <div class="col">
-                            <div class="card card-info">
+                            <a class="card card-info" href="{{ route('clients.index') }}">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$lead_percentage}}%;"></div>
                                 </div>
-                                <a class="card-body" href="{{ route('clients.index') }}/#leads">
+                                <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title row">{{$lead['total_lead']}}</h3>
                                         <small class="card-text">{{__('LEADS')}}</small>
@@ -169,8 +169,8 @@ if($client_project_budget_due_per<=15){
                                     <div class="icon">
                                         <i class="material-icons">phone</i>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                         <div class="col">
                             <div class="card card-info">

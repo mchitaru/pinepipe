@@ -25,7 +25,7 @@ class ClientsController extends Controller
         {
             clock()->startEvent('ClientsController', "Load clients");
 
-            $clients = User::with(['clientContacts:id','clientProjects:id', 'clientLeads:id'])
+            $clients = User::with(['clientContacts','clientProjects', 'clientLeads'])
                         ->where('created_by','=',$user->creatorId())
                         ->where('type','=','client')
                         ->paginate(25, ['*'], 'client-page');
