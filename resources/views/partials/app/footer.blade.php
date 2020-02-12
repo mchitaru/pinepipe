@@ -2,12 +2,16 @@
 <script type="text/javascript" src="{{ asset('js/manifest.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/vendor.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('js/remote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/avatar.js') }}"></script> --}}
 
 <!-- Required vendor scripts (Do not remove) -->
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script> --}}
 
 <!-- Autosize - resizes textarea inputs as user types -->
@@ -27,10 +31,6 @@
 <!-- Required theme scripts (Do not remove) -->
 <script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script> --}}
 {{-- <script type="text/javascript" src="{{ asset('assets/js/dropzone.min.js') }}"></script> --}}
-
-<script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/avatar.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/remote.js') }}"></script>
 
 <script>
     var options = {

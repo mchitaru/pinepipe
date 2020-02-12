@@ -57,7 +57,8 @@ class TaskUpdateRequest extends FormRequest
         }else{
 
             return [
-                'stage_id' => 'integer'
+                'stage_id' => 'nullable|integer',
+                'order' => 'nullable|integer',
             ];
         }
     }

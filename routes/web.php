@@ -75,10 +75,7 @@ Route::group(
         Route::resource('leadsources', 'LeadSourcesController');
 
         Route::get('leads/board', 'LeadsController@board')->name('leads.board');
-        Route::post('/leads/order', [
-            'as' => 'leads.order',
-            'uses' => 'LeadsController@order',
-        ]);
+        Route::post('leads/order', 'LeadsController@order')->name('leads.order');
 
         Route::resource('leads', 'LeadsController');
 
@@ -130,6 +127,7 @@ Route::group(
         Route::put('tasks/{task}', 'TasksController@update')->name('tasks.update');
         Route::patch('tasks/{task}', 'TasksController@update')->name('tasks.update');
         Route::delete('tasks/{task}', 'TasksController@destroy')->name('tasks.destroy');
+        Route::post('tasks/order', 'TasksController@order')->name('tasks.order');
 
         Route::get('tasks/{task}/comment', 'TaskCommentsController@index')->name('tasks.comment.index');
         Route::post('tasks/{task}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');

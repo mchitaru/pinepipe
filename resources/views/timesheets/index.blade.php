@@ -17,7 +17,7 @@ use App\Http\Helpers;
         </a>
         @endcan
         <p>
-            <span class="text-small">{{ !empty($timesheet->task)?$timesheet->task->title : '---'}}</span>
+            <span class="text-small text-truncate">{{ !empty($timesheet->task)?$timesheet->task->title : '---'}}</span>
         </p>
     </div>
     <div class="card-title col-xs-12 col-sm-2">
@@ -29,7 +29,7 @@ use App\Http\Helpers;
     <div class="card-title col-xs-12 col-sm-3">
         <div class="container row align-items-center">
             <i class="material-icons">note</i>
-            <span data-filter-by="text" title="{{ $timesheet->remark }}" class="text-small text-truncate" style="max-width: 150px;">{{ $timesheet->remark }}</span>
+            <span data-filter-by="text" title="{{ $timesheet->remark }}" class="text-small text-truncate" >{{ $timesheet->remark }}</span>
         </div>
     </div>
     <div class="card-meta">

@@ -72,10 +72,20 @@ a {
     }
  }
 
+ .text-truncate {
+    display: inline-block;
+    max-width: 180px;
+ }
+
 .card{
     &:hover {
         box-shadow: 0 1px 10px 0 transparentize($dark, .5);
       }
+    margin: $spacer/4;
+}
+
+.card-list {
+    padding: 0.5rem;
 }
 
 .card-info {

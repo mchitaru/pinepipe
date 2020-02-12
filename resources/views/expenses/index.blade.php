@@ -37,7 +37,7 @@
             </div>
             <div class="card-title col-sm-2">
                 <div class="container row align-items-center">
-                    <span data-filter-by="text" title="{{ $expense->description }}" class="text-small text-truncate" style="max-width: 150px;">{{ $expense->description }}</span>
+                    <span data-filter-by="text" title="{{ $expense->description }}" class="text-small text-truncate">{{ $expense->description }}</span>
                 </div>
             </div>
             @if(!empty($expense->user))

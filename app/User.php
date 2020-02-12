@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
 
-    public static $SEED_COMPANY_COUNT = 10;
+    public static $SEED_COMPANY_COUNT = 2;
     public static $SEED_CLIENT_COUNT = 10;
     public static $SEED_STAFF_COUNT = 20;
     
@@ -73,9 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
         {
             $data     = DB::table('settings')->where('created_by', '=', $this->creatorId())->get();
             $settings = [
-                "site_currency" => "Dollars",
-                "site_currency_symbol" => "$",
-                "site_currency_symbol_position" => "pre",
+                "site_currency" => "USD",
                 "site_date_format" => "M j, Y",
                 "site_time_format" => "g:i A",
                 "company_name" => "",
@@ -304,12 +302,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->expenses()->sum('amount');
     }
 
-
     public function priceFormat($price)
     {
         $settings = $this->settings();
 
-        return (($settings['site_currency_symbol_position'] == "pre") ? $settings['site_currency_symbol'] : '') . number_format($price, 2) . (($settings['site_currency_symbol_position'] == "post") ? $settings['site_currency_symbol'] : '');
+        return money($price, $settings['site_currency'])->format();
+
     }
 
     public function dateFormat($date)

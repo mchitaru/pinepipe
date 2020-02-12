@@ -12,29 +12,55 @@ use App\Http\Helpers;
 @endpush
 
 @push('scripts')
-<script type="module">
 
-// import {mrKanban} from '/js/app.js';
+<script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.js') }}"></script>
 
-// mrKanban.sortableKanbanCards.on('sortable:stop', (evt) => {
+<script>
 
-// console.log(evt);
+    const sortableLists = new Draggable.Sortable(document.querySelectorAll('div.kanban-board'), {
+        draggable: '.kanban-col:not(:last-child)',
+        handle: '.card-list-header',
+    });
 
-// $.ajax({
-//     url: '{{route("tasks.update","'+evt.newIndex+'")}}',
-//     type: 'PATCH',
-//     data: {stage_id: evt.oldIndex, order: evt.newIndex, "_token": $('meta[name="csrf-token"]').attr('content')},
-//     success: function (data) {
-//         console.log('success');
-//     },
-//     error: function (data) {
-//         console.log('error');
-//     }
-// });
+    const sortableCards = new Draggable.Sortable(document.querySelectorAll('.kanban-col .card-list-body'), {
+        plugins: [Draggable.Plugins.SwapAnimation],
+        draggable: '.card-kanban',
+        handle: '.card-kanban',
+        appendTo: 'body',
+    });
 
-// })
+    sortableCards.on('sortable:stop', (evt) => {
+
+        var order = [];
+        
+        var list = sortableCards.getDraggableElementsForContainer(evt.newContainer);
+
+        for (var i = 0; i < list.length; i++) 
+        {
+            order[i] = list[i].attributes['data-id'].value;
+        }
+        
+        var task_id = evt.newContainer.children[evt.newIndex].attributes['data-id'].value;
+        var stage_id = evt.newContainer.attributes['data-id'].value;
+
+        $(evt.oldContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.oldContainer).length + ')');
+        $(evt.newContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.newContainer).length + ')');
+
+        $.ajax({
+            url: '{{route('tasks.order')}}',
+            type: 'POST',
+            data: {task_id: task_id, stage_id: stage_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
+            success: function (data) {
+                // console.log('success');
+            },
+            error: function (data) {
+                // console.log('error');
+            }
+        });
+    });
 
 </script>
+
 @endpush
 
 @section('page-title')
@@ -107,18 +133,23 @@ use App\Http\Helpers;
             <div class="kanban-col">
                 <div class="card-list">
                 <div class="card-list-header">
-                    <h6>{{$stage->name}} ({{ $stage->tasks->count() }})</h6>
-                    <div class="dropdown">
-                    <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">more_vert</i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item text-danger" href="#">Archive List</a>
-                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <h6>{{$stage->name}}</h6>
+                            <span class="small count">({{ $stage->tasks->count() }})</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item text-danger" href="#">Archive List</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-list-body">
+                <div class="card-list-body" data-id={{$stage->id}}>
 
                     {{-- <div class="card card-kanban">
 
@@ -156,7 +187,7 @@ use App\Http\Helpers;
                         
                     @endphp
             
-                    <div class="card card-kanban">
+                    <div class="card card-kanban" data-id={{$task->id}}>
 
                     <div class="progress">
                       <div class="progress-bar {{$label}}" id="taskProgress{{$task->id}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
@@ -174,7 +205,7 @@ use App\Http\Helpers;
                         </div>
                         <div class="card-title">
                             <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text">
-                                <h6 data-filter-by="text" class="text-truncate" style="max-width: 150px;">{{$task->title}}</h6>
+                                <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
                             </a>        
                         </div>
 

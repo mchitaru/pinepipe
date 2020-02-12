@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "alexusmai/laravel-file-manager": "^2.4",
+        "cknow/laravel-money": "^3.8",
         "fideloper/proxy": "^4.0",
         "iatstuti/laravel-nullable-fields": "^2.0",
         "itsgoingd/clockwork": "^4.0",

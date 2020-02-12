@@ -11,6 +11,71 @@ use App\Http\Helpers;
 @endpush
 
 @push('scripts')
+<script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.js') }}"></script>
+
+<script>
+
+    const sortableLists = new Draggable.Sortable(document.querySelectorAll('div.kanban-board'), {
+        draggable: '.kanban-col:not(:last-child)',
+        handle: '.card-list-header',
+    });
+
+    const sortableCards = new Draggable.Sortable(document.querySelectorAll('.kanban-col .card-list-body'), {
+        plugins: [Draggable.Plugins.SwapAnimation],
+        draggable: '.card-kanban',
+        handle: '.card-kanban',
+        appendTo: 'body',
+    });
+
+    sortableCards.on('sortable:stop', (evt) => {
+
+        var order = [];
+        
+        var list = sortableCards.getDraggableElementsForContainer(evt.newContainer);
+
+        for (var i = 0; i < list.length; i++) 
+        {
+            order[i] = list[i].attributes['data-id'].value;
+        }
+        
+        var lead_id = evt.newContainer.children[evt.newIndex].attributes['data-id'].value;
+        var lead_value = parseInt($(evt.newContainer.children[evt.newIndex]).find('.price').attr('data-id'));
+
+        var old_stage_id = evt.oldContainer.attributes['data-id'].value;
+        var new_stage_id = evt.newContainer.attributes['data-id'].value;
+
+        var total_old = parseInt($(evt.oldContainer).prev().find('.total').attr('data-id'));
+        var total_new = parseInt($(evt.newContainer).prev().find('.total').attr('data-id'));
+
+        if(old_stage_id != new_stage_id)
+        {
+            total_old -= lead_value;
+            total_new += lead_value;
+        }
+
+        $(evt.oldContainer).prev().find('.total').attr('data-id', total_old);
+        $(evt.newContainer).prev().find('.total').attr('data-id', total_new);
+
+        $.ajax({
+            url: '{{route('leads.order')}}',
+            type: 'POST',
+            data: {lead_id: lead_id, stage_id: new_stage_id, order: order, total_old: total_old, total_new: total_new, "_token": $('meta[name="csrf-token"]').attr('content')},
+            success: function (response) {
+        
+                $(evt.oldContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.oldContainer).length + ')');
+                $(evt.newContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.newContainer).length + ')');
+
+                $(evt.oldContainer).prev().find('.total').text(response.total_old);
+                $(evt.newContainer).prev().find('.total').text(response.total_new);
+            },
+            error: function (data) {
+                // console.log('error');
+            }
+        });
+    });
+
+</script>
+
 @endpush
 
 @section('page-title')
@@ -74,25 +139,33 @@ use App\Http\Helpers;
                 
             @foreach($stages as $stage)
 
+            @php $stage->computeStatistics() @endphp
+
             <div class="kanban-col">
                 <div class="card-list">
                 <div class="card-list-header">
-                    <h6>{{$stage->name}} ({{ $stage->leads->count() }})</h6>
-                    <div class="dropdown">
-                    <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">more_vert</i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item text-danger" href="#">Archive List</a>
-                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <h6>{{$stage->name}}</h6>
+                            <span class="small count">({{ $stage->leads->count() }})</span>
+                        </div>
+                        <h7 class="total" data-id={{$stage->total_amount}}>{{ \Auth::user()->priceFormat($stage->total_amount) }}</h7>
+                        <div class="dropdown">
+                            <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item text-danger" href="#">Archive List</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-list-body">
+                <div class="card-list-body" data-id={{$stage->id}}>
 
                     @foreach($stage->leads as $lead)
 
-                    <div class="card card-kanban">
+                    <div class="card card-kanban" data-id={{$lead->id}}>
 
                     <div class="card-body">
                         <div class="dropdown card-options">
@@ -108,7 +181,7 @@ use App\Http\Helpers;
                             @can('edit lead')
                             <a href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                             @endcan
-                                <h6 data-filter-by="text">{{$lead->name}}</h6>
+                                <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
                             @can('edit lead')
                             </a>
                             @endcan
@@ -118,7 +191,7 @@ use App\Http\Helpers;
                         </div>
 
                         <div class="card-title">
-                            <span class="text-small">
+                            <span class="text-small price" data-id={{$lead->price}}>
                                 {{ \Auth::user()->priceFormat($lead->price) }}
                             </span>
                             @if(!empty($lead->user))

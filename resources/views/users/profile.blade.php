@@ -550,42 +550,13 @@ use App\Http\Helpers;
                 <div class="card-body">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            {{Form::label('site_currency',__('Currency *')) }}
+                            {{Form::label('site_currency',__('Currency')) }}
                             {{Form::text('site_currency',null,array('class'=>'form-control font-style'))}}
                             @error('site_currency')
                             <span class="invalid-site_currency" role="alert">
                                     <strong class="text-danger">{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            {{Form::label('site_currency_symbol',__('Currency Symbol *')) }}
-                            {{Form::text('site_currency_symbol',null,array('class'=>'form-control'))}}
-                            @error('site_currency_symbol')
-                            <span class="invalid-site_currency_symbol" role="alert">
-                                    <strong class="text-danger">{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-control-label" for="example3cols3Input">{{__('Currency Symbol Position')}}</label>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="custom-control custom-radio mb-3">
-
-                                            <input type="radio" id="customRadio5" name="site_currency_symbol_position" value="pre" class="custom-control-input" @if(@$settings['site_currency_symbol_position'] == 'pre') checked @endif>
-                                            <label class="custom-control-label" for="customRadio5">{{__('Pre')}}</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="custom-control custom-radio mb-3">
-                                            <input type="radio" id="customRadio6" name="site_currency_symbol_position" value="post" class="custom-control-input" @if(@$settings['site_currency_symbol_position'] == 'post') checked @endif>
-                                            <label class="custom-control-label" for="customRadio6">{{__('Post')}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="site_date_format" class="form-control-label">{{__('Date Format')}}</label>

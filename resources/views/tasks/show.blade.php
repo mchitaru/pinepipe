@@ -298,8 +298,6 @@ $dz_id = 'task-files-dz';
         var id = $(this).data("id");
         var selector = '#taskProgress' + id;
 
-        console.log(id);
-
         $("#taskProgressLabel").text(percentage + "%");
         $(selector).css('width', percentage + '%');
 

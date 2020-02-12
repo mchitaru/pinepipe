@@ -27,8 +27,8 @@ class Task extends Model
         'description'
 	];
 
-    public static $SEED_PROJECT = 200;
-    public static $SEED_FREE = 100;
+    public static $SEED_PROJECT = 50;
+    public static $SEED_FREE = 10;
 
     public function project()
     {

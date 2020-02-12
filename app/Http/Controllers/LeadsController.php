@@ -211,30 +211,30 @@ class LeadsController extends Controller
         }
     }
 
+    public function show(Lead $lead)
+    {
+        return view('leads.show', compact('lead'));
+    }
+
     public function order(Request $request)
     {
         $post  = $request->all();
 
-        $lead  = Lead::find($post['lead_id']);
-        $stage = LeadStage::find($post['stage_id']);
-
-        if(!empty($stage))
+        foreach($post['order'] as $key => $item)
         {
-            $lead->stage = $post['stage_id'];
+            $lead = Lead::find($item);
+            $lead->order = $key;
+            $lead->stage_id = $post['stage_id'];
             $lead->save();
         }
 
-        foreach($post['order'] as $key => $item)
-        {
-            $lead_order             = Lead::find($item);
-            $lead_order->order      = $key;
-            $lead_order->stage      = $post['stage_id'];
-            $lead_order->save();
-        }
-    }
+        dump(\Auth::user()->priceFormat($post['total_old']));
 
-    public function show(Lead $lead)
-    {
-        return view('leads.show', compact('lead'));
+        $return               = [];
+        $return['is_success'] = true;
+        $return['total_old']   = \Auth::user()->priceFormat($post['total_old']);
+        $return['total_new']   = \Auth::user()->priceFormat($post['total_new']);
+
+        return response()->json($return);
     }
 }

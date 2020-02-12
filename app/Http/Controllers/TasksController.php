@@ -165,72 +165,18 @@ class TasksController extends Controller
 
         return Redirect::to(URL::previous() . "#tasks")->with('success', __('Task successfully deleted'));
     }
+
+
+    public function order(Request $request)
+    {
+        $post  = $request->all();
+
+        foreach($post['order'] as $key => $item)
+        {
+            $task = Task::find($item);
+            $task->order = $key;
+            $task->stage_id = $post['stage_id'];
+            $task->save();
+        }
+    }
 }
-
-
-// public function taskOrderUpdate(Request $request, $slug, $projectID)
-// {
-//     if(isset($request->sort))
-//     {
-//         foreach($request->sort as $index => $taskID)
-//         {
-//             echo $index . "-" . $taskID;
-//             $task        = Task::find($taskID);
-//             $task->order = $index;
-//             $task->save();
-//         }
-//     }
-//     if($request->new_status != $request->old_status)
-//     {
-//         $task         = Task::find($request->id);
-//         $task->status = $request->new_status;
-//         $task->save();
-
-//         if(isset($request->client_id) && !empty($request->client_id))
-//         {
-//             $client = Client::find($request->client_id);
-//             $name   = $client->name . " <b>(" . __('Client') . ")</b>";
-//             $id     = 0;
-//         }
-//         else
-//         {
-//             $name = \Auth::user()->name;
-//             $id   = \Auth::user()->creatorId();
-//         }
-
-//         ActivityLog::create(
-//             [
-//                 'user_id' => $id,
-//                 'project_id' => $projectID,
-//                 'log_type' => 'Move',
-//                 'remark' => $name . " " . __('Move Task') . " <b>" . $task->title . "</b> " . __('from') . " " . ucwords($request->old_status) . " " . __('to') . " " . ucwords($request->new_status),
-//                 'remark' => '<b>'. $name . '</b> ' .
-//                             __('moved task') .
-//                             ' <a href="' . route('tasks.show', $task->id) . '">'. $task->title.'</a>' . __('from') . ' ' . ucwords($request->old_status) . ' ' . __('to') . ' ' . ucwords($request->new_status),
-//             ]
-//         );
-
-//         return $task->toJson();
-//     }
-// }
-
-// public function order(Request $request)
-// {
-//     $post  = $request->all();
-//     $task  = Task::find($post['task_id']);
-//     $stage = ProjectStage::find($post['stage_id']);
-
-//     if(!empty($stage))
-//     {
-//         $task->stage = $post['stage_id'];
-//         $task->save();
-//     }
-
-//     foreach($post['order'] as $key => $item)
-//     {
-//         $task_order        = Task::find($item);
-//         $task_order->order = $key;
-//         $task_order->stage = $post['stage_id'];
-//         $task_order->save();
-//     }
-// }

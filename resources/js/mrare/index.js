@@ -4,7 +4,7 @@ import './checklist';
 import './dropzone';
 import mrFilterList from './filter';
 import mrFlatpickr from './flatpickr';
-import mrKanban from './kanban';
+// import mrKanban from './kanban';
 import './prism';
 import mrUtil from './util';
 
@@ -17,6 +17,6 @@ import mrUtil from './util';
 export {
   mrFilterList,
   mrFlatpickr,
-  mrKanban,
+  // mrKanban,
   mrUtil,
 };

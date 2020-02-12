@@ -31,7 +31,8 @@ class LeadStage extends Model
         {
             return LeadStage::with(['leads' => function ($query) {
 
-                        $query->where('leads.client_id', \Auth::user()->id);
+                        $query->where('leads.client_id', \Auth::user()->id)
+                                ->orderBy('order');
                     },
                     'leads.client','leads.user'])
                     ->where('created_by', '=', \Auth::user()->creatorId())
@@ -39,19 +40,34 @@ class LeadStage extends Model
         }
         elseif(\Auth::user()->type == 'company')
         {
-            return LeadStage::with(['leads','leads.client','leads.user'])
+            return LeadStage::with(['leads' => function ($query) {
+
+                        $query->orderBy('order');
+
+                    },'leads.client','leads.user'])
                     ->where('created_by', '=', \Auth::user()->creatorId())
                     ->orderBy('order');
 
         }else
         {
-            return LeadStage::with(['leads'=> function ($query) {
+            return LeadStage::with(['leads' => function ($query) {
 
-                        $query->where('leads.user_id', \Auth::user()->id);
+                        $query->where('leads.user_id', \Auth::user()->id)
+                                ->orderBy('order');
                     },
                     'leads.client','leads.user'])
                     ->where('created_by', '=', \Auth::user()->creatorId())
                     ->orderBy('order');
+        }
+    }
+
+    public function computeStatistics()
+    {
+        $this->total_amount = 0;
+
+        foreach($this->leads as $lead)
+        {
+            $this->total_amount += $lead->price;
         }
     }
 }

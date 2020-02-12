@@ -87,7 +87,9 @@ class Project extends Model
     {
         return ProjectStage::with(['tasks' => function ($query) 
         {
-            $query->where('project_id', '=', $this->id);
+            $query->where('project_id', '=', $this->id)
+                    ->orderBy('order', 'ASC');
+
         }], 'tasks.users')
         ->where('created_by', '=', \Auth::user()->creatorId())
         ->orderBy('order', 'ASC');
