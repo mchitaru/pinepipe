@@ -306,7 +306,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $settings = $this->settings();
 
-        return money($price, $settings['site_currency'])->format();
+        return money($price*100, $settings['site_currency'])->format();
 
     }
 

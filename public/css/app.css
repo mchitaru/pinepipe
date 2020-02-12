@@ -28109,6 +28109,10 @@ a:hover {
   padding-top: 0.5rem;
 }
 
+.kanban-col:not(:hover) .card-list-footer {
+  opacity: 0;
+}
+
 .card-info {
   min-width: 160px;
 }

@@ -103,10 +103,13 @@ class Task extends Model
 
     public static function createTask($post)
     {
-        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
+        $stage = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first();
+
+        $post['stage_id']   = $stage->id;
 
         $task               = Task::make($post);
         $task->created_by  = \Auth::user()->creatorId();
+        $task->order = $stage->tasks->count();
         $task->save();
 
         if(isset($post['user_id'])){

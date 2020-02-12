@@ -31,16 +31,18 @@ class LeadsController extends Controller
         }
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if(\Auth::user()->can('create lead'))
         {
+            $stage_id = $request['stage_id'];
+
             $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
             $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('leads.create', compact('stages', 'owners', 'clients', 'sources'));
+            return view('leads.create', compact('stage_id', 'stages', 'owners', 'clients', 'sources'));
         }
         else
         {
@@ -86,10 +88,14 @@ class LeadsController extends Controller
 
                 return Redirect::to(URL::previous() . "#leads")->with('error', $messages->first());
             }
+            
+            $stage = LeadStage::find($request->stage_id);
+            
             $leads        = new Lead();
             $leads->name  = $request->name;
             $leads->price = $request->price;
             $leads->stage_id = $request->stage_id;
+            $leads->order = $stage->leads->count();
             if(\Auth::user()->type == 'company')
             {
                 $leads->user_id = $request->user_id;
@@ -227,8 +233,6 @@ class LeadsController extends Controller
             $lead->stage_id = $post['stage_id'];
             $lead->save();
         }
-
-        dump(\Auth::user()->priceFormat($post['total_old']));
 
         $return               = [];
         $return['is_success'] = true;
