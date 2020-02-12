@@ -13,7 +13,7 @@ use App\Http\Helpers;
 
 @push('scripts')
 
-<script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.min.js') }}"></script>
 
 <script>
 

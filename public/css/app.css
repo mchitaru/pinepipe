@@ -28104,6 +28104,11 @@ a:hover {
   padding: 0.5rem;
 }
 
+.card-list-header {
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+}
+
 .card-info {
   min-width: 160px;
 }
