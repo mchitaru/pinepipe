@@ -90,29 +90,16 @@ $languages=$user->languages();
             @endcan
         @endif
 
-        @if(Gate::check('manage contact') || Gate::check('manage lead'))
-            <li class="nav-item">
+        @can('manage contact')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
+        </li>
+        @endif
 
-            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">{{__('Contacts')}}</a>
-            <div id="submenu-1" class="collapse">
-                <ul class="nav nav-small flex-column">
-
-                @can('manage contact')
-                <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
-                </li>
-                @endcan
-            
-                @can('manage lead')
-                <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
-                </li>
-                @endcan
-        
-                </ul>
-            </div>
-
-            </li>
+        @can('manage lead')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
+        </li>
         @endif
 
         @can('manage client')

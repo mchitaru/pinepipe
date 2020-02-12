@@ -72,23 +72,8 @@ $(document).ready(function() {
         <div class="col-xl-10 col-lg-11">
             <div class="page-header">
             </div>
-            <ul class="nav nav-tabs nav-fill" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link " data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">{{__('Clients')}}
-                    <span class="badge badge-secondary">{{ $clients->count() }}</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#proposals" role="tab" aria-controls="proposals" aria-selected="true">{{__('Proposals')}}
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#contracts" role="tab" aria-controls="contracts" aria-selected="false">{{__('Contracts')}}
-                </a>
-            </li>    
-            </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show " id="clients" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show active" id="clients" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Clients')}}</h3>
