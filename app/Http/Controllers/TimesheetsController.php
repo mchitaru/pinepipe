@@ -6,6 +6,8 @@ use App\Task;
 use App\Project;
 use App\Timesheet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class TimesheetsController extends Controller
 {
@@ -59,11 +61,11 @@ class TimesheetsController extends Controller
             $timeSheet->user_id    = \Auth::user()->id;
             $timeSheet->save();
 
-            return redirect()->back()->with('success', __('Task timesheet successfully created.'));
+            return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully created.'));
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
         }
     }
 
@@ -95,7 +97,7 @@ class TimesheetsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
         }
     }
 
@@ -118,11 +120,11 @@ class TimesheetsController extends Controller
             $timesheet->remark  = $request->remark;
             $timesheet->save();
 
-            return redirect()->back()->with('success', __('Task timesheet successfully updated.'));
+            return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully updated.'));
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
         }
     }
 
@@ -143,11 +145,11 @@ class TimesheetsController extends Controller
         {
             $timesheet->delete();
 
-            return redirect()->back()->with('success', __('Task timesheet successfully deleted.'));
+            return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully deleted.'));
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
         }
     }
 }

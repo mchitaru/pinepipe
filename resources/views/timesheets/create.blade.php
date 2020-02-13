@@ -12,7 +12,7 @@
 <div class="tab-content">
     <div class="form-group row required">
         {{ Form::label('hours', __('Hours'), array('class'=>'col-3')) }}
-        {{ Form::number('hours', null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Logged time')) }}
+        {{ Form::number('hours', null, array('class' => 'form-control col', 'step'=>'any', 'required'=>'required', 'placeholder'=>'Logged time')) }}
     </div>
     <div class="form-group row required">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
