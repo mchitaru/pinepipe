@@ -13,13 +13,13 @@ $languages=$user->languages();
     <div class="w-100 d-none d-lg-block">
         <a class="navbar-brand float-left" href="{{ route('home') }}">
             <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
-        </a>        
+        </a>
         @include('partials.app.notifications')
     </div>
     <div class="d-lg-none">
         <a class="navbar-brand float-left" href="{{ route('home') }}">
             <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
-        </a>        
+        </a>
         @include('partials.app.notifications')
     </div>
     <div class="d-flex align-items-center">
@@ -127,7 +127,7 @@ $languages=$user->languages();
             </li>
         @endcan
 
-        
+
         @if(Gate::check('manage project') || Gate::check('manage task'))
             <li class="nav-item">
 
@@ -140,13 +140,13 @@ $languages=$user->languages();
                     <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
                 </li>
                 @endcan
-                        
+
                 @can('manage task')
                 <li class="nav-item">
                     <a class="dropdown-item" href="{{ route('projects.task.board', '0') }}">{{__('Tasks')}}</a>
                 </li>
                 @endcan
-                
+
                 </ul>
             </div>
 
@@ -193,7 +193,7 @@ $languages=$user->languages();
                 </div>
 
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
 
                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6">{{__('Files')}}</a>
                 <div id="submenu-6" class="collapse">
@@ -206,7 +206,7 @@ $languages=$user->languages();
                     </ul>
                 </div>
 
-            </li>
+            </li> --}}
         @endif
 
     </ul>
@@ -240,7 +240,7 @@ $languages=$user->languages();
         </form>
         @endif
 
-        @if(Gate::check('create contact') || 
+        @if(Gate::check('create contact') ||
             Gate::check('create project') ||
             Gate::check('create tasks'))
         <div class="dropdown mt-2">
