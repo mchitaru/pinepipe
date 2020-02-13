@@ -155,8 +155,7 @@ use App\Http\Helpers;
                                     <i class="material-icons">more_vert</i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item text-danger" href="#">Archive List</a>
+                                    <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
                                 </div>
                             </div>
                         </div>
@@ -173,8 +172,17 @@ use App\Http\Helpers;
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Edit</a>
-                                <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                                @can('edit lead')
+                                <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
+                                    <span>{{__('Edit')}}</span>
+                                </a>
+                                @endcan
+                                <div class="dropdown-divider"></div>
+                                @can('delete lead')
+                                    <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                        <span>{{'Delete'}}</span>
+                                    </a>
+                                @endcan
                             </div>
                             </div>
                             <div class="card-title">

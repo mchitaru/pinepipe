@@ -122,6 +122,7 @@ Route::group(
         Route::get('projects/{project}/board', 'TasksController@board')->name('projects.task.board');
         Route::get('projects/{project}/task', 'TasksController@create')->name('projects.task.create');
         Route::post('projects/{project}/task', 'TasksController@store')->name('projects.task.store');
+        Route::post('tasks/{task}/refresh/', 'TasksController@refresh')->name('tasks.refresh');
         Route::get('tasks/{task}', 'TasksController@show')->name('tasks.show');
         Route::get('tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
         Route::put('tasks/{task}', 'TasksController@update')->name('tasks.update');

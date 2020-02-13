@@ -58,7 +58,15 @@ class TasksController extends Controller
     {
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $priority   = Project::$priority;
-        $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
+        if($project_id)
+        {
+            $project = Project::find($project_id);
+            $users   = $project->users()->get()->pluck('name', 'id');
+        }else
+        {
+            $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        }
 
         $milestones = null;
 
@@ -106,7 +114,7 @@ class TasksController extends Controller
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $stages     = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 
-        if(!empty($project))
+        if($project)
         {
             $project_id = $project->id;
             $users   = $project->users()->get()->pluck('name', 'id');
@@ -178,5 +186,18 @@ class TasksController extends Controller
             $task->stage_id = $post['stage_id'];
             $task->save();
         }
+    }
+
+    public function refresh(Request $request, $task_id)
+    {
+        if($task_id)
+        {
+            $task = Task::find($task_id);
+            $task->project_id = $request['project_id'];
+
+            return $this->edit($task);
+        }
+
+        return $this->create($request['project_id']);
     }
 }

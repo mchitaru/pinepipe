@@ -143,8 +143,7 @@ use App\Http\Helpers;
                                     <i class="material-icons">more_vert</i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item text-danger" href="#">Archive List</a>
+                                    <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
                                 </div>
                             </div>
                         </div>
@@ -199,8 +198,18 @@ use App\Http\Helpers;
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Edit</a>
-                                <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                                @can('edit task')
+                                    <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
+                                        {{__('Edit')}}
+                                    </a>
+                                @endcan
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
+                                @can('delete task')
+                                    <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
+                                        {{__('Delete')}}
+                                    </a>
+                                @endcan
                             </div>
                             </div>
                             <div class="card-title">
@@ -253,7 +262,7 @@ use App\Http\Helpers;
 
         <div class="kanban-col">
             <div class="card-list">
-            <button class="btn btn-link btn-sm text-small">Add list</button>
+            <button class="btn btn-link btn-sm text-small">{{__('Add stage')}}</button>
             </div>
         </div>
         </div>
