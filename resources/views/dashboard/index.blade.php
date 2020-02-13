@@ -41,7 +41,8 @@ use App\Http\Helpers;
                 },
                 tooltips: {
                     mode: 'index',
-                    intersect: false,
+                    intersect: true,
+                    backgroundColor: 'rgba(128, 128, 128, 0.8)'
                 },
                 hover: {
                     mode: 'nearest',

@@ -183,19 +183,16 @@ class ProjectStage extends Model
                     })->count();
                 }
 
-                $dataset['label'] = $stage->name;
-                //                $dataset['fill']            = '!0';
-                //                                $dataset['backgroundColor'] = 'transparent';
-                $dataset['borderColor'] = $stage->color;
-                //                $dataset['borderColor']     = $stage->color;
-                $dataset['data'] = $data;
-                $arrTask[]       = $dataset;
+                $dataset['label']           = $stage->name;
+                $dataset['fill']            = '!0';
+                $dataset['backgroundColor'] = $stage->color;
+                $dataset['borderColor']     = $stage->color;
+                $dataset['data']            = $data;
+                $arrTask[]                  = $dataset;
                 $i++;
             }
 
             $arrTaskData = array_merge($arrDay, ['dataset' => $arrTask]);
-            unset($arrTaskData['dataset'][$i - 1]['fill']);
-            $arrTaskData['dataset'][$i - 1]['backgroundColor'] = '#ccc';
 
             return $arrTaskData;
         }
@@ -214,15 +211,13 @@ class ProjectStage extends Model
 
                 $dataset['label']           = $stage->name;
                 $dataset['fill']            = '!0';
-                $dataset['backgroundColor'] = 'transparent';
+                $dataset['backgroundColor'] = $stage->color;
                 $dataset['borderColor']     = $stage->color;
                 $dataset['data']            = $data;
                 $arrTask[]                  = $dataset;
                 $i++;
             }
             $arrTaskData = array_merge($arrDay, ['dataset' => $arrTask]);
-            unset($arrTaskData['dataset'][$i - 1]['fill']);
-            $arrTaskData['dataset'][$i - 1]['backgroundColor'] = '#ccc';
 
             return $arrTaskData;
         }
@@ -242,15 +237,13 @@ class ProjectStage extends Model
 
                 $dataset['label']           = $stage->name;
                 $dataset['fill']            = '!0';
-                $dataset['backgroundColor'] = 'transparent';
+                $dataset['backgroundColor'] = $stage->color;
                 $dataset['borderColor']     = $stage->color;
                 $dataset['data']            = $data;
                 $arrTask[]                  = $dataset;
                 $i++;
             }
             $arrTaskData = array_merge($arrDay, ['dataset' => $arrTask]);
-            unset($arrTaskData['dataset'][$i - 1]['fill']);
-            $arrTaskData['dataset'][$i - 1]['backgroundColor'] = '#ccc';
 
             return $arrTaskData;
         }

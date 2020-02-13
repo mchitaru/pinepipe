@@ -158,9 +158,9 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
                     @if(!$project->archived)
-                        <span class="badge badge-primary">{{__('Active')}}</span>
+                        <span class="badge badge-info">{{__('Active')}}</span>
                     @else
-                        <span class="badge badge-secondary">{{__('Archived')}}</span>
+                        <span class="badge badge-success">{{__('Archived')}}</span>
                     @endif
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">

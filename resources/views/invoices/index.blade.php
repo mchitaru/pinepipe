@@ -16,7 +16,7 @@
                 @endcan
                     <h6 data-filter-by="text">{{ Auth::user()->dateFormat($invoice->issue_date) }}
                         @if($invoice->status == 0)
-                        <span class="badge badge-primary">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                        <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
                     @elseif($invoice->status == 1)
                         <span class="badge badge-danger">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
                     @elseif($invoice->status == 2)
@@ -24,7 +24,7 @@
                     @elseif($invoice->status == 3)
                         <span class="badge badge-success">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
                     @elseif($invoice->status == 4)
-                        <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                        <span class="badge badge-light">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
                     @endif
                     </h6>
                 @can('show invoice')

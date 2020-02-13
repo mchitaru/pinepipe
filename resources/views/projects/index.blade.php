@@ -76,9 +76,9 @@ $last_stage = \Auth::user()->last_projectstage();
                     @endcan
 
                     @if(!$project->archived)
-                        <span class="badge badge-primary">{{__('Active')}}</span>
+                        <span class="badge badge-info">{{__('Active')}}</span>
                     @else
-                        <span class="badge badge-secondary">{{__('Archived')}}</span>
+                        <span class="badge badge-success">{{__('Archived')}}</span>
                     @endif
                 </div>
                 <ul class="avatars">
