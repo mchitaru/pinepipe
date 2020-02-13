@@ -105,8 +105,7 @@ $(function() {
                 // console.log('error');
             }
         });
-    });
-    
+    });    
 });
 
     $(function() {
@@ -291,9 +290,9 @@ $(function() {
                     <div class="custom-control custom-checkbox col">
                         <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text">
                         <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
-                        <div>
-                        <input type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text"/>
-                        <div class="checklist-strikethrough"></div>
+                        <div class="col">
+                            <input class="col" type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text"/>
+                            <div class="checklist-strikethrough"></div>
                         </div>
                     </div>
                     </div>
