@@ -392,7 +392,9 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
 
 @push('scripts')
 <script>
-    
+
+$(function() {
+
     dzProject = $('#{{$dz_id}}').dropzone({
         previewTemplate: document.querySelector('.dz-template').innerHTML,
         createImageThumbnails: false,
@@ -426,6 +428,20 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
             formData.append("project_id", {{$project->id}});
         },
     })[0];
+
+    @php
+        $files = $project->files;
+    @endphp
+
+    @foreach($files as $file)
+        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
+        dzProject.dropzone.emit("addedfile", mockFile);
+        dzProject.dropzone.emit("processing", mockFile);
+        dzProject.dropzone.emit("complete", mockFile);
+
+        dropzoneBtn(mockFile, {download: "{{route('projects.file.download',[$project->id,$file->id])}}", delete: "{{route('projects.file.delete',[$project->id,$file->id])}}"});
+    @endforeach
+});
 
     function deleteDropzoneFile(btn) {
 
@@ -462,18 +478,6 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
         });
     }
 
-    @php
-        $files = $project->files;
-    @endphp
-
-    @foreach($files as $file)
-        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
-        dzProject.dropzone.emit("addedfile", mockFile);
-        dzProject.dropzone.emit("processing", mockFile);
-        dzProject.dropzone.emit("complete", mockFile);
-
-        dropzoneBtn(mockFile, {download: "{{route('projects.file.download',[$project->id,$file->id])}}", delete: "{{route('projects.file.delete',[$project->id,$file->id])}}"});
-    @endforeach
-
 </script>
+
 @endpush

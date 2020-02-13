@@ -12,3 +12,5 @@
         @yield('form-end')
     </div>
 </div>
+
+@stack('scripts')

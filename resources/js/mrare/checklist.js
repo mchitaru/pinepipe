@@ -149,13 +149,13 @@ const mrAutoWidth = (($) => {
   return AutoWidth;
 })(jQuery);
 
-const mrChecklist = {
-  sortableChecklists: new Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
-    // plugins: [SwapAnimation],
-    plugins: [Plugins.SwapAnimation],
-    draggable: '.checklist > .row',
-    handle: '.form-group > span > i',
-  }),
-};
+// const mrChecklist = {
+//   sortableChecklists: new Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
+//     // plugins: [SwapAnimation],
+//     plugins: [Plugins.SwapAnimation],
+//     draggable: '.checklist > .row',
+//     handle: '.form-group > span > i',
+//   }),
+// };
 
-export default { mrChecklist, mrAutoWidth };
+export default { /*mrChecklist,*/ mrAutoWidth };

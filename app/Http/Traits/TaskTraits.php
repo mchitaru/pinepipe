@@ -2,6 +2,7 @@
 
 use App\Task;
 use App\Project;
+use App\TaskChecklist;
 
 trait TaskTraits
 {
@@ -16,9 +17,9 @@ trait TaskTraits
 
             $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
 
-            $activities = array();
+            $checklist = $task->checklist()->orderBy('order')->get();
 
-            return view('tasks.show', compact('task', 'perArr', 'project', 'activities'));
+            return view('tasks.show', compact('task', 'checklist', 'perArr', 'project'));
         }
         else
         {

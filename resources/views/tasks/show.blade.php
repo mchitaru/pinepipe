@@ -20,6 +20,185 @@ $label = $task->getProgressColor($percentage);
 $dz_id = 'task-files-dz';
 @endphp
 
+@push('scripts')
+
+<script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.min.js') }}"></script>
+
+<script>
+    function updateCheck(task_id)
+    {
+        var checked = 0;
+        var count = 0;
+        var percentage = 0;
+             
+        count = $("#checklist input[type=checkbox]").length;
+        checked = $("#checklist input[type=checkbox]:checked").length;
+        percentage = parseInt(((checked / count) * 100), 10);
+        if(isNaN(percentage)){
+            percentage=0;
+        }
+
+        var id = task_id;
+        var selector = '.task-progress-' + id;
+
+        $("#taskProgressLabel").text(percentage + "%");
+        $(selector).css('width', percentage + '%');
+
+
+        $(selector).removeClass('bg-warning');
+        $(selector).removeClass('bg-primary');
+        $(selector).removeClass('bg-success');
+        $(selector).removeClass('bg-danger');
+
+        if (percentage <= 15) {
+            $(selector).addClass('bg-danger');
+        } else if (percentage > 15 && percentage <= 33) {
+            $(selector).addClass('bg-warning');
+        } else if (percentage > 33 && percentage <= 70) {
+            $(selector).addClass('bg-primary');
+        } else {
+            $(selector).addClass('bg-success');
+        }
+    }
+
+    $(document).on("change", "#checklist input[type=checkbox]", function () {
+        
+        updateCheck($(this).data("id"));
+
+    });
+
+$(function() {
+
+    const sortableChecklist = new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
+        plugins: [Draggable.Plugins.SwapAnimation],
+        draggable: '.checklist > .row',
+        handle: '.form-group > span > i',
+    });
+
+    sortableChecklist.on('sortable:stop', (evt) => {
+
+        console.log(evt);
+        var order = [];
+        
+        var list = sortableChecklist.getDraggableElementsForContainer(evt.newContainer);
+
+        for (var i = 0; i < list.length; i++) 
+        {
+            order[i] = list[i].attributes['data-id'].value;
+        }
+        
+        var check_id = evt.oldContainer.children[evt.oldIndex].attributes['data-id'].value;
+        var container_id = evt.newContainer.attributes['data-id'].value;
+
+        $.ajax({
+            url: '{{route('tasks.checklist.order', $task->id)}}',
+            type: 'POST',
+            data: {check_id: check_id, container_id: container_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
+            success: function (data) {
+                if(container_id == 'delete')
+                {
+                    updateCheck({{$task->id}});
+                }
+                // console.log('success');
+            },
+            error: function (data) {
+                // console.log('error');
+            }
+        });
+    });
+    
+});
+
+    $(function() {
+
+        dzTask = $('#{{$dz_id}}').dropzone({
+            previewTemplate: document.querySelector('.dz-template').innerHTML,
+            createImageThumbnails: false,
+            previewsContainer: "#{{$dz_id}}-previews",
+            maxFiles: 20,
+            maxFilesize: 2,
+            parallelUploads: 1,
+            acceptedFiles: ".jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar",
+            url: "{{route('tasks.file.upload',[$task->id])}}",
+
+            success: function (file, response) {
+                if (response.is_success) {
+                    toastrs('File uploaded', 'success');
+                    dropzoneBtn(file, response);
+                    LetterAvatar.transform();
+                } else {
+                    this.removeFile(file);
+                    toastrs(response.error, 'error');
+                }
+            },
+            error: function (file, response) {
+                this.removeFile(file);
+                if (response.error) {
+                    toastrs(response.error, 'error');
+                } else {
+                    toastrs(response.error, 'error');
+                }
+            },
+            sending: function(file, xhr, formData) {
+                formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
+                formData.append("task_id", {{$task->id}});
+            },
+        })[0];
+        
+        @php
+            $files = $task->files;
+        @endphp
+
+        @foreach($files as $file)
+            var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
+            dzTask.dropzone.emit("addedfile", mockFile);
+            dzTask.dropzone.emit("processing", mockFile);
+            dzTask.dropzone.emit("complete", mockFile);
+
+            dropzoneBtn(mockFile, {download: "{{route('tasks.file.download',[$task->id,$file->id])}}", delete: "{{route('tasks.file.delete',[$task->id,$file->id])}}"});
+        @endforeach
+
+    });
+
+    function deleteDropzoneFile(btn) {
+
+        $.ajax({
+            url: btn.attr('href'),
+            data: {_token: $('meta[name="csrf-token"]').attr('content')},
+            type: 'DELETE',
+            success: function (response) {
+                if (response.is_success) {
+                    btn.closest('.list-group-item').remove();
+                } else {
+                    toastrs(response.error, 'error');
+                }
+            },
+            error: function (response) {
+                response = response.responseJSON;
+                if (response.is_success) {
+                    toastrs(response.error, 'error');
+                } else {
+                    toastrs(response.error, 'error');
+                }
+            }
+        });
+    }
+
+    function dropzoneBtn(file, response) {
+
+        $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
+            $(this).attr("href", response.download);
+        });
+
+        $( ".dropzone-delete", $(".dz-preview").last() ).each(function() {
+            $(this).attr("href", response.delete);
+        });
+    }
+
+</script>
+
+@endpush
+
 @section('title')
 {{$task->title}}
 @endsection
@@ -50,7 +229,7 @@ $dz_id = 'task-files-dz';
                 <small class="card-text" style="float:right;" >{{$percentage}}%</small>
             </div>
             <div class="progress mt-0">
-            <div class="progress-bar {{$label}}" style="width:{{$percentage}}%;"></div>
+                <div class="progress-bar task-progress-{{$task->id}} {{$label}}" style="width:{{$percentage}}%;"></div>
             </div>
             @endif
 
@@ -98,13 +277,13 @@ $dz_id = 'task-files-dz';
             </div>
             <!--end of content list head-->
             <div class="content-list-body">
-                <form class="checklist" id="checklist">
+                <form class="checklist" id="checklist" data-id='sort'>
 
-                @foreach($task->checklist as $checkList)
+                @foreach($checklist as $checkList)
 
                 @can('create checklist')
                 @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('edit checklist',$perArr)))
-                <div class="row">
+                <div class="row" data-id = "{{$checkList->id}}">
                     <div class="form-group col">
                     <span class="checklist-reorder">
                         <i class="material-icons">reorder</i>
@@ -125,10 +304,10 @@ $dz_id = 'task-files-dz';
 
                 @endforeach
                 </form>
-                <div class="drop-to-delete">
-                <div class="drag-to-delete-title">
-                    <i class="material-icons">delete</i>
-                </div>
+                <div class="drop-to-delete" data-id='delete'>
+                    <div class="drag-to-delete-title">
+                        <i class="material-icons">delete</i>
+                    </div>
                 </div>
             </div>
             <!--end of content list body-->
@@ -222,125 +401,3 @@ $dz_id = 'task-files-dz';
 @section('footer')
     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 @endsection
-
-<script>
-
-    $(document).on("change", "#checklist input[type=checkbox]", function () {
-
-        var checked = 0;
-        var count = 0;
-        var percentage = 0;
-
-        count = $("#checklist input[type=checkbox]").length;
-        checked = $("#checklist input[type=checkbox]:checked").length;
-        percentage = parseInt(((checked / count) * 100), 10);
-        if(isNaN(percentage)){
-            percentage=0;
-        }
-
-        var id = $(this).data("id");
-        var selector = '#taskProgress' + id;
-
-        $("#taskProgressLabel").text(percentage + "%");
-        $(selector).css('width', percentage + '%');
-
-
-        $(selector).removeClass('bg-warning');
-        $(selector).removeClass('bg-primary');
-        $(selector).removeClass('bg-success');
-        $(selector).removeClass('bg-danger');
-
-        if (percentage <= 15) {
-            $(selector).addClass('bg-danger');
-        } else if (percentage > 15 && percentage <= 33) {
-            $(selector).addClass('bg-warning');
-        } else if (percentage > 33 && percentage <= 70) {
-            $(selector).addClass('bg-primary');
-        } else {
-            $(selector).addClass('bg-success');
-        }
-    });
-
-    dzTask = $('#{{$dz_id}}').dropzone({
-        previewTemplate: document.querySelector('.dz-template').innerHTML,
-        createImageThumbnails: false,
-        previewsContainer: "#{{$dz_id}}-previews",
-        maxFiles: 20,
-        maxFilesize: 2,
-        parallelUploads: 1,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar",
-        url: "{{route('tasks.file.upload',[$task->id])}}",
-
-        success: function (file, response) {
-            if (response.is_success) {
-                toastrs('File uploaded', 'success');
-                dropzoneBtn(file, response);
-                LetterAvatar.transform();
-            } else {
-                this.removeFile(file);
-                toastrs(response.error, 'error');
-            }
-        },
-        error: function (file, response) {
-            this.removeFile(file);
-            if (response.error) {
-                toastrs(response.error, 'error');
-            } else {
-                toastrs(response.error, 'error');
-            }
-        },
-        sending: function(file, xhr, formData) {
-            formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
-            formData.append("task_id", {{$task->id}});
-        },
-    })[0];
-
-    function deleteDropzoneFile(btn) {
-
-        $.ajax({
-            url: btn.attr('href'),
-            data: {_token: $('meta[name="csrf-token"]').attr('content')},
-            type: 'DELETE',
-            success: function (response) {
-                if (response.is_success) {
-                    btn.closest('.list-group-item').remove();
-                } else {
-                    toastrs(response.error, 'error');
-                }
-            },
-            error: function (response) {
-                response = response.responseJSON;
-                if (response.is_success) {
-                    toastrs(response.error, 'error');
-                } else {
-                    toastrs(response.error, 'error');
-                }
-            }
-        });
-    }
-
-    function dropzoneBtn(file, response) {
-
-        $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
-            $(this).attr("href", response.download);
-        });
-
-        $( ".dropzone-delete", $(".dz-preview").last() ).each(function() {
-            $(this).attr("href", response.delete);
-        });
-    }
-
-    @php
-        $files = $task->files;
-    @endphp
-
-    @foreach($files as $file)
-        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
-        dzTask.dropzone.emit("addedfile", mockFile);
-        dzTask.dropzone.emit("processing", mockFile);
-        dzTask.dropzone.emit("complete", mockFile);
-
-        dropzoneBtn(mockFile, {download: "{{route('tasks.file.download',[$task->id,$file->id])}}", delete: "{{route('tasks.file.delete',[$task->id,$file->id])}}"});
-    @endforeach
-
-</script>

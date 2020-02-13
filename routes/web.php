@@ -143,6 +143,7 @@ Route::group(
         Route::post('tasks/{task}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.store');
         Route::put('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@update')->name('tasks.checklist.update');
         Route::delete('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
+        Route::post('tasks/{task}/checklist/order', 'TaskChecklistController@order')->name('tasks.checklist.order');
 
         //Invoices
         Route::get('projects/{project}/invoice', 'InvoicesController@create')->name('projects.invoice.create');

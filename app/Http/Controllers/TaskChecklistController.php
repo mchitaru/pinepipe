@@ -80,4 +80,24 @@ class TaskChecklistController extends Controller
 
         return $this->taskShow($task);
     }
+
+    public function order(Request $request, Task $task)
+    {
+        $post  = $request->all();
+
+        if($post['container_id'] == 'sort')
+        {
+            foreach($post['order'] as $key => $item)
+            {
+                $check = TaskChecklist::find($item);
+                $check->order = $key;
+                $check->save();
+            }                
+        }
+        else{
+
+            $check = TaskChecklist::find($post['check_id']);
+            $check->delete();
+        }
+    }
 }

@@ -333,11 +333,11 @@ if($client_project_budget_due_per<=15){
 
                                     <div class="card card-task">
                                         <div class="progress">
-                                            <div class="progress-bar {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar task-progress-{{$top_task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <div class="card-body">
                                             <div class="card-title">
-                                                <a href="{{ route('tasks.show', $top_task->id) }}" data-remote="true">
+                                                <a href="{{ route('tasks.show', $top_task->id) }}" data-remote="true" data-type="text">
                                                     <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                                 </a>
                                                 <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>

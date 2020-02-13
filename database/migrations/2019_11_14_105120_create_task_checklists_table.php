@@ -18,6 +18,7 @@ class CreateTaskChecklistsTable extends Migration
             $table->string('name');
             $table->unsignedInteger('task_id');
             $table->boolean('status')->default(false);
+            $table->unsignedInteger('order')->default(0);
             $table->unsignedInteger('created_by');
             $table->timestamps();
         });

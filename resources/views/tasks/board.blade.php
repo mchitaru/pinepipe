@@ -190,7 +190,7 @@ use App\Http\Helpers;
                         <div class="card card-kanban" data-id={{$task->id}}>
 
                         <div class="progress">
-                        <div class="progress-bar {{$label}}" id="taskProgress{{$task->id}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar task-progress-{{$task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
 
                         <div class="card-body">
