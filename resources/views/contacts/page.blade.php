@@ -49,26 +49,26 @@
             <div class="page-header">
             </div>
             <div class="tab-content">
-            <div class="tab-pane fade show active" id="contacts" role="tabpanel" data-filter-list="content-list-body">
-                <div class="row content-list-head">
-                    <div class="col-auto">
-                        <h3>{{__('Contacts')}}</h3>
-                        @can('create contact')
-                        <a href="{{ route('contacts.create') }}" class="btn btn-round" data-remote="true" data-type="text">
-                            <i class="material-icons">add</i>
-                        </a>
-                        @endcan
-                    </div>
-                    <form class="col-md-auto">
-                        <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                            </span>
+                <div class="tab-pane fade show active" id="contacts" role="tabpanel" data-filter-list="content-list-body">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                            <h3>{{__('Contacts')}}</h3>
+                            @can('create contact')
+                            <a href="{{ route('contacts.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                                <i class="material-icons">add</i>
+                            </a>
+                            @endcan
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Contacts')}}" aria-label="{{__('Filter Contacts')}}">
-                        </div>
-                    </form>
+                        <form class="col-md-auto">
+                            <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Contacts')}}" aria-label="{{__('Filter Contacts')}}">
+                            </div>
+                        </form>
                     </div>
                     <!--end of content list head-->
                     <div class="content-list-body">
@@ -77,7 +77,7 @@
                     <!--end of content list body-->
                 </div>
             <!--end of tab-->
-        </div>
+            </div>
     </div>
 </div>
 @endsection

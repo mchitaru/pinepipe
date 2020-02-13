@@ -121,6 +121,27 @@
 
 @section('content')
 <div class="container">
-    <div class="pt-3" id="calendar"></div>
+    <div class="page-header">
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="events" role="tabpanel" data-filter-list="content-list-body">
+            <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>{{__('Events')}}</h3>
+                    @can('create event')
+                    <a href="{{ route('events.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                        <i class="material-icons">add</i>
+                    </a>
+                    @endcan
+                </div>
+            </div>
+            <!--end of content list head-->
+            <div class="content-list-body">
+                <div class="pt-3" id="calendar"></div>
+            </div>
+            <!--end of content list body-->
+        </div>
+        <!--end of tab-->
+    </div>
 </div>
 @endsection
