@@ -638,7 +638,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'Initial Contact',
             'Qualification',
             'Proposal',
-            'Close',
+            'Won',
+            'Lost',
         ];
         foreach($leadStages as $key => $stage)
         {
