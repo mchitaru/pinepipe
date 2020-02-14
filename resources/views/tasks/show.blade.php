@@ -225,14 +225,12 @@ $dz_id = 'task-files-dz';
             </ul>
         </div>
         <div>
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('create checklist',$perArr)))
             <div class="d-flex flex-row-reverse">
                 <small class="card-text" style="float:right;" >{{$percentage}}%</small>
             </div>
             <div class="progress mt-0">
                 <div class="progress-bar task-progress-{{$task->id}} {{$label}}" style="width:{{$percentage}}%;"></div>
             </div>
-            @endif
 
             <div class="d-flex justify-content-between text-small">
             <div class="d-flex align-items-center">
@@ -259,8 +257,6 @@ $dz_id = 'task-files-dz';
         <div class="tab-pane fade show {{(empty(request()->segment(3)) | request()->segment(3)=='checklist')?'active':''}}" id="task" role="tabpanel">
 
             @can('create checklist')
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
-
             <div class="content-list">
             <div class="row content-list-head">
                 <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.checklist.store',$task->id) }}">
@@ -276,6 +272,8 @@ $dz_id = 'task-files-dz';
                     </div>
                 </form>
             </div>
+            @endcan
+
             <!--end of content list head-->
             <div class="content-list-body">
                 <form class="checklist" id="checklist" data-id='sort'>
@@ -283,7 +281,6 @@ $dz_id = 'task-files-dz';
                 @foreach($checklist as $key=>$checkList)
 
                 @can('create checklist')
-                @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('edit checklist',$perArr)))
                 <div class="row" data-id = "{{$checkList->id}}" tabindex="{{$key}}">
                     <div class="form-group col">
                     <span class="checklist-reorder">
@@ -300,7 +297,6 @@ $dz_id = 'task-files-dz';
                     </div>
                     <!--end of form group-->
                 </div>
-                @endif
                 @endcan
 
                 @endforeach
@@ -314,8 +310,6 @@ $dz_id = 'task-files-dz';
             <!--end of content list body-->
             </div>
             <!--end of content list-->
-            @endif
-            @endcan
         </div>
         <!--end of tab-->
         <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">

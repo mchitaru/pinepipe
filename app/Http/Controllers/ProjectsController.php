@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\ActivityLog;
 use App\TaskChecklist;
 use App\Client;
-use App\ProjectClientPermissions;
 use App\TaskComment;
 use App\Invoice;
 use App\Lead;
@@ -178,62 +177,6 @@ class ProjectsController extends Controller
         $project->delete();
 
         return Redirect::to(URL::previous() . "#projects")->with('success', __('Project successfully deleted'));
-    }
-
-    public function clientPermission($project_id, $client_id)
-    {
-        $client   = User::find($client_id);
-        $project  = Project::find($project_id);
-        $selected = $client->clientPermission($project->id);
-        if($selected)
-        {
-            $selected = explode(',', $selected->permissions);
-        }
-        else
-        {
-            $selected = [];
-        }
-        $permissions = Project::$permission;
-
-        return view('clients.permissions', compact('permissions', 'project_id', 'client_id', 'selected'));
-    }
-
-    public function storeClientPermission(request $request, $project_id, $client_id)
-    {
-        $this->validate(
-            $request, [
-                        'permissions' => 'required',
-                    ]
-        );
-
-        $project = Project::find($project_id);
-        if($project->created_by == \Auth::user()->creatorId())
-        {
-            $client      = User::find($client_id);
-            $permissions = $client->clientPermission($project->id);
-            if($permissions)
-            {
-                $permissions->permissions = implode(',', $request->permissions);
-                $permissions->save();
-            }
-            else
-            {
-                ProjectClientPermissions::create(
-                    [
-                        'client_id' => $client->id,
-                        'project_id' => $project->id,
-                        'permissions' => implode(',', $request->permissions),
-                    ]
-                );
-            }
-
-            return redirect()->back()->with('success', __('Permissions successfully updated.'))->with('status', 'clients');
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'))->with('status', 'clients');
-        }
-
     }
 
     public function search($search)

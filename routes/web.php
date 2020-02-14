@@ -109,8 +109,8 @@ Route::group(
         Route::get('projects/{project}/invite', 'ProjectInviteController@create')->name('projects.invite.create');
         Route::post('projects/{project}/invite', 'ProjectInviteController@store')->name('projects.invite.store');
 
-        Route::get('projects/{project}/client/{client}/permission', 'ProjectsController@clientPermission')->name('projects.client.permission');
-        Route::put('projects/{project}/client/{client}/permission', 'ProjectsController@storeClientPermission')->name('projects.client.permission.store');
+        Route::get('projects/{project}/permission', 'ProjectPermissionsController@create')->name('projects.permissions.create');
+        Route::put('projects/{project}/permission', 'ProjectPermissionsController@store')->name('projects.permissions.store');
 
         Route::get('projects/{project}/timesheet', 'TimesheetsController@create')->name('projects.timesheet.create');
         Route::post('projects/{project}/timesheet', 'TimesheetsController@store')->name('projects.timesheet.store');

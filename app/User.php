@@ -331,11 +331,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $settings["invoice_prefix"] . sprintf("%05d", $number);
     }
 
-    public function clientPermission($project_id)
-    {
-        return ProjectClientPermissions::where('client_id', '=', $this->id)->where('project_id', '=', $project_id)->first();
-    }
-
     public function last_leadstage()
     {
         return LeadStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
@@ -586,6 +581,32 @@ class User extends Authenticatable implements MustVerifyEmail
         )->where('created_by', '=', \Auth::user()->id)->count();
     }
 
+    public function makeClientRole()
+    {
+        $permissions = [
+            'manage account',
+            'edit account',
+            'change password account',
+            'show project',
+            'manage project',
+            'manage invoice',
+            'show invoice',
+            'manage expense',
+            'manage timesheet',
+        ];
+
+        $role               =   new Role();
+        $role->name         =   'client';
+        $role->created_by   =   $this->id;
+        $role->save();
+
+        foreach($permissions as $ap)
+        {
+            $permission = Permission::findByName($ap);
+            $role->givePermissionTo($permission);
+        }
+    }
+
     public function makeEmployeeRole()
     {
         $permissions = [
@@ -624,6 +645,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function initCompanyDefaults()
     {
+        $this->makeClientRole();
         $this->makeEmployeeRole();
 
         $id = $this->id;

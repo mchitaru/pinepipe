@@ -14,16 +14,11 @@ trait TaskTraits
 
             $project = Project::find($task->project_id);
 
-            if(!empty($project))
-                $permissions = $project->permissions;
-
-            $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
-
             $checklist = $task->checklist()->orderBy('order')->get();
 
             clock()->endEvent('TaskTraits.show');
 
-            return view('tasks.show', compact('task', 'checklist', 'perArr', 'project'));
+            return view('tasks.show', compact('task', 'checklist', 'project'));
         }
         else
         {

@@ -188,47 +188,7 @@ class UserSeeder extends Seeder
         );
         $superAdmin->assignRole($superAdminRole);
 
-        // client
-        $clientRole       = Role::create(
-            [
-                'name' => 'client',
-                'created_by' => 0,
-            ]
-        );
-        $clientPermission = [
-            'manage account',
-            'edit account',
-            'change password account',
-            'show project',
-            'manage project',
-            'manage task',
-            'create task',
-            'move task',
-            'show task',
-            'manage invoice',
-            'show invoice',
-            'create checklist',
-            'edit checklist',
-            'create milestone',
-            'edit milestone',
-            'delete milestone',
-            'view milestone',
-            'buy plan',
-            'manage timesheet',
-            'create timesheet',
-            'edit timesheet',
-            'delete timesheet'
-        ];
-
-        foreach($clientPermission as $ap)
-        {
-            $permission = Permission::findByName($ap);
-            $clientRole->givePermissionTo($permission);
-        }
-
-
         // company
-
         $companyRole        = Role::create(
             [
                 'name' => 'company',
