@@ -1,6 +1,8 @@
 
 @extends('layouts.modal')
 
+@php clock()->startEvent('tasks.show', "Show task"); @endphp
+
 @php
 use Carbon\Carbon;
 use App\Project;
@@ -67,46 +69,46 @@ $dz_id = 'task-files-dz';
 
     });
 
-$(function() {
+    $(function() {
 
-    const sortableChecklist = new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
-        plugins: [Draggable.Plugins.SwapAnimation],
-        draggable: '.checklist > .row',
-        handle: '.form-group > span > i',
-    });
-
-    sortableChecklist.on('sortable:stop', (evt) => {
-
-        console.log(evt);
-        var order = [];
-        
-        var list = sortableChecklist.getDraggableElementsForContainer(evt.newContainer);
-
-        for (var i = 0; i < list.length; i++) 
-        {
-            order[i] = list[i].attributes['data-id'].value;
-        }
-        
-        var check_id = evt.oldContainer.children[evt.oldIndex].attributes['data-id'].value;
-        var container_id = evt.newContainer.attributes['data-id'].value;
-
-        $.ajax({
-            url: '{{route('tasks.checklist.order', $task->id)}}',
-            type: 'POST',
-            data: {check_id: check_id, container_id: container_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
-            success: function (data) {
-                if(container_id == 'delete')
-                {
-                    updateCheck({{$task->id}});
-                }
-                // console.log('success');
-            },
-            error: function (data) {
-                // console.log('error');
-            }
+        const sortableChecklist = new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
+            plugins: [Draggable.Plugins.SwapAnimation],
+            draggable: '.checklist > .row',
+            handle: '.form-group > span > i',
         });
-    });    
-});
+
+        sortableChecklist.on('sortable:stop', (evt) => {
+
+            console.log(evt);
+            var order = [];
+            
+            var list = sortableChecklist.getDraggableElementsForContainer(evt.newContainer);
+
+            for (var i = 0; i < list.length; i++) 
+            {
+                order[i] = list[i].attributes['data-id'].value;
+            }
+            
+            var check_id = evt.oldContainer.children[evt.oldIndex].attributes['data-id'].value;
+            var container_id = evt.newContainer.attributes['data-id'].value;
+
+            $.ajax({
+                url: '{{route('tasks.checklist.order', $task->id)}}',
+                type: 'POST',
+                data: {check_id: check_id, container_id: container_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
+                success: function (data) {
+                    if(container_id == 'delete')
+                    {
+                        updateCheck({{$task->id}});
+                    }
+                    // console.log('success');
+                },
+                error: function (data) {
+                    // console.log('error');
+                }
+            });
+        });    
+    });
 
     $(function() {
 
@@ -278,20 +280,20 @@ $(function() {
             <div class="content-list-body">
                 <form class="checklist" id="checklist" data-id='sort'>
 
-                @foreach($checklist as $checkList)
+                @foreach($checklist as $key=>$checkList)
 
                 @can('create checklist')
                 @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('edit checklist',$perArr)))
-                <div class="row" data-id = "{{$checkList->id}}">
+                <div class="row" data-id = "{{$checkList->id}}" tabindex="{{$key}}">
                     <div class="form-group col">
                     <span class="checklist-reorder">
                         <i class="material-icons">reorder</i>
                     </span>
                     <div class="custom-control custom-checkbox col">
-                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text">
+                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true">
                         <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
                         <div class="col">
-                            <input class="col" type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text"/>
+                            <input autofocus class="col" type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
                             <div class="checklist-strikethrough"></div>
                         </div>
                     </div>
@@ -400,3 +402,5 @@ $(function() {
 @section('footer')
     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 @endsection
+
+@php clock()->endEvent('tasks.show'); @endphp

@@ -10,6 +10,8 @@ trait TaskTraits
     {
         if(\Auth::user()->can('show task'))
         {
+            clock()->startEvent('TaskTraits.show', "Load task");
+
             $project = Project::find($task->project_id);
 
             if(!empty($project))
@@ -18,6 +20,8 @@ trait TaskTraits
             $perArr      = (!empty($permissions) ? explode(',', $permissions->permissions) : []);
 
             $checklist = $task->checklist()->orderBy('order')->get();
+
+            clock()->endEvent('TaskTraits.show');
 
             return view('tasks.show', compact('task', 'checklist', 'perArr', 'project'));
         }
