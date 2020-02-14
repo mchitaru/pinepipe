@@ -245,13 +245,13 @@ $dz_id = 'task-files-dz';
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='checklist')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">Task</a>
+            <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='checklist')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">Notes</a>
+            <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">Files</a>
+            <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">{{__('Files')}}</a>
         </li>
         </ul>
         <div class="tab-content">
@@ -264,7 +264,7 @@ $dz_id = 'task-files-dz';
                 <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.checklist.store',$task->id) }}">
                     <div class="form-group row align-items-center">
                         <div class ="col">
-                            <h3>{{__('Checklist')}}</h3>
+                            <h3>{{__('Subtasks')}}</h3>
                         </div>
                         <div class ="col">
                             <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
@@ -319,7 +319,7 @@ $dz_id = 'task-files-dz';
             <div class="content-list">
             <div class="row content-list-head">
                 <div class="col-auto">
-                    <h3>{{__('Notes')}}</h3>
+                    <h3>{{__('Comments')}}</h3>
                 </div>
             </div>
             <!--end of content list head-->
@@ -328,7 +328,7 @@ $dz_id = 'task-files-dz';
                 <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
                     <div class="form-group row align-items-center">
                         <div class ="col-11">
-                            <textarea class="form-control" name="comment" placeholder="{{ __('Write message')}}" id="example-textarea" rows="3" required></textarea>
+                            <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="example-textarea" rows="3" required></textarea>
                         </div>
                         <div class ="col-1">
                             <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}}>
