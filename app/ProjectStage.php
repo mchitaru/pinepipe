@@ -34,7 +34,7 @@ class ProjectStage extends Model
             {
                 $query->WhereHas('project', function ($query) {
                     
-                    $query->where('client_id', '=', \Auth::user()->id);
+                    $query->where('client_id', '=', \Auth::user()->client_id);
 
                 })->orderBy('order', 'ASC');
             },'tasks.users'])
@@ -86,7 +86,7 @@ class ProjectStage extends Model
         {
             if(\Auth::user()->type == 'client')
             {
-                return \Auth::user()->clientTasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order');
+                return \Auth::user()->client->tasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order');
 
             }else if(\Auth::user()->type == 'company')
             {
@@ -123,7 +123,7 @@ class ProjectStage extends Model
                 $query->whereIn(DB::raw("DATE(updated_at)"), $arrDate);
                 $query->WhereHas('project', function ($query) {
                     
-                    $query->where('client_id', '=', \Auth::user()->id);
+                    $query->where('client_id', '=', \Auth::user()->client_id);
 
                 });
             }])
@@ -203,7 +203,6 @@ class ProjectStage extends Model
                 $data = [];
                 foreach($arrDate as $d)
                 {
-                    // $data[] = Task::join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', $usr->id)->where('stage_id', '=', $stage->id)->whereDate('tasks.updated_at', '=', $d)->count();
                     $data[] = $stage->tasks->filter(function ($item) use($d,$format) {
                         return date($format, strtotime($item['updated_at'])) == $d;
                     })->count();

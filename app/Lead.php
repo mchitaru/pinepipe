@@ -28,7 +28,7 @@ class Lead extends Model
 
     public function client()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Client');
     }
 
     public function contact()

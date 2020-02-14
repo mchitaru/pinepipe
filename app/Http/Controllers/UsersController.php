@@ -30,7 +30,6 @@ class UsersController extends Controller
             {
                 $users = User::withTrashed()
                                 ->where('created_by', '=', $user->creatorId())
-                                ->where('type', '!=', 'client')
                                 ->paginate(25, ['*'], 'user-page');
             }
     
@@ -46,7 +45,11 @@ class UsersController extends Controller
     public function create()
     {
         $user  = \Auth::user();
-        $roles = Role::where('created_by', '=', $user->creatorId())->get()->pluck('name', 'id');
+        $roles = Role::where('created_by', '=', $user->creatorId())
+                        ->orderBy('id', 'DESC')
+                        ->get()
+                        ->pluck('name', 'id');
+
         if(\Auth::user()->can('create user'))
         {
             return view('users.create', compact('roles'));
@@ -116,12 +119,12 @@ class UsersController extends Controller
                 }
                 else
                 {
-                    return Redirect::to(URL::previous() . "#users")->with('error', __('Your have reached your user limit. Please upgrade your plan to add more users!'));
+                    return Redirect::to(URL::previous())->with('error', __('Your have reached your user limit. Please upgrade your plan to add more users!'));
                 }
             }
 
 
-            return Redirect::to(URL::previous() . "#users")->with('success', __('User successfully created.'));
+            return Redirect::to(URL::previous())->with('success', __('User successfully created.'));
         }
         else
         {
@@ -132,7 +135,11 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $roles = Role::where('created_by', '=', $user->creatorId())
+                        ->orderBy('id', 'DESC')
+                        ->get()
+                        ->pluck('name', 'id');
+
         if(\Auth::user()->can('edit user'))
         {
             return view('users.edit', compact('user', 'roles'));

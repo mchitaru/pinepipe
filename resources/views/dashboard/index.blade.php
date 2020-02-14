@@ -254,6 +254,7 @@ if($client_project_budget_due_per<=15){
                         </div>
                     </div>
                     <div class="row">
+                        @can('manage project')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">
@@ -308,6 +309,8 @@ if($client_project_budget_due_per<=15){
                                 </div>
                             </div>
                         </div>
+                        @endcan
+                        @can('manage task')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">
@@ -387,7 +390,8 @@ if($client_project_budget_due_per<=15){
                                 </div>
                             </div>
                         </div>
-                        @if(Auth::user()->type =='company' || Auth::user()->type =='client')
+                        @endcan
+                        @can('manage invoice')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">
@@ -427,7 +431,7 @@ if($client_project_budget_due_per<=15){
                                 </div>
                             </div>
                         </div>
-                        @endif
+                        @endcan
                         @if(\Auth::user()->type != 'super admin')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">

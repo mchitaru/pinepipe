@@ -15,7 +15,7 @@ class InvoicePaymentsController extends Controller
         {
             if(\Auth::user()->type == 'client')
             {
-                $payments = InvoicePayment::select(['invoice_payments.*'])->join('invoices', 'invoice_payments.invoice_id', '=', 'invoices.id')->join('projects', 'invoices.project_id', '=', 'projects.id')->where('projects.client_id', '=', \Auth::user()->id)->where(
+                $payments = InvoicePayment::select(['invoice_payments.*'])->join('invoices', 'invoice_payments.invoice_id', '=', 'invoices.id')->join('projects', 'invoices.project_id', '=', 'projects.id')->where('projects.client_id', '=', \Auth::user()->client_id)->where(
                     'invoices.created_by', '=', \Auth::user()->creatorId()
                 )->get();
             }

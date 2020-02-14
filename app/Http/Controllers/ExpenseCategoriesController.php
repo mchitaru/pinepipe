@@ -47,7 +47,7 @@ class ExpenseCategoriesController extends Controller
             }
             $expense             = new ExpenseCategory();
             $expense->name       = $request->name;
-            $expense->created_by = \Auth::user()->authId();
+            $expense->created_by = \Auth::user()->id;
             $expense->save();
 
             return redirect()->route('expensescategory.index')->with('success', __('Expense Category successfully created.'));

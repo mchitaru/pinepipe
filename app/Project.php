@@ -40,7 +40,7 @@ class Project extends Model
 
     public function client()
     {
-        return $this->hasOne('App\User', 'id', 'client_id');
+        return $this->hasOne('App\Client', 'id', 'client_id');
     }
 
     public function milestones()
@@ -143,8 +143,8 @@ class Project extends Model
         }
         else if(\Auth::user()->type == 'client')
         {
-            $active  = Project::where('archived', '=', false)->where('client_id', '=', \Auth::user()->id)->count();
-            $completed = Project::where('archived', '=', true)->where('client_id', '=', \Auth::user()->id)->count();
+            $active  = Project::where('archived', '=', false)->where('client_id', '=', \Auth::user()->client_id)->count();
+            $completed = Project::where('archived', '=', true)->where('client_id', '=', \Auth::user()->client_id)->count();
             $total     = $active + $completed;
 
             $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
@@ -212,15 +212,6 @@ class Project extends Model
 
         $project->users()->sync($users);
 
-        $permissions = Project::$permission;
-        ProjectClientPermissions::create(
-            [
-                'client_id' => $project->client_id,
-                'project_id' => $project->id,
-                'permissions' => implode(',', $permissions),
-            ]
-        );
-
         ActivityLog::createProject($project);
 
         return $project;
@@ -245,16 +236,6 @@ class Project extends Model
         }
 
         $this->users()->sync($users);
-
-        ProjectClientPermissions::where('client_id','=',$this->client_id)->where('project_id','=', $this->id)->delete();
-        $permissions = Project::$permission;
-        ProjectClientPermissions::create(
-            [
-                'client_id' => $this->client_id,
-                'project_id' => $this->id,
-                'permissions' => implode(',', $permissions),
-            ]
-        );
 
         ActivityLog::updateProject($this);
     }

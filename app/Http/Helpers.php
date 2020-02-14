@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\User;
+use App\Client;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -28,6 +29,13 @@ class Helpers
         return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$user->name."'".
                     (empty($user->avatar) ? (" class='".$class."' avatar='".$user->name."'") : 
                                             (" class='".$class."' src='".Storage::url($user->avatar)."'"))."/>";
+    }
+
+    public static function buildClientAvatar(Client $client, $size = 36, $class = 'avatar')
+    {
+        return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$client->name."'".
+                    (empty($client->avatar) ? (" class='".$class."' avatar='".$client->name."'") : 
+                                            (" class='".$class."' src='".Storage::url($client->avatar)."'"))."/>";
     }
 
     public static function getProgressColor($progress)

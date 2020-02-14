@@ -31,7 +31,7 @@ class LeadStage extends Model
         {
             return LeadStage::with(['leads' => function ($query) {
 
-                        $query->where('leads.client_id', \Auth::user()->id)
+                        $query->where('leads.client_id', \Auth::user()->client_id)
                                 ->orderBy('order');
                     },
                     'leads.client','leads.user'])

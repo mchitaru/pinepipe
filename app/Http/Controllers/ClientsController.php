@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PaymentPlan;
+use App\Client;
 use App\User;
 use App\Contact;
 use App\Project;
@@ -25,9 +26,8 @@ class ClientsController extends Controller
         {
             clock()->startEvent('ClientsController', "Load clients");
 
-            $clients = User::with(['clientContacts','clientProjects', 'clientLeads'])
+            $clients = Client::with(['contacts','projects', 'leads'])
                         ->where('created_by','=',$user->creatorId())
-                        ->where('type','=','client')
                         ->paginate(25, ['*'], 'client-page');
 
             clock()->endEvent('ClientsController');
@@ -57,24 +57,26 @@ class ClientsController extends Controller
             $this->validate($request, [
                 'name'=>'required|max:120',
                 'email'=>'required|email|unique:users',
-                'password'=>'required|min:6',
+                'phone'=>'nullable|string',
+                'address'=>'nullable|string',
+                'website'=>'nullable|string',
             ]);
 
             if(\Auth::user()->checkClientLimit())
             {
-
-                $request['password'] = Hash::make($request->password);
-                $request['type']='client';
-                $request['lang']='en';
                 $request['created_by']=\Auth::user()->creatorId();
-                $user = User::create($request->all());
-                $role_r = Role::findByName('client');
-                $user->assignRole($role_r);
 
-                return Redirect::to(URL::previous() . "#clients")->with('success', __('Client successfully created.'));
-            }else
+                $client = Client::create($request->all());
+
+                // $user = User::create($request->all());
+                // $role_r = Role::findByName('client');
+                // $user->assignRole($role_r);
+
+                return Redirect::to(URL::previous())->with('success', __('Client successfully created.'));
+            }
+            else
             {
-                return Redirect::to(URL::previous() . "#clients")->with('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
+                return Redirect::to(URL::previous())->with('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
             }
 
         }else{
@@ -85,7 +87,7 @@ class ClientsController extends Controller
 
 
 
-    public function edit(User $client)
+    public function edit(Client $client)
     {
         if(\Auth::user()->can('edit client')) 
         {
@@ -97,27 +99,40 @@ class ClientsController extends Controller
     }
 
 
-    public function update(Request $request, User $client)
+    public function update(Request $request, Client $client)
     {
         if(\Auth::user()->can('edit client')) 
         {
             $this->validate($request, [
                 'name'=>'required|max:120',
                 'email'=>'required|email|unique:users,email,'.$client->id,
+                'phone'=>'nullable|string',
+                'address'=>'nullable|string',
+                'website'=>'nullable|string',
+                'avatar' => 'mimes:png,jpeg,jpg|max:2048'
             ]);
 
             $input = $request->all();
-            $client->fill($input)->save();
 
-            return Redirect::to(URL::previous() . "#clients")->with('success', __('Client successfully updated.'));
+            $client->fill($input);
+
+            if($request->hasFile('avatar'))
+            {
+                $path = Helpers::storePublicFile($request->file('avatar'));
+                $client->avatar = $path;
+            }
+    
+            $client->save();
+
+            return Redirect::to(URL::previous())->with('success', __('Client successfully updated.'));
         }else
         {
-            return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
 
-    public function destroy(Request $request, User $client)
+    public function destroy(Request $request, Client $client)
     {
         if($request->ajax()){
             
@@ -126,20 +141,17 @@ class ClientsController extends Controller
 
         if(\Auth::user()->can('delete client')) 
         {
+            $client->detachClient();
             $client->delete();
-            $client->destroyUserNotesInfo($client->id);
-            $client->removeClientProjectInfo($client->id);
-            $client->removeClientLeadInfo($client->id);
-            $client->destroyUserTaskAllInfo($client->id);
 
-            return Redirect::to(URL::previous() . "#clients")->with('success', __('Client successfully deleted.'));
+            return Redirect::to(URL::previous())->with('success', __('Client successfully deleted.'));
         }else
         {
-            return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
-    public function show(User $client)
+    public function show(Client $client)
     {
         $user = \Auth::user();
 
@@ -182,39 +194,41 @@ class ClientsController extends Controller
             return view('clients.show', compact('client', 'contacts', 'projects', 'leads', 'activities'));
         }else
         {
-            return Redirect::to(URL::previous() . "#clients")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
-    public function profile(){
-        $userDetail=\Auth::user();
-        return view('clients.profile')->with('userDetail',$userDetail);
-    }
+    // public function profile()
+    // {
+    //     $userDetail=\Auth::user();
+    //     return view('clients.profile')->with('userDetail',$userDetail);
+    // }
 
-    public function editprofile(Request $request){
-        $userDetail=\Auth::user();
-        $user = User::findOrFail($userDetail['id']);
-        $this->validate($request, [
-            'name'=>'required|max:120',
-            'email'=>'required|email|unique:users,email,'.$userDetail['id'],
-        ]);
+    // public function editprofile(Request $request)
+    // {
+    //     $userDetail=\Auth::user();
+    //     $user = User::findOrFail($userDetail['id']);
+    //     $this->validate($request, [
+    //         'name'=>'required|max:120',
+    //         'email'=>'required|email|unique:users,email,'.$userDetail['id'],
+    //     ]);
 
-        if($request->hasFile('profile')) 
-        {
-            $path = Helpers::storePublicFile($request->file('profile'));
-            $user['avatar'] = $path;
-        }
+    //     if($request->hasFile('profile')) 
+    //     {
+    //         $path = Helpers::storePublicFile($request->file('profile'));
+    //         $user['avatar'] = $path;
+    //     }
 
-        $user['name'] = $request['name'];
-        $user['email'] = $request['email'];
-        $user->save();
+    //     $user['name'] = $request['name'];
+    //     $user['email'] = $request['email'];
+    //     $user->save();
 
-        return Redirect::to(URL::previous() . "#clients")->with('error', __('Profile successfully updated.'));
-    }
+    //     return Redirect::to(URL::previous() . "#clients")->with('error', __('Profile successfully updated.'));
+    // }
 
-    public function convert($id)
-    {
-        $leads=Lead::find($id);
-        return view('client.convert_client',compact('leads'));
-    }
+    // public function convert($id)
+    // {
+    //     $leads=Lead::find($id);
+    //     return view('client.convert_client',compact('leads'));
+    // }
 }

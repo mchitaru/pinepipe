@@ -119,8 +119,16 @@ class UserRolesController extends Controller
             );
 
             $input       = $request->except(['permissions']);
+
+            if($role->name == 'client')
+            {
+                $input['name'] = $role->name;
+            }
+
             $permissions = $request['permissions'];
-            $role->fill($input)->save();
+            
+            $role->fill($input);
+            $role->save();
 
             $p_all = Permission::all();
 

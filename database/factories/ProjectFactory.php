@@ -5,6 +5,7 @@
 use App\User;
 use App\Project;
 use Faker\Generator as Faker;
+use App\Client;
 
 $factory->define(Project::class, function (Faker $faker) {
     return [
@@ -12,7 +13,7 @@ $factory->define(Project::class, function (Faker $faker) {
         'price' => $faker->randomNumber(3),
         'start_date' => $faker->dateTimeInInterval('-2 months'),
         'due_date' => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
-        'client_id' => $faker->numberBetween(User::$SEED_COMPANY_ID + 1, User::$SEED_COMPANY_ID + User::$SEED_CLIENT_COUNT),
+        'client_id' => $faker->numberBetween(User::$SEED_COMPANY_ID + 1, User::$SEED_COMPANY_ID + Client::$SEED),
         'description' => $faker->text,
         'archived' => false,
         'created_by' => User::$SEED_COMPANY_ID,

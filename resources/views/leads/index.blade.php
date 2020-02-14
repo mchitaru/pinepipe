@@ -35,13 +35,15 @@ use App\Http\Helpers;
                 </div>
                 <div class="card-title col-xs-12 col-sm-3">
                     <div class="d-flex align-items-center">
-                        @can('show client')
-                        <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $lead->client->enabled?route('clients.show',$lead->client->id):'#' }}">
-                        @endcan
-                            {{$lead->client->name}}
-                        @can('show client')
-                        </a>
-                        @endcan        
+                        @if($lead->client)
+                            @can('show client')
+                            <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $lead->client->enabled?route('clients.show',$lead->client->id):'#' }}">
+                            @endcan
+                                {{$lead->client->name}}
+                            @can('show client')
+                            </a>
+                            @endcan        
+                        @endif
                     </div>
                 </div>
                 @if(!empty($lead->notes))
@@ -55,11 +57,9 @@ use App\Http\Helpers;
                 @endif
                 <div class="card-meta col-1 float-right">
                     <div class="container row align-items-center">
-                        @if(!empty($lead->user))
                         <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
                             {!!Helpers::buildAvatar($lead->user)!!}
                         </a>
-                        @endif
                     </div>
                 </div>
                 <div class="dropdown card-options float-right">

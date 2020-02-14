@@ -188,7 +188,7 @@ class ProjectsController extends Controller
                     'projects.id',
                     'projects.name',
                 ]
-            )->where('projects.client_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
+            )->where('projects.client_id', '=', Auth::user()->client_id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
             $arrProject = [];
             foreach($objProject as $project)
             {
@@ -203,7 +203,7 @@ class ProjectsController extends Controller
                     'tasks.project_id',
                     'tasks.title',
                 ]
-            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
+            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', Auth::user()->client_id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
             $arrTask = [];
             foreach($objTask as $task)
             {

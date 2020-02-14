@@ -193,9 +193,11 @@ use App\Http\Helpers;
                                 @can('edit lead')
                                 </a>
                                 @endcan
+                                @if($lead->client)
                                 <p>
                                     <span class="text-small">{{ $lead->client->name }}</span>
                                 </p>
+                                @endif
                             </div>
 
                             <div class="card-title">

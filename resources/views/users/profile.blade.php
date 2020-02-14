@@ -10,6 +10,10 @@ use App\Http\Helpers;
 @push('scripts')
 <script>
 
+    $(".avatar-input").change(function () {
+        PreviewAvatarImage(this, 60, 'rounded');
+    });
+
     // keep active tab
     $(document).ready(function() {
 
@@ -93,20 +97,19 @@ use App\Http\Helpers;
             <div class="tab-content">
             <div class="tab-pane fade show" role="tabpanel" id="profile">
                 {{Form::model($user,array('route' => array('profile.update'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
-                <div class="media mb-4">
-                    <div class="d-flex flex-column">
+                <div class="media mb-4 avatar-container">
+                    <div class="d-flex flex-column avatar-preview">
                         {!!Helpers::buildAvatar($user, 60, 'rounded')!!}
-                        <span class="badge badge-secondary">{{$user->type}}</span>
                     </div>
                     <div class="media-body ml-3">
                         <div class="custom-file custom-file-naked d-block mb-1">
-                            <input type="file" class="custom-file-input d-none" name="avatar" id="avatar">
+                            <input type="file" class="custom-file-input avatar-input d-none" name="avatar" id="avatar">
                             <label class="custom-file-label position-relative" for="avatar">
                             <span class="btn btn-primary">
                                 {{__('Upload avatar')}}
                             </span>
                             </label>
-                            <label class="file-label position-relative"></label>
+                            <label class="file-label position-relative d-none"></label>
                         </div>
                         <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
                     </div>
@@ -194,19 +197,19 @@ use App\Http\Helpers;
                 {{Form::model($user->settings,array('route'=>'settings.company','method'=>'post', 'enctype' => 'multipart/form-data'))}}
                 <div class="card-body">
                     <div class="row">
-                        <div class="media mb-4">
-                            <div class="d-flex flex-column">
+                        <div class="media mb-4 avatar-container">
+                            <div class="d-flex flex-column avatar-preview">
                                 <img width="60" height="60" alt="{{$user->settings['company_name']}}" {!! empty($user->settings['company_logo']) ? "avatar='".$user->settings['company_name']."'" : "" !!} class="rounded" src="{{!empty($user->settings['company_logo'])?Storage::url($user->settings['company_logo']):""}}" data-filter-by="alt"/>
                             </div>
                             <div class="media-body ml-3">
                                 <div class="custom-file custom-file-naked d-block mb-1">
-                                    <input type="file" class="custom-file-input d-none" name="company_logo" id="company_logo">
+                                    <input type="file" class="custom-file-input avatar-input d-none" name="company_logo" id="company_logo">
                                     <label class="custom-file-label position-relative" for="company_logo">
                                     <span class="btn btn-primary">
                                         {{__('Upload logo')}}
                                     </span>
                                     </label>
-                                    <label class="file-label position-relative"></label>
+                                    <label class="file-label position-relative d-none"></label>
                                 </div>
                                 <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
                             </div>

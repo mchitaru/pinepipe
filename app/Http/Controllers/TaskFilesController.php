@@ -33,7 +33,7 @@ class TaskFilesController extends Controller
                     'task_id'   => $task->id,
                     'file_name' => $request->file->getClientOriginalName(),
                     'file_path' => $path,
-                    'created_by'=> \Auth::user()->authId()
+                    'created_by'=> \Auth::user()->id
                 ]
             );
         }

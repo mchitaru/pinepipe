@@ -55,12 +55,9 @@ class Event extends Model
     public function updateEvent($post)
     {
         $this->update($post);
-
-        // ActivityLog::updateTask($this);
     }
 
     public function detachEvent()
     {
-        // ActivityLog::deleteContact($this);
     }
 }
