@@ -111,7 +111,9 @@ use App\Http\Helpers;
                             </label>
                             <label class="file-label position-relative d-none"></label>
                         </div>
-                        <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
+                        <div class="alert alert-warning text-small" role="alert">
+                            <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
+                        </div>            
                     </div>
                 </div>
                 <!--end of avatar-->
@@ -211,7 +213,9 @@ use App\Http\Helpers;
                                     </label>
                                     <label class="file-label position-relative d-none"></label>
                                 </div>
-                                <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
+                                <div class="alert alert-warning text-small" role="alert">
+                                    <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
+                                </div>            
                             </div>
                         </div>
                         <!--end of logo-->

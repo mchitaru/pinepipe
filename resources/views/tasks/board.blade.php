@@ -245,7 +245,9 @@ use App\Http\Helpers;
                                 </p>
                             </div>
 
-                            <span class="text-small">{{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
+                            <span class="text-small {{($task->due_date && $task->due_date<now())?'text-danger':''}}">
+                                {{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}
+                            </span>
 
                             </div>
 

@@ -108,7 +108,7 @@ $last_stage = \Auth::user()->last_projectstage();
                             </a>
                         @endcan
                     </div>
-                    <span class="text-small" data-filter-by="text">{{__('Due ')}}
+                    <span class="text-small {{($project->due_date<now())?'text-danger':''}}" data-filter-by="text">{{__('Due ')}}
                         {{ Carbon::parse($project->due_date)->diffForHumans() }}
                     </span>
                 </div>

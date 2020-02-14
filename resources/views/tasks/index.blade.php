@@ -63,7 +63,9 @@
                     @endif
 
                      <p>
-                        <span class="text-small">{{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
+                        <span class="text-small {{($task->due_date && $task->due_date<now())?'text-danger':''}}">
+                            {{$task->due_date?__('Due ').Carbon::parse($task->due_date)->diffForHumans(): '---' }}
+                        </span>
                     </p>
                 </div>
                 <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">

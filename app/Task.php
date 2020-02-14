@@ -14,7 +14,6 @@ class Task extends Model
         'priority',
         'description',
         'due_date',
-        'start_date',
         'project_id',
         'milestone_id',
         'order',
@@ -24,7 +23,8 @@ class Task extends Model
     protected $nullable = [
         'project_id',
         'milestone_id',
-        'description'
+        'description',
+        'due_date'
 	];
 
     public static $SEED_PROJECT = 50;

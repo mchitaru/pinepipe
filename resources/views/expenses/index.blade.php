@@ -20,7 +20,9 @@
                     </a>
                 @endcan
                 <p>
-                    <span class="text-small">{{ Carbon::parse($expense->date)->diffForHumans() }}</span>
+                    <span class="text-small">
+                        {{ Carbon::parse($expense->date)->diffForHumans() }}
+                    </span>
                 </p>
 
             </div>

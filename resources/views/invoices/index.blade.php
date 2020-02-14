@@ -31,7 +31,9 @@
                 </a>
                 @endcan
                 <p>
-                    <span class="text-small">{{__('Due')}} {{ Carbon::parse($invoice->due_date)->diffForHumans() }}</span>
+                    <span class="text-small {{($invoice->due_date<now())?'text-danger':''}}">
+                        {{__('Due')}} {{ Carbon::parse($invoice->due_date)->diffForHumans() }}
+                    </span>
                 </p>
 
             </div>

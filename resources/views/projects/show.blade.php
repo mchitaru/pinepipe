@@ -118,7 +118,7 @@ $dz_id = 'project-files-dz';
                 <div class="d-flex align-items-center">
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
-                        <a href="{{ route('users.index',$project->client->id) }}" data-toggle="tooltip">
+                        <a href="{{ route('users.index',$project->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
                             <span class="badge badge-secondary">{{ (!empty($project->client)?$project->client->name:'') }}</span>
                         </a>
                     </div>
@@ -168,7 +168,9 @@ $dz_id = 'project-files-dz';
                     <i class="material-icons">people</i>
                     <span>{{$project->users()->count()}}</span>
                 </div>
-                <span>{{__('Due') }} {{ Carbon::parse($project->due_date)->diffForHumans() }}</span>
+                <span class="{{($project->due_date<now())?'text-danger':''}}">
+                    {{__('Due') }} {{ Carbon::parse($project->due_date)->diffForHumans() }}
+                </span>
                 </div>
             </div>
             </div>

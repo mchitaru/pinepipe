@@ -21,7 +21,9 @@ use App\Http\Helpers;
                     </a>
                     @endcan
                     <p>
-                        <span class="text-small">{{__('Updated')}} {{ Carbon::parse($lead->updated_at)->diffForHumans() }}</span>
+                        <span class="text-small">
+                            {{__('Updated')}} {{ Carbon::parse($lead->updated_at)->diffForHumans() }}
+                        </span>
                     </p>
 
                 </div>

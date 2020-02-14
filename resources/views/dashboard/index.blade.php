@@ -276,7 +276,9 @@ if($client_project_budget_due_per<=15){
                                             <a href="{{ route('projects.show',$project->id) }}">
                                             <h6 data-filter-by="text">{{$project->name}}</h6>
                                             </a>
-                                            <span class="text-small">{{ Carbon::parse($project->due_date)->diffForHumans() }}</span>
+                                            <span class="text-small {{($project->due_date<now())?'text-danger':''}}">
+                                                {{ Carbon::parse($project->due_date)->diffForHumans() }}
+                                            </span>
                                         </div>
                                         <div class="card-title">
                                             <ul class="avatars">
@@ -343,7 +345,9 @@ if($client_project_budget_due_per<=15){
                                                 <a href="{{ route('tasks.show', $top_task->id) }}" data-remote="true" data-type="text">
                                                     <h6 data-filter-by="text">{{$top_task->title}}</h6>
                                                 </a>
-                                                <span class="text-small">{{ Carbon::parse($top_task->due_date)->diffForHumans() }}</span>
+                                                <span class="text-small {{($top_task->due_date && $top_task->due_date<now())?'text-danger':''}}">
+                                                    {{ Carbon::parse($top_task->due_date)->diffForHumans() }}
+                                                </span>
                                                 @if(!empty($top_task->project))
                                                     @can('show project')
                                                         <a href="{{ $top_task->project?route('projects.show', $top_task->project->id):'#' }}">

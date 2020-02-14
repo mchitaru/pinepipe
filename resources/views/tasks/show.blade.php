@@ -237,7 +237,9 @@ $dz_id = 'task-files-dz';
                 <i class="material-icons">playlist_add_check</i>
                 <span>3/7</span>
             </div>
-            <span>{{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
+            <span class="{{($task->due_date && $task->due_date<now())?'text-danger':''}}">
+                {{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}
+            </span>
             </div>
         </div>
         </div>

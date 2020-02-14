@@ -39,8 +39,7 @@ class TaskUpdateRequest extends FormRequest
                     'priority' => 'required|string',
                     'user_id' => 'nullable|array', //+
                     'project_id' => 'nullable|integer',
-                    'start_date' => 'required|date',
-                    'due_date' => 'required|date',
+                    'due_date' => 'nullable|date',
                     'stage_id' => 'integer'
                 ];
             }else{
@@ -49,8 +48,7 @@ class TaskUpdateRequest extends FormRequest
                     'description' => 'nullable|string',
                     'priority' => 'required|string',
                     'project_id' => 'nullable|integer',
-                    'start_date' => 'required|date',
-                    'due_date' => 'required|date',
+                    'due_date' => 'nullable|date',
                     'stage_id' => 'integer'
                 ];
             }
