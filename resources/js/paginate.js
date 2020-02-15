@@ -1,4 +1,4 @@
-function updateFilters(sort, direction)
+function updateFilters(sort, direction, filter)
 {
     var currentURL = new URL(window.location.href);
 
@@ -8,6 +8,9 @@ function updateFilters(sort, direction)
     if(currentURL.searchParams.has("direction"))
         direction = currentURL.searchParams.get("direction");
 
+    if(currentURL.searchParams.has("filter"))
+        filter = currentURL.searchParams.get("filter");
+
     $('.filter-controls a').each(function(e){
 
         $(this).removeClass('asc desc');
@@ -16,6 +19,11 @@ function updateFilters(sort, direction)
         {
             $(this).addClass(direction);
         }
+    });
+
+    $('.filter-input').each(function(e){
+
+        $(this).val(filter);
     });
 }
 
@@ -29,13 +37,17 @@ $(function() {
         var currentURL = new URL(window.location.href);
         sort = currentURL.searchParams.get("sort");
         direction = currentURL.searchParams.get("direction");
+        filter = currentURL.searchParams.get("filter");
 
         var newURL = new URL($(this).attr('href'));        
         
-        if(sort)
-        {
-            newURL.searchParams.set("sort", sort); // setting your param
-            newURL.searchParams.set("direction", direction); // setting your param
+        if(sort){
+            newURL.searchParams.set("sort", sort);
+            newURL.searchParams.set("direction", direction);
+        }
+
+        if(filter){
+            newURL.searchParams.set("filter", filter);
         }
     
         $.ajax({
@@ -66,7 +78,6 @@ $(function() {
 
         $.ajax({
             url : url.href,
-            data: {sort: sort, direction: direction},
         }).done(function (data) 
         {
             $('.paginate-container').html(data);  
@@ -80,4 +91,32 @@ $(function() {
         updateFilters();
     });
 
+    $('.filter-input').on('change',function(e){
+        e.preventDefault();
+
+        $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
+
+        var filter = $(this).val();
+
+        var url = new URL(window.location.href);
+        
+        if(filter){
+            url.searchParams.set("filter", filter);
+        }else{
+            url.searchParams.delete("filter");
+        }
+
+        $.ajax({
+            url : url.href,
+        }).done(function (data) 
+        {
+            $('.paginate-container').html(data);  
+
+        }).fail(function () 
+        {
+            toastrs('Data could not be loaded!', 'error');            
+        });
+
+        window.history.replaceState(null, null, url.href);
+    });
 });

@@ -24,6 +24,9 @@ class ContactsController extends Controller
 
             $contacts = Contact::with('client')
                         ->where('created_by','=',$user->creatorId())
+                        ->where('name','like','%'.$request['filter'].'%')
+                        ->orWhere('email','like','%'.$request['filter'].'%')
+                        ->orWhere('phone','like','%'.$request['filter'].'%')
                         ->orderBy($request['sort']?$request['sort']:'name', $request['direction']?$request['direction']:'asc')
                         ->paginate(25, ['*'], 'contact-page');
 

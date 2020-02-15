@@ -10,7 +10,7 @@
 
 $(function() {
 
-    updateFilters('name', 'asc');
+    updateFilters('name', 'asc', null);
 
 });
 
@@ -84,16 +84,16 @@ $(function() {
                             </div>                    
                             --}}
                         </div>
-                        <form class="col-md-auto">
+                        <div class="col-md-auto">
                             <div class="input-group input-group-round">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                <i class="material-icons">filter_list</i>
-                                </span>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                    <i class="material-icons">filter_list</i>
+                                    </span>
+                                </div>
+                                <input type="search" class="form-control filter-input" placeholder="{{__('Filter Contacts')}}" aria-label="{{__('Filter Contacts')}}">
                             </div>
-                            <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Contacts')}}" aria-label="{{__('Filter Contacts')}}">
-                            </div>
-                        </form>
+                        </div>
                 </div>
                     <!--end of content list head-->
                     <div class="content-list-body paginate-container">
