@@ -115,7 +115,7 @@ const mrFilterList = (($) => {
       // Set up the list instance using the List.js library
       const list = new List(element, {
         valueNames: this.valueNames,
-        listClass: listID,
+        listClass: listID
       });
 
       // Add this list instance to the array associated with this filterList instance

@@ -1,7 +1,7 @@
 
 import './chat';
 import './dropzone';
-import mrFilterList from './filter';
+// import mrFilterList from './filter';
 import mrFlatpickr from './flatpickr';
 import './prism';
 import mrUtil from './util';
@@ -13,7 +13,7 @@ import mrUtil from './util';
 })();
 
 export {
-  mrFilterList,
+  // mrFilterList,
   mrFlatpickr,
   mrUtil,
 };

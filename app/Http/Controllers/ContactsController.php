@@ -22,12 +22,15 @@ class ContactsController extends Controller
         {
             clock()->startEvent('ContactsController', "Load contacts");
 
-            $contacts = Contact::with('client')->where('created_by','=',$user->creatorId())
+            $contacts = Contact::with('client')
+                        ->where('created_by','=',$user->creatorId())
+                        ->orderBy($request['sort']?$request['sort']:'name', $request['direction']?$request['direction']:'asc')
                         ->paginate(25, ['*'], 'contact-page');
 
             clock()->endEvent('ContactsController');
 
-            if ($request->ajax()) {
+            if ($request->ajax()) 
+            {
                 return view('contacts.index', ['contacts' => $contacts])->render();  
             }
     
