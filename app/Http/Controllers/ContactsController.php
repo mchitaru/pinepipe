@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\URL;
 class ContactsController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
 
@@ -27,6 +27,10 @@ class ContactsController extends Controller
 
             clock()->endEvent('ContactsController');
 
+            if ($request->ajax()) {
+                return view('contacts.index', ['contacts' => $contacts])->render();  
+            }
+    
             return view('contacts.page', compact('contacts'));
         }
         else

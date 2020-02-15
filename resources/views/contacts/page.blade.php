@@ -71,7 +71,7 @@
                         </form>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body">
+                    <div class="content-list-body paginate-container">
                         @include('contacts.index')
                     </div>
                     <!--end of content list body-->

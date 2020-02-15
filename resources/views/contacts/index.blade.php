@@ -65,6 +65,7 @@
     </div>
 </div>
 @endforeach
-{{ $contacts->fragment('contacts')->links() }}
+
+{{ $contacts->links() }}
 
 @php clock()->endEvent('contacts.index'); @endphp
