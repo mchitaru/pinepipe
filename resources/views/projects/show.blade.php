@@ -69,12 +69,6 @@ $dz_id = 'project-files-dz';
                 </a>
             @endcan
 
-            @can('client permission project')
-                <a class="dropdown-item" href="{{ route('projects.permissions.create',[$project->id, $project->client_id]) }}" data-remote="true" data-type="text">
-                    {{__('Edit Client Permission')}}
-                </a>
-            @endcan
-
             <div class="dropdown-divider"></div>
             @can('manage task')
                 <a class="dropdown-item" href="{{ route('projects.task.board',$project->id) }}" data-title="{{__('Task Board')}}">
@@ -118,8 +112,8 @@ $dz_id = 'project-files-dz';
                 <div class="d-flex align-items-center">
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
-                        <a href="{{ route('users.index',$project->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
-                            <span class="badge badge-secondary">{{ (!empty($project->client)?$project->client->name:'') }}</span>
+                        <a href="{{ route('clients.show',$project->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
+                            {{ (!empty($project->client)?$project->client->name:'') }}
                         </a>
                     </div>
                 </div>
