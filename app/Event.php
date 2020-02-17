@@ -25,7 +25,7 @@ class Event extends Model
         'notes'
 	];
 
-    public static $SEED = 500;
+    public static $SEED = 100;
 
     public function user()
     {

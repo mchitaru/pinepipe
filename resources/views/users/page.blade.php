@@ -73,7 +73,7 @@
             </div>
             <!--end of content list head-->
             <div class="content-list-body paginate-container">
-                @include('users.index');
+                @include('users.index')
             </div>
             </div>
             <!--end of modal body-->

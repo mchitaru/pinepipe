@@ -27,8 +27,8 @@ class Task extends Model
         'due_date'
 	];
 
-    public static $SEED_PROJECT = 500;
-    public static $SEED_FREE = 100;
+    public static $SEED_PROJECT = 100;
+    public static $SEED_FREE = 50;
 
     public function project()
     {

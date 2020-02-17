@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Task::class, function (Faker $faker) {
     return [
-        'title' => $faker->sentence(3),
+        'title' => $faker->company.' task',
         'priority' => $faker->randomElement(['low', 'medium', 'high']),
         'description' => $faker->text,
         'due_date'  => $faker->dateTimeInInterval('-1 month', '+ 6 months')->format('Y-m-d'),

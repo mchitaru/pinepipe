@@ -106,5 +106,3 @@ use App\Http\Helpers;
 @if(method_exists($users,'links'))
 {{ $users->links() }}
 @endif
-
-@endi

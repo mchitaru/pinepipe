@@ -18,7 +18,7 @@ class Invoice extends Model
         'created_by',
     ];
 
-    public static $SEED = 500;
+    public static $SEED = 100;
 
     public static $status = [
         'pending',

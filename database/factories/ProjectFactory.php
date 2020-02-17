@@ -9,7 +9,7 @@ use App\Client;
 
 $factory->define(Project::class, function (Faker $faker) {
     return [
-        'name' => $faker->sentence(3),
+        'name' => $faker->company.' project',
         'price' => $faker->randomNumber(3),
         'start_date' => $faker->dateTimeInInterval('-2 months'),
         'due_date' => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
