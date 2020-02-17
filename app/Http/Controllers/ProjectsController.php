@@ -162,8 +162,6 @@ class ProjectsController extends Controller
             $invoices = $project->invoices;
             $activities = $project->activities;
 
-            dump($activities);
-            
             if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
             {
                 $timesheets = $project->timesheets;
