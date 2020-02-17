@@ -20,7 +20,9 @@
                     </a>
                 @endcan
                 <p>
-                    <span class="text-small">{{ Carbon::parse($expense->date)->diffForHumans() }}</span>
+                    <span class="text-small">
+                        {{ Carbon::parse($expense->date)->diffForHumans() }}
+                    </span>
                 </p>
 
             </div>
@@ -77,5 +79,9 @@
     </div>
 </div>
 @endforeach
+
+@if(method_exists($expenses,'links'))
+{{ $expenses->links() }}
+@endif
 
 @php clock()->endEvent('expenses.index'); @endphp

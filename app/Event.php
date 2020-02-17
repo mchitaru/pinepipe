@@ -47,7 +47,7 @@ class Event extends Model
         $event->created_by    = \Auth::user()->creatorId();
         $event->save();
 
-        // ActivityLog::createContact($contact);
+        // Activity::createContact($contact);
 
         return $event;
     }
@@ -55,12 +55,9 @@ class Event extends Model
     public function updateEvent($post)
     {
         $this->update($post);
-
-        // ActivityLog::updateTask($this);
     }
 
     public function detachEvent()
     {
-        // ActivityLog::deleteContact($this);
     }
 }

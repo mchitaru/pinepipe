@@ -19,8 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use SoftDeletes;
 
     public static $SEED_COMPANY_COUNT = 2;
-    public static $SEED_CLIENT_COUNT = 10;
-    public static $SEED_STAFF_COUNT = 20;
+    public static $SEED_STAFF_COUNT = 10;
     
     public static $SEED_COMPANY_IDX = 0;
     public static $SEED_COMPANY_ID = 0;
@@ -36,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'lang',
         'plan_id',
         'plan_expire_date',
+        'client_id',
         'created_by',
     ];
 
@@ -49,11 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
     public    $settings;
-
-    public function authId()
-    {
-        return $this->id;
-    }
 
     public function creatorId()
     {
@@ -165,6 +160,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Event', 'user_id', 'id');
     }
 
+    public function client()
+    {
+        return $this->hasOne('App\Client', 'id', 'client_id');
+    }
     
     public function staffTasks()
     {
@@ -185,26 +184,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 });
             });
         });
-    }
-
-    public function clientLeads()
-    {
-        return $this->hasMany('App\Lead', 'client_id', 'id');
-    }
-
-    public function clientProjects()
-    {
-        return $this->hasMany('App\Project', 'client_id', 'id');
-    }
-
-    public function clientTasks()
-    {
-        return $this->hasManyThrough('App\Task', 'App\Project', 'client_id', 'project_id', 'id');
-    }
-
-    public function clientContacts()
-    {
-        return $this->hasMany('App\Contact', 'client_id', 'id');
     }
 
     public function companyLeads()
@@ -239,7 +218,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if($this->type == 'client'){
 
-            return $this->clientProjects();
+            return $this->client->projects();
         }
         else if($this->type == 'company'){
 
@@ -255,7 +234,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if($this->type == 'client'){
 
-            return $this->clientTasks();
+            return $this->client->tasks();
         }
         else if($this->type == 'company'){
 
@@ -331,11 +310,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $settings["invoice_prefix"] . sprintf("%05d", $number);
     }
 
-    public function clientPermission($project_id)
-    {
-        return ProjectClientPermissions::where('client_id', '=', $this->id)->where('project_id', '=', $project_id)->first();
-    }
-
     public function last_leadstage()
     {
         return LeadStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
@@ -354,11 +328,11 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Lead::where('client_id', '=', $this->authId())->count();
+            return Lead::where('client_id', '=', $this->client_id)->count();
         }
         else
         {
-            return Lead::where('user_id', '=', $this->authId())->count();
+            return Lead::where('user_id', '=', $this->client_id)->count();
         }
     }
 
@@ -370,11 +344,11 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Lead::where('client_id', '=', $this->authId())->where('stage_id', '=', $last_leadstage)->count();
+            return Lead::where('client_id', '=', $this->client_id)->where('stage_id', '=', $last_leadstage)->count();
         }
         else
         {
-            return Lead::where('user_id', '=', $this->authId())->where('stage_id', '=', $last_leadstage)->count();
+            return Lead::where('user_id', '=', $this->id)->where('stage_id', '=', $last_leadstage)->count();
         }
     }
 
@@ -386,11 +360,11 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->authId())->count();
+            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->client_id)->count();
         }
         else
         {
-            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->authId())->count();
+            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->id)->count();
         }
 
     }
@@ -428,11 +402,11 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         elseif(\Auth::user()->type == 'client')
         {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->authId())->where('tasks.stage_id', '=', $project_last_stage)->count();
+            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->client_id)->where('tasks.stage_id', '=', $project_last_stage)->count();
         }
         else
         {
-            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.stage_id', '=', $project_last_stage)->count();
+            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->id)->where('tasks.stage_id', '=', $project_last_stage)->count();
         }
     }
 
@@ -446,7 +420,7 @@ class User extends Authenticatable implements MustVerifyEmail
         elseif(\Auth::user()->type == 'client')
         {
             return Invoice::select('invoices.*', 'projects.client_id')->join('projects', 'projects.id', '=', 'invoices.project_id')->where(
-                'projects.client_id', '=', $this->authId()
+                'projects.client_id', '=', $this->client_id
             )->get();
         }
     }
@@ -586,6 +560,33 @@ class User extends Authenticatable implements MustVerifyEmail
         )->where('created_by', '=', \Auth::user()->id)->count();
     }
 
+    public function makeClientRole()
+    {
+        $permissions = [
+            'manage account',
+            'edit account',
+            'change password account',
+            'show project',
+            'manage project',
+            'manage invoice',
+            'show invoice',
+            'manage expense',
+            'manage payment',
+            'manage timesheet',
+        ];
+
+        $role               =   new Role();
+        $role->name         =   'client';
+        $role->created_by   =   $this->id;
+        $role->save();
+
+        foreach($permissions as $ap)
+        {
+            $permission = Permission::findByName($ap);
+            $role->givePermissionTo($permission);
+        }
+    }
+
     public function makeEmployeeRole()
     {
         $permissions = [
@@ -624,6 +625,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function initCompanyDefaults()
     {
+        $this->makeClientRole();
         $this->makeEmployeeRole();
 
         $id = $this->id;
@@ -800,16 +802,6 @@ class User extends Authenticatable implements MustVerifyEmail
         TaskChecklist::where('created_by', '=', $user_id)->delete();
         TaskComment::where('created_by', '=', $user_id)->delete();
         TaskFile::where('created_by', '=', $user_id)->delete();
-    }
-
-    public function removeClientProjectInfo($user_id)
-    {
-        return Project::where('client_id', '=', $user_id)->update(array('client_id' => null));
-    }
-
-    public function removeClientLeadInfo($user_id)
-    {
-        return Lead::where('client_id', '=', $user_id)->update(array('client_id' => null));
     }
 
     public function total_company_user($company_id)

@@ -58,13 +58,8 @@
     <div class="tab-pane fade show" id="task-timeline" role="tabpanel">
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
-            {{ Form::label('start_date', __('Start Date'), array('class'=>'col-3')) }}
-            {{ Form::date('start_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
-                                                    'data-flatpickr', 'data-default-date'=> $start_date, 'data-alt-input')) }}
-        </div>
-        <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-            {{ Form::date('due_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
+            {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-default-date'=> $due_date, 'data-alt-input')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">
@@ -93,7 +88,7 @@
 @endsection
 
 @section('footer')
-{{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
+{{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
 @endsection
 
 @section('form-end')

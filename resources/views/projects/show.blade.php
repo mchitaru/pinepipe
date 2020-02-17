@@ -7,7 +7,6 @@ use App\Http\Helpers;
 
 $current_user=\Auth::user();
 $dz_id = 'project-files-dz';
-$perArr = ($project->permissions? explode(',',$project->permissions->permissions):[]);
 @endphp
 
 @push('stylesheets')
@@ -70,19 +69,11 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                 </a>
             @endcan
 
-            @can('client permission project')
-                <a class="dropdown-item" href="{{ route('projects.client.permission',[$project->id,$project->client]) }}" data-remote="true" data-type="text">
-                    {{__('Edit Client Permission')}}
-                </a>
-            @endcan
-
             <div class="dropdown-divider"></div>
             @can('manage task')
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show task',$perArr)))
                 <a class="dropdown-item" href="{{ route('projects.task.board',$project->id) }}" data-title="{{__('Task Board')}}">
                     {{__('Task Board')}}
                 </a>
-            @endif
             @endcan
             <a class="dropdown-item" href="#">Share</a>
             <div class="dropdown-divider"></div>
@@ -121,8 +112,9 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                 <div class="d-flex align-items-center">
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
-                        <a href="{{ route('users.index',$project->client->id) }}" data-toggle="tooltip">
-                            <span class="badge badge-secondary">{{ (!empty($project->client)?$project->client->name:'') }}</span>
+                        <i class="material-icons mr-1">apartment</i>
+                        <a href="{{ route('clients.show',$project->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
+                            {{ (!empty($project->client)?$project->client->name:'') }}
                         </a>
                     </div>
                 </div>
@@ -158,9 +150,9 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
                     @if(!$project->archived)
-                        <span class="badge badge-info">{{__('Active')}}</span>
+                        <span class="badge badge-info">{{__('active')}}</span>
                     @else
-                        <span class="badge badge-success">{{__('Archived')}}</span>
+                        <span class="badge badge-success">{{__('archived')}}</span>
                     @endif
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
@@ -171,16 +163,20 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                     <i class="material-icons">people</i>
                     <span>{{$project->users()->count()}}</span>
                 </div>
-                <span>{{__('Due') }} {{ Carbon::parse($project->due_date)->diffForHumans() }}</span>
+                <span class="{{($project->due_date<now())?'text-danger':''}}">
+                    {{__('Due') }} {{ Carbon::parse($project->due_date)->diffForHumans() }}
+                </span>
                 </div>
             </div>
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
+            @can('manage task')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
                     <span class="badge badge-secondary">{{ $project->tasks->count() }}</span>
                 </a>
             </li>
+            @endcan
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#timesheets" role="tab" aria-controls="timesheets" aria-selected="false">Timesheets
                     <span class="badge badge-secondary">{{ $timesheets->count() }}</span>
@@ -330,7 +326,6 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                 </div>
             </div>
             <!--end of tab-->
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show uploading',$perArr)))
             <div class="tab-pane fade show" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">
                 <div class="content-list">
                 <div class="row content-list-head">
@@ -350,15 +345,12 @@ $perArr = ($project->permissions? explode(',',$project->permissions->permissions
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body row">
-
                     @include('files.index')
-
                 </div>
                 </div>
                 <!--end of content list-->
             </div>
-            @endif
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show activity',$perArr)))
+            @if(\Auth::user()->type!='client')
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
                 <div class="row content-list-head">

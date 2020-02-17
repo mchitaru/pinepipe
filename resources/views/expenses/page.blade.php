@@ -4,6 +4,15 @@
 @endpush
 
 @push('scripts')
+<script>
+
+    $(function() {
+    
+        updateFilters();
+
+    });
+    
+</script>    
 @endpush
 
 @section('page-title')
@@ -44,7 +53,7 @@
         <div class="page-header">
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="expenses" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show active" id="expenses" role="tabpanel">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>
@@ -54,22 +63,21 @@
                         </a>
                         @endcan
                     </div>
-                    <form class="col-md-auto">
+                    <div class="col-md-auto">
                         <div class="input-group input-group-round">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
                             <i class="material-icons">filter_list</i>
                             </span>
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Expenses')}}" aria-label="{{__('Filter Expenses')}}">
+                        <input type="search" class="form-control filter-input" placeholder="{{__('Filter Expenses')}}" aria-label="{{__('Filter Expenses')}}">
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">
+                <div class="content-list-body paginate-container">
                     @can('manage expense')
                         @include('expenses.index')
-                        {{ $expenses->fragment('expenses')->links() }}
                     @endcan
                 </div>
                 <!--end of content list body-->

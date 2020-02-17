@@ -10,7 +10,7 @@ use App\Http\Helpers;
             <div class="container row" style="min-height: 67px;">
                 <div class="pl-2 pt-3 position-absolute">
                     <a href="#" data-toggle="tooltip" title={{$client->name}}>
-                        {!!Helpers::buildAvatar($client, 60, 'rounded')!!}
+                        {!!Helpers::buildClientAvatar($client, 60, 'rounded')!!}
                     </a>
                 </div>
                 <div class="card-body pl-5">
@@ -37,37 +37,33 @@ use App\Http\Helpers;
                         <div class="d-flex align-items-center justify-content-end">
                             <span class="badge badge-secondary mr-2">
                                 <i class="material-icons" title="Projects">folder</i>
-                                {{$client->clientProjects()->count()}}
+                                {{$client->projects->count()}}
                             </span>
                             <span class="badge badge-secondary mr-2">
                                 <i class="material-icons" title="Leads">phone</i>
-                                {{$client->clientLeads()->count()}}
+                                {{$client->leads()->count()}}
                             </span>
                         </div>
                     </div> --}}
                     <div class="dropdown card-options">
-                        @if($client->enabled)
-                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-            
-                            <div class="dropdown-menu dropdown-menu-right">
-                                @can('edit client')
-                                    <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
-                                        <span>{{__('Edit')}}</span>
-                                    </a>
-                                @endcan
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
-                                @can('delete client')
-                                    <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                        <span>{{'Delete'}}</span>
-                                    </a>
-                                @endcan
-                            </div>
-                        @else
-                            <i class="material-icons">lock</i>
-                        @endif
+                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </button>
+        
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @can('edit client')
+                                <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
+                                    <span>{{__('Edit')}}</span>
+                                </a>
+                            @endcan
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
+                            @can('delete client')
+                                <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                    <span>{{'Delete'}}</span>
+                                </a>
+                            @endcan
+                        </div>
                     </div>
                 </div>
             </div>

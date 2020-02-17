@@ -1,6 +1,8 @@
 
 @extends('layouts.modal')
 
+@php clock()->startEvent('tasks.show', "Show task"); @endphp
+
 @php
 use Carbon\Carbon;
 use App\Project;
@@ -67,46 +69,46 @@ $dz_id = 'task-files-dz';
 
     });
 
-$(function() {
+    $(function() {
 
-    const sortableChecklist = new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
-        plugins: [Draggable.Plugins.SwapAnimation],
-        draggable: '.checklist > .row',
-        handle: '.form-group > span > i',
-    });
-
-    sortableChecklist.on('sortable:stop', (evt) => {
-
-        console.log(evt);
-        var order = [];
-        
-        var list = sortableChecklist.getDraggableElementsForContainer(evt.newContainer);
-
-        for (var i = 0; i < list.length; i++) 
-        {
-            order[i] = list[i].attributes['data-id'].value;
-        }
-        
-        var check_id = evt.oldContainer.children[evt.oldIndex].attributes['data-id'].value;
-        var container_id = evt.newContainer.attributes['data-id'].value;
-
-        $.ajax({
-            url: '{{route('tasks.checklist.order', $task->id)}}',
-            type: 'POST',
-            data: {check_id: check_id, container_id: container_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
-            success: function (data) {
-                if(container_id == 'delete')
-                {
-                    updateCheck({{$task->id}});
-                }
-                // console.log('success');
-            },
-            error: function (data) {
-                // console.log('error');
-            }
+        const sortableChecklist = new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
+            plugins: [Draggable.Plugins.SwapAnimation],
+            draggable: '.checklist > .row',
+            handle: '.form-group > span > i',
         });
-    });    
-});
+
+        sortableChecklist.on('sortable:stop', (evt) => {
+
+            console.log(evt);
+            var order = [];
+            
+            var list = sortableChecklist.getDraggableElementsForContainer(evt.newContainer);
+
+            for (var i = 0; i < list.length; i++) 
+            {
+                order[i] = list[i].attributes['data-id'].value;
+            }
+            
+            var check_id = evt.oldContainer.children[evt.oldIndex].attributes['data-id'].value;
+            var container_id = evt.newContainer.attributes['data-id'].value;
+
+            $.ajax({
+                url: '{{route('tasks.checklist.order', $task->id)}}',
+                type: 'POST',
+                data: {check_id: check_id, container_id: container_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
+                success: function (data) {
+                    if(container_id == 'delete')
+                    {
+                        updateCheck({{$task->id}});
+                    }
+                    // console.log('success');
+                },
+                error: function (data) {
+                    // console.log('error');
+                }
+            });
+        });    
+    });
 
     $(function() {
 
@@ -223,33 +225,33 @@ $(function() {
             </ul>
         </div>
         <div>
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('create checklist',$perArr)))
             <div class="d-flex flex-row-reverse">
                 <small class="card-text" style="float:right;" >{{$percentage}}%</small>
             </div>
             <div class="progress mt-0">
                 <div class="progress-bar task-progress-{{$task->id}} {{$label}}" style="width:{{$percentage}}%;"></div>
             </div>
-            @endif
 
             <div class="d-flex justify-content-between text-small">
             <div class="d-flex align-items-center">
                 <i class="material-icons">playlist_add_check</i>
                 <span>3/7</span>
             </div>
-            <span>{{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}</span>
+            <span class="{{($task->due_date && $task->due_date<now())?'text-danger':''}}">
+                {{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}
+            </span>
             </div>
         </div>
         </div>
         <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='checklist')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">Task</a>
+            <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='checklist')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">Notes</a>
+            <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">Files</a>
+            <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">{{__('Files')}}</a>
         </li>
         </ul>
         <div class="tab-content">
@@ -257,14 +259,12 @@ $(function() {
         <div class="tab-pane fade show {{(empty(request()->segment(3)) | request()->segment(3)=='checklist')?'active':''}}" id="task" role="tabpanel">
 
             @can('create checklist')
-            @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('show checklist',$perArr)))
-
             <div class="content-list">
             <div class="row content-list-head">
                 <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.checklist.store',$task->id) }}">
                     <div class="form-group row align-items-center">
                         <div class ="col">
-                            <h3>{{__('Checklist')}}</h3>
+                            <h3>{{__('Subtasks')}}</h3>
                         </div>
                         <div class ="col">
                             <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
@@ -274,31 +274,31 @@ $(function() {
                     </div>
                 </form>
             </div>
+            @endcan
+
             <!--end of content list head-->
             <div class="content-list-body">
                 <form class="checklist" id="checklist" data-id='sort'>
 
-                @foreach($checklist as $checkList)
+                @foreach($checklist as $key=>$checkList)
 
                 @can('create checklist')
-                @if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' && in_array('edit checklist',$perArr)))
-                <div class="row" data-id = "{{$checkList->id}}">
+                <div class="row" data-id = "{{$checkList->id}}" tabindex="{{$key}}">
                     <div class="form-group col">
                     <span class="checklist-reorder">
                         <i class="material-icons">reorder</i>
                     </span>
                     <div class="custom-control custom-checkbox col">
-                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text">
+                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true">
                         <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
                         <div class="col">
-                            <input class="col" type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text"/>
+                            <input autofocus class="col" type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
                             <div class="checklist-strikethrough"></div>
                         </div>
                     </div>
                     </div>
                     <!--end of form group-->
                 </div>
-                @endif
                 @endcan
 
                 @endforeach
@@ -312,8 +312,6 @@ $(function() {
             <!--end of content list body-->
             </div>
             <!--end of content list-->
-            @endif
-            @endcan
         </div>
         <!--end of tab-->
         <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">
@@ -321,7 +319,7 @@ $(function() {
             <div class="content-list">
             <div class="row content-list-head">
                 <div class="col-auto">
-                    <h3>{{__('Notes')}}</h3>
+                    <h3>{{__('Comments')}}</h3>
                 </div>
             </div>
             <!--end of content list head-->
@@ -330,7 +328,7 @@ $(function() {
                 <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
                     <div class="form-group row align-items-center">
                         <div class ="col-11">
-                            <textarea class="form-control" name="comment" placeholder="{{ __('Write message')}}" id="example-textarea" rows="3" required></textarea>
+                            <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="example-textarea" rows="3" required></textarea>
                         </div>
                         <div class ="col-1">
                             <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}}>
@@ -400,3 +398,5 @@ $(function() {
 @section('footer')
     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 @endsection
+
+@php clock()->endEvent('tasks.show'); @endphp

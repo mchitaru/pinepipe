@@ -13,7 +13,7 @@ use App\Http\Helpers;
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-4">
                 @can('edit user')
-                    <a class="dropdown-item" href="{{ $user->enabled?route('users.edit',$user->id):'#' }}" data-remote="true" data-type="text">
+                    <a href="{{ $user->enabled?route('users.edit',$user->id):'#' }}" data-remote="true" data-type="text">
                 @endcan
                     <h6 data-filter-by="text">{{$user->name}}</h6>
                 @can('edit user')
@@ -102,4 +102,7 @@ use App\Http\Helpers;
     </div>
 </div>
 @endforeach
-{{ $users->fragment('users')->links() }}
+
+@if(method_exists($users,'links'))
+{{ $users->links() }}
+@endif

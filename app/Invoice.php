@@ -20,12 +20,12 @@ class Invoice extends Model
 
     public static $SEED = 100;
 
-    public static $statues = [
-        'Open',
-        'Not Paid',
-        'Partialy Paid',
-        'Paid',
-        'Cancelled',
+    public static $status = [
+        'pending',
+        'outstanding',
+        'partial payment',
+        'paid',
+        'cancelled',
     ];
 
     public function project()

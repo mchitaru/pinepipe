@@ -14,7 +14,6 @@ class Task extends Model
         'priority',
         'description',
         'due_date',
-        'start_date',
         'project_id',
         'milestone_id',
         'order',
@@ -24,11 +23,12 @@ class Task extends Model
     protected $nullable = [
         'project_id',
         'milestone_id',
-        'description'
+        'description',
+        'due_date'
 	];
 
-    public static $SEED_PROJECT = 50;
-    public static $SEED_FREE = 10;
+    public static $SEED_PROJECT = 100;
+    public static $SEED_FREE = 50;
 
     public function project()
     {
@@ -127,7 +127,7 @@ class Task extends Model
 
         $task->users()->sync($users);
 
-        ActivityLog::createTask($task);
+        Activity::createTask($task);
 
         return $task;
     }
@@ -153,7 +153,7 @@ class Task extends Model
 
         $this->users()->sync($users);
 
-        ActivityLog::updateTask($this);
+        Activity::updateTask($this);
     }
 
     public function detachTask()
@@ -172,7 +172,7 @@ class Task extends Model
 
         $this->files()->delete();
 
-        ActivityLog::deleteTask($this);
+        Activity::deleteTask($this);
     }
 
 }

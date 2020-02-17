@@ -30,6 +30,7 @@
                 </div>
             </div>
             <div class="card-meta col">
+                @if($contact->client)
                 <div class="d-flex align-items-center justify-content-end">
                     @can('show client')
                     <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $contact->client->enabled?route('clients.show',$contact->client->id):'#' }}">
@@ -39,6 +40,7 @@
                     </a>
                     @endcan        
                 </div>
+                @endif
             </div>
             <div class="dropdown card-options">
                 <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,6 +65,9 @@
     </div>
 </div>
 @endforeach
-{{ $contacts->fragment('contacts')->links() }}
+
+@if(method_exists($contacts,'links'))
+{{ $contacts->links() }}
+@endif
 
 @php clock()->endEvent('contacts.index'); @endphp

@@ -10,14 +10,13 @@ use Faker\Generator as Faker;
 
 $factory->define(Task::class, function (Faker $faker) {
     return [
-        'title' => $faker->sentence(3),
+        'title' => $faker->company.' task',
         'priority' => $faker->randomElement(['low', 'medium', 'high']),
         'description' => $faker->text,
-        'start_date' => $faker->dateTimeInInterval('-1 months'),
-        'due_date'  => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
+        'due_date'  => $faker->dateTimeInInterval('-1 month', '+ 6 months')->format('Y-m-d'),
         'project_id' => null,
         'milestone_id' => null,
-        'order' => '0',
+        'order' => 0,
         'stage_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*ProjectStage::$SEED + 1, 
                                                 User::$SEED_COMPANY_IDX*ProjectStage::$SEED),
         'created_by' => User::$SEED_COMPANY_ID,

@@ -7,7 +7,7 @@ use App\Task;
 use App\Project;
 use App\Milestone;
 use App\UserProject;
-use App\ActivityLog;
+use App\Activity;
 use App\ProjectStage;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
@@ -129,10 +129,9 @@ class TasksController extends Controller
         $priority   = Project::$priority;
         $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
 
-        $start_date = $task->start_date;
         $due_date = $task->due_date;
 
-        return view('tasks.edit', compact('task', 'stages', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'start_date', 'due_date'));
+        return view('tasks.edit', compact('task', 'stages', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'due_date'));
     }
 
     /**

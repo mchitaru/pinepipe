@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\URL;
 class ContactsController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
 
@@ -22,11 +22,23 @@ class ContactsController extends Controller
         {
             clock()->startEvent('ContactsController', "Load contacts");
 
-            $contacts = Contact::with('client')->where('created_by','=',$user->creatorId())
+            $contacts = Contact::with('client')
+                        ->where('created_by','=',$user->creatorId())
+                        ->where(function ($query) use ($request) {
+                            $query->where('name','like','%'.$request['filter'].'%')
+                            ->orWhere('email','like','%'.$request['filter'].'%')
+                            ->orWhere('phone','like','%'.$request['filter'].'%');
+                        })
+                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                         ->paginate(25, ['*'], 'contact-page');
 
             clock()->endEvent('ContactsController');
 
+            if ($request->ajax()) 
+            {
+                return view('contacts.index', ['contacts' => $contacts])->render();  
+            }
+    
             return view('contacts.page', compact('contacts'));
         }
         else

@@ -16,22 +16,24 @@
                 @endcan
                     <h6 data-filter-by="text">{{ Auth::user()->dateFormat($invoice->issue_date) }}
                         @if($invoice->status == 0)
-                        <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                        <span class="badge badge-info">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                     @elseif($invoice->status == 1)
-                        <span class="badge badge-danger">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                        <span class="badge badge-danger">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                     @elseif($invoice->status == 2)
-                        <span class="badge badge-warning">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                        <span class="badge badge-warning">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                     @elseif($invoice->status == 3)
-                        <span class="badge badge-success">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                        <span class="badge badge-success">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                     @elseif($invoice->status == 4)
-                        <span class="badge badge-light">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                        <span class="badge badge-light">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                     @endif
                     </h6>
                 @can('show invoice')
                 </a>
                 @endcan
                 <p>
-                    <span class="text-small">{{__('Due')}} {{ Carbon::parse($invoice->due_date)->diffForHumans() }}</span>
+                    <span class="text-small {{($invoice->due_date<now())?'text-danger':''}}">
+                        {{__('Due')}} {{ Carbon::parse($invoice->due_date)->diffForHumans() }}
+                    </span>
                 </p>
 
             </div>
@@ -88,5 +90,9 @@
     </div>
 </div>
 @endforeach
+
+@if(method_exists($invoices,'links'))
+{{ $invoices->links() }}
+@endif
 
 @php clock()->endEvent('invoices.index'); @endphp

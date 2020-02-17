@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\ProjectFile;
-use App\ActivityLog;
+use App\Activity;
 use Illuminate\Http\Request;
 use App\Http\Helpers;
 use Illuminate\Support\Facades\Redirect;
@@ -31,7 +31,7 @@ class ProjectFilesController extends Controller
                     'project_id' => $project->id,
                     'file_name' => $request->file('file')->getClientOriginalName(),
                     'file_path' => $path,
-                    'created_by'=> \Auth::user()->authId()
+                    'created_by'=> \Auth::user()->id
                 ]
             );
         }
@@ -51,7 +51,7 @@ class ProjectFilesController extends Controller
                                   ]
         );
 
-        ActivityLog::createProjectFile($file);
+        Activity::createProjectFile($file);
 
         return response()->json($return);
     }

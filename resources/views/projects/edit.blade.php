@@ -94,7 +94,7 @@
 @endsection
 
 @section('footer')
-{{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable-with' => 'Saving...'))}}
+{{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
 @endsection
 
 @section('form-end')

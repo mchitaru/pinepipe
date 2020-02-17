@@ -76,9 +76,9 @@ $last_stage = \Auth::user()->last_projectstage();
                     @endcan
 
                     @if(!$project->archived)
-                        <span class="badge badge-info">{{__('Active')}}</span>
+                        <span class="badge badge-info">{{__('active')}}</span>
                     @else
-                        <span class="badge badge-success">{{__('Archived')}}</span>
+                        <span class="badge badge-success">{{__('archived')}}</span>
                     @endif
                 </div>
                 <ul class="avatars">
@@ -108,7 +108,7 @@ $last_stage = \Auth::user()->last_projectstage();
                             </a>
                         @endcan
                     </div>
-                    <span class="text-small" data-filter-by="text">{{__('Due ')}}
+                    <span class="text-small {{($project->due_date<now())?'text-danger':''}}" data-filter-by="text">{{__('Due ')}}
                         {{ Carbon::parse($project->due_date)->diffForHumans() }}
                     </span>
                 </div>
@@ -116,6 +116,11 @@ $last_stage = \Auth::user()->last_projectstage();
         </div>
     </div>
 @endforeach
-{{ $projects->fragment('projects')->links() }}
+
+@if(method_exists($projects,'links'))
+<div class="col-12">
+    {{ $projects->links() }}
+</div>
+@endif
 
 @php clock()->endEvent('projects.index'); @endphp

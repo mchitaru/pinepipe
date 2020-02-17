@@ -4,6 +4,15 @@
 @endpush
 
 @push('scripts')
+<script>
+
+    $(function() {
+    
+        updateFilters();
+
+    });
+    
+</script>    
 @endpush
 
 @section('page-title')
@@ -44,7 +53,7 @@
         <div class="page-header">
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="invoices" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show active" id="invoices" role="tabpanel">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Invoices')}}</h3>
@@ -54,22 +63,31 @@
                         </a>
                         @endcan
                     </div>
-                    <form class="col-md-auto">
+                    <div class="col-md-auto">
                         <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                            </span>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control filter-input" placeholder="{{__('Filter Invoices')}}" aria-label="{{__('Filter Invoices')}}">
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Invoices')}}" aria-label="{{__('Filter Invoices')}}">
-                        </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="row content-list-head">
+                    <div class="filter-container col-auto">
+                        <div class="filter-tags">
+                            <div>{{__('Tag')}}:</div>
+                            <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
+                            <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>
+                            <div class="tag filter" data-filter="paid">{{__('Paid')}}</div>
+                        </div>                                           
+                    </div>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body">
+                    <div class="content-list-body paginate-container">
                         @can('manage invoice')
                             @include('invoices.index')
-                            {{ $invoices->links() }}
                         @endcan
                     </div>
                     <!--end of content list body-->

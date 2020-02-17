@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Client;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 
@@ -36,11 +37,12 @@ class CompanySeeder extends Seeder
         $company->initCompanyDefaults();
         $company->assignRole($role);
 
-        factory(App\User::class, App\User::$SEED_CLIENT_COUNT)->create()->each(function ($user) use($company) {
+        factory(App\User::class, App\Client::$SEED)->create()->each(function ($user) use($company, $faker) {
 
             $role = Role::findByName('client');
             $user->type = 'client';
             $user->created_by = $company->id;
+            $user->client_id = $faker->numberBetween(User::$SEED_COMPANY_ID + 1, User::$SEED_COMPANY_ID + Client::$SEED);
             $user->save();
             $user->assignRole($role);
         });

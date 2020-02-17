@@ -34,8 +34,8 @@ class TaskChecklistController extends Controller
         $post = $request->validated();
 
         $post['task_id']      = $task->id;
-        $post['name']         = __('Check Item');
-        $post['created_by']   = \Auth::user()->authId();
+        $post['name']         = __('Something To Do...');
+        $post['created_by']   = \Auth::user()->id;
         
         $checklist            = TaskChecklist::create($post);
 

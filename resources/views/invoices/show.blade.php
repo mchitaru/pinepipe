@@ -77,15 +77,15 @@
                             <div class="col-11">
                                 <h6>{{ Auth::user()->invoiceNumberFormat($invoice->id) }}
                                     @if($invoice->status == 0)
-                                        <span class="badge badge-info">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                        <span class="badge badge-info">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                                     @elseif($invoice->status == 1)
-                                        <span class="badge badge-danger">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                        <span class="badge badge-danger">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                                     @elseif($invoice->status == 2)
-                                        <span class="badge badge-warning">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                        <span class="badge badge-warning">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                                     @elseif($invoice->status == 3)
-                                        <span class="badge badge-success">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                        <span class="badge badge-success">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                                     @elseif($invoice->status == 4)
-                                        <span class="badge badge-light">{{ __(\App\Invoice::$statues[$invoice->status]) }}</span>
+                                        <span class="badge badge-light">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                                     @endif
                                 </h6>
                             </div>

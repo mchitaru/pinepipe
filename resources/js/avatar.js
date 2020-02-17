@@ -87,5 +87,17 @@
                 LetterAvatar.transform();
             });
         }
-
+    
     })(window, document);
+
+    function PreviewAvatarImage (input, size, type) 
+    {
+        if (input.files && input.files[0]) 
+        {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(input).closest('.avatar-container').children('.avatar-preview').html('<img class="'+type+'" src="'+e.target.result+'" width="'+size+'" height="'+size+'"/>');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }    

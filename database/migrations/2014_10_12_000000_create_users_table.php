@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('lang', 100);
             $table->unsignedInteger('created_by')->default(0);
             $table->unsignedInteger('plan_id')->nullable();
+            $table->unsignedInteger('client_id')->nullable();
             $table->date('plan_expire_date')->nullable();
             $table->boolean('notify_task_assign')->default(true);
             $table->boolean('notify_project_assign')->default(true);

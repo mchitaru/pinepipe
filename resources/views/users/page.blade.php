@@ -41,32 +41,39 @@
         <div class="page-header">
         </div>
         <div class="tab-content">
-        <div class="tab-pane fade show active" id="users" role="tabpanel" data-filter-list="content-list-body">
+        <div class="tab-pane fade show active" id="users" role="tabpanel">
             <div class="row content-list-head">
-            <div class="col-auto">
-                <h3>{{__('Users')}}</h3>
-                @can('create user')
-                    <a href="{{ route('users.create') }}" class="btn btn-round" data-remote="true" data-type="text">
-                        <i class="material-icons">add</i>
-                    </a>
-                @endcan
+                <div class="col-auto">
+                    <h3>{{__('Users')}}</h3>
+                    @can('create user')
+                        <a href="{{ route('users.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                            <i class="material-icons">add</i>
+                        </a>
+                    @endcan
+                </div>
+                <div class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-input" placeholder="Filter users" aria-label="Filter Users">
+                    </div>
+                </div>
             </div>
-            <form class="col-md-auto">
-                <div class="input-group input-group-round">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                    <i class="material-icons">filter_list</i>
-                    </span>
+            <div class="row content-list-head">
+                <div class="filter-container col-auto">
+                    <div class="filter-controls">
+                        <div>Sort by:</div>
+                        <a class="sort" href="#" data-sort="name">Name</a>
+                        <a class="sort" href="#" data-sort="email">Email</a>
+                    </div>     
                 </div>
-                <input type="search" class="form-control filter-list-input" placeholder="Filter users" aria-label="Filter Users">
-                </div>
-            </form>
             </div>
             <!--end of content list head-->
-            <div class="content-list-body">
-
-                @include('users.index');
-
+            <div class="content-list-body paginate-container">
+                @include('users.index')
             </div>
             </div>
             <!--end of modal body-->

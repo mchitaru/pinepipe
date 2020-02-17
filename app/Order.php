@@ -23,10 +23,12 @@ class Order extends Model
         'user_id'
     ];
 
-    public static function total_orders(){
+    public static function total_orders()
+    {
         return Order::count();
     }
-    public static function total_orders_price(){
+    public static function total_orders_price()
+    {
         return Order::sum('price');
     }
 }

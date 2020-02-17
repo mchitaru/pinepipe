@@ -14,8 +14,7 @@
         </ul>
         <div class="media-body">
             <div>
-            <span class="h6" data-filter-by="text">{{$activity->log_type}}</span>
-            <span data-filter-by="text"> {!! $activity->remark !!}</span>
+                <span data-filter-by="text"> {!! $activity->remark !!}</span>
             </div>
             <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
         </div>

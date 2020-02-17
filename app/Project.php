@@ -40,7 +40,7 @@ class Project extends Model
 
     public function client()
     {
-        return $this->hasOne('App\User', 'id', 'client_id');
+        return $this->hasOne('App\Client', 'id', 'client_id');
     }
 
     public function milestones()
@@ -55,7 +55,7 @@ class Project extends Model
 
     public function activities()
     {
-        return $this->hasMany('App\ActivityLog', 'project_id', 'id')->orderBy('id', 'desc');
+        return $this->hasMany('App\Activity', 'project_id', 'id')->orderBy('id', 'desc');
     }
 
     public function files()
@@ -143,8 +143,8 @@ class Project extends Model
         }
         else if(\Auth::user()->type == 'client')
         {
-            $active  = Project::where('archived', '=', false)->where('client_id', '=', \Auth::user()->id)->count();
-            $completed = Project::where('archived', '=', true)->where('client_id', '=', \Auth::user()->id)->count();
+            $active  = Project::where('archived', '=', false)->where('client_id', '=', \Auth::user()->client_id)->count();
+            $completed = Project::where('archived', '=', true)->where('client_id', '=', \Auth::user()->client_id)->count();
             $total     = $active + $completed;
 
             $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
@@ -186,7 +186,7 @@ class Project extends Model
 
         $task->users()->sync($users);
 
-        ActivityLog::createTask($task);
+        Activity::createTask($task);
 
         return $task;
     }
@@ -212,16 +212,7 @@ class Project extends Model
 
         $project->users()->sync($users);
 
-        $permissions = Project::$permission;
-        ProjectClientPermissions::create(
-            [
-                'client_id' => $project->client_id,
-                'project_id' => $project->id,
-                'permissions' => implode(',', $permissions),
-            ]
-        );
-
-        ActivityLog::createProject($project);
+        Activity::createProject($project);
 
         return $project;
     }
@@ -246,17 +237,7 @@ class Project extends Model
 
         $this->users()->sync($users);
 
-        ProjectClientPermissions::where('client_id','=',$this->client_id)->where('project_id','=', $this->id)->delete();
-        $permissions = Project::$permission;
-        ProjectClientPermissions::create(
-            [
-                'client_id' => $this->client_id,
-                'project_id' => $this->id,
-                'permissions' => implode(',', $permissions),
-            ]
-        );
-
-        ActivityLog::updateProject($this);
+        Activity::updateProject($this);
     }
 
     public function detachProject()
@@ -266,7 +247,7 @@ class Project extends Model
         $this->users()->sync($users);
 
         $this->milestones()->delete();
-        // ActivityLog::where('project_id', $this->id)->delete();
+        // Activity::where('project_id', $this->id)->delete();
 
         $dir = storage_path('app/'.\Auth::user()->creatorId());
 
@@ -286,7 +267,7 @@ class Project extends Model
             $task->delete();
         }
 
-        ActivityLog::deleteProject($this);
+        Activity::deleteProject($this);
     }
 
     static function humanFileSize($bytes, $decimals = 2) {
@@ -297,8 +278,8 @@ class Project extends Model
 
 
     public static $status = [
-        'incomplete' => 'Incomplete',
-        'complete' => 'Complete',
+        'active',
+        'archived'
     ];
 
     public static $priority       = [

@@ -45,7 +45,7 @@ class Contact extends Model
 
     public function client()
     {
-        return $this->hasOne('App\User', 'id', 'client_id');
+        return $this->hasOne('App\Client', 'id', 'client_id');
     }
 
     public function leads()
@@ -61,21 +61,16 @@ class Contact extends Model
         $contact->created_by    = \Auth::user()->creatorId();
         $contact->save();
 
-        // ActivityLog::createContact($contact);
-
         return $contact;
     }
 
     public function updateContact($post)
     {
         $this->update($post);
-
-        // ActivityLog::updateTask($this);
     }
 
     public function detachContact()
     {
-        // ActivityLog::deleteContact($this);
     }
 
 }

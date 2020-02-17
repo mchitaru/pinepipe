@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\ActivityLog;
+use App\Activity;
 use App\TaskChecklist;
 use App\Client;
-use App\ProjectClientPermissions;
 use App\TaskComment;
 use App\Invoice;
 use App\Lead;
@@ -35,7 +34,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ProjectsController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
 
@@ -43,12 +42,32 @@ class ProjectsController extends Controller
         {
             clock()->startEvent('ProjectsController.index', "Load projects");
 
+            if($request['tag']){
+                $status = array(array_search($request['tag'], Project::$status));
+            }else{
+                $status = array_keys(Project::$status);
+            }
+
             $projects = $user->projectsByUserType()
                             ->with(['tasks', 'users', 'client'])
+                            ->whereIn('archived', $status)
+                            ->where(function ($query) use ($request) {
+                                $query->where('name','like','%'.$request['filter'].'%')
+                                ->orWhereHas('client', function ($query) use($request) {
+
+                                    $query->where('name','like','%'.$request['filter'].'%');
+                                });
+                            })
+                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')    
                             ->paginate(25, ['*'], 'project-page');
 
             clock()->endEvent('ProjectsController.index');
             
+            if ($request->ajax()) 
+            {
+                return view('projects.index', ['projects' => $projects])->render();  
+            }
+
             return view('projects.page', compact('projects'));
         }
         else
@@ -142,6 +161,8 @@ class ProjectsController extends Controller
             $project_files = $project->files;            
             $invoices = $project->invoices;
             $activities = $project->activities;
+
+            dump($activities);
             
             if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
             {
@@ -180,62 +201,6 @@ class ProjectsController extends Controller
         return Redirect::to(URL::previous() . "#projects")->with('success', __('Project successfully deleted'));
     }
 
-    public function clientPermission($project_id, $client_id)
-    {
-        $client   = User::find($client_id);
-        $project  = Project::find($project_id);
-        $selected = $client->clientPermission($project->id);
-        if($selected)
-        {
-            $selected = explode(',', $selected->permissions);
-        }
-        else
-        {
-            $selected = [];
-        }
-        $permissions = Project::$permission;
-
-        return view('clients.permissions', compact('permissions', 'project_id', 'client_id', 'selected'));
-    }
-
-    public function storeClientPermission(request $request, $project_id, $client_id)
-    {
-        $this->validate(
-            $request, [
-                        'permissions' => 'required',
-                    ]
-        );
-
-        $project = Project::find($project_id);
-        if($project->created_by == \Auth::user()->creatorId())
-        {
-            $client      = User::find($client_id);
-            $permissions = $client->clientPermission($project->id);
-            if($permissions)
-            {
-                $permissions->permissions = implode(',', $request->permissions);
-                $permissions->save();
-            }
-            else
-            {
-                ProjectClientPermissions::create(
-                    [
-                        'client_id' => $client->id,
-                        'project_id' => $project->id,
-                        'permissions' => implode(',', $request->permissions),
-                    ]
-                );
-            }
-
-            return redirect()->back()->with('success', __('Permissions successfully updated.'))->with('status', 'clients');
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'))->with('status', 'clients');
-        }
-
-    }
-
     public function search($search)
     {
         if(\Auth::user()->type == 'client')
@@ -245,7 +210,7 @@ class ProjectsController extends Controller
                     'projects.id',
                     'projects.name',
                 ]
-            )->where('projects.client_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
+            )->where('projects.client_id', '=', Auth::user()->client_id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
             $arrProject = [];
             foreach($objProject as $project)
             {
@@ -260,7 +225,7 @@ class ProjectsController extends Controller
                     'tasks.project_id',
                     'tasks.title',
                 ]
-            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
+            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', Auth::user()->client_id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
             $arrTask = [];
             foreach($objTask as $task)
             {
