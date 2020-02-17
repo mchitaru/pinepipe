@@ -11,7 +11,7 @@
 
 $(function() {
 
-    updateFilters('name', 'asc', null);
+    updateFilters();
 
 });
 

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\URL;
 
 class ExpensesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(\Auth::user()->can('manage expense') || 
            \Auth::user()->type == 'client')
@@ -30,6 +30,16 @@ class ExpensesController extends Controller
                                 });
                             })
                             ->where('created_by', '=', \Auth::user()->creatorId())
+                            ->where(function ($query) use ($request) {
+                                $query->whereHas('user', function ($query) use($request) {
+
+                                    $query->where('name','like','%'.$request['filter'].'%');
+                                })
+                                ->orWhereHas('project', function ($query) use($request) {
+
+                                    $query->where('name','like','%'.$request['filter'].'%');
+                                });
+                            })
                             ->paginate(25, ['*'], 'invoice-page');
 
             }
@@ -40,11 +50,26 @@ class ExpensesController extends Controller
                 {
                     $expenses = Expense::with(['user','project'])
                                     ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->where(function ($query) use ($request) {
+                                        $query->whereHas('user', function ($query) use($request) {
+        
+                                            $query->where('name','like','%'.$request['filter'].'%');
+                                        })
+                                        ->orWhereHas('project', function ($query) use($request) {
+        
+                                            $query->where('name','like','%'.$request['filter'].'%');
+                                        });
+                                    })
                                     ->paginate(25, ['*'], 'expense-page');
                 }
             }
 
             clock()->endEvent('ExpensesController');
+
+            if ($request->ajax()) 
+            {
+                return view('expenses.index', ['expenses' => $expenses])->render();  
+            }
 
             return view('expenses.page', compact('expenses'));
         }

@@ -272,6 +272,7 @@ ol.timeline > li:before {
 .filter-controls {
     display: flex;
     align-items: baseline;
+    margin-right: .5rem;
     
     > div {
       font-weight: 600;
@@ -328,6 +329,7 @@ ol.timeline > li:before {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
+    margin-right: .5rem;
     
     div {
       font-weight: 600; 
@@ -336,8 +338,6 @@ ol.timeline > li:before {
     .tag {
       display: flex;
       cursor: pointer;
-      margin-bottom: .5rem;
-      margin-right: .5rem;
       color: white;
       background: $secondary;
       padding: .2rem .6rem .2rem .6rem;

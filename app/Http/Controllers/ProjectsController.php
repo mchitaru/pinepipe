@@ -34,7 +34,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ProjectsController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
 
@@ -42,12 +42,32 @@ class ProjectsController extends Controller
         {
             clock()->startEvent('ProjectsController.index', "Load projects");
 
+            if($request['tag']){
+                $status = array(array_search($request['tag'], Project::$status));
+            }else{
+                $status = array_keys(Project::$status);
+            }
+
             $projects = $user->projectsByUserType()
                             ->with(['tasks', 'users', 'client'])
+                            ->whereIn('archived', $status)
+                            ->where(function ($query) use ($request) {
+                                $query->where('name','like','%'.$request['filter'].'%')
+                                ->orWhereHas('client', function ($query) use($request) {
+
+                                    $query->where('name','like','%'.$request['filter'].'%');
+                                });
+                            })
+                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')    
                             ->paginate(25, ['*'], 'project-page');
 
             clock()->endEvent('ProjectsController.index');
             
+            if ($request->ajax()) 
+            {
+                return view('projects.index', ['projects' => $projects])->render();  
+            }
+
             return view('projects.page', compact('projects'));
         }
         else

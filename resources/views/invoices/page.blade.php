@@ -4,6 +4,15 @@
 @endpush
 
 @push('scripts')
+<script>
+
+    $(function() {
+    
+        updateFilters();
+
+    });
+    
+</script>    
 @endpush
 
 @section('page-title')
@@ -54,22 +63,29 @@
                         </a>
                         @endcan
                     </div>
-                    <form class="col-md-auto">
+                    <div class="filter-container col-auto">
+                        <div class="filter-tags">
+                            <div>{{__('Tag')}}:</div>
+                            <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
+                            <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>
+                            <div class="tag filter" data-filter="paid">{{__('Paid')}}</div>
+                        </div>                                           
+                    </div>
+                    <div class="col-md-auto">
                         <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                            </span>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control filter-input" placeholder="{{__('Filter Invoices')}}" aria-label="{{__('Filter Invoices')}}">
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Invoices')}}" aria-label="{{__('Filter Invoices')}}">
-                        </div>
-                    </form>
+                    </div>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body">
+                    <div class="content-list-body paginate-container">
                         @can('manage invoice')
                             @include('invoices.index')
-                            {{ $invoices->links() }}
                         @endcan
                     </div>
                     <!--end of content list body-->

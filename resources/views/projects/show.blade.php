@@ -150,9 +150,9 @@ $dz_id = 'project-files-dz';
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
                     @if(!$project->archived)
-                        <span class="badge badge-info">{{__('Active')}}</span>
+                        <span class="badge badge-info">{{__('active')}}</span>
                     @else
-                        <span class="badge badge-success">{{__('Archived')}}</span>
+                        <span class="badge badge-success">{{__('archived')}}</span>
                     @endif
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">

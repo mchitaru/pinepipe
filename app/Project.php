@@ -278,8 +278,8 @@ class Project extends Model
 
 
     public static $status = [
-        'incomplete' => 'Incomplete',
-        'complete' => 'Complete',
+        'active',
+        'archived'
     ];
 
     public static $priority       = [

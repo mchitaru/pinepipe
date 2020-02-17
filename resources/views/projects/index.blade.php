@@ -76,9 +76,9 @@ $last_stage = \Auth::user()->last_projectstage();
                     @endcan
 
                     @if(!$project->archived)
-                        <span class="badge badge-info">{{__('Active')}}</span>
+                        <span class="badge badge-info">{{__('active')}}</span>
                     @else
-                        <span class="badge badge-success">{{__('Archived')}}</span>
+                        <span class="badge badge-success">{{__('archived')}}</span>
                     @endif
                 </div>
                 <ul class="avatars">
@@ -116,6 +116,9 @@ $last_stage = \Auth::user()->last_projectstage();
         </div>
     </div>
 @endforeach
-{{ $projects->fragment('projects')->links() }}
+
+<div class="col-12">
+    {{ $projects->links() }}
+</div>
 
 @php clock()->endEvent('projects.index'); @endphp

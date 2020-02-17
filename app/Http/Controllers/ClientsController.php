@@ -27,10 +27,12 @@ class ClientsController extends Controller
             clock()->startEvent('ClientsController', "Load clients");
 
             $clients = Client::with(['contacts','projects', 'leads'])
-                        ->where('name','like','%'.$request['filter'].'%')
-                        ->orWhere('email','like','%'.$request['filter'].'%')
-                        ->orderBy($request['sort']?$request['sort']:'name', $request['direction']?$request['direction']:'asc')
                         ->where('created_by','=',$user->creatorId())
+                        ->where(function ($query) use ($request) {
+                            $query->where('name','like','%'.$request['filter'].'%')
+                            ->orWhere('email','like','%'.$request['filter'].'%');
+                        })
+                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                         ->paginate(25, ['*'], 'client-page');
 
             clock()->endEvent('ClientsController');

@@ -22,12 +22,18 @@ use Illuminate\Support\Facades\URL;
 
 class InvoicesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(\Auth::user()->can('manage invoice') || 
            \Auth::user()->type == 'client')
         {
             clock()->startEvent('InvoicesController', "Load invoices");
+
+            if($request['tag']){
+                $status = array(array_search($request['tag'], Invoice::$status));
+            }else{
+                $status = array_keys(Invoice::$status);
+            }
 
             if(\Auth::user()->type == 'client')
             {
@@ -40,6 +46,13 @@ class InvoicesController extends Controller
                                 });
                             })
                             ->where('created_by', '=', \Auth::user()->creatorId())
+                            ->whereIn('status', $status)
+                            ->where(function ($query) use ($request) {
+                                $query->where('id', $request['filter'])
+                                    ->orWhereHas('project', function ($query) use($request) {
+                                        $query->where('name','like','%'.$request['filter'].'%');
+                                    });
+                            })
                             ->paginate(25, ['*'], 'invoice-page');
             }
             else 
@@ -49,11 +62,23 @@ class InvoicesController extends Controller
                 {
                     $invoices = Invoice::with('project')
                                 ->where('created_by', '=', \Auth::user()->creatorId())
+                                ->whereIn('status', $status)
+                                ->where(function ($query) use ($request) {
+                                    $query->where('id', $request['filter'])
+                                        ->orWhereHas('project', function ($query) use($request) {    
+                                            $query->where('name','like','%'.$request['filter'].'%');
+                                        });
+                                })
                                 ->paginate(25, ['*'], 'invoice-page');
                 }                
             }
 
             clock()->endEvent('InvoicesController');
+
+            if ($request->ajax()) 
+            {
+                return view('invoices.index', ['invoices' => $invoices])->render();  
+            }
 
             return view('invoices.page', compact('invoices'));
         }

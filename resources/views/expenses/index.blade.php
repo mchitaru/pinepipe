@@ -79,5 +79,6 @@
     </div>
 </div>
 @endforeach
+{{ $expenses->links() }}
 
 @php clock()->endEvent('expenses.index'); @endphp

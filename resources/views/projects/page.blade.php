@@ -6,6 +6,15 @@
 @endpush
 
 @push('scripts')
+<script>
+
+    $(function() {
+    
+        updateFilters();
+
+    });
+    
+</script>    
 @endpush
 
 @section('page-title')
@@ -53,26 +62,38 @@
             <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                    <h3>{{__('Projects')}}</h3>
-                    @can('create project')
-                        <a href="{{ route('projects.create') }}" class="btn btn-round" data-remote="true" data-type="text">
-                            <i class="material-icons">add</i>
-                        </a>
-                    @endcan
+                        <h3>{{__('Projects')}}</h3>
+                        @can('create project')
+                            <a href="{{ route('projects.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                                <i class="material-icons">add</i>
+                            </a>
+                        @endcan
                     </div>
-                    <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                        </span>
+                    <div class="filter-container col-auto">
+                        <div class="filter-controls">
+                            <div>{{__('Sort')}}:</div>
+                            <a class="sort" href="#" data-sort="name">{{__('Name')}}</a>
+                            <a class="sort" href="#" data-sort="due_date">{{__('Date')}}</a>
+                        </div>    
+                        <div class="filter-tags">
+                            <div>{{__('Tag')}}:</div>
+                            <div class="tag filter" data-filter="active">{{__('active')}}</div>
+                            <div class="tag filter" data-filter="archived">{{__('archived')}}</div>
+                        </div>                                           
+                    </div>
+                    <div class="col-md-auto">
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                            </div>
+                            <input type="search" class="form-control filter-input" placeholder="Filter projects" aria-label="Filter Projects">
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Filter projects" aria-label="Filter Projects">
                     </div>
-                    </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body row">
+                <div class="content-list-body row paginate-container">
                     @include('projects.index')
 				</div>
             <!--end of content list body-->

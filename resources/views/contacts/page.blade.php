@@ -8,11 +8,11 @@
 @push('scripts')
 <script>
 
-$(function() {
+    $(function() {
 
-    updateFilters('name', 'asc', null);
+        updateFilters();
 
-});
+    });
 
 </script>
 @endpush
