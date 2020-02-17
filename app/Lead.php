@@ -19,7 +19,7 @@ class Lead extends Model
         'notes'
     ];
  
-    public static $SEED = 100;
+    public static $SEED = 500;
     
     public function user()
     {
