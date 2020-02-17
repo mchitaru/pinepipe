@@ -71,6 +71,6 @@ use App\Http\Helpers;
     </div>
 </div>
 @endforeach
-{{ $clients->fragment('clients')->links() }}
+{{ $clients->links() }}
 
 @php clock()->endEvent('clients.index'); @endphp

@@ -94,7 +94,7 @@ $(function() {
                                 <input type="search" class="form-control filter-input" placeholder="{{__('Filter Contacts')}}" aria-label="{{__('Filter Contacts')}}">
                             </div>
                         </div>
-                </div>
+                    </div>
                     <!--end of content list head-->
                     <div class="content-list-body paginate-container">
                         @include('contacts.index')
@@ -103,6 +103,7 @@ $(function() {
                 </div>
             <!--end of tab-->
             </div>
+        </div>
     </div>
 </div>
 @endsection

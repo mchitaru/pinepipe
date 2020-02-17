@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\URL;
 class ClientsController extends Controller
 {
  
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
 
@@ -27,10 +27,18 @@ class ClientsController extends Controller
             clock()->startEvent('ClientsController', "Load clients");
 
             $clients = Client::with(['contacts','projects', 'leads'])
+                        ->where('name','like','%'.$request['filter'].'%')
+                        ->orWhere('email','like','%'.$request['filter'].'%')
+                        ->orderBy($request['sort']?$request['sort']:'name', $request['direction']?$request['direction']:'asc')
                         ->where('created_by','=',$user->creatorId())
                         ->paginate(25, ['*'], 'client-page');
 
             clock()->endEvent('ClientsController');
+
+            if ($request->ajax()) 
+            {
+                return view('clients.index', ['clients' => $clients])->render();  
+            }
 
             return view('clients.page', compact('clients'));
         }

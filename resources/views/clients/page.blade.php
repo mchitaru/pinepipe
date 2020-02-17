@@ -9,19 +9,9 @@
 
 <script>
 
-// keep active tab
-$(document).ready(function() {
+$(function() {
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
-    {
-        window.history.replaceState(null, null, $(e.target).attr('href'));
-        window.location.hash = $(e.target).attr('href');
-        $(window).scrollTop(0);
-    });
-
-    var hash = window.location.hash ? window.location.hash : '#clients';
-
-    $('.nav-tabs a[href="' + hash + '"]').tab('show');
+    updateFilters('name', 'asc', null);
 
 });
 
@@ -73,34 +63,42 @@ $(document).ready(function() {
             <div class="page-header">
             </div>
             <div class="tab-content">
-            <div class="tab-pane fade show active" id="clients" role="tabpanel" data-filter-list="content-list-body">
-                <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>{{__('Clients')}}</h3>
-                    @can('create client')
-                    <a href="{{ route('clients.create') }}" class="btn btn-round" data-remote="true" data-type="text">
-                        <i class="material-icons">add</i>
-                    </a>
-                    @endcan
-                </div>
-                <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                        </span>
+                <div class="tab-pane fade show active" id="clients" role="tabpanel" data-filter-list="content-list-body">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                            <h3>{{__('Clients')}}</h3>
+                            @can('create client')
+                            <a href="{{ route('clients.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                                <i class="material-icons">add</i>
+                            </a>
+                            @endcan
+                        </div>
+                        <div class="filter-container col-auto">
+                            <div class="filter-controls">
+                                <div>Sort by:</div>
+                                <a class="sort" href="#" data-sort="name">Name</a>
+                                <a class="sort" href="#" data-sort="email">Email</a>
+                            </div>     
+                        </div>
+                        <div class="col-md-auto">
+                            <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control filter-input" placeholder="{{__('Filter Clients')}}" aria-label="{{__('Filter Clients')}}">
+                            </div>
+                        </div>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Clients')}}" aria-label="{{__('Filter Clients')}}">
+                    <!--end of content list head-->
+                    <div class="content-list-body paginate-container">
+                        @include('clients.index')
                     </div>
-                </form>
+                    <!--end of content list body-->
                 </div>
-                <!--end of content list head-->
-                <div class="content-list-body">
-                    @include('clients.index')
-                </div>
-                <!--end of content list body-->
+                <!--end of tab-->
             </div>
-            <!--end of tab-->
         </div>
     </div>
 </div>

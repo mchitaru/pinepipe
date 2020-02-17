@@ -55,13 +55,14 @@ $(function() {
         }).done(function (data) 
         {
             $('.paginate-container').html(data);  
+            LetterAvatar.transform();
 
         }).fail(function () 
         {
             toastrs('Data could not be loaded!', 'error');            
         });
 
-        window.history.replaceState(null, null, newURL.href);
+        window.history.replaceState(null, null, newURL.href);        
     });
 
     $('.filter-controls a').on('click',function(e){
@@ -81,6 +82,7 @@ $(function() {
         }).done(function (data) 
         {
             $('.paginate-container').html(data);  
+            LetterAvatar.transform();
 
         }).fail(function () 
         {
@@ -88,6 +90,7 @@ $(function() {
         });
 
         window.history.replaceState(null, null, url.href);
+
         updateFilters();
     });
 
@@ -111,6 +114,7 @@ $(function() {
         }).done(function (data) 
         {
             $('.paginate-container').html(data);  
+            LetterAvatar.transform();
 
         }).fail(function () 
         {
