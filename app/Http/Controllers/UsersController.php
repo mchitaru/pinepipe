@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\URL;
 class UsersController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
         if(\Auth::user()->can('manage user'))
@@ -24,15 +24,30 @@ class UsersController extends Controller
                 $users = User::withTrashed()
                                 ->where('created_by', '=', $user->creatorId())
                                 ->where('type', '=', 'company')
+                                ->where(function ($query) use ($request) {
+                                    $query->where('name','like','%'.$request['filter'].'%')
+                                    ->orWhere('email','like','%'.$request['filter'].'%');
+                                })
+                                ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                                 ->paginate(25, ['*'], 'user-page');
             }
             else
             {
                 $users = User::withTrashed()
                                 ->where('created_by', '=', $user->creatorId())
+                                ->where(function ($query) use ($request) {
+                                    $query->where('name','like','%'.$request['filter'].'%')
+                                    ->orWhere('email','like','%'.$request['filter'].'%');
+                                })
+                                ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                                 ->paginate(25, ['*'], 'user-page');
             }
     
+            if ($request->ajax()) 
+            {
+                return view('users.index', ['users' => $users])->render();  
+            }
+
             return view('users.page', compact('users'));
         }
         else

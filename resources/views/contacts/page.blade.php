@@ -58,7 +58,7 @@
             <div class="page-header">
             </div>
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="contacts" role="tabpanel" data-filter-list="content-list-body">
+                <div class="tab-pane fade show active" id="contacts" role="tabpanel">
                     <div class="row content-list-head">
                         <div class="col-auto">
                             <h3>{{__('Contacts')}}</h3>
@@ -67,22 +67,6 @@
                                 <i class="material-icons">add</i>
                             </a>
                             @endcan
-                        </div>
-                        <div class="filter-container col-auto">
-                            <div class="filter-controls">
-                                <div>Sort by:</div>
-                                <a class="sort" href="#" data-sort="name">Name</a>
-                                <a class="sort" href="#" data-sort="email">Email</a>
-                                <a class="sort" href="#" data-sort="phone">Phone</a>
-                            </div>     
-                            {{-- <div class="filter-tags">
-                                <div>Filter by:</div>
-                                <div class="tag filter" data-filter="1993">'93 </div>
-                                <div class="tag filter" data-filter="1994">'94 </div>
-                                <div class="tag filter" data-filter="1995">'95</div>
-                                <div class="tag filter" data-filter="1996">'96 </div>
-                            </div>                    
-                            --}}
                         </div>
                         <div class="col-md-auto">
                             <div class="input-group input-group-round">
@@ -93,6 +77,16 @@
                                 </div>
                                 <input type="search" class="form-control filter-input" placeholder="{{__('Filter Contacts')}}" aria-label="{{__('Filter Contacts')}}">
                             </div>
+                        </div>
+                    </div>
+                    <div class="row content-list-head">
+                        <div class="filter-container col-auto">
+                            <div class="filter-controls">
+                                <div>Sort by:</div>
+                                <a class="sort" href="#" data-sort="name">Name</a>
+                                <a class="sort" href="#" data-sort="email">Email</a>
+                                <a class="sort" href="#" data-sort="phone">Phone</a>
+                            </div>     
                         </div>
                     </div>
                     <!--end of content list head-->

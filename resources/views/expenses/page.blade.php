@@ -53,7 +53,7 @@
         <div class="page-header">
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="expenses" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show active" id="expenses" role="tabpanel">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>

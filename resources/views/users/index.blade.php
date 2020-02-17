@@ -102,4 +102,9 @@ use App\Http\Helpers;
     </div>
 </div>
 @endforeach
-{{ $users->fragment('users')->links() }}
+
+@if(method_exists($users,'links'))
+{{ $users->links() }}
+@endif
+
+@endi

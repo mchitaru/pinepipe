@@ -90,6 +90,8 @@ use App\Http\Helpers;
     </div>
 @endforeach
 
+@if(method_exists($leads,'links'))
  {{ $leads->fragment('leads')->links() }}
+@endif
 
 @php clock()->endEvent('leads.index'); @endphp

@@ -63,7 +63,7 @@ $(function() {
             <div class="page-header">
             </div>
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="clients" role="tabpanel" data-filter-list="content-list-body">
+                <div class="tab-pane fade show active" id="clients" role="tabpanel">
                     <div class="row content-list-head">
                         <div class="col-auto">
                             <h3>{{__('Clients')}}</h3>
@@ -72,13 +72,6 @@ $(function() {
                                 <i class="material-icons">add</i>
                             </a>
                             @endcan
-                        </div>
-                        <div class="filter-container col-auto">
-                            <div class="filter-controls">
-                                <div>Sort by:</div>
-                                <a class="sort" href="#" data-sort="name">Name</a>
-                                <a class="sort" href="#" data-sort="email">Email</a>
-                            </div>     
                         </div>
                         <div class="col-md-auto">
                             <div class="input-group input-group-round">
@@ -89,6 +82,15 @@ $(function() {
                             </div>
                             <input type="search" class="form-control filter-input" placeholder="{{__('Filter Clients')}}" aria-label="{{__('Filter Clients')}}">
                             </div>
+                        </div>
+                    </div>
+                    <div class="row content-list-head">
+                        <div class="filter-container col-auto">
+                            <div class="filter-controls">
+                                <div>Sort by:</div>
+                                <a class="sort" href="#" data-sort="name">Name</a>
+                                <a class="sort" href="#" data-sort="email">Email</a>
+                            </div>     
                         </div>
                     </div>
                     <!--end of content list head-->

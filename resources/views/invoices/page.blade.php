@@ -53,7 +53,7 @@
         <div class="page-header">
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="invoices" role="tabpanel" data-filter-list="content-list-body">
+            <div class="tab-pane fade show active" id="invoices" role="tabpanel">
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Invoices')}}</h3>
@@ -62,14 +62,6 @@
                             <i class="material-icons">add</i>
                         </a>
                         @endcan
-                    </div>
-                    <div class="filter-container col-auto">
-                        <div class="filter-tags">
-                            <div>{{__('Tag')}}:</div>
-                            <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
-                            <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>
-                            <div class="tag filter" data-filter="paid">{{__('Paid')}}</div>
-                        </div>                                           
                     </div>
                     <div class="col-md-auto">
                         <div class="input-group input-group-round">
@@ -80,6 +72,16 @@
                             </div>
                             <input type="search" class="form-control filter-input" placeholder="{{__('Filter Invoices')}}" aria-label="{{__('Filter Invoices')}}">
                         </div>
+                    </div>
+                </div>
+                <div class="row content-list-head">
+                    <div class="filter-container col-auto">
+                        <div class="filter-tags">
+                            <div>{{__('Tag')}}:</div>
+                            <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
+                            <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>
+                            <div class="tag filter" data-filter="paid">{{__('Paid')}}</div>
+                        </div>                                           
                     </div>
                     </div>
                     <!--end of content list head-->

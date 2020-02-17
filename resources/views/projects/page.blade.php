@@ -58,7 +58,7 @@
         <div class="page-header">
         </div>
         <div class="tab-content">
-        <div class="tab-pane fade show active" id="projects" role="tabpanel" data-filter-list="content-list-body">
+        <div class="tab-pane fade show active" id="projects" role="tabpanel">
             <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -69,6 +69,18 @@
                             </a>
                         @endcan
                     </div>
+                    <div class="col-md-auto">
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                            </div>
+                            <input type="search" class="form-control filter-input" placeholder="Filter projects" aria-label="Filter Projects">
+                        </div>
+                    </div>
+                </div>
+                <div class="row content-list-head">
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
@@ -80,16 +92,6 @@
                             <div class="tag filter" data-filter="active">{{__('active')}}</div>
                             <div class="tag filter" data-filter="archived">{{__('archived')}}</div>
                         </div>                                           
-                    </div>
-                    <div class="col-md-auto">
-                        <div class="input-group input-group-round">
-                            <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="material-icons">filter_list</i>
-                            </span>
-                            </div>
-                            <input type="search" class="form-control filter-input" placeholder="Filter projects" aria-label="Filter Projects">
-                        </div>
                     </div>
                 </div>
                 <!--end of content list head-->
