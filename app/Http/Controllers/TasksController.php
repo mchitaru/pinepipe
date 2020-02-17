@@ -7,7 +7,7 @@ use App\Task;
 use App\Project;
 use App\Milestone;
 use App\UserProject;
-use App\ActivityLog;
+use App\Activity;
 use App\ProjectStage;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;

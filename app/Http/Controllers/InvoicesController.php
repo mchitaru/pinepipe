@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ActivityLog;
+use App\Activity;
 use App\Expense;
 use App\ExpenseCategory;
 use App\Invoice;
@@ -138,7 +138,7 @@ class InvoicesController extends Controller
             $invoice->created_by = \Auth::user()->creatorId();
             $invoice->save();
 
-            ActivityLog::create(
+            Activity::create(
                 [
                     'user_id' => \Auth::user()->creatorId(),
                     'project_id' => $request->project_id,

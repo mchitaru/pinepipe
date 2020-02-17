@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ActivityLog;
+use App\Activity;
 use App\Order;
 use App\PaymentPlan;
 use App\Project;
@@ -36,7 +36,7 @@ class DashboardController extends Controller
             if(\Auth::user()->type == 'company')
             {
                 $project['projects'] = Project::where('created_by', '=', \Auth::user()->creatorId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
-                $activities = ActivityLog::select('activity_logs.*')->orderBy('id', 'desc')->get();
+                $activities = Activity::select('activities.*')->orderBy('id', 'desc')->get();
             }
             elseif(\Auth::user()->type == 'client')
             {
@@ -47,7 +47,7 @@ class DashboardController extends Controller
             else
             {
                 $project['projects'] = Project::select('projects.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', \Auth::user()->id)->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
-                $activities = ActivityLog::select('activity_logs.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'activity_logs.project_id')->where('user_projects.user_id', '=', \Auth::user()->id)->orderBy('id', 'desc')->get();
+                $activities = Activity::select('activities.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'activities.project_id')->where('user_projects.user_id', '=', \Auth::user()->id)->orderBy('id', 'desc')->get();
             }
 
             $project_last_stages       = \Auth::user()->last_projectstage();
@@ -129,8 +129,8 @@ class DashboardController extends Controller
         {
             clock()->startEvent('DahsboardController', "Load dash");
 
-            // $activities = ActivityLog::all()->orderBy('id', 'desc');
-            $activities = ActivityLog::orderBy('id', 'desc')->get();
+            // $activities = Activity::all()->orderBy('id', 'desc');
+            $activities = Activity::orderBy('id', 'desc')->get();
 
             $user=\Auth::user();
             $user['total_user']=$user->countCompany();

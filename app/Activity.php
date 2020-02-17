@@ -3,7 +3,7 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 
-class ActivityLog extends Model
+class Activity extends Model
 {
     protected $fillable = [
         'user_id', 
@@ -12,9 +12,14 @@ class ActivityLog extends Model
         'remark'
     ];
 
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }    
+
     public static function createTask(Task $task)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
@@ -28,7 +33,7 @@ class ActivityLog extends Model
 
     public static function updateTask(Task $task)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
@@ -42,7 +47,7 @@ class ActivityLog extends Model
 
     public static function deleteTask(Task $task)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
@@ -56,7 +61,7 @@ class ActivityLog extends Model
 
     public static function createProject(Project $project)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
@@ -70,7 +75,7 @@ class ActivityLog extends Model
 
     public static function updateProject(Project $project)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
@@ -84,7 +89,7 @@ class ActivityLog extends Model
 
     public static function deleteProject(Project $project)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
@@ -98,7 +103,7 @@ class ActivityLog extends Model
 
     public static function createProjectFile(ProjectFile $file)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $file->project->id,
@@ -112,7 +117,7 @@ class ActivityLog extends Model
 
     public static function createTaskFile(TaskFile $file)
     {
-        ActivityLog::create(
+        Activity::create(
             [
                 'user_id' => \Auth::user()->creatorId(),
                 'project_id' => $file->task->project_id,

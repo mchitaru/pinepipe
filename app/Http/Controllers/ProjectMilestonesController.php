@@ -55,7 +55,7 @@ class ProjectMilestonesController extends Controller
         // $milestone->description = $request->description;
         // $milestone->save();
 
-        // ActivityLog::create(
+        // Activity::create(
         //     [
         //         'user_id' => \Auth::user()->creatorId(),
         //         'project_id' => $project->id,

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\ProjectFile;
-use App\ActivityLog;
+use App\Activity;
 use Illuminate\Http\Request;
 use App\Http\Helpers;
 use Illuminate\Support\Facades\Redirect;
@@ -51,7 +51,7 @@ class ProjectFilesController extends Controller
                                   ]
         );
 
-        ActivityLog::createProjectFile($file);
+        Activity::createProjectFile($file);
 
         return response()->json($return);
     }

@@ -127,7 +127,7 @@ class Task extends Model
 
         $task->users()->sync($users);
 
-        ActivityLog::createTask($task);
+        Activity::createTask($task);
 
         return $task;
     }
@@ -153,7 +153,7 @@ class Task extends Model
 
         $this->users()->sync($users);
 
-        ActivityLog::updateTask($this);
+        Activity::updateTask($this);
     }
 
     public function detachTask()
@@ -172,7 +172,7 @@ class Task extends Model
 
         $this->files()->delete();
 
-        ActivityLog::deleteTask($this);
+        Activity::deleteTask($this);
     }
 
 }

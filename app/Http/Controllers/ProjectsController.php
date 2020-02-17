@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ActivityLog;
+use App\Activity;
 use App\TaskChecklist;
 use App\Client;
 use App\TaskComment;
@@ -161,6 +161,8 @@ class ProjectsController extends Controller
             $project_files = $project->files;            
             $invoices = $project->invoices;
             $activities = $project->activities;
+
+            dump($activities);
             
             if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
             {

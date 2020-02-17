@@ -345,9 +345,7 @@ $dz_id = 'project-files-dz';
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body row">
-
                     @include('files.index')
-
                 </div>
                 </div>
                 <!--end of content list-->

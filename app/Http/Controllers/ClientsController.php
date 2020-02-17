@@ -8,6 +8,7 @@ use App\User;
 use App\Contact;
 use App\Project;
 use App\Lead;
+use App\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -197,7 +198,10 @@ class ClientsController extends Controller
                 }        
             }    
 
-            $activities = array();
+            $activities = Activity::whereHas('project', function ($query) use ($client) {                
+                $query->where('client_id', $client->id);
+            })
+            ->orderBy('id', 'desc')->get();
 
             clock()->endEvent('ClientsController');
 

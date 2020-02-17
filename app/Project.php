@@ -55,7 +55,7 @@ class Project extends Model
 
     public function activities()
     {
-        return $this->hasMany('App\ActivityLog', 'project_id', 'id')->orderBy('id', 'desc');
+        return $this->hasMany('App\Activity', 'project_id', 'id')->orderBy('id', 'desc');
     }
 
     public function files()
@@ -186,7 +186,7 @@ class Project extends Model
 
         $task->users()->sync($users);
 
-        ActivityLog::createTask($task);
+        Activity::createTask($task);
 
         return $task;
     }
@@ -212,7 +212,7 @@ class Project extends Model
 
         $project->users()->sync($users);
 
-        ActivityLog::createProject($project);
+        Activity::createProject($project);
 
         return $project;
     }
@@ -237,7 +237,7 @@ class Project extends Model
 
         $this->users()->sync($users);
 
-        ActivityLog::updateProject($this);
+        Activity::updateProject($this);
     }
 
     public function detachProject()
@@ -247,7 +247,7 @@ class Project extends Model
         $this->users()->sync($users);
 
         $this->milestones()->delete();
-        // ActivityLog::where('project_id', $this->id)->delete();
+        // Activity::where('project_id', $this->id)->delete();
 
         $dir = storage_path('app/'.\Auth::user()->creatorId());
 
@@ -267,7 +267,7 @@ class Project extends Model
             $task->delete();
         }
 
-        ActivityLog::deleteProject($this);
+        Activity::deleteProject($this);
     }
 
     static function humanFileSize($bytes, $decimals = 2) {

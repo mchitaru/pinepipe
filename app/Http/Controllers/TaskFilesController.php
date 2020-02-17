@@ -6,7 +6,7 @@ use App\Task;
 use App\TaskFile;
 use Illuminate\Http\Request;
 use App\Http\Helpers;
-use App\ActivityLog;
+use App\Activity;
 use App\Http\Requests\TaskFileRequest;
 use App\Http\Traits\TaskTraits;
 
@@ -53,7 +53,7 @@ class TaskFilesController extends Controller
                                   ]
         );
 
-        ActivityLog::createTaskFile($file);
+        Activity::createTaskFile($file);
 
         return response()->json($return);
     }
