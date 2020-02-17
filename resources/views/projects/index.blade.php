@@ -117,8 +117,10 @@ $last_stage = \Auth::user()->last_projectstage();
     </div>
 @endforeach
 
+@if(method_exists($projects,'links'))
 <div class="col-12">
     {{ $projects->links() }}
 </div>
+@endif
 
 @php clock()->endEvent('projects.index'); @endphp

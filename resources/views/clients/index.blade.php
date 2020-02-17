@@ -71,6 +71,9 @@ use App\Http\Helpers;
     </div>
 </div>
 @endforeach
+
+@if(method_exists($clients,'links'))
 {{ $clients->links() }}
+@endif
 
 @php clock()->endEvent('clients.index'); @endphp

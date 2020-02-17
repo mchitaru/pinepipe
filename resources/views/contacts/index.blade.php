@@ -66,6 +66,8 @@
 </div>
 @endforeach
 
+@if(method_exists($contacts,'links'))
 {{ $contacts->links() }}
+@endif
 
 @php clock()->endEvent('contacts.index'); @endphp

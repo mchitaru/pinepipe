@@ -90,6 +90,9 @@
     </div>
 </div>
 @endforeach
+
+@if(method_exists($invoices,'links'))
 {{ $invoices->links() }}
+@endif
 
 @php clock()->endEvent('invoices.index'); @endphp
