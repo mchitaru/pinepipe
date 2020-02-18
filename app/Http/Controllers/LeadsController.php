@@ -11,6 +11,9 @@ use App\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use App\Http\Requests\LeadStoreRequest;
+use App\Http\Requests\LeadUpdateRequest;
+use App\Http\Requests\LeaddestroyRequest;
 
 class LeadsController extends Controller
 {
@@ -51,91 +54,25 @@ class LeadsController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(LeadStoreRequest $request)
     {
+        $post = $request->validated();            
 
-        if(\Auth::user()->can('create lead'))
-        {
-            if(\Auth::user()->type == 'company')
-            {
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'name' => 'required|max:20',
-                                       'price' => 'required',
-                                       'stage_id' => 'required',
-                                       'user_id' => 'required',
-                                       'client_id' => 'required',
-                                       'source_id' => 'required',
-                                   ]
-                );
-            }
-            else
-            {
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'name' => 'required|max:20',
-                                       'price' => 'required',
-                                       'stage_id' => 'required',
-                                       'source_id' => 'required',
-                                       'client_id' => 'required',
-                                   ]
-                );
-            }
+        $lead = Lead::createLead($post);
 
-
-            if($validator->fails())
-            {
-                $messages = $validator->getMessageBag();
-
-                return Redirect::to(URL::previous() . "#leads")->with('error', $messages->first());
-            }
-            
-            $stage = LeadStage::find($request->stage_id);
-            
-            $leads        = new Lead();
-            $leads->name  = $request->name;
-            $leads->price = $request->price;
-            $leads->stage_id = $request->stage_id;
-            $leads->order = $stage->leads->count();
-            if(\Auth::user()->type == 'company')
-            {
-                $leads->user_id = $request->user_id;
-            }
-            else
-            {
-                $leads->user_id = \Auth::user()->id;
-            }
-            $leads->source_id     = $request->source_id;
-            $leads->notes      = $request->notes;
-            $leads->client_id     = $request->client_id;
-            $leads->created_by = \Auth::user()->creatorId();
-            $leads->save();
-
-            return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully created.'));
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
-        }
+        return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully created.'));
     }
 
     public function edit(Lead $lead)
     {
         if(\Auth::user()->can('edit lead'))
         {
-            if($lead->created_by == \Auth::user()->creatorId())
-            {
-                $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'employee')->get()->pluck('name', 'id');
-                $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'employee')->get()->pluck('name', 'id');
+            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-                return view('leads.edit', compact('stages', 'owners', 'sources', 'lead','clients'));
-            }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
+            return view('leads.edit', compact('stages', 'owners', 'sources', 'lead','clients'));
         }
         else
         {
@@ -143,84 +80,29 @@ class LeadsController extends Controller
         }
     }
 
-    public function update(Request $request, Lead $lead)
+    public function update(LeadUpdateRequest $request, Lead $lead)
     {
-        if(\Auth::user()->can('edit lead'))
-        {
-            if($lead->created_by == \Auth::user()->creatorId())
-            {
-                if(\Auth::user()->type == 'company')
-                {
-                    $validator = \Validator::make(
-                        $request->all(), [
-                                           'name' => 'required|max:20',
-                                           'price' => 'required',
-                                           'stage_id' => 'required',
-                                           'user_id' => 'required',
-                                           'source_id' => 'required',
-                                           'client_id' => 'required',
-                                       ]
-                    );
-                }
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
+        $post = $request->validated();
 
-                    return Redirect::to(URL::previous() . "#leads")->with('error', $messages->first());
-                }
-                $lead->name       = $request->name;
-                $lead->price      = $request->price;
-                $lead->stage_id   = $request->stage_id;
-                $lead->user_id    = $request->user_id;
-                $lead->source_id  = $request->source_id;
-                $lead->client_id  = $request->client_id;
-                $lead->notes      = $request->notes;
-                $lead->created_by = \Auth::user()->creatorId();
-                $lead->save();
+        $lead->updateLead($post);
 
-                return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully updated.'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
-        }
+        $request->session()->flash('success', __('Lead successfully updated.'));
+
+        $url = redirect()->back()->getTargetUrl().'/#leads';
+        return "<script>window.location='{$url}'</script>";
     }
 
-    public function destroy(Request $request, Lead $lead)
+    public function destroy(LeadDestroyRequest $request, Lead $lead)
     {
         if($request->ajax()){
             
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete lead'))
-        {
-            if($lead->created_by == \Auth::user()->creatorId())
-            {
-                $lead->removeProjectLead();
-                $lead->delete();
+        $lead->detachLead();
+        $lead->delete();
 
-                return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully deleted.'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
-        }
-    }
-
-    public function show(Lead $lead)
-    {
-        return view('leads.show', compact('lead'));
+        return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully deleted.'));
     }
 
     public function order(Request $request)

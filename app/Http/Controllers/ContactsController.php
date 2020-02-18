@@ -55,11 +55,18 @@ class ContactsController extends Controller
      */
     public function create()
     {
-        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
-                    ->get()
-                    ->pluck('name', 'id');
+        if(\Auth::user()->can('create contact')) 
+        {
+            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
+                        ->get()
+                        ->pluck('name', 'id');
 
-        return view('contacts.create', compact('clients'));
+            return view('contacts.create', compact('clients'));
+        }
+        else
+        {
+            Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -78,18 +85,6 @@ class ContactsController extends Controller
 
         $url = redirect()->back()->getTargetUrl();
         return "<script>window.location='{$url}'</script>";
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Contact $contact)
-    {
-        $userDetail=\Auth::user();
-        return view('clients.profile')->with('userDetail',$userDetail);
     }
 
     /**

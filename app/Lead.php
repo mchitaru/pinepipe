@@ -50,4 +50,32 @@ class Lead extends Model
     {
         return $this->hasOne('App\Leadsource', 'id', 'source_id');
     }
+
+    public static function createLead($post)
+    {
+        $stage = LeadStage::find($post['stage_id']);
+        
+        $post['order']   = $stage->leads->count();
+
+        if(\Auth::user()->type != 'company')
+        {
+            $post['user_id'] = \Auth::user()->id;
+        }
+
+        $lead                = Lead::make($post);
+        $lead->created_by    = \Auth::user()->creatorId();
+        $lead->save();
+
+        return $lead;
+    }
+
+    public function updateLead($post)
+    {
+        $this->update($post);
+    }
+
+    public function detachLead()
+    {
+        $this->removeProjectLead();
+    }
 }

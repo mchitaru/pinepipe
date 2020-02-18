@@ -13,7 +13,16 @@ class ContactUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('edit contact');
+        if($this->user()->can('edit contact'))
+        {
+            $contact = $this->route()->parameter('contact');
+
+            return $contact->created_by == \Auth::user()->creatorId() &&
+                    (\Auth::user()->type == 'company' ||
+                    $contact->user_id == \Auth::user()->id);
+        }
+
+        return false;
     }
 
     /**
