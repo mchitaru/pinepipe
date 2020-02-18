@@ -5,7 +5,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ 'BaseCRM.io — Online CRM and Project Management' }}</title>
+    <title>{{ 'BaseCRM — CRM and Project Management made simple' }}</title>
 
     <meta name="description" content="A simple project management platform">
     <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon">
