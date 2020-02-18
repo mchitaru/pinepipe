@@ -25,6 +25,12 @@ class SystemSettingsCompanyRequest extends FormRequest
     {
         return [
             'company_name' => 'required|string|max:50',
+            'company_address' => 'string',
+            'company_city' => 'string',
+            'company_state' => 'string',
+            'company_zipcode' => 'string',
+            'company_country' => 'string',
+            'company_phone' => 'string',
             'company_email' => 'required',
             'company_email_from_name' => 'required|string',
         ];

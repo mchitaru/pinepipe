@@ -275,10 +275,10 @@ use App\Http\Helpers;
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            {{Form::label('company_telephone',__('Telephone')) }}
-                            {{Form::text('company_telephone',null,array('class'=>'form-control'))}}
-                            @error('company_telephone')
-                            <span class="invalid-company_telephone" role="alert">
+                            {{Form::label('company_phone',__('Phone')) }}
+                            {{Form::text('company_phone',null,array('class'=>'form-control'))}}
+                            @error('company_phone')
+                            <span class="invalid-company_phone" role="alert">
                                 <strong class="text-danger">{{ $message }}</strong>
                             </span>
                             @enderror

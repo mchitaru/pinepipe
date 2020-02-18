@@ -74,8 +74,7 @@ class SystemSettingsController extends Controller
     }
 
     public function updateCompany(SystemSettingsCompanyRequest $request)
-    {
-            
+    {            
         $post = $request->validated();
 
         if($request->hasFile('company_logo'))
