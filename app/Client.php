@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
@@ -62,6 +63,32 @@ class Client extends Model
     public function expenses()
     {
         return $this->hasManyThrough('App\Expense', 'App\Project', 'client_id', 'project_id', 'id');
+    }
+
+    public static function createClient($post)
+    {
+        $client = Client::make($post);
+        $client->created_by = \Auth::user()->creatorId();
+        $client->save();
+
+        // $user = User::create($request->all());
+        // $role_r = Role::findByName('client');
+        // $user->assignRole($role_r);
+
+        return $client;
+    }
+
+    public function updateClient($post)
+    {
+        $this->update($post);
+
+        if(isset($post['avatar']))
+        {
+            $path = Helpers::storePublicFile($post['avatar']);
+            $this->avatar = $path;
+        }
+
+        $this->save();
     }
 
     public function detachClient()

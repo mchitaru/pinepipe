@@ -7,6 +7,7 @@ use App\Lead;
 use App\Leadsource;
 use App\LeadStage;
 use App\User;
+use App\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -39,7 +40,7 @@ class LeadsController extends Controller
 
             $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
-            $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             return view('leads.create', compact('stage_id', 'stages', 'owners', 'clients', 'sources'));
@@ -126,7 +127,7 @@ class LeadsController extends Controller
             {
                 $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'employee')->get()->pluck('name', 'id');
-                $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+                $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
                 return view('leads.edit', compact('stages', 'owners', 'sources', 'lead','clients'));

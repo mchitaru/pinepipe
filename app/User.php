@@ -262,7 +262,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function companyClients()
     {
-        User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client');
+        return Client::where('created_by', '=', \Auth::user()->creatorId());
     }
 
     public function user_projects_count()
@@ -445,7 +445,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         if($plan->max_clients == null) return true;
 
-        $total_clients = User::where('type', '=', 'client')->where('created_by', '=', $company->id)->count();
+        $total_clients = Client::where('created_by', '=', $company->id)->count();
 
         return $total_clients < $plan->max_clients;
     }
@@ -485,7 +485,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
             $projects = Project::where('created_by', '=', $this->creatorId())->get();
             $users    = User::where('created_by', '=', $this->creatorId())->where('type', '!=', 'client')->get();
-            $clients  = User::where('created_by', '=', $this->creatorId())->where('type', 'client')->get();
+            $clients  = Client::where('created_by', '=', $this->creatorId())->get();
 
             $projectCount = 0;
             foreach($projects as $project)
@@ -811,7 +811,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function total_company_client($company_id)
     {
-        return User::where('type', '=', 'client')->where('created_by', '=', $company_id)->count();
+        return Client::where('created_by', '=', $company_id)->count();
     }
 
     public function total_company_project($company_id)

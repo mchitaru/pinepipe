@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class ContactDestroyRequest extends FormRequest
+class ClientDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,14 +15,7 @@ class ContactDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete contact'))
-        {
-            $contact = $this->route()->parameter('contact');
-
-            return $contact->created_by == \Auth::user()->creatorId() &&
-                    (\Auth::user()->type == 'company' ||
-                    $contact->user_id == \Auth::user()->id);
-        }
+        return $this->user()->can('delete client');
     }
 
     /**
@@ -39,6 +32,6 @@ class ContactDestroyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return URL::previous() . "#contacts";
+        return URL::previous();
     }
 }

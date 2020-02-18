@@ -65,7 +65,10 @@ class TasksController extends Controller
             $users   = $project->users()->get()->pluck('name', 'id');
         }else
         {
-            $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $users   = User::where('created_by', '=', \Auth::user()->creatorId())
+                        ->where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id');
         }
 
         $milestones = null;
@@ -121,7 +124,10 @@ class TasksController extends Controller
         }else
         {
             $project_id = null;
-            $users   = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $users   = User::where('created_by', '=', \Auth::user()->creatorId())
+                        ->where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id');
         }
 
         $user_id = $task->users()->get()->pluck('id');

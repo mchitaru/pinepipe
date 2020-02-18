@@ -15,6 +15,9 @@ use Spatie\Permission\Models\Role;
 use App\Http\Helpers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use App\Http\Requests\ClientStoreRequest;
+use App\Http\Requests\ClientUpdateRequest;
+use App\Http\Requests\ClientDestroyRequest;
 
 class ClientsController extends Controller
 {
@@ -53,47 +56,34 @@ class ClientsController extends Controller
 
     public function create()
     {
-        if(\Auth::user()->can('create client')) {
+        if(\Auth::user()->can('create client')) 
+        {
             return view('clients.create');
-        }else{
-            return redirect()->back();
+        }
+        else
+        {
+            Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
 
-    public function store(Request $request)
+    public function store(ClientStoreRequest $request)
     {
-        if(\Auth::user()->can('create client')) 
+        $post = $request->validated();
+
+        if(\Auth::user()->checkClientLimit())
         {
-            $this->validate($request, [
-                'name'=>'required|max:120',
-                'email'=>'required|email|unique:users',
-                'phone'=>'nullable|string',
-                'address'=>'nullable|string',
-                'website'=>'nullable|string',
-            ]);
-
-            if(\Auth::user()->checkClientLimit())
-            {
-                $request['created_by']=\Auth::user()->creatorId();
-
-                $client = Client::create($request->all());
-
-                // $user = User::create($request->all());
-                // $role_r = Role::findByName('client');
-                // $user->assignRole($role_r);
-
-                return Redirect::to(URL::previous())->with('success', __('Client successfully created.'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous())->with('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
-            }
-
-        }else{
-            return redirect()->back();
+            $client = Client::createClient($post);
+            
+            $request->session()->flash('success', __('Client successfully created.'));
+        }
+        else
+        {
+            $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
         }
 
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
     }
 
 
@@ -103,43 +93,24 @@ class ClientsController extends Controller
         if(\Auth::user()->can('edit client')) 
         {
             return view('clients.edit', compact('client'));
-        }else{
-            return redirect()->back();
         }
-
+        else
+        {
+            Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+        }
     }
 
 
-    public function update(Request $request, Client $client)
+    public function update(ClientUpdateRequest $request, Client $client)
     {
-        if(\Auth::user()->can('edit client')) 
-        {
-            $this->validate($request, [
-                'name'=>'required|max:120',
-                'email'=>'required|email|unique:users,email,'.$client->id,
-                'phone'=>'nullable|string',
-                'address'=>'nullable|string',
-                'website'=>'nullable|string',
-                'avatar' => 'mimes:png,jpeg,jpg|max:2048'
-            ]);
+        $post = $request->validated();
 
-            $input = $request->all();
+        $client->updateClient($post);
 
-            $client->fill($input);
+        $request->session()->flash('success', __('Client successfully updated.'));
 
-            if($request->hasFile('avatar'))
-            {
-                $path = Helpers::storePublicFile($request->file('avatar'));
-                $client->avatar = $path;
-            }
-    
-            $client->save();
-
-            return Redirect::to(URL::previous())->with('success', __('Client successfully updated.'));
-        }else
-        {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-        }
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
     }
 
 
@@ -150,16 +121,10 @@ class ClientsController extends Controller
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete client')) 
-        {
-            $client->detachClient();
-            $client->delete();
+        $client->detachClient();
+        $client->delete();
 
-            return Redirect::to(URL::previous())->with('success', __('Client successfully deleted.'));
-        }else
-        {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-        }
+        return Redirect::to(URL::previous())->with('success', __('Client successfully deleted.'));
     }
 
     public function show(Client $client)
@@ -177,26 +142,23 @@ class ClientsController extends Controller
             $projects = Project::where('client_id', '=', $client->id)
                         ->paginate(25, ['*'], 'project-page');
 
-            if($user->can('manage lead'))
-            {        
-                if($user->type == 'company')
-                {
-                    $leads = Lead::with(['client', 'user', 'stage'])
+            if($user->type == 'company')
+            {
+                $leads = Lead::with(['client', 'user', 'stage'])
+                        ->where('client_id', '=', $client->id)
+                        ->where('created_by', '=', $user->creatorId())
+                        ->orderBy('order')
+                        ->paginate(25, ['*'], 'lead-page');
+
+            }else
+            {
+                $leads = $user->leads()
+                            ->with(['client', 'user', 'stage'])
                             ->where('client_id', '=', $client->id)
                             ->where('created_by', '=', $user->creatorId())
                             ->orderBy('order')
                             ->paginate(25, ['*'], 'lead-page');
-    
-                }else
-                {
-                    $leads = $user->leads()
-                                ->with(['client', 'user', 'stage'])
-                                ->where('client_id', '=', $client->id)
-                                ->where('created_by', '=', $user->creatorId())
-                                ->orderBy('order')
-                                ->paginate(25, ['*'], 'lead-page');
-                }        
-            }    
+            }        
 
             $activities = Activity::whereHas('project', function ($query) use ($client) {                
                 $query->where('client_id', $client->id);

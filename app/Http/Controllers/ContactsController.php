@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use App\User;
+use App\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
@@ -54,7 +55,9 @@ class ContactsController extends Controller
      */
     public function create()
     {
-        $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
+                    ->get()
+                    ->pluck('name', 'id');
 
         return view('contacts.create', compact('clients'));
     }
@@ -99,7 +102,9 @@ class ContactsController extends Controller
     {
         if(\Auth::user()->can('edit contact')) 
         {
-            $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
+                            ->get()
+                            ->pluck('name', 'id');
 
             return view('contacts.edit', compact('contact', 'clients'));
 

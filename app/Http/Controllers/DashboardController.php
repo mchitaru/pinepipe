@@ -7,6 +7,7 @@ use App\Order;
 use App\PaymentPlan;
 use App\Project;
 use App\User;
+use App\Client;
 
 class DashboardController extends Controller
 {
@@ -116,7 +117,7 @@ class DashboardController extends Controller
             $top_tasks       = \Auth::user()->created_top_due_task();
             $users['staff']  = User::where('created_by', '=', \Auth::user()->creatorId())->count();
             $users['user']   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->count();
-            $users['client'] = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->count();
+            $users['client'] = Client::where('created_by', '=', \Auth::user()->creatorId())->count();
             
             $projectData     = \App\Project::getProjectStatus();
             $taskData        = \App\ProjectStage::getChartData();
