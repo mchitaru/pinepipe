@@ -14,12 +14,42 @@ class PlanSeeder extends Seeder
     {
         PaymentPlan::create(
             [
-                'name' => 'Free PaymentPlan',
+                'name' => 'Free',
                 'price' => 0,
-                'duration' => 'Unlimited',
-                'max_users' => 5,
-                'max_clients' => 5,
-                'max_projects' => 5,
+                'duration' => 'unlimited',
+                'max_users' => 1,
+                'max_clients' => 1,
+                'max_projects' => 1,
+            ]
+        );
+        PaymentPlan::create(
+            [
+                'name' => 'Freelancer',
+                'price' => 9,
+                'duration' => 'month',
+                'max_users' => 1,
+                'max_clients' => null,
+                'max_projects' => null,
+            ]
+        );
+        PaymentPlan::create(
+            [
+                'name' => 'Startup',
+                'price' => 19,
+                'duration' => 'month',
+                'max_users' => 10,
+                'max_clients' => null,
+                'max_projects' => null,
+            ]
+        );
+        PaymentPlan::create(
+            [
+                'name' => 'Enterprise',
+                'price' => 49,
+                'duration' => 'month',
+                'max_users' => null,
+                'max_clients' => null,
+                'max_projects' => null,
             ]
         );
     }

@@ -2,6 +2,7 @@
 
 @php
 use App\Http\Helpers;
+use App\PaymentPlan;
 @endphp
 
 @push('stylesheets')
@@ -363,46 +364,48 @@ use App\Http\Helpers;
             @if(Gate::check('manage plan'))
             <div class="tab-pane fade" role="tabpanel" id="billing">
                 {{Form::model($user->settings,array('route'=>'plans.upgrade','method'=>'post'))}}
-                <div class="mt-4">
+                <div class="mb-4">
                     <h6>{{__('Subscription')}}</h6>
                     <div class="card text-center">
                         <div class="card-body">
-                        <div class="row">
-                            @foreach($plans as $key=>$plan)
-                            <div class="col-4 mb-4">            
-                                <div class="mb-4">
-                                    <h6>
-                                        {{$plan->name}}
-                                        @if(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))
-                                            <span class="badge badge-primary">active</span>
-                                        @endif
-                                    </h6>
-                                    <h3 class="d-block mb-2 font-weight-bold">{{Auth::user()->priceFormat($plan->price)}}</h3>
-                                    <span class="text-muted text-small">{{$plan->duration}}</span>
+                            <div class="row">
+                                @foreach($plans as $key=>$plan)
+                                <div class="col-6 mb-4">            
+                                    <div class="mb-4">
+                                        <h6>
+                                            {{$plan->name}}
+                                            @if(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))
+                                                <span class="badge badge-primary">active</span>
+                                            @endif
+                                        </h6>
+
+                                        <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration=='year'?$plan->price/12:$plan->price))}}
+                                            <span class="text-small">{{$plan->price?'/month':''}}</span>
+                                        </h4>                                    
+                                    </div>
+                                    <ul class="list-unstyled">
+                                        <li class="text-small">
+                                            <b>{{$plan->max_clients?$plan->max_clients:'Unlimited'}}</b> {{__('client(s)')}}
+                                        </li>
+                                        <li class="text-small">
+                                            <b>{{$plan->max_projects?$plan->max_projects:'Unlimited'}}</b> {{__('project(s)')}}
+                                        </li>
+                                        <li class="text-small">
+                                            <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
+                                        </li>
+                                    </ul>
+                                    <div class="custom-control custom-radio d-inline-block">
+                                        <input type="radio" id="plan-radio-{{$plan->id}}" name="customRadio" class="custom-control-input" {{(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))?'checked':''}}>
+                                        <label class="custom-control-label" for="plan-radio-{{$plan->id}}"></label>
+                                    </div>
                                 </div>
-                                <ul class="list-unstyled">
-                                    <li class="text-small">
-                                        <b>{{$plan->max_clients?$plan->max_clients:'Unlimited'}}</b> {{__('client(s)')}}
-                                    </li>
-                                    <li class="text-small">
-                                        <b>{{$plan->max_projects?$plan->max_projects:'Unlimited'}}</b> {{__('project(s)')}}
-                                    </li>
-                                    <li class="text-small">
-                                        <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
-                                    </li>
-                                </ul>
-                                <div class="custom-control custom-radio d-inline-block">
-                                    <input type="radio" id="plan-radio-{{$plan->id}}" name="customRadio" class="custom-control-input" {{(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))?'checked':''}}>
-                                    <label class="custom-control-label" for="plan-radio-{{$plan->id}}"></label>
-                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
-                        </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-4 mb-4">
+                <div class="mb-4">
                     <h6>{{__('Payment Method')}}</h6>
 
                     <div class="card">

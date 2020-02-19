@@ -19,8 +19,8 @@ class PaymentPlan extends Model
 
     public static $arrDuration = [
         'unlimited' => 'Unlimited',
-        'month' => 'Per Month',
-        'year' => 'Per Year',
+        'month' => 'Monthly',
+        'year' => 'Yearly',
     ];
 
     public static function total_plan()
