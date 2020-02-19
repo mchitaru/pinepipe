@@ -1,53 +1,56 @@
-{{ Form::open(array('url' => 'plans', 'enctype' => "multipart/form-data")) }}
-<div class="modal-header">
-    <h5 class="modal-title"></h5>
-    <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-    <i class="material-icons">close</i>
-    </button>
-</div>
-<div class="modal-body">
-<div class="row">
-    <div class="form-group col-md-6">
-        {{Form::label('name',__('Name'))}}
-        {{Form::text('name',null,array('class'=>'form-control font-style','placeholder'=>__('Enter Plan Name'),'required'=>'required'))}}
+@extends('layouts.modal')
+
+@section('form-start')
+    {{ Form::open(array('url' => 'plans')) }}
+@endsection
+
+@section('title')
+    {{__('Add New Plan')}}
+@endsection
+
+@section('content')
+<div class="tab-content">
+    <div class="form-group row">
+        {{Form::label('name',__('Name'), array('class'=>'col-3'))}}
+        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Enter Plan Name'),'required'=>'required'))}}
     </div>
-    <div class="form-group col-md-6">
-        {{Form::label('price',__('Price'))}}
-        {{Form::number('price',null,array('class'=>'form-control','placeholder'=>__('Enter Plan Price')))}}
+    <div class="form-group row">
+        {{Form::label('price',__('Price'), array('class'=>'col-3'))}}
+        {{Form::number('price',null,array('class'=>'form-control col','placeholder'=>__('Enter Plan Price')))}}
     </div>
-    <div class="form-group col-md-6">
-        {{ Form::label('duration', __('Duration')) }}
-        {!! Form::select('duration', $arrDuration, null,array('class' => 'form-control','required'=>'required')) !!}
+    <div class="form-group row">
+        {{ Form::label('duration', __('Duration'), array('class'=>'col-3')) }}
+        {!! Form::select('duration', $arrDuration, null,array('class' => 'form-control col','required'=>'required')) !!}
     </div>
-    <div class="form-group col-md-6">
-        {{Form::label('max_users',__('Maximum Users'))}}
-        {{Form::number('max_users',null,array('class'=>'form-control','required'=>'required'))}}
-        <span class="small">{{__('Note: "-1" for Unlimited')}}</span>
+    <div class="form-group row">
+        {{Form::label('max_users',__('Maximum Users'), array('class'=>'col-3'))}}
+        {{Form::number('max_users',null,array('class'=>'form-control col','required'=>'required'))}}
     </div>
-    <div class="form-group col-md-6">
-        {{Form::label('max_clients',__('Mabimum Clients'))}}
-        {{Form::number('max_clients',null,array('class'=>'form-control','required'=>'required'))}}
-        <span class="small">{{__('Note: "-1" for Unlimited')}}</span>
+    <div class="form-group row">
+        {{Form::label('max_clients',__('Mabimum Clients'), array('class'=>'col-3'))}}
+        {{Form::number('max_clients',null,array('class'=>'form-control col','required'=>'required'))}}
     </div>
-    <div class="form-group col-md-6">
-        {{Form::label('max_projects',__('Maximum Projects'))}}
-        {{Form::number('max_projects',null,array('class'=>'form-control','required'=>'required'))}}
-        <span class="small">{{__('Note: "-1" for Unlimited')}}</span>
+    <div class="form-group row">
+        {{Form::label('max_projects',__('Maximum Projects'), array('class'=>'col-3'))}}
+        {{Form::number('max_projects',null,array('class'=>'form-control col','required'=>'required'))}}
     </div>
-    <div class="form-group col-md-12">
-        {{ Form::label('image', __('Image')) }}
-        {{ Form::file('image', array('class' => 'form-control')) }}
-        <span class="small">{{__('Please upload a valid image file. Size of image should not be more than 2MB.')}}</span>
+    <div class="form-group row">
+        {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
+        {!! Form::textarea('description', null, ['class'=>'form-control col','rows'=>'2']) !!}
     </div>
-    <div class="form-group col-md-12">
-        {{ Form::label('description', __('Description')) }}
-        {!! Form::textarea('description', null, ['class'=>'form-control','rows'=>'2']) !!}
+    <div class="alert alert-warning text-small" role="alert">
+        <span>{{__('Leave the box empty for Unlimited (users, clients or projects)')}}</span>
     </div>
 </div>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
-    {{Form::submit(__('Create'),array('class'=>'btn btn-primary'))}}
-</div>
+@include('partials.errors')
+@endsection
+
+@section('footer')
+    {{Form::submit(__('Create'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+@endsection
+
+@section('form-end')
 {{ Form::close() }}
+@endsection
+
 

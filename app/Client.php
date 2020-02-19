@@ -28,7 +28,7 @@ class Client extends Model
         'website',
     ];
 
-    public static $SEED = 10;
+    public static $SEED = 5;
     
     public function users()
     {

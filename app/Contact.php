@@ -36,7 +36,7 @@ class Contact extends Model
         'client_id',
 	];
 
-    public static $SEED = 1000;
+    public static $SEED = 100;
 
     public function user()
     {

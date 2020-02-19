@@ -18,9 +18,9 @@ class CreatePaymentPlansTable extends Migration
             $table->string('name',100)->unique();
             $table->float('price')->default(0);
             $table->string('duration',100);
-            $table->unsignedInteger('max_users')->default(0);
-            $table->unsignedInteger('max_clients')->default(0);
-            $table->unsignedInteger('max_projects')->default(0);
+            $table->unsignedInteger('max_users')->nullable();
+            $table->unsignedInteger('max_clients')->nullable();
+            $table->unsignedInteger('max_projects')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

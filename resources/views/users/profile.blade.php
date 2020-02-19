@@ -76,7 +76,7 @@ use App\Http\Helpers;
         <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">{{__('Email Notifications')}}</a>
         </li>
-        @if($user->type != 'super admin' && Gate::check('manage plan'))
+        @if(Gate::check('manage plan'))
         <li class="nav-item">
             <a class="nav-link" id="billing-tab" data-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">{{__('Billing Details')}}</a>
         </li>
@@ -91,7 +91,7 @@ use App\Http\Helpers;
         @endcan
         </ul>
     </div>
-    <div class="col-xl-8 col-lg-9">
+    <div class="col-xl-8 col-lg-10">
         <div class="card">
         <div class="card-body">
             <div class="tab-content">
@@ -360,108 +360,108 @@ use App\Http\Helpers;
                 </div>
                 </form>
             </div>
-            @if($user->type != 'super admin' && Gate::check('manage plan'))
+            @if(Gate::check('manage plan'))
             <div class="tab-pane fade" role="tabpanel" id="billing">
-                <form>
-                <h6>{{__('Plan Details')}}</h6>
-                <div class="card text-center">
-                    <div class="card-body">
-                    <div class="row">
-                        @foreach($plans as $plan)
-                        <div class="col">
-                            <div class="dropdown card-options">
-                                <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </button>
-            
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item {{ (($plan->price == 0.00) || !Gate::check('buy plan') || ($plan->id==\Auth::user()->plan))?'disabled':'' }}" href="{{route('stripe',\Illuminate\Support\Facades\Crypt::encrypt($plan->id))}}">
-                                        <span>{{__('Upgrade')}}</span>
-                                    </a>
+                {{Form::model($user->settings,array('route'=>'plans.upgrade','method'=>'post'))}}
+                <div class="mt-4">
+                    <h6>{{__('Subscription')}}</h6>
+                    <div class="card text-center">
+                        <div class="card-body">
+                        <div class="row">
+                            @foreach($plans as $key=>$plan)
+                            <div class="col-4 mb-4">            
+                                <div class="mb-4">
+                                    <h6>
+                                        {{$plan->name}}
+                                        @if(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))
+                                            <span class="badge badge-primary">active</span>
+                                        @endif
+                                    </h6>
+                                    <h3 class="d-block mb-2 font-weight-bold">{{Auth::user()->priceFormat($plan->price)}}</h3>
+                                    <span class="text-muted text-small">{{$plan->duration}}</span>
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li class="text-small">
+                                        <b>{{$plan->max_clients?$plan->max_clients:'Unlimited'}}</b> {{__('client(s)')}}
+                                    </li>
+                                    <li class="text-small">
+                                        <b>{{$plan->max_projects?$plan->max_projects:'Unlimited'}}</b> {{__('project(s)')}}
+                                    </li>
+                                    <li class="text-small">
+                                        <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
+                                    </li>
+                                </ul>
+                                <div class="custom-control custom-radio d-inline-block">
+                                    <input type="radio" id="plan-radio-{{$plan->id}}" name="customRadio" class="custom-control-input" {{(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))?'checked':''}}>
+                                    <label class="custom-control-label" for="plan-radio-{{$plan->id}}"></label>
                                 </div>
                             </div>
-            
-                            <div class="mb-4">
-                                <h6>{{__('Free')}}</h6>
-                                <h5 class="display-4 d-block mb-2 font-weight-normal">${{$plan->price}}</h5>
-                                <span class="text-muted text-small">{{$plan->duration}}</span>
-                            </div>
-                            <ul class="list-unstyled">
-                                <li>
-                                {{$plan->max_projects}} {{__('Projects')}}
-                                </li>
-                                <li>
-                                {{$plan->max_users}} {{__('Users')}}
-                                </li>
-                                <li>
-                                {{$plan->max_clients}} {{__('Clients')}}
-                                </li>
-                            </ul>
+                            @endforeach
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 mb-4">
+                    <h6>{{__('Payment Method')}}</h6>
+
+                    <div class="card">
+                        <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
                             <div class="custom-control custom-radio d-inline-block">
-                                <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input" {{(\Auth::user()->planByUserType()->id == $plan->id)?'checked':''}} disabled>
-                                <label class="custom-control-label" for="plan-radio-1"></label>
+                                <input type="radio" id="method-radio-1" name="payment-method" class="custom-control-input" checked>
+                                <label class="custom-control-label" for="method-radio-1"></label>
+                            </div>
+                            </div>
+                            <div class="col-auto">
+                            <img alt="Image" src="{{ asset('assets/img/logo-payment-visa.svg') }}" class="avatar rounded-0" />
+                            </div>
+                            <div class="col d-flex align-items-center">
+                            <span>•••• •••• •••• 8372</span>
+                            <small class="ml-2">Exp: 06/21</small>
+                            </div>
+                            <div class="col-auto">
+                            <button class="btn btn-sm btn-danger disabled">
+                                {{__('Remove Card')}}
+                            </button>
                             </div>
                         </div>
-                        @endforeach
+                        </div>
                     </div>
-                    </div>
-                </div>
-                </form>
-                <form class="mt-4">
-                <h6>{{__('Payment Method')}}</h6>
 
-                <div class="card">
-                    <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                        <div class="custom-control custom-radio d-inline-block">
-                            <input type="radio" id="method-radio-1" name="payment-method" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="method-radio-1"></label>
+
+                    <div class="card">
+                        <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                            <div class="custom-control custom-radio d-inline-block">
+                                <input type="radio" id="method-radio-3" name="payment-method" class="custom-control-input">
+                                <label class="custom-control-label" for="method-radio-3"></label>
+                            </div>
+                            </div>
+                            <div class="col-auto">
+                            <img alt="Image" src="{{ asset('assets/img/logo-payment-paypal.svg') }}" class="avatar rounded-0" />
+                            </div>
+                            <div class="col d-flex align-items-center">
+                            <span>david.whittaker@pipeline.io</span>
+
+                            </div>
+                            <div class="col-auto">
+                            <button class="btn btn-sm btn-primary disabled">
+                                {{__('Manage account')}}
+                            </button>
+                            </div>
                         </div>
                         </div>
-                        <div class="col-auto">
-                        <img alt="Image" src="{{ asset('assets/img/logo-payment-visa.svg') }}" class="avatar rounded-0" />
-                        </div>
-                        <div class="col d-flex align-items-center">
-                        <span>•••• •••• •••• 8372</span>
-                        <small class="ml-2">Exp: 06/21</small>
-                        </div>
-                        <div class="col-auto">
-                        <button class="btn btn-sm btn-danger disabled">
-                            {{__('Remove Card')}}
-                        </button>
-                        </div>
-                    </div>
                     </div>
                 </div>
 
-
-                <div class="card">
-                    <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                        <div class="custom-control custom-radio d-inline-block">
-                            <input type="radio" id="method-radio-3" name="payment-method" class="custom-control-input">
-                            <label class="custom-control-label" for="method-radio-3"></label>
-                        </div>
-                        </div>
-                        <div class="col-auto">
-                        <img alt="Image" src="{{ asset('assets/img/logo-payment-paypal.svg') }}" class="avatar rounded-0" />
-                        </div>
-                        <div class="col d-flex align-items-center">
-                        <span>david.whittaker@pipeline.io</span>
-
-                        </div>
-                        <div class="col-auto">
-                        <button class="btn btn-sm btn-primary disabled">
-                            {{__('Manage account')}}
-                        </button>
-                        </div>
-                    </div>
-                    </div>
+                <div class="row justify-content-end">
+                    {{Form::submit('Upgrade',array('class'=>'btn btn-primary disabled'))}}
                 </div>
+                {{Form::close()}}
 
-                </form>
             </div>
             @endif
             <div class="tab-pane fade" role="tabpanel" id="integrations">

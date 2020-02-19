@@ -14,7 +14,7 @@
             <div class="card-meta col-xl">
                 <div class="d-flex flex-wrap">
                     @for($j=0;$j<count($role->permissions()->pluck('name'));$j++)
-                        <span class="badge badge-secondary">{{$role->permissions()->pluck('name')[$j]}}</span>
+                        <span class="badge badge-light">{{$role->permissions()->pluck('name')[$j]}}</span>
                     @endfor
                 </div>
             </div>

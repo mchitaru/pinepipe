@@ -80,6 +80,7 @@ Route::group(
         Route::resource('leads', 'LeadsController');
 
         //PaymentPlans
+        Route::post('plans/upgrade', 'PaymentPlansController@upgrade')->name('plans.upgrade');
         Route::resource('plans', 'PaymentPlansController');
 
         //Projects
