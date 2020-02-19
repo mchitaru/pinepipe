@@ -94,6 +94,7 @@ class RegisterController extends Controller
                 'password' => Hash::make($data['password']),
                 'type' => 'company',
                 'lang' => 'en',
+                'plan_id' => 1
             ]
         );
 
