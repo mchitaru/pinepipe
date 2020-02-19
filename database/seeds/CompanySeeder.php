@@ -42,7 +42,7 @@ class CompanySeeder extends Seeder
             $role = Role::findByName('client');
             $user->type = 'client';
             $user->created_by = $company->id;
-            $user->client_id = $faker->numberBetween(User::$SEED_COMPANY_ID + 1, User::$SEED_COMPANY_ID + Client::$SEED);
+            $user->client_id = $faker->numberBetween(1, Client::$SEED);
             $user->save();
             $user->assignRole($role);
         });
