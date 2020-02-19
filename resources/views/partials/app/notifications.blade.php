@@ -36,7 +36,7 @@
             @endif
             @endforeach                
         @else
-            <li>{{__('Nothing to see here')}}</li>
+            <li>{{__('No notifications.')}}</li>
         @endif
     </ul>    
 </div>
