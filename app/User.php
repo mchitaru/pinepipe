@@ -68,7 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail
         {
             $data     = DB::table('settings')->where('created_by', '=', $this->creatorId())->get();
             $settings = [
-                "site_currency" => "USD",
+                "site_currency" => "EUR",
                 "site_date_format" => "M j, Y",
                 "site_time_format" => "g:i A",
                 "company_name" => "",

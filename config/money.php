@@ -7,5 +7,5 @@ return [
      |--------------------------------------------------------------------------
      */
     'locale' => config('app.locale', 'en_US'),
-    'currency' => config('app.currency', 'USD'),
+    'currency' => config('app.currency', 'EUR'),
 ];
