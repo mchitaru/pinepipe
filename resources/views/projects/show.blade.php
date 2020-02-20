@@ -235,7 +235,7 @@ $dz_id = 'project-files-dz';
                 <!--end of content list-->
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade show" id="timesheets" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="timesheets" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
@@ -266,7 +266,7 @@ $dz_id = 'project-files-dz';
                 </div>
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade show" id="invoices" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="invoices" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Invoices')}}</h3>
@@ -296,7 +296,7 @@ $dz_id = 'project-files-dz';
                 </div>
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Expenses')}}</h3>

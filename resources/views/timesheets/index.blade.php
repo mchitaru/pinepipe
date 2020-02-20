@@ -17,7 +17,7 @@ use App\Http\Helpers;
         </a>
         @endcan
         <p>
-            <span class="text-small text-truncate">{{ !empty($timesheet->task)?$timesheet->task->title : '---'}}</span>
+            <span class="text-small text-truncate" data-filter-by="text">{{ !empty($timesheet->task)?$timesheet->task->title : '---'}}</span>
         </p>
     </div>
     <div class="card-title col-xs-12 col-sm-2">
