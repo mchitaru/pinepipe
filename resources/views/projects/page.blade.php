@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body row paginate-container">
+                <div class="content-list-body filter-list row paginate-container">
                     @include('projects.index')
 				</div>
             <!--end of content list body-->

@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body paginate-container">
+                    <div class="content-list-body filter-list paginate-container">
                         @include('contacts.index')
                     </div>
                     <!--end of content list body-->
