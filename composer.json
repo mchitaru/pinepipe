@@ -47,16 +47,14 @@
         },
         "classmap": [
             "database/seeds",
-            "database/factories"
+            "database/factories",
+            "app/modules/cashier-braintree-3.0"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        },
-        "classmap": [
-            "app/modules/cashier-braintree-3.0"
-        ]
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
