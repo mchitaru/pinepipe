@@ -82,7 +82,7 @@ class ClientsController extends Controller
             $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your subscription to add more clients!'));
         }
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->route('profile.show').'/#subscription';
         return "<script>window.location='{$url}'</script>";
     }
 

@@ -7,6 +7,13 @@ use App\Http\Helpers;
 
 $current_user=\Auth::user();
 $dz_id = 'project-files-dz';
+
+if(Gate::check('manage task')){
+    $default_tab = '#tasks';
+}else{
+    $default_tab = '#timesheets';
+}
+
 @endphp
 
 @push('stylesheets')
@@ -26,7 +33,7 @@ $dz_id = 'project-files-dz';
             $(window).scrollTop(0);
         });
     
-        var hash = window.location.hash ? window.location.hash : '#tasks';
+        var hash = window.location.hash ? window.location.hash : '{{$default_tab}}';
     
         $('.nav-tabs a[href="' + hash + '"]').tab('show');
 

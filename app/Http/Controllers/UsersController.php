@@ -133,7 +133,7 @@ class UsersController extends Controller
                 }
                 else
                 {
-                    return Redirect::to(URL::previous())->with('error', __('Your have reached your user limit. Please upgrade your subscription to add more users!'));
+                    return Redirect::to(route('profile.show').'/#subscription')->with('error', __('Your have reached your user limit. Please upgrade your subscription to add more users!'));
                 }
             }
 
