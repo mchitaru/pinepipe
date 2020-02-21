@@ -4,7 +4,7 @@
 @endsection
 
 @section('title')
-    {{__('Card Payment')}}
+    {{__('Secure Card Payment')}}
 @endsection
 
 @push('scripts')
@@ -18,12 +18,12 @@ $(function() {
       authorization: "{{ Braintree_ClientToken::generate(["customerId" => \Auth::user()->braintree_id]) }}",
       container: '#dropin-container'
     }, function (createErr, instance) {
-    
+
         button.addEventListener('click', function () {
-            
+
             button.textContent = 'Processing...';
             button.setAttribute('disabled', 'true');
-            
+
             instance.requestPaymentMethod(function (err, payload) {
 
             subscription = '{{$plan_id}}';
@@ -31,14 +31,14 @@ $(function() {
             $.post('{{ route('subscriptions.store') }}', {payload, subscription}, function (response) {
                 if (response.success) {
                     console.log('Payment successfull!');
-                    
+
                     button.setAttribute('class', 'btn btn-success float-right');
                     button.textContent = 'Done!';
                     location.reload();
-                
+
                 } else {
                     console.log('Payment failed!');
-                    
+
                     button.removeAttribute('disabled', 'false');
                     button.setAttribute('class', 'btn btn-danger float-right');
                     button.textContent = 'Retry';
@@ -48,7 +48,7 @@ $(function() {
         });
     });
 
-});    
+});
 </script>
 
 @endpush
