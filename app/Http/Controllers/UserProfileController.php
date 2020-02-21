@@ -10,16 +10,34 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserProfileRequest;
 use Illuminate\Support\Facades\Hash;
+use Braintree\Plan as BraintreePlan;
 
 class UserProfileController extends Controller
 {
     public function show()
     {
         $user = \Auth::user();
-        $plans = PaymentPlan::get();
+
+        if(!$user->subscribed()){
+            $user_plan = PaymentPlan::first();
+        }else{
+            $user_plan = PaymentPlan::where('braintree_id', $user->subscription()->braintree_plan)->first();
+        }
+        
+        $arrPlans = ['Free'];
+        $braintree_plans = BraintreePlan::all();
+
+        foreach ($braintree_plans as $plan) 
+        {
+            $arrPlans[] = $plan->id;
+        }
+
+        //only select plans with a corresponding Braintree plan
+        $plans = PaymentPlan::whereIn('braintree_id', $arrPlans)->get();
+
         $settings = \Auth::user()->settings();
 
-        return view('users.profile', compact('user', 'plans', 'settings'));
+        return view('users.profile', compact('user', 'user_plan', 'plans', 'settings'));
     }
 
     public function update(UserProfileRequest $request)

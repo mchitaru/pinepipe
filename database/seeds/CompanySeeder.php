@@ -24,7 +24,6 @@ class CompanySeeder extends Seeder
                 'type' => 'company',
                 'lang' => 'en',
                 'avatar' => null,
-                'plan_id' => 3,
                 'created_by' => 1,
                 'email_verified_at' => now(),
             ]

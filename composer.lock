@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c3611dd365eb8f7f422f599bb662c7e",
+    "content-hash": "7df708ccd0174190729978fbf7637b0c",
     "packages": [
         {
             "name": "alexusmai/laravel-file-manager",
@@ -61,6 +61,53 @@
                 "manager"
             ],
             "time": "2020-01-26T12:17:26+00:00"
+        },
+        {
+            "name": "braintree/braintree_php",
+            "version": "4.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/braintree/braintree_php.git",
+                "reference": "4323b0647288d637ca0a8deab99a10bfe1798790"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/braintree/braintree_php/zipball/4323b0647288d637ca0a8deab99a10bfe1798790",
+                "reference": "4323b0647288d637ca0a8deab99a10bfe1798790",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-hash": "*",
+                "ext-openssl": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Braintree": "lib/"
+                },
+                "psr-4": {
+                    "Braintree\\": "lib/Braintree"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Braintree",
+                    "homepage": "https://www.braintreepayments.com"
+                }
+            ],
+            "description": "Braintree PHP Client Library",
+            "time": "2020-01-13T18:24:38+00:00"
         },
         {
             "name": "cknow/laravel-money",
@@ -953,16 +1000,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.15.1",
+            "version": "v6.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b7c152e3327c03428fb68d5abb63ca8b3eca8422"
+                "reference": "b47217e41868d3049ec545cbb713aa94c6f39e55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b7c152e3327c03428fb68d5abb63ca8b3eca8422",
-                "reference": "b7c152e3327c03428fb68d5abb63ca8b3eca8422",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b47217e41868d3049ec545cbb713aa94c6f39e55",
+                "reference": "b47217e41868d3049ec545cbb713aa94c6f39e55",
                 "shasum": ""
             },
             "require": {
@@ -1030,7 +1077,7 @@
                 "aws/aws-sdk-php": "^3.0",
                 "doctrine/dbal": "^2.6",
                 "filp/whoops": "^2.4",
-                "guzzlehttp/guzzle": "^6.3",
+                "guzzlehttp/guzzle": "^6.3|^7.0",
                 "league/flysystem-cached-adapter": "^1.0",
                 "mockery/mockery": "^1.3.1",
                 "moontoast/math": "^1.1",
@@ -1050,7 +1097,7 @@
                 "ext-redis": "Required to use the Redis cache and queue drivers.",
                 "filp/whoops": "Required for friendly error pages in development (^2.4).",
                 "fzaninotto/faker": "Required to use the eloquent factory builder (^1.9.1).",
-                "guzzlehttp/guzzle": "Required to use the Mailgun mail driver and the ping methods on schedules (^6.0).",
+                "guzzlehttp/guzzle": "Required to use the Mailgun mail driver and the ping methods on schedules (^6.0|^7.0).",
                 "laravel/tinker": "Required to use the tinker console command (^2.0).",
                 "league/flysystem-aws-s3-v3": "Required to use the Flysystem S3 driver (^1.0).",
                 "league/flysystem-cached-adapter": "Required to use the Flysystem cache (^1.0).",
@@ -1095,7 +1142,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-02-12T21:56:14+00:00"
+            "time": "2020-02-18T15:17:52+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2554,16 +2601,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "3.7.1",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "3aff5437b3e66e877dcc3158f6cfaaced8e468ab"
+                "reference": "2339b6fae8f8aa5af047e1a0c54b6fb37546058a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/3aff5437b3e66e877dcc3158f6cfaaced8e468ab",
-                "reference": "3aff5437b3e66e877dcc3158f6cfaaced8e468ab",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/2339b6fae8f8aa5af047e1a0c54b6fb37546058a",
+                "reference": "2339b6fae8f8aa5af047e1a0c54b6fb37546058a",
                 "shasum": ""
             },
             "require": {
@@ -2618,7 +2665,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2020-02-15T17:52:58+00:00"
+            "time": "2020-02-18T21:16:24+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4652,16 +4699,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v2.1.6",
+            "version": "v2.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "005f998ac5263b6d733f5f553766cad9724167a2"
+                "reference": "5aa2a29faebb0f27b2437292237f4e310a60d5ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/005f998ac5263b6d733f5f553766cad9724167a2",
-                "reference": "005f998ac5263b6d733f5f553766cad9724167a2",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/5aa2a29faebb0f27b2437292237f4e310a60d5ec",
+                "reference": "5aa2a29faebb0f27b2437292237f4e310a60d5ec",
                 "shasum": ""
             },
             "require": {
@@ -4711,7 +4758,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2020-02-12T14:38:21+00:00"
+            "time": "2020-02-18T19:37:42+00:00"
         },
         {
             "name": "laravel/ui",

@@ -82,6 +82,7 @@ Route::group(
         //PaymentPlans
         Route::post('plans/upgrade', 'PaymentPlansController@upgrade')->name('plans.upgrade');
         Route::resource('plans', 'PaymentPlansController');
+        Route::resource('subscriptions', 'SubscriptionsController');
 
         //Projects
         Route::resource('projectstages', 'ProjectStagesController');
@@ -109,9 +110,6 @@ Route::group(
         
         Route::get('projects/{project}/invite', 'ProjectInviteController@create')->name('projects.invite.create');
         Route::post('projects/{project}/invite', 'ProjectInviteController@store')->name('projects.invite.store');
-
-        Route::get('projects/{project}/permission', 'ProjectPermissionsController@create')->name('projects.permissions.create');
-        Route::put('projects/{project}/permission', 'ProjectPermissionsController@store')->name('projects.permissions.store');
 
         Route::get('projects/{project}/timesheet', 'TimesheetsController@create')->name('projects.timesheet.create');
         Route::post('projects/{project}/timesheet', 'TimesheetsController@store')->name('projects.timesheet.store');
@@ -176,8 +174,8 @@ Route::group(
 
         //Payments
         Route::resource('payments', 'PaymentTypesController');
+        
         Route::get('orders', 'StripePaymentsController@index')->name('order.index');
-
         Route::get('stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');
         Route::post('stripe', 'StripePaymentsController@stripePost')->name('stripe.post');
     

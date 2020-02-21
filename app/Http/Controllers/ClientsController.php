@@ -79,7 +79,7 @@ class ClientsController extends Controller
         }
         else
         {
-            $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your plan to add more clients!'));
+            $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your subscription to add more clients!'));
         }
 
         $url = redirect()->back()->getTargetUrl();

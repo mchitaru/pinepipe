@@ -20,7 +20,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('duration', __('Duration'), array('class'=>'col-3')) }}
-        {!! Form::select('duration', $arrDuration, null,array('class' => 'form-control col','required'=>'required')) !!}
+        {{ Form::number('duration', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Number of Months')) }}
     </div>
     <div class="form-group row">
         {{Form::label('max_users',__('Maximum Users'), array('class'=>'col-3'))}}

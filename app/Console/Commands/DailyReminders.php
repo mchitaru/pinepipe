@@ -40,7 +40,7 @@ class DailyReminders extends Command
     public function handle()
     {
         TaskReminderJob::dispatch();
-        PaymentPlanReminderJob::dispatch();
+        // PaymentPlanReminderJob::dispatch();
 
         $this->info('Reminders sent successfully');
     }

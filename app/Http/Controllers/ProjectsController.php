@@ -101,7 +101,7 @@ class ProjectsController extends Controller
         }
         else
         {
-            $request->session()->flash('error', __('Your have reached your project limit. Please upgrade your plan to add more projects!'));
+            $request->session()->flash('error', __('Your have reached your project limit. Please upgrade your subscription to add more projects!'));
         }
 
         $url = redirect()->back()->getTargetUrl().'/#projects';

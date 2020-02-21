@@ -23,9 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('lang', 100);
             $table->unsignedInteger('created_by')->default(0);
-            $table->unsignedInteger('plan_id')->nullable();
             $table->unsignedInteger('client_id')->nullable();
-            $table->date('plan_expire_date')->nullable();
             $table->boolean('notify_task_assign')->default(true);
             $table->boolean('notify_project_assign')->default(true);
             $table->boolean('notify_project_activity')->default(false);
@@ -34,6 +32,12 @@ class CreateUsersTable extends Migration
             $table->boolean('notify_major_updates')->default(true);
             $table->boolean('notify_minor_updates')->default(false);
             $table->boolean('enabled')->default(true);
+            $table->string('braintree_id')->nullable();
+            $table->string('paypal_email')->nullable();
+            $table->string('card_brand')->nullable();
+            $table->string('card_last_four')->nullable();
+            $table->timestamp('subscription_ends_at')->nullable();
+            $table->timestamp('trial_ends_at')->nullable();            
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

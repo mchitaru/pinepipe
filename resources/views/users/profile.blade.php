@@ -9,6 +9,14 @@ use App\PaymentPlan;
 @endpush
 
 @push('scripts')
+<!-- Load the required client component. -->
+<script src="https://js.braintreegateway.com/web/3.58.0/js/client.min.js"></script>
+
+<!-- Load Hosted Fields component. -->
+<script src="https://js.braintreegateway.com/web/3.58.0/js/hosted-fields.min.js"></script>
+
+<script src="https://js.braintreegateway.com/web/dropin/1.8.1/js/dropin.min.js"></script>
+
 <script>
 
     $(".avatar-input").change(function () {
@@ -79,7 +87,7 @@ use App\PaymentPlan;
         </li>
         @if(Gate::check('manage plan'))
         <li class="nav-item">
-            <a class="nav-link" id="billing-tab" data-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">{{__('Billing Details')}}</a>
+            <a class="nav-link" id="subscription-tab" data-toggle="tab" href="#subscription" role="tab" aria-controls="subscription" aria-selected="false">{{__('Subscription')}}</a>
         </li>
         @endif
         <li class="nav-item">
@@ -362,8 +370,7 @@ use App\PaymentPlan;
                 </form>
             </div>
             @if(Gate::check('manage plan'))
-            <div class="tab-pane fade" role="tabpanel" id="billing">
-                {{Form::model($user->settings,array('route'=>'plans.upgrade','method'=>'post'))}}
+            <div class="tab-pane fade" role="tabpanel" id="subscription">
                 <div class="mb-4">
                     <h6>{{__('Subscription')}}</h6>
                     <div class="card text-center">
@@ -374,12 +381,12 @@ use App\PaymentPlan;
                                     <div class="mb-4">
                                         <h6>
                                             {{$plan->name}}
-                                            @if(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))
+                                            @if($user_plan->id == $plan->id)
                                                 <span class="badge badge-primary">active</span>
                                             @endif
                                         </h6>
 
-                                        <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration=='year'?$plan->price/12:$plan->price))}}
+                                        <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
                                             <span class="text-small">{{$plan->price?'/month':''}}</span>
                                         </h4>                                    
                                     </div>
@@ -394,10 +401,11 @@ use App\PaymentPlan;
                                             <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
                                         </li>
                                     </ul>
-                                    <div class="custom-control custom-radio d-inline-block">
-                                        <input type="radio" id="plan-radio-{{$plan->id}}" name="customRadio" class="custom-control-input" {{(($user->type != 'super admin') && (\Auth::user()->planByUserType()->id == $plan->id))?'checked':''}}>
-                                        <label class="custom-control-label" for="plan-radio-{{$plan->id}}"></label>
-                                    </div>
+                                    @if($key != 0 && $user_plan->id != $plan->id)
+                                        <a href="{{ route('subscriptions.create') }}" class="btn btn-primary" data-params="plan_id={{$plan->id}}" data-remote="true" data-type="text">
+                                            {{__('Upgrade')}}
+                                        </a>         
+                                    @endif   
                                 </div>
                                 @endforeach
                             </div>
@@ -405,7 +413,7 @@ use App\PaymentPlan;
                     </div>
                 </div>
 
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <h6>{{__('Payment Method')}}</h6>
 
                     <div class="card">
@@ -433,38 +441,7 @@ use App\PaymentPlan;
                         </div>
                     </div>
 
-
-                    <div class="card">
-                        <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                            <div class="custom-control custom-radio d-inline-block">
-                                <input type="radio" id="method-radio-3" name="payment-method" class="custom-control-input">
-                                <label class="custom-control-label" for="method-radio-3"></label>
-                            </div>
-                            </div>
-                            <div class="col-auto">
-                            <img alt="Image" src="{{ asset('assets/img/logo-payment-paypal.svg') }}" class="avatar rounded-0" />
-                            </div>
-                            <div class="col d-flex align-items-center">
-                            <span>david.whittaker@pipeline.io</span>
-
-                            </div>
-                            <div class="col-auto">
-                            <button class="btn btn-sm btn-primary disabled">
-                                {{__('Manage account')}}
-                            </button>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-end">
-                    {{Form::submit('Upgrade',array('class'=>'btn btn-primary disabled'))}}
-                </div>
-                {{Form::close()}}
-
+                </div> --}}
             </div>
             @endif
             <div class="tab-pane fade" role="tabpanel" id="integrations">

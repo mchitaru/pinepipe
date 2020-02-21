@@ -59,14 +59,14 @@ class UsersController extends Controller
 
     public function create()
     {
-        $user  = \Auth::user();
-        $roles = Role::where('created_by', '=', $user->creatorId())
-                        ->orderBy('id', 'DESC')
-                        ->get()
-                        ->pluck('name', 'id');
-
         if(\Auth::user()->can('create user'))
         {
+            $user  = \Auth::user();
+            $roles = Role::where('created_by', '=', $user->creatorId())
+                            ->orderBy('id', 'DESC')
+                            ->get()
+                            ->pluck('name', 'id');
+    
             return view('users.create', compact('roles'));
         }
         else
@@ -98,7 +98,6 @@ class UsersController extends Controller
                 $user['type']       = 'company';
                 $user['lang']       = 'en';
                 $user['created_by'] = \Auth::user()->creatorId();
-                $user['plan_id']    = PaymentPlan::first()->id;
                 $user->save();
 
                 $role_r = Role::findByName('company');
@@ -134,7 +133,7 @@ class UsersController extends Controller
                 }
                 else
                 {
-                    return Redirect::to(URL::previous())->with('error', __('Your have reached your user limit. Please upgrade your plan to add more users!'));
+                    return Redirect::to(URL::previous())->with('error', __('Your have reached your user limit. Please upgrade your subscription to add more users!'));
                 }
             }
 
@@ -282,5 +281,6 @@ class UsersController extends Controller
 
     public function authRouteAPI(Request $request){
         return $request->user();
-     }
+    }
+ 
 }

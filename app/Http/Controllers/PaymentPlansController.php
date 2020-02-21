@@ -28,9 +28,7 @@ class PaymentPlansController extends Controller
     {
         if(\Auth::user()->can('create plan'))
         {
-            $arrDuration = PaymentPlan::$arrDuration;
-
-            return view('plan.create', compact('arrDuration'));
+            return view('plan.create');
         }
         else
         {
@@ -53,7 +51,7 @@ class PaymentPlansController extends Controller
                 $validation                 = [];
                 $validation['name']         = 'required|unique:plans';
                 $validation['price']        = 'required|numeric|min:0';
-                $validation['duration']     = 'required';
+                $validation['duration']     = 'required|nullable';
                 $validation['max_users']    = 'required|numeric';
                 $validation['max_clients']  = 'required|numeric';
                 $validation['max_projects'] = 'required|numeric';
@@ -82,10 +80,9 @@ class PaymentPlansController extends Controller
     {
         if(\Auth::user()->can('edit plan'))
         {
-            $arrDuration = PaymentPlan::$arrDuration;
             $plan        = PaymentPlan::find($plan_id);
 
-            return view('plan.edit', compact('plan', 'arrDuration'));
+            return view('plan.edit', compact('plan'));
         }
         else
         {
@@ -110,7 +107,7 @@ class PaymentPlansController extends Controller
                     $validation                 = [];
                     $validation['name']         = 'required|unique:plans,name,' . $plan_id;
                     $validation['price']        = 'required|numeric|min:0';
-                    $validation['duration']     = 'required';
+                    $validation['duration']     = 'required|nullable';
                     $validation['max_users']    = 'required|numeric';
                     $validation['max_clients']  = 'required|numeric';
                     $validation['max_projects'] = 'required|numeric';

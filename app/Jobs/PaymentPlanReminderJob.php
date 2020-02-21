@@ -26,11 +26,12 @@ class PaymentPlanReminderJob
     {
         $this->free_plan = PaymentPlan::where('price', '=', '0.0')->first();
 
-        $this->users = User::with('plan')
-        ->where('type', '=', 'company')
-        ->where('plan_id', '!=', $this->free_plan->id)
-        ->where('plan_expire_date', '<', date('Y-m-d'))
-        ->get();
+        //TO DO
+        // $this->users = User::with('plan')
+        //     ->where('type', '=', 'company')
+        //     ->where('plan_id', '!=', $this->free_plan->id)
+        //     ->where('subscription_ends_at', '<', time())
+        //     ->get();
     }
 
     /**
@@ -42,7 +43,6 @@ class PaymentPlanReminderJob
     {
         foreach($this->users as $user)
         {
-            $user->assignPlan($this->free_plan->id);
             $user->notify(new PaymentPlanExpiredAlert($user));
         }        
     }

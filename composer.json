@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "alexusmai/laravel-file-manager": "^2.4",
+        "braintree/braintree_php": "^4.6",
         "cknow/laravel-money": "^3.8",
         "fideloper/proxy": "^4.0",
         "iatstuti/laravel-nullable-fields": "^2.0",
@@ -46,7 +47,8 @@
         },
         "classmap": [
             "database/seeds",
-            "database/factories"
+            "database/factories",
+            "app/modules/cashier-braintree-3.0"
         ]
     },
     "autoload-dev": {
