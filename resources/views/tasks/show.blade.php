@@ -375,17 +375,13 @@ $dz_id = 'task-files-dz';
         <!--end of tab-->
         <div class="tab-pane fade show {{(request()->segment(3)=='file')?'active':''}}" id="taskfiles" role="tabpanel" data-filter-list="dropzone-previews">
             <div class="content-list">
-            <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>Files</h3>
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                        <h3>Files</h3>
+                    </div>
                 </div>
-            </div>
-            <!--end of content list head-->
-            <div class="content-list-body row">
-
-                @include('files.index')
-
-            </div>
+                <!--end of content list head-->
+                <div class="content-list-body row">@include('files.index')</div>
             </div>
             <!--end of content list-->
         </div>

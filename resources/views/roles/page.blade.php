@@ -63,9 +63,7 @@
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">
-                    @include('roles.index')
-                </div>
+                <div class="content-list-body">@include('roles.index')</div>
             </div>    
         </div>
     </div>

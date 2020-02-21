@@ -75,11 +75,7 @@
                     </div>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body filter-list paginate-container">
-                    @can('manage expense')
-                        @include('expenses.index')
-                    @endcan
-                </div>
+                <div class="content-list-body filter-list paginate-container">@can('manage expense')@include('expenses.index')@endcan</div>
                 <!--end of content list body-->
             </div>
             <!--end of tab-->

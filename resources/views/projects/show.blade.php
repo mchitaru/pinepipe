@@ -232,13 +232,7 @@ if(Gate::check('manage task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">
-
-                    @can('manage task')
-                        @include('tasks.index')
-                    @endcan                    
-                <!--end of content list body-->
-                </div>
+                <div class="content-list-body">@can('manage task')@include('tasks.index')@endcan</div>
                 <!--end of content list-->
             </div>
             <!--end of tab-->
@@ -266,11 +260,7 @@ if(Gate::check('manage task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">
-                    @can('manage timesheet')
-                        @include('timesheets.index')
-                    @endcan
-                </div>
+                <div class="content-list-body">@can('manage timesheet')@include('timesheets.index')@endcan</div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="invoices" role="tabpanel" data-filter-list="content-list-body">
@@ -296,11 +286,7 @@ if(Gate::check('manage task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">
-                    @can('manage invoice')
-                        @include('invoices.index')
-                    @endcan
-                </div>
+                <div class="content-list-body">@can('manage invoice')@include('invoices.index')@endcan</div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="content-list-body">
@@ -326,11 +312,7 @@ if(Gate::check('manage task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">
-                    @can('manage expense')
-                        @include('expenses.index')
-                    @endcan
-                </div>
+                <div class="content-list-body">@can('manage expense')@include('expenses.index')@endcan</div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">
@@ -351,9 +333,7 @@ if(Gate::check('manage task')){
                     </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body row">
-                    @include('files.index')
-                </div>
+                <div class="content-list-body row">@include('files.index')</div>
                 </div>
                 <!--end of content list-->
             </div>
@@ -376,9 +356,7 @@ if(Gate::check('manage task')){
                     </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">
-                    @include('activity.index')
-                </div>
+                <div class="content-list-body">@include('activity.index')</div>
                 </div>
                 <!--end of content list-->
             </div>

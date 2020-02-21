@@ -95,9 +95,7 @@ $(document).ready(function() {
                         </div>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body">
-                        @include('clients.profile')
-                    </div>
+                    <div class="content-list-body">@include('clients.profile')</div>
                     <!--end of content list body-->
                 </div>
                 <!--end of tab-->
@@ -123,9 +121,7 @@ $(document).ready(function() {
                         </form>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body">
-                        @include('contacts.index')
-                    </div>
+                    <div class="content-list-body">@include('contacts.index')</div>
                     <!--end of content list body-->
                 </div>
                 <!--end of tab-->
@@ -151,9 +147,7 @@ $(document).ready(function() {
                         </form>
                         </div>
                         <!--end of content list head-->
-                        <div class="content-list-body">
-                            @include ('leads.index');
-                    </div>
+                        <div class="content-list-body">@include ('leads.index')</div>
                     <!--end of content list body-->
                 </div>
                 <!--end of tab-->
@@ -180,9 +174,7 @@ $(document).ready(function() {
                             </form>
                         </div>
                         <!--end of content list head-->
-                        <div class="content-list-body row">
-                            @include('projects.index')
-                        </div>
+                        <div class="content-list-body row">@include('projects.index')</div>
                     <!--end of content list body-->
                     </div>
                     <!--end of content list-->
@@ -206,9 +198,7 @@ $(document).ready(function() {
                         </form>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body">
-                        @include('activity.index')
-                    </div>
+                    <div class="content-list-body">@include('activity.index')</div>
                     </div>
                     <!--end of content list-->
                 </div>

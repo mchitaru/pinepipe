@@ -72,9 +72,7 @@
                 </div>
             </div>
             <!--end of content list head-->
-            <div class="content-list-body filter-list paginate-container">
-                @include('users.index')
-            </div>
+            <div class="content-list-body filter-list paginate-container">@include('users.index')</div>
             </div>
             <!--end of modal body-->
         </div>

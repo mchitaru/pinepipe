@@ -94,9 +94,7 @@ $(function() {
                         </div>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body filter-list paginate-container">
-                        @include('clients.index')
-                    </div>
+                    <div class="content-list-body filter-list paginate-container">@include('clients.index')</div>
                     <!--end of content list body-->
                 </div>
                 <!--end of tab-->
