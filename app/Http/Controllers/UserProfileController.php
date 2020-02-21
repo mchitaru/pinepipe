@@ -40,22 +40,27 @@ class UserProfileController extends Controller
         return view('users.profile', compact('user', 'user_plan', 'plans', 'settings'));
     }
 
-    public function update(UserProfileRequest $request)
+    public function update(UserProfileRequest $request, $tab)
     {
         $post = $request->validated();
 
         $user = \Auth::user();
+
+        $user->fill($post);
+
         if($request->hasFile('avatar'))
         {
             $path = Helpers::storePublicFile($request->file('avatar'));
             $user->avatar = $path;
         }
 
-        $user->name  = $post['name'];
-        $user->email = $post['email'];
         $user->save();
 
-        return Redirect::to(URL::previous() . "#profile")->with('success', __('Profile updated successfully.'));
+        if($tab == 'personal'){
+            return Redirect::to(URL::previous()."#personal")->with('success', __('Profile updated successfully.'));
+        }else{
+            return Redirect::to(URL::previous()."#notifications")->with('success', __('Profile updated successfully.'));
+        }
     }
 
     public function password(UserProfileRequest $request)

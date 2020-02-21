@@ -55,7 +55,7 @@ Route::group(
 
         //Profile
         Route::get('profile', 'UserProfileController@show')->name('profile.show');
-        Route::put('profile', 'UserProfileController@update')->name('profile.update');
+        Route::put('profile/{tab}', 'UserProfileController@update')->name('profile.update');
 
         //Settings
         Route::post('settings/email', 'SystemSettingsController@updateEmail')->name('settings.email');

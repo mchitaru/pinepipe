@@ -34,9 +34,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'type',
         'avatar',
+        'bio',
         'lang',
         'client_id',
         'created_by',
+        'notify_task_assign',
+        'notify_project_assign',
+        'notify_project_activity',
+        'notify_item_overdue',
+        'notify_newsletter',
+        'notify_major_updates',
+        'notify_minor_updates'
     ];
 
     protected $hidden = [
@@ -47,6 +55,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'notify_task_assign' => 'boolean',
+        'notify_project_assign' => 'boolean',
+        'notify_project_activity' => 'boolean',
+        'notify_item_overdue' => 'boolean',
+        'notify_newsletter' => 'boolean',
+        'notify_major_updates' => 'boolean',
+        'notify_minor_updates' => 'boolean'
     ];
     public    $settings;
 

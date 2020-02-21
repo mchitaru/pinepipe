@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('type', 20);
             $table->string('avatar')->nullable();
             $table->string('lang', 100);
+            $table->text('bio')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->unsignedInteger('client_id')->nullable();
             $table->boolean('notify_task_assign')->default(true);

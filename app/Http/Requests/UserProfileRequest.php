@@ -28,11 +28,27 @@ class UserProfileRequest extends FormRequest
     {
         if ($this->isMethod('put'))
         {
-            return [
-                'name' => 'required|max:120',
-                'email' => 'required|email|unique:users,email,' .  \Auth::user()->id,
-                'avatar' => 'mimes:png,jpeg,jpg|max:2048'
-            ];
+            $tab = $this->route()->parameter('tab');
+
+            if($tab == 'personal'){
+                return [
+                    'name' => 'required|max:120',
+                    'email' => 'required|email|unique:users,email,' .  \Auth::user()->id,
+                    'avatar' => 'mimes:png,jpeg,jpg|max:2048',
+                    'bio' => 'string|nullable',
+                ];
+            }else{
+                return [
+                    'notify_task_assign' => 'boolean',
+                    'notify_project_assign' => 'boolean',
+                    'notify_project_activity' => 'boolean',
+                    'notify_item_overdue' => 'boolean',
+                    'notify_newsletter' => 'boolean',
+                    'notify_major_updates' => 'boolean',
+                    'notify_minor_updates' => 'boolean',
+                ];
+            }
+
         }else{
 
             return [
@@ -45,8 +61,14 @@ class UserProfileRequest extends FormRequest
     protected function getRedirectUrl()
     {
         if ($this->isMethod('put')){
+            
+            $tab = $this->route()->parameter('tab');
 
-            return route('profile.show').'/#profile';
+            if($tab == 'personal'){
+                return route('profile.show').'/#personal';
+            }else{
+                return route('profile.show').'/#notifications';                
+            }
         }else{
 
             return route('profile.show').'/#password';
