@@ -48,7 +48,7 @@
         "classmap": [
             "database/seeds",
             "database/factories",
-            "App/modules/cashier-braintree-3.0"
+            "app/modules/braintree"
         ]
     },
     "autoload-dev": {
