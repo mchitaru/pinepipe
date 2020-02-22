@@ -61,16 +61,16 @@ $(function() {
         <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between lh-condensed">
             <div>
-            <h6 class="my-0">{{$plan->name}}</h6>
-                <ul class="list-unstyled mt-1">
+            <h6 class="my-0 mb-2">{{$plan->name}}</h6>
+                <ul class="list-unstyled">
                     <li class="text-small">
-                        {{$plan->max_clients?$plan->max_clients:'Unlimited'}} {{__('client(s)')}}
+                        <b>{{!isset($plan->max_clients)?'Unlimited':$plan->max_clients}}</b> {{__('client(s)')}}
                     </li>
                     <li class="text-small">
-                        {{$plan->max_projects?$plan->max_projects:'Unlimited'}} {{__('project(s)')}}
+                        <b>{{!isset($plan->max_projects)?'Unlimited':$plan->max_projects}}</b> {{__('project(s)')}}
                     </li>
                     <li class="text-small">
-                        {{$plan->max_users?$plan->max_users:'Unlimited'}} {{__('user(s)')}}
+                        <b>{{!isset($plan->max_users)?'Unlimited':$plan->max_users}}</b> {{__('colaborator(s)')}}
                     </li>
                 </ul>
             </div>

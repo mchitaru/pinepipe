@@ -432,7 +432,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $plan = PaymentPlan::where('braintree_id', $company->subscription()->braintree_plan)->first();
         }
 
-        if($plan->max_projects == null) return true;
+        if(!isset($plan->max_projects)) return true;
 
         $total_projects = Project::where('created_by', '=', $company->id)->count();
 
@@ -450,7 +450,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $plan = PaymentPlan::where('braintree_id', $company->subscription()->braintree_plan)->first();
         }
 
-        if($plan->max_clients == null) return true;
+        if(!isset($plan->max_clients)) return true;
 
         $total_clients = Client::where('created_by', '=', $company->id)->count();
 
@@ -467,7 +467,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $plan = PaymentPlan::where('braintree_id', $company->subscription()->braintree_plan)->first();
         }
 
-        if($plan->max_users == null) return true;
+        if(!isset($plan->max_users)) return true;
 
         $total_users = User::where('type', '!=', 'client')->where('created_by', '=', $company->id)->count();
 

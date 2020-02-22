@@ -119,7 +119,7 @@ trait Billable
      */
     public function onGenericTrial()
     {
-        return !$this->trial_ends_at || Carbon::now()->lt($this->trial_ends_at);
+        return !isset($this->trial_ends_at) || Carbon::now()->lt($this->trial_ends_at);
     }
 
     /**

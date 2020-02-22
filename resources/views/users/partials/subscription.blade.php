@@ -16,13 +16,13 @@
                             </h4>                                    
                             <ul class="list-unstyled">
                                 <li class="text-small">
-                                    <b>{{$plan->max_clients?$plan->max_clients:'Unlimited'}}</b> {{__('client(s)')}}
+                                    <b>{{!isset($plan->max_clients)?'Unlimited':$plan->max_clients}}</b> {{__('client(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{$plan->max_projects?$plan->max_projects:'Unlimited'}}</b> {{__('project(s)')}}
+                                    <b>{{!isset($plan->max_projects)?'Unlimited':$plan->max_projects}}</b> {{__('project(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
+                                    <b>{{!isset($plan->max_users)?'Unlimited':$plan->max_users}}</b> {{__('colaborator(s)')}}
                                 </li>
                             </ul>
                             @if($key != 0 && $user_plan->id != $plan->id)

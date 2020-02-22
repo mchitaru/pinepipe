@@ -18,7 +18,7 @@ class PlanSeeder extends Seeder
                 'braintree_id' => 'free',
                 'price' => 0,
                 'duration' => null,
-                'max_users' => 1,
+                'max_users' => 0,
                 'max_clients' => 1,
                 'max_projects' => 1,
                 'max_space' => null
@@ -30,7 +30,7 @@ class PlanSeeder extends Seeder
                 'braintree_id' => 'freelancer',
                 'price' => 9,
                 'duration' => 1,
-                'max_users' => 1,
+                'max_users' => 0,
                 'max_clients' => null,
                 'max_projects' => null,
                 'max_space' => null
