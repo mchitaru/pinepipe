@@ -4,7 +4,7 @@
 @endsection
 
 @section('title')
-    {{__('Secure Card Payment')}}
+    {{__('Secure Checkout')}}
 @endsection
 
 @push('scripts')
@@ -26,7 +26,7 @@ $(function() {
 
             instance.requestPaymentMethod(function (err, payload) {
 
-            subscription = '{{$plan_id}}';
+            subscription = '{{$plan->id}}';
 
             $.post('{{ route('subscriptions.store') }}', {payload, subscription}, function (response) {
                 if (response.success) {
@@ -54,9 +54,54 @@ $(function() {
 @endpush
 
 @section('content')
+<div class="tab-content">
+<h6 class="mb-3">{{__('Your cart')}}</h6>
+<div class="form-group row mb-3">
+    <div class="col">
+        <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+            <h6 class="my-0">{{$plan->name}}</h6>
+                <ul class="list-unstyled mt-1">
+                    <li class="text-small">
+                        {{$plan->max_clients?$plan->max_clients:'Unlimited'}} {{__('client(s)')}}
+                    </li>
+                    <li class="text-small">
+                        {{$plan->max_projects?$plan->max_projects:'Unlimited'}} {{__('project(s)')}}
+                    </li>
+                    <li class="text-small">
+                        {{$plan->max_users?$plan->max_users:'Unlimited'}} {{__('user(s)')}}
+                    </li>
+                </ul>
+            </div>
+            <span class="text-muted">{{\Auth::user()->priceFormat($plan->price)}}</span>
+        </li>
+        {{-- <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+            <h6 class="my-0">Promo code</h6>
+            <small>EXAMPLECODE</small>
+            </div>
+            <span class="text-success">-$5</span>
+        </li> --}}
+        <li class="list-group-item d-flex justify-content-between">
+            <span>{{__('Total')}}</span>
+            <strong>{{\Auth::user()->priceFormat($plan->price)}}</strong>
+        </li>
+        </ul>
 
-<div id="dropin-container"></div>
-    <button id="submit-button" class="btn btn-primary float-right">Pay</button>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder={{__("Promo code")}}>
+            <div class="input-group-append">
+            <button type="submit" class="btn btn-secondary disabled">{{__('Redeem')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<h6 class="mb-0">{{__('Payment method')}}</h6>
+<div id="dropin-container" class="mt-0 mb-3"></div>
+    <button id="submit-button" class="btn btn-primary float-right">{{__('Pay')}}</button>
+</div>
 </div>
 
 @endsection

@@ -31,8 +31,9 @@ class SubscriptionsController extends Controller
         if(\Auth::user()->can('buy plan'))
         {    
             $plan_id = $request['plan_id'];
+            $plan = PaymentPlan::find($plan_id);
 
-            return view('subscriptions.create', compact('plan_id'));
+            return view('subscriptions.create', compact('plan'));
         }
         else
         {
