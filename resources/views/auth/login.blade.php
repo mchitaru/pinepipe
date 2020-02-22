@@ -1,10 +1,42 @@
 @extends('layouts.auth')
 
+@push('scripts')
+<script>
+    // @see https://docs.headwayapp.co/widget for more configuration options.
+    var HW_config = {
+      selector: "#headway-widget", // CSS selector where to inject the badge
+      account:  "xazm27",
+      embed: 'true',
+      callbacks: {
+    onWidgetReady: function(widget) {
+        $("#headway-spinner").hide();
+    }
+  }      
+}
+</script>
+<script async src="https://cdn.headwayapp.co/widget.js"></script>
+@endpush
+
 @section('content')
 
     <div class="container pt-4">
         <div class="row justify-content-center">
-        <div class="col-xl-5 col-lg-6 col-md-7">
+        <div class="col-lg-6 col-md-12 mb-5">
+            <div class="row justify-content-center" id="headway-spinner">
+                <div class="spinner-grow" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div class="row justify-content-center" id="headway-widget">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
             <div class="text-center">
             <h1 class="h2">{{__('Welcome Back')}} &#x1f44b;</h1>
             <p class="lead">{{__('Log in to your account to continue')}}</p>

@@ -62,10 +62,11 @@ class SubscriptionsController extends Controller
             $nonce = $payload['nonce'];
     
             $user = \Auth::user();
-            $user->newSubscription('default', $plan->name)->create($nonce);
+            $user->newSubscription('default', $plan->braintree_id)->create($nonce);
     
             return response()->json(['success' => true]);
         } catch (\Exception $ex) {
+            dump($ex);
             return response()->json(['success' => false]);
         }        
     }

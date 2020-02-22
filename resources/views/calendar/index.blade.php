@@ -1,23 +1,22 @@
 @extends('layouts.app')
 
 @push('stylesheets')
-    <link href='assets/module/fullcalendar/css/core.min.css' rel='stylesheet' />
-    <link href='assets/module/fullcalendar/css/daygrid.min.css' rel='stylesheet' />
-    <link href='assets/module/fullcalendar/css/list.min.css' rel='stylesheet' />
-    <link href='assets/module/fullcalendar/css/timegrid.min.css' rel='stylesheet' />
-    <link href='assets/module/fullcalendar/css/bootstrap.min.css' rel='stylesheet' />
-    <link href='assets/module/fullcalendar/css/bootstrap.min.css' rel='stylesheet' />
-    <link href='assets/module/fullcalendar/css/all.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/core.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/daygrid.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/list.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/timegrid.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/bootstrap.min.css' rel='stylesheet' />
+    <link href='assets/module/fullcalendar/all.min.css' rel='stylesheet' />
 @endpush
 
 @push('scripts')
-    <script src="{{asset('assets/module/fullcalendar/js/core.min.js')}}"></script>
-    <script src="{{asset('assets/module/fullcalendar/js/daygrid.min.js')}}"></script>
-    <script src="{{asset('assets/module/fullcalendar/js/list.min.js')}}"></script>
-    <script src="{{asset('assets/module/fullcalendar/js/timegrid.min.js')}}"></script>
-    <script src="{{asset('assets/module/fullcalendar/js/interaction.min.js')}}"></script>
-    <script src="{{asset('assets/module/fullcalendar/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/module/fullcalendar/js/all.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/core.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/daygrid.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/list.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/timegrid.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/interaction.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/all.min.js')}}"></script>
 
     <script>
         var events = {!! ($events) !!};

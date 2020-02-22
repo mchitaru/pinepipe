@@ -10,9 +10,12 @@ use App\Http\Helpers;
 @endphp
 
 @push('stylesheets')
+    <link href='assets/module/chartjs/Chart.min.css' rel='stylesheet' />
 @endpush
 
 @push('scripts')
+    <script src="{{asset('assets/module/chartjs/Chart.min.js')}}"></script>
+    <script src="{{asset('assets/module/chartjs/Chart.bundle.min.js')}}"></script>
 
 <script>
     var ctx1 = document.getElementById('task-area-chart').getContext('2d');
