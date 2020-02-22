@@ -1,48 +1,51 @@
 <div class="mb-4">
     <h6>{{__('Subscription')}}</h6>
-    <div class="card text-center">
-        <div class="card-body">
-            <div class="row">
-                @foreach($plans as $key=>$plan)
-                <div class="col-6 mb-4">            
-                    <div class="mb-4">
-                        <h6>
-                            {{$plan->name}}
-                            @if($user_plan->id == $plan->id)
-                                <span class="badge badge-primary">active</span>
-                            @endif
-                        </h6>
+    <div class="row">
+        @foreach($plans as $key=>$plan)
+        <div class="col-lg-6">
+            <div class="card text-center" style="min-height: 270px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mb-4">
+                            <h6 class="text-center">
+                                {{$plan->name}}
+                            </h6>
 
-                        <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
-                            <span class="text-small">{{$plan->price?'/month':''}}</span>
-                        </h4>                                    
+                            <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
+                                <span class="text-small">{{$plan->price?'/month':''}}</span>
+                            </h4>                                    
+                            <ul class="list-unstyled">
+                                <li class="text-small">
+                                    <b>{{$plan->max_clients?$plan->max_clients:'Unlimited'}}</b> {{__('client(s)')}}
+                                </li>
+                                <li class="text-small">
+                                    <b>{{$plan->max_projects?$plan->max_projects:'Unlimited'}}</b> {{__('project(s)')}}
+                                </li>
+                                <li class="text-small">
+                                    <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
+                                </li>
+                            </ul>
+                            @if($key != 0 && $user_plan->id != $plan->id)
+                                <a href="{{ route('subscriptions.create') }}" class="btn btn-primary" data-params="plan_id={{$plan->id}}" data-remote="true" data-type="text">
+                                    {{__('Upgrade')}}
+                                </a>         
+                            @elseif($user_plan->id == $plan->id)
+                                <a href="#" class="btn btn-success disabled">
+                                    {{__('Active')}}
+                                </a>         
+                            {{-- <span class="badge badge-primary">active</span> --}}
+                            @endif   
+                        </div>
                     </div>
-                    <ul class="list-unstyled">
-                        <li class="text-small">
-                            <b>{{$plan->max_clients?$plan->max_clients:'Unlimited'}}</b> {{__('client(s)')}}
-                        </li>
-                        <li class="text-small">
-                            <b>{{$plan->max_projects?$plan->max_projects:'Unlimited'}}</b> {{__('project(s)')}}
-                        </li>
-                        <li class="text-small">
-                            <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
-                        </li>
-                    </ul>
-                    @if($key != 0 && $user_plan->id != $plan->id)
-                        <a href="{{ route('subscriptions.create') }}" class="btn btn-primary" data-params="plan_id={{$plan->id}}" data-remote="true" data-type="text">
-                            {{__('Upgrade')}}
-                        </a>         
-                    @endif   
                 </div>
-                @endforeach
             </div>
         </div>
+        @endforeach
     </div>
 </div>
-
+    
 {{-- <div class="mb-4">
     <h6>{{__('Payment Method')}}</h6>
-
     <div class="card">
         <div class="card-body">
         <div class="row align-items-center">
@@ -67,5 +70,4 @@
         </div>
         </div>
     </div>
-
 </div> --}}

@@ -104,32 +104,18 @@ use App\PaymentPlan;
         <div class="card">
         <div class="card-body">
             <div class="tab-content">
-                <div class="tab-pane fade show" role="tabpanel" id="personal">
-                    @include('users.partials.personal')
-                </div>
-                <div class="tab-pane fade" role="tabpanel" id="password">
-                    @include('users.partials.password')
-                </div>
+                <div class="tab-pane fade show" role="tabpanel" id="personal">@include('users.partials.personal')</div>
+                <div class="tab-pane fade" role="tabpanel" id="password">@include('users.partials.password')</div>
                 @can('manage company settings')
-                <div class="tab-pane fade show" role="tabpanel" id="company">
-                    @include('users.partials.company')
-                </div>
+                <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.partials.company')</div>
                 @endcan
-                <div class="tab-pane fade" role="tabpanel" id="notifications">
-                    @include('users.partials.notifications')
-                </div>
+                <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.partials.notifications')</div>
                 @if(Gate::check('manage plan'))
-                <div class="tab-pane fade" role="tabpanel" id="subscription">
-                    @include('users.partials.subscription')
-                </div>
+                <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.partials.subscription')</div>
                 @endif
-                <div class="tab-pane fade" role="tabpanel" id="integrations">
-                    @include('users.partials.integrations')
-                </div>
+                <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.partials.integrations')</div>
                 @can('manage company settings')
-                <div class="tab-pane fade show" role="tabpanel" id="system">
-                    @include('users.partials.system')
-                </div>
+                <div class="tab-pane fade show" role="tabpanel" id="system">@include('users.partials.system')</div>
                 @endcan
             </div>
         </div>

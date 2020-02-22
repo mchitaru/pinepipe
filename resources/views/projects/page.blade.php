@@ -99,8 +99,8 @@
             <!--end of content list body-->
             </div>
             <!--end of content list-->
-            </div>
-            <!--end of tab-->
+        </div>
+        <!--end of tab-->
         </div>
     </div>
 </div>
