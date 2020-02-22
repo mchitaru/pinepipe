@@ -211,7 +211,7 @@ $languages=$user->languages();
 
     </ul>
     <hr>
-    <div class="d-none d-lg-block w-100">
+    <div class="d-none d-lg-none d-xl-block w-100">
         <span class="text-small text-muted">{{__('Quick Links')}}</span>
         <ul class="nav nav-small flex-column mt-2">
         @can('manage contact')
