@@ -211,7 +211,7 @@ $languages=$user->languages();
 
     </ul>
     <hr>
-    <div class="d-none d-lg-none d-xl-block w-100">
+    {{-- <div class="d-none d-lg-none d-xl-block w-100">
         <span class="text-small text-muted">{{__('Quick Links')}}</span>
         <ul class="nav nav-small flex-column mt-2">
         @can('manage contact')
@@ -229,7 +229,7 @@ $languages=$user->languages();
         @endcan
         </ul>
         <hr>
-    </div>
+    </div> --}}
     <div>
         @if(\Auth::user()->type !='super admin')
         <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
