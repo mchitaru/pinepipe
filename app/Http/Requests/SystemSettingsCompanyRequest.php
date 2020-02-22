@@ -32,7 +32,6 @@ class SystemSettingsCompanyRequest extends FormRequest
             'company_country' => 'string',
             'company_phone' => 'string',
             'company_email' => 'required',
-            'company_email_from_name' => 'required|string',
         ];
     }
 
