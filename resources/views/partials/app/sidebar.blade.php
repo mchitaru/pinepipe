@@ -231,19 +231,10 @@ $languages=$user->languages();
         <hr>
     </div> --}}
     <div>
-        @if(\Auth::user()->type !='super admin')
-        <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
-            @csrf
-            <div class="input-group input-group-dark input-group-round">
-                <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
-            </div>
-        </form>
-        @endif
-
         @if(Gate::check('create contact') ||
             Gate::check('create project') ||
             Gate::check('create tasks'))
-        <div class="dropdown mt-2">
+        <div class="dropdown">
             <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{__('Add New')}}
             </button>
@@ -257,12 +248,19 @@ $languages=$user->languages();
             @can('create task')
                 <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
             @endcan
-            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Contract')}}</a>
-            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Proposal')}}</a>
-            <a class="dropdown-item" href="{{ route('projects.invoice.create', '0') }}" data-remote="true" data-type="text">{{__('Invoice')}}</a>
         </div>
         </div>
         @endif
+
+        @if(\Auth::user()->type !='super admin')
+        <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
+            @csrf
+            <div class="input-group input-group-dark input-group-round mt-2">
+                <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
+            </div>
+        </form>
+        @endif
+
     </div>
     </div>
     <div class="d-none d-lg-block">
