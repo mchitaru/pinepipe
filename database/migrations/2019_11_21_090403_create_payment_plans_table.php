@@ -19,9 +19,10 @@ class CreatePaymentPlansTable extends Migration
             $table->string('braintree_id', 100)->unique();
             $table->float('price')->default(0);
             $table->unsignedInteger('duration')->nullable();
-            $table->unsignedInteger('max_users')->nullable();
             $table->unsignedInteger('max_clients')->nullable();
             $table->unsignedInteger('max_projects')->nullable();
+            $table->unsignedInteger('max_users')->nullable();
+            $table->unsignedInteger('max_space')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

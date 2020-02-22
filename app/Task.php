@@ -13,6 +13,7 @@ class Task extends Model
         'title',
         'priority',
         'description',
+        'start_date',
         'due_date',
         'project_id',
         'milestone_id',
@@ -24,6 +25,7 @@ class Task extends Model
         'project_id',
         'milestone_id',
         'description',
+        'start_date',
         'due_date'
 	];
 
