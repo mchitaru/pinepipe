@@ -70,7 +70,7 @@ $(function() {
                         <b>{{!isset($plan->max_projects)?'Unlimited':$plan->max_projects}}</b> {{__('project(s)')}}
                     </li>
                     <li class="text-small">
-                        <b>{{!isset($plan->max_users)?'Unlimited':$plan->max_users}}</b> {{__('collaborator(s)')}}
+                        <b>{{!isset($plan->max_users)?'Unlimited':($plan->max_users==0?'No':$plan->max_users)}}</b> {{__('collaborator(s)')}}
                     </li>
                 </ul>
             </div>
