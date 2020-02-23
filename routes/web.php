@@ -15,6 +15,9 @@ Auth::routes(['verify' => true]);
 // Route::put('change-password', 'UsersController@updatePassword')->name('update.password');
 Route::patch('profile', 'UserProfileController@password')->name('profile.password');
 
+//trigger the scheduler
+Route::get('/hshhdyw7820037lammxh29', 'SchedulerController@run')->name('scheduler.run');
+
 Route::group(
     [
         'middleware' => [

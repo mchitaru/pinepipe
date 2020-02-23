@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Cashier\Billable;
+use App\Jobs\EmailVerificationJob;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -747,5 +748,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function total_company_project($company_id)
     {
         return Project::where('created_by', '=', $company_id)->count();
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        EmailVerificationJob::dispatch($this);
     }
 }
