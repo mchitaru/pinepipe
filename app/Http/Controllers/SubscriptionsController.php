@@ -62,7 +62,15 @@ class SubscriptionsController extends Controller
             $nonce = $payload['nonce'];
     
             $user = \Auth::user();
-            $user->newSubscription('default', $plan->braintree_id)->create($nonce);
+
+            $subscription = $user->newSubscription('default', $plan->braintree_id)->create($nonce);
+
+            $subscription->max_clients = $plan->max_clients;
+            $subscription->max_projects = $plan->max_projects;
+            $subscription->max_users = $plan->max_users;
+            $subscription->max_space = $plan->max_space;
+
+            $subscription->save();
     
             return response()->json(['success' => true]);
         } catch (\Exception $ex) {

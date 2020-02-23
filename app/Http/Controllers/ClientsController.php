@@ -76,13 +76,16 @@ class ClientsController extends Controller
             $client = Client::createClient($post);
             
             $request->session()->flash('success', __('Client successfully created.'));
+
+            $url = redirect()->route('clients.show', $client->id)->getTargetUrl();
+            return "<script>window.location='{$url}'</script>";
         }
         else
         {
             $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your subscription to add more clients!'));
         }
 
-        $url = redirect()->route('profile.show').'/#subscription';
+        $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
         return "<script>window.location='{$url}'</script>";
     }
 

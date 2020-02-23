@@ -428,17 +428,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $company        = User::find($this->creatorId());
 
         if(!$company->subscribed()){
-            $plan = PaymentPlan::first();
+            $max_projects = PaymentPlan::first()->max_projects;
         }else{
-            $plan = PaymentPlan::where('braintree_id', $company->subscription()->braintree_plan)->first();
+            $max_projects = $company->subscription()->max_projects;
         }
-
-        if(!isset($plan->max_projects)) return true;
+        
+        if(!isset($max_projects)) return true;
 
         $total_projects = Project::where('created_by', '=', $company->id)->count();
 
-
-        return $total_projects < $plan->max_projects;
+        return $total_projects < $max_projects;
     }
 
     public function checkClientLimit()
@@ -446,16 +445,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $company        = User::find($this->creatorId());
 
         if(!$company->subscribed()){
-            $plan = PaymentPlan::first();
+            $max_clients = PaymentPlan::first()->max_clients;
         }else{
-            $plan = PaymentPlan::where('braintree_id', $company->subscription()->braintree_plan)->first();
+            $max_clients = $company->subscription()->max_clients;
         }
 
-        if(!isset($plan->max_clients)) return true;
+        if(!isset($max_clients)) return true;
 
         $total_clients = Client::where('created_by', '=', $company->id)->count();
 
-        return $total_clients < $plan->max_clients;
+        return $total_clients < $max_clients;
     }
 
     public function checkUserLimit()
@@ -463,16 +462,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $company        = User::find($this->creatorId());
 
         if(!$company->subscribed()){
-            $plan = PaymentPlan::first();
+            $max_users = PaymentPlan::first()->max_users;
         }else{
-            $plan = PaymentPlan::where('braintree_id', $company->subscription()->braintree_plan)->first();
+            $max_users = $company->subscription()->max_users;
         }
 
-        if(!isset($plan->max_users)) return true;
+        if(!isset($max_users)) return true;
 
         $total_users = User::where('type', '!=', 'client')->where('created_by', '=', $company->id)->count();
 
-        return $total_users < $plan->max_users;
+        return $total_users < $max_users;
     }
         
     public function countCompany()

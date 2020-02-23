@@ -104,7 +104,7 @@ class ProjectsController extends Controller
             $request->session()->flash('error', __('Your have reached your project limit. Please upgrade your subscription to add more projects!'));
         }
 
-        $url = redirect()->route('profile.show').'#subscription';
+        $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
         return "<script>window.location='{$url}'</script>";
     }
 
