@@ -1,5 +1,5 @@
 <div class="mb-4">
-    <h6>{{__('Subscription')}}</h6>
+    <h6>{{__('Subscription Plans')}}</h6>
     <div class="row">
         @foreach($plans as $key=>$plan)
         <div class="col-lg-6">
@@ -43,7 +43,40 @@
         @endforeach
     </div>
 </div>
-    
+
+{{-- @if($user->subscribed())
+<div class="mb-4">
+    <h6>{{__('Active Subscription')}}</h6>
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                    <span>{{__('Type:')}} </span>
+                    <span class="badge badge-primary">{{$user->subscription()->braintree_plan}}</span>
+                </div>
+                <div class="col-auto">
+                    <span>{{__('Status:')}} </span>
+                    @if($user->subscription()->onGracePeriod())
+                        <span class="badge badge-secondary">{{__('Grace Period')}}</span>
+                    @elseif($user->subscription()->onTrial())
+                        <span class="badge badge-secondary">{{__('Trial Period')}}</span>
+                    @else
+                        <span class="badge badge-secondary">{{__('Active')}}</span>
+                    @endif
+                </div>                
+                <div class="col-auto">
+                    <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-primary" data-method="delete" data-remote="true" data-type="text">
+                        {{__('Cancel')}}
+                    </a>         
+                </div>
+              </div>
+            </div>
+        </div>    
+    </div>
+</div>
+@endif     --}}
+
 {{-- <div class="mb-4">
     <h6>{{__('Payment Method')}}</h6>
     <div class="card">

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Braintree_Transaction;
 use App\PaymentPlan;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Redirect;
 use App\User;
 use Laravel\Cashier\Subscription;
 
@@ -119,8 +120,15 @@ class SubscriptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if($request->ajax()){
+            
+            return view('helpers.destroy');
+        }
+
+        \Auth::user()->subscription()->cancel();
+
+        return Redirect::to(URL::previous() . "#subscription")->with('success', __('Subscription cancelled.'));
     }
 }
