@@ -749,8 +749,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return Project::where('created_by', '=', $company_id)->count();
     }
 
-    public function sendEmailVerificationNotification()
-    {
-        EmailVerificationJob::dispatch($this);
-    }
+    // public function sendEmailVerificationNotification()
+    // {
+    //     EmailVerificationJob::dispatch($this);
+    // }
 }
