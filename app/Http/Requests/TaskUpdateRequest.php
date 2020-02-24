@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class TaskUpdateRequest extends FormRequest
 {
@@ -70,7 +72,7 @@ class TaskUpdateRequest extends FormRequest
             return route('tasks.edit', $task);
         }else{
 
-            return route('projects.index').'/#tasks';
+            return URL::previous().'/#tasks';
         }
     }
 }

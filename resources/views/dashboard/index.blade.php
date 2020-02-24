@@ -248,7 +248,7 @@ if($client_project_budget_due_per<=15){
                         <div class="col">
                             <div class="card card-info">
                                 <div class="card-body">
-                                    <a href="{{ route('projects.index').'/#tasks' }}">
+                                    <a href="{{ route('tasks.board') }}">
                                         <h5 class="card-title">{{__('Tasks overview')}}</h5>
                                     </a>                                    
                                     <canvas id="task-area-chart" width="800" height="200"></canvas>

@@ -7,7 +7,7 @@
         @if(!$user->notifications->isEmpty())
 
             {{-- <li>
-                <a class="dropdown-item" href="{{route('projects.index')}}/#tasks">
+                <a class="dropdown-item" href="{{route('tasks.board')}}">
                     {!!__('See all tasks')!!}
                     <i class="material-icons text-small">arrow_forward</i>
                 </a>    

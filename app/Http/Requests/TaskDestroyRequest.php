@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Task;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class TaskDestroyRequest extends FormRequest
 {
@@ -38,6 +40,6 @@ class TaskDestroyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('projects.index').'/#tasks';
+        return URL::previous().'/#tasks';
     }
 }
