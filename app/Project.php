@@ -25,6 +25,8 @@ class Project extends Model
         'user_id',
         'lead_id',
         'description',
+        'start_date',
+        'due_date',
     ];
 
     protected $hidden = [

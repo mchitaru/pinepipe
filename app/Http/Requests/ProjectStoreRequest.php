@@ -25,8 +25,8 @@ class ProjectStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:60',
-            'start_date' => 'required|date',
-            'due_date' => 'required|date',
+            'start_date' => 'nullable|date',
+            'due_date' => 'nullable|date',
             'client_id' => 'required|integer',
             'user_id' => 'nullable|array',
             'lead_id' => 'nullable|integer',

@@ -8,6 +8,11 @@
 
     $(function() {
     
+        localStorage.setItem('sort', null);
+        localStorage.setItem('dir', null);
+        localStorage.setItem('filter', null);
+        localStorage.setItem('tag', null);
+
         updateFilters();
 
     });

@@ -45,7 +45,7 @@ class ProjectsController extends Controller
             if($request['tag']){
                 $status = array(array_search($request['tag'], Project::$status));
             }else{
-                $status = array_keys(Project::$status);
+                $status = array(array_search('active', Project::$status));
             }
 
             $projects = $user->projectsByUserType()
@@ -125,7 +125,7 @@ class ProjectsController extends Controller
 
     public function update(ProjectUpdateRequest $request, Project $project)
     {
-        if($request->ajax())
+        if($request->ajax() && $request->isMethod('patch'))
         {
             return view('helpers.archive');
         }

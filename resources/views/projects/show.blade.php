@@ -169,8 +169,8 @@ if(Gate::check('manage task')){
                     <i class="material-icons">people</i>
                     <span>{{$project->users()->count()}}</span>
                 </div>
-                <span class="{{($project->due_date<now())?'text-danger':''}}">
-                    {{__('Due') }} {{ Carbon::parse($project->due_date)->diffForHumans() }}
+                <span class="{{(isset($project->due_date) && $project->due_date<now())?'text-danger':''}}">
+                    {{__('Due') }} {{ isset($project->due_date) ? Carbon::parse($project->due_date)->diffForHumans() : '---'}}
                 </span>
                 </div>
             </div>

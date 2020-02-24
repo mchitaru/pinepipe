@@ -282,8 +282,8 @@ if($client_project_budget_due_per<=15){
                                             <a href="{{ route('projects.show',$project->id) }}">
                                             <h6 data-filter-by="text">{{$project->name}}</h6>
                                             </a>
-                                            <span class="text-small {{($project->due_date<now())?'text-danger':''}}">
-                                                {{ Carbon::parse($project->due_date)->diffForHumans() }}
+                                            <span class="text-small {{(isset($project->due_date) && $project->due_date<now())?'text-danger':''}}">
+                                                {{ isset($project->due_date) ? Carbon::parse($project->due_date)->diffForHumans():'---' }}
                                             </span>
                                         </div>
                                         <div class="card-title">

@@ -32,7 +32,7 @@ class InvoicesController extends Controller
             if($request['tag']){
                 $status = array(array_search($request['tag'], Invoice::$status));
             }else{
-                $status = array_keys(Invoice::$status);
+                $status = array(array_search('pending', Invoice::$status));
             }
 
             if(\Auth::user()->type == 'client')

@@ -27,7 +27,7 @@
         <h6>{{__('General Details')}}</h6>
         <div class="form-group row align-items-center required">
             {{ Form::label('name', __('Project Name'), array('class'=>'col-4')) }}
-            {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Project name', 'required'=>'required')) }}
+            {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Website Redesign', 'required'=>'required')) }}
         </div>
         <div class="form-group row required">
             {{ Form::label('client_id', __('Client'), array('class'=>'col-4')) }}
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group row">
             {{ Form::label('description', __('Description'), array('class'=>'col-4')) }}
-            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Project description']) !!}
+            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'What this project is about']) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-4')) }}
@@ -54,12 +54,12 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('start_date', __('Start Date'), array('class'=>'col-4')) }}
-            {{ Form::date('start_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
+            {{ Form::date('start_date', '', array('class' => 'form-control col', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-default-date'=> $start_date, 'data-alt-input')) }}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-4')) }}
-            {{ Form::date('due_date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
+            {{ Form::date('due_date', '', array('class' => 'form-control col', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-default-date'=> $due_date, 'data-alt-input')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">

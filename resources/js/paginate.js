@@ -1,5 +1,10 @@
 function updateFilters(sort, dir, filter, tag)
 {
+    sort = localStorage.getItem('sort');
+    dir = localStorage.getItem('dir');
+    filter = localStorage.getItem('filter');
+    tag = localStorage.getItem('tag');
+
     var currentURL = new URL(window.location.href);
 
     if(currentURL.searchParams.has("sort"))
