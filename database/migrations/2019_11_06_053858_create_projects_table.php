@@ -18,8 +18,8 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 100);
             $table->float('price')->default(0.00);
-            $table->date('start_date');
-            $table->date('due_date');
+            $table->date('start_date')->nullable();
+            $table->date('due_date')->nullable();
             $table->unsignedInteger('client_id')->nullable();
             $table->text('description')->nullable();
             $table->unsignedInteger('lead_id')->nullable();
