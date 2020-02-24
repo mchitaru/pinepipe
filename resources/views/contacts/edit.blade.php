@@ -15,10 +15,6 @@
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
         {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Enter Contact Name'),'required'=>'required'))}}
     </div>
-    <div class="form-group row required">
-        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>'(none)','required'=>'required')) !!}
-    </div>
     <div class="form-group row">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
         {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('Enter Contact Email')))}}
@@ -47,6 +43,12 @@
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
         {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'2']) !!}
+    </div>
+    <hr>
+    <h6>{{__('Attach To')}}</h6>
+    <div class="form-group row">
+        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>'Select Client')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

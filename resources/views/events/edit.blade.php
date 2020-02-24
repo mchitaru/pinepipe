@@ -23,12 +23,12 @@
     <hr>
     <h6>{{__('Timeline')}}</h6>
     <div class="form-group row align-items-center">
-        {{ Form::label('start', __('Start Date'), array('class'=>'col-3')) }}
+        {{ Form::label('start', __('Start'), array('class'=>'col-3')) }}
         {{ Form::date('start', null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Select Date', 
                                             'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $event->start, 'data-alt-input')) }}
     </div>
     <div class="form-group row align-items-center">
-        {{ Form::label('end', __('End Date'), array('class'=>'col-3')) }}
+        {{ Form::label('end', __('End'), array('class'=>'col-3')) }}
         {{ Form::date('end', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
                                             'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $event->end, 'data-alt-input')) }}
     </div>

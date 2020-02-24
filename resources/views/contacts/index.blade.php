@@ -21,12 +21,12 @@
                         <i class="material-icons">email</i>
                     </span>
                     <a href="mailto:kenny.tran@example.com">
-                        <span data-filter-by="text" class="text-small">{{$contact->email}}</span>
+                        <span data-filter-by="text" class="text-small">{{$contact->email?$contact->email:'---'}}</span>
                     </a>
                 </div>
                 <div class="container row align-items-center">
                     <i class="material-icons">phone</i>
-                    <span data-filter-by="text" class="text-small">{{$contact->phone}}</span>
+                    <span data-filter-by="text" class="text-small">{{$contact->phone?$contact->phone:'---'}}</span>
                 </div>
             </div>
             <div class="card-meta col">

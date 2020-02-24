@@ -39,10 +39,12 @@ function updateFilters(sort, dir, filter, tag)
         }
     });
 
-    $('.filter-input').each(function(e){
+    if(filter){
+        $('.filter-input').each(function(e){
 
-        $(this).val(filter);
-    });
+            $(this).val(filter);
+        });
+    }
 }
 
 $(function() {

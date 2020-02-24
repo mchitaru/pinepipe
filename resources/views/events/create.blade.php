@@ -13,7 +13,7 @@
         <h6>{{__('General Details')}}</h6>
         <div class="form-group row align-items-center required">
             {{ Form::label('name', __('Title'), array('class'=>'col-3')) }}
-            {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Event title', 'required'=>'required')) }}
+            {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Call with Client', 'required'=>'required')) }}
         </div>
         <div class="form-group row">
             {{ Form::label('category_id', __('Type'), array('class'=>'col-3')) }}
@@ -22,12 +22,12 @@
         <hr>
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
-            {{ Form::label('start', __('Start Date'), array('class'=>'col-3')) }}
+            {{ Form::label('start', __('Start'), array('class'=>'col-3')) }}
             {{ Form::date('start', null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $start?$start:date('Y-m-d H:i'), 'data-alt-input')) }}
         </div>
         <div class="form-group row align-items-center">
-            {{ Form::label('end', __('End Date'), array('class'=>'col-3')) }}
+            {{ Form::label('end', __('End'), array('class'=>'col-3')) }}
             {{ Form::date('end', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $end?$end:date('Y-m-d H:i'), 'data-alt-input')) }}
         </div>
@@ -38,7 +38,7 @@
         <h6>{{__('Details')}}</h6>
         <div class="form-group row">
             {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
-            {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Event notes']) !!}
+            {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Some notes about the call']) !!}
         </div>
         <div class="form-group row required">
             {{ Form::label('user_id', __('Assign To'), array('class'=>'col-3')) }}

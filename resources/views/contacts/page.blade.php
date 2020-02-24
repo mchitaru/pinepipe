@@ -12,8 +12,8 @@
 
         localStorage.setItem('sort', 'name');
         localStorage.setItem('dir', 'asc');
-        localStorage.setItem('filter', null);
-        localStorage.setItem('tag', null);
+        localStorage.setItem('filter', '');
+        localStorage.setItem('tag', '');
 
         updateFilters();
 
