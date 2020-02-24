@@ -26,7 +26,7 @@
         <div class="form-group row align-items-center">
             {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
             {!! Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'Select Project...',
-                                'data-url'=>route('tasks.refresh','0'), 'data-remote'=>'true', 'data-method'=>'post', 'data-type'=>'text')) !!}
+                            'data-refresh'=>route('tasks.refresh','0'))) !!}
         </div>
         @if(\Auth::user()->type == 'company')
         <div class="form-group row align-items-center">

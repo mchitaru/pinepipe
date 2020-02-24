@@ -24,7 +24,7 @@ class TasksController extends Controller
 
     public function board($project_id)
     {
-        if(\Auth::user()->can('show project'))
+        if(\Auth::user()->can('manage task'))
         {
             clock()->startEvent('TasksController', "Load tasks");
 
@@ -195,6 +195,8 @@ class TasksController extends Controller
 
     public function refresh(Request $request, $task_id)
     {
+        $request->flash();
+
         if($task_id)
         {
             $task = Task::find($task_id);

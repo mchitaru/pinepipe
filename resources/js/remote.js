@@ -1,3 +1,35 @@
+function attachPlugins() {
+    
+    $('select').select2();
+    $('[data-flatpickr]').mrFlatpickr();
+    LetterAvatar.transform();
+
+    $("[data-refresh]").each(function() 
+    {
+        $(this).on("change", function (e) {
+            e.preventDefault();
+
+            url = $(this).data('refresh');
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'text',
+                data: $("form").serialize(),
+                    success: function(data, status, xhr) {
+                        $(document).trigger('ajax:success', [data, status, xhr]);
+                    },
+                    complete: function(xhr, status) {
+                        $(document).trigger('ajax:complete', [xhr, status]);
+                    },
+                    error: function(xhr, status, error) {
+                        $(document).trigger('ajax:error', [xhr, status, error]);
+                    }
+            });
+        });
+    });
+}
+
 $(document).on('ajax:success', function(e, data, status, xhr){
 
     if(xhr.responseText)
@@ -9,9 +41,7 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
         $('#modal').html(xhr.responseText).modal('show');
 
-        $('select').select2();
-        $('[data-flatpickr]').mrFlatpickr();
-        LetterAvatar.transform();
+        attachPlugins();
     }
 });
 

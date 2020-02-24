@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Client;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -57,7 +58,7 @@ class UsersController extends Controller
 
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if(\Auth::user()->can('create user'))
         {
@@ -66,8 +67,19 @@ class UsersController extends Controller
                             ->orderBy('id', 'DESC')
                             ->get()
                             ->pluck('name', 'id');
+                            
+            $clients = Client::where('created_by', '=', $user->creatorId())
+                            ->orderBy('id', 'DESC')
+                            ->get()
+                            ->pluck('name', 'id');
+
+            $role = null;
+
+            if(isSet($request['role'])){
+                $role = Role::find($request['role']);
+            }
     
-            return view('users.create', compact('roles'));
+            return view('users.create', compact('role', 'roles', 'clients'));
         }
         else
         {
@@ -112,6 +124,7 @@ class UsersController extends Controller
                                 'email' => 'required|email|unique:users',
                                 'password' => 'required|min:6',
                                 'role' => 'required',
+                                'client_id' => 'required_if:role,client'
                             ]
                 );
 
@@ -282,5 +295,11 @@ class UsersController extends Controller
     public function authRouteAPI(Request $request){
         return $request->user();
     }
- 
+
+    public function refresh(Request $request)
+    {
+        $request->flash();
+
+        return $this->create($request);
+    } 
 }

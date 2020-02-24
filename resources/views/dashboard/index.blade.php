@@ -248,9 +248,13 @@ if($client_project_budget_due_per<=15){
                         <div class="col">
                             <div class="card card-info">
                                 <div class="card-body">
-                                    <a href="{{ route('tasks.board') }}">
+                                    @can('manage task')
+                                    <a href="{{ route('projects.task.board', '0') }}">
+                                    @endif
                                         <h5 class="card-title">{{__('Tasks overview')}}</h5>
+                                    @can('manage task')
                                     </a>                                    
+                                    @endif
                                     <canvas id="task-area-chart" width="800" height="200"></canvas>
                                 </div>
                             </div>
