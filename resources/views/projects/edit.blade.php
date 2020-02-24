@@ -62,9 +62,6 @@
             {{ Form::date('due_date', '', array('class' => 'form-control col', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-default-date'=> $due_date, 'data-alt-input')) }}
         </div>
-        <div class="alert alert-warning text-small" role="alert">
-        <span>{{__('You can change due dates at any time.')}}</span>
-        </div>
     </div>
     <div class="tab-pane fade show" id="project-visibility" role="tabpanel">
         <h6>{{__('Visibility')}}</h6>
