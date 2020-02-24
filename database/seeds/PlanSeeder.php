@@ -42,7 +42,7 @@ class PlanSeeder extends Seeder
                 'braintree_id' => 'startup',
                 'price' => 19,
                 'duration' => 1,
-                'max_users' => 10,
+                'max_users' => 5,
                 'max_clients' => null,
                 'max_projects' => null,
                 'max_space' => null
@@ -54,7 +54,7 @@ class PlanSeeder extends Seeder
                 'braintree_id' => 'enterprise',
                 'price' => 49,
                 'duration' => 1,
-                'max_users' => null,
+                'max_users' => 30,
                 'max_clients' => null,
                 'max_projects' => null,
                 'max_space' => null
