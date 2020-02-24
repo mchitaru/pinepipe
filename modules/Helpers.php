@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Http;
-
 use App\User;
 use App\Client;
 use Illuminate\Http\UploadedFile;
@@ -24,18 +22,37 @@ class Helpers
         return $path;
     }
 
-    public static function buildAvatar(User $user, $size = 36, $class = 'avatar')
+    public static function buildAvatar($name, $avatar, $size = 36, $class = 'avatar')
     {
-        return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$user->name."'".
-                    (empty($user->avatar) ? (" class='".$class."' avatar='".$user->name."'") : 
-                                            (" class='".$class."' src='".Storage::url($user->avatar)."'"))."/>";
+        return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$name."'".
+                    (empty($avatar) ? (" class='".$class."' avatar='".$name."'") : 
+                                            (" class='".$class."' src='".Storage::url($avatar)."'"))."/>";
+    }
+
+    public static function buildUserAvatar(User $user, $size = 36, $class = 'avatar')
+    {
+        $name = null;
+        $avatar = null;
+
+        if($user){
+            $name = $user->name;
+            $avatar = $user->avatar;
+        }
+
+        return Helpers::buildAvatar($name, $avatar, $size, $class);
     }
 
     public static function buildClientAvatar(Client $client, $size = 36, $class = 'avatar')
     {
-        return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$client->name."'".
-                    (empty($client->avatar) ? (" class='".$class."' avatar='".$client->name."'") : 
-                                            (" class='".$class."' src='".Storage::url($client->avatar)."'"))."/>";
+        $name = null;
+        $avatar = null;
+
+        if($client){
+            $name = $client->name;
+            $avatar = $client->avatar;
+        }
+
+        return Helpers::buildAvatar($name, $avatar, $size, $class);
     }
 
     public static function getProgressColor($progress)

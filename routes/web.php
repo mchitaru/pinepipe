@@ -178,11 +178,7 @@ Route::group(
 
         //Payments
         Route::resource('payments', 'PaymentTypesController');
-        
-        Route::get('orders', 'StripePaymentsController@index')->name('order.index');
-        Route::get('stripe/{code}', 'StripePaymentsController@stripe')->name('stripe');
-        Route::post('stripe', 'StripePaymentsController@stripePost')->name('stripe.post');
-    
+            
         //Notes
         // Route::resource('notes', 'NotesController');
 });

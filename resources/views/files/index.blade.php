@@ -1,9 +1,5 @@
 @php clock()->startEvent('files.index', "Display files"); @endphp
 
-@php
-    use App\Http\Helpers;
-@endphp
-
 <div class="col">
     <ul class="d-none dz-template">
         <li class="list-group-item dz-preview dz-file-preview">
@@ -16,7 +12,7 @@
             </li>
             <li>
                 {{-- <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> --}}
-                    {!!Helpers::buildAvatar($current_user)!!}
+                    {!!Helpers::buildUserAvatar($current_user)!!}
                 {{-- </a> --}}
             </li>
             </ul>

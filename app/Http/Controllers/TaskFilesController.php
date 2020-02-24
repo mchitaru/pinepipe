@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\TaskFile;
 use Illuminate\Http\Request;
-use App\Http\Helpers;
+
 use App\Activity;
 use App\Http\Requests\TaskFileRequest;
 use App\Http\Traits\TaskTraits;
@@ -26,7 +26,7 @@ class TaskFilesController extends Controller
 
         if($request->hasFile('file'))
         {
-            $path = Helpers::storePrivateFile($request->file('file'));
+            $path = \Helpers::storePrivateFile($request->file('file'));
 
             $file                 = TaskFile::create(
                 [

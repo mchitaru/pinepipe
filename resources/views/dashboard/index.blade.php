@@ -6,7 +6,6 @@
 
 use App\Project;
 use Carbon\Carbon;
-use App\Http\Helpers;
 @endphp
 
 @push('stylesheets')
@@ -293,7 +292,7 @@ if($client_project_budget_due_per<=15){
                                                 @foreach($project->users as $user)
                                                 <li>
                                                     <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                                                        {!!Helpers::buildAvatar($user)!!}
+                                                        {!!Helpers::buildUserAvatar($user)!!}
                                                     </a>
                                                 </li>
                                                 @endforeach
@@ -372,7 +371,7 @@ if($client_project_budget_due_per<=15){
                                                     @foreach($top_task->users as $user)
                                                     <li>
                                                         <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                                                            {!!Helpers::buildAvatar($user)!!}
+                                                            {!!Helpers::buildUserAvatar($user)!!}
                                                         </a>
                                                     </li>
                                                     @endforeach

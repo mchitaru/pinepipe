@@ -1,11 +1,8 @@
-@php
-use App\Http\Helpers;
-@endphp
 
 {{Form::model($user, array('route' => array('profile.update', 'personal'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
 <div class="media mb-4 avatar-container">
     <div class="d-flex flex-column avatar-preview">
-        {!!Helpers::buildAvatar($user, 60, 'rounded')!!}
+        {!!Helpers::buildUserAvatar($user, 60, 'rounded')!!}
     </div>
     <div class="media-body ml-3">
         <div class="custom-file custom-file-naked d-block mb-1">

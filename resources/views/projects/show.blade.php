@@ -3,7 +3,6 @@
 @php
 use Carbon\Carbon;
 use App\Project;
-use App\Http\Helpers;
 
 $current_user=\Auth::user();
 $dz_id = 'project-files-dz';
@@ -132,7 +131,7 @@ if(Gate::check('manage task')){
                     @foreach($project->users as $user)
                     <li>
                         <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                            {!!Helpers::buildAvatar($user)!!}
+                            {!!Helpers::buildUserAvatar($user)!!}
                         </a>
                     </li>
                     @endforeach

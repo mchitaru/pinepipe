@@ -1,7 +1,3 @@
-@php
-use App\Http\Helpers;
-@endphp
-
 @php clock()->startEvent('clients.index', "Display clients"); @endphp
 
 @foreach($clients as $client)

@@ -1,5 +1,4 @@
 @php
-use App\Http\Helpers;
 use Carbon\Carbon;
 
 $last_stage = \Auth::user()->last_projectstage();
@@ -86,7 +85,7 @@ $last_stage = \Auth::user()->last_projectstage();
                     @foreach($project->users as $user)
                     <li>
                             <a href="{{ $project->enabled?route('users.index', $user->id):'#' }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
-                                {!!Helpers::buildAvatar($user)!!}
+                                {!!Helpers::buildUserAvatar($user)!!}
                             </a>
                     </li>
                     @endforeach

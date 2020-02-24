@@ -1,11 +1,7 @@
 @extends('layouts.modal')
 
-@php
-use App\Http\Helpers;
-@endphp
-
 @section('form-start')
-    {{Form::model($client,array('route' => array('clients.update', $client->id), 'method' => 'put', 'enctype' => "multipart/form-data")) }}
+    {{Form::model($client,array('route' => array('clients.update', $client->id), 'method' => 'put', 'enctype' => 'multipart/form-data', 'data-remote' => 'true')) }}
 @endsection
 
 @push('scripts')
@@ -35,7 +31,7 @@ use App\Http\Helpers;
                 <input type="file" class="custom-file-input avatar-input d-none" name="avatar" id="avatar">
                 <label class="custom-file-label position-relative" for="avatar">
                 <span class="btn btn-primary">
-                    {{__('Upload avatar')}}
+                    {{__('Upload logo')}}
                 </span>
                 </label>
                 <label class="file-label position-relative"></label>
@@ -47,23 +43,23 @@ use App\Http\Helpers;
     </div>
     <div class="form-group row align-items-center required">
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
-        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Enter Client Name'),'required'=>'required'))}}
+        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('BaseCRM'),'required'=>'required'))}}
     </div>
     <div class="form-group row required">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
-        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('Enter Client Email'),'required'=>'required'))}}
+        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('team@basecrm.io'),'required'=>'required'))}}
     </div>
     <div class="form-group row">
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}
-        {{Form::text('phone',null,array('class'=>'form-control col','placeholder'=>__('Enter Client Phone Number')))}}
+        {{Form::text('phone',null,array('class'=>'form-control col','placeholder'=>__('(800) 613-1303')))}}
     </div>
     <div class="form-group row">
         {{ Form::label('address', __('Address'), array('class'=>'col-3')) }}
-        {!!Form::textarea('address', null, ['class'=>'form-control col','rows'=>'2', 'placeholder'=>'Enter Client Address']) !!}
+        {!!Form::textarea('address', null, ['class'=>'form-control col','rows'=>'2', 'placeholder'=>'101 California Street']) !!}
     </div>
     <div class="form-group row">
         {{Form::label('website',__('Website'), array('class'=>'col-3'))}}
-        {{Form::text('website',null,array('class'=>'form-control col','placeholder'=>__('Enter Client Website')))}}
+        {{Form::text('website',null,array('class'=>'form-control col','placeholder'=>__('https://basecrm.io/')))}}
     </div>
 </div>
 @include('partials.errors')

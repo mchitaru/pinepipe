@@ -1,6 +1,5 @@
 @php
 use Carbon\Carbon;
-use App\Http\Helpers;
 @endphp
 
 @php clock()->startEvent('leads.index', "Display leads"); @endphp
@@ -60,7 +59,7 @@ use App\Http\Helpers;
                 <div class="card-meta col-1 float-right">
                     <div class="container row align-items-center">
                         <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
-                            {!!Helpers::buildAvatar($lead->user)!!}
+                            {!!Helpers::buildUserAvatar($lead->user)!!}
                         </a>
                     </div>
                 </div>

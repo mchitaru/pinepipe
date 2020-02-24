@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Http\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
@@ -84,7 +83,7 @@ class Client extends Model
 
         if(isset($post['avatar']))
         {
-            $path = Helpers::storePublicFile($post['avatar']);
+            $path = \Helpers::storePublicFile($post['avatar']);
             $this->avatar = $path;
         }
 

@@ -6,7 +6,7 @@ use App\Project;
 use App\ProjectFile;
 use App\Activity;
 use Illuminate\Http\Request;
-use App\Http\Helpers;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
@@ -24,7 +24,7 @@ class ProjectFilesController extends Controller
 
         if($request->hasFile('file'))
         {
-            $path = Helpers::storePrivateFile($request->file('file'));
+            $path = \Helpers::storePrivateFile($request->file('file'));
 
             $file                 = ProjectFile::create(
                 [

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @php
-use App\Http\Helpers;
 use App\PaymentPlan;
 @endphp
 

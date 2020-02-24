@@ -1,9 +1,5 @@
 @php clock()->startEvent('timesheets.index', "Display timesheets"); @endphp
 
-@php
-use App\Http\Helpers;
-@endphp
-
 @foreach($timesheets as $timesheet)
 
 <div class="card card-task mb-1">
@@ -35,7 +31,7 @@ use App\Http\Helpers;
     <div class="card-meta">
         @if(!empty($timesheet->user))
         <a href="#" data-toggle="tooltip" title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
-            {!!Helpers::buildAvatar($timesheet->user)!!}
+            {!!Helpers::buildUserAvatar($timesheet->user)!!}
         </a>
         @endif
         @if(\Auth::user()->type!='client')

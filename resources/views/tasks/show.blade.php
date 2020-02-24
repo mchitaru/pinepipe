@@ -6,7 +6,6 @@
 @php
 use Carbon\Carbon;
 use App\Project;
-use App\Http\Helpers;
 
 $current_user=\Auth::user();
 
@@ -217,7 +216,7 @@ $dz_id = 'task-files-dz';
             <li>
                 @if(!empty($task->task_user))
                 <a href="#" data-toggle="tooltip" title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
-                    {!!Helpers::buildAvatar($task->task_user)!!}
+                    {!!Helpers::buildUserAvatar($task->task_user)!!}
                 </a>
                 @endif
             </li>
@@ -343,7 +342,7 @@ $dz_id = 'task-files-dz';
                 <div class="card card-note">
                 <div class="card-header p-1">
                     <div class="media align-items-center">
-                        {!!Helpers::buildAvatar($comment->user)!!}
+                        {!!Helpers::buildUserAvatar($comment->user)!!}
                     <div class="media-body">
                         <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
                     </div>

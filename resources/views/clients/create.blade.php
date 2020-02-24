@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{Form::open(array('url'=>'clients','method'=>'post'))}}
+    {{Form::open(array('route' => array('clients.store'), 'data-remote' => 'true'))}}
 @endsection
 
 @section('title')
@@ -12,14 +12,17 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
-        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Enter Client Name'),'required'=>'required'))}}
+        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('BaseCRM'),'required'=>'required'))}}
     </div>
     <div class="form-group row required">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
-        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('Enter Client Email'),'required'=>'required'))}}
+        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('team@basecrm.io'),'required'=>'required'))}}
     </div>
     <div class="alert alert-warning text-small" role="alert">
         <span>{{__('No email will be sent to the client by adding them to your list.')}}</span>
+    </div>
+    <div class="alert alert-warning text-small" role="alert">
+        <span>{{__('You can fill in additional details later.')}}</span>
     </div>
 </div>
 @include('partials.errors')

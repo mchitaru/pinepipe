@@ -25,10 +25,7 @@ class ClientStoreRequest extends FormRequest
     {
         return [
             'name'=>'required|max:120',
-            'email'=>'required|email|unique:users',
-            'phone'=>'nullable|string',
-            'address'=>'nullable|string',
-            'website'=>'nullable|string',
+            'email'=>'required|email|unique:users'
         ];
     }
 

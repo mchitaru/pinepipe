@@ -1,13 +1,10 @@
 @php
-use App\Http\Helpers;
-
 $user=\Auth::user();
-$logo=asset(Storage::url('logo/'));
 
 $currantLang = $user->currentLanguage();
 $languages=$user->languages();
-
 @endphp
+
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
 <a class="navbar-brand" href="{{ route('home') }}">
     <img alt="Pipeline" width=30 src="{{ asset('assets/img/logo.svg') }}" />
@@ -159,7 +156,7 @@ $languages=$user->languages();
         <div class="dropdown mx-lg-2 float-right">
             <div class="dropdown dropdown-toggle">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildAvatar($user)!!}
+                {!!Helpers::buildUserAvatar($user)!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @can('manage account')

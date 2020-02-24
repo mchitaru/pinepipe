@@ -4,7 +4,6 @@
     use Carbon\Carbon;
     use App\Project;
     use App\ProjectStage;
-    use App\Http\Helpers;
 
     $current_user=\Auth::user();
     $stage_done = ProjectStage::all()->last()->id;
@@ -85,7 +84,7 @@
                         @foreach($task->users as $user)
                         <li>
                             <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                                {!!Helpers::buildAvatar($user)!!}
+                                {!!Helpers::buildUserAvatar($user)!!}
                             </a>
                         </li>
                         @endforeach

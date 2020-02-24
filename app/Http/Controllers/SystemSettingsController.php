@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use File;
-use App\Http\Helpers;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\SystemSettingsCompanyRequest;
@@ -79,7 +79,7 @@ class SystemSettingsController extends Controller
 
         if($request->hasFile('company_logo'))
         {
-            $path = Helpers::storePublicFile($request->file('company_logo'));
+            $path = \Helpers::storePublicFile($request->file('company_logo'));
             $post['company_logo'] = $path;
         }
     

@@ -12,7 +12,7 @@ use App\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use App\Http\Helpers;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\ClientStoreRequest;
@@ -194,7 +194,7 @@ class ClientsController extends Controller
 
     //     if($request->hasFile('profile')) 
     //     {
-    //         $path = Helpers::storePublicFile($request->file('profile'));
+    //         $path = \Helpers::storePublicFile($request->file('profile'));
     //         $user['avatar'] = $path;
     //     }
 

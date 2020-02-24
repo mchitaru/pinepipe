@@ -48,7 +48,8 @@
         "classmap": [
             "database/seeds",
             "database/factories",
-            "modules/cashier-braintree"
+            "modules/cashier-braintree",
+            "modules/Helpers.php"
         ]
     },
     "autoload-dev": {

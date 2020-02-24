@@ -1,5 +1,4 @@
 @php
-use App\Http\Helpers;
 
 $user=\Auth::user();
 $logo = asset(Storage::url('logo/'));
@@ -29,7 +28,7 @@ $languages=$user->languages();
         <div class="d-block d-lg-none ml-2">
             <div class="dropdown">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildAvatar($user, 36, 'round')!!}
+                {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 @can('manage account')
@@ -266,7 +265,7 @@ $languages=$user->languages();
     <div class="d-none d-lg-block">
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {!!Helpers::buildAvatar($user, 36, 'round')!!}
+            {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
         </a>
         <div class="dropdown-menu">
             @can('manage account')

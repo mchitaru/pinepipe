@@ -5,7 +5,6 @@
 @php
 use Carbon\Carbon;
 use App\Project;
-use App\Http\Helpers;
 @endphp
 
 @push('stylesheets')
@@ -231,7 +230,7 @@ use App\Http\Helpers;
                                 @foreach($task->users as $user)
                                 <li>
                                     <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                                        {!!Helpers::buildAvatar($user)!!}
+                                        {!!Helpers::buildUserAvatar($user)!!}
                                     </a>
                                 </li>
                                 @endforeach

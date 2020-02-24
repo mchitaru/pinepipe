@@ -1,8 +1,7 @@
 @php clock()->startEvent('expenses.index', "Display expenses"); @endphp
 
 @php
-    use Carbon\Carbon;
-    use App\Http\Helpers;
+use Carbon\Carbon;
 @endphp
 
 @foreach ($expenses as $expense)
@@ -50,7 +49,7 @@
                     </a>
                 @endif
                 <a href="#" data-toggle="tooltip" title={{$expense->user->name}}>
-                    {!!Helpers::buildAvatar($expense->user)!!}
+                    {!!Helpers::buildUserAvatar($expense->user)!!}
                 </a>
             </div>
             @endif

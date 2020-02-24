@@ -4,7 +4,6 @@
 
 @php
 use Carbon\Carbon;
-use App\Http\Helpers;
 @endphp
 
 @push('stylesheets')
@@ -207,7 +206,7 @@ use App\Http\Helpers;
                                 @if(!empty($lead->user))
                                 <div class="float-right">
                                     <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
-                                        {!!Helpers::buildAvatar($lead->user)!!}
+                                        {!!Helpers::buildUserAvatar($lead->user)!!}
                                     </a>
                                 </div>
                                 @endif

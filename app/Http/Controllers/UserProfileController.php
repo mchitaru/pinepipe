@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PaymentPlan;
 use App\User;
-use App\Http\Helpers;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserProfileRequest;
@@ -50,7 +50,7 @@ class UserProfileController extends Controller
 
         if($request->hasFile('avatar'))
         {
-            $path = Helpers::storePublicFile($request->file('avatar'));
+            $path = \Helpers::storePublicFile($request->file('avatar'));
             $user->avatar = $path;
         }
 
