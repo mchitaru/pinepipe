@@ -75,7 +75,6 @@ class SubscriptionsController extends Controller
     
             return response()->json(['success' => true]);
         } catch (\Exception $ex) {
-            dump($ex);
             return response()->json(['success' => false]);
         }        
     }
