@@ -11,8 +11,8 @@ $factory->define(Project::class, function (Faker $faker) {
     return [
         'name' => $faker->company.' project',
         'price' => $faker->randomNumber(3),
-        'start_date' => $faker->dateTimeInInterval('-2 months'),
-        'due_date' => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
+        // 'start_date' => $faker->dateTimeInInterval('-2 months'),
+        // 'due_date' => $faker->dateTimeInInterval('-1 month', '+ 6 months'),
         'client_id' => $faker->numberBetween(1, Client::$SEED),
         'description' => $faker->text,
         'archived' => false,
