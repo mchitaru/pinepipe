@@ -6,7 +6,6 @@
     <link href='assets/module/fullcalendar/list.min.css' rel='stylesheet' />
     <link href='assets/module/fullcalendar/timegrid.min.css' rel='stylesheet' />
     <link href='assets/module/fullcalendar/bootstrap.min.css' rel='stylesheet' />
-    <link href='assets/module/fullcalendar/all.min.css' rel='stylesheet' />
 @endpush
 
 @push('scripts')
@@ -17,7 +16,6 @@
     <script src="{{asset('assets/module/fullcalendar/timegrid.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/interaction.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/module/fullcalendar/all.min.js')}}"></script>
 
     <script>
         var events = {!! ($events) !!};
@@ -32,6 +30,10 @@
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay listMonth'
+        },
+        buttonText: {
+            prev: '<',
+            next: '>'
         },
         defaultView: (localStorage.getItem("fcDefaultView") ? localStorage.getItem("fcDefaultView") : "listMonth"),
         weekNumbers: true,
@@ -123,7 +125,7 @@
     <div class="page-header">
     </div>
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="events" role="tabpanel" data-filter-list="content-list-body">
+        <div class="tab-pane fade show active" id="events" role="tabpanel">
             <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Events')}}</h3>
