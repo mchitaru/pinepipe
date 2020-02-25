@@ -22,7 +22,6 @@ use App\PaymentPlan;
         PreviewAvatarImage(this, 60, 'rounded');
     });
 
-    // keep active tab
     $(document).ready(function() {
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
@@ -38,7 +37,6 @@ use App\PaymentPlan;
 
     });
 
-    // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
       var fileName = $(this).val().split("\\").pop();
       $(this).siblings(".file-label").addClass("selected").html(fileName);

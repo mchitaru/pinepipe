@@ -10,6 +10,7 @@
 @endpush
 
 @push('scripts')
+
     <script src="{{asset('assets/module/fullcalendar/core.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/daygrid.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/list.min.js')}}"></script>
@@ -34,7 +35,7 @@
         },
         defaultView: (localStorage.getItem("fcDefaultView") ? localStorage.getItem("fcDefaultView") : "listMonth"),
         weekNumbers: true,
-        eventLimit: true, // allow "more" link when too many events
+        eventLimit: true,
         selectable: true,
         events: events,
 
@@ -58,7 +59,7 @@
         },
         eventClick: function(info) 
         {
-            info.jsEvent.preventDefault(); // don't let the browser navigate
+            info.jsEvent.preventDefault();
 
             if (info.event.url) {
 
@@ -80,7 +81,6 @@
         },
         datesRender: function (info) 
         {
-            // when the view changes, we update our localStorage value with the new view name
             localStorage.setItem("fcDefaultView", info.view.type);
         }        
         });

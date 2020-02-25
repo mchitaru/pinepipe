@@ -1,3 +1,4 @@
+<!-- WARNING!! DO NOT LEAVE LINE COMMENTS IN SCRIPTS!! -->
 
 <script type="text/javascript" src="{{ asset('js/manifest.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/vendor.js') }}"></script>
@@ -61,7 +62,7 @@
 
     $.fn.select2.defaults.set( "theme", "bootstrap" ); 
 
-    // $.notify("Hello World");
+    /* $.notify("Hello World"); */
 
     toastr.options = {
       "closeButton": true,
@@ -79,11 +80,11 @@
       "hideEasing": "linear",
       "showMethod": "fadeIn",
       "hideMethod": "fadeOut"
-    }
+    };
 
     function toastrs(message, status) {
         toastr[status](message)
-    }
+    };
 
     $("#notification-bell").click(function()
     {

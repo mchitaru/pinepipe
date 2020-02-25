@@ -64,7 +64,7 @@ class TaskFilesController extends Controller
      * @param  \App\TaskFile  $taskFile
      * @return \Illuminate\Http\Response
      */
-    public function show(TaskFile $file)
+    public function show(Task $task, TaskFile $file)
     {
         $file_path = storage_path('app/' . $file->file_path);
         $filename  = $file->file_name;

@@ -2,9 +2,8 @@
 
 @push('scripts')
 <script>
-    // @see https://docs.headwayapp.co/widget for more configuration options.
     var HW_config = {
-      selector: "#headway-widget", // CSS selector where to inject the badge
+      selector: "#headway-widget",
       account:  "xazm27",
       embed: 'true',
       callbacks: {

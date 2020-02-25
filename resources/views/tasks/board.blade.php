@@ -50,10 +50,10 @@ use App\Project;
             type: 'POST',
             data: {task_id: task_id, stage_id: stage_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
             success: function (data) {
-                // console.log('success');
+                /* console.log('success'); */
             },
             error: function (data) {
-                // console.log('error');
+                /* console.log('error'); */
             }
         });
     });

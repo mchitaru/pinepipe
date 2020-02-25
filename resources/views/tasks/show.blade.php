@@ -100,10 +100,10 @@ $dz_id = 'task-files-dz';
                     {
                         updateCheck({{$task->id}});
                     }
-                    // console.log('success');
+                    /* console.log('success'); */
                 },
                 error: function (data) {
-                    // console.log('error');
+                    /* console.log('error'); */
                 }
             });
         });    

@@ -68,7 +68,7 @@ use Carbon\Carbon;
                 $(evt.newContainer).prev().find('.total').text(response.total_new);
             },
             error: function (data) {
-                // console.log('error');
+                /* console.log('error'); */
             }
         });
     });

@@ -27,10 +27,10 @@
 <script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // set fm height
+    /* set fm height */
     document.getElementById('fm-main-block').setAttribute('style', 'height:' + window.innerHeight + 'px');
 
-    // Helper function to get parameters from the query string.
+    /* Helper function to get parameters from the query string. */
     function getUrlParam(paramName) {
       const reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i');
       const match = window.location.search.match(reParam);
@@ -38,7 +38,7 @@
       return (match && match.length > 1) ? match[1] : null;
     }
 
-    // Add callback to file manager
+    /* Add callback to file manager */
     fm.$store.commit('fm/setFileCallBack', function(fileUrl) {
       const funcNum = getUrlParam('CKEditorFuncNum');
 

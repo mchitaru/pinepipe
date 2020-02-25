@@ -25,7 +25,6 @@ use Carbon\Carbon;
             datasets: {!! json_encode($taskData['dataset']) !!}
         },
         options: {
-                // maintainAspectRatio: false,
                 scales: {
                     xAxes: [{reverse: !0, gridLines: {color: "rgba(0,0,0,0.05)"}}],
                     yAxes: [{
