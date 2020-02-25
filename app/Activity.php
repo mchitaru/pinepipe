@@ -21,7 +21,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
                 'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
@@ -35,7 +36,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
                 'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
@@ -49,7 +51,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
                 'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
@@ -63,7 +66,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
                 'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
@@ -77,7 +81,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
                 'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
@@ -91,7 +96,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $project->project_id,
                 'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
@@ -105,7 +111,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $file->project->id,
                 'log_type' => 'project',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .
@@ -119,7 +126,8 @@ class Activity extends Model
     {
         Activity::create(
             [
-                'user_id' => \Auth::user()->creatorId(),
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $file->task->project_id,
                 'log_type' => 'task',
                 'remark' => '<b>'. \Auth::user()->name . '</b> ' .

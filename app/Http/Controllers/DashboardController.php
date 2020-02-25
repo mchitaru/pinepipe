@@ -37,7 +37,7 @@ class DashboardController extends Controller
             if(\Auth::user()->type == 'company')
             {
                 $project['projects'] = Project::where('created_by', '=', \Auth::user()->creatorId())->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
-                $activities = Activity::select('activities.*')->orderBy('id', 'desc')->get();
+                $activities = Activity::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'desc')->get();
             }
             elseif(\Auth::user()->type == 'client')
             {
