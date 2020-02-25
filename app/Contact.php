@@ -55,7 +55,10 @@ class Contact extends Model
 
     public static function createContact($post)
     {
-        $post['user_id']   = \Auth::user()->id;
+        if(\Auth::user()->type != 'company')
+        {
+            $post['user_id'] = \Auth::user()->id;
+        }
 
         $contact                = Contact::make($post);
         $contact->created_by    = \Auth::user()->creatorId();
@@ -71,6 +74,22 @@ class Contact extends Model
 
     public function detachContact()
     {
+    }
+
+    public static function contactsByUserType()
+    {
+        if(\Auth::user()->type == 'company')
+        {
+            return Contact::with('client')
+                   ->where('created_by','=',\Auth::user()->creatorId());
+        }else
+        {
+            return Contact::with('client')
+                    ->where(function ($query)  {
+                        $query->where('user_id', \Auth::user()->id);
+                    })
+                   ->where('created_by','=',\Auth::user()->creatorId());
+        }
     }
 
 }

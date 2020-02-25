@@ -123,7 +123,6 @@ class UserSeeder extends Seeder
             'create plan',
             'edit plan',
             'buy plan',
-            'manage order',
             'manage timesheet',
             'create timesheet',
             'edit timesheet',
@@ -166,8 +165,6 @@ class UserSeeder extends Seeder
             'manage plan',
             'create plan',
             'edit plan',
-            'manage order'
-
         ];
         foreach($superAdminPermissions as $ap)
         {

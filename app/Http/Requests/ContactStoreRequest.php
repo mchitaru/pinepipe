@@ -28,6 +28,7 @@ class ContactStoreRequest extends FormRequest
             'client_id'=>'nullable|integer',
             'email'=>'nullable|email',
             'phone'=>'nullable|string',
+            'user_id'=>'nullable|integer',
         ];
     }
 

@@ -19,16 +19,9 @@ class ExpensesController extends Controller
         {
             clock()->startEvent('ExpensesController', "Load expenses");
 
-            if(\Auth::user()->type == 'client')
+            if(\Auth::user()->can('manage expense'))
             {
-                $expenses = Expense::with(['user','project'])
-                            ->whereHas('project', function ($query)
-                            {
-                                $query->whereHas('client', function ($query) 
-                                {
-                                    $query->where('id', \Auth::user()->id);                
-                                });
-                            })
+                $expenses = Expense::expensesByUserType()
                             ->where('created_by', '=', \Auth::user()->creatorId())
                             ->where(function ($query) use ($request) {
                                 $query->whereHas('user', function ($query) use($request) {
@@ -41,27 +34,6 @@ class ExpensesController extends Controller
                                 });
                             })
                             ->paginate(25, ['*'], 'invoice-page');
-
-            }
-            else 
-            {
-                
-                if(\Auth::user()->can('manage expense'))
-                {
-                    $expenses = Expense::with(['user','project'])
-                                    ->where('created_by', '=', \Auth::user()->creatorId())
-                                    ->where(function ($query) use ($request) {
-                                        $query->whereHas('user', function ($query) use($request) {
-        
-                                            $query->where('name','like','%'.$request['filter'].'%');
-                                        })
-                                        ->orWhereHas('project', function ($query) use($request) {
-        
-                                            $query->where('name','like','%'.$request['filter'].'%');
-                                        });
-                                    })
-                                    ->paginate(25, ['*'], 'expense-page');
-                }
             }
 
             clock()->endEvent('ExpensesController');
@@ -85,9 +57,14 @@ class ExpensesController extends Controller
         {
             $category = ExpenseCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
-            $users    = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
 
-            return view('expenses.create', compact('category', 'project_id', 'projects', 'users'));
+            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+
+            return view('expenses.create', compact('category', 'project_id', 'projects', 'owners'));
         }
         else
         {
@@ -127,7 +104,7 @@ class ExpensesController extends Controller
             $expense->amount      = $request->amount;
             $expense->date        = $request->date;
             $expense->project_id  = $request->project_id;
-
+    
             if(!empty($request->user_id))
             {
                 $expense->user_id     = $request->user_id;
@@ -165,9 +142,14 @@ class ExpensesController extends Controller
             {
                 $category = ExpenseCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
-                $users    = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
 
-                return view('expenses.edit', compact('expense', 'category', 'projects', 'users'));
+                $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                                ->where('type', '!=', 'client')
+                                ->get()
+                                ->pluck('name', 'id')
+                                ->prepend(\Auth::user()->name, \Auth::user()->id);
+
+                return view('expenses.edit', compact('expense', 'category', 'projects', 'owners'));
             }
             else
             {

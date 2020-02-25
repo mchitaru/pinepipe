@@ -23,16 +23,6 @@
         {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
         {{ Form::select('stage_id', $stages, $stage_id, array('class' => 'form-control col font-style selectric','required'=>'required')) }}
     </div>
-    @if(\Auth::user()->type=='company')
-        <div class="form-group row required">
-            {{ Form::label('user_id', __('Assign To'), array('class'=>'col-3')) }}
-            {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
-        </div>
-    @endif
-    <div class="form-group row">
-        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
-    </div>
     <div class="form-group row">
         {{ Form::label('source_id', __('Source'), array('class'=>'col-3')) }}
         {!! Form::select('source_id', $sources, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
@@ -40,6 +30,18 @@
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
         {!! Form::textarea('notes', '',array('class' => 'form-control col','rows'=>'3')) !!}
+    </div>
+    @if(\Auth::user()->type=='company')
+        <div class="form-group row">
+            {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
+            {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
+        </div>
+    @endif
+    <hr>
+    <h6>{{__('Attach To')}}</h6>
+    <div class="form-group row">
+        {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\URL;
 use App\Http\Requests\LeadStoreRequest;
 use App\Http\Requests\LeadUpdateRequest;
 use App\Http\Requests\LeaddestroyRequest;
+use Illuminate\Support\Arr;
 
 class LeadsController extends Controller
 {
@@ -42,7 +43,13 @@ class LeadsController extends Controller
             $stage_id = $request['stage_id'];
 
             $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
+            
+            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+            
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
@@ -68,7 +75,12 @@ class LeadsController extends Controller
         if(\Auth::user()->can('edit lead'))
         {
             $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'employee')->get()->pluck('name', 'id');
+            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('type', '=', 'employee')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+                            
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 

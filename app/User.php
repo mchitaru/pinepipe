@@ -523,6 +523,19 @@ class User extends Authenticatable implements MustVerifyEmail
             'manage account',
             'change password account',
             'edit account',
+            'manage client',
+            'create client',
+            'edit client',
+            'show client',
+            'delete client',
+            'manage contact',
+            'create contact',
+            'edit contact',
+            'delete contact',
+            'manage lead',
+            'create lead',
+            'edit lead',
+            'delete lead',
             'create event',
             'manage event',
             'edit event',
@@ -538,7 +551,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'create timesheet',
             'manage timesheet',
             'edit timesheet',
-            'delete timesheet'
+            'delete timesheet',
+            'manage expense',
+            'create expense',
+            'edit expense',
+            'delete expense',
         ];
 
         $role               =   new Role();

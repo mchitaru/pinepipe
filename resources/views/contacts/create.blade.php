@@ -23,6 +23,12 @@
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}
         {{Form::text('phone',null,array('class'=>'form-control col','placeholder'=>__('(800) 613-1303')))}}
     </div>
+    @if(\Auth::user()->type=='company')
+        <div class="form-group row">
+            {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
+            {!! Form::select('user_id', $owners, null, array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
+        </div>
+    @endif
     <hr>
     <h6>{{__('Attach To')}}</h6>
     <div class="form-group row">

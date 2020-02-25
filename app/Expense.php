@@ -42,4 +42,30 @@ class Expense extends Model
     {
         return $this->hasOne('App\User','id','user_id');
     }
+
+    public static function expensesByUserType()
+    {
+        if(\Auth::user()->type == 'client')
+        {
+            return Expense::with(['user','project'])
+                    ->whereHas('project', function ($query)
+                    {
+                        $query->whereHas('client', function ($query) 
+                        {
+                            $query->where('id', \Auth::user()->id);                
+                        });
+                    });
+
+        }
+        elseif(\Auth::user()->type == 'company'){
+            
+            return Expense::with(['user','project']);
+        }else{
+            
+            return Expense::with(['user','project'])
+                            ->where(function ($query)  {
+                                $query->where('user_id', \Auth::user()->id);
+                            });
+        }
+    }
 }

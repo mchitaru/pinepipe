@@ -40,14 +40,6 @@ modal-xl
                         </tr>
                         </thead>
                         <tbody>
-                        @php
-                            $modules=['account','user','client','role','company settings','project','product','lead','lead stage','project stage','lead source','label','product unit','expense category','expense','tax','invoice','payment','invoice product','invoice payment','task','checklist','plan','note','order'];
-                            if(Auth::user()->type == 'super admin'){
-                                $modules[] = 'language';
-                                $modules[] = 'permission';
-                                $modules[] = 'system settings';
-                            }
-                        @endphp
                         @foreach($modules as $module)
                             <tr>
                                 <td>{{ ucfirst($module) }}</td>

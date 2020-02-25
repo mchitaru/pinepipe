@@ -24,10 +24,6 @@
         {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) }}
     </div>
     <div class="form-group row">
-        {{ Form::label('user_id', __('User'), array('class'=>'col-3')) }}
-        {{ Form::select('user_id', $users,null, array('class' => 'form-control col', 'placeholder'=>'Select Spender...')) }}
-    </div>
-    <div class="form-group row">
         {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
         {{ Form::select('category_id', $category, null, array('class' => 'form-control col', 'placeholder'=>'Select Category...')) }}
     </div>
@@ -39,6 +35,12 @@
         {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
         {!! Form::textarea('description', null, ['class'=>'form-control col','rows'=>'2']) !!}
     </div>
+    @if(\Auth::user()->type=='company')
+    <div class="form-group row">
+        {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
+        {{ Form::select('user_id', $owners, null, array('class' => 'form-control col')) }}
+    </div>
+    @endif
 </div>
 @include('partials.errors')
 @endsection

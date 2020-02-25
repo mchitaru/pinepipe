@@ -32,27 +32,14 @@ class LeadUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        if(\Auth::user()->type == 'company')
-        {
-            return [
-                'name' => 'required|max:20',
-                'price' => 'required',
-                'stage_id' => 'required',
-                'user_id' => 'required',
-                'client_id' => 'required',
-                'source_id' => 'required',
-            ];
-        }
-        else
-        {
-            return [
-                'name' => 'required|max:20',
-                'price' => 'required',
-                'stage_id' => 'required',
-                'source_id' => 'required',
-                'client_id' => 'required',
-            ];
-        }
+        return [
+            'name' => 'string|required|max:20',
+            'price' => 'numeric|required',
+            'stage_id' => 'integer|required',
+            'source_id' => 'integer|required',
+            'client_id' => 'integer|required',
+            'user_id' => 'integer|nullable',
+        ];
     }
 
     protected function getRedirectUrl()

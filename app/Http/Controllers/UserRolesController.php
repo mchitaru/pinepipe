@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\URL;
 
 class UserRolesController extends Controller
 {
+    private static $modules = [ 'contact', 'client', 'lead', 'project', 'task', 'checklist', 'timesheet',
+                                'invoice', 'product', 'expense', 'invoice payment', 'payment', 'role',
+                                'lead stage', 'lead source', 'project stage', 'product unit' ,'invoice product', 'expense category', 'tax',
+                                'account', 'user', 'company settings'];
 
     public function index()
     {
@@ -32,9 +36,16 @@ class UserRolesController extends Controller
     public function create()
     {
         if(\Auth::user()->can('create role')){
+            
             $user = \Auth::user();
+            $modules = UserRolesController::$modules;
+
             if($user->type == 'super admin')
             {
+                $modules[] = 'language';
+                $modules[] = 'permission';
+                $modules[] = 'system settings';
+
                 $permissions = Permission::all()->pluck('name', 'id')->toArray();
             }else{
                 $permissions = new Collection();
@@ -43,7 +54,8 @@ class UserRolesController extends Controller
                 }
                 $permissions = $permissions->pluck('name','id')->toArray();
             }
-            return view('roles.create', ['permissions' => $permissions]);
+            
+            return view('roles.create', compact('modules', 'permissions'));
         }else
         {
             return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
@@ -87,9 +99,15 @@ class UserRolesController extends Controller
     {
         if(\Auth::user()->can('edit role')){
 
+            $modules = UserRolesController::$modules;
             $user = \Auth::user();
+
             if($user->type == 'super admin')
             {
+                $modules[] = 'language';
+                $modules[] = 'permission';
+                $modules[] = 'system settings';
+
                 $permissions = Permission::all()->pluck('name', 'id')->toArray();
             }else{
                 $permissions = new Collection();
@@ -99,7 +117,7 @@ class UserRolesController extends Controller
                 $permissions = $permissions->pluck('name','id')->toArray();
             }
 
-            return view('roles.edit', compact('role', 'permissions'));
+            return view('roles.edit', compact('modules', 'role', 'permissions'));
         }else
         {
             return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));

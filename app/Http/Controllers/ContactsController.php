@@ -23,8 +23,7 @@ class ContactsController extends Controller
         {
             clock()->startEvent('ContactsController', "Load contacts");
 
-            $contacts = Contact::with('client')
-                        ->where('created_by','=',$user->creatorId())
+            $contacts = Contact::contactsByUserType()
                         ->where(function ($query) use ($request) {
                             $query->where('name','like','%'.$request['filter'].'%')
                             ->orWhere('email','like','%'.$request['filter'].'%')
@@ -60,8 +59,14 @@ class ContactsController extends Controller
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
                         ->get()
                         ->pluck('name', 'id');
+            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(\Auth::user()->name, \Auth::user()->id);
 
-            return view('contacts.create', compact('clients'));
+
+            return view('contacts.create', compact('clients', 'owners'));
         }
         else
         {
@@ -101,7 +106,13 @@ class ContactsController extends Controller
                             ->get()
                             ->pluck('name', 'id');
 
-            return view('contacts.edit', compact('contact', 'clients'));
+            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+
+            return view('contacts.edit', compact('contact', 'clients', 'owners'));
 
         }else
         {
