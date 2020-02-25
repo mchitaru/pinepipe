@@ -11,7 +11,7 @@
         data: {
             labels: {!! json_encode($chartData['label']) !!},
             datasets: [{
-                label: "{{ __('Orders') }}",
+                label: "{{ __('Subscriptions') }}",
                 data: {!! json_encode($chartData['data']) !!},
                 fill: false,
                 backgroundColor: "transparent",
@@ -91,7 +91,7 @@
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_orders']}}</h3>
-                                <small class="card-text">{{__('TOTAL ORDERS')}}</small>
+                                <small class="card-text">{{__('TOTAL SUBSCRIPTIONS')}}</small>
                             </div>
                             <div class="icon">
                                 <i class="material-icons">shopping_cart</i>
@@ -117,7 +117,7 @@
                 <div class="col">
                     <div class="card card-info">
                         <div class="card-body">
-                            <h5 class="card-title">{{__('Recent Orders')}}</h5>
+                            <h5 class="card-title">{{__('Recent Subscriptions')}}</h5>
                             <canvas id="order-chart" width="800" height="200"></canvas>
                         </div>
                     </div>

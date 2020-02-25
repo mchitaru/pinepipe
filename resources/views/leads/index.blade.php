@@ -37,6 +37,7 @@ use Carbon\Carbon;
                 <div class="card-title col-xs-12 col-sm-3">
                     <div class="d-flex align-items-center">
                         @if($lead->client)
+                            <i class="material-icons mr-1">apartment</i>
                             @can('show client')
                             <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $lead->client->enabled?route('clients.show',$lead->client->id):'#' }}">
                             @endcan

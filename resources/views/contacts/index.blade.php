@@ -32,6 +32,7 @@
             <div class="card-meta col">
                 @if($contact->client)
                 <div class="d-flex align-items-center justify-content-end">
+                    <i class="material-icons mr-1">apartment</i>
                     @can('show client')
                     <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $contact->client->enabled?route('clients.show',$contact->client->id):'#' }}">
                     @endcan

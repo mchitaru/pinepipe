@@ -8,6 +8,7 @@ use App\PaymentPlan;
 use App\Project;
 use App\User;
 use App\Client;
+use Laravel\Cashier\Subscription;
 
 class DashboardController extends Controller
 {
@@ -136,10 +137,10 @@ class DashboardController extends Controller
             $user=\Auth::user();
             $user['total_user']=$user->countCompany();
             $user['total_paid_user']=$user->countPaidCompany();
-            $user['total_orders']=Order::total_orders();
-            $user['total_orders_price']=Order::total_orders_price();
-            $user['total_plan']=PaymentPlan::total_plan();
-            $user['most_purchese_plan']=(!empty(PaymentPlan::most_purchese_plan())?PaymentPlan::most_purchese_plan()->total:0);
+            $user['total_orders'] = Subscription::count();
+            $user['total_orders_price'] = 0;
+            $user['total_plan'] = PaymentPlan::total_plan();
+            $user['most_purchese_plan'] = 0;
             $chartData = $this->getOrderChart(['duration'=>'week']);
 
             clock()->endEvent('DashboardController');
@@ -166,7 +167,7 @@ class DashboardController extends Controller
         $arrTask['data'] = [];
         foreach ($arrDuration as $date => $label){
 
-            $data = Order::select(\DB::raw('count(*) as total'))
+            $data = Subscription::select(\DB::raw('count(*) as total'))
                          ->whereDate('created_at','=',$date)->first();
             $arrTask['label'][]=$label;
             $arrTask['data'][]=$data->total;

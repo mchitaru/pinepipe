@@ -60,18 +60,21 @@
                             <div class="col sm">
                             <div class="mb-4">
                                 <h6>{{$plan->name}}</h6>
-                                <h5 class="display-4 d-block mb-2 font-weight-normal">{{Auth::user()->priceFormat($plan->price)}}</h5>
-                                <span class="text-muted text-small">{{$plan->duration}}</span>
+
+                                <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
+                                    <span class="text-small">{{$plan->price?'/month':''}}</span>
+                                </h4>                                    
+    
                             </div>
                             <ul class="list-unstyled">
                                 <li class="text-small">
-                                    <b>{{$plan->max_projects?$plan->max_projects:'Unlimited'}}</b> {{__('project(s)')}}
+                                    <b>{{!isset($plan->max_clients)?'Unlimited':$plan->max_clients}}</b> {{__('client(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{$plan->max_users?$plan->max_users:'Unlimited'}}</b> {{__('user(s)')}}
+                                    <b>{{!isset($plan->max_projects)?'Unlimited':$plan->max_projects}}</b> {{__('project(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{$plan->max_clients?$plan->max_clients:'Unlimited'}}</b> {{__('client(s)')}}
+                                    <b>{{!isset($plan->max_users)?'Unlimited':($plan->max_users==0?'No':$plan->max_users)}}</b> {{__('collaborator(s)')}}
                                 </li>
                             </ul>
                         </div>

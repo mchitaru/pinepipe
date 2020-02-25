@@ -476,7 +476,7 @@ class User extends Authenticatable implements MustVerifyEmail
         
     public function countCompany()
     {
-        return User::where('type', '=', 'company')->where('created_by', '=', \Auth::user()->id)->count();
+        return User::where('type', '=', 'company')->count();
     }
 
     public function countPaidCompany()
