@@ -23,14 +23,14 @@ class UserProfileController extends Controller
         }else{
             $user_plan = PaymentPlan::where('braintree_id', $user->subscription()->braintree_plan)->first();
         }
-        
-        $arrPlans = ['Free'];
-        $braintree_plans = BraintreePlan::all();
 
-        foreach ($braintree_plans as $plan) 
-        {
-            $arrPlans[] = $plan->id;
-        }
+        $arrPlans = ['Free'];
+        // $braintree_plans = BraintreePlan::all();
+
+        // foreach ($braintree_plans as $plan)
+        // {
+        //     $arrPlans[] = $plan->id;
+        // }
 
         //only select plans with a corresponding Braintree plan
         $plans = PaymentPlan::whereIn('braintree_id', $arrPlans)->get();
@@ -68,7 +68,7 @@ class UserProfileController extends Controller
         $post = $request->validated();
 
         $user               = \Auth::user();
-        
+
         if(Hash::check($post['current_password'], $user->password))
         {
             $user->password = Hash::make($post['new_password']);
