@@ -9,7 +9,8 @@ class Activity extends Model
         'user_id', 
         'project_id',
         'log_type',
-        'remark'
+        'remark',
+        'created_by'
     ];
 
     public function project()
