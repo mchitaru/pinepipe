@@ -31,11 +31,11 @@
                             </ul>
                             @if($key != 0 )
                                 @if($user_plan->id != $plan->id)
-                                    <a href="{{ route('subscriptions.create') }}" class="btn btn-primary" data-params="plan_id={{$plan->id}}" data-remote="true" data-type="text">
+                                    <a href="{{ route('subscriptions.create') }}" class="btn btn-primary disabled" data-params="plan_id={{$plan->id}}" data-remote="true" data-type="text">
                                         {{__('Upgrade')}}
                                     </a>         
                                 @elseif($user_plan->id == $plan->id)
-                                    <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-danger {{($user->subscription()->onGracePeriod())?'disabled':''}}" data-method="delete" data-remote="true" data-type="text">
+                                    <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-danger  disabled {{($user->subscription()->onGracePeriod())?'disabled':''}}" data-method="delete" data-remote="true" data-type="text">
                                         {{__('Cancel')}}
                                     </a>         
                                 @endif   

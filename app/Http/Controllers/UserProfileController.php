@@ -33,7 +33,8 @@ class UserProfileController extends Controller
         // }
 
         //only select plans with a corresponding Braintree plan
-        $plans = PaymentPlan::whereIn('braintree_id', $arrPlans)->get();
+        // $plans = PaymentPlan::whereIn('braintree_id', $arrPlans)->get();
+        $plans = PaymentPlan::get();
 
         $settings = \Auth::user()->settings();
 
