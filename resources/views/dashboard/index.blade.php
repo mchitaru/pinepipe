@@ -249,7 +249,7 @@ if($client_project_budget_due_per<=15){
                                     @can('manage task')
                                     <a href="{{ route('projects.task.board', '0') }}">
                                     @endif
-                                        <h5 class="card-title">{{__('Tasks overview')}}</h5>
+                                        <h5 class="card-title">{{__('Tasks changes overview')}}</h5>
                                     @can('manage task')
                                     </a>                                    
                                     @endif

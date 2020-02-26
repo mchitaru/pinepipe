@@ -111,8 +111,10 @@ class ProjectStage extends Model
 
         for($i = 0; $i <= 7 - 1; $i++)
         {
-            $date              = date($format, mktime(0, 0, 0, $m, ($de - $i), $y));
-            $arrDay['label'][] = date('D', mktime(0, 0, 0, $m, ($de - $i), $y));
+            $timestamp         = mktime(0, 0, 0, $m, ($de - $i), $y); 
+            $date              = date($format, $timestamp);
+
+            $arrDay['label'][] = ($date != date($format))?date('M d', $timestamp):__('Today');
             $arrDate[]         = $date;
         }
 
