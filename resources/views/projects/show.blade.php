@@ -150,8 +150,6 @@ $(function() {
             @if(Gate::check('edit project') || Gate::check('delete project'))
 
             @can('edit project')
-                <a class="dropdown-item disabled" href="#">Mark as Complete</a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                     {{__('Edit Project')}}
                 </a>
@@ -163,7 +161,7 @@ $(function() {
                     {{__('Task Board')}}
                 </a>
             @endcan
-            <a class="dropdown-item" href="#">Share</a>
+            <a class="dropdown-item disabled" href="#">{{__('Share')}}</a>
             <div class="dropdown-divider"></div>
             
             @can('edit project')

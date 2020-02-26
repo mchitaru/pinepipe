@@ -97,7 +97,9 @@ use Carbon\Carbon;
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item disabled" href="#">{{__('New Lead')}}</a>
+            @can('create lead')
+            <a class="dropdown-item" href="{{ route('leads.create') }}" data-remote="true" data-type="text">{{__('New Lead')}}</a>
+            @endcan
 
             <div class="dropdown-divider"></div>
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>

@@ -49,9 +49,6 @@ $(function() {
                 <a class="dropdown-item" href="{{ route('clients.create') }}" data-remote="true" data-type="text">{{__('New Client')}}</a>
             @endcan
             
-            <a class="dropdown-item disabled" href="#">{{__('New Proposal')}}</a>
-            <a class="dropdown-item disabled" href="#">{{__('New Contract')}}</a>            
-
             <div class="dropdown-divider"></div>
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Export')}}</a>
