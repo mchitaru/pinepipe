@@ -83,9 +83,6 @@ $languages=$user->languages();
             @endcan
 
             @can('manage order')
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('order.index')}}">{{__('Orders')}}</a>
-            </li>
             @endcan
         @endif
 
