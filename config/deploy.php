@@ -93,7 +93,7 @@ return [
 
     'options' => [
         'application' => env('APP_NAME', 'BaseCRM'),
-        'repository' => 'https://github.com/mchitaru/basecrm.git',
+        'repository' => 'git@github.com:mchitaru/basecrm.git',
     ],
 
     /*
