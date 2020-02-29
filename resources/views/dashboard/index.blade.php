@@ -182,7 +182,7 @@ if($client_project_budget_due_per<=15){
                                 <a class="card-body" href="{{ route('projects.index') }}">
                                     <div class="number">
 
-                                        <h3 class="card-title row">{{$project['total_project']}}</h3>
+                                        <h3 class="card-title">{{$project['total_project']}}</h3>
                                         <small class="card-text">{{__('PROJECTS')}}</small>
                                     </div>
                                     <div class="icon">
@@ -472,9 +472,9 @@ if($client_project_budget_due_per<=15){
                 <div class="col-xs-6 col-sm-3">
                     <div class="row">
                         <div class="col">
-                            <div class="card">
+                            <div class="card card-info">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{__('Latest Activity')}} </h5>
+                                    <h5 class="card-title">{{__('Activity')}} </h5>
                                         <ol class="timeline small">
                                         @foreach($activities as $activity)
                                         <li>

@@ -19,7 +19,7 @@
     }
 }
 
-.form-group.required label:after { 
+.form-group.required label:after {
   content:"*";
   color:red;
 }
@@ -67,7 +67,7 @@ a {
     &:hover {
         // color: $user-link-hover-color;
         text-decoration: $user-link-hover-decoration;
-    }        
+    }
 
     h1, h2, h3, h4, h5, h6 {
         // color: $user-link-color;
@@ -75,8 +75,8 @@ a {
         &:hover {
             // color: $user-link-hover-color;
             text-decoration: $user-link-hover-decoration;
-        }        
-    }    
+        }
+    }
  }
 
  .text-truncate {
@@ -90,7 +90,7 @@ a {
       }
     margin: $spacer/4;
 }
-  
+
 .card-list {
     padding: 0.5rem;
 }
@@ -114,10 +114,13 @@ a {
         opacity: 0;
     }
     }
-}  
+}
 
 .card-info {
-    min-width: 160px;
+    min-width: 140px;
+    .card-body {
+        padding: $spacer*.45;
+    }
 }
 
 //dashboard info cards
@@ -145,7 +148,7 @@ a {
 
 .card-body .icon {
     float: right;
-    padding: 7px 0 0
+    padding: 3px 0 0
 }
 
 .card-body .icon>i {
@@ -264,16 +267,16 @@ ol.timeline > li:before {
     a {
         text-decoration: none;
     }
-    
+
     padding: 0 0;
     margin: 0 auto;
 }
-  
+
 .filter-controls {
     display: flex;
     align-items: baseline;
     margin-right: .5rem;
-    
+
     > div {
       font-weight: 600;
     }
@@ -283,12 +286,12 @@ ol.timeline > li:before {
       transition: all .2s ease;
     }
     a:hover {
-      color: $primary;    
+      color: $primary;
     }
     .sort {
       display: flex;
       align-items: flex-end;
-      
+
       &:after {
         display: block;
         opacity: 0;
@@ -309,7 +312,7 @@ ol.timeline > li:before {
         text-rendering: optimizeLegibility;
         -moz-osx-font-smoothing: grayscale;
         font-feature-settings: 'liga';
-      }  
+      }
       &.asc, &.desc {
         color: $black;
         font-weight: 600;
@@ -330,9 +333,9 @@ ol.timeline > li:before {
     align-items: baseline;
     flex-wrap: wrap;
     margin-right: .5rem;
-    
+
     div {
-      font-weight: 600; 
+      font-weight: 600;
       margin-right: .5rem;
     }
     .tag {
@@ -346,7 +349,7 @@ ol.timeline > li:before {
       transition: all .2s ease;
       border-radius: 1rem;
       overflow: hidden;
-      
+
       &:after {
         content: 'x';
         cursor: pointer;
@@ -355,14 +358,14 @@ ol.timeline > li:before {
         max-width: 0;
         transition: all .2s ease;
       }
-      
+
       &.active:after {
         opacity: 1;
         visibility: visible;
         max-width: 2rem;
         margin-left: .4rem;
       }
-      
+
       &:hover,
       &.active {
         background: $primary;
