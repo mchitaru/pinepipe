@@ -159,7 +159,7 @@ if($client_project_budget_due_per<=15){
                 <div class="col-xs-6 col-sm-9">
                     <div class="row">
                         <div class="col">
-                            <a class="card card-info" href="{{ route('clients.index') }}">
+                            <a class="card card-info" href="{{ route('leads.board') }}">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$lead_percentage}}%;"></div>
                                 </div>
@@ -251,7 +251,7 @@ if($client_project_budget_due_per<=15){
                                     @endif
                                         <h5 class="card-title">{{__('Tasks changes overview')}}</h5>
                                     @can('manage task')
-                                    </a>                                    
+                                    </a>
                                     @endif
                                     <canvas id="task-area-chart" width="800" height="200"></canvas>
                                 </div>
