@@ -108,9 +108,9 @@ return [
     */
 
     'hosts' => [
-        'basecrm.ro' => [
-            'deploy_path' => '/home4/r76126base/deployment',
-            'user' => 'root',
+        'basecrm.io' => [
+            'deploy_path' => '/home/baseqigg/deployment_test',
+            'user' => 'baseqigg',
         ],
     ],
 
