@@ -113,6 +113,7 @@ return [
             'deploy_path' => '/home/baseqigg/deployment',
             'user' => 'baseqigg',
             'http_user' => 'baseqigg',
+            'keep_releases' => '1'
         ],
     ],
 
