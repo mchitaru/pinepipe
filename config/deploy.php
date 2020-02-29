@@ -50,10 +50,10 @@ return [
         ],
 
         // Code and composer vendors are ready but nothing is built.
-        'build' => [
-            'npm:install',
-            'npm:production',
-        ],
+        // 'build' => [
+        //     'npm:install',
+        //     'npm:production',
+        // ],
 
         // Deployment is done but not live yet (before symlink)
         'ready' => [
@@ -94,6 +94,7 @@ return [
     'options' => [
         'application' => env('APP_NAME', 'BaseCRM'),
         'repository' => 'git@github.com:mchitaru/basecrm.git',
+        'writable_mode' => 'chown'
     ],
 
     /*
@@ -109,8 +110,9 @@ return [
 
     'hosts' => [
         'basecrm.io' => [
-            'deploy_path' => '/home/baseqigg/deployment_test',
+            'deploy_path' => '/home/baseqigg/deployment',
             'user' => 'baseqigg',
+            'http_user' => 'baseqigg',
         ],
     ],
 
