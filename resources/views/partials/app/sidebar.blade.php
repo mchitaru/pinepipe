@@ -235,21 +235,21 @@ $languages=$user->languages();
               {{__('Add New')}}
             </button>
             <div class="dropdown-menu">
-            @can('create contact')
-                <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
-            @endcan
-            @can('create project')
-                <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
-            @endcan
-            @can('create task')
-                <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
-            @endcan
-        </div>
+                @can('create contact')
+                    <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
+                @endcan
+                @can('create project')
+                    <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
+                @endcan
+                @can('create task')
+                    <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
+                @endcan
+            </div>
         </div>
         @endif
 
         @if(\Auth::user()->type !='super admin')
-        <form class="form-inline my-lg-0 my-2" method="post" autocomplete="off">
+        <form class="form-group my-lg-0 my-2" method="post" autocomplete="off">
             @csrf
             <div class="input-group input-group-dark input-group-round mt-2">
                 <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
