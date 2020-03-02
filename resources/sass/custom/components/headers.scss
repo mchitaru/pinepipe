@@ -5,7 +5,7 @@
 //
 
 .page-header{
-  padding-top: $spacer;
+  padding-top: $spacer/2;
   .progress{
     margin-top: $spacer;
     margin-bottom: $spacer/2;
@@ -21,7 +21,7 @@
 
 @include media-breakpoint-up(lg) {
   .page-header{
-    padding-top: $spacer*2;
+    padding-top: $spacer;
     .avatars .avatar{
       width: $spacer*1.75;
       height: $spacer*1.75;
