@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::open(array('route' => array('projects.timesheet.store', $project_id))) }}
+    {{ Form::open(array('route' => array('projects.timesheet.store', $project_id), 'data-remote' => 'true')) }}
 @endsection
 
 @section('title')
@@ -21,7 +21,12 @@
     </div>
     <div class="form-group row required">
         {{ Form::label('rate', __('Hourly Rate'), array('class'=>'col-3')) }}
-        {{ Form::number('rate', '0', array('class' => 'form-control col', 'required'=>'required')) }}
+        {{ Form::number('rate', '0', array('class' => 'form-control col', 'required'=>'required','min'=>'0',"step"=>"0.01")) }}
+    </div>
+    <div class="form-group row align-items-center">
+        {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
+        {!! Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'Select Project...',
+                        'data-refresh'=>route('tasks.refresh','0'))) !!}
     </div>
     <div class="form-group row">
         {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}

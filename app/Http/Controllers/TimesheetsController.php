@@ -8,6 +8,9 @@ use App\Timesheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use App\Http\Requests\TimesheetStoreRequest;
+use App\Http\Requests\TimesheetUpdateRequest;
+use App\Http\Requests\TimesheetDestroyRequest;
 
 class TimesheetsController extends Controller
 {
@@ -26,14 +29,14 @@ class TimesheetsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Project $project)
+    public function create($project_id)
     {
         if(\Auth::user()->can('create timesheet'))
         {
-            $project_id = $project->id;
-            $tasks = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
+            $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
 
-            return view('timesheets.create', compact('project_id', 'tasks'));
+            return view('timesheets.create', compact('projects', 'project_id', 'tasks'));
         }
         else
         {
@@ -47,26 +50,16 @@ class TimesheetsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Project $project)
+    public function store(TimesheetStoreRequest $request, $project_id)
     {
-        if(\Auth::user()->can('create timesheet'))
-        {
-            $timeSheet             = new Timesheet();
-            $timeSheet->project_id = $project->id;
-            $timeSheet->task_id    = $request->task_id;
-            $timeSheet->date       = $request->date;
-            $timeSheet->hours      = $request->hours;
-            $timeSheet->rate       = $request->rate;
-            $timeSheet->remark     = $request->remark;
-            $timeSheet->user_id    = \Auth::user()->id;
-            $timeSheet->save();
+        $post = $request->validated();
 
-            return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully created.'));
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
-        }
+        Timesheet::createTimesheet($post);
+
+        $request->session()->flash('success', __('Timesheet successfully created.'));
+
+        $url = redirect()->back()->getTargetUrl().'/#timesheets';
+        return "<script>window.location='{$url}'</script>";
     }
 
     /**
@@ -86,14 +79,24 @@ class TimesheetsController extends Controller
      * @param  \App\Timesheet  $timesheet
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project, Timesheet $timesheet)
+    public function edit(Timesheet $timesheet)
     {
         if(\Auth::user()->can('edit timesheet'))
         {
-            $project_id = $project->id;
-            $tasks     = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
+            $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $timesheet->project_id)->first();
+            $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('timesheets.edit', compact('tasks', 'timesheet', 'project_id'));
+            if($project)
+            {
+                $project_id = $project->id;
+                $tasks     = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
+            }else
+            {
+                $project_id = null;
+                $tasks   = null;
+            }            
+
+            return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id'));
         }
         else
         {
@@ -108,24 +111,16 @@ class TimesheetsController extends Controller
      * @param  \App\Timesheet  $timesheet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project, Timesheet $timesheet)
+    public function update(TimesheetUpdateRequest $request, Timesheet $timesheet)
     {
-        if(\Auth::user()->can('edit timesheet'))
-        {
+        $post = $request->validated();
 
-            $timesheet->task_id = $request->task_id;
-            $timesheet->date    = $request->date;
-            $timesheet->hours   = $request->hours;
-            $timesheet->rate    = $request->rate;
-            $timesheet->remark  = $request->remark;
-            $timesheet->save();
+        $timesheet->updateTimesheet($post);
 
-            return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully updated.'));
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
-        }
+        $request->session()->flash('success', __('Timesheet successfully updated.'));
+
+        $url = redirect()->back()->getTargetUrl().'/#timesheets';
+        return "<script>window.location='{$url}'</script>";
     }
 
     /**
@@ -134,22 +129,31 @@ class TimesheetsController extends Controller
      * @param  \App\Timesheet  $timesheet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Project $project, Timesheet $timesheet)
+    public function destroy(TimesheetDestroyRequest $request, Timesheet $timesheet)
     {
         if($request->ajax()){
             
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete timesheet'))
-        {
-            $timesheet->delete();
+        $timesheet->detachTimesheet();
+        $timesheet->delete();
 
-            return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully deleted.'));
-        }
-        else
+        return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully deleted.'));
+    }
+
+    public function refresh(Request $request, $timesheet_id)
+    {
+        $request->flash();
+
+        if($timesheet_id)
         {
-            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
+            $timesheet = Timesheet::find($timesheet_id);
+            $timesheet->project_id = $request['project_id'];
+
+            return $this->edit($timesheet);
         }
+
+        return $this->create($request['project_id']);
     }
 }

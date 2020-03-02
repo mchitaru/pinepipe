@@ -15,6 +15,7 @@ class Timesheet extends Model
         'task_id',
         'date',
         'hours',
+        'rate',
         'remark'
     ];
 
@@ -39,4 +40,27 @@ class Timesheet extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public static function createTimesheet($post)
+    {
+        $timeSheet             = Timesheet::make($post);
+        $timeSheet->user_id    = \Auth::user()->id;
+        $timeSheet->created_by = \Auth::user()->creatorId();
+        $timeSheet->save();
+
+        dump($timeSheet);
+
+        return $timeSheet;
+    }
+
+    public function updateTimesheet($post)
+    {
+        $this->update($post);
+        dump($this);
+    }
+
+    public function detachTimesheet()
+    {
+    }
+
 }
