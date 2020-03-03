@@ -78,7 +78,6 @@ $dz_id = 'task-files-dz';
 
         sortableChecklist.on('sortable:stop', (evt) => {
 
-            console.log(evt);
             var order = [];
             
             var list = sortableChecklist.getDraggableElementsForContainer(evt.newContainer);
@@ -266,7 +265,7 @@ $dz_id = 'task-files-dz';
                             <h3>{{__('Subtasks')}}</h3>
                         </div>
                         <div class ="col">
-                            <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
+                            <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
                                 <i class="material-icons">add</i>
                             </button>
                         </div>
