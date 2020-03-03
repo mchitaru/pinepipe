@@ -21,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use SoftDeletes;
     use Billable;
 
-    public static $SEED_COMPANY_COUNT = 1;
+    public static $SEED_COMPANY_COUNT = 2;
     public static $SEED_STAFF_COUNT = 5;
     
     public static $SEED_COMPANY_IDX = 0;
@@ -490,91 +490,8 @@ class User extends Authenticatable implements MustVerifyEmail
         // )->where('created_by', '=', \Auth::user()->id)->count();
     }
 
-    public function makeClientRole()
-    {
-        $permissions = [
-            'manage account',
-            'edit account',
-            'change password account',
-            'show project',
-            'manage project',
-            'manage invoice',
-            'show invoice',
-            'manage expense',
-            'manage payment',
-            'manage timesheet',
-        ];
-
-        $role               =   new Role();
-        $role->name         =   'client';
-        $role->created_by   =   $this->id;
-        $role->save();
-
-        foreach($permissions as $ap)
-        {
-            $permission = Permission::findByName($ap);
-            $role->givePermissionTo($permission);
-        }
-    }
-
-    public function makeEmployeeRole()
-    {
-        $permissions = [
-            'manage account',
-            'change password account',
-            'edit account',
-            'manage client',
-            'create client',
-            'edit client',
-            'show client',
-            'delete client',
-            'manage contact',
-            'create contact',
-            'edit contact',
-            'delete contact',
-            'manage lead',
-            'create lead',
-            'edit lead',
-            'delete lead',
-            'create event',
-            'manage event',
-            'edit event',
-            'show event',
-            'manage project',
-            'show project',
-            'create task',
-            'manage task',
-            'move task',
-            'show task',
-            'create checklist',
-            'manage lead',
-            'create timesheet',
-            'manage timesheet',
-            'edit timesheet',
-            'delete timesheet',
-            'manage expense',
-            'create expense',
-            'edit expense',
-            'delete expense',
-        ];
-
-        $role               =   new Role();
-        $role->name         =   'employee';
-        $role->created_by   =   $this->id;
-        $role->save();
-
-        foreach($permissions as $ap)
-        {
-            $permission = Permission::findByName($ap);
-            $role->givePermissionTo($permission);
-        }
-    }
-
     public function initCompanyDefaults()
     {
-        $this->makeClientRole();
-        $this->makeEmployeeRole();
-
         $id = $this->id;
 
         $colors = [

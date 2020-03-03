@@ -63,7 +63,10 @@ class UsersController extends Controller
         if(\Auth::user()->can('create user'))
         {
             $user  = \Auth::user();
-            $roles = Role::where('created_by', '=', $user->creatorId())
+            $roles = Role::where(function ($query) use ($user) {
+                                $query->where('created_by', '=', 1)
+                                    ->orWhere('created_by', '=', $user->creatorId());
+                            })
                             ->orderBy('id', 'DESC')
                             ->get()
                             ->pluck('name', 'id');
@@ -162,10 +165,13 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::where('created_by', '=', $user->creatorId())
-                        ->orderBy('id', 'DESC')
-                        ->get()
-                        ->pluck('name', 'id');
+            $roles = Role::where(function ($query) use ($user) {
+                                $query->where('created_by', '=', 1)
+                                        ->orWhere('created_by', '=', \Auth::user()->creatorId());
+                            })
+                            ->orderBy('id', 'DESC')
+                            ->get()
+                            ->pluck('name', 'id');
 
         if(\Auth::user()->can('edit user'))
         {

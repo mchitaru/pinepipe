@@ -48,15 +48,12 @@ class Timesheet extends Model
         $timeSheet->created_by = \Auth::user()->creatorId();
         $timeSheet->save();
 
-        dump($timeSheet);
-
         return $timeSheet;
     }
 
     public function updateTimesheet($post)
     {
         $this->update($post);
-        dump($this);
     }
 
     public function detachTimesheet()

@@ -22,7 +22,10 @@ class UserRolesController extends Controller
         $user = \Auth::user();
         if(\Auth::user()->can('manage role'))
         {
-            $roles = Role::where('created_by','=',\Auth::user()->creatorId())->get();
+            $roles = Role::where(function ($query) use ($user) {
+                        $query->where('created_by', '=', 1)
+                            ->orWhere('created_by', '=', $user->creatorId());
+                    })->get();
     
             return view('roles.page', compact('roles'));
         }
