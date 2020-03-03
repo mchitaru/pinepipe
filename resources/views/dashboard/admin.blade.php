@@ -70,8 +70,8 @@
 
 @section('content')
 <div class="container">
-    <div class="row pt-5">
-        <div class="col">
+    <div class="row pt-3">
+        <div class="col-xs-6 col-sm-9">
             <div class="row">
                 <div class="col">
                     <div class="card card-info">
@@ -124,7 +124,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm">
+        <div class="col-xs-6 col-sm-3">
             <div class="row">
                 <div class="col">
                     <div class="card card-info">
