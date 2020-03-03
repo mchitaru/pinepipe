@@ -34,6 +34,8 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
     if(xhr.responseText)
     {
+        console.log('recieved');
+
         if(!$('#modal').length)
         {
             $('body').append($('<div class="modal show" id="modal" data-keyboard="false" data-backdrop="static"></div>'))
@@ -42,6 +44,8 @@ $(document).on('ajax:success', function(e, data, status, xhr){
         $('#modal').html(xhr.responseText).modal('show');
 
         attachPlugins();
+
+        console.log('done!');
     }
 });
 

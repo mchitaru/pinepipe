@@ -12,7 +12,7 @@
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script> --}}
 {{-- <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script> --}}
 
 <!-- Autosize - resizes textarea inputs as user types -->
@@ -89,6 +89,29 @@
     $("#notification-bell").click(function()
     {
         $(this).children('i').html('<i class="material-icons">notifications_none</i>');
+    });
+
+
+    $(document).on('click', 'a[data-ajax-popup="true"], button[data-ajax-popup="true"], div[data-ajax-popup="true"]', function () {
+        var title = $(this).data('title');
+        var size = ($(this).data('size') == '') ? 'md' : $(this).data('size');
+        var url = $(this).data('url');
+        $("#commonModal .modal-title").html(title);
+        $("#commonModal .modal-dialog").addClass('modal-' + size);
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#commonModal .modal-body').html(data);
+                $("#commonModal").modal('show');
+                common_bind("#commonModal");
+                common_bind_select("#commonModal");
+            },
+            error: function (data) {
+                data = data.responseJSON;
+                toastrs('Error', data.error, 'error')
+            }
+        });
+
     });
 
 </script>

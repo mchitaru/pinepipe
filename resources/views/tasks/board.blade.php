@@ -212,9 +212,11 @@ use App\Project;
                             </div>
                             </div>
                             <div class="card-title">
+                                <a href="#" data-url="{{route('tasks.show', $task->id)}}#task" data-ajax-popup="true" data-title="{{__('Task Show')}}" class="dropdown-item p-0 task-inner-title font-style">{{$task->title}}</a>
                                 <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text">
                                     <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
                                 </a>        
+
                             </div>
 
                             @if($task->priority =='low')
