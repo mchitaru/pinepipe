@@ -91,7 +91,7 @@ $dz_id = 'task-files-dz';
             var container_id = evt.newContainer.attributes['data-id'].value;
 
             $.ajax({
-                url: '{{route('tasks.checklist.order', $task->id)}}',
+                url: '{{route('tasks.subtask.order', $task->id)}}',
                 type: 'POST',
                 data: {check_id: check_id, container_id: container_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
                 success: function (data) {
@@ -241,148 +241,149 @@ $dz_id = 'task-files-dz';
             </div>
         </div>
         </div>
+
         <ul class="nav nav-tabs nav-fill" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='checklist')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">{{__('Files')}}</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">{{__('Files')}}</a>
+            </li>
         </ul>
+
         <div class="tab-content">
+            <div class="tab-pane fade show {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" id="task" role="tabpanel">
 
-        <div class="tab-pane fade show {{(empty(request()->segment(3)) | request()->segment(3)=='checklist')?'active':''}}" id="task" role="tabpanel">
-
-            @can('create checklist')
-            <div class="content-list">
-            <div class="row content-list-head">
-                <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.checklist.store',$task->id) }}">
-                    <div class="form-group row align-items-center">
-                        <div class ="col">
-                            <h3>{{__('Subtasks')}}</h3>
+                @can('create subtask')
+                <div class="content-list">
+                <div class="row content-list-head">
+                    <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
+                        <div class="form-group row align-items-center">
+                            <div class ="col">
+                                <h3>{{__('Subtasks')}}</h3>
+                            </div>
+                            <div class ="col">
+                                <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
+                                    <i class="material-icons">add</i>
+                                </button>
+                            </div>
                         </div>
-                        <div class ="col">
-                            <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
-                                <i class="material-icons">add</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            @endcan
-
-            <!--end of content list head-->
-            <div class="content-list-body">
-                <form class="checklist" id="checklist" data-id='sort'>
-
-                @foreach($checklist as $key=>$checkList)
-
-                @can('create checklist')
-                <div class="row" data-id = "{{$checkList->id}}" tabindex="{{$key}}">
-                    <div class="form-group col">
-                    <span class="checklist-reorder">
-                        <i class="material-icons">reorder</i>
-                    </span>
-                    <div class="custom-control custom-checkbox col">
-                        <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$checkList->id}}" data-id="{{$task->id}}" {{($checkList->status==1)?'checked':''}} value="{{$checkList->id}}" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true">
-                        <label class="custom-control-label" for="checklist-{{$checkList->id}}"></label>
-                        <div class="col">
-                            <input autofocus class="col" type="text" name="name" id="name-{{$checkList->id}}" placeholder="{{__('Checklist item')}}" value="{{$checkList->name}}" data-filter-by="value" data-url="{{route('tasks.checklist.update', [$task->id,$checkList->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
-                            <div class="checklist-strikethrough"></div>
-                        </div>
-                    </div>
-                    </div>
-                    <!--end of form group-->
+                    </form>
                 </div>
                 @endcan
 
-                @endforeach
-                </form>
-                <div class="drop-to-delete" data-id='delete'>
-                    <div class="drag-to-delete-title">
-                        <i class="material-icons">delete</i>
-                    </div>
-                </div>
-            </div>
-            <!--end of content list body-->
-            </div>
-            <!--end of content list-->
-        </div>
-        <!--end of tab-->
-        <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">
+                <!--end of content list head-->
+                <div class="content-list-body">
+                    <form class="checklist" id="checklist" data-id='sort'>
 
-            <div class="content-list">
-            <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>{{__('Comments')}}</h3>
-                </div>
-            </div>
-            <!--end of content list head-->
-            <div class="content-list-body">
+                    @foreach($subtasks as $key=>$subtask)
 
-                <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
-                    <div class="form-group row align-items-center">
-                        <div class ="col-11">
-                            <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="example-textarea" rows="3" required></textarea>
+                    @can('create subtask')
+                    <div class="row" data-id = "{{$subtask->id}}" tabindex="{{$key}}">
+                        <div class="form-group col">
+                        <span class="checklist-reorder">
+                            <i class="material-icons">reorder</i>
+                        </span>
+                        <div class="custom-control custom-checkbox col">
+                            <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$subtask->id}}" data-id="{{$task->id}}" {{($subtask->status==1)?'checked':''}} value="{{$subtask->id}}" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true">
+                            <label class="custom-control-label" for="checklist-{{$subtask->id}}"></label>
+                            <div class="col">
+                                <input autofocus class="col" type="text" name="name" id="name-{{$subtask->id}}" placeholder="{{__('Subtask item')}}" value="{{$subtask->name}}" data-filter-by="value" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
+                                <div class="checklist-strikethrough"></div>
+                            </div>
                         </div>
-                        <div class ="col-1">
-                            <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}}>
-                                <i class="material-icons">add</i>
-                            </button>
+                        </div>
+                        <!--end of form group-->
+                    </div>
+                    @endcan
+
+                    @endforeach
+                    </form>
+                    <div class="drop-to-delete" data-id='delete'>
+                        <div class="drag-to-delete-title">
+                            <i class="material-icons">delete</i>
                         </div>
                     </div>
-                </form>
+                </div>
+                <!--end of content list body-->
+                </div>
+                <!--end of content list-->
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">
 
-                <div id="comments">
-                @foreach($task->comments as $comment)
-                <div class="card card-note">
-                <div class="card-header p-1">
-                    <div class="media align-items-center">
-                        {!!Helpers::buildUserAvatar($comment->user)!!}
-                    <div class="media-body">
-                        <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
-                    </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                    <span data-filter-by="text">{{$comment->created_at->diffForHumans()}}</span>
-                    <div class="ml-1 dropdown card-options">
-                        <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">more_vert</i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
-                            <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
-                                {{__('Delete')}}
-                            </a>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="card-body p-1" data-filter-by="text">
-                    {{$comment->comment}}
-                </div>
-                </div>
-                @endforeach
-                </div>
-            </div>
-            </div>
-        </div>
-        <!--end of tab-->
-        <div class="tab-pane fade show {{(request()->segment(3)=='file')?'active':''}}" id="taskfiles" role="tabpanel" data-filter-list="dropzone-previews">
-            <div class="content-list">
+                <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                        <h3>Files</h3>
+                        <h3>{{__('Comments')}}</h3>
                     </div>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body row">@include('files.index')</div>
+                <div class="content-list-body">
+
+                    <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
+                        <div class="form-group row align-items-center">
+                            <div class ="col-11">
+                                <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="example-textarea" rows="3" required></textarea>
+                            </div>
+                            <div class ="col-1">
+                                <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}}>
+                                    <i class="material-icons">add</i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="comments">
+                    @foreach($task->comments as $comment)
+                    <div class="card card-note">
+                    <div class="card-header p-1">
+                        <div class="media align-items-center">
+                            {!!Helpers::buildUserAvatar($comment->user)!!}
+                        <div class="media-body">
+                            <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
+                        </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                        <span data-filter-by="text">{{$comment->created_at->diffForHumans()}}</span>
+                        <div class="ml-1 dropdown card-options">
+                            <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
+                                <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
+                                    {{__('Delete')}}
+                                </a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-1" data-filter-by="text">
+                        {{$comment->comment}}
+                    </div>
+                    </div>
+                    @endforeach
+                    </div>
+                </div>
+                </div>
             </div>
-            <!--end of content list-->
-        </div>
+            <!--end of tab-->
+            <div class="tab-pane fade show {{(request()->segment(3)=='file')?'active':''}}" id="taskfiles" role="tabpanel" data-filter-list="dropzone-previews">
+                <div class="content-list">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                            <h3>Files</h3>
+                        </div>
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body row">@include('files.index')</div>
+                </div>
+                <!--end of content list-->
+            </div>
         </div>
     </div>
 </div>

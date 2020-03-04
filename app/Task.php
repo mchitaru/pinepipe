@@ -57,7 +57,7 @@ class Task extends Model
         return $this->hasMany('App\TaskFile','task_id','id');
     }
 
-    public function checklist()
+    public function subtasks()
     {
         return $this->hasMany('App\TaskChecklist','task_id','id');
     }
@@ -75,7 +75,7 @@ class Task extends Model
     public function getCompleteChecklistCount()
     {
         $count = 0;
-        foreach($this->checklist as $check) {
+        foreach($this->subtasks as $check) {
             if($check->status) $count++;
         }
 
@@ -84,7 +84,7 @@ class Task extends Model
 
     public function getTotalChecklistCount()
     {
-        return $this->checklist->count();
+        return $this->subtasks->count();
     }
 
     public static function getProgressColor($percentage)
@@ -163,7 +163,7 @@ class Task extends Model
         $this->users()->detach();
 
         $this->comments()->delete();
-        $this->checklist()->delete();
+        $this->subtasks()->delete();
 
         $dir = storage_path('app/public/tasks/');
 

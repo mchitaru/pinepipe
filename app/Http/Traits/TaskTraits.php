@@ -14,11 +14,11 @@ trait TaskTraits
 
             $project = Project::find($task->project_id);
 
-            $checklist = $task->checklist()->orderBy('order')->get();
+            $subtasks = $task->subtasks()->orderBy('order')->get();
 
             clock()->endEvent('TaskTraits.show');
 
-            return view('tasks.show', compact('task', 'checklist', 'project'));
+            return view('tasks.show', compact('task', 'subtasks', 'project'));
         }
         else
         {

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\URL;
 
 class UserRolesController extends Controller
 {
-    private static $modules = [ 'contact', 'client', 'lead', 'project', 'task', 'checklist', 'timesheet',
+    private static $modules = [ 'contact', 'client', 'lead', 'project', 'task', 'subtask', 'timesheet',
                                 'invoice', 'product', 'expense', 'invoice payment', 'payment', 'role',
                                 'lead stage', 'lead source', 'project stage', 'product unit' ,'invoice product', 'expense category', 'tax',
                                 'account', 'user', 'company settings'];

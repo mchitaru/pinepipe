@@ -32,6 +32,6 @@ class TaskChecklistRequest extends FormRequest
     protected function getRedirectUrl()
     {
         $task = $this->route()->parameter('task');
-        return route('tasks.checklist.index', $task->id);
+        return route('tasks.subtask.index', $task->id);
     }
 }

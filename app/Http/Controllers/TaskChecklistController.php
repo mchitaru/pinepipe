@@ -37,33 +37,33 @@ class TaskChecklistController extends Controller
         $post['name']         = __('Something To Do...');
         $post['created_by']   = \Auth::user()->id;
         
-        $checklist            = TaskChecklist::create($post);
+        $subtask            = TaskChecklist::create($post);
 
-        return redirect()->route('tasks.show', $task->id)->with('success', __('Checklist Created.'));
+        return redirect()->route('tasks.show', $task->id)->with('success', __('Subtask Created.'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TaskChecklist  $checklist
+     * @param  \App\TaskChecklist  $subtask
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskChecklistRequest $request, Task $task, TaskChecklist $checklist)
+    public function update(TaskChecklistRequest $request, Task $task, TaskChecklist $subtask)
     {        
         $post = $request->validated();
 
         if (isset($post['name'])){
 
-            $checklist->name = $post['name'];
+            $subtask->name = $post['name'];
 
         }else{
 
-            $checklist->status = !$checklist->status;
+            $subtask->status = !$subtask->status;
 
         }
 
-        $checklist->save();
+        $subtask->save();
 
         return $this->taskShow($task);
     }
@@ -71,12 +71,12 @@ class TaskChecklistController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TaskChecklist  $checklist
+     * @param  \App\TaskChecklist  $subtask
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task, TaskChecklist $checklist)
+    public function destroy(Task $task, TaskChecklist $subtask)
     {
-        $checklist->delete();
+        $subtask->delete();
 
         return $this->taskShow($task);
     }

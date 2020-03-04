@@ -14,6 +14,11 @@ class TaskFilesController extends Controller
 {
     use TaskTraits;
 
+    public function index(Task $task)
+    {
+        return $this->taskShow($task);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

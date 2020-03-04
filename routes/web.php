@@ -131,16 +131,16 @@ Route::group(
         Route::put('tasks/{task}/comment/{comment}', 'TaskCommentsController@update')->name('tasks.comment.update');
         Route::delete('tasks/{task}/comment/{comment}', 'TaskCommentsController@destroy')->name('tasks.comment.destroy');
 
-        Route::get('tasks/{task}/file', 'TaskFilesController@store')->name('tasks.file.index');
+        Route::get('tasks/{task}/file', 'TaskFilesController@index')->name('tasks.file.index');
         Route::post('tasks/{task}/file', 'TaskFilesController@store')->name('tasks.file.upload');
         Route::get('tasks/{task}/file/{file}', 'TaskFilesController@show')->name('tasks.file.download');
         Route::delete('tasks/{task}/file/{file}', 'TaskFilesController@destroy')->name('tasks.file.delete');
 
-        Route::get('tasks/{task}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.index');
-        Route::post('tasks/{task}/checklist', 'TaskChecklistController@store')->name('tasks.checklist.store');
-        Route::put('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@update')->name('tasks.checklist.update');
-        Route::delete('tasks/{task}/checklist/{checklist}', 'TaskChecklistController@destroy')->name('tasks.checklist.destroy');
-        Route::post('tasks/{task}/checklist/order', 'TaskChecklistController@order')->name('tasks.checklist.order');
+        Route::get('tasks/{task}/subtask', 'TaskChecklistController@index')->name('tasks.subtask.index');
+        Route::post('tasks/{task}/subtask', 'TaskChecklistController@store')->name('tasks.subtask.store');
+        Route::put('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@update')->name('tasks.subtask.update');
+        Route::delete('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@destroy')->name('tasks.subtask.destroy');
+        Route::post('tasks/{task}/subtask/order', 'TaskChecklistController@order')->name('tasks.subtask.order');
 
         //Invoices
         Route::resource('invoices', 'InvoicesController');
