@@ -246,12 +246,12 @@ if($client_project_budget_due_per<=15){
                         <div class="col">
                             <div class="card card-info">
                                 <div class="card-body">
-                                    @can('manage task')
+                                    @if(Gate::check('manage task'))
                                     <a href="{{ route('projects.task.board', '0') }}">
-                                    @endif
                                         <h5 class="card-title">{{__('Tasks changes overview')}}</h5>
-                                    @can('manage task')
                                     </a>
+                                    @else
+                                        <h5 class="card-title">{{__('Tasks changes overview')}}</h5>
                                     @endif
                                     <canvas id="task-area-chart" width="800" height="200"></canvas>
                                 </div>
@@ -354,13 +354,13 @@ if($client_project_budget_due_per<=15){
                                                     {{ Carbon::parse($top_task->due_date)->diffForHumans() }}
                                                 </span>
                                                 @if(!empty($top_task->project))
-                                                    @can('show project')
+                                                    @if(Gate::check('show project'))
                                                         <a href="{{ $top_task->project?route('projects.show', $top_task->project->id):'#' }}">
-                                                    @endcan
-                                                        <p><span class="text-small">{{$top_task->project->name}}</span></p>
-                                                    @can('show project')
+                                                            <p><span class="text-small">{{$top_task->project->name}}</span></p>
                                                         </a>
-                                                    @endcan
+                                                    @else
+                                                        <p><span class="text-small">{{$top_task->project->name}}</span></p>
+                                                    @endif
                                                 @endif
 
                                             </div>

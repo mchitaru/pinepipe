@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{Form::open(array('url'=>'contacts', 'method'=>'post', 'data-remote' => 'true'))}}
+    {{Form::open(array('route' => array('contacts.store'), 'method'=>'post', 'data-remote' => 'true'))}}
 @endsection
 
 @section('title')
@@ -33,7 +33,7 @@
     <h6>{{__('Attach To')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>'Select Client')) !!}
+        {!! Form::select('client_id', $clients, $client_id,array('class' => 'form-control col', 'placeholder'=>'Select Client')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

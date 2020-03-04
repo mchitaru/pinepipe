@@ -12,13 +12,13 @@ use Carbon\Carbon;
             </div>
             <div class="card-body p-2">
                 <div class="card-title col-xs-12 col-sm-3">
-                    @can('edit lead')
+                    @if(Gate::check('edit lead'))
                     <a href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
-                    @endcan
                         <h6 data-filter-by="text">{{$lead->name}}</h6>
-                    @can('edit lead')
                     </a>
-                    @endcan
+                    @else
+                        <h6 data-filter-by="text">{{$lead->name}}</h6>
+                    @endif
                     <p>
                         <span class="text-small">
                             {{__('Updated')}} {{ Carbon::parse($lead->updated_at)->diffForHumans() }}
@@ -38,25 +38,16 @@ use Carbon\Carbon;
                     <div class="d-flex align-items-center">
                         @if($lead->client)
                             <i class="material-icons mr-1">apartment</i>
-                            @can('show client')
+                            @if(Gate::check('show client'))
                             <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $lead->client->enabled?route('clients.show',$lead->client->id):'#' }}">
-                            @endcan
                                 {{$lead->client->name}}
-                            @can('show client')
                             </a>
-                            @endcan        
+                            @else
+                                {{$lead->client->name}}
+                            @endif
                         @endif
                     </div>
                 </div>
-                @if(!empty($lead->notes))
-                <div class="card-title col-xs-12 col-sm-1">
-                    <div class="d-flex align-items-center">
-                        <span data-filter-by="text" title="{{ $lead->notes }}" class="badge badge-secondary mr-2">
-                            <i class="material-icons">note</i>
-                        </span>
-                    </div>
-                </div>
-                @endif
                 <div class="card-meta col-1 float-right">
                     <div class="container row align-items-center">
                         <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">

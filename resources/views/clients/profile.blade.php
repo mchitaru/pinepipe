@@ -12,13 +12,13 @@
                 </div>
                 <div class="card-body pl-5">
                     <div class="card-title m-0 col-xs-12 col-sm-3">
-                        @can('edit client')
+                        @if(Gate::check('edit client'))
                         <a href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
-                        @endcan
                             <h4 data-filter-by="text">{{$client->name}}</h4>
-                        @can('edit client')
                         </a>
-                        @endcan
+                        @else
+                            <h4 data-filter-by="text">{{$client->name}}</h4>
+                        @endif
                     </div>
                     <div class="card-title m-0 col-xs-12 col-sm-5">
                         <div class="container row align-items-center">

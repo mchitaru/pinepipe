@@ -1,7 +1,8 @@
 @php clock()->startEvent('invoices.index', "Display invoices"); @endphp
 
 @php
-    use Carbon\Carbon;
+use Carbon\Carbon;
+$can_show_invoice = Gate::check('show invoice');
 @endphp
 
 @foreach ($invoices as $invoice)
@@ -11,11 +12,11 @@
         </div>
         <div class="card-body p-2">
             <div class="card-title col-sm-3">
-                @can('show invoice')
+                @if($can_show_invoice)
                 <a href="{{ route('invoices.show', $invoice->id) }}">
-                @endcan
+                @endif
                     <h6 data-filter-by="text">{{ Auth::user()->dateFormat($invoice->issue_date) }}
-                        @if($invoice->status == 0)
+                    @if($invoice->status == 0)
                         <span class="badge badge-info">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                     @elseif($invoice->status == 1)
                         <span class="badge badge-danger">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
@@ -27,9 +28,9 @@
                         <span class="badge badge-light">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
                     @endif
                     </h6>
-                @can('show invoice')
+                @if($can_show_invoice)
                 </a>
-                @endcan
+                @endif
                 <p>
                     <span class="text-small {{($invoice->due_date<now())?'text-danger':''}}">
                         {{__('Due')}} {{ Carbon::parse($invoice->due_date)->diffForHumans() }}
@@ -50,13 +51,13 @@
                 <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                     <i class="material-icons">apartment</i>
                     <span data-filter-by="text" class="text-small text-truncate ">
-                        @can('show client')
+                        @if(Gate::check('show client'))
                         <a href="{{ route('clients.show', $invoice->project->client->id) }}" data-filter-by="text">
-                        @endcan
                             {{$invoice->project->client->name}}
-                        @can('show client')
                         </a>
-                        @endcan
+                        @else
+                            {{$invoice->project->client->name}}
+                        @endif
                     </span>
                 </div>
             </div>

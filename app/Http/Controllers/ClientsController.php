@@ -30,14 +30,40 @@ class ClientsController extends Controller
         {
             clock()->startEvent('ClientsController', "Load clients");
 
-            $clients = Client::with(['contacts','projects', 'leads'])
-                        ->where('created_by','=',$user->creatorId())
-                        ->where(function ($query) use ($request) {
-                            $query->where('name','like','%'.$request['filter'].'%')
-                            ->orWhere('email','like','%'.$request['filter'].'%');
-                        })
-                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
-                        ->paginate(25, ['*'], 'client-page');
+            if($user->type == 'company')
+            {
+                $clients = Client::with(['contacts', 'projects', 'leads'])
+                            ->where('created_by','=',$user->creatorId())
+                            ->where(function ($query) use ($request) {
+                                $query->where('name','like','%'.$request['filter'].'%')
+                                ->orWhere('email','like','%'.$request['filter'].'%');
+                            })
+                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
+                            ->paginate(25, ['*'], 'client-page');
+            }else{
+
+                $clients = Client::with(['contacts' => function ($query) {
+                                $query->where('user_id', \Auth::user()->id);
+                            },
+                            'projects' => function ($query) {
+                                // only include tasks with projects where...
+                                $query->whereHas('users', function ($query) {
+
+                                    // ...the current user is assigned.
+                                    $query->where('users.id', \Auth::user()->id);
+                                });
+                            },
+                            'leads' => function ($query) {
+                                $query->where('user_id', \Auth::user()->id);
+                            }])
+                            ->where('created_by','=',$user->creatorId())
+                            ->where(function ($query) use ($request) {
+                                $query->where('name','like','%'.$request['filter'].'%')
+                                ->orWhere('email','like','%'.$request['filter'].'%');
+                            })
+                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
+                            ->paginate(25, ['*'], 'client-page');
+            }
 
             clock()->endEvent('ClientsController');
 
@@ -138,35 +164,44 @@ class ClientsController extends Controller
         {
             clock()->startEvent('ClientsController', "Load contacts, leads, projects");
 
-            $contacts = Contact::where('client_id', '=', $client->id)
-                        ->where('created_by','=',$user->creatorId())
-                        ->paginate(25, ['*'], 'contact-page');
-
-            $projects = Project::where('client_id', '=', $client->id)
-                        ->paginate(25, ['*'], 'project-page');
-
             if($user->type == 'company')
             {
+                $contacts = $client->contacts;
+                $projects = $client->projects;
+
                 $leads = Lead::with(['client', 'user', 'stage'])
                         ->where('client_id', '=', $client->id)
                         ->where('created_by', '=', $user->creatorId())
                         ->orderBy('order')
-                        ->paginate(25, ['*'], 'lead-page');
+                        ->get();
 
             }else
             {
+                $contacts = $user->contacts()
+                            ->with(['client', 'user'])
+                            ->where('client_id', '=', $client->id)
+                            ->where('created_by', '=', $user->creatorId())
+                            ->get();
+
+                $projects = $user->projects()
+                            ->with(['client', 'users'])
+                            ->where('client_id', '=', $client->id)
+                            ->where('created_by', '=', $user->creatorId())
+                            ->get();
+
                 $leads = $user->leads()
                             ->with(['client', 'user', 'stage'])
                             ->where('client_id', '=', $client->id)
                             ->where('created_by', '=', $user->creatorId())
                             ->orderBy('order')
-                            ->paginate(25, ['*'], 'lead-page');
+                            ->get();
             }        
 
             $activities = Activity::whereHas('project', function ($query) use ($client) {                
                 $query->where('client_id', $client->id);
             })
-            ->orderBy('id', 'desc')->get();
+            ->orderBy('id', 'desc')
+            ->get();
 
             clock()->endEvent('ClientsController');
 

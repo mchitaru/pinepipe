@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Iatstuti\Database\Support\NullableFields;
 
 class Lead extends Model
 {
+    use NullableFields;
+
     protected $fillable = [
         'name',
         'price',
@@ -18,6 +21,13 @@ class Lead extends Model
         'created_by',
         'notes'
     ];
+
+    protected $nullable = [
+        'client_id',
+        'contact_id',
+        'notes'
+	];
+
  
     public static $SEED = 20;
     

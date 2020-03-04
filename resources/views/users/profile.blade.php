@@ -107,9 +107,9 @@ use App\PaymentPlan;
                 <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.partials.company')</div>
                 @endcan
                 <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.partials.notifications')</div>
-                @if(Gate::check('manage plan'))
+                @can('manage plan')
                 <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.partials.subscription')</div>
-                @endif
+                @endcan
                 <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.partials.integrations')</div>
                 @can('manage company settings')
                 <div class="tab-pane fade show" role="tabpanel" id="system">@include('users.partials.system')</div>

@@ -7,13 +7,13 @@
         </div>
         <div class="card-body p-2">
             <div class="card-title col-xs-12 col-sm-3">
-                @can('edit contact')
+                @if(Gate::check('edit contact'))
                 <a href="{{ route('contacts.edit', $contact->id) }}" data-remote="true" data-type="text">
-                @endcan
                     <h6 data-filter-by="text">{{$contact->name}}</h6>
-                @can('edit contact')
                 </a>
-                @endcan
+                @else
+                    <h6 data-filter-by="text">{{$contact->name}}</h6>
+                @endif
             </div>
             <div class="card-title col-xs-12 col-sm-5">
                 <div class="container row align-items-center">
@@ -33,13 +33,13 @@
                 @if($contact->client)
                 <div class="d-flex align-items-center justify-content-end">
                     <i class="material-icons mr-1">apartment</i>
-                    @can('show client')
+                    @if(Gate::check('show client'))
                     <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $contact->client->enabled?route('clients.show',$contact->client->id):'#' }}">
-                    @endcan
                         {{$contact->client->name}}
-                    @can('show client')
                     </a>
-                    @endcan        
+                    @else
+                        {{$contact->client->name}}
+                    @endif
                 </div>
                 @endif
             </div>

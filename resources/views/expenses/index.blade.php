@@ -11,13 +11,13 @@ use Carbon\Carbon;
         </div>
         <div class="card-body p-2">
             <div class="card-title col-sm-3">
-                @can('edit expense')
+                @if(Gate::check('edit expense'))
                     <a href="{{ route('expenses.edit',$expense->id) }}" data-remote="true" data-type="text">
-                @endcan
                         <h6 data-filter-by="text">{{  (!empty($expense->category)?$expense->category->name:'---')}}</h6>
-                @can('edit expense')
                     </a>
-                @endcan
+                @else
+                    <h6 data-filter-by="text">{{  (!empty($expense->category)?$expense->category->name:'---')}}</h6>
+                @endif
                 <p>
                     <span class="text-small">
                         {{ Carbon::parse($expense->date)->diffForHumans() }}

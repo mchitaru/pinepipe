@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::open(array('url' => 'leads')) }}
+    {{ Form::open(array('url' => 'leads', 'method'=>'post', 'data-remote' => 'true')) }}
 @endsection
 
 @section('title')
@@ -13,11 +13,11 @@
     <h6>{{__('General Details')}}</h6>
     <div class="form-group row align-items-center required">
         {{ Form::label('name', __('Name'), array('class'=>'col-3')) }}
-        {{ Form::text('name', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Lead name')) }}
+        {{ Form::text('name', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'BaseCRM Lead')) }}
     </div>
     <div class="form-group row required">
         {{ Form::label('price', __('Value'), array('class'=>'col-3')) }}
-        {{ Form::number('price', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Lead Value')) }}
+        {{ Form::number('price', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'$10000')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
@@ -41,7 +41,7 @@
     <h6>{{__('Attach To')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Client')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

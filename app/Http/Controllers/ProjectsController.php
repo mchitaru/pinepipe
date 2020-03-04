@@ -76,13 +76,15 @@ class ProjectsController extends Controller
         }
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $client_id = $request['client_id'];
+
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-        return view('projects.create', compact('clients', 'users', 'leads'));
+        return view('projects.create', compact('clients', 'users', 'leads', 'client_id'));
     }
 
 

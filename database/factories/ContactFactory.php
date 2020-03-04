@@ -9,7 +9,8 @@ use Faker\Generator as Faker;
 $factory->define(Contact::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'client_id' => $faker->numberBetween(1, Client::$SEED),
+        'client_id' => $faker->numberBetween(User::$SEED_COMPANY_ID + 1, 
+                                            User::$SEED_COMPANY_ID + Client::$SEED),
         'email' => $faker->unique()->safeEmail,
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,

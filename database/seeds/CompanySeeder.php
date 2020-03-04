@@ -41,14 +41,15 @@ class CompanySeeder extends Seeder
             $role = Role::findByName('client');
             $user->type = 'client';
             $user->created_by = $company->id;
-            $user->client_id = $faker->numberBetween(1, Client::$SEED);
+            $user->client_id = $faker->numberBetween(User::$SEED_COMPANY_ID + 1, 
+                                                    User::$SEED_COMPANY_ID + Client::$SEED);
             $user->save();
             $user->assignRole($role);
         });
 
         factory(App\User::class, App\User::$SEED_STAFF_COUNT)->create()->each(function ($user) use($company) {
 
-            $role = Role::where('name', '=', 'employee')->where('created_by', '=', $user->creatorId())->first();
+            $role = Role::findByName('employee');
             $user->type = 'employee';
             $user->created_by = $company->id;
             $user->save();

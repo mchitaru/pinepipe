@@ -66,13 +66,13 @@ $last_stage = \Auth::user()->last_projectstage();
                         </div>
                 @endif
                 <div class="card-title d-flex justify-content-between align-items-center">
-                    @can('show project')
+                    @if(Gate::check('show project'))
                         <a href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
-                    @endcan
                             <h5 data-filter-by="text">{{ $project->name }}</h5>
-                    @can('show project')
                         </a>
-                    @endcan
+                    @else
+                        <h5 data-filter-by="text">{{ $project->name }}</h5>
+                    @endif
 
                     @if(!$project->archived)
                         <span class="badge badge-info">{{__('active')}}</span>
@@ -99,13 +99,13 @@ $last_stage = \Auth::user()->last_projectstage();
                     </div> --}}
                     <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                         <i class="material-icons mr-1">apartment</i>
-                        @can('show client')
+                        @if(Gate::check('show client'))
                             <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
-                        @endcan
                                 {{(!empty($project->client)?$project->client->name:'---')}}
-                        @can('show client')
                             </a>
-                        @endcan
+                        @else
+                            {{(!empty($project->client)?$project->client->name:'---')}}
+                        @endif
                     </div>
                     <span class="text-small {{(isset($project->due_date) && $project->due_date<now())?'text-danger':''}}" data-filter-by="text">{{__('Due ')}}
                         {{ isset($project->due_date) ? Carbon::parse($project->due_date)->diffForHumans() : '---' }}

@@ -52,10 +52,12 @@ class ContactsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if(\Auth::user()->can('create contact')) 
         {
+            $client_id = $request['client_id'];
+
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
                         ->get()
                         ->pluck('name', 'id');
@@ -66,7 +68,7 @@ class ContactsController extends Controller
                             ->prepend(\Auth::user()->name, \Auth::user()->id);
 
 
-            return view('contacts.create', compact('clients', 'owners'));
+            return view('contacts.create', compact('clients', 'owners', 'client_id'));
         }
         else
         {
@@ -88,7 +90,7 @@ class ContactsController extends Controller
 
         $request->session()->flash('success', __('Contact successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl();
+        $url = redirect()->back()->getTargetUrl().'/#contacts';
         return "<script>window.location='{$url}'</script>";
     }
 

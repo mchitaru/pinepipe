@@ -187,13 +187,14 @@ use Carbon\Carbon;
                             </div>
                             </div>
                             <div class="card-title">
-                                @can('edit lead')
+                                @if(Gate::check('edit lead'))
                                 <a href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
-                                @endcan
                                     <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
-                                @can('edit lead')
                                 </a>
-                                @endcan
+                                @else
+                                    <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
+                                @endif
+
                                 @if($lead->client)
                                 <p>
                                     <span class="text-small">{{ $lead->client->name }}</span>

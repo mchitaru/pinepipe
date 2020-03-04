@@ -41,7 +41,7 @@
     <h6>{{__('Attach To')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Client')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

@@ -41,6 +41,7 @@ class LeadsController extends Controller
         if(\Auth::user()->can('create lead'))
         {
             $stage_id = $request['stage_id'];
+            $client_id = $request['client_id'];
 
             $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             
@@ -53,7 +54,7 @@ class LeadsController extends Controller
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('leads.create', compact('stage_id', 'stages', 'owners', 'clients', 'sources'));
+            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'owners', 'clients', 'sources'));
         }
         else
         {
@@ -63,11 +64,14 @@ class LeadsController extends Controller
 
     public function store(LeadStoreRequest $request)
     {
-        $post = $request->validated();            
+        $post = $request->validated();     
 
         $lead = Lead::createLead($post);
 
-        return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully created.'));
+        $request->session()->flash('success', __('Leads successfully created.'));
+
+        $url = redirect()->back()->getTargetUrl().'/#leads';
+        return "<script>window.location='{$url}'</script>";
     }
 
     public function edit(Lead $lead)

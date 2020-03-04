@@ -10,13 +10,14 @@
         </div>
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-4">
-                @can('show client')
+                @if(Gate::check('show client'))
                 <a href="{{ route('clients.show',$client->id) }}">
-                @endcan
                     <h6 data-filter-by="text">{{$client->name}}</h6>
-                @can('show client')
                 </a>
-                @endcan
+                @else
+                    <h6 data-filter-by="text">{{$client->name}}</h6>
+                @endif
+    
                 @if(!$client->contacts->isEmpty())
                     <span class="text-small">{{$client->contacts->count()}} {{__('contact(s)')}}</span>
                 @endif

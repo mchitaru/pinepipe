@@ -103,9 +103,9 @@ $(document).ready(function() {
                         <div class="col-auto">
                             <h3>{{__('Contacts')}}</h3>
                             @can('create contact')
-                            <button class="btn btn-round" data-url="{{ route('contacts.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                            <a href="{{ route('contacts.create') }}" class="btn btn-round" data-params="client_id={{$client->id}}" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
-                            </button>
+                            </a>
                             @endcan
                         </div>
                         <form class="col-md-auto">
@@ -129,9 +129,9 @@ $(document).ready(function() {
                         <div class="col-auto">
                             <h3>{{__('Leads')}}</h3>
                             @can('create lead')
-                            <button class="btn btn-round" data-url="{{ route('leads.create') }}" data-ajax-popup="true" data-title="{{__('Create New Contact')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                            <a href="{{ route('leads.create') }}" class="btn btn-round" data-params="client_id={{$client->id}}" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
-                            </button>
+                            </a>
                             @endcan
                         </div>
                         <form class="col-md-auto">
@@ -156,9 +156,9 @@ $(document).ready(function() {
                             <div class="col-auto">
                             <h3>{{__('Projects')}}</h3>
                             @can('create project')
-                            <button class="btn btn-round" data-url="{{ route('projects.create') }}" data-ajax-popup="true" data-title="{{__('Create New Project')}}" class="btn btn-circle btn-outline btn-sm blue-madison">
+                            <a href="{{ route('projects.create') }}" class="btn btn-round" data-params="client_id={{$client->id}}" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
-                            </button>
+                            </a>
                             @endcan
                             </div>
                             <form class="col-md-auto">

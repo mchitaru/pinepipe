@@ -5,13 +5,13 @@
 <div class="card card-task mb-1">
     <div class="card-body p-2" style="min-height: 77px;">
     <div class="card-title col-xs-12 col-sm-3">
-        @can('edit timesheet')
+        @if(Gate::check('edit timesheet'))
         <a href="{{ route('timesheets.edit',$timesheet->id) }}" data-remote="true" data-type="text">
-        @endcan
             <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timesheet->date) }}</h6>
-        @can('edit timesheet')
         </a>
-        @endcan
+        @else
+            <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timesheet->date) }}</h6>
+        @endif
         <p>
             <span class="text-small text-truncate" data-filter-by="text">{{ !empty($timesheet->task)?$timesheet->task->title : '---'}}</span>
         </p>

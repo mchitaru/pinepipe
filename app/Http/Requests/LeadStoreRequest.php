@@ -28,8 +28,9 @@ class LeadStoreRequest extends FormRequest
             'price' => 'numeric|required',
             'stage_id' => 'integer|required',
             'source_id' => 'integer|required',
-            'client_id' => 'integer|required',
+            'client_id' => 'integer|nullable',
             'user_id' => 'integer|nullable',
+            'notes' => 'string|nullable'
         ];
     }
 
