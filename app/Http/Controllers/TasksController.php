@@ -22,7 +22,7 @@ class TasksController extends Controller
 {
     use TaskTraits;
 
-    public function board($project_id)
+    public function board($project_id = null)
     {
         if(\Auth::user()->can('manage task'))
         {
@@ -30,18 +30,20 @@ class TasksController extends Controller
 
             if($project_id)
             {
-                $project = Project::find($project_id)->first();
+                $project = Project::find($project_id);
                 $stages = $project->stages()->get();
+                $project_name = $project->name;
             }
             else
             {
                 $project = null;
+                $project_name = null;
                 $stages = ProjectStage::stagesByUserType()->get();
             }
 
             clock()->endEvent('TasksController');
 
-            return view('tasks.board', compact('stages', 'project'));
+            return view('tasks.board', compact('stages', 'project_id', 'project_name'));
         }
         else
         {
@@ -54,8 +56,10 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($project_id)
+    public function create(Request $request)
     {
+        $project_id = $request['project_id'];
+
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $priority   = Project::$priority;
 
@@ -82,7 +86,7 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskStoreRequest $request, $project_id)
+    public function store(TaskStoreRequest $request)
     {
         $post = $request->validated();
 

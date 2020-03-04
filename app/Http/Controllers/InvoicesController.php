@@ -88,11 +88,12 @@ class InvoicesController extends Controller
         }
     }
 
-    public function create($project_id)
+    public function create(Request $request)
     {
-
         if(\Auth::user()->can('create invoice'))
         {
+            $project_id = $request['project_id'];
+
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 

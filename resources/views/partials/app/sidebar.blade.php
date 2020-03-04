@@ -139,7 +139,7 @@ $languages=$user->languages();
 
                 @can('manage task')
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('projects.task.board', '0') }}">{{__('Tasks')}}</a>
+                    <a class="dropdown-item" href="{{ route('tasks.board') }}">{{__('Tasks')}}</a>
                 </li>
                 @endcan
 
@@ -220,7 +220,7 @@ $languages=$user->languages();
                 <a href="{{ route('projects.index') }}" class="nav-link">{{__('Projects')}}</a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('projects.task.board', '0') }}" class="nav-link">{{__('Tasks')}}</a>
+                <a href="{{ route('tasks.board') }}" class="nav-link">{{__('Tasks')}}</a>
             </li>
         @endcan
         </ul>
@@ -242,7 +242,7 @@ $languages=$user->languages();
                     <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
                 @endcan
                 @can('create task')
-                    <a class="dropdown-item" href="{{ route('projects.task.create', '0') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
+                    <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
                 @endcan
             </div>
         </div>

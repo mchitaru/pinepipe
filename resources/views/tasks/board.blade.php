@@ -72,8 +72,8 @@ use App\Project;
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
             </li>
-            @if($project)
-                <li class="breadcrumb-item" aria-current="page"><a href="{{ route('projects.show',$project->id) }}">{{$project->name}}</a>
+            @if($project_id)
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ route('projects.show',$project_id) }}">{{$project_name}}</a>
                 </li>
             @endif
             <li class="breadcrumb-item active" aria-current="page">{{__('Tasks')}}</li>
@@ -101,7 +101,7 @@ use App\Project;
                     <div class="col-auto">
                         <h3>{{__('Tasks')}}</h3>
 
-                        <a href="{{ route('projects.task.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
+                        <a href="{{ route('tasks.create') }}" class="btn btn-round" data-params="project_id={{$project_id}}" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
 

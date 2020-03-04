@@ -29,10 +29,12 @@ class TimesheetsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($project_id)
+    public function create(Request $request)
     {
         if(\Auth::user()->can('create timesheet'))
         {
+            $project_id = $request['project_id'];
+
             $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
 
@@ -50,7 +52,7 @@ class TimesheetsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TimesheetStoreRequest $request, $project_id)
+    public function store(TimesheetStoreRequest $request)
     {
         $post = $request->validated();
 

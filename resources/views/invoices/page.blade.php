@@ -40,7 +40,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="{{ route('projects.invoice.create', '0') }}" data-remote="true" data-type="text">{{__('New Invoice')}}</a>
+            <a class="dropdown-item" href="{{ route('invoices.create') }}" data-remote="true" data-type="text">{{__('New Invoice')}}</a>
 
             <div class="dropdown-divider"></div>
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
@@ -63,7 +63,7 @@
                     <div class="col-auto">
                         <h3>{{__('Invoices')}}</h3>
                         @can('create invoice')
-                        <a href="{{ route('projects.invoice.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
+                        <a href="{{ route('invoices.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
                         @endcan

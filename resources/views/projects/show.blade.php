@@ -157,7 +157,7 @@ $(function() {
 
             <div class="dropdown-divider"></div>
             @can('manage task')
-                <a class="dropdown-item" href="{{ route('projects.task.board',$project->id) }}" data-title="{{__('Task Board')}}">
+                <a class="dropdown-item" href="{{ route('tasks.board', $project->id) }}" data-title="{{__('Task Board')}}">
                     {{__('Task Board')}}
                 </a>
             @endcan
@@ -294,7 +294,7 @@ $(function() {
                     <h3>{{__('Tasks')}}</h3>
 
                     @can('create task')
-                        <a href="{{ route('projects.task.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <a href="{{ route('tasks.create')  }}" class="btn btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
                     @endcan
@@ -321,7 +321,7 @@ $(function() {
                     <h3>{{__('Timesheets')}}</h3>
 
                     @can('create timesheet')
-                        <a href="{{ route('projects.timesheet.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <a href="{{ route('timesheets.create') }}" class="btn btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
                     @endcan
@@ -348,7 +348,7 @@ $(function() {
                     <h3>{{__('Invoices')}}</h3>
 
                     @can('create invoice')
-                        <a href="{{ route('projects.invoice.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <a href="{{ route('invoices.create')  }}" class="btn btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
                     @endcan
@@ -374,7 +374,7 @@ $(function() {
                     <h3>{{__('Expenses')}}</h3>
 
                     @can('create expense')
-                        <a href="{{ route('projects.expense.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" >
+                        <a href="{{ route('expenses.create')  }}" class="btn btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
                     @endcan

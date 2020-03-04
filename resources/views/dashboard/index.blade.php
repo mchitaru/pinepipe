@@ -247,7 +247,7 @@ if($client_project_budget_due_per<=15){
                             <div class="card card-info">
                                 <div class="card-body">
                                     @if(Gate::check('manage task'))
-                                    <a href="{{ route('projects.task.board', '0') }}">
+                                    <a href="{{ route('tasks.board') }}">
                                         <h5 class="card-title">{{__('Tasks changes overview')}}</h5>
                                     </a>
                                     @else

@@ -40,7 +40,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
 
-            <a class="dropdown-item" href="{{ route('projects.expense.create', '0') }}" data-remote="true" data-type="text">{{__('New Expense')}}</a>
+            <a class="dropdown-item" href="{{ route('expenses.create') }}" data-remote="true" data-type="text">{{__('New Expense')}}</a>
 
             <div class="dropdown-divider"></div>
             <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
@@ -63,7 +63,7 @@
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>
                         @can('create expense')
-                        <a href="{{ route('projects.expense.create', '0') }}" class="btn btn-round" data-remote="true" data-type="text">
+                        <a href="{{ route('expenses.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
                         @endcan

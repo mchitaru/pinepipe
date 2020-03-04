@@ -115,24 +115,16 @@ Route::group(
         Route::get('projects/{project}/invite', 'ProjectInviteController@create')->name('projects.invite.create');
         Route::post('projects/{project}/invite', 'ProjectInviteController@store')->name('projects.invite.store');
 
-        Route::get('projects/{project}/timesheet', 'TimesheetsController@create')->name('projects.timesheet.create');
-        Route::post('projects/{project}/timesheet', 'TimesheetsController@store')->name('projects.timesheet.store');
-        Route::get('timesheets/{timesheet}/edit', 'TimesheetsController@edit')->name('timesheets.edit');
-        Route::put('timesheets/{timesheet}/update', 'TimesheetsController@update')->name('timesheets.update');
-        Route::delete('timesheets/{timesheet}/destroy', 'TimesheetsController@destroy')->name('timesheets.destroy');    
+        //Timesheets
         Route::post('timesheets/{timesheet}/refresh/', 'TimesheetsController@refresh')->name('timesheets.refresh');
+        Route::resource('timesheets', 'TimesheetsController');
 
-        //Tasks
-        Route::get('projects/{project}/board', 'TasksController@board')->name('projects.task.board');
-        Route::get('projects/{project}/task', 'TasksController@create')->name('projects.task.create');
-        Route::post('projects/{project}/task', 'TasksController@store')->name('projects.task.store');
-        Route::post('tasks/{task}/refresh/', 'TasksController@refresh')->name('tasks.refresh');
-        Route::get('tasks/{task}', 'TasksController@show')->name('tasks.show');
-        Route::get('tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
-        Route::put('tasks/{task}', 'TasksController@update')->name('tasks.update');
-        Route::patch('tasks/{task}', 'TasksController@update')->name('tasks.update');
-        Route::delete('tasks/{task}', 'TasksController@destroy')->name('tasks.destroy');
+        //Tasks        
+        Route::get('tasks/board/{project?}', 'TasksController@board')->name('tasks.board');
         Route::post('tasks/order', 'TasksController@order')->name('tasks.order');
+        Route::post('tasks/{task}/refresh/', 'TasksController@refresh')->name('tasks.refresh');
+
+        Route::resource('tasks', 'TasksController');
 
         Route::get('tasks/{task}/comment', 'TaskCommentsController@index')->name('tasks.comment.index');
         Route::post('tasks/{task}/comment', 'TaskCommentsController@store')->name('tasks.comment.store');
@@ -151,7 +143,6 @@ Route::group(
         Route::post('tasks/{task}/checklist/order', 'TaskChecklistController@order')->name('tasks.checklist.order');
 
         //Invoices
-        Route::get('projects/{project}/invoice', 'InvoicesController@create')->name('projects.invoice.create');
         Route::resource('invoices', 'InvoicesController');
 
         //Invoice products
@@ -174,7 +165,6 @@ Route::group(
         Route::resource('products', 'ProductsController');
 
         //Expenses
-        Route::get('projects/{project}/expense', 'ExpensesController@create')->name('projects.expense.create');
         Route::resource('expenses', 'ExpensesController');
 
         //Payments

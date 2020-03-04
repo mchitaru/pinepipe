@@ -41,7 +41,6 @@ class TimesheetStoreRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        $project_id = $this->route()->parameter('project');
-        return route('projects.timesheet.create', $project_id);
+        return route('timesheets.create');
     }
 }
