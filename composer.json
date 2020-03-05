@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "alexusmai/laravel-file-manager": "^2.4",
         "braintree/braintree_php": "^4.6",
         "cknow/laravel-money": "^3.8",
         "fideloper/proxy": "^4.0",
