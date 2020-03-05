@@ -6,7 +6,7 @@ require 'recipe/laravel.php';
 // Project name
 set('application', 'BaseCRM');
 set('writable_mode', 'chown');
-set('http_user', 'baseqigg');
+set('http_user', 'r76126base');
 set('keep_releases', '1');
 
 // Project repository
@@ -25,8 +25,8 @@ add('writable_dirs', []);
 
 // Hosts
 
-host('basecrm.io')
-    ->set('deploy_path', '/home/baseqigg/deployment');
+host('basecrm.ro')
+    ->set('deploy_path', '/home4/r76126base/deployment');
 
 // Tasks
 
