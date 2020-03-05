@@ -160,7 +160,13 @@ class ProjectsController extends Controller
                 $task_count += $stage->tasks->count();
             }
             
-            $project_files = $project->files;            
+            foreach($project->files as $file)
+            {
+                $file->size = filesize(storage_path('app/'.$file->file_path));
+                $file->download = route('projects.file.download',[$project->id,$file->id]);
+                $file->delete = route('projects.file.delete',[$project->id,$file->id]);
+            }
+            
             $invoices = $project->invoices;
             $activities = $project->activities;
 
@@ -179,7 +185,7 @@ class ProjectsController extends Controller
 
             clock()->endEvent('ProjectsController');
             
-            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'project_files', 'timesheets', 'invoices', 'expenses', 'activities'));
+            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'activities'));
         }
         else
         {

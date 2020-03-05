@@ -5,7 +5,7 @@ use Carbon\Carbon;
 use App\Project;
 
 $current_user=\Auth::user();
-$dz_id = 'project-files-dz';
+$dz_id = 'projectDz';
 
 if(Gate::check('manage task')){
     $default_tab = '#tasks';
@@ -35,88 +35,9 @@ $(function() {
 
     $('.nav-tabs a[href="' + hash + '"]').tab('show');
 
-    
-    dzProject = $('#{{$dz_id}}').dropzone({
-        previewTemplate: document.querySelector('.dz-template').innerHTML,
-        createImageThumbnails: false,
-        previewsContainer: "#{{$dz_id}}-previews",
-        maxFiles: 20,
-        maxFilesize: 2,
-        parallelUploads: 1,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar",
-        url: "{{route('projects.file.upload',[$project->id])}}",
 
-        success: function (file, response) {
-            if (response.is_success) {
-                toastrs('File uploaded', 'success');
-                dropzoneBtn(file, response);
-                LetterAvatar.transform();
-            } else {
-                this.removeFile(file);
-                toastrs(response.error, 'error');
-            }
-        },
-        error: function (file, response) {
-            this.removeFile(file);
-            if (response.error) {
-                toastrs(response.error, 'error');
-            } else {
-                toastrs(response.error, 'error');
-            }
-        },
-        sending: function(file, xhr, formData) {
-            formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
-            formData.append("project_id", {{$project->id}});
-        },
-    })[0];
 
-    @php
-        $files = $project->files;
-    @endphp
-
-    @foreach($files as $file)
-        var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
-        dzProject.dropzone.emit("addedfile", mockFile);
-        dzProject.dropzone.emit("processing", mockFile);
-        dzProject.dropzone.emit("complete", mockFile);
-
-        dropzoneBtn(mockFile, {download: "{{route('projects.file.download',[$project->id,$file->id])}}", delete: "{{route('projects.file.delete',[$project->id,$file->id])}}"});
-    @endforeach
-
-    function deleteDropzoneFile(btn) {
-
-        $.ajax({
-            url: btn.attr('href'),
-            data: {_token: $('meta[name="csrf-token"]').attr('content')},
-            type: 'DELETE',
-            success: function (response) {
-                if (response.is_success) {
-                    btn.closest('.list-group-item').remove();
-                } else {
-                    toastrs(response.error, 'error');
-                }
-            },
-            error: function (response) {
-                response = response.responseJSON;
-                if (response.is_success) {
-                    toastrs(response.error, 'error');
-                } else {
-                    toastrs(response.error, 'error');
-                }
-            }
-        });
-    }
-
-    function dropzoneBtn(file, response) {
-
-        $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
-            $(this).attr("href", response.download);
-        });
-
-        $( ".dropzone-delete", $(".dz-preview").last() ).each(function() {
-            $(this).attr("href", response.delete);
-        });
-    }
+    initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($project->files) !!});
 
 });
 

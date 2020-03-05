@@ -105,95 +105,10 @@ $dz_id = 'task-files-dz';
                     /* console.log('error'); */
                 }
             });
-        });    
-    });
-
-    $(function() {
-
-        dzTask = $('#{{$dz_id}}').dropzone({
-            previewTemplate: document.querySelector('.dz-template').innerHTML,
-            createImageThumbnails: false,
-            previewsContainer: "#{{$dz_id}}-previews",
-            maxFiles: 20,
-            maxFilesize: 2,
-            parallelUploads: 1,
-            acceptedFiles: ".jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar",
-            url: "{{route('tasks.file.upload',[$task->id])}}",
-
-            success: function (file, response) {
-                if (response.is_success) {
-                    toastrs('File uploaded', 'success');
-                    dropzoneBtn(file, response);
-                    LetterAvatar.transform();
-                } else {
-                    this.removeFile(file);
-                    toastrs(response.error, 'error');
-                }
-            },
-            error: function (file, response) {
-                this.removeFile(file);
-                if (response.error) {
-                    toastrs(response.error, 'error');
-                } else {
-                    toastrs(response.error, 'error');
-                }
-            },
-            sending: function(file, xhr, formData) {
-                formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
-                formData.append("task_id", {{$task->id}});
-            },
-        })[0];
+        });   
         
-        @php
-            $files = $task->files;
-        @endphp
-
-        @foreach($files as $file)
-            var mockFile = {name: "{{$file->file_name}}", size: {{filesize(storage_path('app/'.$file->file_path))}} };
-            dzTask.dropzone.emit("addedfile", mockFile);
-            dzTask.dropzone.emit("processing", mockFile);
-            dzTask.dropzone.emit("complete", mockFile);
-
-            dropzoneBtn(mockFile, {download: "{{route('tasks.file.download',[$task->id,$file->id])}}", delete: "{{route('tasks.file.delete',[$task->id,$file->id])}}"});
-        @endforeach
-
+        initDropzone('#{{$dz_id}}', '{{route('tasks.file.upload',[$task->id])}}', '{{$task->id}}', {!! json_encode($task->files) !!});
     });
-
-    function deleteDropzoneFile(btn) {
-
-        $.ajax({
-            url: btn.attr('href'),
-            data: {_token: $('meta[name="csrf-token"]').attr('content')},
-            type: 'DELETE',
-            success: function (response) {
-                if (response.is_success) {
-                    btn.closest('.list-group-item').remove();
-                } else {
-                    toastrs(response.error, 'error');
-                }
-            },
-            error: function (response) {
-                response = response.responseJSON;
-                if (response.is_success) {
-                    toastrs(response.error, 'error');
-                } else {
-                    toastrs(response.error, 'error');
-                }
-            }
-        });
-    }
-
-    function dropzoneBtn(file, response) {
-
-        $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
-            $(this).attr("href", response.download);
-        });
-
-        $( ".dropzone-delete", $(".dz-preview").last() ).each(function() {
-            $(this).attr("href", response.delete);
-        });
-    }
-
 </script>
 
 @endpush
@@ -291,7 +206,7 @@ $dz_id = 'task-files-dz';
                             <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$subtask->id}}" data-id="{{$task->id}}" {{($subtask->status==1)?'checked':''}} value="{{$subtask->id}}" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true">
                             <label class="custom-control-label" for="checklist-{{$subtask->id}}"></label>
                             <div class="col">
-                                <input autofocus class="col" type="text" name="name" id="name-{{$subtask->id}}" placeholder="{{__('Subtask item')}}" value="{{$subtask->name}}" data-filter-by="value" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
+                                <input class="col" type="text" name="name" id="name-{{$subtask->id}}" placeholder="{{__('Subtask item')}}" value="{{$subtask->name}}" data-filter-by="value" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
                                 <div class="checklist-strikethrough"></div>
                             </div>
                         </div>
