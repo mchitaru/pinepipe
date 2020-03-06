@@ -249,13 +249,12 @@ class Project extends Model
         $this->users()->sync($users);
 
         $this->milestones()->delete();
-        // Activity::where('project_id', $this->id)->delete();
 
         $dir = storage_path('app/'.\Auth::user()->creatorId());
 
         foreach($this->files as $file)
         {
-            File::delete($dir . $file->file);
+            \File::delete($dir . $file->file);
         }
 
         $this->files()->delete();

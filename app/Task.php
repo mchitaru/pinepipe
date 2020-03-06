@@ -169,7 +169,7 @@ class Task extends Model
 
         foreach($this->files as $file)
         {
-            File::delete($dir . $file->file);
+            \File::delete($dir . $file->file);
         }
 
         $this->files()->delete();
