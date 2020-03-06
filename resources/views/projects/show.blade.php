@@ -37,7 +37,7 @@ $(function() {
 
 
 
-    initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($project->files) !!});
+    initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});
 
 });
 
@@ -201,7 +201,7 @@ $(function() {
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#project-files" role="tab" aria-controls="project-files" aria-selected="false">Files
-                    <span class="badge badge-secondary">{{ $project->files->count() }}</span>
+                    <span class="badge badge-secondary">{{ count($files) }}</span>
                 </a>
             </li>
             <li class="nav-item">

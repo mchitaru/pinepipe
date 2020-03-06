@@ -15,13 +15,6 @@ class Helpers
         return $path;
     }
 
-    public static function storePrivateFile(UploadedFile $file)
-    {
-        $path = $file->store('users/'.\Auth::user()->creatorId(), 'local');
-
-        return $path;
-    }
-
     public static function buildAvatar($name, $avatar, $size = 36, $class = 'avatar')
     {
         return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$name."'".

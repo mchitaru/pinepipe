@@ -107,7 +107,7 @@ $dz_id = 'task-files-dz';
             });
         });   
         
-        initDropzone('#{{$dz_id}}', '{{route('tasks.file.upload',[$task->id])}}', '{{$task->id}}', {!! json_encode($task->files) !!});
+        initDropzone('#{{$dz_id}}', '{{route('tasks.file.upload',[$task->id])}}', '{{$task->id}}', {!! json_encode($files) !!});
     });
 </script>
 
@@ -159,13 +159,19 @@ $dz_id = 'task-files-dz';
 
         <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}</a>
+                <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}
+                    <span class="badge badge-secondary">{{ $subtasks->count() }}</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}</a>
+                <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}
+                    <span class="badge badge-secondary">{{ $task->comments->count() }}</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">{{__('Files')}}</a>
+                <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">{{__('Files')}}
+                    <span class="badge badge-secondary">{{ count($files) }}</span>
+                </a>
             </li>
         </ul>
 

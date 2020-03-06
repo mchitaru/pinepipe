@@ -5,9 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
-class Project extends Model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Project extends Model implements HasMedia
 {
     use NullableFields;
+    use HasMediaTrait;
 
     protected $fillable = [
         'name',
@@ -249,15 +253,6 @@ class Project extends Model
         $this->users()->sync($users);
 
         $this->milestones()->delete();
-
-        $dir = storage_path('app/'.\Auth::user()->creatorId());
-
-        foreach($this->files as $file)
-        {
-            \File::delete($dir . $file->file);
-        }
-
-        $this->files()->delete();
 
         Invoice::where('project_id', $this->id)->update(array('project_id' => 0));
 

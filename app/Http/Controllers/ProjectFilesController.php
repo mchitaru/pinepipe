@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use App\ProjectFile;
+use App\Media;
 use App\Activity;
 use Illuminate\Http\Request;
 
@@ -24,16 +24,7 @@ class ProjectFilesController extends Controller
 
         if($request->hasFile('file'))
         {
-            $path = \Helpers::storePrivateFile($request->file('file'));
-
-            $file                 = ProjectFile::create(
-                [
-                    'project_id' => $project->id,
-                    'file_name' => $request->file('file')->getClientOriginalName(),
-                    'file_path' => $path,
-                    'created_by'=> \Auth::user()->id
-                ]
-            );
+            $file = $project->addMedia($request->file('file'))->toMediaCollection('projects', 'local');
         }
 
         $return               = [];
@@ -51,7 +42,7 @@ class ProjectFilesController extends Controller
                                   ]
         );
 
-        Activity::createProjectFile($file);
+        Activity::createProjectFile($project, $file);
 
         return response()->json($return);
     }
@@ -59,14 +50,14 @@ class ProjectFilesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ProjectFile  $projectFile
+     * @param  \App\Media  $file
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project, ProjectFile $file)
+    public function show(Project $project, Media $file)
     {
-        $file_path = storage_path('app/' . $file->file_path);
+        $file_path = $file->getPath();
         $filename  = $file->file_name;
-
+        
         return \Response::download(
             $file_path, $filename, [
                             'Content-Length: ' . filesize($file_path),
@@ -77,17 +68,17 @@ class ProjectFilesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProjectFile  $projectFile
+     * @param  \App\Media  $file
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Project $project, ProjectFile $file)
+    public function destroy(Request $request, Project $project, Media $file)
     {
         if($request->ajax()){
             
             return view('helpers.destroy');
         }
 
-        $path = storage_path('app/' . $file->file_path);
+        $path = $file->getPath();
         if(file_exists($path))
         {
             \File::delete($path);

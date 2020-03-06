@@ -15,7 +15,6 @@ use App\ProjectFile;
 use App\ProjectStage;
 use App\SubTask;
 use App\Task;
-use App\TaskFile;
 use App\Timesheet;
 use App\Expense;
 use App\User;
@@ -160,11 +159,17 @@ class ProjectsController extends Controller
                 $task_count += $stage->tasks->count();
             }
             
-            foreach($project->files as $file)
+            $files = [];
+            foreach($project->getMedia('projects') as $media)
             {
-                $file->size = filesize(storage_path('app/'.$file->file_path));
-                $file->download = route('projects.file.download',[$project->id,$file->id]);
-                $file->delete = route('projects.file.delete',[$project->id,$file->id]);
+                $file = [];
+                
+                $file['file_name'] = $media->file_name;
+                $file['size'] = $media->size;
+                $file['download'] = route('projects.file.download',[$project->id, $media->id]);
+                $file['delete'] = route('projects.file.delete',[$project->id, $media->id]);
+
+                $files[] = $file;
             }
             
             $invoices = $project->invoices;
@@ -185,7 +190,7 @@ class ProjectsController extends Controller
 
             clock()->endEvent('ProjectsController');
             
-            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'activities'));
+            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'activities'));
         }
         else
         {

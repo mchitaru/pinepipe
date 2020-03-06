@@ -5,9 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
-class Task extends Model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Task extends Model implements HasMedia
 {
     use NullableFields;
+    use HasMediaTrait;
 
     protected $fillable = [
         'title',
@@ -50,11 +54,6 @@ class Task extends Model
     public function comments()
     {
         return $this->hasMany('App\TaskComment','task_id','id');
-    }
-
-    public function files()
-    {
-        return $this->hasMany('App\TaskFile','task_id','id');
     }
 
     public function subtasks()
@@ -164,15 +163,6 @@ class Task extends Model
 
         $this->comments()->delete();
         $this->subtasks()->delete();
-
-        $dir = storage_path('app/public/tasks/');
-
-        foreach($this->files as $file)
-        {
-            \File::delete($dir . $file->file);
-        }
-
-        $this->files()->delete();
 
         Activity::deleteTask($this);
     }

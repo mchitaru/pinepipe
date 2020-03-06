@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Task;
-use App\TaskFile;
+use App\Media;
 use Illuminate\Http\Request;
 
 use App\Activity;
@@ -29,18 +29,10 @@ class TaskFilesController extends Controller
     {
         $post = $request->validated();
 
+
         if($request->hasFile('file'))
         {
-            $path = \Helpers::storePrivateFile($request->file('file'));
-
-            $file                 = TaskFile::create(
-                [
-                    'task_id'   => $task->id,
-                    'file_name' => $request->file->getClientOriginalName(),
-                    'file_path' => $path,
-                    'created_by'=> \Auth::user()->id
-                ]
-            );
+            $file = $task->addMedia($request->file('file'))->toMediaCollection('tasks', 'local');
         }
 
         $return               = [];
@@ -58,7 +50,7 @@ class TaskFilesController extends Controller
                                   ]
         );
 
-        Activity::createTaskFile($file);
+        Activity::createTaskFile($task, $file);
 
         return response()->json($return);
     }
@@ -66,14 +58,14 @@ class TaskFilesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\TaskFile  $taskFile
+     * @param  \App\Media  $file
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task, TaskFile $file)
+    public function show(Task $task, Media $file)
     {
-        $file_path = storage_path('app/' . $file->file_path);
+        $file_path = $file->getPath();
         $filename  = $file->file_name;
-
+        
         return \Response::download(
             $file_path, $filename, [
                             'Content-Length: ' . filesize($file_path),
@@ -84,12 +76,12 @@ class TaskFilesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TaskFile  $taskFile
+     * @param  \App\Media  $file
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Task $task, TaskFile $file)
+    public function destroy(Request $request, Task $task, Media $file)
     {
-        $path = storage_path('app/' . $file->file_path);
+        $path = $file->getPath();
         if(file_exists($path))
         {
             \File::delete($path);

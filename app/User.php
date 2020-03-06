@@ -665,7 +665,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         TaskChecklist::where('created_by', '=', $user_id)->delete();
         TaskComment::where('created_by', '=', $user_id)->delete();
-        TaskFile::where('created_by', '=', $user_id)->delete();
     }
 
     public function total_company_user($company_id)

@@ -108,32 +108,32 @@ class Activity extends Model
         );
     }
 
-    public static function createProjectFile(ProjectFile $file)
+    public static function createProjectFile(Project $project, Media $file)
     {
         Activity::create(
             [
                 'user_id' => \Auth::user()->id,
                 'created_by' => \Auth::user()->creatorId(),
-                'project_id' => $file->project->id,
+                'project_id' => $project->id,
                 'log_type' => 'project',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                'remark' => '<b>'. $file->user->name . '</b> ' .
                             __('uploaded file') .
-                            ' <a href="' . route('projects.file.download', [$file->project->id, $file->id]) . '">'. $file->file_name.'</a>',
+                            ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file->file_name.'</a>',
             ]
         );
     }
 
-    public static function createTaskFile(TaskFile $file)
+    public static function createTaskFile(Task $task, Media $file)
     {
         Activity::create(
             [
                 'user_id' => \Auth::user()->id,
                 'created_by' => \Auth::user()->creatorId(),
-                'project_id' => $file->task->project_id,
+                'project_id' => $task->project_id,
                 'log_type' => 'task',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
+                'remark' => '<b>'. $file->user->name . '</b> ' .
                             __('uploaded file') .
-                            ' <a href="' . route('tasks.file.download', [$file->task->id, $file->id]) . '">'. $file->file_name.'</a>',
+                            ' <a href="' . route('tasks.file.download', [$task->id, $file->id]) . '">'. $file->file_name.'</a>',
             ]
         );
     }
