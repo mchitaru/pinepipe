@@ -6,6 +6,7 @@ function initDropzoneLinks(file, response)
 
     $( ".dropzone-delete", $(".dz-preview").last() ).each(function() {
         $(this).attr("href", response.delete);
+        $(this).removeClass("disabled");
     });
 }
 
