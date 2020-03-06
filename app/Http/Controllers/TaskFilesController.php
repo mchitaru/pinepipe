@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 use App\Activity;
 use App\Http\Requests\TaskFileRequest;
-use App\Http\Traits\TaskTraits;
+use App\Traits\Taskable;
 
 class TaskFilesController extends Controller
 {
-    use TaskTraits;
+    use Taskable;
 
     public function index(Task $task)
     {

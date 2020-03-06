@@ -13,6 +13,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Cashier\Billable;
 use App\Jobs\EmailVerificationJob;
+use App\Traits\Actionable;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -20,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
     use Billable;
+    use Actionable;
 
     public static $SEED_COMPANY_COUNT = 500;
     public static $SEED_STAFF_COUNT = 5;

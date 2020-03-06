@@ -8,10 +8,13 @@ use Iatstuti\Database\Support\NullableFields;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
+use App\Traits\Actionable;
+
 class Project extends Model implements HasMedia
 {
     use NullableFields;
     use HasMediaTrait;
+    use Actionable;
 
     protected $fillable = [
         'name',
@@ -59,11 +62,6 @@ class Project extends Model implements HasMedia
         return $this->hasMany('App\Timesheet', 'project_id', 'id');
     }
 
-    public function activities()
-    {
-        return $this->hasMany('App\Activity', 'project_id', 'id')->orderBy('id', 'desc');
-    }
-
     public function files()
     {
         return $this->hasMany('App\ProjectFile', 'project_id', 'id');
@@ -89,6 +87,11 @@ class Project extends Model implements HasMedia
         return $this->hasOne('App\ProjectClientPermissions', 'project_id', 'id');
     }
        
+    public function allActivities()
+    {
+        return $this->hasMany('App\Activity', 'project_id', 'id')->orderBy('id', 'desc');
+    }
+
     public function stages()
     {
         return ProjectStage::with(['tasks' => function ($query) 
@@ -263,7 +266,7 @@ class Project extends Model implements HasMedia
             $task->delete();
         }
 
-        Activity::deleteProject($this);
+        $this->activities()->delete();
     }
 
     static function humanFileSize($bytes, $decimals = 2) {

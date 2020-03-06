@@ -481,7 +481,8 @@ if($client_project_budget_due_per<=15){
                                             <div class="media align-items-center">
                                                 <div class="media-body">
                                                     <div>
-                                                        <span data-filter-by="text">{!! $activity->remark !!}</span>
+                                                        <span data-filter-by="text"> <strong>{{$activity->user->name}}</strong> {!! $activity->getAction() !!} </span>
+                                                        <a href="{!! $activity->url !!}" {!! $activity->isModal()?'data-remote="true" data-type="text"':''!!}>{{$activity->value}}</a>
                                                     </div>
                                                     <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
                                                 </div>

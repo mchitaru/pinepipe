@@ -8,10 +8,13 @@ use Iatstuti\Database\Support\NullableFields;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
+use App\Traits\Actionable;
+
 class Task extends Model implements HasMedia
 {
     use NullableFields;
     use HasMediaTrait;
+    use Actionable;
 
     protected $fillable = [
         'title',
@@ -164,7 +167,7 @@ class Task extends Model implements HasMedia
         $this->comments()->delete();
         $this->subtasks()->delete();
 
-        Activity::deleteTask($this);
+        $this->activities()->delete();
     }
 
 }

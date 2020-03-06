@@ -6,11 +6,11 @@ use App\Task;
 use App\TaskComment;
 use App\Http\Requests\TaskCommentRequest;
 use Illuminate\Http\Request;
-use App\Http\Traits\TaskTraits;
+use App\Traits\Taskable;
 
 class TaskCommentsController extends Controller
 {
-    use TaskTraits;
+    use Taskable;
     /**
      * Display a listing of the resource.
      *

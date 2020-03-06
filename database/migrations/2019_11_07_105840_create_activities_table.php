@@ -17,8 +17,11 @@ class CreateActivitiesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->default(0);
             $table->unsignedInteger('project_id')->nullable();
-            $table->string('log_type');
-            $table->text('remark')->nullable();
+            $table->morphs('actionable');
+            $table->string('action')->nullable();
+            $table->string('value', 100)->nullable();
+            $table->string('url')->nullable();
+            $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
         });
     }

@@ -7,11 +7,11 @@ use App\Task;
 use App\TaskChecklist;
 use App\Http\Requests\TaskChecklistRequest;
 use Illuminate\Http\Request;
-use App\Http\Traits\TaskTraits;
+use App\Traits\Taskable;
 
 class TaskChecklistController extends Controller
 {
-    use TaskTraits;
+    use Taskable;
 
     /**
      * Display a listing of the resource.

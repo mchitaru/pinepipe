@@ -5,137 +5,126 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
-    protected $fillable = [
-        'user_id', 
-        'project_id',
-        'log_type',
-        'remark',
-        'created_by'
-    ];
+    protected $guarded = [];
+
+    public function actionable()
+    {
+        return $this->morphTo();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function project()
     {
         return $this->belongsTo('App\Project');
     }    
 
+    public function getAction()
+    {
+        switch($this->action)
+        {
+            case 'activity_create_task': 
+                return __('created task');
+            case 'activity_update_task': 
+                return __('updated task');
+            case 'activity_create_project': 
+                return __('created project');
+            case 'activity_update_project': 
+                return __('updated project');
+            case 'activity_upload_file': 
+                return __('uploaded file');
+        }
+    }
+
+    public function isModal()
+    {
+        return $this->actionable_type == 'App\Task';
+    }
+
     public static function createTask(Task $task)
     {
-        Activity::create(
+        $task->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
-                'log_type' => 'task',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('created task') .
-                            ' <a href="' . route('tasks.show', $task->id) . '" data-remote="true" data-type="text">'. $task->title.'</a>',
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_create_task',
+                'value' => $task->title,
+                'url'    => route('tasks.show', $task->id),
             ]
         );
     }
 
     public static function updateTask(Task $task)
     {
-        Activity::create(
+        $task->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
-                'log_type' => 'task',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('updated task') .
-                            ' <a href="' . route('tasks.show', $task->id) . '" data-remote="true" data-type="text">'. $task->title.'</a>',
-            ]
-        );
-    }
-
-    public static function deleteTask(Task $task)
-    {
-        Activity::create(
-            [
-                'user_id' => \Auth::user()->id,
                 'created_by' => \Auth::user()->creatorId(),
-                'project_id' => $task->project_id,
-                'log_type' => 'task',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('deleted task') .
-                            ' <b>'. $task->title.'</b>',
+                'action' => 'activity_update_task',
+                'value' => $task->title,
+                'url'    => route('tasks.show', $task->id),
             ]
         );
     }
 
     public static function createProject(Project $project)
     {
-        Activity::create(
+        $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
+                'project_id' => $project->id,
                 'created_by' => \Auth::user()->creatorId(),
-                'project_id' => $project->project_id,
-                'log_type' => 'project',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('created project') .
-                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->name.'</a>',
+                'action' => 'activity_create_project',
+                'value' => $project->name,
+                'url'    => route('projects.show', $project->id),
             ]
         );
     }
 
     public static function updateProject(Project $project)
     {
-        Activity::create(
+        $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
+                'project_id' => $project->id,
                 'created_by' => \Auth::user()->creatorId(),
-                'project_id' => $project->project_id,
-                'log_type' => 'project',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('updated project') .
-                            ' <a href="' . route('projects.show', $project->id) . '">'. $project->name.'</a>',
-            ]
-        );
-    }
-
-    public static function deleteProject(Project $project)
-    {
-        Activity::create(
-            [
-                'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
-                'project_id' => $project->project_id,
-                'log_type' => 'project',
-                'remark' => '<b>'. \Auth::user()->name . '</b> ' .
-                            __('deleted project') .
-                            ' <b>'. $project->name.'</b>',
+                'action' => 'activity_updated_project',
+                'value' => $project->name,
+                'url'    => route('projects.show', $project->id),
             ]
         );
     }
 
     public static function createProjectFile(Project $project, Media $file)
     {
-        Activity::create(
+        $file->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $project->id,
-                'log_type' => 'project',
-                'remark' => '<b>'. $file->user->name . '</b> ' .
-                            __('uploaded file') .
-                            ' <a href="' . route('projects.file.download', [$project->id, $file->id]) . '">'. $file->file_name.'</a>',
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_upload_file',
+                'value' => $file->file_name,
+                'url'    => route('projects.file.download', [$project->id, $file->id]),
             ]
         );
     }
 
     public static function createTaskFile(Task $task, Media $file)
     {
-        Activity::create(
+        $file->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
                 'project_id' => $task->project_id,
-                'log_type' => 'task',
-                'remark' => '<b>'. $file->user->name . '</b> ' .
-                            __('uploaded file') .
-                            ' <a href="' . route('tasks.file.download', [$task->id, $file->id]) . '">'. $file->file_name.'</a>',
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_upload_file',
+                'value' => $file->file_name,
+                'url'    => route('tasks.file.download', [$task->id, $file->id]),
             ]
         );
-    }
-
+    }    
 }

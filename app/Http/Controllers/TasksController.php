@@ -12,7 +12,7 @@ use App\ProjectStage;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Requests\TaskDestroyRequest;
-use App\Http\Traits\TaskTraits;
+use App\Traits\Taskable;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\URL;
 
 class TasksController extends Controller
 {
-    use TaskTraits;
+    use Taskable;
 
     public function board($project_id = null)
     {

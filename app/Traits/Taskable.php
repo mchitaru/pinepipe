@@ -1,16 +1,16 @@
-<?php namespace App\Http\Traits;
+<?php namespace App\Traits;
 
 use App\Task;
 use App\Project;
 use App\TaskChecklist;
 
-trait TaskTraits
+trait Taskable
 {
     public function taskShow(Task $task)
     {
         if(\Auth::user()->can('show task'))
         {
-            clock()->startEvent('TaskTraits.show', "Load task");
+            clock()->startEvent('Taskable.show', "Load task");
 
             $project = Project::find($task->project_id);
 
@@ -29,7 +29,7 @@ trait TaskTraits
                 $files[] = $file;
             }
 
-            clock()->endEvent('TaskTraits.show');
+            clock()->endEvent('Taskable.show');
 
             return view('tasks.show', compact('task', 'subtasks', 'project', 'files'));
         }
