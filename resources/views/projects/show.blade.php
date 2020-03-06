@@ -5,7 +5,7 @@ use Carbon\Carbon;
 use App\Project;
 
 $current_user=\Auth::user();
-$dz_id = 'projectDz';
+$dz_id = 'project-files-dz';
 
 if(Gate::check('manage task')){
     $default_tab = '#tasks';
