@@ -30,11 +30,11 @@
     </div>
     <div class="form-group row">
         {{ Form::label('tax_id', __('Tax %'), array('class'=>'col-3')) }}
-        {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col')) }}
+        {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'placeholder'=>'No Tax')) }}
     </div>
     <div class="form-group row">
-        {{ Form::label('terms', __('Terms'), array('class'=>'col-3')) }}
-        {!! Form::textarea('terms', null, ['class'=>'form-control col','rows'=>'3']) !!}
+        {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
+        {!! Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'3']) !!}
     </div>
 </div>
 @include('partials.errors')

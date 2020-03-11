@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class InvoiceStoreRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return \Auth::user()->can('create invoice');
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'project_id' => 'required|integer',
+            'issue_date' => 'required|date',
+            'due_date' => 'required|date',
+            'notes' => 'nullable|string'
+        ];
+    }
+
+    protected function getRedirectUrl()
+    {
+        return route('invoices.create');
+    }
+}

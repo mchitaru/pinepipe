@@ -20,6 +20,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
+use App\Http\Requests\InvoiceStoreRequest;
+use App\Http\Requests\InvoiceUpdateRequest;
+use App\Http\Requests\InvoiceDestroyRequest;
+
 class InvoicesController extends Controller
 {
     public function index(Request $request)
@@ -105,55 +109,16 @@ class InvoicesController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(InvoiceStoreRequest $request)
     {
-        if(\Auth::user()->can('create invoice'))
-        {
+        $post = $request->validated();
 
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'project_id' => 'required',
-                                   'issue_date' => 'required',
-                                   'due_date' => 'required'
-                               ]
-            );
+        $invoice = Invoice::createInvoice($post);
 
-            if($validator->fails())
-            {
-                $messages = $validator->getMessageBag();
+        $request->session()->flash('success', __('Invoice successfully created.'));
 
-                return Redirect::to(URL::previous() . "#invoices")->with('error', $messages->first());
-            }
-
-            $last_invoice = Invoice::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
-
-            $invoice             = new Invoice();
-            $invoice->invoice_id = $last_invoice?($last_invoice->id + 1):1;
-            $invoice->project_id = $request->project_id;
-            $invoice->status     = 0;
-            $invoice->issue_date = $request->issue_date;
-            $invoice->due_date   = $request->due_date;
-            $invoice->discount   = 0;
-            $invoice->tax_id     = $request->tax_id;
-            $invoice->terms      = $request->terms;
-            $invoice->created_by = \Auth::user()->creatorId();
-            $invoice->save();
-
-            Activity::create(
-                [
-                    'user_id' => \Auth::user()->creatorId(),
-                    'project_id' => $request->project_id,
-                    'log_type' => 'Create Invoice',
-                    'remark' => sprintf(__('%s Create new invoice "%s"'), \Auth::user()->name, \Auth::user()->invoiceNumberFormat($invoice->invoice_id)),
-                ]
-            );
-
-            return redirect()->route('invoices.show', $invoice->id)->with('success', __('Invoice successfully created.'));
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
-        }
+        $url = redirect()->route('invoices.show', $invoice->id)->getTargetUrl().'/#invoices';
+        return "<script>window.location='{$url}'</script>";
     }
 
     public function show(Invoice $invoice)
@@ -201,77 +166,30 @@ class InvoicesController extends Controller
         }
     }
 
-    public function update(Request $request, Invoice $invoice)
+    public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
-        if(\Auth::user()->can('edit invoice'))
-        {
+        $post = $request->validated();
 
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
+        $invoice->updateInvoice($post);
 
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'project_id' => 'required',
-                                       'issue_date' => 'required',
-                                       'due_date' => 'required',
-                                       'discount' => 'required|min:0',
-                                   ]
-                );
+        $request->session()->flash('success', __('Invoice successfully updated.'));
 
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
-
-                    return Redirect::to(URL::previous() . "#invoices")->with('error', $messages->first());
-                }
-
-                $invoice->project_id = $request->project_id;
-                $invoice->issue_date = $request->issue_date;
-                $invoice->due_date   = $request->due_date;
-                $invoice->tax_id     = $request->tax_id;
-                $invoice->terms      = $request->terms;
-                $invoice->discount   = $request->discount;
-                $invoice->save();
-
-                return Redirect::to(URL::previous() . "#invoices")->with('success', __('Invoice successfully updated.'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
-        }
+        $url = redirect()->back()->getTargetUrl().'/#invoices';
+        return "<script>window.location='{$url}'</script>";
     }
 
-    public function destroy(Request $request, Invoice $invoice)
+    public function destroy(InvoiceDestroyRequest $request, Invoice $invoice)
     {
         if($request->ajax()){
             
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete invoice'))
-        {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $invoice->delete();
-                InvoicePayment::where('invoice_id', '=', $invoice->id)->delete();
-                InvoiceProduct::where('invoice_id', '=', $invoice->id)->delete();
+        $invoice->detachInvoice();
 
-                return Redirect::to(URL::previous() . "#invoices")->with('success', __('Invoice successfully deleted.'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
-        }
+        $invoice->delete();
+
+        return Redirect::to(URL::previous() . "#invoices")->with('success', __('Invoice successfully deleted.'));
     }
 
 

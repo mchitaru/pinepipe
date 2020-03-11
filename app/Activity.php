@@ -36,6 +36,10 @@ class Activity extends Model
                 return __('updated project');
             case 'activity_upload_file': 
                 return __('uploaded file');
+            case 'activity_create_invoice': 
+                return __('created invoice');
+            case 'activity_update_invoice': 
+                return __('updated invoice');
         }
     }
 
@@ -93,7 +97,7 @@ class Activity extends Model
                 'user_id' => \Auth::user()->id,
                 'project_id' => $project->id,
                 'created_by' => \Auth::user()->creatorId(),
-                'action' => 'activity_updated_project',
+                'action' => 'activity_update_project',
                 'value' => $project->name,
                 'url'    => route('projects.show', $project->id),
             ]
@@ -127,4 +131,33 @@ class Activity extends Model
             ]
         );
     }    
+
+    public static function createInvoice(Invoice $invoice)
+    {
+        $invoice->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'project_id' => $invoice->project_id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_create_invoice',
+                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                'url'    => route('invoices.show', $invoice->id),
+            ]
+        );
+    }
+
+    public static function updateInvoice(Invoice $invoice)
+    {
+        $invoice->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'project_id' => $invoice->project_id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_update_invoice',
+                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                'url'    => route('invoices.show', $invoice->id),
+            ]
+        );
+    }
+
 }

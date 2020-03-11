@@ -3,9 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Actionable;
+use Iatstuti\Database\Support\NullableFields;
 
 class Invoice extends Model
 {
+    use NullableFields;
+    use Actionable;
+
     protected $fillable = [
         'invoice_id',
         'project_id',
@@ -14,8 +19,13 @@ class Invoice extends Model
         'due_date',
         'discount',
         'tax_id',
-        'terms',
+        'notes',
         'created_by',
+    ];
+
+    protected $nullable = [
+        'tax_id',
+        'notes'
     ];
 
     public static $SEED = 50;
@@ -94,5 +104,38 @@ class Invoice extends Model
         $invoice->status = $status;
         $invoice->update();
     }
+
+    public static function createInvoice($post)
+    {
+        $last_invoice = Invoice::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
+
+        $invoice              = Invoice::make($post);
+        $invoice->user_id     = \Auth::user()->id;
+        $invoice->status      = 0;
+        $invoice->discount    = 0;
+        $invoice->invoice_id = $last_invoice?($last_invoice->id + 1):1;
+        $invoice->created_by  = \Auth::user()->creatorId();
+        $invoice->save();
+
+        Activity::createInvoice($invoice);
+
+        return $invoice;
+    }
+
+    public function updateInvoice($post)
+    {
+        $this->update($post);
+
+        Activity::updateInvoice($this);
+    }
+
+    public function detachInvoice()
+    {
+        InvoicePayment::where('invoice_id', '=', $this->id)->delete();
+        InvoiceProduct::where('invoice_id', '=', $this->id)->delete();
+
+        $this->activities()->delete();
+    }
+
 
 }

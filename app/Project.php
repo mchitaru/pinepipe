@@ -172,34 +172,6 @@ class Project extends Model implements HasMedia
         return $projectData;
     }
 
-    public function createTask($post)
-    {
-        $post['project_id'] = $this->id;
-        $post['stage_id']   = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first()->id;
-        $task               = Task::make($post);
-        $task->created_by   = \Auth::user()->creatorId();
-        $task->save();
-
-        if(isset($post['user_id']))
-        {
-            $users = $post['user_id'];
-        }else{
-
-            $users = collect();
-        }
-
-        if(\Auth::user()->type != 'company')
-        {        
-            $users->prepend(\Auth::user()->id);
-        }
-
-        $task->users()->sync($users);
-
-        Activity::createTask($task);
-
-        return $task;
-    }
-
     public static function createProject($post)
     {
         $project              = Project::make($post);
