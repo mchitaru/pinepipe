@@ -19,8 +19,11 @@ class CreateTimesheetsTable extends Migration
             $table->unsignedInteger('user_id')->default(0);
             $table->unsignedInteger('project_id')->nullable();
             $table->unsignedInteger('task_id')->nullable();
+            $table->timestamp('started_at')->nullable();
             $table->date('date');
-            $table->float('hours')->default(0.0);
+            $table->unsignedInteger('hours')->default(0);
+            $table->unsignedInteger('minutes')->default(0);
+            $table->unsignedInteger('seconds')->default(0);
             $table->float('rate')->default(0.0);
             $table->text('remark')->nullable();
             $table->unsignedInteger('created_by')->default(0);

@@ -10,9 +10,37 @@
 
 @section('content')
 <div class="tab-content">
-    <div class="form-group row required">
-        {{ Form::label('hours', __('Hours'), array('class'=>'col-3')) }}
-        {{ Form::number('hours', null, array('class' => 'form-control col', 'step'=>'any', 'required'=>'required', 'placeholder'=>'Logged time')) }}
+    <div class="form-group row">
+        <div class="form-group col required">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text form-control">
+                        {{__('HR')}}
+                    </span>
+                </div>
+                {{ Form::number('hours', null, array('class' => 'form-control col', 'required'=>'required','min'=>'0', 'placeholder'=>'00')) }}
+            </div>        
+        </div>
+        <div class="form-group col required">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text form-control">
+                        {{__('MIN')}}
+                    </span>
+                </div>
+                {{ Form::number('minutes', null, array('class' => 'form-control col', 'required'=>'required','min'=>'0', 'placeholder'=>'00')) }}
+            </div>
+        </div>
+        <div class="form-group col required">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text form-control">
+                        {{__('SEC')}}
+                    </span>
+                </div>
+                {{ Form::number('seconds', null, array('class' => 'form-control col', 'required'=>'required','min'=>'0', 'placeholder'=>'00')) }}
+            </div>
+        </div>
     </div>
     <div class="form-group row required">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}

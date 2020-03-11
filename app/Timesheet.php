@@ -15,6 +15,8 @@ class Timesheet extends Model
         'task_id',
         'date',
         'hours',
+        'minutes',
+        'seconds',
         'rate',
         'remark'
     ];
@@ -22,6 +24,7 @@ class Timesheet extends Model
     protected $nullable = [
         'project_id', 
         'task_id',
+        'started_at'
     ];
     
     public static $SEED = 20;

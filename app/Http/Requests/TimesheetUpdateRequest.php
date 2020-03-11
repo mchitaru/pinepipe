@@ -36,7 +36,9 @@ class TimesheetUpdateRequest extends FormRequest
             'project_id' => 'nullable|integer',
             'task_id'  => 'nullable|integer',
             'date'  => 'required|date',
-            'hours' => 'required|numeric',
+            'hours' => 'required|integer',
+            'minutes' => 'required|integer',
+            'seconds' => 'required|integer',
             'rate' => 'required|numeric',
             'remark' => 'nullable|string'    
         ];
