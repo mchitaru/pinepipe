@@ -156,6 +156,6 @@ class TimesheetsController extends Controller
             return $this->edit($timesheet);
         }
 
-        return $this->create($request['project_id']);
+        return $this->create($request);
     }
 }

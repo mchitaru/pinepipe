@@ -117,12 +117,16 @@ Route::group(
 
         //Timesheets
         Route::post('timesheets/{timesheet}/refresh/', 'TimesheetsController@refresh')->name('timesheets.refresh');
+        Route::patch('timesheets/{timesheet}/refresh/', 'TimesheetsController@refresh')->name('timesheets.refresh');
+        Route::put('timesheets/{timesheet}/refresh/', 'TimesheetsController@refresh')->name('timesheets.refresh');
         Route::resource('timesheets', 'TimesheetsController');
 
         //Tasks        
         Route::get('tasks/board/{project?}', 'TasksController@board')->name('tasks.board');
         Route::post('tasks/order', 'TasksController@order')->name('tasks.order');
         Route::post('tasks/{task}/refresh/', 'TasksController@refresh')->name('tasks.refresh');
+        Route::patch('tasks/{task}/refresh/', 'TasksController@refresh')->name('tasks.refresh');
+        Route::put('tasks/{task}/refresh/', 'TasksController@refresh')->name('tasks.refresh');
 
         Route::resource('tasks', 'TasksController');
 

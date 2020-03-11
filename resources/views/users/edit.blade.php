@@ -5,11 +5,17 @@
 @endsection
 
 @section('title')
-    {{__('Create User')}}
+    {{__('Edit User')}}
 @endsection
 
 @section('content')
 <div class="tab-content">
+    @if(\Auth::user()->type != 'super admin')
+        <div class="form-group row required">
+            {{ Form::label('role', __('User Role'), array('class'=>'col-3')) }}
+            {!! Form::select('role', $roles, null,array('class' => 'form-control col','required'=>'required', 'disabled')) !!}
+        </div>
+    @endif
     <div class="form-group row required">
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
         {{Form::text('name',null,array('class'=>'form-control col', 'placeholder'=>__('Enter User Name'),'required'=>'required'))}}
@@ -18,12 +24,6 @@
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
         {{Form::text('email',null,array('class'=>'form-control col', 'placeholder'=>__('Enter User Email'),'required'=>'required'))}}
     </div>
-    @if(\Auth::user()->type != 'super admin')
-        <div class="form-group row required">
-            {{ Form::label('role', __('User Role'), array('class'=>'col-3')) }}
-            {!! Form::select('role', $roles, null,array('class' => 'form-control col','required'=>'required')) !!}
-        </div>
-    @endif
 </div>
 @include('partials.errors')
 @endsection

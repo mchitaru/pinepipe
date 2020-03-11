@@ -209,6 +209,6 @@ class TasksController extends Controller
             return $this->edit($task);
         }
 
-        return $this->create($request['project_id']);
+        return $this->create($request);
     }
 }

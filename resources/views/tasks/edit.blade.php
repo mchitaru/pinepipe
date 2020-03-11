@@ -44,7 +44,7 @@
         <div class="form-group row align-items-center">
             {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
             {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...',
-                                        'data-url'=>route('tasks.refresh',$task->id), 'data-remote'=>'true', 'data-method'=>'post', 'data-type'=>'text')) !!}
+                                        'data-refresh'=>route('tasks.refresh', $task->id))) !!}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('user_id', __('Assigned To'), array('class'=>'col-3')) }}
