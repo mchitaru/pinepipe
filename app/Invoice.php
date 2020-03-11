@@ -110,7 +110,6 @@ class Invoice extends Model
         $last_invoice = Invoice::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
 
         $invoice              = Invoice::make($post);
-        $invoice->user_id     = \Auth::user()->id;
         $invoice->status      = 0;
         $invoice->discount    = 0;
         $invoice->invoice_id = $last_invoice?($last_invoice->id + 1):1;

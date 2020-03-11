@@ -17,7 +17,6 @@ class CreateInvoicesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('invoice_id');
             $table->unsignedInteger('project_id');
-            $table->unsignedInteger('user_id');
             $table->string('status');
             $table->date('issue_date');
             $table->date('due_date');

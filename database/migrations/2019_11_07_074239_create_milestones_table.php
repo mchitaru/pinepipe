@@ -20,6 +20,7 @@ class CreateMilestonesTable extends Migration
             $table->string('status');
             $table->double('cost', 8, 2)->default(0.00);
             $table->text('description')->nullable();
+            $table->unsignedInteger('created_by');
             $table->timestamps();
         });
     }
