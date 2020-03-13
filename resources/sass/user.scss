@@ -9,6 +9,29 @@
 //     -webkit-filter: blur(5px) grayscale(90%);
 // }
 
+@keyframes glowing {
+  0% { box-shadow: 0 0 -10px #c4a300; }
+  40% { box-shadow: 0 0 20px #c4a300; }
+  60% { box-shadow: 0 0 20px #c4a300; }
+  100% { box-shadow: 0 0 -10px #c4a300; }
+}
+
+.btn-glow {
+  animation: glowing 5000ms infinite;
+}
+
+@keyframes fading {
+  0% { opacity: 1 }
+  40% { opacity: 0.2 }
+  60% { opacity: 0.2 }
+  100% { opacity: 1 }
+}
+
+.btn-fade {
+  animation: fading 3000ms infinite;
+}
+
+
 .list-group-item + .list-group-item {
     border-top-width: 1px;
 }

@@ -18,7 +18,7 @@
                         {{__('HR')}}
                     </span>
                 </div>
-                {{ Form::number('hours', null, array('class' => 'form-control col', 'required'=>'required','min'=>'0', 'placeholder'=>'00')) }}
+                {{ Form::number('hours', '0', array('class' => 'form-control col', 'required'=>'required','min'=>'0')) }}
             </div>        
         </div>
         <div class="form-group col required">
@@ -28,7 +28,7 @@
                         {{__('MIN')}}
                     </span>
                 </div>
-                {{ Form::number('minutes', null, array('class' => 'form-control col', 'required'=>'required','min'=>'0', 'placeholder'=>'00')) }}
+                {{ Form::number('minutes', '0', array('class' => 'form-control col', 'required'=>'required','min'=>'0')) }}
             </div>
         </div>
         <div class="form-group col required">
@@ -38,7 +38,7 @@
                         {{__('SEC')}}
                     </span>
                 </div>
-                {{ Form::number('seconds', null, array('class' => 'form-control col', 'required'=>'required','min'=>'0', 'placeholder'=>'00')) }}
+                {{ Form::number('seconds', '0', array('class' => 'form-control col', 'required'=>'required','min'=>'0')) }}
             </div>
         </div>
     </div>

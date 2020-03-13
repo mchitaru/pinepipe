@@ -116,9 +116,10 @@ Route::group(
         Route::post('projects/{project}/invite', 'ProjectInviteController@store')->name('projects.invite.store');
 
         //Timesheets
-        Route::post('timesheets/{timesheet}/refresh/', 'TimesheetsController@refresh')->name('timesheets.refresh');
-        Route::patch('timesheets/{timesheet}/refresh/', 'TimesheetsController@refresh')->name('timesheets.refresh');
-        Route::put('timesheets/{timesheet}/refresh/', 'TimesheetsController@refresh')->name('timesheets.refresh');
+        Route::post('timesheets/{timesheet}/refresh', 'TimesheetsController@refresh')->name('timesheets.refresh');
+        Route::patch('timesheets/{timesheet}/refresh', 'TimesheetsController@refresh')->name('timesheets.refresh');
+        Route::put('timesheets/{timesheet}/refresh', 'TimesheetsController@refresh')->name('timesheets.refresh');
+        Route::post('timesheets/timer', 'TimesheetsController@timer')->name('timesheets.timer');
         Route::resource('timesheets', 'TimesheetsController');
 
         //Tasks        

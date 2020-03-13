@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Task;
 use App\Project;
 use App\Timesheet;
@@ -157,5 +158,55 @@ class TimesheetsController extends Controller
         }
 
         return $this->create($request);
+    }
+
+    public function timer(Request $request)
+    {
+        $start = false;
+        $offset = 0;
+        
+        $timesheet = Timesheet::find($request['timesheet_id']);
+
+        if(is_null($timesheet)) {
+
+            $timesheet = \Auth::user()->getActiveTimesheet();
+        }
+
+        if(is_null($timesheet)) {
+
+            $post['date'] = date('Y-m-d');
+            $post['hours'] = 0;
+            $post['minutes'] = 0;
+            $post['seconds'] = 0;
+            $post['rate'] = 0;
+
+            $timesheet = Timesheet::createTimesheet($post);
+        }
+        
+        if($timesheet->isStarted()){
+
+            $timesheet->stop();
+        }else{
+
+            foreach(\Auth::user()->timesheets as $timesheet)
+            {
+                //stop other active timesheet before we start another one
+                if($timesheet->isStarted()) {
+
+                    $timesheet->stop();
+                }
+            }
+
+            $timesheet->start();
+            $start = true;
+        }
+
+        $offset = $timesheet->computeTime();
+
+        $view = view('partials.app.timesheets', ['timesheet' => $timesheet])->render();  
+
+        return response()->json(['start' => $start,
+                                    'offset' => $offset,
+                                    'html' => $view]);
     }
 }

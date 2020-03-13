@@ -1,5 +1,6 @@
 @php
 $user=\Auth::user();
+$timesheet=$user->getActiveTimesheet();
 
 $currantLang = $user->currentLanguage();
 $languages=$user->languages();

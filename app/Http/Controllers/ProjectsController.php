@@ -182,8 +182,8 @@ class ProjectsController extends Controller
             }
             else
             {
-                $timesheets = $project->timesheets()->where('user_id', '=', \Auth::user()->id);
-                $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id);
+                $timesheets = $project->timesheets()->where('user_id', '=', \Auth::user()->id)->get();
+                $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id)->get();
             }
 
             $project->computeStatistics($user->last_projectstage()->id);

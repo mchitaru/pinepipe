@@ -10,12 +10,10 @@ use App\Client;
 
 $factory->define(Timesheet::class, function (Faker $faker) {
     return [
-        'project_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Project::$SEED + 1, 
-                        User::$SEED_COMPANY_IDX*Project::$SEED),
+        'project_id' => null,
         'user_id'=> $faker->numberBetween(User::$SEED_COMPANY_ID + Client::$SEED + 1, 
                                             User::$SEED_COMPANY_ID + Client::$SEED + User::$SEED_STAFF_COUNT),
-        'task_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Task::$SEED_PROJECT + 1, 
-                        User::$SEED_COMPANY_IDX*Task::$SEED_PROJECT),
+        'task_id' => null,
         'date' => $faker->date(),
         'hours' => $faker->randomNumber(2),
         'remark' => null,

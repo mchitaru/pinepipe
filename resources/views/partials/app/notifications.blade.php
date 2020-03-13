@@ -7,12 +7,11 @@
         @if(!$user->notifications->isEmpty())
 
             {{-- <li>
-                <a class="dropdown-item" href="{{route('tasks.board')}}">
+                <a class="dropdown-header" href="{{route('tasks.board')}}">
                     {!!__('See all tasks')!!}
                     <i class="material-icons text-small">arrow_forward</i>
                 </a>    
-            </li>
-            <div class="dropdown-divider"></div> --}}
+            </li> --}}
 
             @foreach ($user->notifications as $notification)
                 @if($notification->type == 'App\Notifications\TaskOverdueAlert')
@@ -33,7 +32,7 @@
                         </a>
                     </li>
                     @endforeach
-            @endif
+                @endif
             @endforeach                
         @else
             <li>{{__('No notifications.')}}</li>

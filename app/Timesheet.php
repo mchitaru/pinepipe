@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
@@ -27,7 +28,7 @@ class Timesheet extends Model
         'started_at'
     ];
     
-    public static $SEED = 20;
+    public static $SEED = 0;
 
     public function project()
     {
@@ -63,4 +64,44 @@ class Timesheet extends Model
     {
     }
 
+    public function computeTime()
+    {
+        return Carbon::now()->diffInSeconds($this->started_at) + $this->hours*3600 + $this->minutes*60 + $this->seconds;        
+    }
+
+    public function formatTime()
+    {
+        $seconds = $this->computeTime();
+
+        $hours = (int)floor($seconds / 3600); 
+        $minutes = (int)floor(($seconds % 3600) / 60);
+        $seconds = ($seconds % 3600) % 60;
+
+        return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+    }
+
+    public function isStarted()
+    {
+        return $this->started_at != null;
+    }
+
+    public function start()
+    {
+        $this->started_at = Carbon::now();
+        $this->save();
+    }
+
+    public function stop()
+    {
+        $stop = Carbon::now();
+
+        $seconds = $stop->diffInSeconds($this->started_at) + $this->hours*3600 + $this->minutes*60 + $this->seconds;
+
+        $this->hours = (int)floor($seconds / 3600); 
+        $this->minutes = (int)floor(($seconds % 3600) / 60);
+        $this->seconds = ($seconds % 3600) % 60;
+
+        $this->started_at = null;
+        $this->save();
+    }
 }

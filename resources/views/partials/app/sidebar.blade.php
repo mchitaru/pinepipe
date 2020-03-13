@@ -1,6 +1,8 @@
 @php
+use Carbon\Carbon;
 
 $user=\Auth::user();
+$timesheet=$user->getActiveTimesheet();
 $logo = asset(Storage::url('logo/'));
 
 $currantLang = $user->currentLanguage();
@@ -14,12 +16,14 @@ $languages=$user->languages();
             <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
         </a>
         @include('partials.app.notifications')
+        @include('partials.app.timesheets')
     </div>
     <div class="d-lg-none">
         <a class="navbar-brand float-left" href="{{ route('home') }}">
             <img alt="BaseCRM" width=30 src="{{ asset('assets/img/logo.svg') }}" />
         </a>
         @include('partials.app.notifications')
+        @include('partials.app.timesheets')
     </div>
     <div class="d-flex align-items-center">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">

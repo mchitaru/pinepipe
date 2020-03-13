@@ -266,6 +266,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return Client::where('created_by', '=', \Auth::user()->creatorId());
     }
 
+    public function getActiveTimesheet()
+    {
+        return $this->timesheets()->where('started_at','!=',null)->first();
+    }
+
+    public function getEmptyTimesheet()
+    {
+        return $this->timesheets()->where('date', date('Y-m-d'))
+                                    ->where('project_id', null)
+                                    ->first();
+    }
+
     public function user_projects_count()
     {
         return $this->projectsByUserType()->count();
