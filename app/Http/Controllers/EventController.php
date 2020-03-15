@@ -35,7 +35,11 @@ class EventController extends Controller
         $end = $request->end;
         
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
+        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                        ->where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id')
+                        ->prepend('(myself)', \Auth::user()->id);
 
         return view('events.create', compact('categories', 'owners', 'start', 'end'));
     }
@@ -78,7 +82,11 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
+        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                        ->where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id')
+                        ->prepend('(myself)', \Auth::user()->id);
 
         return view('events.edit', compact('event', 'categories', 'owners'));
     }

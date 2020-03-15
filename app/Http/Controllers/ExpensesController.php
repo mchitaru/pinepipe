@@ -64,7 +64,7 @@ class ExpensesController extends Controller
                             ->where('type', '!=', 'client')
                             ->get()
                             ->pluck('name', 'id')
-                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+                            ->prepend('(myself)', \Auth::user()->id);
 
             return view('expenses.create', compact('category', 'project_id', 'projects', 'owners'));
         }
@@ -149,7 +149,7 @@ class ExpensesController extends Controller
                                 ->where('type', '!=', 'client')
                                 ->get()
                                 ->pluck('name', 'id')
-                                ->prepend(\Auth::user()->name, \Auth::user()->id);
+                                ->prepend('(myself)', \Auth::user()->id);
 
                 return view('expenses.edit', compact('expense', 'category', 'projects', 'owners'));
             }

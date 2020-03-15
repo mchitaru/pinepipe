@@ -49,7 +49,7 @@ class LeadsController extends Controller
                             ->where('type', '!=', 'client')
                             ->get()
                             ->pluck('name', 'id')
-                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+                            ->prepend('(myself)', \Auth::user()->id);
             
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -83,7 +83,7 @@ class LeadsController extends Controller
                             ->where('type', '=', 'employee')
                             ->get()
                             ->pluck('name', 'id')
-                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+                            ->prepend('(myself)', \Auth::user()->id);
                             
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');

@@ -36,7 +36,7 @@ class TimesheetsController extends Controller
         {
             $project_id = $request['project_id'];
 
-            $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
             $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
 
             return view('timesheets.create', compact('projects', 'project_id', 'tasks'));
@@ -86,8 +86,8 @@ class TimesheetsController extends Controller
     {
         if(\Auth::user()->can('edit timesheet'))
         {
-            $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $timesheet->project_id)->first();
-            $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $project    = $timesheet->project;
+            $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
             if($project)
             {

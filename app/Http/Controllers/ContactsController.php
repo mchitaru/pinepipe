@@ -65,7 +65,7 @@ class ContactsController extends Controller
                             ->where('type', '!=', 'client')
                             ->get()
                             ->pluck('name', 'id')
-                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+                            ->prepend('(myself)', \Auth::user()->id);
 
 
             return view('contacts.create', compact('clients', 'owners', 'client_id'));
@@ -112,7 +112,7 @@ class ContactsController extends Controller
                             ->where('type', '!=', 'client')
                             ->get()
                             ->pluck('name', 'id')
-                            ->prepend(\Auth::user()->name, \Auth::user()->id);
+                            ->prepend('(myself)', \Auth::user()->id);
 
             return view('contacts.edit', compact('contact', 'clients', 'owners'));
 

@@ -72,7 +72,8 @@ class TasksController extends Controller
             $users   = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
-                        ->pluck('name', 'id');
+                        ->pluck('name', 'id')
+                        ->prepend('(myself)', \Auth::user()->id);
         }
 
         $milestones = null;
@@ -131,7 +132,8 @@ class TasksController extends Controller
             $users   = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
-                        ->pluck('name', 'id');
+                        ->pluck('name', 'id')
+                        ->prepend('(myself)', \Auth::user()->id);
         }
 
         $user_id = $task->users()->get()->pluck('id');
