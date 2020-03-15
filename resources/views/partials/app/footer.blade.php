@@ -105,7 +105,7 @@ $timesheet=$user?$user->getActiveTimesheet():null;
 
     $(function() {
 
-        var offset = {!! $timesheet ? $timesheet->computeTime() : 0 !!}
+        var offset = {!! $timesheet ? $timesheet->computeTime() : 0 !!};
 
         if(offset)
         {
