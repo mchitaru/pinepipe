@@ -48,7 +48,7 @@ $(function() {
 
                 }
                 
-                $('#timer-popup').replaceWith(data.html);
+                $('.timer-popup').replaceWith(data.html);
             },
             error: function (data) {
             }
