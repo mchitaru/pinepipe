@@ -1,7 +1,7 @@
 @php
 use Carbon\Carbon;
 $user=\Auth::user();
-$timesheet=$user->getActiveTimesheet();
+$timesheet=$user?$user->getActiveTimesheet():null;
 @endphp
 
 <!-- WARNING!! DO NOT LEAVE LINE COMMENTS IN SCRIPTS!! -->
@@ -38,10 +38,11 @@ $timesheet=$user->getActiveTimesheet();
 <!-- Required theme scripts (Do not remove) -->
 <script type="text/javascript" src="{{ asset('assets/js/theme.js') }}"></script> --}}
 {{-- <script type="text/javascript" src="{{ asset('assets/js/dropzone.min.js') }}"></script> --}}
-<script src="{{ asset('assets/js/easytimer.min.js') }}"></script>
+
+{{-- <script src="{{ asset('assets/js/easytimer.min.js') }}"></script>
 <script>
     var timerInstance = new easytimer.Timer();
-</script>
+</script> --}}
 
 <script>
     var options = {
@@ -101,38 +102,6 @@ $timesheet=$user->getActiveTimesheet();
         $(this).children('i').html('<i class="material-icons">notifications_none</i>');
     });
 
-    function timer(instance, offset)
-    {
-        instance.start({precision: 'seconds', startValues: {seconds: offset}});
-        instance.addEventListener('secondsUpdated', function (e) {
-            $('#active-timer').html(instance.getTimeValues().toString());
-        });
-    }
-
-    $(document).on("click", ".timer-entry", function (e) {    
-
-        e.preventDefault();
-
-        var timesheet_id = $(this).attr('data-id');
-        
-        $.ajax({
-            url: $(this).attr('href'),
-            type: 'POST',
-            data: {timesheet_id: timesheet_id, "_token": $('meta[name="csrf-token"]').attr('content')},
-            success: function (data) {
-
-                if(data.start){
-                    timer(timerInstance, data.offset);
-                }else{
-                    timerInstance.stop();
-                }
-                
-                $('#timer-popup').replaceWith(data.html);
-            },
-            error: function (data) {
-            }
-        });
-    });
 
     $(function() {
 
@@ -140,7 +109,7 @@ $timesheet=$user->getActiveTimesheet();
 
         if(offset)
         {
-            timer(timerInstance, offset);
+            timer(window.timerInstance, offset);
         }
     });
 

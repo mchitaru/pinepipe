@@ -1,7 +1,7 @@
 @php
 use Carbon\Carbon;
 $user=\Auth::user();
-$timesheet=$user->getActiveTimesheet();
+$timesheet=$user?$user->getActiveTimesheet():null;
 @endphp
 
 <div class="dropdown float-right" id="timer-popup">
@@ -9,7 +9,7 @@ $timesheet=$user->getActiveTimesheet();
         <i class="material-icons {{$timesheet?'btn-fade':''}}">{{$timesheet?'timer':'timer_off'}}</i>
     </a>
     
-    <div class="dropdown-menu pre-scrollable">
+    <div class="dropdown-menu pre-scrollable" id="timer-menu">
         <div class="dropdown-header d-flex justify-content-between">
             <h2 id="active-timer">{{$timesheet?$timesheet->formatTime():'00:00:00'}}</h2>
             @if($timesheet)
@@ -23,9 +23,9 @@ $timesheet=$user->getActiveTimesheet();
             @endif
         </div>
 
-        @foreach ($user->timesheets as $timesheet)
-        <a class="dropdown-item timer-entry {{$timesheet->isStarted()?'active':''}}" href="{{route('timesheets.timer')}}" id="entry-{{$timesheet->id}}" data-id="{{$timesheet->id}}">
-            {!!'<u>'.Auth::user()->dateFormat($timesheet->date).'</u> - '.($timesheet->project?$timesheet->project->name:'---')!!}
+        @foreach ($user->timesheets()->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc')->get() as $timesheet)
+        <a class="dropdown-item timer-entry {{$timesheet->isStarted()?'active':''}}" href="{{route('timesheets.timer')}}" data-id="{{$timesheet->id}}" data-toggle="tooltip" title="{{__('Continue this timesheet.')}}">
+            {!!'<u>'.Auth::user()->dateFormat($timesheet->date).'</u> - '.($timesheet->project?$timesheet->project->name:'---'.'('.$timesheet->formatTime().')')!!}
         </a>
         @endforeach                
 

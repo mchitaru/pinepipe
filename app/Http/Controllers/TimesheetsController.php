@@ -96,7 +96,7 @@ class TimesheetsController extends Controller
             }else
             {
                 $project_id = null;
-                $tasks   = null;
+                $tasks   = [];
             }            
 
             return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id'));
@@ -188,12 +188,12 @@ class TimesheetsController extends Controller
             $timesheet->stop();
         }else{
 
-            foreach(\Auth::user()->timesheets as $timesheet)
+            foreach(\Auth::user()->timesheets as $active)
             {
                 //stop other active timesheet before we start another one
-                if($timesheet->isStarted()) {
+                if($active->isStarted()) {
 
-                    $timesheet->stop();
+                    $active->stop();
                 }
             }
 
@@ -203,9 +203,10 @@ class TimesheetsController extends Controller
 
         $offset = $timesheet->computeTime();
 
-        $view = view('partials.app.timesheets', ['timesheet' => $timesheet])->render();  
+        $view = view('partials.app.timesheets')->render();  
 
         return response()->json(['start' => $start,
+                                    'url' => route('timesheets.edit', $timesheet->id),
                                     'offset' => $offset,
                                     'html' => $view]);
     }
