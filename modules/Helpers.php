@@ -6,7 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class Helpers 
+class Helpers
 {
     public static function storePublicFile(UploadedFile $file)
     {
@@ -17,8 +17,8 @@ class Helpers
 
     public static function buildAvatar($name, $avatar, $size = 36, $class = 'avatar')
     {
-        return "<img data-filter-by='alt' width=".$size." height=".$size." alt='".$name."'".
-                    (empty($avatar) ? (" class='".$class."' avatar='".$name."'") : 
+        return "<img data-filter-by='alt' width=".$size." height=".$size.
+                    (empty($avatar) ? (" class='".$class."' avatar='".$name."'") :
                                             (" class='".$class."' src='".Storage::url($avatar)."'"))."/>";
     }
 
@@ -60,12 +60,12 @@ class Helpers
             $color='bg-primary';
         } else {
             $color='bg-success';
-        }    
+        }
 
         return $color;
     }
 
-    static function fragment($route, $fragment) 
+    static function fragment($route, $fragment)
     {
         return route($route) . "/#{$fragment}";
     }

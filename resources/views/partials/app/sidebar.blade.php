@@ -63,7 +63,7 @@ $languages=$user->languages();
     <ul class="navbar-nav d-lg-block">
 
         <li class="nav-item active">
-            <a class="nav-link" href="{{ route('home') }}">{{__('Dashboard')}}</a>
+            <a class="nav-link" href="{{ route('home') }}">{{__('Home')}}</a>
         </li>
 
         @if(\Auth::user()->type!='super admin')
@@ -89,24 +89,24 @@ $languages=$user->languages();
             @endcan
         @endif
 
-        @can('manage contact')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
-        </li>
-        @endif
-
-        @can('manage lead')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
-        </li>
-        @endif
-
         @can('manage client')
             <li class="nav-item">
 
             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2">{{__('Clients')}}</a>
             <div id="submenu-2" class="collapse">
                 <ul class="nav nav-small flex-column">
+
+                @can('manage contact')
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
+                </li>
+                @endif
+
+                @can('manage lead')
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
+                </li>
+                @endif
 
                 <li class="nav-item ">
                     <a class="dropdown-item" href="{{ route('clients.index') }}">{{__('Clients')}}</a>

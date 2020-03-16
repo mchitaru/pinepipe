@@ -1,5 +1,5 @@
-// 
-// 
+//
+//
 // breadcrumb.scss
 //
 //
@@ -30,15 +30,9 @@
   align-items: center;
   justify-content: space-between;
   &.navbar{
-    padding: $spacer/2 $spacer;
+    padding: $spacer/4 $spacer;
   }
   &.sticky-top{
     z-index: 1019;
-  }
-}
-
-@include media-breakpoint-up(lg) {
-  .breadcrumb-bar{
-    min-height: 3.5625rem;
   }
 }

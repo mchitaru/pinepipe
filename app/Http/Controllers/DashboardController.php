@@ -119,7 +119,7 @@ class DashboardController extends Controller
             $users['staff']  = User::where('created_by', '=', \Auth::user()->creatorId())->count();
             $users['user']   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->count();
             $users['client'] = Client::where('created_by', '=', \Auth::user()->creatorId())->count();
-            
+
             $projectData     = \App\Project::getProjectStatus();
             $taskData        = \App\ProjectStage::getChartData();
 

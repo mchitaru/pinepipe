@@ -7,7 +7,7 @@
     <div class="layout layout-nav-side">
 
     {{-- <div class="layout layout-nav-top"> --}}
-    
+
         @include('partials.app.sidebar')
         {{-- @include('partials.app.header') --}}
 
