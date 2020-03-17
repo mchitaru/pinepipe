@@ -115,7 +115,7 @@ return [
             'http_user' => 'baseqigg',
             'keep_releases' => '1'
         ],
-        '93.115.53.246' => [
+        'basecrm.ro' => [
             'deploy_path' => '/var/www/crm.basecrm.ro',
             'user' => 'basecrm',
             'http_user' => 'basecrm',
