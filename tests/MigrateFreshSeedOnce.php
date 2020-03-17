@@ -1,6 +1,8 @@
 <?php
+
 namespace Tests;
 use Illuminate\Support\Facades\Artisan;
+
 trait MigrateFreshSeedOnce
 {
     /**
