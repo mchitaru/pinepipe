@@ -5,7 +5,7 @@ $timesheet=$user?$user->getActiveTimesheet():null;
 @endphp
 
 <div class="dropdown float-right timer-popup">
-    <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$timesheet?__('Started...'):__('Stopped')}}">
+    <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$timesheet?__('Timer Started...'):__('Timer Stopped')}}">
         <i class="material-icons {{$timesheet?'btn-fade':''}}">{{$timesheet?'timer':'timer_off'}}</i>
     </a>
     

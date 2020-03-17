@@ -114,6 +114,9 @@
                                         <span>{{__('Edit')}}</span>
                                     </a>
                                     @endcan
+                                    <a class="dropdown-item disabled" href="#">
+                                        <span>{{__('Save As Template')}}</span>
+                                    </a>
                                     <div class="dropdown-divider"></div>
                                     @can('delete invoice')
                                         <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">

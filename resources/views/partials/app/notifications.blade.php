@@ -1,5 +1,5 @@
 <div class="dropdown float-right">
-    <a href="{{route('users.notifications')}}" id="notification-bell" name="notification-bell" role="button" data-method="post" data-remote="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+    <a href="{{route('users.notifications')}}" id="notification-bell" name="notification-bell" role="button" data-method="post" data-remote="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$user->unreadNotifications->count().' '.__('notifications')}}">
         <i class="material-icons">{{$user->unreadNotifications->count()?'notifications':'notifications_none'}}</i>
     </a>
     
