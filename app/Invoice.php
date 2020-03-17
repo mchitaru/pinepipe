@@ -28,7 +28,7 @@ class Invoice extends Model
         'notes'
     ];
 
-    public static $SEED = 50;
+    public static $SEED = 10;
 
     public static $status = [
         'pending',

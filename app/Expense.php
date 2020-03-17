@@ -26,7 +26,7 @@ class Expense extends Model
         'user_id'
     ];
     
-    public static $SEED = 50;
+    public static $SEED = 10;
 
     public function category()
     {

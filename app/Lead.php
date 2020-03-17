@@ -29,7 +29,7 @@ class Lead extends Model
 	];
 
  
-    public static $SEED = 20;
+    public static $SEED = 10;
     
     public function user()
     {
