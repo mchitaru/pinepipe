@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Actionable;
 
     public static $SEED_COMPANY_COUNT = 1;
-    public static $SEED_STAFF_COUNT = 5;
+    public static $SEED_STAFF_COUNT = 2;
     
     public static $SEED_COMPANY_IDX = 0;
     public static $SEED_COMPANY_ID = 0;

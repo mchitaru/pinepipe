@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\User;
 
 class ExampleTest extends TestCase
 {
-    // use WithoutMiddleware;
-
     /**
      * A basic test example.
      *
@@ -17,7 +14,11 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $response = $this->get('/');
+        $user = User::find(1); // find specific user
+        assert($user);
+
+        $response = $this->actingAs($user)
+                            ->get('/');
 
         $response->assertStatus(200);
     }
