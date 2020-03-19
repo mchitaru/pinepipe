@@ -14,7 +14,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $user = User::find(1); // find specific user
+        $user = User::find(2); // find specific user
         assert($user);
 
         $response = $this->actingAs($user)
