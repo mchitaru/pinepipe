@@ -16,7 +16,7 @@ class CreatePaymentPlansTable extends Migration
         Schema::create('payment_plans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 100)->unique();
-            $table->string('braintree_id', 100)->unique();
+            $table->string('paddle_id', 100)->unique();
             $table->float('price')->default(0);
             $table->unsignedInteger('duration')->nullable();
             $table->unsignedInteger('max_clients')->nullable();

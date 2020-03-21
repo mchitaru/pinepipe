@@ -21,19 +21,9 @@ class UserProfileController extends Controller
         if(!$user->subscribed()){
             $user_plan = PaymentPlan::first();
         }else{
-            $user_plan = PaymentPlan::where('braintree_id', $user->subscription()->braintree_plan)->first();
+            $user_plan = PaymentPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
         }
 
-        $arrPlans = ['Free'];
-        // $braintree_plans = BraintreePlan::all();
-
-        // foreach ($braintree_plans as $plan)
-        // {
-        //     $arrPlans[] = $plan->id;
-        // }
-
-        //only select plans with a corresponding Braintree plan
-        // $plans = PaymentPlan::whereIn('braintree_id', $arrPlans)->get();
         $plans = PaymentPlan::get();
 
         $settings = \Auth::user()->settings();

@@ -33,10 +33,6 @@ class CreateUsersTable extends Migration
             $table->boolean('notify_major_updates')->default(true);
             $table->boolean('notify_minor_updates')->default(false);
             $table->boolean('enabled')->default(true);
-            $table->string('braintree_id')->nullable();
-            $table->string('paypal_email')->nullable();
-            $table->string('card_brand')->nullable();
-            $table->string('card_last_four')->nullable();
             $table->timestamp('trial_ends_at')->nullable();            
             $table->rememberToken();
             $table->timestamps();

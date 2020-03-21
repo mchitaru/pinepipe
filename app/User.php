@@ -11,18 +11,22 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Cashier\Billable;
 use App\Jobs\EmailVerificationJob;
 use App\Traits\Actionable;
+use App\Traits\Billable;
 
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
+use Money\Formatter\IntlMoneyFormatter;
+use Money\Money;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasRoles;
     use Notifiable;
     use SoftDeletes;
-    use Billable;
     use Actionable;
+    use Billable;
 
     public static $SEED_COMPANY_COUNT = 1;
     public static $SEED_STAFF_COUNT = 2;
@@ -298,7 +302,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $settings = $this->settings();
 
-        return money($price*100, $settings['site_currency'])->format();
+        $money = new Money($price*100, new Currency($settings['site_currency']));
+        $currencies = new ISOCurrencies();
+        
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
+        
+        return $moneyFormatter->format($money);
 
     }
 

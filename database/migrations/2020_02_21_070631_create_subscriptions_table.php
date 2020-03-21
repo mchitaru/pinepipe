@@ -16,12 +16,14 @@ class CreateSubscriptionsTable extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->string('name');
-            $table->string('braintree_id');
-            $table->string('braintree_plan');
-            $table->integer('quantity');
+            $table->string('paddle_subscription');
+            $table->string('paddle_plan');
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('ends_at')->nullable();
+            $table->unsignedInteger('max_clients')->nullable();
+            $table->unsignedInteger('max_projects')->nullable();
+            $table->unsignedInteger('max_users')->nullable();
+            $table->unsignedInteger('max_space')->nullable();
             $table->timestamps();
         });
     }

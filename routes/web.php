@@ -86,7 +86,10 @@ Route::group(
         //PaymentPlans
         Route::post('plans/upgrade', 'PaymentPlansController@upgrade')->name('plans.upgrade');
         Route::resource('plans', 'PaymentPlansController');
-        Route::resource('subscriptions', 'SubscriptionsController');
+
+        Route::get('plans/{plan}/subscription', 'SubscriptionsController@create')->name('subscriptions.create');
+        Route::delete('subscriptions/{subscription}', 'SubscriptionsController@destroy')->name('subscriptions.destroy');
+        // Route::resource('subscriptions', 'SubscriptionsController');
 
         //Projects
         Route::resource('projectstages', 'ProjectStagesController');

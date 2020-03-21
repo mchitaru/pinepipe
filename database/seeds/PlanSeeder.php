@@ -15,7 +15,7 @@ class PlanSeeder extends Seeder
         PaymentPlan::create(
             [
                 'name' => 'Free',
-                'braintree_id' => 'free',
+                'paddle_id' => 'free',
                 'price' => 0,
                 'duration' => null,
                 'max_users' => 0,
@@ -27,7 +27,7 @@ class PlanSeeder extends Seeder
         PaymentPlan::create(
             [
                 'name' => 'Freelancer',
-                'braintree_id' => 'freelancer',
+                'paddle_id' => '587387',
                 'price' => 9,
                 'duration' => 1,
                 'max_users' => 0,
@@ -39,7 +39,7 @@ class PlanSeeder extends Seeder
         PaymentPlan::create(
             [
                 'name' => 'Startup',
-                'braintree_id' => 'startup',
+                'paddle_id' => '587388',
                 'price' => 19,
                 'duration' => 1,
                 'max_users' => 5,
@@ -51,7 +51,7 @@ class PlanSeeder extends Seeder
         PaymentPlan::create(
             [
                 'name' => 'Enterprise',
-                'braintree_id' => 'enterprise',
+                'paddle_id' => '587389',
                 'price' => 49,
                 'duration' => 1,
                 'max_users' => 30,
