@@ -8,7 +8,7 @@ use App\PaymentPlan;
 use App\Project;
 use App\User;
 use App\Client;
-
+use App\Subscription;
 class DashboardController extends Controller
 {
     /**
