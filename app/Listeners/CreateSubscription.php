@@ -29,8 +29,6 @@ class CreateSubscription
      */
     public function handle(SubscriptionCreated $event)
     {
-        // dump($event);
-        
         $plan_id = $event->passthrough['plan_id'];
         $plan = PaymentPlan::find($plan_id);
 

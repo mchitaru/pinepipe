@@ -27,8 +27,6 @@ class UpdateSubscription
      */
     public function handle(SubscriptionUpdated $event)
     {
-        // dump($event);
-
         // $subscription = Subscription::where('paddle_subscription', $event->subscription_id)
         //                                 ->orderBy('created_at', 'desc')
         //                                 ->first();

@@ -28,8 +28,6 @@ class CancelSubscription
      */
     public function handle(SubscriptionCancelled $event)
     {
-        // dump($event);
-
         $subscription = Subscription::where('paddle_subscription', $event->subscription_id)
                                         ->orderBy('created_at', 'desc')
                                         ->first();

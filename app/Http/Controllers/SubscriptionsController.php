@@ -41,8 +41,6 @@ class SubscriptionsController extends Controller
                                     'plan_id' => $plan->id],
             ];
 
-            dump(json_encode($payload));
-
             $paddleResponse = Paddle::product()
                 ->generatePayLink($payload)
                 ->send();
