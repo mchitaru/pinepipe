@@ -43,7 +43,7 @@
     </div>
     <div class="form-group row align-items-center required">
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
-        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Pinepipe'),'required'=>'required'))}}
+        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('pinepipe'),'required'=>'required'))}}
     </div>
     <div class="form-group row required">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}

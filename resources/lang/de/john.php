@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'smith@Pinepipe' =>
+  'smith@pinepipe' =>
   array (
     'io' => '',
   ),
