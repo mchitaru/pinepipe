@@ -92,7 +92,7 @@ return [
     */
 
     'options' => [
-        'application' => env('APP_NAME', 'BaseCRM'),
+        'application' => env('APP_NAME', 'Pinepipe'),
         'repository' => 'git@github.com:mchitaru/basecrm.git',
         'writable_mode' => 'chown'
     ],
@@ -109,18 +109,12 @@ return [
     */
 
     'hosts' => [
-        'basecrm.io' => [
-            'deploy_path' => '/home/baseqigg/deployment',
-            'user' => 'baseqigg',
-            'http_user' => 'baseqigg',
+        '178.128.203.158' => [
+            'deploy_path' => '/var/www/crm.pinepipe.com',
+            'user' => 'pinepipe',
+            'http_user' => 'pinepipe',
             'keep_releases' => '1'
         ],
-        'basecrm.ro' => [
-            'deploy_path' => '/var/www/crm.basecrm.ro',
-            'user' => 'basecrm',
-            'http_user' => 'basecrm',
-            'keep_releases' => '1'
-        ]
     ],
 
     /*

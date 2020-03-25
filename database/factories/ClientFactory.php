@@ -12,7 +12,7 @@ $factory->define(Client::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,
-        'website' => 'https:\\www.basecrm.io',
+        'website' => 'https:\\www.pinepipe.com',
         'created_by' => User::$SEED_COMPANY_ID
     ];
 });

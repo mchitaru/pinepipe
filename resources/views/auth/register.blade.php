@@ -29,7 +29,7 @@
             <div class="form-group mb-0 text-center">
                 {{Form::submit(__('Sign Up'),array('class'=>'btn btn-primary btn-block','id'=>'saveBtn'))}}
             </div>
-            <small>{{ __('By clicking \'Create Account\' you agree to our ') }}<a href="https://www.basecrm.io/privacy.html">{{__('Terms of Use')}}</a>
+            <small>{{ __('By clicking \'Create Account\' you agree to our ') }}<a href="https://www.pinepipe.com/privacy.html">{{__('Terms of Use')}}</a>
             </small>
             {{Form::close()}}
             <small>{{ __('Already Have Account?') }}<a href="{{ route('login') }}">{{ __('Log In') }}</a>

@@ -16,7 +16,7 @@ $factory->define(Contact::class, function (Faker $faker) {
         'address' => $faker->address,
         'company' => null,
         'job' => $faker->jobTitle,
-        'website' => 'https:\\www.basecrm.io',
+        'website' => 'https:\\www.pinepipe.com',
         'birthday' => $faker->date,
         'notes' => $faker->text,
         'created_by' => User::$SEED_COMPANY_ID

@@ -109,12 +109,18 @@ return [
     */
 
     'hosts' => [
-        '93.115.53.246' => [
+        'pinepipe.com' => [
+            'deploy_path' => '/home/baseqigg/deployment',
+            'user' => 'baseqigg',
+            'http_user' => 'baseqigg',
+            'keep_releases' => '1'
+        ],
+        'basecrm.ro' => [
             'deploy_path' => '/var/www/crm.basecrm.ro',
             'user' => 'basecrm',
             'http_user' => 'basecrm',
             'keep_releases' => '1'
-        ],
+        ]
     ],
 
     /*

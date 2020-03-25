@@ -17,7 +17,7 @@
     </div>
     <div class="form-group row">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
-        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('john.smith@basecrm.io')))}}
+        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('john.smith@pinepipe.com')))}}
     </div>
     <div class="form-group row">
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}

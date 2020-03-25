@@ -43,11 +43,11 @@
     </div>
     <div class="form-group row align-items-center required">
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
-        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('BaseCRM'),'required'=>'required'))}}
+        {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Pinepipe'),'required'=>'required'))}}
     </div>
     <div class="form-group row required">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
-        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('team@basecrm.io'),'required'=>'required'))}}
+        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('team@pinepipe.com'),'required'=>'required'))}}
     </div>
     <div class="form-group row">
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}
@@ -59,7 +59,7 @@
     </div>
     <div class="form-group row">
         {{Form::label('website',__('Website'), array('class'=>'col-3'))}}
-        {{Form::text('website',null,array('class'=>'form-control col','placeholder'=>__('https://basecrm.io/')))}}
+        {{Form::text('website',null,array('class'=>'form-control col','placeholder'=>__('https://pinepipe.com/')))}}
     </div>
 </div>
 @include('partials.errors')
