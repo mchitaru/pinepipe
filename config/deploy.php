@@ -93,7 +93,7 @@ return [
 
     'options' => [
         'application' => env('APP_NAME', 'pinepipe'),
-        'repository' => 'git@github.com:mchitaru/basecrm.git',
+        'repository' => 'git@github.com:mchitaru/pinepipe.git',
         'writable_mode' => 'chown'
     ],
 
