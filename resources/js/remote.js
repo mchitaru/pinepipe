@@ -13,8 +13,9 @@ function attachPlugins() {
 
             $.ajax({
                 url: url,
-                type: 'POST',
+                type: 'GET',
                 dataType: 'text',
+                method: 'GET',
                 data: $("form").serialize(),
                     success: function(data, status, xhr) {
                         $(document).trigger('ajax:success', [data, status, xhr]);
