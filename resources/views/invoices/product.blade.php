@@ -19,8 +19,14 @@
     <div class="form-group row">
         <div class="col">
             <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="customRadio4" name="type" value="timesheet" disabled onclick="hide_show(this)">
+                <label class="custom-control-label disabled" for="customRadio4">{{__('Timesheet')}}</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-control custom-radio">
                 <input type="radio" class="custom-control-input" id="customRadio5" name="type" value="milestone" checked="checked" onclick="hide_show(this)">
-                <label class="custom-control-label" for="customRadio5">{{__('Milestone & Task')}}</label>
+                <label class="custom-control-label" for="customRadio5">{{__('Task')}}</label>
             </div>
         </div>
         <div class="col">
@@ -32,7 +38,7 @@
     </div>
 
     <div id="milestone">
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label class="col-3" for="milestone_id">{{__('Milestone')}}</label>
             <select class="form-control col custom-select" onchange="getTask(this,{{$invoice->project_id}})" id="milestone_id" name="milestone_id">
                 <option value="" selected="selected">{{__('Select Milestone')}}</option>
