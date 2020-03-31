@@ -29,7 +29,7 @@
 @endsection
 
 @section('footer')
-    {{Form::submit(__('Invite'), array('class'=>'btn btn-primary disabled', 'data-disable' => 'true'))}}
+    {{Form::submit(__('Invite'), array('class'=>'btn btn-primary disabled', 'disabled', 'data-disable' => 'true'))}}
 @endsection
 
 @section('form-end')

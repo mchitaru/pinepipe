@@ -16,10 +16,9 @@ $timesheet=$user?$user->getActiveTimesheet():null;
 <!-- Required vendor scripts (Do not remove) -->
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
-<script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
-{{-- <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script> --}}
+{{-- <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script> --}}
+<script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
 
 <!-- Autosize - resizes textarea inputs as user types -->
 {{-- <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>
@@ -73,28 +72,13 @@ $timesheet=$user?$user->getActiveTimesheet():null;
 
     $.fn.select2.defaults.set( "theme", "bootstrap" ); 
 
-    /* $.notify("Hello World"); */
-
-    toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": true,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": false,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    };
-
     function toastrs(message, status) {
-        toastr[status](message)
+        /*toastr[status](message)*/
+        $.notify({
+                    message: message
+                },{
+                    type: status
+                })
     };
 
     $("#notification-bell").click(function()
@@ -120,7 +104,7 @@ $timesheet=$user?$user->getActiveTimesheet():null;
 @endif
 
 @if ($message = Session::get('error'))
-    <script>toastrs('{!! $message !!}', 'error')</script>
+    <script>toastrs('{!! $message !!}', 'danger')</script>
 @endif
 
 @if ($message = Session::get('info'))

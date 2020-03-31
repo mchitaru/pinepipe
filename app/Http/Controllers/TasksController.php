@@ -67,6 +67,11 @@ class TasksController extends Controller
         {
             $project = Project::find($project_id);
             $users   = $project->users()->get()->pluck('name', 'id');
+            
+            if(isSet($users[\Auth::user()->id])) {
+                $users[\Auth::user()->id] = __('(myself)');
+            }
+
         }else
         {
             $users   = User::where('created_by', '=', \Auth::user()->creatorId())
@@ -126,6 +131,11 @@ class TasksController extends Controller
         {
             $project_id = $project->id;
             $users   = $project->users()->get()->pluck('name', 'id');
+
+            if(isSet($users[\Auth::user()->id])) {
+                $users[\Auth::user()->id] = __('(myself)');
+            }
+                        
         }else
         {
             $project_id = null;
