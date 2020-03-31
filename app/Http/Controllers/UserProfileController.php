@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserProfileRequest;
 use Illuminate\Support\Facades\Hash;
-use Braintree\Plan as BraintreePlan;
+
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
 
 class UserProfileController extends Controller
 {
@@ -28,7 +30,14 @@ class UserProfileController extends Controller
 
         $settings = \Auth::user()->settings();
 
-        return view('users.profile', compact('user', 'user_plan', 'plans', 'settings'));
+        $currencies = [];
+        $isoCurrencies = new ISOCurrencies();
+
+        foreach ($isoCurrencies as $currency) {
+            $currencies[$currency->getCode()] = $currency->getCode();
+        }
+
+        return view('users.profile', compact('user', 'user_plan', 'plans', 'settings', 'currencies'));
     }
 
     public function update(UserProfileRequest $request, $tab)

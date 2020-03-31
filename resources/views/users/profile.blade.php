@@ -35,6 +35,7 @@ use App\PaymentPlan;
     
         $('.nav-tabs a[href="' + hash + '"]').tab('show');
 
+        $('select').select2();
     });
 
     $(".custom-file-input").on("change", function() {

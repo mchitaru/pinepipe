@@ -3,7 +3,7 @@
     <div class="row">
         <div class="form-group col-md-6">
             {{Form::label('site_currency',__('Currency')) }}
-            {{Form::text('site_currency',null,array('class'=>'form-control font-style'))}}
+            {!! Form::select('site_currency', $currencies, $settings['site_currency'],array('class' => 'form-control col')) !!}            
             @error('site_currency')
             <span class="invalid-site_currency" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
