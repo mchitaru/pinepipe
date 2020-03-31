@@ -22,6 +22,7 @@
         "moneyphp/money": "^3.3",
         "protonemedia/laravel-paddle": "^1.1",
         "renatomarinho/laravel-page-speed": "^1.8",
+        "spatie/laravel-cookie-consent": "^2.12",
         "spatie/laravel-medialibrary": "^7.19",
         "spatie/laravel-permission": "^3.4"
     },

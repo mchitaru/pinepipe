@@ -9,7 +9,7 @@ $languages=$user->languages();
 
 @endphp
 
-<div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible">
+<div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible;">
     <div class="w-100 d-none d-lg-block">
         <a class="navbar-brand float-left" href="{{ route('home') }}">
             <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
@@ -262,7 +262,7 @@ $languages=$user->languages();
 
     </div>
     </div>
-    <div class="d-none d-lg-block">
+    <div class="d-none d-lg-block {{! Cookie::get('laravel_cookie_consent')?'pb-5':''}}">
     <div class="dropup">
         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
