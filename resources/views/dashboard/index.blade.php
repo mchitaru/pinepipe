@@ -16,6 +16,11 @@ use Carbon\Carbon;
     <script src="{{asset('assets/module/chartjs/Chart.min.js')}}"></script>
     <script src="{{asset('assets/module/chartjs/Chart.bundle.min.js')}}"></script>
 
+    <!-- Event snippet for Website traffic conversion page -->
+    <script>
+    gtag('event', 'conversion', {'send_to': 'AW-983938734/lxxrCJrK0ssBEK7tltUD'});
+    </script>
+
 <script>
     var ctx1 = document.getElementById('task-area-chart').getContext('2d');
     var myChart1 = new Chart(ctx1, {
