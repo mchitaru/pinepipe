@@ -92,7 +92,7 @@ $languages=$user->languages();
         @can('manage client')
             <li class="nav-item">
 
-            <a class="nav-link {{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?'true':'false'}}" data-target="#submenu-2" aria-controls="submenu-2">{{__('Clients')}}</a>
+            <a class="nav-link {{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?'true':'false'}}" data-target="#submenu-2" aria-controls="submenu-2">{{__('Sales')}}</a>
             <div id="submenu-2" class="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
@@ -130,7 +130,7 @@ $languages=$user->languages();
         @if(Gate::check('manage project') || Gate::check('manage task'))
             <li class="nav-item">
 
-            <a class="nav-link {{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'true':'false'}}" data-target="#submenu-3" aria-controls="submenu-3">{{__('Projects')}}</a>
+            <a class="nav-link {{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'true':'false'}}" data-target="#submenu-3" aria-controls="submenu-3">{{__('Workspace')}}</a>
             <div id="submenu-3" class="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
