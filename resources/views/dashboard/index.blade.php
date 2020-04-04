@@ -171,11 +171,11 @@ if($client_project_budget_due_per<=15){
                             </a>
                         </div>
                         <div class="col">
-                            <div class="card card-info">
+                            <a class="card card-info" href="{{ route('projects.index') }}">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$project_percentage}}%;"></div>
                                 </div>
-                                <a class="card-body" href="{{ route('projects.index') }}">
+                                <div class="card-body">
                                     <div class="number">
 
                                         <h3 class="card-title">{{$project['total_project']}}</h3>
@@ -184,16 +184,16 @@ if($client_project_budget_due_per<=15){
                                     <div class="icon">
                                         <i class="material-icons">folder</i>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                         @if(Auth::user()->type =='company' || Auth::user()->type =='client')
                         <div class="col">
-                            <div class="card card-info">
+                            <a class="card card-info" href="{{ route('invoices.index') }}">
                                 <div class="progress">
                                     <div class="progress-bar bg-success" style="width:{{$invoice_percentage}}%;"></div>
                                 </div>
-                                <a class="card-body" href="{{ route('invoices.index') }}">
+                                <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title row">{{$invoice['total_invoice']}}</h3>
                                         <small class="card-text">{{__('INVOICES')}}</small>
@@ -201,16 +201,16 @@ if($client_project_budget_due_per<=15){
                                     <div class="icon">
                                         <i class="material-icons">description</i>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                         @endif
                         @if(Auth::user()->type =='company')
                         <div class="col">
-                            <div class="card card-info">
+                            <a class="card card-info" href="{{ route('clients.index') }}">
                                 <div class="progress">
                                 </div>
-                                <a class="card-body" href="{{ route('clients.index') }}">
+                                <div class="card-body">
                                     <div class="number">
                                         <h3 class="card-title row">{{$users['client']}}</h3>
                                         <small class="card-text">{{__('CLIENTS')}}</small>
@@ -218,8 +218,8 @@ if($client_project_budget_due_per<=15){
                                     <div class="icon">
                                         <i class="material-icons">apartment</i>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                         @endif
                         @if(Auth::user()->type =='client')
