@@ -39,7 +39,7 @@ use Carbon\Carbon;
                         @if($lead->client)
                             <i class="material-icons mr-1">apartment</i>
                             @if(Gate::check('show client'))
-                            <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $lead->client->enabled?route('clients.show',$lead->client->id):'#' }}">
+                            <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                                 {{$lead->client->name}}
                             </a>
                             @else

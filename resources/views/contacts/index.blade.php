@@ -34,7 +34,7 @@
                 <div class="d-flex align-items-center justify-content-end">
                     <i class="material-icons mr-1">apartment</i>
                     @if(Gate::check('show client'))
-                    <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ $contact->client->enabled?route('clients.show',$contact->client->id):'#' }}">
+                    <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$contact->client->id) }}">
                         {{$contact->client->name}}
                     </a>
                     @else
