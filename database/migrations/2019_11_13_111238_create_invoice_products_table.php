@@ -18,7 +18,7 @@ class CreateInvoiceProductsTable extends Migration
             $table->unsignedInteger('invoice_id');
             $table->text('item');
             $table->float('price')->default(0.00);
-            $table->string('type');
+            $table->morphs('invoiceable')->nullable();
             $table->timestamps();
         });
     }

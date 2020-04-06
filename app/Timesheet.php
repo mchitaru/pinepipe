@@ -6,9 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
+use App\Traits\Invoiceable;
+
 class Timesheet extends Model
 {
     use NullableFields;
+    use Invoiceable;
 
     protected $fillable = [
         'project_id', 

@@ -7,200 +7,83 @@ use App\Invoice;
 use App\InvoiceProduct;
 use App\Product;
 use App\Task;
-use App\Milestone;
+use App\Timesheet;
+use App\Http\Requests\InvoiceProductStoreRequest;
+use App\Http\Requests\InvoiceProductDestroyRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 class InvoiceProductsController extends Controller
 {
-    public function create(Invoice $invoice)
+    public function create(Request $request, Invoice $invoice)
     {
-        if(\Auth::user()->can('create invoice product'))
+        if($invoice->created_by == \Auth::user()->creatorId())
         {
-            if($invoice->created_by == \Auth::user()->creatorId())
+            $products   = Product::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $tasks      = Task::where('project_id', $invoice->project_id)->get()->pluck('title', 'id');
+            $timesheets = Timesheet::where('project_id', $invoice->project_id)->get()->pluck('date', 'id');
+            
+            $price = null;
+            if(isSet($request->timesheet_id))
             {
-                $products   = Product::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $milestones = Milestone::where('project_id', $invoice->project_id)->get();
-                $tasks      = Task::where('project_id', $invoice->project_id)->get();
+                $timesheet = Timesheet::find($request->timesheet_id);
+                $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
+            }
 
-                return view('invoices.product', compact('invoice', 'milestones', 'tasks'));
-            }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
-        }
-        else
-        {
-            return response()->json(['error' => __('Permission denied.')], 401);
+            return view('invoices.product', compact('invoice', 'tasks', 'timesheets', 'price'));
         }
     }
 
-    public function store(Request $request, Invoice $invoice)
+    public function store(InvoiceProductStoreRequest $request, Invoice $invoice)
     {
-        if(\Auth::user()->can('create invoice product'))
-        {
-            if($invoice->getTotal() == 0.0)
-            {
-                Invoice::change_status($invoice->id, 1);
-            }
+        $post = $request->validated();
+        $post['type'] = $request->type;
 
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                if($request->type == 'milestone')
-                {
-                    $validator = \Validator::make(
-                        $request->all(), [
-                            'task_id' => 'required_without:milestone_id',
-                            'milestone_id' => 'required_without:task_id',
-                                       ]
-                    );
-                    if($validator->fails())
-                    {
-                        $messages = $validator->getMessageBag();
+        InvoiceProduct::createProduct($post, $invoice);
 
-                        return redirect()->route('invoices.show', $invoice->id)->with('error', __('Please select milestone or task.'));
+        $request->session()->flash('success', __('Product successfully created.'));
 
-                    }
-
-                    $task      = Task::find($request->task_id);
-                    $milestone = Milestone::find($request->milestone_id);
-                    $item      = (!empty($task->title)?$task->title:'') . '-' . (!empty($milestone->title)?$milestone->title:'');
-                    $price     = $request->price;
-                }
-                else
-                {
-                    $validator = \Validator::make(
-                        $request->all(), [
-                                           'title' => 'required',
-                                           'price' => 'required',
-                                       ]
-                    );
-                    if($validator->fails())
-                    {
-                        $messages = $validator->getMessageBag();
-
-                        return redirect()->route('invoices.show', $invoice->id)->with('error', __('title and price filed are required'));
-
-                    }
-
-                    $item      = $request->title;
-                    $price     = $request->price;
-                }
-
-
-                InvoiceProduct::create(
-                    [
-                        'invoice_id' => $invoice->id,
-                        'item' => $item,
-                        'price' => $price,
-                        'type' => $request->type,
-                    ]
-                );
-
-                if($invoice->getTotal() > 0.0 || $invoice->getDue() < 0.0)
-                {
-                    Invoice::change_status($invoice->id, 2);
-                }
-
-                return redirect()->route('invoices.show', $invoice->id)->with('success', __('Product successfully added.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
     }
 
-    public function edit(Invoice $invoice, InvoiceProduct $product)
-    {
-        if(\Auth::user()->can('edit invoice product'))
-        {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $products = Product::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-
-                return view('invoices.product', compact('invoice', 'products', 'product'));
-            }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
-        }
-        else
-        {
-            return response()->json(['error' => __('Permission denied.')], 401);
-        }
-    }
-
-    public function update(Invoice $invoice, InvoiceProduct $product, Request $request)
-    {
-        if(\Auth::user()->can('edit invoice product'))
-        {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'product_id' => 'required',
-                                       'quantity' => 'required|numeric|min:1',
-                                   ]
-                );
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
-
-                    return redirect()->route('invoices.show', $invoice->id)->with('error', $messages->first());
-                }
-                $invoiceProduct              = InvoiceProduct::find($product->id);
-                $invoiceProduct->product_id  = $product->id;
-                $invoiceProduct->price       = $product->price;
-                $invoiceProduct->quantity    = $request->quantity;
-                $invoiceProduct->description = $request->description;
-                $invoiceProduct->save();
-
-                return redirect()->route('invoices.show', $invoice->id)->with('success', __('Product successfully updated.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
-    }
-
-    public function delete(Request $request, Invoice $invoice, InvoiceProduct $product)
+    public function delete(InvoiceProductDestroyRequest $request, Invoice $invoice, InvoiceProduct $product)
     {
         if($request->ajax()){
             
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete invoice product'))
-        {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $product->delete();
-                if($invoice->getDue() <= 0.0)
-                {
-                    Invoice::change_status($invoice->id, 3);
-                }
+        $product->detachProduct($invoice);
 
-                return redirect()->route('invoices.show', $invoice->id)->with('success', __('Product successfully deleted.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+        $product->delete();
+
+        return Redirect::to(URL::previous())->with('success', __('Product successfully deleted'));
     }
+    
+    public function refresh(Request $request, Invoice $invoice)
+    {
+        if($request->type == 'timesheet') {
+
+            $request->task_id = null;
+            $request->title = null;
+            $request->flashOnly(['timesheet_id']);
+
+        }else if($request->type == 'task') {
+
+            $request->timesheet_id = null;
+            $request->title = null;
+            $request->flashOnly(['task_id']);
+
+        }else {
+
+            $request->task_id = null;
+            $request->timesheet_id = null;
+            $request->flashOnly(['title']);
+        }
+
+        $request->session()->flash('type', $request->type);
+
+        return $this->create($request, $invoice);
+    } 
 }

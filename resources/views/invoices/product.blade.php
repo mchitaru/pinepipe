@@ -1,7 +1,13 @@
 @extends('layouts.modal')
 
+@php    
+    $isTimesheet = (empty(session('type')) || session('type') == 'timesheet');
+    $isTask = (session('type') == 'task');
+    $isOther = (session('type') == 'other');
+@endphp
+
 @section('form-start')
-    {{ Form::model($invoice, array('route' => array('invoices.products.store', $invoice->id), 'method' => 'POST')) }}
+    {{ Form::model($invoice, array('route' => array('invoices.products.store', $invoice->id), 'data-remote' => 'true')) }}
 @endsection
 
 @section('title')
@@ -16,71 +22,79 @@
     </div>
     <hr>
     <h6>{{__('What is Invoiced?')}}</h6>
-    <div class="form-group row">
-        <div class="col">
-            <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="customRadio4" name="type" value="timesheet" disabled onclick="hide_show(this)">
-                <label class="custom-control-label disabled" for="customRadio4">{{__('Timesheet')}}</label>
-            </div>
-        </div>
-        <div class="col">
-            <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="customRadio5" name="type" value="milestone" checked="checked" onclick="hide_show(this)">
-                <label class="custom-control-label" for="customRadio5">{{__('Task')}}</label>
-            </div>
-        </div>
-        <div class="col">
-            <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="customRadio6" name="type" value="other" onclick="hide_show(this)">
-                <label class="custom-control-label" for="customRadio6">{{__('Other')}}</label>
-            </div>
-        </div>
-    </div>
 
-    <div id="milestone">
-        <div class="form-group row d-none">
-            <label class="col-3" for="milestone_id">{{__('Milestone')}}</label>
-            <select class="form-control col custom-select" onchange="getTask(this,{{$invoice->project_id}})" id="milestone_id" name="milestone_id">
-                <option value="" selected="selected">{{__('Select Milestone')}}</option>
-                @foreach($milestones as  $milestone)
-                    <option value="{{$milestone->id}}">{{$milestone->title}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group row">
-            <label class="col-3" for="task_id">{{__('Task')}}</label>
-            <select class="form-control col custom-select" id="task_id" name="task_id">
-                <option value="" selected="selected">{{__('Select Task')}}</option>
-                @foreach($tasks as  $task)
-                    <option value="{{$task->id}}">{{$task->title}}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div id="other" style="display: none">
-        <div id="milestone">
-            <div class="form-group row">
-                <label class="col-3" for="title">{{__('Product')}}</label>
-                <input type="text" class="form-control col" name="title">
+    <div class="accordion" id="productAccordion">
+        <div class="card mb-0">
+          <div class="card-header p-1" id="headingOne">
+            <h5 class="mb-0">
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="type" id="timesheet" value="timesheet" data-toggle="collapse" data-target="#collapseOne" aria-expanded="{{$isTimesheet?'true':'false'}}" aria-controls="collapseOne" {{$isTimesheet?'checked':''}}>
+                    {{ Form::label('timesheet', __('Timesheet'), array('class'=>'custom-control-label')) }}
+                </div>                
+            </h5>
+          </div>
+      
+          <div id="collapseOne" class="collapse {{$isTimesheet?'show':''}}" aria-labelledby="headingOne" data-parent="#productAccordion">
+            <div class="card-body">
+                <div class="form-group row">
+                    {{ Form::label('timesheet_id', __('Timesheet'), array('class'=>'col-3')) }}
+                    {!! Form::select('timesheet_id', $timesheets, null, array('class' => 'form-control col', 'placeholder'=>'Select Timesheet', 'style'=>'width: 310.5px',
+                                        'data-refresh'=>route('invoices.products.refresh', $invoice->id))) !!}
+                </div>
             </div>
+          </div>
+        </div>
+        <div class="card mb-0">
+          <div class="card-header p-1" id="headingTwo">
+            <h5 class="mb-0">
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="type" id="task" value="task" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="{{$isTask?'true':'false'}}" aria-controls="collapseTwo" {{$isTask?'checked':''}}>
+                    {{ Form::label('task', __('Task'), array('class'=>'custom-control-label')) }}
+                </div>                
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse {{$isTask?'show':''}}" aria-labelledby="headingTwo" data-parent="#productAccordion">
+            <div class="card-body">
+                <div class="form-group row">
+                    {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
+                    {!! Form::select('task_id', $tasks, null, array('class' => 'form-control col', 'placeholder'=>'Select Task', 'style'=>'width: 310.5px',
+                                        'data-refresh'=>route('invoices.products.refresh', $invoice->id))) !!}
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-0">
+          <div class="card-header p-1" id="headingThree">
+            <h5 class="mb-0">
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" name="type" id="other" value="other" data-toggle="collapse" data-toggle="collapse" data-target="#collapseThree" aria-expanded="{{$isOther?'true':'false'}}" aria-controls="collapseThree" {{$isOther?'checked':''}}>
+                    {{ Form::label('other', __('Other'), array('class'=>'custom-control-label',
+                                        'data-refresh'=>route('invoices.products.refresh', $invoice->id))) }}
+                </div>                
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse {{$isOther?'show':''}}" aria-labelledby="headingThree" data-parent="#productAccordion">
+            <div class="card-body">
+                <div class="form-group row">
+                    {{ Form::label('title', __('Product Title'), array('class'=>'col-3')) }}
+                    {{ Form::text('title', '', array('class' => 'form-control col', 'placeholder'=>'Website Redesing')) }}
+                </div>
+            </div>
+          </div>
         </div>
     </div>
     <hr>
     <h6>{{__('Pricing')}}</h6>
     <div class="form-group row">
-        <label class="col-3" for="price">{{__('Price')}}</label>
-        <input type="number" class="form-control col" name="price" required>
+        {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
+        {{ Form::number('price', $price, array('class' => 'form-control col','placeholder'=>'$500', 'min'=>'0', 'step'=>'0.1')) }}
     </div>
 </div>
 @include('partials.errors')
 @endsection
 
 @section('footer')
-@if(isset($invoice))
     {{Form::submit(__('Add'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
-@else
-{{Form::submit(__('Create'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
-@endif
 @endsection
 
 @section('form-end')

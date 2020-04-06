@@ -9,12 +9,14 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 use App\Traits\Actionable;
+use App\Traits\Invoiceable;
 
 class Task extends Model implements HasMedia
 {
     use NullableFields;
     use HasMediaTrait;
     use Actionable;
+    use Invoiceable;
 
     protected $fillable = [
         'title',

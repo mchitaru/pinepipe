@@ -4,45 +4,6 @@
 @endpush
 
 @push('scripts')
-<script>
-    function getTask(obj,project_id) {
-        $('#task_id').empty();
-        var milestone_id = obj.value;
-        $.ajax({
-            url: '{!! route('invoices.milestone.task') !!}',
-            data: {
-                "milestone_id": milestone_id,
-                "project_id": project_id,
-                "_token": $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'POST',
-            dataType: 'JSON',
-            cache: false,
-            success: function (data) {
-                var html = '';
-                for (var i = 0; i < data.length; i++) {
-                    html += '<option value=' + data[i].id+'>' + data[i].title + '</option>';
-
-                }
-                $('#task_id').append(html);
-            },
-            error: function (data) {
-                data = data.responseJSON;
-                toastrs(data.error, 'error')
-            }
-        });
-    }
-    function hide_show(obj){
-        if(obj.value=='milestone'){
-            document.getElementById('milestone').style.display ='block';
-            document.getElementById('other').style.display ='none';
-        }else{
-            document.getElementById('other').style.display ='block';
-            document.getElementById('milestone').style.display ='none';
-        }
-    }
-
-</script>
 @endpush
 
 @section('page-title')
@@ -101,7 +62,7 @@
                                     <div class="dropdown-divider"></div>
                                     @can('create invoice product')
                                     <a class="dropdown-item" href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
-                                        <span>{{__('Add Item')}}</span>
+                                        <span>{{__('Add Product')}}</span>
                                     </a>
                                     @endcan
                                     @can('create invoice payment')
@@ -135,7 +96,7 @@
                                         <div class="col-12 text-md-center">
                                             <address>
                                                 <span class="row align-items-center justify-content-center">
-                                                    <img width="60" height="60" alt="{{$settings['company_name']}}" {!! empty($settings['company_logo']) ? "avatar='".$settings['company_name']."'" : "" !!} class="rounded" src="{{Storage::url($settings['company_logo'])}}" data-filter-by="alt"/>
+                                                    <img width="60" height="60" alt="{{$settings['company_name']}}" {!! empty($settings['company_logo']) ? "avatar='".$settings['company_name']."'" : "" !!} class="rounded" src="{{!empty($settings['company_logo'])?Storage::url($settings['company_logo']):''}}" data-filter-by="alt"/>
                                                 </span>
                                                 <span class="row align-items-center justify-content-center">
                                                     <h5>{{$client->name}} invoice</h5>
@@ -190,7 +151,7 @@
                                         <div class="col-md-12 text-right d-print-none">
                                             <a href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
                                                 <span><i class="fas fa-plus"></i></span>
-                                                <u>{{__('Add Item')}}</u>
+                                                <u>{{__('Add Product')}}</u>
                                             </a>
                                         </div>
                                         @endcan

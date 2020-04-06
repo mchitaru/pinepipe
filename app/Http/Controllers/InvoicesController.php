@@ -13,6 +13,7 @@ use App\PaymentType;
 use App\Products;
 use App\Task;
 use App\Tax;
+use App\Timesheet;
 use App\User;
 use App\Product;
 use Auth;
@@ -192,21 +193,4 @@ class InvoicesController extends Controller
         return Redirect::to(URL::previous() . "#invoices")->with('success', __('Invoice successfully deleted.'));
     }
 
-
-    public function milestoneTask(Request $request)
-    {
-        if(!empty($request->milestone_id))
-        {
-            $tasks = Task::where('milestone_id', $request->milestone_id)->get();
-
-            return $tasks;
-        }
-        else
-        {
-            $tasks = Task::where('project_id', $request->project_id)->get();
-
-            return $tasks;
-        }
-
-    }
 }
