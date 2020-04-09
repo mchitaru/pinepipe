@@ -73,7 +73,7 @@
         <div class="col-xs-6 col-sm-9">
             <div class="row">
                 <div class="col">
-                    <div class="card card-info">
+                    <a class="card card-info" href="{{ route('users.index') }}">
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_user']}}</h3>
@@ -83,10 +83,10 @@
                                 <i class="material-icons">people</i>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col">
-                    <div class="card card-info">
+                    <a class="card card-info" href="#">
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_orders']}}</h3>
@@ -96,10 +96,10 @@
                                 <i class="material-icons">shopping_cart</i>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col">
-                    <div class="card card-info">
+                    <a class="card card-info" href="{{ route('plans.index') }}">
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_plan']}}</h3>
@@ -109,7 +109,7 @@
                                 <i class="material-icons">card_membership</i>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="row">
