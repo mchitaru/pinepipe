@@ -1,6 +1,6 @@
 @extends('layouts.modal')
 
-@php    
+@php
     $isTimesheet = (empty(session('type')) || session('type') == 'timesheet');
     $isTask = (session('type') == 'task');
     $isOther = (session('type') == 'other');
@@ -30,10 +30,10 @@
                 <div class="custom-control custom-radio">
                     <input type="radio" class="custom-control-input" name="type" id="timesheet" value="timesheet" data-toggle="collapse" data-target="#collapseOne" aria-expanded="{{$isTimesheet?'true':'false'}}" aria-controls="collapseOne" {{$isTimesheet?'checked':''}}>
                     {{ Form::label('timesheet', __('Timesheet'), array('class'=>'custom-control-label')) }}
-                </div>                
+                </div>
             </h5>
           </div>
-      
+
           <div id="collapseOne" class="collapse {{$isTimesheet?'show':''}}" aria-labelledby="headingOne" data-parent="#productAccordion">
             <div class="card-body">
                 <div class="form-group row">
@@ -50,7 +50,7 @@
                 <div class="custom-control custom-radio">
                     <input type="radio" class="custom-control-input" name="type" id="task" value="task" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="{{$isTask?'true':'false'}}" aria-controls="collapseTwo" {{$isTask?'checked':''}}>
                     {{ Form::label('task', __('Task'), array('class'=>'custom-control-label')) }}
-                </div>                
+                </div>
             </h5>
           </div>
           <div id="collapseTwo" class="collapse {{$isTask?'show':''}}" aria-labelledby="headingTwo" data-parent="#productAccordion">
@@ -70,14 +70,14 @@
                     <input type="radio" class="custom-control-input" name="type" id="other" value="other" data-toggle="collapse" data-toggle="collapse" data-target="#collapseThree" aria-expanded="{{$isOther?'true':'false'}}" aria-controls="collapseThree" {{$isOther?'checked':''}}>
                     {{ Form::label('other', __('Other'), array('class'=>'custom-control-label',
                                         'data-refresh'=>route('invoices.products.refresh', $invoice->id))) }}
-                </div>                
+                </div>
             </h5>
           </div>
           <div id="collapseThree" class="collapse {{$isOther?'show':''}}" aria-labelledby="headingThree" data-parent="#productAccordion">
             <div class="card-body">
                 <div class="form-group row">
                     {{ Form::label('title', __('Product Title'), array('class'=>'col-3')) }}
-                    {{ Form::text('title', '', array('class' => 'form-control col', 'placeholder'=>'Website Redesing')) }}
+                    {{ Form::text('title', '', array('class' => 'form-control col', 'placeholder'=>'Website Redesign')) }}
                 </div>
             </div>
           </div>
@@ -87,7 +87,7 @@
     <h6>{{__('Pricing')}}</h6>
     <div class="form-group row">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
-        {{ Form::number('price', $price, array('class' => 'form-control col','placeholder'=>'$500', 'min'=>'0', 'step'=>'0.1')) }}
+        {{ Form::number('price', $price, array('class' => 'form-control col','placeholder'=>'$500', 'min'=>'0', 'step'=>'0.01')) }}
     </div>
 </div>
 @include('partials.errors')

@@ -20,9 +20,15 @@ class InvoiceProductsController extends Controller
         if($invoice->created_by == \Auth::user()->creatorId())
         {
             $products   = Product::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $tasks      = Task::where('project_id', $invoice->project_id)->get()->pluck('title', 'id');
-            $timesheets = Timesheet::where('project_id', $invoice->project_id)->get()->pluck('date', 'id');
-            
+            $tasks      = Task::doesntHave('products')
+                                    ->where('project_id', $invoice->project_id)
+                                    ->get()
+                                    ->pluck('title', 'id');
+            $timesheets = Timesheet::doesntHave('products')
+                                        ->where('project_id', $invoice->project_id)
+                                        ->get()
+                                        ->pluck('date', 'id');
+
             $price = null;
             if(isSet($request->timesheet_id))
             {
@@ -50,7 +56,7 @@ class InvoiceProductsController extends Controller
     public function delete(InvoiceProductDestroyRequest $request, Invoice $invoice, InvoiceProduct $product)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 
@@ -60,7 +66,7 @@ class InvoiceProductsController extends Controller
 
         return Redirect::to(URL::previous())->with('success', __('Product successfully deleted'));
     }
-    
+
     public function refresh(Request $request, Invoice $invoice)
     {
         if($request->type == 'timesheet') {
@@ -85,5 +91,5 @@ class InvoiceProductsController extends Controller
         $request->session()->flash('type', $request->type);
 
         return $this->create($request, $invoice);
-    } 
+    }
 }
