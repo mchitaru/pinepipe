@@ -67,7 +67,7 @@ class TasksController extends Controller
         {
             $project = Project::find($project_id);
             $users   = $project->users()->get()->pluck('name', 'id');
-            
+
             if(isSet($users[\Auth::user()->id])) {
                 $users[\Auth::user()->id] = __('(myself)');
             }
@@ -100,8 +100,7 @@ class TasksController extends Controller
 
         $request->session()->flash('success', __('Task successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#tasks';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -126,7 +125,7 @@ class TasksController extends Controller
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $stages     = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                
+
         if($project)
         {
             $project_id = $project->id;
@@ -135,7 +134,7 @@ class TasksController extends Controller
             if(isSet($users[\Auth::user()->id])) {
                 $users[\Auth::user()->id] = __('(myself)');
             }
-                        
+
         }else
         {
             $project_id = null;
@@ -171,8 +170,7 @@ class TasksController extends Controller
 
         $request->session()->flash('success', __('Task successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#tasks';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -184,7 +182,7 @@ class TasksController extends Controller
     public function destroy(TaskDestroyRequest $request, Task $task)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 

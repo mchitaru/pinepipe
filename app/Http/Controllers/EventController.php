@@ -33,7 +33,7 @@ class EventController extends Controller
     {
         $start = $request->start;
         $end = $request->end;
-        
+
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
@@ -58,8 +58,7 @@ class EventController extends Controller
 
         $request->session()->flash('success', __('Event successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -106,8 +105,7 @@ class EventController extends Controller
 
         $request->session()->flash('success', __('Event successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -119,7 +117,7 @@ class EventController extends Controller
     public function destroy(EventDestroyRequest $request, Event $event)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 

@@ -21,7 +21,7 @@ use App\Http\Requests\ClientDestroyRequest;
 
 class ClientsController extends Controller
 {
- 
+
     public function index(Request $request)
     {
         $user = \Auth::user();
@@ -67,9 +67,9 @@ class ClientsController extends Controller
 
             clock()->endEvent('ClientsController');
 
-            if ($request->ajax()) 
+            if ($request->ajax())
             {
-                return view('clients.index', ['clients' => $clients])->render();  
+                return view('clients.index', ['clients' => $clients])->render();
             }
 
             return view('clients.page', compact('clients'));
@@ -82,7 +82,7 @@ class ClientsController extends Controller
 
     public function create()
     {
-        if(\Auth::user()->can('create client')) 
+        if(\Auth::user()->can('create client'))
         {
             return view('clients.create');
         }
@@ -100,7 +100,7 @@ class ClientsController extends Controller
         if(\Auth::user()->checkClientLimit())
         {
             $client = Client::createClient($post);
-            
+
             $request->session()->flash('success', __('Client successfully created.'));
 
             $url = redirect()->route('clients.show', $client->id)->getTargetUrl();
@@ -119,7 +119,7 @@ class ClientsController extends Controller
 
     public function edit(Client $client)
     {
-        if(\Auth::user()->can('edit client')) 
+        if(\Auth::user()->can('edit client'))
         {
             return view('clients.edit', compact('client'));
         }
@@ -138,15 +138,14 @@ class ClientsController extends Controller
 
         $request->session()->flash('success', __('Client successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
 
     public function destroy(Request $request, Client $client)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 
@@ -195,9 +194,9 @@ class ClientsController extends Controller
                             ->where('created_by', '=', $user->creatorId())
                             ->orderBy('order')
                             ->get();
-            }        
+            }
 
-            $activities = Activity::whereHas('project', function ($query) use ($client) {                
+            $activities = Activity::whereHas('project', function ($query) use ($client) {
                 $query->where('client_id', $client->id);
             })
             ->orderBy('id', 'desc')
@@ -227,7 +226,7 @@ class ClientsController extends Controller
     //         'email'=>'required|email|unique:users,email,'.$userDetail['id'],
     //     ]);
 
-    //     if($request->hasFile('profile')) 
+    //     if($request->hasFile('profile'))
     //     {
     //         $path = \Helpers::storePublicFile($request->file('profile'));
     //         $user['avatar'] = $path;

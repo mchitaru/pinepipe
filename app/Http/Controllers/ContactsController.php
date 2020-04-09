@@ -34,11 +34,11 @@ class ContactsController extends Controller
 
             clock()->endEvent('ContactsController');
 
-            if ($request->ajax()) 
+            if ($request->ajax())
             {
-                return view('contacts.index', ['contacts' => $contacts])->render();  
+                return view('contacts.index', ['contacts' => $contacts])->render();
             }
-    
+
             return view('contacts.page', compact('contacts'));
         }
         else
@@ -54,7 +54,7 @@ class ContactsController extends Controller
      */
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create contact')) 
+        if(\Auth::user()->can('create contact'))
         {
             $client_id = $request['client_id'];
 
@@ -90,8 +90,7 @@ class ContactsController extends Controller
 
         $request->session()->flash('success', __('Contact successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#contacts';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -102,7 +101,7 @@ class ContactsController extends Controller
      */
     public function edit(Contact $contact)
     {
-        if(\Auth::user()->can('edit contact')) 
+        if(\Auth::user()->can('edit contact'))
         {
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
                             ->get()
@@ -137,8 +136,7 @@ class ContactsController extends Controller
 
         $request->session()->flash('success', __('Contact successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#contacts';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -150,7 +148,7 @@ class ContactsController extends Controller
     public function destroy(ContactDestroyRequest $request, Contact $contact)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 

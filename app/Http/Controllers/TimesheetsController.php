@@ -61,8 +61,7 @@ class TimesheetsController extends Controller
 
         $request->session()->flash('success', __('Timesheet successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#timesheets';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -97,7 +96,7 @@ class TimesheetsController extends Controller
             {
                 $project_id = null;
                 $tasks   = [];
-            }            
+            }
 
             return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id'));
         }
@@ -122,8 +121,7 @@ class TimesheetsController extends Controller
 
         $request->session()->flash('success', __('Timesheet successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#timesheets';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     /**
@@ -135,7 +133,7 @@ class TimesheetsController extends Controller
     public function destroy(TimesheetDestroyRequest $request, Timesheet $timesheet)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 
@@ -164,7 +162,7 @@ class TimesheetsController extends Controller
     {
         $start = false;
         $offset = 0;
-        
+
         $timesheet = Timesheet::find($request['timesheet_id']);
 
         if(is_null($timesheet)) {
@@ -182,7 +180,7 @@ class TimesheetsController extends Controller
 
             $timesheet = Timesheet::createTimesheet($post);
         }
-        
+
         if($timesheet->isStarted()){
 
             $timesheet->stop();
@@ -203,7 +201,7 @@ class TimesheetsController extends Controller
 
         $offset = $timesheet->computeTime();
 
-        $view = view('partials.app.timesheets')->render();  
+        $view = view('partials.app.timesheets')->render();
 
         return response()->json(['start' => $start,
                                     'url' => route('timesheets.edit', $timesheet->id),

@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::model($invoice, array('route' => array('invoices.update', $invoice->id), 'method' => 'PUT')) }}
+    {{ Form::model($invoice, array('route' => array('invoices.update', $invoice->id), 'method' => 'PUT', 'data-remote' => 'true')) }}
 @endsection
 
 @section('title')
@@ -21,7 +21,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-        {{ Form::date('due_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
+        {{ Form::date('due_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
                                             'data-flatpickr', 'data-default-date'=> $invoice->due_date, 'data-alt-input')) }}
     </div>
     <div class="form-group row">

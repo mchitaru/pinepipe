@@ -49,8 +49,7 @@ class InvoiceProductsController extends Controller
 
         $request->session()->flash('success', __('Product successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     public function delete(InvoiceProductDestroyRequest $request, Invoice $invoice, InvoiceProduct $product)

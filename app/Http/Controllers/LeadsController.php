@@ -29,7 +29,7 @@ class LeadsController extends Controller
             clock()->endEvent('LeadsController');
 
             return view('leads.board', compact('stages'));
-        }    
+        }
         else
         {
             return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
@@ -44,13 +44,13 @@ class LeadsController extends Controller
             $client_id = $request['client_id'];
 
             $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            
+
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
                             ->where('type', '!=', 'client')
                             ->get()
                             ->pluck('name', 'id')
                             ->prepend('(myself)', \Auth::user()->id);
-            
+
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
@@ -64,14 +64,13 @@ class LeadsController extends Controller
 
     public function store(LeadStoreRequest $request)
     {
-        $post = $request->validated();     
+        $post = $request->validated();
 
         $lead = Lead::createLead($post);
 
-        $request->session()->flash('success', __('Leads successfully created.'));
+        $request->session()->flash('success', __('Lead successfully created.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#leads';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     public function edit(Lead $lead)
@@ -84,7 +83,7 @@ class LeadsController extends Controller
                             ->get()
                             ->pluck('name', 'id')
                             ->prepend('(myself)', \Auth::user()->id);
-                            
+
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
@@ -104,14 +103,13 @@ class LeadsController extends Controller
 
         $request->session()->flash('success', __('Lead successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#leads';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     public function destroy(LeadDestroyRequest $request, Lead $lead)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 

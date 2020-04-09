@@ -29,7 +29,7 @@ class InvoicesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('manage invoice') || 
+        if(\Auth::user()->can('manage invoice') ||
            \Auth::user()->type == 'client')
         {
             clock()->startEvent('InvoicesController', "Load invoices");
@@ -45,9 +45,9 @@ class InvoicesController extends Controller
                 $invoices = Invoice::with('project')
                             ->whereHas('project', function ($query)
                             {
-                                $query->whereHas('client', function ($query) 
+                                $query->whereHas('client', function ($query)
                                 {
-                                    $query->where('id', \Auth::user()->id);                
+                                    $query->where('id', \Auth::user()->id);
                                 });
                             })
                             ->where('created_by', '=', \Auth::user()->creatorId())
@@ -60,9 +60,9 @@ class InvoicesController extends Controller
                             })
                             ->paginate(25, ['*'], 'invoice-page');
             }
-            else 
+            else
             {
-                
+
                 if(\Auth::user()->can('manage invoice'))
                 {
                     $invoices = Invoice::with('project')
@@ -70,19 +70,19 @@ class InvoicesController extends Controller
                                 ->whereIn('status', $status)
                                 ->where(function ($query) use ($request) {
                                     $query->where('id', $request['filter'])
-                                        ->orWhereHas('project', function ($query) use($request) {    
+                                        ->orWhereHas('project', function ($query) use($request) {
                                             $query->where('name','like','%'.$request['filter'].'%');
                                         });
                                 })
                                 ->paginate(25, ['*'], 'invoice-page');
-                }                
+                }
             }
 
             clock()->endEvent('InvoicesController');
 
-            if ($request->ajax()) 
+            if ($request->ajax())
             {
-                return view('invoices.index', ['invoices' => $invoices])->render();  
+                return view('invoices.index', ['invoices' => $invoices])->render();
             }
 
             return view('invoices.page', compact('invoices'));
@@ -118,13 +118,12 @@ class InvoicesController extends Controller
 
         $request->session()->flash('success', __('Invoice successfully created.'));
 
-        $url = redirect()->route('invoices.show', $invoice->id)->getTargetUrl().'/#invoices';
+        $url = redirect()->route('invoices.show', $invoice->id)->getTargetUrl();
         return "<script>window.location='{$url}'</script>";
     }
 
     public function show(Invoice $invoice)
     {
-
         if(\Auth::user()->can('show invoice') || \Auth::user()->type == 'client')
         {
             if($invoice->created_by == \Auth::user()->creatorId())
@@ -175,14 +174,13 @@ class InvoicesController extends Controller
 
         $request->session()->flash('success', __('Invoice successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl().'/#invoices';
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     public function destroy(InvoiceDestroyRequest $request, Invoice $invoice)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 

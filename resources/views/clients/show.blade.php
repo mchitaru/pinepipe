@@ -3,25 +3,26 @@
 @push('stylesheets')
 @endpush
 
-@push('scripts')    
+@push('scripts')
 
 <script>
 
 $(document).ready(function() {
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        window.history.replaceState(null, null, $(e.target).attr('href'));
         window.location.hash = $(e.target).attr('href');
         $(window).scrollTop(0);
     });
 
     var hash = window.location.hash ? window.location.hash : '#profile';
-    
+
     $('.nav-tabs a[href="' + hash + '"]').tab('show');
-    
+
 });
-        
+
 </script>
-    
+
 @endpush
 
 @section('page-title')
@@ -81,7 +82,7 @@ $(document).ready(function() {
                 <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">{{__('Projects')}}
                     <span class="badge badge-secondary">{{ $projects->count() }}</span>
                 </a>
-            </li>    
+            </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
@@ -178,7 +179,7 @@ $(document).ready(function() {
                     </div>
                     <!--end of content list-->
                 </div>
-                <!--end of tab-->    
+                <!--end of tab-->
                 <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                     <div class="content-list">
                     <div class="row content-list-head">

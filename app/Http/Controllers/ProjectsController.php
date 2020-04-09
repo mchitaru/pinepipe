@@ -57,14 +57,14 @@ class ProjectsController extends Controller
                                     $query->where('name','like','%'.$request['filter'].'%');
                                 });
                             })
-                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')    
+                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                             ->paginate(25, ['*'], 'project-page');
 
             clock()->endEvent('ProjectsController.index');
-            
-            if ($request->ajax()) 
+
+            if ($request->ajax())
             {
-                return view('projects.index', ['projects' => $projects])->render();  
+                return view('projects.index', ['projects' => $projects])->render();
             }
 
             return view('projects.page', compact('projects'));
@@ -123,11 +123,11 @@ class ProjectsController extends Controller
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend('(myself)', \Auth::user()->id);
-                        
+
         $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
         $user_id = $project->users()->get()->pluck('id');
-        
+
         $start_date = $project->start_date;
         $due_date = $project->due_date;
 
@@ -147,8 +147,7 @@ class ProjectsController extends Controller
 
         $request->session()->flash('success', __('Project successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return "<script>window.location.reload()</script>";
     }
 
     public function show(Project $project)
@@ -160,7 +159,7 @@ class ProjectsController extends Controller
             clock()->startEvent('ProjectsController', "Load project");
 
             $project_id = $project->id;
-            
+
             $stages = $project->stages()->get();
 
             $task_count = 0;
@@ -168,12 +167,12 @@ class ProjectsController extends Controller
             {
                 $task_count += $stage->tasks->count();
             }
-            
+
             $files = [];
             foreach($project->getMedia('projects') as $media)
             {
                 $file = [];
-                
+
                 $file['file_name'] = $media->file_name;
                 $file['size'] = $media->size;
                 $file['download'] = route('projects.file.download',[$project->id, $media->id]);
@@ -181,7 +180,7 @@ class ProjectsController extends Controller
 
                 $files[] = $file;
             }
-            
+
             $invoices = $project->invoices;
             $activities = $project->allActivities;
 
@@ -199,7 +198,7 @@ class ProjectsController extends Controller
             $project->computeStatistics($user->last_projectstage()->id);
 
             clock()->endEvent('ProjectsController');
-            
+
             return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'activities'));
         }
         else
@@ -211,7 +210,7 @@ class ProjectsController extends Controller
     public function destroy(ProjectDestroyRequest $request, Project $project)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 
