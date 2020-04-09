@@ -83,7 +83,7 @@ use App\PaymentPlan;
         <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">{{__('Email Notifications')}}</a>
         </li>
-        @if(Gate::check('manage plan'))
+        @if(Gate::check('manage plan') && \Auth::user()->type!='super admin')
         <li class="nav-item">
             <a class="nav-link" id="subscription-tab" data-toggle="tab" href="#subscription" role="tab" aria-controls="subscription" aria-selected="false">{{__('Subscription')}}</a>
         </li>
@@ -108,9 +108,9 @@ use App\PaymentPlan;
                 <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.partials.company')</div>
                 @endcan
                 <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.partials.notifications')</div>
-                @can('manage plan')
+                @if(Gate::check('manage plan') && \Auth::user()->type!='super admin')
                 <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.partials.subscription')</div>
-                @endcan
+                @endif
                 <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.partials.integrations')</div>
                 @can('manage company settings')
                 <div class="tab-pane fade show" role="tabpanel" id="system">@include('users.partials.system')</div>
