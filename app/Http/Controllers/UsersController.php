@@ -23,7 +23,6 @@ class UsersController extends Controller
             if(\Auth::user()->type == 'super admin')
             {
                 $users = User::withTrashed()
-                                ->where('created_by', '=', $user->creatorId())
                                 ->where('type', '=', 'company')
                                 ->where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
