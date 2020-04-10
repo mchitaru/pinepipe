@@ -41,7 +41,12 @@
     <h6>{{__('Attach To')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Client')) !!}
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Client',
+                            'data-refresh'=>route('leads.refresh','0'))) !!}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('contact_id', __('Contact'), array('class'=>'col-3')) }}
+        {!! Form::select('contact_id', $contacts, null, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Contact')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

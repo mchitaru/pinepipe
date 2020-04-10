@@ -47,7 +47,7 @@ Route::group(
         Route::post('users/notifications', 'UsersController@readNotifications')->name('users.notifications');
         Route::get('users/refresh', 'UsersController@refresh')->name('users.refresh');
         Route::resource('users', 'UsersController');
-        
+
         Route::resource('roles', 'UserRolesController');
         Route::resource('permissions', 'PermissionsController');
 
@@ -80,6 +80,7 @@ Route::group(
 
         Route::get('leads/board', 'LeadsController@board')->name('leads.board');
         Route::post('leads/order', 'LeadsController@order')->name('leads.order');
+        Route::get('leads/{lead}/refresh', 'LeadsController@refresh')->name('leads.refresh');
 
         Route::resource('leads', 'LeadsController');
 
@@ -99,7 +100,7 @@ Route::group(
                                       'uses' => 'ProjectStagesController@order',
                                   ]
         );
-    
+
         Route::resource('projects', 'ProjectsController');
 
         Route::get('projects/{project}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');
@@ -112,9 +113,9 @@ Route::group(
         Route::post('projects/{project}/file', 'ProjectFilesController@store')->name('projects.file.upload');
         Route::get('projects/{project}/file/{file}', 'ProjectFilesController@show')->name('projects.file.download');
         Route::delete('projects/{project}/file/{file}', 'ProjectFilesController@destroy')->name('projects.file.delete');
-        
+
         Route::put('projects/{project}/status', 'ProjectsController@updateStatus')->name('projects.update.status');//TO DO
-        
+
         Route::get('projects/{project}/invite', 'ProjectInviteController@create')->name('projects.invite.create');
         Route::post('projects/{project}/invite', 'ProjectInviteController@store')->name('projects.invite.store');
 
@@ -123,7 +124,7 @@ Route::group(
         Route::post('timesheets/timer', 'TimesheetsController@timer')->name('timesheets.timer');
         Route::resource('timesheets', 'TimesheetsController');
 
-        //Tasks        
+        //Tasks
         Route::get('tasks/board/{project?}', 'TasksController@board')->name('tasks.board');
         Route::post('tasks/order', 'TasksController@order')->name('tasks.order');
         Route::get('tasks/{task}/refresh/', 'TasksController@refresh')->name('tasks.refresh');
@@ -170,7 +171,7 @@ Route::group(
 
         //Payments
         Route::resource('payments', 'PaymentTypesController');
-            
+
         //Notes
         // Route::resource('notes', 'NotesController');
 });

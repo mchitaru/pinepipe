@@ -8,6 +8,7 @@ use App\Leadsource;
 use App\LeadStage;
 use App\User;
 use App\Client;
+use App\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -52,9 +53,19 @@ class LeadsController extends Controller
                             ->prepend('(myself)', \Auth::user()->id);
 
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            if($client_id)
+            {
+                $contacts = Contact::contactsByUserType()
+                                    ->where('client_id', '=', $client_id)
+                                    ->get()->pluck('name', 'id');
+            }else
+            {
+                $contacts = Contact::contactsByUserType()
+                                    ->get()->pluck('name', 'id');
+            }
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'owners', 'clients', 'sources'));
+            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'owners', 'clients', 'contacts', 'sources'));
         }
         else
         {
@@ -87,7 +98,20 @@ class LeadsController extends Controller
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('leads.edit', compact('stages', 'owners', 'sources', 'lead','clients'));
+            $client_id    = $lead->client_id;
+
+            if($client_id)
+            {
+                $contacts = Contact::contactsByUserType()
+                                    ->where('client_id', '=', $client_id)
+                                    ->get()->pluck('name', 'id');
+            }else
+            {
+                $contacts = Contact::contactsByUserType()
+                                    ->get()->pluck('name', 'id');
+            }
+
+            return view('leads.edit', compact('stages', 'owners', 'sources', 'lead', 'clients', 'contacts'));
         }
         else
         {
@@ -137,5 +161,20 @@ class LeadsController extends Controller
         $return['total_new']   = \Auth::user()->priceFormat($post['total_new']);
 
         return response()->json($return);
+    }
+
+    public function refresh(Request $request, $lead_id)
+    {
+        $request->flash();
+
+        if($lead_id)
+        {
+            $lead = Lead::find($lead_id);
+            $lead->client_id = $request['client_id'];
+
+            return $this->edit($lead);
+        }
+
+        return $this->create($request);
     }
 }
