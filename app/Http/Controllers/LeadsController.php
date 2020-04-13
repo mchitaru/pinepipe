@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\LeadStoreRequest;
 use App\Http\Requests\LeadUpdateRequest;
-use App\Http\Requests\LeaddestroyRequest;
+use App\Http\Requests\LeadDestroyRequest;
 use Illuminate\Support\Arr;
 
 class LeadsController extends Controller
