@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Invoice;
 use App\InvoiceProduct;
-use App\Product;
 use App\Task;
 use App\Timesheet;
 use App\Http\Requests\InvoiceProductStoreRequest;
@@ -19,7 +18,6 @@ class InvoiceProductsController extends Controller
     {
         if($invoice->created_by == \Auth::user()->creatorId())
         {
-            $products   = Product::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $tasks      = Task::doesntHave('products')
                                     ->where('project_id', $invoice->project_id)
                                     ->get()

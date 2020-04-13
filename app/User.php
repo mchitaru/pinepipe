@@ -589,24 +589,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'Win' => 'bg-yellow-soft bg-font-yellow-soft',
         ];
 
-        // ProductUnits
-        $productUnits = [
-            'Kilogram',
-            'Piece',
-            'Set',
-            'Item',
-            'Hour',
-        ];
-        foreach($productUnits as $unit)
-        {
-            ProductUnit::create(
-                [
-                    'name' => $unit,
-                    'created_by' => $id,
-                ]
-            );
-        }
-
         // ExpenseCategory
         $expenseCat = [
             'Snack',

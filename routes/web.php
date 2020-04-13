@@ -161,10 +161,8 @@ Route::group(
         Route::get('invoices/{invoice}/payments', 'InvoicePaymentsController@create')->name('invoices.payments.create');
         Route::post('invoices/{invoice}/payments', 'InvoicePaymentsController@store')->name('invoices.payments.store');
 
-        Route::resource('productunits', 'ProductUnitsController');
         Route::resource('expensescategory', 'ExpenseCategoriesController');
         Route::resource('taxes', 'TaxesController');
-        Route::resource('products', 'ProductsController');
 
         //Expenses
         Route::resource('expenses', 'ExpensesController');

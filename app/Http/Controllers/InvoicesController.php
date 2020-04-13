@@ -15,7 +15,6 @@ use App\Task;
 use App\Tax;
 use App\Timesheet;
 use App\User;
-use App\Product;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
