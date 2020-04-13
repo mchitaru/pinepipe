@@ -199,6 +199,7 @@ class ClientsController extends Controller
             $activities = Activity::whereHas('project', function ($query) use ($client) {
                 $query->where('client_id', $client->id);
             })
+            ->limit(20)
             ->orderBy('id', 'desc')
             ->get();
 

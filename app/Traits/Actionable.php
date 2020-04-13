@@ -8,6 +8,6 @@ trait Actionable
 {
     public function activities()
     {
-        return $this->morphMany(Activity::class, 'actionable')->orderByDesc('id');
+        return $this->morphMany(Activity::class, 'actionable')->limit(20)->orderByDesc('id');
     }
 }
