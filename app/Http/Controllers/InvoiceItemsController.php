@@ -18,11 +18,11 @@ class InvoiceItemsController extends Controller
     {
         if($invoice->created_by == \Auth::user()->creatorId())
         {
-            $tasks      = Task::doesntHave('items')
+            $tasks      = Task::doesntHave('invoiceables')
                                     ->where('project_id', $invoice->project_id)
                                     ->get()
                                     ->pluck('title', 'id');
-            $timesheets = Timesheet::doesntHave('items')
+            $timesheets = Timesheet::doesntHave('invoiceables')
                                         ->where('project_id', $invoice->project_id)
                                         ->get()
                                         ->pluck('date', 'id');

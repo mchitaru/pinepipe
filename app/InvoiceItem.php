@@ -36,7 +36,7 @@ class InvoiceItem extends Model
         {
             $timesheet = Timesheet::find($post['timesheet_id']);    
 
-            $timesheet->items()->create(
+            $timesheet->invoiceables()->create(
                 [
                     'invoice_id' => $invoice->id,
                     'name' => (!empty($timesheet->task)?$timesheet->task->title:__('Project timesheet: ').\Auth::user()->dateFormat($timesheet->date)),
@@ -48,7 +48,7 @@ class InvoiceItem extends Model
         {
             $task      = Task::find($post['task_id']);
 
-            $task->items()->create(
+            $task->invoiceables()->create(
                 [
                     'invoice_id' => $invoice->id,
                     'name' => $task->title,

@@ -6,7 +6,7 @@ use App\InvoiceItem;
 
 trait Invoiceable
 {
-    public function items()
+    public function invoiceables()
     {
         return $this->morphMany(InvoiceItem::class, 'invoiceable')->orderByDesc('id');
     }
