@@ -147,7 +147,8 @@ class ProjectsController extends Controller
 
         $request->session()->flash('success', __('Project successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        $url = redirect()->back()->getTargetUrl().'#projects';
+        return "<script>window.location='{$url}'</script>";
     }
 
     public function show(Project $project)
