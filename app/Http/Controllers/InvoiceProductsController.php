@@ -45,7 +45,7 @@ class InvoiceProductsController extends Controller
 
         InvoiceProduct::createProduct($post, $invoice);
 
-        $request->session()->flash('success', __('Product successfully created.'));
+        $request->session()->flash('success', __('Item successfully created.'));
 
         return "<script>window.location.reload()</script>";
     }
@@ -61,7 +61,7 @@ class InvoiceProductsController extends Controller
 
         $product->delete();
 
-        return Redirect::to(URL::previous())->with('success', __('Product successfully deleted'));
+        return Redirect::to(URL::previous())->with('success', __('Item successfully deleted'));
     }
 
     public function refresh(Request $request, Invoice $invoice)

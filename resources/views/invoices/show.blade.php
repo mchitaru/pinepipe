@@ -62,7 +62,7 @@
                                     <div class="dropdown-divider"></div>
                                     @can('create invoice product')
                                     <a class="dropdown-item" href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
-                                        <span>{{__('Add Product')}}</span>
+                                        <span>{{__('Add Item')}}</span>
                                     </a>
                                     @endcan
                                     @can('create invoice payment')
@@ -151,7 +151,7 @@
                                         <div class="col-md-12 text-right d-print-none">
                                             <a href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
                                                 <span><i class="fas fa-plus"></i></span>
-                                                <u>{{__('Add Product')}}</u>
+                                                <u>{{__('Add Item')}}</u>
                                             </a>
                                         </div>
                                         @endcan

@@ -11,7 +11,7 @@
 @endsection
 
 @section('title')
-    {{__('Add Invoiced Product')}}
+    {{__('Add Invoiced Item')}}
 @endsection
 
 @section('content')
@@ -76,7 +76,7 @@
           <div id="collapseThree" class="collapse {{$isOther?'show':''}}" aria-labelledby="headingThree" data-parent="#productAccordion">
             <div class="card-body">
                 <div class="form-group row">
-                    {{ Form::label('title', __('Product Title'), array('class'=>'col-3')) }}
+                    {{ Form::label('title', __('Item Name'), array('class'=>'col-3')) }}
                     {{ Form::text('title', '', array('class' => 'form-control col', 'placeholder'=>'Website Redesign')) }}
                 </div>
             </div>
