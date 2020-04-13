@@ -7,7 +7,7 @@
 @endphp
 
 @section('form-start')
-    {{ Form::model($invoice, array('route' => array('invoices.products.store', $invoice->id), 'data-remote' => 'true')) }}
+    {{ Form::model($invoice, array('route' => array('invoices.items.store', $invoice->id), 'data-remote' => 'true')) }}
 @endsection
 
 @section('title')
@@ -39,7 +39,7 @@
                 <div class="form-group row">
                     {{ Form::label('timesheet_id', __('Timesheet'), array('class'=>'col-3')) }}
                     {!! Form::select('timesheet_id', $timesheets, null, array('class' => 'form-control col', 'placeholder'=>'Select Timesheet', 'style'=>'width: 310.5px',
-                                        'data-refresh'=>route('invoices.products.refresh', $invoice->id))) !!}
+                                        'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
                 </div>
             </div>
           </div>
@@ -58,7 +58,7 @@
                 <div class="form-group row">
                     {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
                     {!! Form::select('task_id', $tasks, null, array('class' => 'form-control col', 'placeholder'=>'Select Task', 'style'=>'width: 310.5px',
-                                        'data-refresh'=>route('invoices.products.refresh', $invoice->id))) !!}
+                                        'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
                 </div>
             </div>
           </div>
@@ -69,15 +69,15 @@
                 <div class="custom-control custom-radio">
                     <input type="radio" class="custom-control-input" name="type" id="other" value="other" data-toggle="collapse" data-toggle="collapse" data-target="#collapseThree" aria-expanded="{{$isOther?'true':'false'}}" aria-controls="collapseThree" {{$isOther?'checked':''}}>
                     {{ Form::label('other', __('Other'), array('class'=>'custom-control-label',
-                                        'data-refresh'=>route('invoices.products.refresh', $invoice->id))) }}
+                                        'data-refresh'=>route('invoices.items.refresh', $invoice->id))) }}
                 </div>
             </h5>
           </div>
           <div id="collapseThree" class="collapse {{$isOther?'show':''}}" aria-labelledby="headingThree" data-parent="#productAccordion">
             <div class="card-body">
                 <div class="form-group row">
-                    {{ Form::label('title', __('Item Name'), array('class'=>'col-3')) }}
-                    {{ Form::text('title', '', array('class' => 'form-control col', 'placeholder'=>'Website Redesign')) }}
+                    {{ Form::label('name', __('Item Name'), array('class'=>'col-3')) }}
+                    {{ Form::text('name', '', array('class' => 'form-control col', 'placeholder'=>'Website Redesign')) }}
                 </div>
             </div>
           </div>

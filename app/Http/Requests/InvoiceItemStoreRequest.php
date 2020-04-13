@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Invoice;
 
-class InvoiceProductStoreRequest extends FormRequest
+class InvoiceItemStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,7 +19,7 @@ class InvoiceProductStoreRequest extends FormRequest
         if($invoice->created_by != \Auth::user()->creatorId())
             return false;            
 
-        return $this->user()->can('create invoice product');
+        return $this->user()->can('create invoice item');
     }
 
     /**
@@ -41,7 +41,7 @@ class InvoiceProductStoreRequest extends FormRequest
             ];
         }else{
             return [
-                'title' => 'required',
+                'name' => 'required',
                 'price' => 'required',
             ];
         }
@@ -53,6 +53,6 @@ class InvoiceProductStoreRequest extends FormRequest
 
         $invoice = $this->route()->parameter('invoice');
 
-        return route('invoices.products.create', $invoice);
+        return route('invoices.items.create', $invoice);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Invoice;
 use Illuminate\Support\Facades\URL;
 
-class InvoiceProductDestroyRequest extends FormRequest
+class InvoiceItemDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,7 +20,7 @@ class InvoiceProductDestroyRequest extends FormRequest
         if(!$invoice->created_by == \Auth::user()->creatorId())
             return false;            
 
-        return $this->user()->can('delete invoice product');
+        return $this->user()->can('delete invoice item');
     }
 
     /**

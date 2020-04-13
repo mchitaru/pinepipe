@@ -5,13 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
-class InvoiceProduct extends Model
+class InvoiceItem extends Model
 {
     use NullableFields;
 
     protected $fillable = [
         'invoice_id', 
-        'item',
+        'name',
         'price'
     ];
 
@@ -30,16 +30,16 @@ class InvoiceProduct extends Model
         return $this->morphTo();
     }
 
-    public static function createProduct($post, Invoice $invoice)
+    public static function createItem($post, Invoice $invoice)
     {
         if($post['type'] == 'timesheet')
         {
             $timesheet = Timesheet::find($post['timesheet_id']);    
 
-            $timesheet->products()->create(
+            $timesheet->items()->create(
                 [
                     'invoice_id' => $invoice->id,
-                    'item' => (!empty($timesheet->task)?$timesheet->task->title:__('Project timesheet: ').\Auth::user()->dateFormat($timesheet->date)),
+                    'name' => (!empty($timesheet->task)?$timesheet->task->title:__('Project timesheet: ').\Auth::user()->dateFormat($timesheet->date)),
                     'price' => $post['price']
                 ]
             );    
@@ -48,20 +48,20 @@ class InvoiceProduct extends Model
         {
             $task      = Task::find($post['task_id']);
 
-            $task->products()->create(
+            $task->items()->create(
                 [
                     'invoice_id' => $invoice->id,
-                    'item' => $task->title,
+                    'name' => $task->title,
                     'price' => $post['price']
                 ]
             );    
         }
         else
         {
-            InvoiceProduct::create(
+            InvoiceItem::create(
                 [
                     'invoice_id' => $invoice->id,
-                    'item' => $post['title'],
+                    'name' => $post['name'],
                     'price' => $post['price']
                 ]
             );    
@@ -77,7 +77,7 @@ class InvoiceProduct extends Model
         }
     }
 
-    public function detachProduct(Invoice $invoice)
+    public function detachItem(Invoice $invoice)
     {
         if($invoice->getDue() <= 0.0)
         {

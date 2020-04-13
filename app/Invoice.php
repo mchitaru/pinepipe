@@ -50,7 +50,7 @@ class Invoice extends Model
 
     public function items()
     {
-        return $this->hasMany('App\InvoiceProduct', 'invoice_id', 'id');
+        return $this->hasMany('App\InvoiceItem', 'invoice_id', 'id');
     }
 
     public function payments()
@@ -61,9 +61,9 @@ class Invoice extends Model
     public function getSubTotal()
     {
         $subTotal = 0;
-        foreach($this->items as $product)
+        foreach($this->items as $item)
         {
-            $subTotal += $product->price;
+            $subTotal += $item->price;
         }
 
         return $subTotal;
@@ -131,7 +131,7 @@ class Invoice extends Model
     public function detachInvoice()
     {
         InvoicePayment::where('invoice_id', '=', $this->id)->delete();
-        InvoiceProduct::where('invoice_id', '=', $this->id)->delete();
+        InvoiceItem::where('invoice_id', '=', $this->id)->delete();
 
         $this->activities()->delete();
     }

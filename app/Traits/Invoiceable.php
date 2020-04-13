@@ -2,12 +2,12 @@
 
 namespace App\Traits;
 
-use App\InvoiceProduct;
+use App\InvoiceItem;
 
 trait Invoiceable
 {
-    public function products()
+    public function items()
     {
-        return $this->morphMany(InvoiceProduct::class, 'invoiceable')->orderByDesc('id');
+        return $this->morphMany(InvoiceItem::class, 'invoiceable')->orderByDesc('id');
     }
 }

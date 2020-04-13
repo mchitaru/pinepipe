@@ -150,11 +150,11 @@ Route::group(
         //Invoices
         Route::resource('invoices', 'InvoicesController');
 
-        //Invoice products
-        Route::get('invoices/{invoice}/products/refresh', 'InvoiceProductsController@refresh')->name('invoices.products.refresh');
-        Route::get('invoices/{invoice}/products', 'InvoiceProductsController@create')->name('invoices.products.create');
-        Route::post('invoices/{invoice}/products', 'InvoiceProductsController@store')->name('invoices.products.store');
-        Route::delete('invoices/{invoice}/products/{product}', 'InvoiceProductsController@delete')->name('invoices.products.delete');
+        //Invoice items
+        Route::get('invoices/{invoice}/items/refresh', 'InvoiceItemsController@refresh')->name('invoices.items.refresh');
+        Route::get('invoices/{invoice}/items', 'InvoiceItemsController@create')->name('invoices.items.create');
+        Route::post('invoices/{invoice}/items', 'InvoiceItemsController@store')->name('invoices.items.store');
+        Route::delete('invoices/{invoice}/items/{item}', 'InvoiceItemsController@delete')->name('invoices.items.delete');
 
         //Invoice payments
         Route::get('invoices/payments', 'InvoicePaymentsController@index')->name('invoices.payments.index');

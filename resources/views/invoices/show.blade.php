@@ -60,8 +60,8 @@
                                         <span>{{__('Export PDF')}}</span>
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    @can('create invoice product')
-                                    <a class="dropdown-item" href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
+                                    @can('create invoice item')
+                                    <a class="dropdown-item" href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                                         <span>{{__('Add Item')}}</span>
                                     </a>
                                     @endcan
@@ -147,9 +147,9 @@
                             <div class="row ">
                                 <div class="col-md-12">
                                     <div class="section-title"><b>{{__('Order Summary')}}</b>
-                                        @can('create invoice product')
+                                        @can('create invoice item')
                                         <div class="col-md-12 text-right d-print-none">
-                                            <a href="{{ route('invoices.products.create',$invoice->id) }}" data-remote="true" data-type="text">
+                                            <a href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                                                 <span><i class="fas fa-plus"></i></span>
                                                 <u>{{__('Add Item')}}</u>
                                             </a>
@@ -180,7 +180,7 @@
                                                         {{Auth::user()->priceFormat($items->price)}}
                                                     </td>
                                                     <td class="table-actions text-right">
-                                                        @can('delete invoice product')
+                                                        @can('delete invoice item')
 
                                                         <div class="dropdown float-right">
                                                             <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -188,7 +188,7 @@
                                                             </button>
                                             
                                                             <div class="dropdown-menu dropdown-menu-right">
-                                                                <a class="dropdown-item text-danger" href="{{ route('invoices.products.delete', [$invoice->id, $items->id]) }}" data-method="delete" data-remote="true" data-type="text">
+                                                                <a class="dropdown-item text-danger" href="{{ route('invoices.items.delete', [$invoice->id, $items->id]) }}" data-method="delete" data-remote="true" data-type="text">
                                                                     <span>{{'Delete'}}</span>
                                                                 </a>
                                                             </div>

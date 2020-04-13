@@ -95,7 +95,7 @@ $languages=$user->languages();
     </li>
     @endif
 
-    @if((Gate::check('manage product') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')
+    @if((Gate::check('manage item') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')
     <li class="nav-item">
 
         <div class="dropdown">

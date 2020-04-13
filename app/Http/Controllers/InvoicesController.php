@@ -7,7 +7,7 @@ use App\Expense;
 use App\ExpenseCategory;
 use App\Invoice;
 use App\InvoicePayment;
-use App\InvoiceProduct;
+use App\InvoiceItem;
 use App\Milestone;
 use App\PaymentType;
 use App\Products;
