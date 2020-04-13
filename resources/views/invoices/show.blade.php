@@ -37,17 +37,7 @@
                         <div class="row align-items-center">
                             <div class="col-11">
                                 <h6>{{ Auth::user()->invoiceNumberFormat($invoice->id) }}
-                                    @if($invoice->status == 0)
-                                        <span class="badge badge-info">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
-                                    @elseif($invoice->status == 1)
-                                        <span class="badge badge-danger">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
-                                    @elseif($invoice->status == 2)
-                                        <span class="badge badge-warning">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
-                                    @elseif($invoice->status == 3)
-                                        <span class="badge badge-success">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
-                                    @elseif($invoice->status == 4)
-                                        <span class="badge badge-light">{{ __(\App\Invoice::$status[$invoice->status]) }}</span>
-                                    @endif
+                                    {!! $invoice->getStatusBadge() !!}
                                 </h6>
                             </div>
                             <div class="col-1 dropdown card-options d-print-none">
@@ -174,7 +164,7 @@
                                                         {{++$i}}
                                                     </td>
                                                     <td class="text-center font-style">
-                                                        {{$items->item}}
+                                                        {{$items->name}}
                                                     </td>
                                                     <td class="text-center">
                                                         {{Auth::user()->priceFormat($items->price)}}

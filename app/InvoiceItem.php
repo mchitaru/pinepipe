@@ -67,21 +67,10 @@ class InvoiceItem extends Model
             );    
         }
 
-        if($invoice->getTotal() == 0.0)
-        {
-            Invoice::change_status($invoice->id, 1);
-
-        }else if($invoice->getTotal() > 0.0 || $invoice->getDue() < 0.0)
-        {
-            Invoice::change_status($invoice->id, 2);
-        }
+        $invoice->updateStatus();
     }
 
     public function detachItem(Invoice $invoice)
     {
-        if($invoice->getDue() <= 0.0)
-        {
-            Invoice::change_status($invoice->id, 3);
-        }
     }
 }

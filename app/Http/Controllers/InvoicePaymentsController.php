@@ -85,14 +85,8 @@ class InvoicePaymentsController extends Controller
                         'notes' => $request->notes,
                     ]
                 );
-                if($invoice->getDue() == 0.0)
-                {
-                    Invoice::change_status($invoice->id, 3);
-                }
-                else
-                {
-                    Invoice::change_status($invoice->id, 2);
-                }
+                
+                $invoice->updateStatus();
 
                 return redirect()->route('invoices.show', $invoice->id)->with('success', __('Payment successfully added.'));
             }

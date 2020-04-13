@@ -61,6 +61,8 @@ class InvoiceItemsController extends Controller
 
         $item->delete();
 
+        $invoice->updateStatus();
+
         return Redirect::to(URL::previous())->with('success', __('Item successfully deleted'));
     }
 

@@ -85,6 +85,7 @@
                             <div>{{__('Tag')}}:</div>
                             <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
                             <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>
+                            <div class="tag filter" data-filter="partial payment">{{__('Partial Payment')}}</div>
                             <div class="tag filter" data-filter="paid">{{__('Paid')}}</div>
                         </div>                                           
                     </div>

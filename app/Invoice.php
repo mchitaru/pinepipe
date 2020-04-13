@@ -38,6 +38,14 @@ class Invoice extends Model
         'cancelled',
     ];
 
+    public static $badge = [
+        'badge-info',
+        'badge-danger',
+        'badge-warning',
+        'badge-success',
+        'badge-light',
+    ];
+
     public function project()
     {
         return $this->hasOne('App\Project', 'id', 'project_id');
@@ -86,23 +94,47 @@ class Invoice extends Model
         return ($this->getSubTotal() * $discount_factor) + $this->getTax();
     }
 
-    public function getDue()
+    public function getPaid()
     {
-        $due = 0;
+        $paid = 0;
         foreach($this->payments as $payment)
         {
-            $due += $payment->amount;
+            $paid += $payment->amount;
         }
 
-        return $this->getTotal() - $due;
+        return $paid;
     }
 
-    public static function change_status($invoice_id, $status)
+    public function getDue()
     {
+        return $this->getTotal() - $this->getPaid();
+    }
 
-        $invoice         = Invoice::find($invoice_id);
-        $invoice->status = $status;
-        $invoice->update();
+    public function getStatusBadge()
+    {
+        return '<span class="badge '.Invoice::$badge[$this->status].'">'.__(Invoice::$status[$this->status]).'</span>';
+    }
+
+    public function updateStatus()
+    {
+        if($this->status != 4)
+        {
+            $total = $this->getTotal();
+            $paid = $this->getPaid();
+
+            $status = 0;
+
+            if($total && ($total == $paid)){
+                $status = 3;
+            }else if($total && ($paid == 0.0)) {
+                $status = 1;
+            }else if($paid > 0.0){
+                $status = 2;
+            }
+
+            $this->status = $status;
+            $this->update();
+        }
     }
 
     public static function createInvoice($post)
