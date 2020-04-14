@@ -204,11 +204,12 @@
                                     <div class="invoice-detail-name"><b>{{__('Subtotal')}}</b></div>
                                     <div class="invoice-detail-value"> {{Auth::user()->priceFormat($subTotal)}}</div>
                                 </div>
+                                @if($invoice->discount != 0)
                                 <div class="col-md-2 text-md-center">
                                     <div class="invoice-detail-name"><b>{{__('Discount')}}</b></div>
                                     <div class="invoice-detail-value"> {{$invoice->discount}}%</div>
                                 </div>
-
+                                @endif
                                 <div class="col-md-3 text-md-center">
                                     <div class="invoice-detail-name"><b>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</b></div>
                                     <div class="invoice-detail-value"> {{Auth::user()->priceFormat($tax)}}</div>
@@ -217,7 +218,7 @@
                                     <div class="invoice-detail-name" style="color: #000000"><b>{{__('Total')}}</b></div>
                                     <div class="invoice-detail-value" style="color: #000000">{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</div>
                                 </div>
-                                <div class="col-md-2 text-md-right">
+                                <div class="col text-md-right">
                                     <div class="invoice-detail-name"><b>{{__('Due Amount')}}</b></div>
                                     <div class="invoice-detail-value"> {{Auth::user()->priceFormat($invoice->getDue())}}</div>
                                 </div>

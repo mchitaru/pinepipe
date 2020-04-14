@@ -36,7 +36,7 @@ class TimesheetStoreRequest extends FormRequest
             'hours' => 'required|integer',
             'minutes' => 'required|integer',
             'seconds' => 'required|integer',
-            'rate' => 'required|numeric',
+            'rate' => 'nullable|numeric',
             'remark' => 'nullable|string'    
         ];
     }

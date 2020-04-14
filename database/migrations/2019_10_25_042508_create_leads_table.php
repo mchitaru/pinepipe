@@ -17,7 +17,7 @@ class CreateLeadsTable extends Migration
             'leads', function (Blueprint $table){
             $table->bigIncrements('id');
             $table->string('name');
-            $table->float('price')->default(0);
+            $table->float('price')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedInteger('stage_id')->default(0);
             $table->unsignedInteger('order')->default(0);

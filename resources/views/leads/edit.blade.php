@@ -15,9 +15,9 @@
         {{ Form::label('name', __('Name'), array('class'=>'col-3')) }}
         {{ Form::text('name', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Lead name')) }}
     </div>
-    <div class="form-group row required">
+    <div class="form-group row">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
-        {{ Form::number('price', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Lead Value')) }}
+        {{ Form::number('price', null, array('class' => 'form-control col', 'placeholder'=>'Lead Value')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}

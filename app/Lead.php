@@ -23,6 +23,7 @@ class Lead extends Model
     ];
 
     protected $nullable = [
+        'price',
         'client_id',
         'contact_id',
         'notes'

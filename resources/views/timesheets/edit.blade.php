@@ -47,9 +47,9 @@
         {{ Form::date('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
                                         'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    <div class="form-group row required">
+    <div class="form-group row">
         {{ Form::label('rate', __('Hourly Rate'), array('class'=>'col-3')) }}
-        {{ Form::number('rate', null, array('class' => 'form-control col', 'required'=>'required','min'=>'0',"step"=>"0.01")) }}
+        {{ Form::number('rate', null, array('class' => 'form-control col', 'min'=>'0', "step"=>"0.01", 'placeholder'=>'$50')) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}

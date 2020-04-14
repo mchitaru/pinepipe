@@ -26,6 +26,7 @@ class Timesheet extends Model
     ];
 
     protected $nullable = [
+        'rate',
         'project_id', 
         'task_id',
         'started_at'

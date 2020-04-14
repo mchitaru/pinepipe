@@ -15,9 +15,9 @@
         {{ Form::label('name', __('Name'), array('class'=>'col-3')) }}
         {{ Form::text('name', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Pinepipe Lead')) }}
     </div>
-    <div class="form-group row required">
+    <div class="form-group row">
         {{ Form::label('price', __('Value'), array('class'=>'col-3')) }}
-        {{ Form::number('price', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'$10000')) }}
+        {{ Form::number('price', '', array('class' => 'form-control col', 'placeholder'=>'$10000')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
