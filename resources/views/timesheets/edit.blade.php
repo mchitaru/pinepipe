@@ -45,7 +45,7 @@
     <div class="form-group row required">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
         {{ Form::date('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
-                                        'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-alt-input')) }}
+                                        'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row required">
         {{ Form::label('rate', __('Hourly Rate'), array('class'=>'col-3')) }}

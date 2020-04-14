@@ -23,6 +23,7 @@
                 @endif
             </div>
             <div class="card-title col-xs-12 col-sm-5">
+                @if(!empty($client->email))
                 <div class="container row align-items-center">
                     <i class="material-icons">email</i>
                     <a href="mailto:kenny.tran@example.com">
@@ -31,6 +32,7 @@
                         </span>
                     </a>
                 </div>
+                @endif
             </div>
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">

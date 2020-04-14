@@ -103,7 +103,7 @@ class ClientsController extends Controller
 
             $request->session()->flash('success', __('Client successfully created.'));
 
-            $url = redirect()->route('clients.show', $client->id)->getTargetUrl();
+            $url = redirect()->route('clients.show', $client->id)->getTargetUrl().'#profile';
             return "<script>window.location='{$url}'</script>";
         }
         else

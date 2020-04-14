@@ -17,12 +17,12 @@
     <div class="form-group row">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}
         {{ Form::date('issue_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
-                                            'data-flatpickr', 'data-default-date'=> $invoice->issue_date, 'data-alt-input')) }}
+                                            'data-flatpickr', 'data-default-date'=> $invoice->issue_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
         {{ Form::date('due_date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
-                                            'data-flatpickr', 'data-default-date'=> $invoice->due_date, 'data-alt-input')) }}
+                                            'data-flatpickr', 'data-default-date'=> $invoice->due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('discount', __('Discount(%)'), array('class'=>'col-3')) }}
