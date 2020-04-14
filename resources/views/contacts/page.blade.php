@@ -91,6 +91,7 @@
                                 <a class="sort" href="#" data-sort="name">Name</a>
                                 <a class="sort" href="#" data-sort="email">Email</a>
                                 <a class="sort" href="#" data-sort="phone">Phone</a>
+                                <a class="sort" href="#" data-sort="created_at">Date</a>
                             </div>     
                         </div>
                     </div>
