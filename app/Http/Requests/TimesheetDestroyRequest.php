@@ -40,6 +40,6 @@ class TimesheetDestroyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return URL::previous() . "#timesheets";
+        return URL::previous();
     }
 }

@@ -47,7 +47,7 @@ class TasksController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous() . "#tasks")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -190,7 +190,7 @@ class TasksController extends Controller
 
         $task->delete();
 
-        return Redirect::to(URL::previous() . "#tasks")->with('success', __('Task successfully deleted'));
+        return Redirect::to(URL::previous())->with('success', __('Task successfully deleted'));
     }
 
 

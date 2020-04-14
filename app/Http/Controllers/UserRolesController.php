@@ -61,7 +61,7 @@ class UserRolesController extends Controller
             return view('roles.create', compact('modules', 'permissions'));
         }else
         {
-            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
 
     }
@@ -89,10 +89,10 @@ class UserRolesController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return Redirect::to(URL::previous() . "#roles")->with('success', __('Role successfully created.'));
+            return Redirect::to(URL::previous())->with('success', __('Role successfully created.'));
         }else
         {
-            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
 
 
@@ -123,7 +123,7 @@ class UserRolesController extends Controller
             return view('roles.edit', compact('modules', 'role', 'permissions'));
         }else
         {
-            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
 
 
@@ -164,10 +164,10 @@ class UserRolesController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return Redirect::to(URL::previous() . "#roles")->with('success', __('Role successfully updated.'));
+            return Redirect::to(URL::previous())->with('success', __('Role successfully updated.'));
         }else
         {
-            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
 
     }
@@ -183,10 +183,10 @@ class UserRolesController extends Controller
         if(\Auth::user()->can('delete role')){
             $role->delete();
 
-            return Redirect::to(URL::previous() . "#roles")->with('success', __('Role successfully deleted.'));
+            return Redirect::to(URL::previous())->with('success', __('Role successfully deleted.'));
         }else
         {
-            return Redirect::to(URL::previous() . "#roles")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
         
     }

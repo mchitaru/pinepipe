@@ -96,7 +96,7 @@ class SystemSettingsController extends Controller
             );
         }
 
-        return Redirect::to(URL::previous() . "#company")->with('success', __('Settings updated successfully.'));
+        return Redirect::to(URL::previous())->with('success', __('Settings updated successfully.'));
     }
 
     public function updateStripe(SystemSettingsStripeRequest $request)
@@ -119,7 +119,7 @@ class SystemSettingsController extends Controller
 
         }
 
-        return Redirect::to(URL::previous() . "#stripe")->with('success', __('Stripe settings updated successfully.'));
+        return Redirect::to(URL::previous())->with('success', __('Stripe settings updated successfully.'));
     }
 
     public function updateSystem(SystemSettingsSystemRequest $request)
@@ -140,6 +140,6 @@ class SystemSettingsController extends Controller
             );
         }
 
-        return Redirect::to(URL::previous() . "#system")->with('success', __('Settings updated successfully.'));
+        return Redirect::to(URL::previous())->with('success', __('Settings updated successfully.'));
     }
 }

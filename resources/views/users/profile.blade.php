@@ -23,7 +23,7 @@ use App\PaymentPlan;
     });
 
     $(document).ready(function() {
-
+/*
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
         {
             window.history.replaceState(null, null, $(e.target).attr('href'));
@@ -34,6 +34,23 @@ use App\PaymentPlan;
         var hash = window.location.hash ? window.location.hash : '#personal';
     
         $('.nav-tabs a[href="' + hash + '"]').tab('show');
+*/
+        $('a[data-toggle="tab"]').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+            var id = $(e.target).attr("href");
+            sessionStorage.setItem('profile.tab', id)
+        });
+
+        var selectedTab = sessionStorage.getItem('profile.tab');
+
+        if(selectedTab == null) selectedTab = '#personal';
+
+        $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
+
 
         $('select').select2();
     });

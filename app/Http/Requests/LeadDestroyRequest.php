@@ -41,6 +41,6 @@ class LeadDestroyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return URL::previous() . "#leads";
+        return URL::previous();
     }
 }

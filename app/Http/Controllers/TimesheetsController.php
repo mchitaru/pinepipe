@@ -102,7 +102,7 @@ class TimesheetsController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous() . "#timesheets")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -140,7 +140,7 @@ class TimesheetsController extends Controller
         $timesheet->detachTimesheet();
         $timesheet->delete();
 
-        return Redirect::to(URL::previous() . "#timesheets")->with('success', __('Timesheet successfully deleted.'));
+        return Redirect::to(URL::previous())->with('success', __('Timesheet successfully deleted.'));
     }
 
     public function refresh(Request $request, $timesheet_id)

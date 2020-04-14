@@ -31,7 +31,7 @@ class SystemSettingsStripeRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.show').'/#stripe';
+        return route('profile.show');
     }
 
 }

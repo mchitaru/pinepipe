@@ -85,6 +85,6 @@ class ProjectFilesController extends Controller
         }
         $file->delete();
 
-        return Redirect::to(URL::previous() . "#project-files")->with('success', __('File successfully deleted'));
+        return Redirect::to(URL::previous())->with('success', __('File successfully deleted'));
     }
 }

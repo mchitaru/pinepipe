@@ -178,7 +178,7 @@ class UsersController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous() . "#users")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
 
     }
@@ -230,7 +230,7 @@ class UsersController extends Controller
                     $roles[] = $request->role;
                     $user->roles()->sync($roles);
 
-                    return Redirect::to(URL::previous() . "#users")->with('success', __('User successfully updated.'));
+                    return Redirect::to(URL::previous())->with('success', __('User successfully updated.'));
                 }
             }
         }
@@ -252,7 +252,7 @@ class UsersController extends Controller
                     $request->session()->flash('success', __('User successfully restored.'));
                 }
         
-                return Redirect::to(URL::previous() . "#users");
+                return Redirect::to(URL::previous());
             }
         }
 
@@ -277,7 +277,7 @@ class UsersController extends Controller
             $user->removeUserTaskInfo($user->id);
             $user->destroyUserTaskAllInfo($user->id);
 
-            return Redirect::to(URL::previous() . "#users")->with('success', __('User successfully deleted.'));
+            return Redirect::to(URL::previous())->with('success', __('User successfully deleted.'));
         }
         else
         {

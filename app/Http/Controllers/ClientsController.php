@@ -237,7 +237,7 @@ class ClientsController extends Controller
     //     $user['email'] = $request['email'];
     //     $user->save();
 
-    //     return Redirect::to(URL::previous() . "#clients")->with('error', __('Profile successfully updated.'));
+    //     return Redirect::to(URL::previous())->with('error', __('Profile successfully updated.'));
     // }
 
     // public function convert($id)

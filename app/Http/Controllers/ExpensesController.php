@@ -97,7 +97,7 @@ class ExpensesController extends Controller
             {
                 $messages = $validator->getMessageBag();
 
-                return Redirect::to(URL::previous() . "#expenses")->with('error', $messages->first());
+                return Redirect::to(URL::previous())->with('error', $messages->first());
             }
 
             $expense              = new Expense();
@@ -127,11 +127,11 @@ class ExpensesController extends Controller
                 $expense->save();
             }
 
-            return Redirect::to(URL::previous() . "#expenses")->with('success', __('Expense successfully created.'));
+            return Redirect::to(URL::previous())->with('success', __('Expense successfully created.'));
         }
         else
         {
-            return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -190,7 +190,7 @@ class ExpensesController extends Controller
                 {
                     $messages = $validator->getMessageBag();
 
-                    return Redirect::to(URL::previous() . "#expenses")->with('error', $messages->first());
+                    return Redirect::to(URL::previous())->with('error', $messages->first());
                 }
                 $expense->category_id = $request->category_id;
                 $expense->description = $request->description;
@@ -221,16 +221,16 @@ class ExpensesController extends Controller
                     $expense->save();
                 }
 
-                return Redirect::to(URL::previous() . "#expenses")->with('success', __('Expense successfully updated.'));
+                return Redirect::to(URL::previous())->with('success', __('Expense successfully updated.'));
             }
             else
             {
-                return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -248,16 +248,16 @@ class ExpensesController extends Controller
             {
                 $expense->delete();
 
-                return Redirect::to(URL::previous() . "#expenses")->with('success', __('Expense successfully deleted.'));
+                return Redirect::to(URL::previous())->with('success', __('Expense successfully deleted.'));
             }
             else
             {
-                return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return Redirect::to(URL::previous() . "#expenses")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 }

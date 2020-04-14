@@ -56,11 +56,7 @@ class UserProfileController extends Controller
 
         $user->save();
 
-        if($tab == 'personal'){
-            return Redirect::to(URL::previous()."#personal")->with('success', __('Profile updated successfully.'));
-        }else{
-            return Redirect::to(URL::previous()."#notifications")->with('success', __('Profile updated successfully.'));
-        }
+        return Redirect::to(URL::previous())->with('success', __('Profile updated successfully.'));
     }
 
     public function password(UserProfileRequest $request)
@@ -74,11 +70,11 @@ class UserProfileController extends Controller
             $user->password = Hash::make($post['new_password']);
             $user->save();
 
-            return Redirect::to(URL::previous() . "#password")->with('success', __('Password updated successfully.'));
+            return Redirect::to(URL::previous())->with('success', __('Password updated successfully.'));
         }
         else
         {
-            return Redirect::to(URL::previous() . "#password")->with('error', __('Current pasword is incorrect.'));
+            return Redirect::to(URL::previous())->with('error', __('Current pasword is incorrect.'));
         }
     }
 }

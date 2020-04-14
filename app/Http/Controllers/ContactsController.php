@@ -117,7 +117,7 @@ class ContactsController extends Controller
 
         }else
         {
-            return Redirect::to(URL::previous() . "#contacts")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -156,6 +156,6 @@ class ContactsController extends Controller
 
         $contact->delete();
 
-        return Redirect::to(URL::previous() . "#contacts")->with('success', __('Contact successfully deleted.'));
+        return Redirect::to(URL::previous())->with('success', __('Contact successfully deleted.'));
     }
 }

@@ -134,12 +134,12 @@ class InvoicesController extends Controller
             }
             else
             {
-                return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
             }
         }
         else
         {
-            return Redirect::to(URL::previous() . "#invoices")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -187,7 +187,7 @@ class InvoicesController extends Controller
 
         $invoice->delete();
 
-        return Redirect::to(URL::previous() . "#invoices")->with('success', __('Invoice successfully deleted.'));
+        return Redirect::to(URL::previous())->with('success', __('Invoice successfully deleted.'));
     }
 
 }

@@ -37,6 +37,6 @@ class SystemSettingsEmailRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.show').'/#email';
+        return route('profile.show');
     }
 }

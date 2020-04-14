@@ -30,7 +30,7 @@ class SystemSettingsSystemRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.show').'/#system';
+        return route('profile.show');
     }
 
 }

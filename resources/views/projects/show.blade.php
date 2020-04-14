@@ -23,7 +23,7 @@ if(Gate::check('manage task')){
 <script>
        
 $(function() {
-
+/*
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
     {
         window.history.replaceState(null, null, $(e.target).attr('href'));
@@ -34,7 +34,22 @@ $(function() {
     var hash = window.location.hash ? window.location.hash : '{{$default_tab}}';
 
     $('.nav-tabs a[href="' + hash + '"]').tab('show');
+*/
 
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+        window.history.replaceState(null, null, $(e.target).attr('href'));
+        window.location.hash = $(e.target).attr('href');
+        $(window).scrollTop(0);
+
+        var id = $(e.target).attr("href");
+        sessionStorage.setItem('projects.tab', id);
+    });
+
+    var hash = window.location.hash ? window.location.hash : sessionStorage.getItem('projects.tab');
+
+    if(hash == null) hash = '{{$default_tab}}';
+
+    $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
 
 
     initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});

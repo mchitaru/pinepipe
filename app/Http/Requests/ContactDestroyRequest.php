@@ -41,6 +41,6 @@ class ContactDestroyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return URL::previous() . "#contacts";
+        return URL::previous();
     }
 }

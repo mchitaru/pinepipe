@@ -60,18 +60,6 @@ class UserProfileRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        if ($this->isMethod('put')){
-            
-            $tab = $this->route()->parameter('tab');
-
-            if($tab == 'personal'){
-                return route('profile.show').'/#personal';
-            }else{
-                return route('profile.show').'/#notifications';                
-            }
-        }else{
-
-            return route('profile.show').'/#password';
-        }
+        return route('profile.show');
     }
 }

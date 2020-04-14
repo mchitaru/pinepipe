@@ -37,6 +37,6 @@ class SystemSettingsCompanyRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.show').'/#company';
+        return route('profile.show');
     }
 }

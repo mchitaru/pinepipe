@@ -33,7 +33,7 @@ class LeadsController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -69,7 +69,7 @@ class LeadsController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -115,7 +115,7 @@ class LeadsController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous() . "#leads")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -140,7 +140,7 @@ class LeadsController extends Controller
         $lead->detachLead();
         $lead->delete();
 
-        return Redirect::to(URL::previous() . "#leads")->with('success', __('Lead successfully deleted.'));
+        return Redirect::to(URL::previous())->with('success', __('Lead successfully deleted.'));
     }
 
     public function order(Request $request)

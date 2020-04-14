@@ -147,7 +147,7 @@ class ProjectsController extends Controller
 
         $request->session()->flash('success', __('Project successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl().'#projects';
+        $url = redirect()->back()->getTargetUrl();
         return "<script>window.location='{$url}'</script>";
     }
 
@@ -204,7 +204,7 @@ class ProjectsController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous() . "#projects")->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
 
@@ -219,7 +219,7 @@ class ProjectsController extends Controller
 
         $project->delete();
 
-        return Redirect::to(URL::previous() . "#projects")->with('success', __('Project successfully deleted'));
+        return Redirect::to(URL::previous())->with('success', __('Project successfully deleted'));
     }
 
     public function search($search)

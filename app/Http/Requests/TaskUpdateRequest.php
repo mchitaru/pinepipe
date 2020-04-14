@@ -72,7 +72,7 @@ class TaskUpdateRequest extends FormRequest
             return route('tasks.edit', $task);
         }else{
 
-            return URL::previous().'/#tasks';
+            return URL::previous();
         }
     }
 }
