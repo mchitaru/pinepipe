@@ -2,7 +2,7 @@
 
 use App\Task;
 use App\Project;
-use App\TaskChecklist;
+use App\Checklist;
 
 trait Taskable
 {
@@ -14,7 +14,7 @@ trait Taskable
 
             $project = Project::find($task->project_id);
 
-            $subtasks = $task->subtasks()->orderBy('order')->get();
+            $subtasks = $task->checklist()->get();
 
             $files = [];
             foreach($task->getMedia('tasks') as $media)

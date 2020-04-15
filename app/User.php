@@ -670,8 +670,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function destroyUserTaskAllInfo($user_id)
     {
-        TaskChecklist::where('created_by', '=', $user_id)->delete();
-        TaskComment::where('created_by', '=', $user_id)->delete();
+        Checklist::where('created_by', '=', $user_id)->delete();
+        Comment::where('created_by', '=', $user_id)->delete();
     }
 
     public function total_company_user($company_id)

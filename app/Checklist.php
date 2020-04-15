@@ -4,17 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TaskChecklist extends Model
+class Checklist extends Model
 {
     protected $fillable = [
-        'name', 
-        'task_id',
+        'title', 
         'status',
         'created_by', 
     ];
 
-    public function task()
+    public function checklistable()
     {
-        return $this->belongsTo('App\Task');
+        return $this->morphTo();
     }
 }

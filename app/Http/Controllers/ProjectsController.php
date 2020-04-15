@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
-use App\TaskChecklist;
+use App\Checklist;
 use App\Client;
-use App\TaskComment;
+use App\Comment;
 use App\Invoice;
 use App\Lead;
 use App\Milestone;

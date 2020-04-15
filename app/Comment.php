@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TaskComment extends Model
+class Comment extends Model
 {
     protected $fillable = [
         'comment', 
@@ -13,9 +13,9 @@ class TaskComment extends Model
     ];
 
     
-    public function task()
+    public function commentable()
     {
-        return $this->belongsTo('App\Task');
+        return $this->morphTo();
     }
 
     public function user()

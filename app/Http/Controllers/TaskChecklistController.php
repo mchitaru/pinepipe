@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Task;
-use App\TaskChecklist;
+use App\Checklist;
 use App\Http\Requests\TaskChecklistRequest;
 use Illuminate\Http\Request;
 use App\Traits\Taskable;
@@ -33,11 +33,10 @@ class TaskChecklistController extends Controller
     {
         $post = $request->validated();
 
-        $post['task_id']      = $task->id;
-        $post['name']         = __('Something To Do...');
+        $post['title']         = __('Something To Do...');
         $post['created_by']   = \Auth::user()->id;
         
-        $subtask            = TaskChecklist::create($post);
+        $subtask = $task->checklist()->create($post);
 
         return redirect()->route('tasks.show', $task->id)->with('success', __('Subtask Created.'));
     }
@@ -46,16 +45,16 @@ class TaskChecklistController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TaskChecklist  $subtask
+     * @param  \App\Checklist  $subtask
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskChecklistRequest $request, Task $task, TaskChecklist $subtask)
+    public function update(TaskChecklistRequest $request, Task $task, Checklist $subtask)
     {        
         $post = $request->validated();
 
-        if (isset($post['name'])){
+        if (isset($post['title'])){
 
-            $subtask->name = $post['name'];
+            $subtask->title = $post['title'];
 
         }else{
 
@@ -71,10 +70,10 @@ class TaskChecklistController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TaskChecklist  $subtask
+     * @param  \App\Checklist  $subtask
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task, TaskChecklist $subtask)
+    public function destroy(Task $task, Checklist $subtask)
     {
         $subtask->delete();
 
@@ -89,14 +88,14 @@ class TaskChecklistController extends Controller
         {
             foreach($post['order'] as $key => $item)
             {
-                $check = TaskChecklist::find($item);
+                $check = Checklist::find($item);
                 $check->order = $key;
                 $check->save();
             }                
         }
         else{
 
-            $check = TaskChecklist::find($post['check_id']);
+            $check = Checklist::find($post['check_id']);
             $check->delete();
         }
     }

@@ -24,7 +24,7 @@ class TaskChecklistRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable',
+            'title' => 'nullable',
             'status' => 'nullable'
         ];
     }

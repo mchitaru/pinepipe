@@ -127,13 +127,13 @@ $dz_id = 'task-files-dz';
         <div class="d-flex align-items-center">
             <ul class="avatars">
 
-            <li>
-                @if(!empty($task->task_user))
-                <a href="#" data-toggle="tooltip" title="{{(!empty($task->task_user)?$task->task_user->name:'')}}">
-                    {!!Helpers::buildUserAvatar($task->task_user)!!}
-                </a>
-                @endif
-            </li>
+                @foreach($task->users as $user)
+                <li>
+                    <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                        {!!Helpers::buildUserAvatar($user)!!}
+                    </a>
+                </li>
+                @endforeach
 
             </ul>
         </div>
@@ -178,23 +178,22 @@ $dz_id = 'task-files-dz';
         <div class="tab-content">
             <div class="tab-pane fade show {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" id="task" role="tabpanel">
 
-                @can('create subtask')
+                @can('manage task')
                 <div class="content-list">
-                <div class="row content-list-head">
-                    <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
-                        <div class="form-group row align-items-center">
-                            <div class ="col">
-                                <h3>{{__('Subtasks')}}</h3>
+                    <div class="row content-list-head">
+                        <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
+                            <div class="form-group row align-items-center">
+                                <div class ="col">
+                                    <h3>{{__('Subtasks')}}</h3>
+                                </div>
+                                <div class ="col">
+                                    <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class ="col">
-                                <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
-                                    <i class="material-icons">add</i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                @endcan
+                        </form>
+                    </div>
 
                 <!--end of content list head-->
                 <div class="content-list-body">
@@ -202,7 +201,6 @@ $dz_id = 'task-files-dz';
 
                     @foreach($subtasks as $key=>$subtask)
 
-                    @can('create subtask')
                     <div class="row" data-id = "{{$subtask->id}}" tabindex="{{$key}}">
                         <div class="form-group col">
                         <span class="checklist-reorder">
@@ -212,14 +210,13 @@ $dz_id = 'task-files-dz';
                             <input type="checkbox" class="custom-control-input" name="status" id="checklist-{{$subtask->id}}" data-id="{{$task->id}}" {{($subtask->status==1)?'checked':''}} value="{{$subtask->id}}" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true">
                             <label class="custom-control-label" for="checklist-{{$subtask->id}}"></label>
                             <div class="col">
-                                <input class="col" type="text" name="name" id="name-{{$subtask->id}}" placeholder="{{__('Subtask item')}}" value="{{$subtask->name}}" data-filter-by="value" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
+                                <input class="col" type="text" name="title" id="title-{{$subtask->id}}" placeholder="{{__('Subtask item')}}" value="{{$subtask->title}}" data-filter-by="value" data-url="{{route('tasks.subtask.update', [$task->id,$subtask->id])}}" data-remote="true" data-method="put" data-type="text" data-disable="true"/>
                                 <div class="checklist-strikethrough"></div>
                             </div>
                         </div>
                         </div>
                         <!--end of form group-->
                     </div>
-                    @endcan
 
                     @endforeach
                     </form>
@@ -232,6 +229,7 @@ $dz_id = 'task-files-dz';
                 <!--end of content list body-->
                 </div>
                 <!--end of content list-->
+                @endcan
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">

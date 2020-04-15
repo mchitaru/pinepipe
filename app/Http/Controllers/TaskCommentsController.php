@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Task;
-use App\TaskComment;
+use App\Comment;
 use App\Http\Requests\TaskCommentRequest;
 use Illuminate\Http\Request;
 use App\Traits\Taskable;
@@ -31,10 +31,9 @@ class TaskCommentsController extends Controller
     {
         $post = $request->validated();
 
-        $post['task_id']    = $task->id;
         $post['created_by'] = \Auth::user()->id;
 
-        $comment            = TaskComment::create($post);
+        $comment = $task->comments()->create($post);
 
         return redirect()->route('tasks.comment.index', $task->id)->with('success', __('Comment Created.'));
     }
@@ -43,10 +42,10 @@ class TaskCommentsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TaskComment  $comment
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task, TaskComment $comment)
+    public function update(Request $request, Task $task, Comment $comment)
     {
         //
     }
@@ -54,10 +53,10 @@ class TaskCommentsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TaskComment  $comment
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task, TaskComment $comment)
+    public function destroy(Task $task, Comment $comment)
     {
         $comment->delete();
 

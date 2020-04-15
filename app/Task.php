@@ -10,13 +10,12 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 use App\Traits\Actionable;
 use App\Traits\Invoiceable;
+use App\Traits\Checklistable;
+use App\Traits\Commentable;
 
 class Task extends Model implements HasMedia
 {
-    use NullableFields;
-    use HasMediaTrait;
-    use Actionable;
-    use Invoiceable;
+    use NullableFields, HasMediaTrait, Actionable, Invoiceable, Checklistable, Commentable;
 
     protected $fillable = [
         'title',
@@ -56,16 +55,6 @@ class Task extends Model implements HasMedia
         return $this->belongsToMany('App\User', 'user_tasks');
     }
 
-    public function comments()
-    {
-        return $this->hasMany('App\TaskComment','task_id','id');
-    }
-
-    public function subtasks()
-    {
-        return $this->hasMany('App\TaskChecklist','task_id','id');
-    }
-
     public function milestone()
     {
         return $this->hasOne('App\Milestone','id','milestone_id');
@@ -75,37 +64,6 @@ class Task extends Model implements HasMedia
     {
         return $this->hasMany('App\Timesheet', 'task_id', 'id');
     }    
-
-    public function getCompleteChecklistCount()
-    {
-        $count = 0;
-        foreach($this->subtasks as $check) {
-            if($check->status) $count++;
-        }
-
-        return $count;    
-    }
-
-    public function getTotalChecklistCount()
-    {
-        return $this->subtasks->count();
-    }
-
-    public static function getProgressColor($percentage)
-    {
-        $label='';
-        if($percentage<=15){
-            $label = 'bg-danger';
-        }else if ($percentage > 15 && $percentage <= 33) {
-            $label = 'bg-warning';
-        } else if ($percentage > 33 && $percentage <= 70) {
-            $label = 'bg-primary';
-        } else {
-            $label = 'bg-success';
-        }
-
-        return $label;
-    }
 
     public static function createTask($post)
     {
@@ -167,7 +125,7 @@ class Task extends Model implements HasMedia
         $this->users()->detach();
 
         $this->comments()->delete();
-        $this->subtasks()->delete();
+        $this->checklist()->delete();
 
         $this->activities()->delete();
     }
