@@ -8,7 +8,7 @@ use App\Project;
 use App\Milestone;
 use App\UserProject;
 use App\Activity;
-use App\ProjectStage;
+use App\TaskStage;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Requests\TaskDestroyRequest;
@@ -38,7 +38,7 @@ class TasksController extends Controller
             {
                 $project = null;
                 $project_name = null;
-                $stages = ProjectStage::stagesByUserType()->get();
+                $stages = TaskStage::stagesByUserType()->get();
             }
 
             clock()->endEvent('TasksController');

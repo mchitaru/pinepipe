@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectStagesTable extends Migration
+class CreateTaskStagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateProjectStagesTable extends Migration
     public function up()
     {
         Schema::create(
-            'project_stages', function (Blueprint $table){
+            'task_stages', function (Blueprint $table){
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('color', 15)->nullable();
@@ -32,6 +32,6 @@ class CreateProjectStagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_stages');
+        Schema::dropIfExists('task_stages');
     }
 }

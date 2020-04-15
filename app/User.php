@@ -252,7 +252,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function projectStages()
     {
-        return ProjectStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'ASC');
+        return TaskStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'ASC');
     }
 
     public function getProfileAttribute()
@@ -340,7 +340,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function last_projectstage()
     {
-        return ProjectStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
+        return TaskStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
     }
 
     public function total_lead()
@@ -398,15 +398,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
         // if(\Auth::user()->type == 'company')
         // {
-        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
+        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'task_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
         // }
         // elseif(\Auth::user()->type == 'client')
         // {
-        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'project_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('projects.client_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
+        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'task_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('projects.client_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
         // }
         // else
         // {
-        //     return Task::select('tasks.*', 'tasks.id as task_id', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as project_name', 'project_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('project_stages', 'tasks.stage_id', '=', 'project_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
+        //     return Task::select('tasks.*', 'tasks.id as task_id', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as project_name', 'task_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
         //         'tasks.due_date', 'ASC')->get();
         // }
     }
@@ -553,7 +553,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
         foreach($projectStages as $key => $stage)
         {
-            ProjectStage::create(
+            TaskStage::create(
                 [
                     'name' => $stage,
                     'color' => $colors[$key],

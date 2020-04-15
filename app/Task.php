@@ -47,7 +47,7 @@ class Task extends Model implements HasMedia
 
     public function stage()
     {
-        return $this->belongsTo('App\ProjectStage');
+        return $this->belongsTo('App\TaskStage');
     }
 
     public function users()
@@ -67,7 +67,7 @@ class Task extends Model implements HasMedia
 
     public static function createTask($post)
     {
-        $stage = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->first();
+        $stage = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->first();
 
         $post['stage_id']   = $stage->id;
 

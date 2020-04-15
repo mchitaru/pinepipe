@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ProjectStage extends Model
+class TaskStage extends Model
 {
     protected $fillable = [
         'name',
@@ -30,7 +30,7 @@ class ProjectStage extends Model
     {
         if(\Auth::user()->type == 'client')
         {
-            return ProjectStage::with(['tasks' => function ($query) 
+            return TaskStage::with(['tasks' => function ($query) 
             {
                 $query->WhereHas('project', function ($query) {
                     
@@ -43,7 +43,7 @@ class ProjectStage extends Model
 
         }else if(\Auth::user()->type == 'company')
         {
-            return ProjectStage::with(['tasks' => function ($query)
+            return TaskStage::with(['tasks' => function ($query)
             {
                 $query->orderBy('order', 'ASC');
 
@@ -52,7 +52,7 @@ class ProjectStage extends Model
             ->orderBy('order', 'ASC');
         }else
         {
-            return ProjectStage::with(['tasks' => function ($query)
+            return TaskStage::with(['tasks' => function ($query)
             {
                 $query->whereHas('users', function ($query) 
                 {
@@ -120,7 +120,7 @@ class ProjectStage extends Model
 
         if(\Auth::user()->type == 'client')
         {
-            $stages = ProjectStage::with(['tasks' => function ($query) use ($arrDate)
+            $stages = TaskStage::with(['tasks' => function ($query) use ($arrDate)
             {                
                 $query->whereIn(DB::raw("DATE(updated_at)"), $arrDate);
                 $query->WhereHas('project', function ($query) {
@@ -135,7 +135,7 @@ class ProjectStage extends Model
 
         }else if(\Auth::user()->type == 'company')
         {
-            $stages = ProjectStage::with(['tasks' => function ($query) use ($arrDate)
+            $stages = TaskStage::with(['tasks' => function ($query) use ($arrDate)
             {
                 $query->whereIn(DB::raw("DATE(updated_at)"), $arrDate);
             }])
@@ -144,7 +144,7 @@ class ProjectStage extends Model
             ->get();
         }else
         {
-            $stages = ProjectStage::with(['tasks' => function ($query) use ($arrDate)
+            $stages = TaskStage::with(['tasks' => function ($query) use ($arrDate)
             {
                 $query->whereIn(DB::raw("DATE(updated_at)"), $arrDate);
                 $query->whereHas('users', function ($query) 
@@ -168,7 +168,7 @@ class ProjectStage extends Model
             ->get();
         }
 
-        // $stages  = ProjectStage::where('created_by', '=', $usr->creatorId())->get();
+        // $stages  = TaskStage::where('created_by', '=', $usr->creatorId())->get();
         $arrTask = [];
 
         $i = 0;

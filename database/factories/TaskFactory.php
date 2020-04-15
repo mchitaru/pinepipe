@@ -5,7 +5,7 @@
 use App\User;
 use App\Task;
 use App\Project;
-use App\ProjectStage;
+use App\TaskStage;
 use Faker\Generator as Faker;
 
 $factory->define(Task::class, function (Faker $faker) {
@@ -17,8 +17,8 @@ $factory->define(Task::class, function (Faker $faker) {
         'project_id' => null,
         'milestone_id' => null,
         'order' => 0,
-        'stage_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*ProjectStage::$SEED + 1, 
-                                                User::$SEED_COMPANY_IDX*ProjectStage::$SEED),
+        'stage_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*TaskStage::$SEED + 1, 
+                                                User::$SEED_COMPANY_IDX*TaskStage::$SEED),
         'created_by' => User::$SEED_COMPANY_ID,
     ];
 });

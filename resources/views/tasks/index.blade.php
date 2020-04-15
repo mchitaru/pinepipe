@@ -3,10 +3,10 @@
 @php
     use Carbon\Carbon;
     use App\Project;
-    use App\ProjectStage;
+    use App\TaskStage;
 
     $current_user=\Auth::user();
-    $stage_done = ProjectStage::all()->last()->id;
+    $stage_done = TaskStage::all()->last()->id;
 @endphp
 
 @foreach($stages as $key=>$stage)

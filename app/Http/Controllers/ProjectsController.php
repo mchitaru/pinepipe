@@ -12,7 +12,7 @@ use App\Milestone;
 use App\PaymentPlan;
 use App\Project;
 use App\ProjectFile;
-use App\ProjectStage;
+use App\TaskStage;
 use App\SubTask;
 use App\Task;
 use App\Timesheet;

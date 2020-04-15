@@ -94,7 +94,7 @@ class Project extends Model implements HasMedia
 
     public function stages()
     {
-        return ProjectStage::with(['tasks' => function ($query) 
+        return TaskStage::with(['tasks' => function ($query) 
         {
             $query->where('project_id', '=', $this->id)
                     ->orderBy('order', 'ASC');

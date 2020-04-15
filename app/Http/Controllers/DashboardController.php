@@ -120,7 +120,7 @@ class DashboardController extends Controller
             $users['client'] = Client::where('created_by', '=', \Auth::user()->creatorId())->count();
 
             $projectData     = \App\Project::getProjectStatus();
-            $taskData        = \App\ProjectStage::getChartData();
+            $taskData        = \App\TaskStage::getChartData();
 
             clock()->endEvent('DashboardController');
 
