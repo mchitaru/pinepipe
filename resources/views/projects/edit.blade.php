@@ -26,7 +26,7 @@
     <div class="tab-pane fade show active" id="project-add-details" role="tabpanel">
         <h6>{{__('General Details')}}</h6>
         <div class="form-group row align-items-center required">
-            {{ Form::label('name', __('Project Name'), array('class'=>'col-4')) }}
+            {{ Form::label('name', __('Name'), array('class'=>'col-4')) }}
             {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Website Redesign', 'required'=>'required')) }}
         </div>
         <div class="form-group row required">
@@ -38,7 +38,7 @@
             {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'What this project is about']) !!}
         </div>
         <div class="form-group row">
-            {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-4')) }}
+            {{ Form::label('user_id', __('Assign'), array('class'=>'col-4')) }}
             {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
         <div class="form-group row">

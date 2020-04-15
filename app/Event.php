@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Lead;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
@@ -37,15 +38,40 @@ class Event extends Model
         return $this->belongsTo('App\EventCategory');
     }
 
+    public function users()
+    {
+        return $this->morphedByMany('App\User', 'eventable');
+    }
+
+    public function clients()
+    {
+        return $this->morphedByMany('App\Client', 'eventable');
+    }
+
+    public function contacts()
+    {
+        return $this->morphedByMany('App\Contact', 'eventable');
+    }
+
+    public function leads()
+    {
+        return $this->morphedByMany('App\Lead', 'eventable');
+    }
+
     public static function createEvent($post)
     {
-        $post['user_id']   = \Auth::user()->id;
-        $post['active']    = true;
-        $post['busy']      = true;
+        $post['user_id']    = \Auth::user()->id;
+        $post['active']     = true;
+        $post['busy']       = true;
+        $post['created_by'] = \Auth::user()->creatorId();
 
-        $event                = Event::make($post);
-        $event->created_by    = \Auth::user()->creatorId();
-        $event->save();
+        $event = Event::create($post);
+
+        if(isset($post['lead_id']))
+        {
+            $leads = collect($post['lead_id']);
+            $event->leads()->sync($leads);
+        }
 
         // Activity::createContact($contact);
 
@@ -55,6 +81,16 @@ class Event extends Model
     public function updateEvent($post)
     {
         $this->update($post);
+
+        if(isset($post['lead_id']))
+        {
+            $leads = collect($post['lead_id']);
+        }else{
+
+            $leads = collect();
+        }
+
+        $this->leads()->sync($leads);
     }
 
     public function detachEvent()

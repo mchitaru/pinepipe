@@ -42,9 +42,15 @@
         {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Event notes']) !!}
     </div>
     <div class="form-group row required">
-        {{ Form::label('user_id', __('Assign To'), array('class'=>'col-3')) }}
+        {{ Form::label('user_id', __('Assign'), array('class'=>'col-3')) }}
         {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
     </div>
+    <hr>
+    <h6>{{__('Attach')}}</h6>
+    <div class="form-group row">
+        {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
+        {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Lead')) !!}
+    </div>    
     <hr>
     <h6>{{__('Visibility')}}</h6>
     <div class="row">

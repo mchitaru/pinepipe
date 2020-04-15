@@ -12,7 +12,7 @@
 <div class="tab-content">
     <h6>{{__('General Details')}}</h6>
     <div class="form-group row align-items-center required">
-        {{ Form::label('name', __('Project Name'), array('class'=>'col-3')) }}
+        {{ Form::label('name', __('Name'), array('class'=>'col-3')) }}
         {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Website Redesign', 'required'=>'required')) }}
     </div>
     <div class="form-group row required">
@@ -20,7 +20,7 @@
         {!! Form::select('client_id', $clients, $client_id,array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Client')) !!}
     </div>
     <div class="form-group row">
-        {{ Form::label('user_id', __('Assigned to'), array('class'=>'col-3')) }}
+        {{ Form::label('user_id', __('Assign'), array('class'=>'col-3')) }}
         {!! Form::select('user_id[]', $users, null, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
     </div>
     <hr>

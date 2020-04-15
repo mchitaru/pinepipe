@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
+use App\Traits\Eventable;
 
 class Contact extends Model
 {
-    use NullableFields;
+    use NullableFields, Eventable;
 
     protected $fillable = [
         'name',

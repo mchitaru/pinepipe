@@ -19,14 +19,11 @@ use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
+use App\Traits\Eventable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasRoles;
-    use Notifiable;
-    use SoftDeletes;
-    use Actionable;
-    use Billable;
+    use HasRoles, Notifiable, SoftDeletes, Actionable, Billable, Eventable;
 
     public static $SEED_COMPANY_COUNT = 1;
     public static $SEED_STAFF_COUNT = 2;

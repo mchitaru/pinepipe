@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventCategory;
 use App\User;
+use App\Lead;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
@@ -31,6 +32,8 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
+        $user = \Auth::user();
+
         $start = $request->start;
         $end = $request->end;
 
@@ -41,7 +44,24 @@ class EventController extends Controller
                         ->pluck('name', 'id')
                         ->prepend('(myself)', \Auth::user()->id);
 
-        return view('events.create', compact('categories', 'owners', 'start', 'end'));
+        if($user->type == 'company')
+        {
+            $leads = Lead::where('created_by', '=', $user->creatorId())
+                    ->orderBy('order')
+                    ->get()
+                    ->pluck('name', 'id');
+
+        }else
+        {
+            $leads = $user->leads()
+                        ->where('created_by', '=', $user->creatorId())
+                        ->orderBy('order')
+                        ->get()
+                        ->pluck('name', 'id');
+        }
+            
+
+        return view('events.create', compact('categories', 'owners', 'leads', 'start', 'end'));
     }
 
     /**
@@ -80,6 +100,8 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        $user = \Auth::user();
+
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
@@ -87,7 +109,25 @@ class EventController extends Controller
                         ->pluck('name', 'id')
                         ->prepend('(myself)', \Auth::user()->id);
 
-        return view('events.edit', compact('event', 'categories', 'owners'));
+        if($user->type == 'company')
+        {
+            $leads = Lead::where('created_by', '=', $user->creatorId())
+                    ->orderBy('order')
+                    ->get()
+                    ->pluck('name', 'id');
+
+        }else
+        {
+            $leads = $user->leads()
+                        ->where('created_by', '=', $user->creatorId())
+                        ->orderBy('order')
+                        ->get()
+                        ->pluck('name', 'id');
+        }
+
+        $lead_id = $event->leads->first()->id;                
+
+        return view('events.edit', compact('event', 'categories', 'owners', 'leads', 'lead_id'));
     }
 
     /**

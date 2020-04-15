@@ -30,7 +30,7 @@
         </div>
     @endif
     <hr>
-    <h6>{{__('Attach To')}}</h6>
+    <h6>{{__('Attach')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, $client_id,array('class' => 'form-control col', 'placeholder'=>'Select Client')) !!}
