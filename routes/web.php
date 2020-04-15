@@ -93,11 +93,11 @@ Route::group(
         // Route::resource('subscriptions', 'SubscriptionsController');
 
         //Projects
-        Route::resource('projectstages', 'ProjectStagesController');
+        Route::resource('taskstages', 'TaskStagesController');
         Route::post(
-            '/projectstages/order', [
-                                      'as' => 'projectstages.order',
-                                      'uses' => 'ProjectStagesController@order',
+            '/taskstages/order', [
+                                      'as' => 'taskstages.order',
+                                      'uses' => 'TaskStagesController@order',
                                   ]
         );
 

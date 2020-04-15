@@ -124,7 +124,7 @@ class TasksController extends Controller
     {
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $stages     = ProjectStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $stages     = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
         if($project)
         {

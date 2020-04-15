@@ -14,9 +14,9 @@ class TaskStagesController extends Controller
     {
         if(\Auth::user()->can('manage project stage'))
         {
-            $projectstages = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+            $taskStages = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 
-            return view('projectstages.index', compact('projectstages'));
+            return view('taskstages.index', compact('taskStages'));
         }
         else
         {
@@ -29,7 +29,7 @@ class TaskStagesController extends Controller
     {
         if(\Auth::user()->can('create project stage'))
         {
-            return view('projectstages.create');
+            return view('taskstages.create');
         }
         else
         {
@@ -51,7 +51,7 @@ class TaskStagesController extends Controller
             {
                 $messages = $validator->getMessageBag();
 
-                return redirect()->route('projectstages.index')->with('error', $messages->first());
+                return redirect()->route('taskstages.index')->with('error', $messages->first());
             }
             $all_stage         = TaskStage::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->first();
             $stage             = new TaskStage();
@@ -62,7 +62,7 @@ class TaskStagesController extends Controller
 
             $stage->save();
 
-            return redirect()->route('projectstages.index')->with('success', __('Project stage successfully created.'));
+            return redirect()->route('taskstages.index')->with('success', __('Project stage successfully created.'));
         }
         else
         {
@@ -78,7 +78,7 @@ class TaskStagesController extends Controller
             $leadstages = TaskStage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
             {
-                return view('projectstages.edit', compact('leadstages'));
+                return view('taskstages.edit', compact('leadstages'));
             }
             else
             {
@@ -110,14 +110,14 @@ class TaskStagesController extends Controller
                 {
                     $messages = $validator->getMessageBag();
 
-                    return redirect()->route('projectstages.index')->with('error', $messages->first());
+                    return redirect()->route('taskstages.index')->with('error', $messages->first());
                 }
 
                 $leadstages->name  = $request->name;
                 $leadstages->color = $request->color;
                 $leadstages->save();
 
-                return redirect()->route('projectstages.index')->with('success', __('Project stage successfully updated.'));
+                return redirect()->route('taskstages.index')->with('success', __('Project stage successfully updated.'));
             }
             else
             {
@@ -134,19 +134,19 @@ class TaskStagesController extends Controller
     {
         if(\Auth::user()->can('delete project stage'))
         {
-            $projectstages = TaskStage::findOrfail($id);
-            if($projectstages->created_by == \Auth::user()->creatorId())
+            $taskStages = TaskStage::findOrfail($id);
+            if($taskStages->created_by == \Auth::user()->creatorId())
             {
-                $checkStage = Task::where('stage', '=', $projectstages->id)->get()->toArray();
+                $checkStage = Task::where('stage', '=', $taskStages->id)->get()->toArray();
                 if(empty($checkStage))
                 {
-                    $projectstages->delete();
+                    $taskStages->delete();
 
-                    return redirect()->route('projectstages.index')->with('success', __('Project stage successfully deleted.'));
+                    return redirect()->route('taskstages.index')->with('success', __('Project stage successfully deleted.'));
                 }
                 else
                 {
-                    return redirect()->route('projectstages.index')->with('error', __('Project task already assign this stage , so please remove or move task to other project stage.'));
+                    return redirect()->route('taskstages.index')->with('error', __('Project task already assign this stage , so please remove or move task to other project stage.'));
                 }
             }
             else

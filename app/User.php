@@ -250,7 +250,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }    
     }
 
-    public function projectStages()
+    public function taskStages()
     {
         return TaskStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'ASC');
     }
@@ -544,14 +544,14 @@ class User extends Authenticatable implements MustVerifyEmail
             );
         }
 
-        // ProjectStages
-        $projectStages = [
+        // TaskStages
+        $taskStages = [
             'To Do',
             'In Progress',
             'Bugs',
             'Done',
         ];
-        foreach($projectStages as $key => $stage)
+        foreach($taskStages as $key => $stage)
         {
             TaskStage::create(
                 [
