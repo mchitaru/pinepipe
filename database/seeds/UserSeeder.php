@@ -239,7 +239,7 @@ class UserSeeder extends Seeder
         ];
 
         $role               =   new Role();
-        $role->name         =   'employee';
+        $role->name         =   'collaborator';
         $role->created_by   =   $owner_id;
         $role->save();
 

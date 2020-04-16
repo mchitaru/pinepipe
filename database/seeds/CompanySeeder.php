@@ -49,8 +49,8 @@ class CompanySeeder extends Seeder
 
         factory(App\User::class, App\User::$SEED_STAFF_COUNT)->create()->each(function ($user) use($company) {
 
-            $role = Role::findByName('employee');
-            $user->type = 'employee';
+            $role = Role::findByName('collaborator');
+            $user->type = 'collaborator';
             $user->created_by = $company->id;
             $user->save();
             $user->assignRole($role);

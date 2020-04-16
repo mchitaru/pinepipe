@@ -23,7 +23,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => Hash::make('1234'), // password
         'remember_token' => Str::random(10),
-        'type' => 'employee',
+        'type' => 'collaborator',
         'lang' => 'en',
         'created_by' => User::$SEED_COMPANY_ID,
         'enabled' => true
