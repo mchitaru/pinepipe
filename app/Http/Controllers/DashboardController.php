@@ -43,12 +43,12 @@ class DashboardController extends Controller
             {
                 $project['projects']       = Project::where('client_id', '=', \Auth::user()->client_id)->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
                 $project['project_budget'] = Project::where('client_id', \Auth::user()->client_id)->sum('price');
-                $activities = null;
+                $activities = array();
             }
             else
             {
                 $project['projects'] = Project::select('projects.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', \Auth::user()->id)->where('due_date', '>', date('Y-m-d'))->limit(5)->orderBy('due_date')->get();
-                $activities = null;
+                $activities = array();
 //                $activities = Activity::select('activities.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'activities.project_id')->where('user_projects.user_id', '=', \Auth::user()->id)->limit(20)->orderBy('id', 'desc')->get();
             }
 
