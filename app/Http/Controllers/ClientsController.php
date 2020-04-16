@@ -196,12 +196,13 @@ class ClientsController extends Controller
                             ->get();
             }
 
-            $activities = Activity::whereHas('project', function ($query) use ($client) {
-                $query->where('client_id', $client->id);
-            })
-            ->limit(20)
-            ->orderBy('id', 'desc')
-            ->get();
+            $activities = array(); //TO DO
+            // $activities = Activity::whereHas('project', function ($query) use ($client) {
+            //     $query->where('client_id', $client->id);
+            // })
+            // ->limit(20)
+            // ->orderBy('id', 'desc')
+            // ->get();
 
             clock()->endEvent('ClientsController');
 

@@ -17,11 +17,6 @@ class Activity extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function project()
-    {
-        return $this->belongsTo('App\Project');
-    }    
-
     public function getAction()
     {
         switch($this->action)
