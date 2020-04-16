@@ -49,6 +49,12 @@
         <small>{{__('This will be displayed on your public profile')}}</small>
     </div>
 </div>
+<div class="form-group row">
+    {{Form::label('timezone',__('Timezone'), array('class'=>'col-3')) }}
+    <div class="col">
+        {{Form::text('timezone',null,array('class'=>'form-control', 'disabled'))}}
+    </div>
+</div>
 <div class="row justify-content-end">
     @can('edit account')
         {{Form::submit('Save',array('class'=>'btn btn-primary'))}}

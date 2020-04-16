@@ -12,6 +12,7 @@ use App\Http\Requests\EventUpdateRequest;
 use App\Http\Requests\EventDestroyRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -34,8 +35,8 @@ class EventController extends Controller
     {
         $user = \Auth::user();
 
-        $start = $request->start;
-        $end = $request->end;
+        $start = $request->start?$request->start:Carbon::now();
+        $end = $request->end?$request->end:Carbon::now();
 
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())

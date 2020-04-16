@@ -5,9 +5,20 @@ use App\Client;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Helpers
 {
+    public static function localToUTC($timestamp)
+    {
+        return Carbon::parse($timestamp, \Auth::user()->timezone)->tz('UTC');
+    }
+
+    public static function utcToLocal($timestamp)
+    {
+        return Carbon::parse($timestamp, 'UTC')->tz(\Auth::user()->timezone);
+    }
+
     public static function storePublicFile(UploadedFile $file)
     {
         $path = $file->store('avatar/'.\Auth::user()->creatorId(), 'public');

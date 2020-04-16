@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         // App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \Torann\GeoIP\GeoIPServiceProvider::class,
 
     ],
 
@@ -228,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
     ],
 
 ];

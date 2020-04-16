@@ -48,5 +48,9 @@ class LoginController extends Controller
         {
             auth()->logout();
         }
+
+        $location = geoip('92.83.46.62');
+
+        $user->setLocale($location);
     }
 }

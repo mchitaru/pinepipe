@@ -24,7 +24,7 @@
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap', 'interaction' ],
-        timeZone: 'UTC',
+        timeZone: 'local',
         themeSystem: 'bootstrap',
         header: {
             left: 'prev,next today',

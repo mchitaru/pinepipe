@@ -25,12 +25,12 @@
     <div class="form-group row align-items-center">
         {{ Form::label('start', __('Start'), array('class'=>'col-3')) }}
         {{ Form::date('start', null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'Select Date', 
-                                            'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $event->start, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($event->start), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('end', __('End'), array('class'=>'col-3')) }}
         {{ Form::date('end', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
-                                            'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> $event->end, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($event->end), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="alert alert-warning text-small" role="alert">
     <span>{{__('You can change due dates at any time')}}.</span>

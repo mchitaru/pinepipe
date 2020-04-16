@@ -13,8 +13,8 @@ class CalendarController extends Controller
         foreach(\Auth::user()->events as $ev)
         {
             $event['title']  = $ev->name;
-            $event['start']  = $ev->start;
-            $event['end']  = $ev->end;
+            $event['start']  = \Helpers::utcToLocal($ev->start);
+            $event['end']  = \Helpers::utcToLocal($ev->end);
             $event['url'] = route('events.edit', $ev->id);
             $event['backgroundColor'] = '#007bff';
             $events[]     = $event;

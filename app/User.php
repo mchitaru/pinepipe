@@ -295,6 +295,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->expenses()->sum('amount');
     }
 
+    public function setLocale($locale)
+    {
+        $this->timezone = $locale->timezone;
+        $this->save();
+    }
+
     public function priceFormat($price)
     {
         $settings = $this->settings();

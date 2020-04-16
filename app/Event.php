@@ -65,10 +65,12 @@ class Event extends Model
         $post['user_id']    = \Auth::user()->id;
         $post['created_by'] = \Auth::user()->creatorId();
 
+        $post['start'] = \Helpers::localToUTC($post['start']);
+        $post['end'] = \Helpers::localToUTC($post['end']);
+
         $event = Event::create($post);
 
-        if(isset($post['lead_id']))
-        {
+        if(!empty($post['lead_id'])){
             $leads = collect($post['lead_id']);
             $event->leads()->sync($leads);
 
@@ -77,14 +79,7 @@ class Event extends Model
             Activity::createLeadEvent($lead, $event);
         }
 
-        if(isset($post['users'])){
-
-            $users = $post['users'];
-        }else{
-
-            $users = collect();
-        }
-
+        $users = collect($post['users']);
         $event->users()->sync($users);
 
         return $event;
@@ -92,9 +87,12 @@ class Event extends Model
 
     public function updateEvent($post)
     {
+        $post['start'] = \Helpers::localToUTC($post['start']);
+        $post['end'] = \Helpers::localToUTC($post['end']);
+
         $this->update($post);
 
-        if(isset($post['lead_id']))
+        if(!empty($post['lead_id']))
         {
             $leads = collect($post['lead_id']);
         }else{
@@ -104,14 +102,7 @@ class Event extends Model
 
         $this->leads()->sync($leads);
 
-        if(isset($post['users']))
-        {
-            $users = $post['users'];
-        }else{
-
-            $users = collect();
-        }
-
+        $users = collect($post['users']);
         $this->users()->sync($users);
 
         $lead = $this->leads->first();

@@ -31,7 +31,7 @@ class EventUpdateRequest extends FormRequest
             // 'busy'=>'required|boolean',
             'notes'=>'nullable|string',
             'lead_id'=>'nullable|integer',
-            'users'=>'nullable|array',
+            'users'=>'required|array',
         ];
     }
 
