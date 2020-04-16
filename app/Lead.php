@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Eventable;
 
-class Lead extends Model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+use App\Traits\Actionable;
+use App\Traits\Notable;
+
+class Lead extends Model implements HasMedia
 {
-    use NullableFields, Eventable;
+    use NullableFields, Eventable, HasMediaTrait, Actionable, Notable;
 
     protected $fillable = [
         'name',
@@ -20,14 +26,12 @@ class Lead extends Model
         'contact_id',
         'source_id',
         'created_by',
-        'notes'
     ];
 
     protected $nullable = [
         'price',
         'client_id',
         'contact_id',
-        'notes'
 	];
 
  
@@ -78,16 +82,23 @@ class Lead extends Model
         $lead->created_by    = \Auth::user()->creatorId();
         $lead->save();
 
+        Activity::createLead($lead);
+
         return $lead;
     }
 
     public function updateLead($post)
     {
         $this->update($post);
+
+        Activity::updateLead($this);
     }
 
     public function detachLead()
     {
         $this->removeProjectLead();
+
+        $this->activities()->delete();
     }
+
 }

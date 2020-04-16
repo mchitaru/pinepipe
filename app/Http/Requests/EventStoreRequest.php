@@ -30,8 +30,8 @@ class EventStoreRequest extends FormRequest
             'end'=>'required|date_format:Y-m-d H:i',
             // 'busy'=>'required|boolean',
             'notes'=>'nullable|string',
-            'user_id'=>'required|integer',
             'lead_id'=>'nullable|integer',
+            'users'=>'nullable|array',
         ];
     }
 

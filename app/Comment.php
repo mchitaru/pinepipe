@@ -8,7 +8,7 @@ class Comment extends Model
 {
     protected $fillable = [
         'comment', 
-        'task_id', 
+        'user_id',
         'created_by',
     ];
 
@@ -20,7 +20,7 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'created_by');
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 
 }

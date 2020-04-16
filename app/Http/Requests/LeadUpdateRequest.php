@@ -40,7 +40,6 @@ class LeadUpdateRequest extends FormRequest
             'client_id' => 'integer|required',
             'contact_id' => 'integer|nullable',
             'user_id' => 'integer|nullable',
-            'notes' => 'string|nullable'
         ];
     }
 

@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
-class LeadStoreRequest extends FormRequest
+class NoteDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +15,11 @@ class LeadStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create lead');
+        $note = $this->route()->parameter('note');
+
+        return $note->created_by == \Auth::user()->creatorId() &&
+                (\Auth::user()->type == 'company' ||
+                $note->user_id == \Auth::user()->id);
     }
 
     /**
@@ -24,18 +30,12 @@ class LeadStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required|max:20',
-            'price' => 'numeric|nullable',
-            'stage_id' => 'integer|required',
-            'source_id' => 'integer|required',
-            'client_id' => 'integer|required',
-            'contact_id' => 'integer|nullable',
-            'user_id' => 'integer|nullable',
+            //
         ];
     }
 
     protected function getRedirectUrl()
     {
-        return route('leads.create');
+        return URL::previous();
     }
 }

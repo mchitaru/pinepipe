@@ -272,7 +272,7 @@ if($client_project_budget_due_per<=15){
                                         <div class="progress">
                                             <div class="progress-bar {{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body p-2">
                                         <div class="card-title">
                                             <a href="{{ route('projects.show',$project->id) }}">
                                             <h6 data-filter-by="text">{{$project->name}}</h6>
@@ -341,7 +341,7 @@ if($client_project_budget_due_per<=15){
                                         <div class="progress">
                                             <div class="progress-bar task-progress-{{$top_task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body p-2">
                                             <div class="card-title">
                                                 <a href="{{ route('tasks.show', $top_task->id) }}" data-remote="true" data-type="text">
                                                     <h6 data-filter-by="text">{{$top_task->title}}</h6>
@@ -408,7 +408,7 @@ if($client_project_budget_due_per<=15){
                                 <div class="card-list-body collapse show" id="payments">
                                     @foreach($top_due_invoice as $invoice)
                                     <div class="card card-task">
-                                        <div class="card-body">
+                                        <div class="card-body p-2">
                                         <div class="card-title">
                                             <a href="{{route('invoices.show',$invoice->id)}}">
                                             <h6 data-filter-by="text">{{ AUth::user()->invoiceNumberFormat($invoice->id) }}</h6>

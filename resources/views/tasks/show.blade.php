@@ -261,7 +261,10 @@ $dz_id = 'task-files-dz';
                     <div class="card card-note">
                     <div class="card-header p-1">
                         <div class="media align-items-center">
-                            {!!Helpers::buildUserAvatar($comment->user)!!}
+                            <a href="#" data-toggle="tooltip" title={{$comment->user->name}}>
+                                {!!Helpers::buildUserAvatar($comment->user)!!}
+                            </a>
+                
                         <div class="media-body">
                             <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
                         </div>

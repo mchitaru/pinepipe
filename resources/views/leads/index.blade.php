@@ -12,8 +12,8 @@ use Carbon\Carbon;
             </div>
             <div class="card-body p-2">
                 <div class="card-title col-xs-12 col-sm-3">
-                    @if(Gate::check('edit lead'))
-                    <a href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
+                    @if(Gate::check('manage lead'))
+                    <a href="{{ route('leads.show',$lead->id) }}">
                         <h6 data-filter-by="text">{{$lead->name}}</h6>
                     </a>
                     @else

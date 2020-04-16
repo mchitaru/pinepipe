@@ -38,17 +38,17 @@
         <h6>{{__('Details')}}</h6>
         <div class="form-group row">
             {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
-            {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Some notes about the call']) !!}
+            {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>'Some notes about the call']) !!}
         </div>
         <div class="form-group row required">
-            {{ Form::label('user_id', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
+            {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
+            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple','required'=>'required')) !!}
         </div>
         <hr>
         <h6>{{__('Attach')}}</h6>
         <div class="form-group row">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
-            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Lead')) !!}
+            {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Lead')) !!}
         </div>    
         <hr>
         <h6>{{__('Visibility')}}</h6>

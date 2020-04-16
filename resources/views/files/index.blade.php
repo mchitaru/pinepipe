@@ -19,7 +19,7 @@
             <div class="media-body d-flex justify-content-between align-items-center">
             <div class="dz-file-details">
                 <a href="#" class="dropzone-file dz-filename">
-                <span data-dz-name></span>
+                    <span data-dz-name></span>
                 </a>
                 <br>
                 <span class="text-small dz-size" data-dz-size></span>

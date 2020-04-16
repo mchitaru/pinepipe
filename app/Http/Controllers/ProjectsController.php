@@ -183,7 +183,7 @@ class ProjectsController extends Controller
             }
 
             $invoices = $project->invoices;
-            $activities = $project->allActivities;
+            $activities = $project->activities;
 
             if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
             {

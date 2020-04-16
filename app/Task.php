@@ -8,14 +8,13 @@ use Iatstuti\Database\Support\NullableFields;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-use App\Traits\Actionable;
 use App\Traits\Invoiceable;
 use App\Traits\Checklistable;
 use App\Traits\Commentable;
 
 class Task extends Model implements HasMedia
 {
-    use NullableFields, HasMediaTrait, Actionable, Invoiceable, Checklistable, Commentable;
+    use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable;
 
     protected $fillable = [
         'title',
@@ -126,8 +125,6 @@ class Task extends Model implements HasMedia
 
         $this->comments()->delete();
         $this->checklist()->delete();
-
-        $this->activities()->delete();
     }
 
 }

@@ -40,6 +40,9 @@ Route::group(
         //Events
         Route::resource('events', 'EventController');
 
+        //Events
+        Route::resource('notes', 'NotesController');
+
         //Sharepoint
         Route::get('sharepoint', 'SharepointController@index')->name('sharepoint');
 
@@ -83,6 +86,10 @@ Route::group(
         Route::get('leads/{lead}/refresh', 'LeadsController@refresh')->name('leads.refresh');
 
         Route::resource('leads', 'LeadsController');
+
+        Route::post('leads/{lead}/file', 'LeadFilesController@store')->name('leads.file.upload');
+        Route::get('leads/{lead}/file/{file}', 'LeadFilesController@show')->name('leads.file.download');
+        Route::delete('leads/{lead}/file/{file}', 'LeadFilesController@destroy')->name('leads.file.delete');
 
         //PaymentPlans
         Route::post('plans/upgrade', 'PaymentPlansController@upgrade')->name('plans.upgrade');

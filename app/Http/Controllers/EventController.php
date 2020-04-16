@@ -38,7 +38,7 @@ class EventController extends Controller
         $end = $request->end;
 
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+        $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
@@ -59,9 +59,14 @@ class EventController extends Controller
                         ->get()
                         ->pluck('name', 'id');
         }
-            
 
-        return view('events.create', compact('categories', 'owners', 'leads', 'start', 'end'));
+        $lead_id = null;
+        if(isset($request['lead_id']))
+            $lead_id = $request['lead_id'];
+            
+        $user_id = \Auth::user()->id;
+
+        return view('events.create', compact('categories', 'users', 'user_id', 'leads', 'start', 'end', 'lead_id'));
     }
 
     /**
@@ -103,7 +108,7 @@ class EventController extends Controller
         $user = \Auth::user();
 
         $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+        $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
@@ -125,9 +130,12 @@ class EventController extends Controller
                         ->pluck('name', 'id');
         }
 
-        $lead_id = $event->leads->first()->id;                
+        $lead = $event->leads->first();
+        $lead_id = $lead?$lead->id:null;                
 
-        return view('events.edit', compact('event', 'categories', 'owners', 'leads', 'lead_id'));
+        $user_id = $event->users()->get()->pluck('id');
+
+        return view('events.edit', compact('event', 'categories', 'users', 'user_id', 'leads', 'lead_id'));
     }
 
     /**

@@ -27,10 +27,6 @@
         {{ Form::label('source_id', __('Source'), array('class'=>'col-3')) }}
         {!! Form::select('source_id', $sources, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
     </div>
-    <div class="form-group row">
-        {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
-        {!! Form::textarea('notes', null, array('class' => 'form-control col','rows'=>'5')) !!}
-    </div>
     @if(\Auth::user()->type=='company')
         <div class="form-group row">
             {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}

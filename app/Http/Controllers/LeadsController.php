@@ -9,6 +9,7 @@ use App\LeadStage;
 use App\User;
 use App\Client;
 use App\Contact;
+use App\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -141,6 +142,44 @@ class LeadsController extends Controller
         $lead->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Lead successfully deleted.'));
+    }
+
+    public function show(Lead $lead)
+    {
+        $user = \Auth::user();
+
+        if(\Auth::user()->can('manage lead'))
+        {
+            clock()->startEvent('LeadsController', "Load lead");
+
+            $events = $lead->events;
+            $activities = $lead->activities;
+            $notes = $lead->notes;
+
+            $files = [];
+            foreach($lead->getMedia('leads') as $media)
+            {
+                $file = [];
+
+                $file['file_name'] = $media->file_name;
+                $file['size'] = $media->size;
+                $file['download'] = route('leads.file.download',[$lead->id, $media->id]);
+                $file['delete'] = route('leads.file.delete',[$lead->id, $media->id]);
+
+                $files[] = $file;
+            }
+
+            $stageCount = LeadStage::count();
+            $progress = $lead->stage_id * 100 / ($stageCount-1); //TO DO
+
+            clock()->endEvent('LeadsController');
+
+            return view('leads.show', compact('lead', 'events', 'notes', 'files', 'activities', 'progress'));
+        }
+        else
+        {
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+        }
     }
 
     public function order(Request $request)

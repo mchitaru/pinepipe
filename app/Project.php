@@ -87,10 +87,6 @@ class Project extends Model implements HasMedia
         return $this->hasOne('App\ProjectClientPermissions', 'project_id', 'id');
     }
        
-    public function allActivities()
-    {
-        return $this->hasMany('App\Activity', 'project_id', 'id')->orderBy('id', 'desc');
-    }
 
     public function stages()
     {

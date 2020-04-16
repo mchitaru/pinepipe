@@ -3,13 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Actionable;
 use Iatstuti\Database\Support\NullableFields;
 
 class Invoice extends Model
 {
     use NullableFields;
-    use Actionable;
 
     protected $fillable = [
         'invoice_id',
@@ -164,8 +162,6 @@ class Invoice extends Model
     {
         InvoicePayment::where('invoice_id', '=', $this->id)->delete();
         InvoiceItem::where('invoice_id', '=', $this->id)->delete();
-
-        $this->activities()->delete();
     }
 
 

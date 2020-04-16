@@ -26,6 +26,16 @@ class Activity extends Model
     {
         switch($this->action)
         {
+            case 'activity_create_note': 
+                return __('created note');
+            case 'activity_create_event': 
+                return __('created event');
+            case 'activity_update_event': 
+                return __('updated event');
+            case 'activity_create_lead': 
+                return __('created lead');
+            case 'activity_update_lead': 
+                return __('updated lead');
             case 'activity_create_task': 
                 return __('created task');
             case 'activity_update_task': 
@@ -45,35 +55,46 @@ class Activity extends Model
 
     public function isModal()
     {
-        return $this->actionable_type == 'App\Task';
+        switch($this->action)
+        {
+            case 'activity_create_event': 
+            case 'activity_update_event': 
+            case 'activity_create_task': 
+            case 'activity_update_task': 
+                return true;
+        }
+
+        return false;
     }
 
     public static function createTask(Task $task)
     {
-        $task->activities()->create(
-            [
-                'user_id' => \Auth::user()->id,
-                'project_id' => $task->project_id,
-                'created_by' => \Auth::user()->creatorId(),
-                'action' => 'activity_create_task',
-                'value' => $task->title,
-                'url'    => route('tasks.show', $task->id),
-            ]
-        );
+        if($task->project) {
+            $task->project->activities()->create(
+                [
+                    'user_id' => \Auth::user()->id,
+                    'created_by' => \Auth::user()->creatorId(),
+                    'action' => 'activity_create_task',
+                    'value' => $task->title,
+                    'url'    => route('tasks.show', $task->id),
+                ]
+            );
+        }
     }
 
     public static function updateTask(Task $task)
     {
-        $task->activities()->create(
-            [
-                'user_id' => \Auth::user()->id,
-                'project_id' => $task->project_id,
-                'created_by' => \Auth::user()->creatorId(),
-                'action' => 'activity_update_task',
-                'value' => $task->title,
-                'url'    => route('tasks.show', $task->id),
-            ]
-        );
+        if($task->project) {
+            $task->project->activities()->create(
+                [
+                    'user_id' => \Auth::user()->id,
+                    'created_by' => \Auth::user()->creatorId(),
+                    'action' => 'activity_update_task',
+                    'value' => $task->title,
+                    'url'    => route('tasks.show', $task->id),
+                ]
+            );
+        }
     }
 
     public static function createProject(Project $project)
@@ -81,7 +102,6 @@ class Activity extends Model
         $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'project_id' => $project->id,
                 'created_by' => \Auth::user()->creatorId(),
                 'action' => 'activity_create_project',
                 'value' => $project->name,
@@ -95,7 +115,6 @@ class Activity extends Model
         $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'project_id' => $project->id,
                 'created_by' => \Auth::user()->creatorId(),
                 'action' => 'activity_update_project',
                 'value' => $project->name,
@@ -106,10 +125,9 @@ class Activity extends Model
 
     public static function createProjectFile(Project $project, Media $file)
     {
-        $file->activities()->create(
+        $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'project_id' => $project->id,
                 'created_by' => \Auth::user()->creatorId(),
                 'action' => 'activity_upload_file',
                 'value' => $file->file_name,
@@ -120,44 +138,124 @@ class Activity extends Model
 
     public static function createTaskFile(Task $task, Media $file)
     {
-        $file->activities()->create(
-            [
-                'user_id' => \Auth::user()->id,
-                'project_id' => $task->project_id,
-                'created_by' => \Auth::user()->creatorId(),
-                'action' => 'activity_upload_file',
-                'value' => $file->file_name,
-                'url'    => route('tasks.file.download', [$task->id, $file->id]),
-            ]
-        );
+        if($task->project) {
+            $task->project->activities()->create(
+                [
+                    'user_id' => \Auth::user()->id,
+                    'created_by' => \Auth::user()->creatorId(),
+                    'action' => 'activity_upload_file',
+                    'value' => $file->file_name,
+                    'url'    => route('tasks.file.download', [$task->id, $file->id]),
+                ]
+            );
+        }
     }    
 
     public static function createInvoice(Invoice $invoice)
     {
-        $invoice->activities()->create(
-            [
-                'user_id' => \Auth::user()->id,
-                'project_id' => $invoice->project_id,
-                'created_by' => \Auth::user()->creatorId(),
-                'action' => 'activity_create_invoice',
-                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
-                'url'    => route('invoices.show', $invoice->id),
-            ]
-        );
+        if($invoice->project) {
+            $invoice->project->activities()->create(
+                [
+                    'user_id' => \Auth::user()->id,
+                    'created_by' => \Auth::user()->creatorId(),
+                    'action' => 'activity_create_invoice',
+                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                    'url'    => route('invoices.show', $invoice->id),
+                ]
+            );
+        }
     }
 
     public static function updateInvoice(Invoice $invoice)
     {
-        $invoice->activities()->create(
+        if($invoice->project) {
+            $invoice->project->activities()->create(
+                [
+                    'user_id' => \Auth::user()->id,
+                    'created_by' => \Auth::user()->creatorId(),
+                    'action' => 'activity_update_invoice',
+                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                    'url'    => route('invoices.show', $invoice->id),
+                ]
+            );
+        }
+    }    
+
+    public static function createLead(Lead $lead)
+    {
+        $lead->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'project_id' => $invoice->project_id,
                 'created_by' => \Auth::user()->creatorId(),
-                'action' => 'activity_update_invoice',
-                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
-                'url'    => route('invoices.show', $invoice->id),
+                'action' => 'activity_create_lead',
+                'value' => $lead->name,
+                'url'    => route('leads.show', $lead->id),
             ]
         );
     }
 
+    public static function updateLead(Lead $lead)
+    {
+        $lead->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_update_lead',
+                'value' => $lead->name,
+                'url'    => route('leads.show', $lead->id),
+            ]
+        );
+    }
+
+    public static function createLeadEvent(Lead $lead, Event $event)
+    {
+        $lead->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_create_event',
+                'value' => $event->name,
+                'url'    => route('events.edit', $event->id),
+            ]
+        );
+    }
+
+    public static function updateLeadEvent(Lead $lead, Event $event)
+    {
+        $lead->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_update_event',
+                'value' => $event->name,
+                'url'    => route('events.edit', $event->id),
+            ]
+        );
+    }
+
+    public static function createLeadFile(Lead $lead, Media $file)
+    {
+        $lead->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_upload_file',
+                'value' => $file->file_name,
+                'url'    => route('leads.file.download', [$lead->id, $file->id]),
+            ]
+        );
+    }
+
+    public static function createLeadNote(Lead $lead, Note $note)
+    {
+        $lead->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_create_note',
+                'value' => $note->text,
+                'url'    => route('leads.show', $lead->id),
+            ]
+        );
+    }
 }

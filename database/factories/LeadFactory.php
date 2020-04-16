@@ -20,8 +20,7 @@ $factory->define(Lead::class, function (Faker $faker) {
                                                 User::$SEED_COMPANY_IDX*Client::$SEED),
         'source_id' => $faker->numberBetween(1, 4),
         'contact_id' => null,
-        'created_by' => User::$SEED_COMPANY_ID,
-        'notes' => null
+        'created_by' => User::$SEED_COMPANY_ID
     ];
 });
 

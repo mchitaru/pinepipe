@@ -28,7 +28,7 @@ class Event extends Model
 
     public static $SEED = 10;
 
-    public function user()
+    public function owner()
     {
         return $this->hasOne('App\User', 'id', 'user_id');
     }
@@ -60,9 +60,9 @@ class Event extends Model
 
     public static function createEvent($post)
     {
-        $post['user_id']    = \Auth::user()->id;
         $post['active']     = true;
         $post['busy']       = true;
+        $post['user_id']    = \Auth::user()->id;
         $post['created_by'] = \Auth::user()->creatorId();
 
         $event = Event::create($post);
@@ -71,9 +71,21 @@ class Event extends Model
         {
             $leads = collect($post['lead_id']);
             $event->leads()->sync($leads);
+
+            $lead = $event->leads->first();
+            
+            Activity::createLeadEvent($lead, $event);
         }
 
-        // Activity::createContact($contact);
+        if(isset($post['users'])){
+
+            $users = $post['users'];
+        }else{
+
+            $users = collect();
+        }
+
+        $event->users()->sync($users);
 
         return $event;
     }
@@ -91,6 +103,22 @@ class Event extends Model
         }
 
         $this->leads()->sync($leads);
+
+        if(isset($post['users']))
+        {
+            $users = $post['users'];
+        }else{
+
+            $users = collect();
+        }
+
+        $this->users()->sync($users);
+
+        $lead = $this->leads->first();
+
+        if($lead) {
+            Activity::updateLeadEvent($lead, $this);
+        }
     }
 
     public function detachEvent()

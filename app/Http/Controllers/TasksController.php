@@ -170,7 +170,8 @@ class TasksController extends Controller
 
         $request->session()->flash('success', __('Task successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        $url = redirect()->back()->getTargetUrl();
+        return "<script>window.location='{$url}'</script>";
     }
 
     /**
