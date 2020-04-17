@@ -123,7 +123,7 @@ $dz_id = 'task-files-dz';
  <div class="row justify-content-center" data-remote="true">
     <div class="col">
         <div class="page-header pt-2">
-        <p class="lead">{{$task->description}}</p>
+        <p class="lead">{!! nl2br(e($task->description)) !!}</p>
         <div class="d-flex align-items-center">
             <ul class="avatars">
 
