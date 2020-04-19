@@ -103,7 +103,7 @@ class ProjectsController extends Controller
             $request->session()->flash('success', __('Project successfully created.'));
 
             $url = redirect()->route('projects.show', $project->id)->getTargetUrl();
-            return "<script>window.location='{$url}'</script>";
+            return response()->json(['success', 'url'=>$url], 207);
         }
         else
         {
@@ -111,7 +111,7 @@ class ProjectsController extends Controller
         }
 
         $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
-        return "<script>window.location='{$url}'</script>";
+        return response()->json(['success', 'url'=>$url], 207);
     }
 
 
@@ -136,7 +136,7 @@ class ProjectsController extends Controller
 
     public function update(ProjectUpdateRequest $request, Project $project)
     {
-        if($request->ajax() && $request->isMethod('patch'))
+        if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
         {
             return view('helpers.archive');
         }
@@ -147,8 +147,7 @@ class ProjectsController extends Controller
 
         $request->session()->flash('success', __('Project successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return response()->json(['success'], 207);
     }
 
     public function show(Project $project)

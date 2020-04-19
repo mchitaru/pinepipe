@@ -6,11 +6,14 @@ use App\User;
 use App\Client;
 use File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Session;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\UserDestroyRequest;
 
 class UsersController extends Controller
 {
@@ -59,180 +62,107 @@ class UsersController extends Controller
 
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create user'))
+        $user  = \Auth::user();
+        $roles = Role::where(function ($query) use ($user) {
+                            $query->where('created_by', '=', 1)
+                                ->orWhere('created_by', '=', $user->creatorId());
+                        })
+                        ->orderBy('id', 'DESC')
+                        ->get()
+                        ->pluck('name', 'id');
+                        
+        $clients = Client::where('created_by', '=', $user->creatorId())
+                        ->orderBy('id', 'DESC')
+                        ->get()
+                        ->pluck('name', 'id');
+
+        $role = null;
+
+        if(isSet($request['role'])){
+            $role = Role::find($request['role']);
+        }
+
+        return view('users.create', compact('role', 'roles', 'clients'));
+    }
+
+    public function store(UserStoreRequest $request)
+    {
+        $post = $request->validated();
+
+        if(\Auth::user()->type == 'super admin')
         {
-            $user  = \Auth::user();
-            $roles = Role::where(function ($query) use ($user) {
-                                $query->where('created_by', '=', 1)
-                                    ->orWhere('created_by', '=', $user->creatorId());
-                            })
-                            ->orderBy('id', 'DESC')
-                            ->get()
-                            ->pluck('name', 'id');
-                            
-            $clients = Client::where('created_by', '=', $user->creatorId())
-                            ->orderBy('id', 'DESC')
-                            ->get()
-                            ->pluck('name', 'id');
+            $user = User::createCompany($post);
+            
+            $request->session()->flash('success', __('User successfully created.'));
 
-            $role = null;
+            return response()->json(['success'], 207);
+        }
 
-            if(isSet($request['role'])){
-                $role = Role::find($request['role']);
-            }
-    
-            return view('users.create', compact('role', 'roles', 'clients'));
+        if(\Auth::user()->checkUserLimit())
+        {
+            $user = User::createUser($post);
+
+            $request->session()->flash('success', __('User successfully created.'));
+
+            return response()->json(['success'], 207);
         }
         else
         {
-            return redirect()->back();
+            $request->session()->flash('error', __('Your have reached your user limit. Please upgrade your subscription to add more users!'));
         }
+
+        $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
+        return response()->json(['success', 'url'=>$url], 207);
     }
 
-    public function store(Request $request)
+    public function edit(Request $request, User $user)
     {
+        $roles = Role::where(function ($query) use ($user) {
+                            $query->where('created_by', '=', 1)
+                                    ->orWhere('created_by', '=', \Auth::user()->creatorId());
+                        })
+                        ->orderBy('id', 'DESC')
+                        ->get()
+                        ->pluck('name', 'id');
 
-        if(\Auth::user()->can('create user'))
-        {
-
-            if(\Auth::user()->type == 'super admin')
-            {
-                $this->validate(
-                    $request, [
-                                'name' => 'required|max:120',
-                                'email' => 'required|email|unique:users',
-                                'password' => 'required|min:6',
-                            ]
-                );
-
-                $user = new User();
-                $user['name']   = $request->name;
-                $user['email']   = $request->email;
-                $user['password']   = Hash::make($request->password);
-                $user['type']       = 'company';
-                $user['lang']       = 'en';
-                $user['created_by'] = \Auth::user()->creatorId();
-                $user->save();
-
-                $role_r = Role::findByName('company');
-                $user->initCompanyDefaults();
-                $user->assignRole($role_r);
-            }
-            else
-            {
-                $this->validate(
-                    $request, [
-                                'name' => 'required|max:120',
-                                'email' => 'required|email|unique:users',
-                                'password' => 'required|min:6',
-                                'role' => 'required',
-                                'client_id' => 'required_if:role,client'
-                            ]
-                );
-
-
-
-                $objUser    = \Auth::user();
- 
-                if(\Auth::user()->checkUserLimit())
-                {
-                    $role_r                = Role::findById($request->role);
-                    $request['password']   = Hash::make($request->password);
-                    $request['type']       = $role_r->name;
-                    $request['lang']       = 'en';
-                    $request['created_by'] = \Auth::user()->creatorId();
-
-                    $user = User::create($request->all());
-
-                    $user->assignRole($role_r);
-                }
-                else
-                {
-                    return Redirect::to(route('profile.show').'/#subscription')->with('error', __('Your have reached your user limit. Please upgrade your subscription to add more users!'));
-                }
-            }
-
-
-            return Redirect::to(URL::previous())->with('success', __('User successfully created.'));
-        }
-        else
-        {
-            return redirect()->back();
-        }
-
-    }
-
-    public function edit(User $user)
-    {
-            $roles = Role::where(function ($query) use ($user) {
-                                $query->where('created_by', '=', 1)
-                                        ->orWhere('created_by', '=', \Auth::user()->creatorId());
-                            })
+        $clients = Client::where('created_by', '=', $user->creatorId())
                             ->orderBy('id', 'DESC')
                             ->get()
                             ->pluck('name', 'id');
 
-        if(\Auth::user()->can('edit user'))
-        {
-            return view('users.edit', compact('user', 'roles'));
-        }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+        if(isset($request['role'])){
+            $role = Role::findById($request['role']);
+        }else{
+            $role = Role::findByName($user->type);
         }
 
+        return view('users.edit', compact('user', 'roles', 'role', 'clients'));
     }
 
 
-    public function update(Request $request, $user_id)
+    public function update(UserUpdateRequest $request, $user_id)
     {
-        if($request->ajax())
+        if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
         {
             return view('helpers.archive');
         }
 
+        $post = $request->validated();
+
         if($request->isMethod('put'))
         {
             $user = User::find($user_id);
-            
-            if(\Auth::user()->can('edit user'))
+
+            if(\Auth::user()->type == 'super admin')
             {
-                if(\Auth::user()->type == 'super admin')
-                {
-                    $this->validate(
-                        $request, [
-                                    'name' => 'required|max:120',
-                                    'email' => 'required|email|unique:users,email,' . $user->id,
-                                ]
-                    );
-                    $input = $request->all();
-                    $user->fill($input)->save();
-
-                    return redirect()->route('users.index')->with(
-                        'success', 'User successfully updated.'
-                    );
-                }
-                else
-                {
-                    $this->validate(
-                        $request, [
-                                    'name' => 'required|max:120',
-                                    'email' => 'required|email|unique:users,email,' . $user->id,
-                                    'role' => 'required',
-                                ]
-                    );
-
-                    $role          = Role::findById($request->role);
-                    $input         = $request->all();
-                    $input['type'] = $role->name;
-                    $user->fill($input)->save();
-
-                    $roles[] = $request->role;
-                    $user->roles()->sync($roles);
-
-                    return Redirect::to(URL::previous())->with('success', __('User successfully updated.'));
-                }
+                $user->updateCompany($post);
             }
+            else
+            {
+                $user->updateUser($post);
+            }
+
+            $request->session()->flash('success', __('User successfully updated.'));
         }
         else
         {    
@@ -250,39 +180,25 @@ class UsersController extends Controller
                 {
                     $user->restore();
                     $request->session()->flash('success', __('User successfully restored.'));
-                }
-        
-                return Redirect::to(URL::previous());
+                }        
             }
         }
 
-        return redirect()->back();
+        return response()->json(['success'], 207);
     }
 
 
-    public function destroy(Request $request, User $user)
+    public function destroy(UserDestroyRequest $request, User $user)
     {
         if($request->ajax()){
             
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete user'))
-        {
-            $user->delete();
-            $user->destroyUserProjectInfo($user->id);
-            $user->removeUserLeadInfo($user->id);
-            $user->destroyUserNotesInfo($user->id);
-            $user->removeUserExpenseInfo($user->id);
-            $user->removeUserTaskInfo($user->id);
-            $user->destroyUserTaskAllInfo($user->id);
+        $user->detachUser();
+        $user->delete();
 
-            return Redirect::to(URL::previous())->with('success', __('User successfully deleted.'));
-        }
-        else
-        {
-            return redirect()->back();
-        }
+        return Redirect::to(URL::previous())->with('success', __('User successfully deleted.'));
     }
 
     public function show(User $user)
@@ -301,10 +217,17 @@ class UsersController extends Controller
         return $request->user();
     }
 
-    public function refresh(Request $request)
+    public function refresh(Request $request, $user_id)
     {
         $request->flash();
 
+        if($user_id)
+        {
+            $user = User::find($user_id);
+            return $this->edit($request, $user);
+        }
+
         return $this->create($request);
+
     } 
 }

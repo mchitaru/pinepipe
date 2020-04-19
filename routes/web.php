@@ -48,7 +48,7 @@ Route::group(
 
         //Users
         Route::post('users/notifications', 'UsersController@readNotifications')->name('users.notifications');
-        Route::get('users/refresh', 'UsersController@refresh')->name('users.refresh');
+        Route::get('users/{user}/refresh', 'UsersController@refresh')->name('users.refresh');
         Route::resource('users', 'UsersController');
 
         Route::resource('roles', 'UserRolesController');

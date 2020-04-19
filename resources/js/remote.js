@@ -1,4 +1,4 @@
-function attachPlugins() {
+async function attachPlugins() {
     
     $('select').select2();
     $('[data-flatpickr]').mrFlatpickr();
@@ -33,16 +33,31 @@ function attachPlugins() {
 
 $(document).on('ajax:success', function(e, data, status, xhr){
 
-    if(xhr.responseText)
+    if(status == 'success')
     {
-        if(!$('#modal').length)
+        if(xhr.status == 207)
         {
-            $('body').append($('<div class="modal show" id="modal" data-keyboard="false" data-backdrop="static"></div>'))
+            $('#modal').modal('hide');
+
+            if(data.url){
+                
+                window.location=data.url;
+            }else{
+
+                window.location.reload();
+            }
+
+        }else if(xhr.responseText)
+        {
+            if(!$('#modal').length)
+            {
+                $('body').append($('<div class="modal show" id="modal" data-keyboard="false" data-backdrop="static"></div>'))
+            }
+
+            $('#modal').html(xhr.responseText).modal('show');
+
+            attachPlugins();
         }
-
-        $('#modal').html(xhr.responseText).modal('show');
-
-        attachPlugins();
     }
 });
 

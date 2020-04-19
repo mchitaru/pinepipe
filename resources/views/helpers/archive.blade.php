@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-{{ Form::open(array('url' => Request::url(), 'method' => 'PATCH')) }}
+{{ Form::open(array('url' => Request::url(), 'method' => 'PATCH', 'data-remote' =>'true')) }}
 @endsection
 
 @section('title') 

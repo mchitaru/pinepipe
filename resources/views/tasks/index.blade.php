@@ -99,11 +99,10 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            @can('edit task')
-                                {!! Form::open(['method' => 'PATCH', 'route' => ['tasks.update', $task->id]]) !!}
-                                {!! Form::hidden('stage_id', $stage_done) !!}
-                                {!! Form::submit(__('Mark as done'), array('class'=>'dropdown-item text-danger')) !!}
-                                {!! Form::close() !!}
+                            @can('edit task')                
+                                <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="stage_id={{$stage_done}}" data-method="PATCH" data-remote="true" data-type="text">
+                                    {{__('Mark as done')}}
+                                </a>
 
                                 <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                                     {{__('Edit')}}

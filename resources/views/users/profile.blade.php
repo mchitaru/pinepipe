@@ -23,18 +23,7 @@ use App\PaymentPlan;
     });
 
     $(document).ready(function() {
-/*
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
-        {
-            window.history.replaceState(null, null, $(e.target).attr('href'));
-            window.location.hash = $(e.target).attr('href');
-            $(window).scrollTop(0);
-        });
-    
-        var hash = window.location.hash ? window.location.hash : '#personal';
-    
-        $('.nav-tabs a[href="' + hash + '"]').tab('show');
-*/
+
         $('a[data-toggle="tab"]').click(function (e) {
             e.preventDefault();
             $(this).tab('show');

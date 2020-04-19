@@ -82,9 +82,9 @@
                                         <span>{{__('Delete')}}</span>
                                     </a>
                                 @else
-                                    {!! Form::open(['method' => 'PATCH', 'route' => ['users.update', $user->id]]) !!}
-                                    {!! Form::submit(__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
-                                    {!! Form::close() !!}
+                                    <a href="{{ route('users.update', $user->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                                        {{__('Restore')}}
+                                    </a>            
                                 @endif
                             {{-- <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>

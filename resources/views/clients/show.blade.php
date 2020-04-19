@@ -6,27 +6,12 @@
 @push('scripts')
 
 <script>
-/*
-$(document).ready(function() {
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        window.history.replaceState(null, null, $(e.target).attr('href'));
-        window.location.hash = $(e.target).attr('href');
-        $(window).scrollTop(0);
-    });
-
-    var hash = window.location.hash ? window.location.hash : '#profile';
-
-    $('.nav-tabs a[href="' + hash + '"]').tab('show');
-
-});*/
 
 $(function() {
 
     $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
         window.history.replaceState(null, null, $(e.target).attr('href'));
         window.location.hash = $(e.target).attr('href');
-        $(window).scrollTop(0);
 
         var id = $(e.target).attr("href");
         sessionStorage.setItem('clients.tab', id);

@@ -82,7 +82,7 @@ class LeadsController extends Controller
 
         $request->session()->flash('success', __('Lead successfully created.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     public function edit(Lead $lead)
@@ -128,7 +128,7 @@ class LeadsController extends Controller
 
         $request->session()->flash('success', __('Lead successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     public function destroy(LeadDestroyRequest $request, Lead $lead)

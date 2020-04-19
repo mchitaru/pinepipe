@@ -118,7 +118,7 @@ class InvoicesController extends Controller
         $request->session()->flash('success', __('Invoice successfully created.'));
 
         $url = redirect()->route('invoices.show', $invoice->id)->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return response()->json(['success', 'url'=>$url], 207);
     }
 
     public function show(Invoice $invoice)
@@ -173,7 +173,7 @@ class InvoicesController extends Controller
 
         $request->session()->flash('success', __('Invoice successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     public function destroy(InvoiceDestroyRequest $request, Invoice $invoice)

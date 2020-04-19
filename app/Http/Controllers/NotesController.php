@@ -48,7 +48,7 @@ class NotesController extends Controller
 
         $request->session()->flash('success', __('Note successfully created.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**

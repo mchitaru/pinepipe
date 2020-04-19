@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Jobs\EmailVerificationJob;
 use App\Traits\Actionable;
 use App\Traits\Billable;
+use Illuminate\Support\Facades\Hash;
 
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
@@ -646,35 +647,35 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
-    public function destroyUserProjectInfo($user_id)
+    public function destroyUserProjectInfo()
     {
-        return UserProject::where('user_id', '=', $user_id)->delete();
+        return UserProject::where('user_id', '=', $this->id)->delete();
     }
 
-    public function removeUserLeadInfo($user_id)
+    public function removeUserLeadInfo()
     {
-        return Lead::where('user_id', '=', $user_id)->update(array('user_id' => null));
+        return Lead::where('user_id', '=', $this->id)->update(array('user_id' => null));
     }
 
-    public function removeUserExpenseInfo($user_id)
+    public function removeUserExpenseInfo()
     {
-        return Expense::where('user_id', '=', $user_id)->update(array('user_id' => null));
+        return Expense::where('user_id', '=', $this->id)->update(array('user_id' => null));
     }
 
-    public function removeUserTaskInfo($user_id)
+    public function removeUserTaskInfo()
     {
-        return UserTask::where('user_id', '=', $user_id)->delete();
+        return UserTask::where('user_id', '=', $this->id)->delete();
     }
 
-    public function destroyUserNotesInfo($user_id)
+    public function destroyUserNotesInfo()
     {
-        return Note::where('created_by', '=', $user_id)->delete();
+        return Note::where('created_by', '=', $this->id)->delete();
     }
 
-    public function destroyUserTaskAllInfo($user_id)
+    public function destroyUserTaskAllInfo()
     {
-        Checklist::where('created_by', '=', $user_id)->delete();
-        Comment::where('created_by', '=', $user_id)->delete();
+        Checklist::where('created_by', '=', $this->id)->delete();
+        Comment::where('created_by', '=', $this->id)->delete();
     }
 
     public function total_company_user($company_id)
@@ -696,4 +697,68 @@ class User extends Authenticatable implements MustVerifyEmail
     // {
     //     EmailVerificationJob::dispatch($this);
     // }
+
+    public static function createCompany($post)
+    {
+        $post['password']   = Hash::make($post['password']);
+        $user['type']       = 'company';
+        $user['lang']       = 'en';
+        $user['created_by'] = \Auth::user()->creatorId();
+
+        $user = User::create($post);
+        
+        $role_r = Role::findByName('company');
+        $user->initCompanyDefaults();
+        $user->assignRole($role_r);
+
+        return $user;
+    }
+
+    public static function createUser($post)
+    {
+        $role_r                = Role::findById($post['role']);
+        
+        $post['password']   = Hash::make($post['password']);
+        $post['type']       = $role_r->name;
+        $post['lang']       = 'en';
+        $post['created_by'] = \Auth::user()->creatorId();
+
+        $user = User::create($post);
+
+        $user->assignRole($role_r);
+
+        return $user;
+    }
+
+    public function updateCompany($post)
+    {
+        $this->update($post);
+    }
+
+    public function updateUser($post)
+    {
+        $role          = Role::findById($post['role']);
+
+        if($role->name != 'client')
+            $post['client_id'] = null;
+        
+        $post['type'] = $role->name;
+
+        $this->update($post);
+        
+        $roles[] = $post['role'];
+        
+        $this->roles()->sync($roles);
+    }
+
+    public function detachUser()
+    {
+        $this->destroyUserProjectInfo();
+        $this->removeUserLeadInfo();
+        $this->destroyUserNotesInfo();
+        $this->removeUserExpenseInfo();
+        $this->removeUserTaskInfo();
+        $this->destroyUserTaskAllInfo();
+    }
+
 }

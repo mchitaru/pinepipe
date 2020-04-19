@@ -43,14 +43,14 @@ $last_stage = \Auth::user()->last_projectstage();
 
                                 @can('edit project')
                                     @if(!$project->archived)
-                                        <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="patch" data-remote="true" data-type="text">
-                                            <span>{{__('Archive')}}</span>
+                                        <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
+                                            {{__('Archive')}}
                                         </a>
                                     @else
-                                        {!! Form::open(['method' => 'PATCH', 'route' => ['projects.update', $project->id]]) !!}
-                                        {!! Form::hidden('archived', 0) !!}
-                                        {!! Form::submit(__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
-                                        {!! Form::close() !!}
+                                        <a href="{{ route('projects.update', $project->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                                            {{__('Restore')}}
+                                        </a>
+        
                                     @endif
                                 @endcan
 

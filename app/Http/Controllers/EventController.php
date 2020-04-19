@@ -84,7 +84,7 @@ class EventController extends Controller
 
         $request->session()->flash('success', __('Event successfully created.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**
@@ -154,7 +154,7 @@ class EventController extends Controller
 
         $request->session()->flash('success', __('Event successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**

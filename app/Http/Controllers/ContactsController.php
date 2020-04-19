@@ -90,7 +90,7 @@ class ContactsController extends Controller
 
         $request->session()->flash('success', __('Contact successfully created.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**
@@ -136,7 +136,7 @@ class ContactsController extends Controller
 
         $request->session()->flash('success', __('Contact successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**

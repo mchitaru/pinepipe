@@ -45,9 +45,9 @@
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
         {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Pinepipe'),'required'=>'required'))}}
     </div>
-    <div class="form-group row required">
+    <div class="form-group row">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
-        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('team@pinepipe.com'),'required'=>'required'))}}
+        {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('team@pinepipe.com')))}}
     </div>
     <div class="form-group row">
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}

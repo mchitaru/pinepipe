@@ -100,7 +100,7 @@ class TasksController extends Controller
 
         $request->session()->flash('success', __('Task successfully created.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**
@@ -170,8 +170,7 @@ class TasksController extends Controller
 
         $request->session()->flash('success', __('Task successfully updated.'));
 
-        $url = redirect()->back()->getTargetUrl();
-        return "<script>window.location='{$url}'</script>";
+        return response()->json(['success'], 207);
     }
 
     /**

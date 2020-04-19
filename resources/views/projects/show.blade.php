@@ -23,23 +23,10 @@ if(Gate::check('manage task')){
 <script>
        
 $(function() {
-/*
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
-    {
-        window.history.replaceState(null, null, $(e.target).attr('href'));
-        window.location.hash = $(e.target).attr('href');
-        $(window).scrollTop(0);
-    });
-
-    var hash = window.location.hash ? window.location.hash : '{{$default_tab}}';
-
-    $('.nav-tabs a[href="' + hash + '"]').tab('show');
-*/
 
     $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
         window.history.replaceState(null, null, $(e.target).attr('href'));
         window.location.hash = $(e.target).attr('href');
-        $(window).scrollTop(0);
 
         var id = $(e.target).attr("href");
         sessionStorage.setItem('projects.tab', id);
@@ -102,14 +89,13 @@ $(function() {
             
             @can('edit project')
                 @if(!$project->archived)
-                    <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="patch" data-remote="true" data-type="text">
-                        <span>{{__('Archive')}}</span>
+                    <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
+                        {{__('Archive')}}
                     </a>
                 @else
-                    {!! Form::open(['method' => 'PATCH', 'route' => ['projects.update', $project->id]]) !!}
-                    {!! Form::hidden('archived', 0) !!}
-                    {!! Form::submit(__('Restore'), array('class'=>'dropdown-item text-danger')) !!}
-                    {!! Form::close() !!}
+                    <a href="{{ route('projects.update', $project->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                        {{__('Restore')}}
+                    </a>
                 @endif
             @endcan
 
@@ -224,7 +210,7 @@ $(function() {
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show active" id="tasks" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>

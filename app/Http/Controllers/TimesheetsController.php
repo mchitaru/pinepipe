@@ -61,7 +61,7 @@ class TimesheetsController extends Controller
 
         $request->session()->flash('success', __('Timesheet successfully created.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**
@@ -121,7 +121,7 @@ class TimesheetsController extends Controller
 
         $request->session()->flash('success', __('Timesheet successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);
     }
 
     /**

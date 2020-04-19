@@ -104,7 +104,7 @@ class ClientsController extends Controller
             $request->session()->flash('success', __('Client successfully created.'));
 
             $url = redirect()->route('clients.show', $client->id)->getTargetUrl().'#profile';
-            return "<script>window.location='{$url}'</script>";
+            return response()->json(['success', 'url'=>$url], 207);
         }
         else
         {
@@ -112,7 +112,7 @@ class ClientsController extends Controller
         }
 
         $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
-        return "<script>window.location='{$url}'</script>";
+        return response()->json(['success', 'url'=>$url], 207);
     }
 
 
@@ -138,7 +138,7 @@ class ClientsController extends Controller
 
         $request->session()->flash('success', __('Client successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        return response()->json(['success'], 207);        
     }
 
 

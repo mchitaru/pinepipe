@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{Form::open(array('url'=>'users','method'=>'post'))}}
+    {{Form::open(array('url'=>'users','method'=>'post', 'data-remote' => 'true'))}}
 @endsection
 
 @section('title')
@@ -14,13 +14,13 @@
     @if(\Auth::user()->type != 'super admin')
         <div class="form-group row required">
             {{ Form::label('role', __('User Role'), array('class'=>'col-3')) }}
-            {!! Form::select('role', $roles, $role?$role->id:null,array('class' => 'form-control col','required'=>'required',
-                            'data-refresh'=>route('users.refresh'))) !!}
+            {!! Form::select('role', $roles, $role?$role->id:null, array('class' => 'form-control col','required'=>'required',
+                            'data-refresh'=>route('users.refresh', '0'))) !!}
         </div>
         @if($role && $role->name == 'client')
         <div class="form-group row required">
             {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-            {!! Form::select('client_id', $clients, null, array('class' => 'form-control col','required'=>'required')) !!}
+            {!! Form::select('client_id', $clients, null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Client...')) !!}
         </div>
         @endif
     @endif

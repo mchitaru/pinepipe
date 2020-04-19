@@ -10,7 +10,7 @@ function initDropzoneLinks(file, response)
     });
 }
 
-function initDropzone(selector, url, model_id, files)
+async function initDropzone(selector, url, model_id, files)
 {
     dropzone = $(selector).dropzone({
     previewTemplate: document.querySelector('.dz-template').innerHTML,
