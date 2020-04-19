@@ -189,9 +189,8 @@ class LeadsController extends Controller
         foreach($post['order'] as $key => $item)
         {
             $lead = Lead::find($item);
-            $lead->order = $key;
-            $lead->stage_id = $post['stage_id'];
-            $lead->save();
+
+            $lead->updateOrder($post['stage_id'], $key);
         }
 
         $return               = [];

@@ -94,6 +94,15 @@ class Lead extends Model implements HasMedia
         Activity::updateLead($this);
     }
 
+    public function updateOrder($stage, $order)
+    {
+        $this->order = $order;
+        $this->stage_id = $stage;
+        $this->save();
+
+        Activity::updateLead($this);
+    }
+
     public function detachLead()
     {
         $this->removeProjectLead();

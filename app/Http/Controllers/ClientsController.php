@@ -174,6 +174,13 @@ class ClientsController extends Controller
                         ->orderBy('order')
                         ->get();
 
+                $activities = Activity::whereHas('projects', function ($query) use ($client) {
+                    $query->where('client_id', $client->id);
+                })
+                ->limit(20)
+                ->orderBy('id', 'desc')
+                ->get();        
+
             }else
             {
                 $contacts = $user->contacts()
@@ -194,15 +201,33 @@ class ClientsController extends Controller
                             ->where('created_by', '=', $user->creatorId())
                             ->orderBy('order')
                             ->get();
-            }
 
-            $activities = array(); //TO DO
-            // $activities = Activity::whereHas('project', function ($query) use ($client) {
-            //     $query->where('client_id', $client->id);
-            // })
-            // ->limit(20)
-            // ->orderBy('id', 'desc')
-            // ->get();
+                if($user->type == 'client'){
+
+                    $activities = Activity::whereHas('projects', function ($query) use ($client) {
+                        $query->where('client_id', $client->id);
+                    })
+                    ->limit(20)
+                    ->orderBy('id', 'desc')
+                    ->get();
+    
+                }else{
+
+                    $activities = Activity::whereHas('projects', function ($query) use ($client) {
+                        $query->where('client_id', $client->id)
+                                ->whereHas('users', function ($query) {
+        
+                                    // tasks with the current user assigned.
+                                    $query->where('users.id', \Auth::user()->id);
+                    
+                                });
+                    })
+                    ->limit(20)
+                    ->orderBy('id', 'desc')
+                    ->get();
+    
+                }                                
+            }
 
             clock()->endEvent('ClientsController');
 

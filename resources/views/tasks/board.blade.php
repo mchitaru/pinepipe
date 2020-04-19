@@ -51,6 +51,7 @@ use App\Project;
             data: {task_id: task_id, stage_id: stage_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
             success: function (data) {
                 /* console.log('success'); */
+                toastrs('Task succesfully updated.', 'success');
             },
             error: function (data) {
                 /* console.log('error'); */

@@ -12,6 +12,18 @@ class Activity extends Model
         return $this->morphTo();
     }
 
+    public function projects()
+    {
+        return $this->belongsTo(Project::class, 'actionable_id')
+            ->whereActionableType(Project::class);
+    }
+
+    public function leads()
+    {
+        return $this->belongsTo(Lead::class, 'actionable_id')
+            ->whereActionableType(Lead::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -201,9 +201,8 @@ class TasksController extends Controller
         foreach($post['order'] as $key => $item)
         {
             $task = Task::find($item);
-            $task->order = $key;
-            $task->stage_id = $post['stage_id'];
-            $task->save();
+
+            $task->updateOrder($post['stage_id'], $key);
         }
     }
 
