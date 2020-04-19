@@ -67,7 +67,9 @@ use Carbon\Carbon;
                 $(evt.oldContainer).prev().find('.total').text(response.total_old);
                 $(evt.newContainer).prev().find('.total').text(response.total_new);
 
-                toastrs('Lead succesfully updated.', 'success');
+                if(response.is_success){
+                    toastrs('Lead succesfully updated.', 'success');
+                }
             },
             error: function (data) {
                 /* console.log('error'); */

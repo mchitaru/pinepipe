@@ -121,11 +121,18 @@ class Task extends Model implements HasMedia
 
     public function updateOrder($stage, $order)
     {
-        $this->order = $order;
-        $this->stage_id = $stage;
-        $this->save();
+        $updated = ($this->order != $order || $this->stage_id != $stage);
 
-        Activity::updateTask($this);
+        if($updated)
+        {
+            $this->order = $order;
+            $this->stage_id = $stage;
+            $this->save();
+
+            Activity::updateTask($this);
+        }
+
+        return $updated;
     }
 
     public function detachTask()

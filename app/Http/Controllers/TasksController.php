@@ -196,14 +196,20 @@ class TasksController extends Controller
 
     public function order(Request $request)
     {
+        $updated = false;
         $post  = $request->all();
 
         foreach($post['order'] as $key => $item)
         {
             $task = Task::find($item);
 
-            $task->updateOrder($post['stage_id'], $key);
+            $updated = $task->updateOrder($post['stage_id'], $key) || $updated;
         }
+
+        $return               = [];
+        $return['is_success'] = $updated;
+
+        return response()->json($return);
     }
 
     public function refresh(Request $request, $task_id)

@@ -184,17 +184,18 @@ class LeadsController extends Controller
 
     public function order(Request $request)
     {
+        $updated = false;
         $post  = $request->all();
 
         foreach($post['order'] as $key => $item)
         {
             $lead = Lead::find($item);
 
-            $lead->updateOrder($post['stage_id'], $key);
+            $updated = $lead->updateOrder($post['stage_id'], $key) || $updated;
         }
 
         $return               = [];
-        $return['is_success'] = true;
+        $return['is_success'] = $updated;
         $return['total_old']   = \Auth::user()->priceFormat($post['total_old']);
         $return['total_new']   = \Auth::user()->priceFormat($post['total_new']);
 

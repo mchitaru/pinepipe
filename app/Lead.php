@@ -96,11 +96,18 @@ class Lead extends Model implements HasMedia
 
     public function updateOrder($stage, $order)
     {
-        $this->order = $order;
-        $this->stage_id = $stage;
-        $this->save();
+        $updated = ($this->order != $order || $this->stage_id != $stage);
 
-        Activity::updateLead($this);
+        if($updated){
+
+            $this->order = $order;
+            $this->stage_id = $stage;
+            $this->save();
+    
+            Activity::updateLead($this);
+        }
+
+        return $updated;
     }
 
     public function detachLead()
