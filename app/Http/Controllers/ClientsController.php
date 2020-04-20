@@ -138,7 +138,10 @@ class ClientsController extends Controller
 
         $request->session()->flash('success', __('Client successfully updated.'));
 
-        return response()->json(['success'], 207);        
+        if($request->ajax())
+            return response()->json(['success'], 207);        
+        else
+            return redirect()->back();
     }
 
 
