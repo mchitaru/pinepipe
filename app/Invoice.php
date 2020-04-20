@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
+use App\Traits\Taggable;
 
 class Invoice extends Model
 {
-    use NullableFields;
+    use NullableFields, Taggable;
 
     protected $fillable = [
         'invoice_id',

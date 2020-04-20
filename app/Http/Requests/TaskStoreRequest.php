@@ -37,6 +37,7 @@ class TaskStoreRequest extends FormRequest
                 'user_id' => 'nullable|array', //+
                 'project_id' => 'nullable|integer',
                 'due_date' => 'nullable|date',
+                'tags'=>'nullable|array'
             ];
         }else{
             return [
@@ -45,6 +46,7 @@ class TaskStoreRequest extends FormRequest
                 'priority' => 'required|string',
                 'project_id' => 'nullable|integer',
                 'due_date' => 'nullable|date',
+                'tags'=>'nullable|array'
             ];
         }
     }

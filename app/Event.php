@@ -5,10 +5,11 @@ namespace App;
 use App\Lead;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
+use App\Traits\Taggable;
 
 class Event extends Model
 {
-    use NullableFields;
+    use NullableFields, Taggable;
 
     protected $fillable = [
         'active',

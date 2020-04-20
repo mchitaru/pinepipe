@@ -5,10 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Eventable;
+use App\Traits\Taggable;
+
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Client extends Model
 {
-    use NullableFields, Eventable;
+    use NullableFields, Eventable, Taggable;
 
     protected $fillable = [
         'name',

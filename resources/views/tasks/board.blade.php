@@ -223,35 +223,42 @@ use App\Project;
                             </div>
 
                             @if($task->priority =='low')
-                                <span class="badge badge-success"> {{ $task->priority }}</span>
+                                <span class="badge badge-success" data-toggle="tooltip" title="{{__('Priority')}}"> {{ $task->priority }}</span>
                             @elseif($task->priority =='medium')
-                                <span class="badge badge-warning"> {{ $task->priority }}</span>
+                                <span class="badge badge-warning" data-toggle="tooltip" title="{{__('Priority')}}"> {{ $task->priority }}</span>
                             @elseif($task->priority =='high')
-                                <span class="badge badge-danger"> {{ $task->priority }}</span>
+                                <span class="badge badge-danger" data-toggle="tooltip" title="{{__('Priority')}}"> {{ $task->priority }}</span>
                             @endif
 
-                            <ul class="avatars">
+                            <div class="d-flex justify-content-between">
+                                <ul class="avatars">
+                                    @foreach($task->users as $user)
+                                    <li>
+                                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                                            {!!Helpers::buildUserAvatar($user)!!}
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
 
-                                @foreach($task->users as $user)
-                                <li>
-                                    <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                                        {!!Helpers::buildUserAvatar($user)!!}
-                                    </a>
-                                </li>
-                                @endforeach
-                            </ul>
-        
-                            <div class="card-meta d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="material-icons">playlist_add_check</i>
-                                <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
-                                    <span>{{$completed_subtask}}/{{$total_subtask}}</span>
-                                </p>
+                                <div data-toggle="tooltip" title="{{__('Tags')}}">
+                                    @foreach($task->tags as $tag)
+                                        <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                                    @endforeach
+                                </div>
                             </div>
+                            
+                            <div class="card-meta d-flex justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <i class="material-icons">playlist_add_check</i>
+                                    <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
+                                        <span>{{$completed_subtask}}/{{$total_subtask}}</span>
+                                    </p>
+                                </div>
 
-                            <span class="text-small {{($task->due_date && $task->due_date<now())?'text-danger':''}}">
-                                {{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}
-                            </span>
+                                <span class="text-small {{($task->due_date && $task->due_date<now())?'text-danger':''}}">
+                                    {{__('Due')}} {{ Carbon::parse($task->due_date)->diffForHumans() }}
+                                </span>
 
                             </div>
 

@@ -1,6 +1,9 @@
 async function attachPlugins() {
     
-    $('select').select2();
+    $('select').each(function() {
+        $(this).select2({tags: $(this).hasClass('tags')});
+    });
+
     $('[data-flatpickr]').mrFlatpickr();
     LetterAvatar.transform();
 

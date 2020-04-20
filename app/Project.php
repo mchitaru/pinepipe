@@ -9,12 +9,11 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 use App\Traits\Actionable;
+use App\Traits\Taggable;
 
 class Project extends Model implements HasMedia
 {
-    use NullableFields;
-    use HasMediaTrait;
-    use Actionable;
+    use NullableFields, HasMediaTrait, Actionable, Taggable;
 
     protected $fillable = [
         'name',

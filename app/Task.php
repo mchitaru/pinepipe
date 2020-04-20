@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -11,10 +12,11 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use App\Traits\Invoiceable;
 use App\Traits\Checklistable;
 use App\Traits\Commentable;
+use App\Traits\Taggable;
 
 class Task extends Model implements HasMedia
 {
-    use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable;
+    use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable, Taggable;
 
     protected $fillable = [
         'title',
@@ -65,7 +67,7 @@ class Task extends Model implements HasMedia
     }    
 
     public static function createTask($post)
-    {
+    {        
         $stage = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->first();
 
         $post['stage_id']   = $stage->id;
@@ -90,6 +92,15 @@ class Task extends Model implements HasMedia
 
         $task->users()->sync($users);
 
+        //tags
+        $tags = [];
+        foreach($post['tags'] as $tag)
+        {
+            $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+        }
+
+        $task->tags()->sync($tags);
+
         Activity::createTask($task);
 
         return $task;
@@ -113,8 +124,16 @@ class Task extends Model implements HasMedia
             $users->prepend(\Auth::user()->id);
         }
 
-
         $this->users()->sync($users);
+
+        //tags
+        $tags = [];
+        foreach($post['tags'] as $tag)
+        {
+            $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+        }
+
+        $this->tags()->sync($tags);        
 
         Activity::updateTask($this);
     }
@@ -138,6 +157,7 @@ class Task extends Model implements HasMedia
     public function detachTask()
     {
         $this->users()->detach();
+        $this->tags()->detach();
 
         $this->comments()->delete();
         $this->checklist()->delete();

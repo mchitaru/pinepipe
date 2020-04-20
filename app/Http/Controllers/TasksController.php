@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\User;
 use App\Task;
 use App\Project;
@@ -82,8 +83,12 @@ class TasksController extends Controller
         }
 
         $milestones = null;
+        $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
+                        ->whereHas('tasks')
+                        ->get()
+                        ->pluck('name', 'name');
 
-        return view('tasks.create', compact('project_id', 'projects', 'users', 'priority', 'milestones'));
+        return view('tasks.create', compact('project_id', 'projects', 'users', 'priority', 'milestones', 'tags'));
     }
 
     /**
@@ -150,9 +155,19 @@ class TasksController extends Controller
         $priority   = Project::$priority;
         $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
 
+        $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
+                        ->whereHas('tasks')
+                        ->get()
+                        ->pluck('name', 'name');
+
+        foreach($task->tags as $tag)
+        {
+            $task_tags[] = $tag->name;    
+        }
+
         $due_date = $task->due_date;
 
-        return view('tasks.edit', compact('task', 'stages', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'due_date'));
+        return view('tasks.edit', compact('task', 'stages', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'tags', 'task_tags', 'due_date'));
     }
 
     /**

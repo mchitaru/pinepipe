@@ -51,8 +51,8 @@
             {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
         <div class="form-group row align-items-center">
-            {{ Form::label('milestone_id', __('Milestone'), array('class'=>'col-3')) }}
-            {!! Form::select('milestone_id', $milestones, null,array('class' => 'form-control col')) !!}
+            {{ Form::label('tags', __('Tags'), array('class'=>'col-3')) }}
+            {!! Form::select('tags[]', $tags, $task_tags, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}
         </div>
     </div>
     <div class="tab-pane fade show" id="task-timeline" role="tabpanel">

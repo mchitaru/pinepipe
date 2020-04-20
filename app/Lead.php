@@ -8,13 +8,14 @@ use App\Traits\Eventable;
 
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use App\Traits\Taggable;
 
 use App\Traits\Actionable;
 use App\Traits\Notable;
 
 class Lead extends Model implements HasMedia
 {
-    use NullableFields, Eventable, HasMediaTrait, Actionable, Notable;
+    use NullableFields, Eventable, HasMediaTrait, Actionable, Notable, Taggable;
 
     protected $fillable = [
         'name',
