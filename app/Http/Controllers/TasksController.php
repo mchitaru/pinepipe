@@ -23,7 +23,7 @@ class TasksController extends Controller
 {
     use Taskable;
 
-    public function board($project_id = null)
+    public function board(Request $request, $project_id = null)
     {
         if(\Auth::user()->can('manage task'))
         {
@@ -32,19 +32,24 @@ class TasksController extends Controller
             if($project_id)
             {
                 $project = Project::find($project_id);
-                $stages = $project->stages()->get();
+                $stages = $project->stages($request['sort'], $request['dir'])->get();
                 $project_name = $project->name;
             }
             else
             {
                 $project = null;
                 $project_name = null;
-                $stages = TaskStage::stagesByUserType()->get();
+                $stages = TaskStage::stagesByUserType($request['sort'], $request['dir'])->get();
             }
 
             clock()->endEvent('TasksController');
 
-            return view('tasks.board', compact('stages', 'project_id', 'project_name'));
+            if ($request->ajax())
+            {
+                return view('tasks.board', compact('stages', 'project_id', 'project_name'))->render();
+            }
+
+            return view('tasks.page', compact('stages', 'project_id', 'project_name'));
         }
         else
         {
@@ -160,6 +165,7 @@ class TasksController extends Controller
                         ->get()
                         ->pluck('name', 'name');
 
+        $task_tags = [];
         foreach($task->tags as $tag)
         {
             $task_tags[] = $tag->name;    

@@ -77,6 +77,11 @@ $(function() {
             $('.paginate-container').html(data);  
             LetterAvatar.transform();
 
+            // Create the event
+            var event = new CustomEvent("paginate-click");
+            // Dispatch/Trigger/Fire the event
+            document.dispatchEvent(event);                        
+
         }).fail(function () 
         {
             toastrs('Data could not be loaded!', 'error');            
@@ -103,6 +108,11 @@ $(function() {
         {
             $('.paginate-container').html(data);  
             LetterAvatar.transform();
+
+            // Create the event
+            var event = new CustomEvent("paginate-sort");
+            // Dispatch/Trigger/Fire the event
+            document.dispatchEvent(event);            
 
         }).fail(function () 
         {
@@ -136,6 +146,11 @@ $(function() {
             $('.paginate-container').html(data);  
             LetterAvatar.transform();
 
+            // Create the event
+            var event = new CustomEvent("paginate-tag");
+            // Dispatch/Trigger/Fire the event
+            document.dispatchEvent(event);            
+
         }).fail(function () 
         {
             toastrs('Data could not be loaded!', 'error');            
@@ -168,6 +183,11 @@ $(function() {
         {
             $('.paginate-container').html(data);  
             LetterAvatar.transform();
+
+            // Create the event
+            var event = new CustomEvent("paginate-filter");
+            // Dispatch/Trigger/Fire the event
+            document.dispatchEvent(event);            
 
         }).fail(function () 
         {

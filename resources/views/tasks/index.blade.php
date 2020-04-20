@@ -76,6 +76,14 @@
                         <i class="material-icons">apartment</i>
                         <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
                     </div>
+                    @if(!$task->tags->isEmpty())
+                    <div class="row align-items-center" data-toggle="tooltip" title="{{__('Labels')}}">
+                        <i class="material-icons">label</i>
+                        @foreach($task->tags as $tag)
+                            <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
                 <div class="card-title col-xs-12 col-sm-3 text-right">
 

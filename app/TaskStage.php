@@ -26,33 +26,33 @@ class TaskStage extends Model
         return $this->hasMany('App\Task', 'stage_id', 'id');
     }
 
-    public static function stagesByUserType()
+    public static function stagesByUserType($sort, $dir)
     {
         if(\Auth::user()->type == 'client')
         {
-            return TaskStage::with(['tasks' => function ($query) 
+            return TaskStage::with(['tasks' => function ($query) use($sort, $dir)
             {
                 $query->WhereHas('project', function ($query) {
                     
                     $query->where('client_id', '=', \Auth::user()->client_id);
 
-                })->orderBy('order', 'ASC');
+                })->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
 
         }else if(\Auth::user()->type == 'company')
         {
-            return TaskStage::with(['tasks' => function ($query)
+            return TaskStage::with(['tasks' => function ($query) use($sort, $dir)
             {
-                $query->orderBy('order', 'ASC');
+                $query->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
 
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
         }else
         {
-            return TaskStage::with(['tasks' => function ($query)
+            return TaskStage::with(['tasks' => function ($query) use($sort, $dir)
             {
                 $query->whereHas('users', function ($query) 
                 {
@@ -67,7 +67,7 @@ class TaskStage extends Model
                         // ...the current user is assigned.
                         $query->where('users.id', \Auth::user()->id);
                     });
-                })->orderBy('order', 'ASC');
+                })->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
 
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())

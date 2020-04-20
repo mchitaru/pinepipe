@@ -150,7 +150,7 @@ class ProjectsController extends Controller
         return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
-    public function show(Project $project)
+    public function show(Request $request, Project $project)
     {
         $user = \Auth::user();
 
@@ -160,7 +160,7 @@ class ProjectsController extends Controller
 
             $project_id = $project->id;
 
-            $stages = $project->stages()->get();
+            $stages = $project->stages($request['sort'], $request['dir'])->get();
 
             $task_count = 0;
             foreach($stages as $stage)
@@ -198,6 +198,11 @@ class ProjectsController extends Controller
             $project->computeStatistics($user->last_projectstage()->id);
 
             clock()->endEvent('ProjectsController');
+
+            if ($request->ajax())
+            {
+                return view('tasks.index', compact('stages'))->render();
+            }
 
             return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'activities'));
         }

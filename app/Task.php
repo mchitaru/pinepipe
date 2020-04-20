@@ -94,9 +94,11 @@ class Task extends Model implements HasMedia
 
         //tags
         $tags = [];
-        foreach($post['tags'] as $tag)
-        {
-            $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+        if(isset($post['tags'])){        
+            foreach($post['tags'] as $tag)
+            {
+                $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+            }    
         }
 
         $task->tags()->sync($tags);
@@ -128,9 +130,12 @@ class Task extends Model implements HasMedia
 
         //tags
         $tags = [];
-        foreach($post['tags'] as $tag)
-        {
-            $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+
+        if(isset($post['tags'])){        
+            foreach($post['tags'] as $tag)
+            {
+                $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+            }    
         }
 
         $this->tags()->sync($tags);        

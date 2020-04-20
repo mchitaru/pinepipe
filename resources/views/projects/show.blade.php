@@ -19,11 +19,16 @@ if(Gate::check('manage task')){
 @endpush
 
 @push('scripts')
-
 <script>
-       
+
 $(function() {
 
+    localStorage.setItem('sort', 'order');
+    localStorage.setItem('dir', 'asc');
+    localStorage.setItem('tag', '');
+
+    updateFilters();
+    
     $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
         window.history.replaceState(null, null, $(e.target).attr('href'));
         window.location.hash = $(e.target).attr('href');
@@ -221,6 +226,14 @@ $(function() {
                         </a>
                     @endcan
                 </div>
+                <div class="filter-container col-auto">
+                    <div class="filter-controls">
+                        <div>Sort by:</div>
+                        <a class="sort" href="#" data-sort="order">Order</a>
+                        <a class="sort" href="#" data-sort="priority">Priority</a>
+                        <a class="sort" href="#" data-sort="due_date">Date</a>
+                    </div>     
+                </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
                     <div class="input-group-prepend">
@@ -233,7 +246,7 @@ $(function() {
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('manage task')@include('tasks.index')@endcan</div>
+                <div class="content-list-body filter-list paginate-container">@can('manage task')@include('tasks.index')@endcan</div>
                 <!--end of content list-->
             </div>
             <!--end of tab-->
