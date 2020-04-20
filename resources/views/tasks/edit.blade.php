@@ -46,10 +46,12 @@
             {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...',
                                         'data-refresh'=>route('tasks.refresh', $task->id))) !!}
         </div>
+        @if(\Auth::user()->type == 'company')
         <div class="form-group row align-items-center">
             {{ Form::label('user_id', __('Assign'), array('class'=>'col-3')) }}
             {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
+        @endif
         <div class="form-group row align-items-center">
             {{ Form::label('tags', __('Tags'), array('class'=>'col-3')) }}
             {!! Form::select('tags[]', $tags, $task_tags, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}

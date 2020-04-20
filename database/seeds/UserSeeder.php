@@ -227,6 +227,7 @@ class UserSeeder extends Seeder
             'manage task',
             'move task',
             'show task',
+            'edit task',
             'manage lead',
             'create timesheet',
             'manage timesheet',
