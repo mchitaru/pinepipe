@@ -36,7 +36,7 @@ class TaskStage extends Model
                     
                     $query->where('client_id', '=', \Auth::user()->client_id);
 
-                })->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
+                })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
@@ -45,7 +45,7 @@ class TaskStage extends Model
         {
             return TaskStage::with(['tasks' => function ($query) use($sort, $dir)
             {
-                $query->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
+                $query->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
@@ -67,7 +67,7 @@ class TaskStage extends Model
                         // ...the current user is assigned.
                         $query->where('users.id', \Auth::user()->id);
                     });
-                })->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
+                })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())

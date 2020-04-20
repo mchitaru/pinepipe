@@ -92,7 +92,7 @@ class Project extends Model implements HasMedia
         return TaskStage::with(['tasks' => function ($query) use ($sort, $dir) 
         {
             $query->where('project_id', '=', $this->id)
-                    ->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
+                    ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
         }], 'tasks.users')
         ->where('created_by', '=', \Auth::user()->creatorId())
         ->orderBy('order', 'ASC');
