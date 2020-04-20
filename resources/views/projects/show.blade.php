@@ -23,12 +23,6 @@ if(Gate::check('manage task')){
 
 $(function() {
 
-    localStorage.setItem('sort', 'order');
-    localStorage.setItem('dir', 'asc');
-    localStorage.setItem('tag', '');
-
-    updateFilters();
-    
     $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
         window.history.replaceState(null, null, $(e.target).attr('href'));
         window.location.hash = $(e.target).attr('href');
@@ -43,6 +37,11 @@ $(function() {
 
     $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
 
+    localStorage.setItem('sort', 'order');
+    localStorage.setItem('dir', 'asc');
+    localStorage.setItem('tag', '');
+
+    updateFilters();
 
     initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});
 
@@ -215,7 +214,7 @@ $(function() {
             </li>
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show active" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
