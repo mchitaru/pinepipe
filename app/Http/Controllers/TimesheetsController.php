@@ -61,7 +61,7 @@ class TimesheetsController extends Controller
 
         $request->session()->flash('success', __('Timesheet successfully created.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
@@ -121,7 +121,7 @@ class TimesheetsController extends Controller
 
         $request->session()->flash('success', __('Timesheet successfully updated.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**

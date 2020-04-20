@@ -48,7 +48,7 @@ class NotesController extends Controller
 
         $request->session()->flash('success', __('Note successfully created.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**

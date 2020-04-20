@@ -33,31 +33,28 @@ async function attachPlugins() {
 
 $(document).on('ajax:success', function(e, data, status, xhr){
 
-    if(status == 'success')
+    if(xhr.status == 207)
     {
-        if(xhr.status == 207)
-        {
-            $('#modal').modal('hide');
+        $('#modal').modal('hide');
 
-            if(data.url){
-                
-                window.location=data.url;
-            }else{
+        if(data.url){
+            
+            window.location=data.url;
+        }else{
 
-                window.location.reload();
-            }
-
-        }else if(xhr.responseText)
-        {
-            if(!$('#modal').length)
-            {
-                $('body').append($('<div class="modal show" id="modal" data-keyboard="false" data-backdrop="static"></div>'))
-            }
-
-            $('#modal').html(xhr.responseText).modal('show');
-
-            attachPlugins();
+            window.location.reload();
         }
+
+    }else if(xhr.responseText)
+    {
+        if(!$('#modal').length)
+        {
+            $('body').append($('<div class="modal show" id="modal" data-keyboard="false" data-backdrop="static"></div>'))
+        }
+
+        $('#modal').html(xhr.responseText).modal('show');
+
+        attachPlugins();
     }
 });
 

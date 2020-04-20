@@ -90,7 +90,7 @@ class ContactsController extends Controller
 
         $request->session()->flash('success', __('Contact successfully created.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
@@ -136,7 +136,7 @@ class ContactsController extends Controller
 
         $request->session()->flash('success', __('Contact successfully updated.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**

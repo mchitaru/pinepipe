@@ -95,7 +95,7 @@ class UsersController extends Controller
             
             $request->session()->flash('success', __('User successfully created.'));
 
-            return response()->json(['success'], 207);
+            return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
         }
 
         if(\Auth::user()->checkUserLimit())
@@ -104,7 +104,7 @@ class UsersController extends Controller
 
             $request->session()->flash('success', __('User successfully created.'));
 
-            return response()->json(['success'], 207);
+            return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
         }
         else
         {
@@ -112,7 +112,7 @@ class UsersController extends Controller
         }
 
         $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
-        return response()->json(['success', 'url'=>$url], 207);
+        return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
     }
 
     public function edit(Request $request, User $user)
@@ -184,7 +184,7 @@ class UsersController extends Controller
             }
         }
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
 

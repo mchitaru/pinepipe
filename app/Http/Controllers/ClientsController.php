@@ -104,7 +104,7 @@ class ClientsController extends Controller
             $request->session()->flash('success', __('Client successfully created.'));
 
             $url = redirect()->route('clients.show', $client->id)->getTargetUrl().'#profile';
-            return response()->json(['success', 'url'=>$url], 207);
+            return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
         }
         else
         {
@@ -112,7 +112,7 @@ class ClientsController extends Controller
         }
 
         $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
-        return response()->json(['success', 'url'=>$url], 207);
+        return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
     }
 
 
@@ -138,10 +138,7 @@ class ClientsController extends Controller
 
         $request->session()->flash('success', __('Client successfully updated.'));
 
-        if($request->ajax())
-            return response()->json(['success'], 207);        
-        else
-            return redirect()->back();
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();        
     }
 
 

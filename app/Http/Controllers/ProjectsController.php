@@ -103,7 +103,7 @@ class ProjectsController extends Controller
             $request->session()->flash('success', __('Project successfully created.'));
 
             $url = redirect()->route('projects.show', $project->id)->getTargetUrl();
-            return response()->json(['success', 'url'=>$url], 207);
+            return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
         }
         else
         {
@@ -111,7 +111,7 @@ class ProjectsController extends Controller
         }
 
         $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
-        return response()->json(['success', 'url'=>$url], 207);
+        return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
     }
 
 
@@ -147,7 +147,7 @@ class ProjectsController extends Controller
 
         $request->session()->flash('success', __('Project successfully updated.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     public function show(Project $project)

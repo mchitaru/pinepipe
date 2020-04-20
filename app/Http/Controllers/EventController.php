@@ -84,7 +84,7 @@ class EventController extends Controller
 
         $request->session()->flash('success', __('Event successfully created.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
@@ -154,7 +154,7 @@ class EventController extends Controller
 
         $request->session()->flash('success', __('Event successfully updated.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**

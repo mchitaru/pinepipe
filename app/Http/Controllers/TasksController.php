@@ -100,7 +100,7 @@ class TasksController extends Controller
 
         $request->session()->flash('success', __('Task successfully created.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
@@ -170,7 +170,7 @@ class TasksController extends Controller
 
         $request->session()->flash('success', __('Task successfully updated.'));
 
-        return response()->json(['success'], 207);
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
