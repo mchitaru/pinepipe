@@ -23,6 +23,14 @@ if(Gate::check('manage task')){
 
 $(function() {
 
+    localStorage.setItem('sort', 'order');
+    localStorage.setItem('dir', 'asc');
+    localStorage.setItem('tag', '');
+
+    updateFilters();
+
+    initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});
+
     $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
         window.history.replaceState(null, null, $(e.target).attr('href'));
         window.location.hash = $(e.target).attr('href');
@@ -36,15 +44,6 @@ $(function() {
     if(hash == null) hash = '{{$default_tab}}';
 
     $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
-
-    localStorage.setItem('sort', 'order');
-    localStorage.setItem('dir', 'asc');
-    localStorage.setItem('tag', '');
-
-    updateFilters();
-
-    initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});
-
 });
 
 </script>

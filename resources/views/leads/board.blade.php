@@ -17,6 +17,7 @@ use Carbon\Carbon;
     const sortableLists = new Draggable.Sortable(document.querySelectorAll('div.kanban-board'), {
         draggable: '.kanban-col:not(:last-child)',
         handle: '.card-list-header',
+        delay: 200,
     });
 
     const sortableCards = new Draggable.Sortable(document.querySelectorAll('.kanban-col .card-list-body'), {
@@ -24,6 +25,7 @@ use Carbon\Carbon;
         draggable: '.card-kanban',
         handle: '.card-kanban',
         appendTo: 'body',
+        delay: 200,
     });
 
     sortableCards.on('sortable:stop', (evt) => {
