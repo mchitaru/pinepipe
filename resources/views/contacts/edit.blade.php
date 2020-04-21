@@ -50,6 +50,10 @@
             {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
         </div>
     @endif
+    <div class="form-group row align-items-center">
+        {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
+        {!! Form::select('tags[]', $tags, $contact_tags, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}
+    </div>
     <hr>
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row">

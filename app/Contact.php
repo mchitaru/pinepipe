@@ -66,12 +66,35 @@ class Contact extends Model
         $contact->created_by    = \Auth::user()->creatorId();
         $contact->save();
 
+        //tags
+        $tags = [];
+        if(isset($post['tags'])){        
+            foreach($post['tags'] as $tag)
+            {
+                $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+            }    
+        }
+
+        $contact->tags()->sync($tags);
+
         return $contact;
     }
 
     public function updateContact($post)
     {
         $this->update($post);
+
+        //tags
+        $tags = [];
+
+        if(isset($post['tags'])){        
+            foreach($post['tags'] as $tag)
+            {
+                $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+            }    
+        }
+
+        $this->tags()->sync($tags);        
     }
 
     public function detachContact()

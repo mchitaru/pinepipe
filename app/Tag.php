@@ -17,6 +17,10 @@ class Tag extends Model
         return $this->morphedByMany('App\Task', 'taggable');
     }
 
+    public function contacts()
+    {
+        return $this->morphedByMany('App\Contact', 'taggable');
+    }
 
     /**
      * Boot events

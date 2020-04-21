@@ -35,7 +35,7 @@
         </div>
         @endif
         <div class="form-group row align-items-center">
-            {{ Form::label('tags', __('Tags'), array('class'=>'col-3')) }}
+            {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
             {!! Form::select('tags[]', $tags, null, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}
         </div>
         <hr>

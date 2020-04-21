@@ -29,19 +29,27 @@
                     <span data-filter-by="text" class="text-small">{{$contact->phone?$contact->phone:'---'}}</span>
                 </div>
             </div>
-            <div class="card-meta col">
-                @if($contact->client)
-                <div class="d-flex align-items-center justify-content-end">
-                    <i class="material-icons mr-1">apartment</i>
-                    @if(Gate::check('show client'))
-                    <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$contact->client->id) }}">
-                        {{$contact->client->name}}
-                    </a>
-                    @else
-                        {{$contact->client->name}}
+            <div class="card-title col">
+                <div class="row align-items-center">
+                    @if($contact->client)
+                        <i class="material-icons mr-1">apartment</i>
+                        @if(Gate::check('show client'))
+                        <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$contact->client->id) }}">
+                            {{$contact->client->name}}
+                        </a>
+                        @else
+                            {{$contact->client->name}}
+                        @endif
                     @endif
                 </div>
-                @endif
+                <div class="row align-items-center">
+                    @if(!$contact->tags->isEmpty())
+                        <i class="material-icons">label</i>
+                        @foreach($contact->tags as $tag)
+                            <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                        @endforeach
+                    @endif            
+                </div>
             </div>
             <div class="dropdown card-options">
                 <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

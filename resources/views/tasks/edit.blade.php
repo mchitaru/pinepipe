@@ -53,7 +53,7 @@
         </div>
         @endif
         <div class="form-group row align-items-center">
-            {{ Form::label('tags', __('Tags'), array('class'=>'col-3')) }}
+            {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
             {!! Form::select('tags[]', $tags, $task_tags, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\Contact;
 use App\User;
 use App\Client;
@@ -54,26 +55,24 @@ class ContactsController extends Controller
      */
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create contact'))
-        {
-            $client_id = $request['client_id'];
+        $client_id = $request['client_id'];
 
-            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
+        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
+                    ->get()
+                    ->pluck('name', 'id');
+        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                        ->where('type', '!=', 'client')
                         ->get()
-                        ->pluck('name', 'id');
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                            ->where('type', '!=', 'client')
-                            ->get()
-                            ->pluck('name', 'id')
-                            ->prepend('(myself)', \Auth::user()->id);
+                        ->pluck('name', 'id')
+                        ->prepend('(myself)', \Auth::user()->id);
+
+        $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
+                    ->whereHas('contacts')
+                    ->get()
+                    ->pluck('name', 'name');
 
 
-            return view('contacts.create', compact('clients', 'owners', 'client_id'));
-        }
-        else
-        {
-            Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-        }
+        return view('contacts.create', compact('clients', 'owners', 'tags', 'client_id'));
     }
 
     /**
@@ -101,24 +100,28 @@ class ContactsController extends Controller
      */
     public function edit(Contact $contact)
     {
-        if(\Auth::user()->can('edit contact'))
+        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
+                        ->get()
+                        ->pluck('name', 'id');
+
+        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                        ->where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id')
+                        ->prepend('(myself)', \Auth::user()->id);
+
+        $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
+                    ->whereHas('contacts')
+                    ->get()
+                    ->pluck('name', 'name');
+
+        $contact_tags = [];
+        foreach($contact->tags as $tag)
         {
-            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
-                            ->get()
-                            ->pluck('name', 'id');
-
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                            ->where('type', '!=', 'client')
-                            ->get()
-                            ->pluck('name', 'id')
-                            ->prepend('(myself)', \Auth::user()->id);
-
-            return view('contacts.edit', compact('contact', 'clients', 'owners'));
-
-        }else
-        {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            $contact_tags[] = $tag->name;    
         }
+
+        return view('contacts.edit', compact('contact', 'clients', 'owners', 'tags', 'contact_tags'));
     }
 
     /**

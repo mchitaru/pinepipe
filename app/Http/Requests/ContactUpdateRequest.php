@@ -44,6 +44,7 @@ class ContactUpdateRequest extends FormRequest
             'birthday'=>'nullable|date',
             'notes'=>'nullable|string',
             'user_id'=>'nullable|integer',
+            'tags'=>'nullable|array'
         ];
     }
 
