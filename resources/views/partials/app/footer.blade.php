@@ -27,7 +27,7 @@ gtag('config', 'AW-983938734');
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
 
 <!-- Autosize - resizes textarea inputs as user types -->
