@@ -53,16 +53,16 @@ use App\Project;
             @php
                 $total_subtask = $task->getTotalChecklistCount();
                 $completed_subtask = $task->getCompleteChecklistCount();
-    
+
                 $task_percentage=0;
                 if($total_subtask!=0){
                     $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
                 }
-    
+
                 $label = Project::getProgressColor($task_percentage);
-                
+
             @endphp
-    
+
             <div class="card card-kanban" data-id={{$task->id}}>
 
             <div class="progress">
@@ -92,17 +92,11 @@ use App\Project;
                 <div class="card-title">
                     <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text">
                         <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
-                    </a>        
+                    </a>
 
                 </div>
 
-                @if($task->priority =='low')
-                    <span class="badge badge-success" data-toggle="tooltip" title="{{__('Priority')}}"> {{ $task->priority }}</span>
-                @elseif($task->priority =='medium')
-                    <span class="badge badge-warning" data-toggle="tooltip" title="{{__('Priority')}}"> {{ $task->priority }}</span>
-                @elseif($task->priority =='high')
-                    <span class="badge badge-danger" data-toggle="tooltip" title="{{__('Priority')}}"> {{ $task->priority }}</span>
-                @endif
+                {!! Helpers::getPriorityBadge($task->priority) !!}
 
                 <div class="d-flex justify-content-between">
                     <ul class="avatars">
@@ -121,7 +115,7 @@ use App\Project;
                         @endforeach
                     </div>
                 </div>
-                
+
                 <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <i class="material-icons">playlist_add_check</i>

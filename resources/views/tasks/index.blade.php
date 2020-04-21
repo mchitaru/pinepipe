@@ -38,7 +38,7 @@
             }
 
             $label = Project::getProgressColor($task_percentage);
-            
+
         @endphp
 
             <div class="card card-task">
@@ -52,14 +52,7 @@
                         <h6 data-filter-by="text">{{$task->title}}</h6>
                     </a>
 
-                    
-                    @if($task->priority =='low')
-                        <span class="badge badge-success"> {{ $task->priority }}</span>
-                    @elseif($task->priority =='medium')
-                        <span class="badge badge-warning"> {{ $task->priority }}</span>
-                    @elseif($task->priority =='high')
-                        <span class="badge badge-danger"> {{ $task->priority }}</span>
-                    @endif
+                    {!! Helpers::getPriorityBadge($task->priority) !!}
 
                     <p>
                         <span class="text-small {{($task->due_date && $task->due_date<now())?'text-danger':''}}">
@@ -107,7 +100,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            @can('edit task')                
+                            @can('edit task')
                                 <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="stage_id={{$stage_done}}" data-method="PATCH" data-remote="true" data-type="text">
                                     {{__('Mark as done')}}
                                 </a>

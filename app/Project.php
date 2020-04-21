@@ -85,23 +85,23 @@ class Project extends Model implements HasMedia
     {
         return $this->hasOne('App\ProjectClientPermissions', 'project_id', 'id');
     }
-       
+
 
     public function stages($sort, $dir)
     {
-        return TaskStage::with(['tasks' => function ($query) use ($sort, $dir) 
+        return TaskStage::with(['tasks' => function ($query) use ($sort, $dir)
         {
             $query->where('project_id', '=', $this->id)
                     ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
         }], 'tasks.users')
         ->where('created_by', '=', \Auth::user()->creatorId())
         ->orderBy('order', 'ASC');
-    }    
+    }
 
     public function computeStatistics($last_stage_id)
-    {   
+    {
         $this->progress = 0;
-        $this->completed_tasks = 0;  
+        $this->completed_tasks = 0;
 
         if(!$this->tasks->isEmpty())
         {
@@ -181,7 +181,7 @@ class Project extends Model implements HasMedia
         }
 
         if(\Auth::user()->type != 'company')
-        {        
+        {
             $users->prepend(\Auth::user()->id);
         }
 
@@ -206,7 +206,7 @@ class Project extends Model implements HasMedia
 
         if(\Auth::user()->type != 'company' &&
             empty($users))
-        {        
+        {
             $users->prepend(\Auth::user()->id);
         }
 
@@ -248,9 +248,9 @@ class Project extends Model implements HasMedia
     ];
 
     public static $priority       = [
-        'low' => 'Low',
-        'medium' => 'Medium',
-        'high' => 'High',
+        'high',
+        'medium',
+        'low',
     ];
 
     public static $permission = [

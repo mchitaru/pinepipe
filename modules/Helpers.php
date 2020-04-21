@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Client;
+use App\Project;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -74,6 +75,18 @@ class Helpers
         }
 
         return $color;
+    }
+
+    public static function getPriorityBadge($priority)
+    {
+        switch($priority) {
+            case 2:
+                return '<span class="badge badge-success">'.Project::$priority[$priority].'</span>';
+            case 1:
+                return '<span class="badge badge-warning">'.Project::$priority[$priority].'</span>';
+            default:
+                return '<span class="badge badge-danger">' .Project::$priority[$priority].'</span>';
+        }
     }
 
     static function fragment($route, $fragment)

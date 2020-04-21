@@ -38,7 +38,7 @@ class TaskUpdateRequest extends FormRequest
                 return [
                     'title' => 'required|string|min:2|max:60',
                     'description' => 'nullable|string',
-                    'priority' => 'required|string',
+                    'priority' => 'required|numeric',
                     'user_id' => 'nullable|array', //+
                     'project_id' => 'nullable|integer',
                     'due_date' => 'nullable|date',
@@ -49,7 +49,7 @@ class TaskUpdateRequest extends FormRequest
                 return [
                     'title' => 'required|string|min:2|max:60',
                     'description' => 'nullable|string',
-                    'priority' => 'required|string',
+                    'priority' => 'required|numeric',
                     'project_id' => 'nullable|integer',
                     'due_date' => 'nullable|date',
                     'stage_id' => 'integer',

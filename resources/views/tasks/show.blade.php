@@ -160,13 +160,7 @@ $stage_done = TaskStage::all()->last()->id;
 
             <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Priority')}}>
-                    @if($task->priority =='low')
-                        <span class="badge badge-success"> {{ $task->priority }}</span>
-                    @elseif($task->priority =='medium')
-                        <span class="badge badge-warning"> {{ $task->priority }}</span>
-                    @elseif($task->priority =='high')
-                        <span class="badge badge-danger"> {{ $task->priority }}</span>
-                    @endif
+                    {!! Helpers::getPriorityBadge($task->priority) !!}
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Completed')}}>
                     <i class="material-icons">playlist_add_check</i>
