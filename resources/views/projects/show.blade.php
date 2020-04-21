@@ -89,7 +89,7 @@ $(function() {
             @endcan
             <a class="dropdown-item disabled" href="#">{{__('Share')}}</a>
             <div class="dropdown-divider"></div>
-            
+
             @can('edit project')
                 @if(!$project->archived)
                     <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
@@ -166,7 +166,7 @@ $(function() {
                         <span class="badge badge-success">{{__('archived')}}</span>
                     @endif
                 </div>
-                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
+                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed')}}">
                     <i class="material-icons">playlist_add_check</i>
                     <span>{{$project->completed_tasks}}/{{$project->tasks->count()}}</span>
                 </div>
@@ -230,7 +230,7 @@ $(function() {
                         <a class="sort" href="#" data-sort="order">Order</a>
                         <a class="sort" href="#" data-sort="priority">Priority</a>
                         <a class="sort" href="#" data-sort="due_date">Date</a>
-                    </div>     
+                    </div>
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">

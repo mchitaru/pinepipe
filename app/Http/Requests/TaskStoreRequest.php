@@ -17,8 +17,8 @@ class TaskStoreRequest extends FormRequest
         $project = Project::find($this->project_id);
 
         if($project && !$project->enabled)
-            return false;            
-        
+            return false;
+
         return $this->user()->can('create task');
     }
 
@@ -41,7 +41,7 @@ class TaskStoreRequest extends FormRequest
             ];
         }else{
             return [
-                'title' => 'required|string|min:2|max:20',
+                'title' => 'required|string|min:2|max:60',
                 'description' => 'nullable|string',
                 'priority' => 'required|string',
                 'project_id' => 'nullable|integer',

@@ -6,6 +6,7 @@
 @php
 use Carbon\Carbon;
 use App\Project;
+use App\TaskStage;
 
 $current_user=\Auth::user();
 
@@ -19,6 +20,9 @@ if($total_task!=0){
 
 $label = $task->getProgressColor($percentage);
 $dz_id = 'task-files-dz';
+
+$stage_done = TaskStage::all()->last()->id;
+
 @endphp
 
 @push('scripts')
@@ -31,7 +35,7 @@ $dz_id = 'task-files-dz';
         var checked = 0;
         var count = 0;
         var percentage = 0;
-             
+
         count = $("#checklist input[type=checkbox]").length;
         checked = $("#checklist input[type=checkbox]:checked").length;
         percentage = parseInt(((checked / count) * 100), 10);
@@ -63,7 +67,7 @@ $dz_id = 'task-files-dz';
     }
 
     $(document).on("change", "#checklist input[type=checkbox]", function () {
-        
+
         updateCheck($(this).data("id"));
 
     });
@@ -79,14 +83,14 @@ $dz_id = 'task-files-dz';
         sortableChecklist.on('sortable:stop', (evt) => {
 
             var order = [];
-            
+
             var list = sortableChecklist.getDraggableElementsForContainer(evt.newContainer);
 
-            for (var i = 0; i < list.length; i++) 
+            for (var i = 0; i < list.length; i++)
             {
                 order[i] = list[i].attributes['data-id'].value;
             }
-            
+
             var check_id = evt.oldContainer.children[evt.oldIndex].attributes['data-id'].value;
             var container_id = evt.newContainer.attributes['data-id'].value;
 
@@ -105,8 +109,8 @@ $dz_id = 'task-files-dz';
                     /* console.log('error'); */
                 }
             });
-        });   
-        
+        });
+
         initDropzone('#{{$dz_id}}', '{{route('tasks.file.upload',[$task->id])}}', '{{$task->id}}', {!! json_encode($files) !!});
     });
 </script>
@@ -114,7 +118,7 @@ $dz_id = 'task-files-dz';
 @endpush
 
 @section('title')
-{{$task->title}}
+<b>{{$task->title}}</b>
 @endsection
 
 @section('content')
@@ -124,18 +128,27 @@ $dz_id = 'task-files-dz';
     <div class="col">
         <div class="page-header pt-2">
         <p class="lead">{!! nl2br(e($task->description)) !!}</p>
-        <div class="d-flex align-items-center">
-            <ul class="avatars">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <ul class="avatars">
 
-                @foreach($task->users as $user)
-                <li>
-                    <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                        {!!Helpers::buildUserAvatar($user)!!}
+                    @foreach($task->users as $user)
+                    <li>
+                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                            {!!Helpers::buildUserAvatar($user)!!}
+                        </a>
+                    </li>
+                    @endforeach
+
+                </ul>
+            </div>
+            <div>
+                @if(!empty($task->project))
+                    <a href="{{ route('projects.show',$project->id) }}" data-toggle="tooltip" title={{__('Project')}}>
+                        <h5>{{ $task->project->name }}</h5>
                     </a>
-                </li>
-                @endforeach
-
-            </ul>
+                @endif
+            </div>
         </div>
         <div>
             <div class="d-flex flex-row-reverse">
@@ -146,13 +159,22 @@ $dz_id = 'task-files-dz';
             </div>
 
             <div class="d-flex justify-content-between text-small">
-            <div class="d-flex align-items-center">
-                <i class="material-icons">playlist_add_check</i>
-                <span>{{$completed_task}}/{{$total_task}}</span>
-            </div>
-            <span class="{{($task->due_date && $task->due_date<now())?'text-danger':''}}">
-                {{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}
-            </span>
+                <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Priority')}}>
+                    @if($task->priority =='low')
+                        <span class="badge badge-success"> {{ $task->priority }}</span>
+                    @elseif($task->priority =='medium')
+                        <span class="badge badge-warning"> {{ $task->priority }}</span>
+                    @elseif($task->priority =='high')
+                        <span class="badge badge-danger"> {{ $task->priority }}</span>
+                    @endif
+                </div>
+                <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Completed')}}>
+                    <i class="material-icons">playlist_add_check</i>
+                    <span>{{$completed_task}}/{{$total_task}}</span>
+                </div>
+                <span class="{{($task->due_date && $task->due_date<now())?'text-danger':''}}" data-toggle="tooltip" title={{__('Due')}}>
+                    {{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}
+                </span>
             </div>
         </div>
         </div>
@@ -264,7 +286,7 @@ $dz_id = 'task-files-dz';
                             <a href="#" data-toggle="tooltip" title={{$comment->user->name}}>
                                 {!!Helpers::buildUserAvatar($comment->user)!!}
                             </a>
-                
+
                         <div class="media-body">
                             <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
                         </div>
@@ -313,6 +335,10 @@ $dz_id = 'task-files-dz';
 @endsection
 
 @section('footer')
+    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-success" data-params="stage_id={{$stage_done}}" data-method="PATCH" data-remote="true" data-type="text">
+        {{__('Mark as Done')}}
+    </a>
+
     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 @endsection
 
