@@ -4,7 +4,6 @@ use Carbon\Carbon;
 $user=\Auth::user();
 $logo = asset(Storage::url('logo/'));
 
-$currantLang = $user->currentLanguage();
 $languages=$user->languages();
 
 @endphp

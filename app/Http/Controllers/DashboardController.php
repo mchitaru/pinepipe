@@ -48,47 +48,44 @@ class DashboardController extends Controller
 
             $invoice = [];
             $top_due_invoice = [];
-            if(\Auth::user()->type == 'client' || \Auth::user()->type == 'company')
+
+            $total_invoices           = $top_due_invoice = \Auth::user()->created_total_invoice();
+            $invoice['total_invoice'] = count($total_invoices);
+            $complete_invoice         = 0;
+            $total_due_amount         = 0;
+            $top_due_invoice          = array();
+            $pay_amount=0;
+            foreach($total_invoices as $total_invoice)
             {
-
-                $total_invoices           = $top_due_invoice = \Auth::user()->created_total_invoice();
-                $invoice['total_invoice'] = count($total_invoices);
-                $complete_invoice         = 0;
-                $total_due_amount         = 0;
-                $top_due_invoice          = array();
-                $pay_amount=0;
-                foreach($total_invoices as $total_invoice)
-                {
-                    $amount           = $total_due = $total_invoice->getDue();
-                    $payments          = $total_invoice->payments;
+                $amount           = $total_due = $total_invoice->getDue();
+                $payments          = $total_invoice->payments;
 
 
-                    foreach($payments as $payment){
-                       $pay_amount+=$payment->amount;
-                    }
-
-                    $total_due_amount += $total_due;
-                    if($amount == 0.00)
-                    {
-                        $complete_invoice++;
-                    }
-                    if($amount > 0)
-                    {
-                        $total_invoice['due_amount'] = $amount;
-                        $top_due_invoice[]           = $total_invoice;
-                    }
-                }
-                if(count($total_invoices) > 0)
-                {
-                    $invoice['invoice_percentage'] = intval(($complete_invoice / count($total_invoices)) * 100);
-                }
-                else
-                {
-                    $invoice['invoice_percentage'] = 0;
+                foreach($payments as $payment){
+                    $pay_amount+=$payment->amount;
                 }
 
-                $top_due_invoice = array_slice($top_due_invoice, 0, 5);
+                $total_due_amount += $total_due;
+                if($amount == 0.00)
+                {
+                    $complete_invoice++;
+                }
+                if($amount > 0)
+                {
+                    $total_invoice['due_amount'] = $amount;
+                    $top_due_invoice[]           = $total_invoice;
+                }
             }
+            if(count($total_invoices) > 0)
+            {
+                $invoice['invoice_percentage'] = intval(($complete_invoice / count($total_invoices)) * 100);
+            }
+            else
+            {
+                $invoice['invoice_percentage'] = 0;
+            }
+
+            $top_due_invoice = array_slice($top_due_invoice, 0, 5);
 
             $top_tasks       = \Auth::user()->created_top_due_task();
             $users['staff']  = User::where('created_by', '=', \Auth::user()->creatorId())->count();
