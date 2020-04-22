@@ -10,6 +10,7 @@ use App\TaskStage;
 
 $current_user=\Auth::user();
 
+$task_status = $task->getStatus();
 $total_task = $task->getTotalChecklistCount();
 $completed_task=$task->getCompleteChecklistCount();
 
@@ -161,6 +162,10 @@ $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->g
             <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Priority')}}>
                     {!! Helpers::getPriorityBadge($task->priority) !!}
+                </div>
+                <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Status')}}>
+                    <i class="material-icons">check</i>
+                    <span class="badge badge-secondary">{{ $task_status }}</span>
                 </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Completed')}}>
                     <i class="material-icons">playlist_add_check</i>
