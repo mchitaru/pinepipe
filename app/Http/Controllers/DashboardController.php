@@ -211,7 +211,7 @@ class DashboardController extends Controller
 
             return view('dashboard.client', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'projectData', 'taskData', 'last_project_stage', 'activities'));
 
-        }else if(\Auth::user()->type == 'employee'){
+        }else if(\Auth::user()->type == 'collaborator'){
 
             clock()->startEvent('DahsboardController', "Load dash");
 
@@ -322,8 +322,7 @@ class DashboardController extends Controller
             clock()->endEvent('DashboardController');
 
             return view('dashboard.collaborator', compact('lead', 'project', 'invoice', 'top_tasks', 'top_due_invoice', 'users', 'projectData', 'taskData', 'last_project_stage', 'activities'));
-        }
-        else{
+        }else if(\Auth::user()->type == 'super admin'){
 
             clock()->startEvent('DahsboardController', "Load dash");
 
