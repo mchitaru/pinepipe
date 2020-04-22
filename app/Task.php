@@ -64,10 +64,15 @@ class Task extends Model implements HasMedia
     public function timesheets()
     {
         return $this->hasMany('App\Timesheet', 'task_id', 'id');
-    }    
+    }
+
+    public function getStatus()
+    {
+        return TaskStage::find($this->stage_id)->name;
+    }
 
     public static function createTask($post)
-    {        
+    {
         $stage = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->first();
 
         $post['stage_id']   = $stage->id;
@@ -86,7 +91,7 @@ class Task extends Model implements HasMedia
         }
 
         if(\Auth::user()->type != 'company')
-        {        
+        {
             $users->prepend(\Auth::user()->id);
         }
 
@@ -94,11 +99,11 @@ class Task extends Model implements HasMedia
 
         //tags
         $tags = [];
-        if(isset($post['tags'])){        
+        if(isset($post['tags'])){
             foreach($post['tags'] as $tag)
             {
                 $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
-            }    
+            }
         }
 
         $task->tags()->sync($tags);
@@ -122,7 +127,7 @@ class Task extends Model implements HasMedia
 
         if(\Auth::user()->type != 'company' &&
             empty($users))
-        {        
+        {
             $users->prepend(\Auth::user()->id);
         }
 
@@ -131,14 +136,14 @@ class Task extends Model implements HasMedia
         //tags
         $tags = [];
 
-        if(isset($post['tags'])){        
+        if(isset($post['tags'])){
             foreach($post['tags'] as $tag)
             {
                 $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
-            }    
+            }
         }
 
-        $this->tags()->sync($tags);        
+        $this->tags()->sync($tags);
 
         Activity::updateTask($this);
     }
