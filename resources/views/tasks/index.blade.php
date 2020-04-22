@@ -6,7 +6,7 @@
     use App\TaskStage;
 
     $current_user=\Auth::user();
-    $stage_done = TaskStage::all()->last()->id;
+    $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
 @endphp
 
 @foreach($stages as $key=>$stage)

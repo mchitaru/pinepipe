@@ -21,7 +21,7 @@ if($total_task!=0){
 $label = $task->getProgressColor($percentage);
 $dz_id = 'task-files-dz';
 
-$stage_done = TaskStage::all()->last()->id;
+$stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
 
 @endphp
 
@@ -329,7 +329,7 @@ $stage_done = TaskStage::all()->last()->id;
 @endsection
 
 @section('footer')
-    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-success" data-params="stage_id={{$stage_done}}" data-method="PATCH" data-remote="true" data-type="text">
+    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-success" data-params="stage_id={{$stage_done}}&archived=1" data-method="PATCH" data-remote="true" data-type="text">
         {{__('Mark as Done')}}
     </a>
 

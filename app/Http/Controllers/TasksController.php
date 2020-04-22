@@ -185,6 +185,11 @@ class TasksController extends Controller
      */
     public function update(TaskUpdateRequest $request, Task $task)
     {
+        if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
+        {
+            return view('helpers.archive');
+        }
+
         $post = $request->validated();
 
         $task->updateTask($post);
