@@ -1,12 +1,15 @@
 @php
 use App\Project;
 use Carbon\Carbon;
+use App\TaskStage;
+
+$stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
 @endphp
 
 <div class="scrollable-list col-lg-4 col-xs-12 col-sm-12" style="max-height:50vh">
     <div class="card-list">
         <div class="card-list-head">
-        <h6>{{$title}} ({{count($tasks) + count($events)}})</h6>
+        <h6>{{__($title)}} ({{count($tasks) + count($events)}})</h6>
         <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$title}}">
             <i class="material-icons">more_horiz</i>
         </button>
@@ -14,7 +17,7 @@ use Carbon\Carbon;
         <div class="card-list-body collapse show" style="min-height:186px" id="{{$title}}">
             @if(count($tasks)+count($events) == 0)
                 <div class="d-flex align-items-center p-5">
-                    Hooray! Nothing here.
+                    {{__('Hooray! Nothing here.')}}
                 </div>
             @endif
             {{-- tasks --}}
@@ -36,9 +39,22 @@ use Carbon\Carbon;
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
+                                @can('edit task')
+                                    <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="stage_id={{$stage_done}}" data-method="PATCH" data-remote="true" data-type="text">
+                                        {{__('Mark as done')}}
+                                    </a>
+
+                                    <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
+                                        {{__('Edit')}}
+                                    </a>
+                                @endcan
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                                <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
+                                @can('delete task')
+                                    <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
+                                        {{__('Delete')}}
+                                    </a>
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -61,9 +77,17 @@ use Carbon\Carbon;
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Mark as done</a>
+                                @can('edit event')
+                                <a class="dropdown-item" href="{{ route('events.edit', $event->id) }}" data-remote="true" data-type="text">
+                                    <span>{{__('Edit')}}</span>
+                                </a>
+                                @endcan
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Archive</a>
+                                @can('delete event')
+                                    <a class="dropdown-item text-danger" href="{{ route('events.destroy', $event->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                        <span>{{'Delete'}}</span>
+                                    </a>
+                                @endcan
                             </div>
                         </div>
                     </div>

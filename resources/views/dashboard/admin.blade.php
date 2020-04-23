@@ -70,7 +70,7 @@
 @section('content')
 <div class="container">
     <div class="row pt-3">
-        <div class="col-xs-6 col-sm-9">
+        <div class="col-xs-6 col-sm-12">
             <div class="row">
                 <div class="col">
                     <a class="card card-info" href="{{ route('users.index') }}">
@@ -118,31 +118,6 @@
                         <div class="card-body">
                             <h5 class="card-title">{{__('Recent Subscriptions')}}</h5>
                             <canvas id="order-chart" width="800" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-sm-3">
-            <div class="row">
-                <div class="col">
-                    <div class="card card-info">
-                        <div class="card-body">
-                            <h5 class="card-title">{{__('Latest Activity')}} </h5>
-                                <ol class="timeline small">
-                                @foreach($activities as $activity)
-                                <li>
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <div>
-                                                <span data-filter-by="text">{!! $activity->remark !!}</span>
-                                            </div>
-                                            <span class="text-small" data-filter-by="text">{{date('d M Y H:i', strtotime($activity->created_at))}}</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ol>
                         </div>
                     </div>
                 </div>

@@ -91,8 +91,6 @@ class DashboardController extends Controller
 
             clock()->startEvent('DahsboardController', "Load dash");
 
-            $activities = Activity::limit(50)->orderBy('id', 'desc')->get();
-
             $user = \Auth::user();
             $user['total_user']=$user->countCompany();
             $user['total_paid_user']=$user->countPaidCompany();
@@ -104,7 +102,7 @@ class DashboardController extends Controller
 
             clock()->endEvent('DashboardController');
 
-            return view('dashboard.admin',compact('user','chartData','activities'));
+            return view('dashboard.admin',compact('user','chartData'));
 
         }else {
 

@@ -1199,16 +1199,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.7.0",
+            "version": "v7.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3c9a67a35a4386f861ae0a5eb178a709552e4fa9"
+                "reference": "4de129177f889cd7672e732d8808020adfb7b121"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3c9a67a35a4386f861ae0a5eb178a709552e4fa9",
-                "reference": "3c9a67a35a4386f861ae0a5eb178a709552e4fa9",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4de129177f889cd7672e732d8808020adfb7b121",
+                "reference": "4de129177f889cd7672e732d8808020adfb7b121",
                 "shasum": ""
             },
             "require": {
@@ -1347,7 +1347,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-04-21T13:50:23+00:00"
+            "time": "2020-04-21T18:57:12+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -6162,16 +6162,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v3.2.1",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "63c4d7ff3ff19c6fa222df73117faedbb72f776d"
+                "reference": "419b288555ca7821f6448aab6d1db9dd3a370af5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/63c4d7ff3ff19c6fa222df73117faedbb72f776d",
-                "reference": "63c4d7ff3ff19c6fa222df73117faedbb72f776d",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/419b288555ca7821f6448aab6d1db9dd3a370af5",
+                "reference": "419b288555ca7821f6448aab6d1db9dd3a370af5",
                 "shasum": ""
             },
             "require": {
@@ -6221,7 +6221,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2020-04-14T15:36:29+00:00"
+            "time": "2020-04-21T19:37:10+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -7081,16 +7081,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.3",
+            "version": "8.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "67750516bc02f300e2742fed2f50177f8f37bedf"
+                "reference": "8474e22d7d642f665084ba5ec780626cbd1efd23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/67750516bc02f300e2742fed2f50177f8f37bedf",
-                "reference": "67750516bc02f300e2742fed2f50177f8f37bedf",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8474e22d7d642f665084ba5ec780626cbd1efd23",
+                "reference": "8474e22d7d642f665084ba5ec780626cbd1efd23",
                 "shasum": ""
             },
             "require": {
@@ -7160,7 +7160,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2020-03-31T08:52:04+00:00"
+            "time": "2020-04-23T04:39:42+00:00"
         },
         {
             "name": "scrivo/highlight.php",
