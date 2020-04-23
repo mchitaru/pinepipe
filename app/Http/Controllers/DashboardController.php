@@ -34,7 +34,8 @@ class DashboardController extends Controller
                                     ->where('archived', '0')
                                     ->get();
 
-            $invoices = Invoice::where('created_by', '=', \Auth::user()->creatorId())
+            $invoices = Invoice::with('project')
+                                    ->where('created_by', '=', \Auth::user()->creatorId())
                                     ->where('status', '<', '3')
                                     ->get();
             $leads = [];
@@ -66,16 +67,16 @@ class DashboardController extends Controller
                                     ->get();
 
             $invoices = Invoice::with('project')
-                        ->whereHas('project', function ($query)
-                        {
-                            $query->whereHas('client', function ($query)
-                            {
-                                $query->where('id', \Auth::user()->client_id);
-                            });
-                        })
-                        ->where('created_by', '=', \Auth::user()->creatorId())
-                        ->where('status', '<', '3')
-                        ->get();
+                                    ->whereHas('project', function ($query)
+                                    {
+                                        $query->whereHas('client', function ($query)
+                                        {
+                                            $query->where('id', \Auth::user()->client_id);
+                                        });
+                                    })
+                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->where('status', '<', '3')
+                                    ->get();
 
             $tasks = \Auth::user()->tasks()
                                     ->where('stage_id', '<', \Auth::user()->last_projectstage()->id)
