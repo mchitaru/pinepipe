@@ -86,9 +86,9 @@
                 </div> --}}
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                     <i class="material-icons mr-1">apartment</i>
-                    @if(Gate::check('show client'))
+                    @if(Gate::check('show client') && !empty($project->client))
                         <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
-                            {{(!empty($project->client)?$project->client->name:'---')}}
+                            {{$project->client->name}}
                         </a>
                     @else
                         {{(!empty($project->client)?$project->client->name:'---')}}
