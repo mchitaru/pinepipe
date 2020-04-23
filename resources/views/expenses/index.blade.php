@@ -19,9 +19,7 @@ use Carbon\Carbon;
                     <h6 data-filter-by="text">{{  (!empty($expense->category)?$expense->category->name:'---')}}</h6>
                 @endif
                 <p>
-                    <span class="text-small">
-                        {{ Carbon::parse($expense->date)->diffForHumans() }}
-                    </span>
+                    {!!\Helpers::showDateForHumans($expense->date)!!}
                 </p>
 
             </div>
@@ -40,7 +38,7 @@ use Carbon\Carbon;
                 <div class="container row align-items-center" title="{{ $expense->description }}">
                     <i class="material-icons">note</i>
                 </div>
-            </div>        
+            </div>
             @if(!empty($expense->user))
             <div class="card-meta col">
                 @if($expense->attachment)

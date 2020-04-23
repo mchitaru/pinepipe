@@ -89,6 +89,52 @@ class Helpers
         }
     }
 
+    public static function showDateForHumans($date, $caption = '')
+    {
+        if($date == null){
+            return '---';
+        }
+
+        $date = \Helpers::utcToLocal($date);
+
+        $color = ($date < now())?'text-danger':'';
+
+        if($date->isYesterday()){
+
+            $diff = __('yesterday');
+
+        }else if($date->isToday()){
+
+            $diff = __('today');
+
+        }else if($date->isTomorrow()){
+
+            $diff = __('tomorrow');
+
+        }else{
+
+            $diff = $date->diffForHumans();
+        }
+
+        $text = $caption.' '.$diff;
+
+        return '<span class="text-small '.$color.'">'.$text.'</span>';
+    }
+
+    public static function showTimeForHumans($time)
+    {
+        if($time == null){
+            return '---';
+        }
+
+        $time = \Helpers::utcToLocal($time);
+
+        $color = ($time < now())?'text-danger':'';
+        $text = $time->format('M d, H:m').' ('.$time->diffForHumans().')';
+
+        return '<span class="text-small '.$color.'">'.$text.'</span>';
+    }
+
     static function fragment($route, $fragment)
     {
         return route($route) . "/#{$fragment}";

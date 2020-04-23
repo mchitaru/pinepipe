@@ -1,0 +1,46 @@
+//
+//
+// scrollable-list.scss
+//
+//
+
+.scrollable-list{
+    user-select: none;
+    flex: 1 0 auto;
+    width: calc(100vw - 24px);
+    max-height: 100vh;
+    padding-right: $spacer/2;
+    padding-bottom: $spacer/2;
+    outline: none !important;
+    .card-list{
+        user-select: none;
+        max-height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .card-list-body{
+        min-height: 1rem;
+    }
+    .card-list-header{
+        display: block;
+        position: relative;
+        .dropdown{
+        position: absolute;
+        right: 0;
+        top: 0;
+        }
+    }
+    .card-list-body{
+        user-select: none;
+        overflow-y: scroll;
+        @extend .no-scroll-bars;
+    }
+    .card-list-footer{
+        padding-top: $spacer/2;
+        .btn-link{
+        padding: 0;
+        }
+    }
+}

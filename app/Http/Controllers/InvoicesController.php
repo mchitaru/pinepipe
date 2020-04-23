@@ -46,7 +46,7 @@ class InvoicesController extends Controller
                             {
                                 $query->whereHas('client', function ($query)
                                 {
-                                    $query->where('id', \Auth::user()->id);
+                                    $query->where('id', \Auth::user()->client_id);
                                 });
                             })
                             ->where('created_by', '=', \Auth::user()->creatorId())

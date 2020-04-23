@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static $SEED_COMPANY_COUNT = 1;
     public static $SEED_STAFF_COUNT = 2;
-    
+
     public static $SEED_COMPANY_IDX = 0;
     public static $SEED_COMPANY_ID = 0;
 
@@ -180,10 +180,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne('App\Client', 'id', 'client_id');
     }
-    
+
     public function staffTasks()
     {
-        return Task::where(function ($query) 
+        return Task::where(function ($query)
         {
             $query->whereHas('users', function ($query) {
 
@@ -191,7 +191,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 $query->where('users.id', $this->id);
 
             })->orWhereHas('project', function ($query) {
-                
+
                 // only include tasks with projects where...
                 $query->whereHas('users', function ($query) {
 
@@ -216,7 +216,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Task::with('project')->where('created_by', '=', $this->creatorId());
     }
-    
+
     public function projectsByUserType()
     {
         if($this->type == 'client'){
@@ -230,7 +230,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
             return $this->projects();
 
-        }    
+        }
     }
 
     public function tasksByUserType()
@@ -245,7 +245,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }else{
 
             return $this->staffTasks();
-        }    
+        }
     }
 
     public function taskStages()
@@ -280,11 +280,64 @@ class User extends Authenticatable implements MustVerifyEmail
                                     ->first();
     }
 
+    public function getTodayTasks()
+    {
+        return  \Auth::user()->tasks()
+                                ->whereDate('tasks.due_date', '<=', \Helpers::localToUTC(strtotime('today')))
+                                ->orderBy('tasks.due_date', 'ASC')
+                                ->get();
+    }
+
+    public function getThisWeekTasks()
+    {
+        return  \Auth::user()->tasks()
+                                ->whereDate('tasks.due_date', '>=', \Helpers::localToUTC(strtotime('tomorrow')))
+                                ->whereDate('tasks.due_date', '<=', \Helpers::localToUTC(strtotime('friday this week')))
+                                ->orderBy('tasks.due_date', 'ASC')
+                                ->get();
+    }
+
+    public function getNextWeekTasks()
+    {
+        return  \Auth::user()->tasks()
+                                ->whereDate('tasks.due_date', '>=', \Helpers::localToUTC(strtotime('monday next week')))
+                                ->whereDate('tasks.due_date', '<=', \Helpers::localToUTC(strtotime('friday next week')))
+                                ->orderBy('tasks.due_date', 'ASC')
+                                ->get();
+    }
+
+    public function getTodayEvents()
+    {
+        return  \Auth::user()->events()
+                                ->whereDate('events.start', '<=', \Helpers::localToUTC(strtotime('today')))
+                                ->whereDate('events.end', '>=', \Helpers::localToUTC(strtotime('today')))
+                                ->orderBy('events.end', 'ASC')
+                                ->get();
+    }
+
+    public function getThisWeekEvents()
+    {
+        return  \Auth::user()->events()
+                                ->where('events.start', '>=', \Helpers::localToUTC(strtotime('tomorrow')))
+                                ->where('events.end', '<=', \Helpers::localToUTC(strtotime('friday this week')))
+                                ->orderBy('events.end', 'ASC')
+                                ->get();
+    }
+
+    public function getNextWeekEvents()
+    {
+        return  \Auth::user()->events()
+                                ->where('events.start', '>=', \Helpers::localToUTC(strtotime('monday next week')))
+                                ->where('events.end', '<=', \Helpers::localToUTC(strtotime('friday next week')))
+                                ->orderBy('events.end', 'ASC')
+                                ->get();
+    }
+
     public function user_projects_count()
     {
         return $this->projectsByUserType()->count();
     }
-    
+
 
     public function user_tasks_count()
     {
@@ -308,10 +361,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $money = new Money($price*100, new Currency($settings['site_currency']));
         $currencies = new ISOCurrencies();
-        
+
         $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
-        
+
         return $moneyFormatter->format($money);
 
     }
@@ -461,7 +514,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }else{
             $max_projects = $company->subscription()->max_projects;
         }
-        
+
         if(!isset($max_projects)) return true;
 
         $total_projects = Project::where('created_by', '=', $company->id)->count();
@@ -502,7 +555,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $total_users < $max_users;
     }
-        
+
     public function countCompany()
     {
         return User::where('type', '=', 'company')->count();
@@ -633,7 +686,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'ToDo',
             'Deadline',
             'Email',
-            'Lunch'            
+            'Lunch'
         ];
         foreach($eventCat as $category)
         {
@@ -706,7 +759,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $user['created_by'] = \Auth::user()->creatorId();
 
         $user = User::create($post);
-        
+
         $role_r = Role::findByName('company');
         $user->initCompanyDefaults();
         $user->assignRole($role_r);
@@ -717,7 +770,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function createUser($post)
     {
         $role_r                = Role::findById($post['role']);
-        
+
         $post['password']   = Hash::make($post['password']);
         $post['type']       = $role_r->name;
         $post['lang']       = 'en';
@@ -741,13 +794,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
         if($role->name != 'client')
             $post['client_id'] = null;
-        
+
         $post['type'] = $role->name;
 
         $this->update($post);
-        
+
         $roles[] = $post['role'];
-        
+
         $this->roles()->sync($roles);
     }
 

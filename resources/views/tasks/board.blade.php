@@ -124,10 +124,7 @@ use App\Project;
                         </p>
                     </div>
 
-                    <span class="text-small {{($task->due_date && $task->due_date<now())?'text-danger':''}}">
-                        {{$task->due_date?__('Due ').Carbon::parse($task->due_date)->diffForHumans(): '---' }}
-                    </span>
-
+                    {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
                 </div>
 
             </div>

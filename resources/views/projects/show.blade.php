@@ -174,9 +174,7 @@ $(function() {
                     <i class="material-icons">people</i>
                     <span>{{$project->users()->count()}}</span>
                 </div>
-                <span class="{{(isset($project->due_date) && $project->due_date<now())?'text-danger':''}}">
-                    {{__('Due') }} {{ isset($project->due_date) ? Carbon::parse($project->due_date)->diffForHumans() : '---'}}
-                </span>
+                    {!!\Helpers::showDateForHumans($project->due_date, __('Due'))!!}
                 </div>
             </div>
             </div>

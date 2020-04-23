@@ -20,9 +20,7 @@ use Carbon\Carbon;
                         <h6 data-filter-by="text">{{$lead->name}}</h6>
                     @endif
                     <p>
-                        <span class="text-small">
-                            {{__('Updated')}} {{ Carbon::parse($lead->updated_at)->diffForHumans() }}
-                        </span>
+                        {!!\Helpers::showDateForHumans($lead->updated_at, __('Updated'))!!}
                     </p>
 
                 </div>

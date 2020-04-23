@@ -171,9 +171,7 @@ $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->g
                     <i class="material-icons">playlist_add_check</i>
                     <span>{{$completed_task}}/{{$total_task}}</span>
                 </div>
-                <span class="{{($task->due_date && $task->due_date<now())?'text-danger':''}}" data-toggle="tooltip" title={{__('Due')}}>
-                    {{__('Due') }} {{ Carbon::parse($task->due_date)->diffForHumans() }}
-                </span>
+                {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
             </div>
         </div>
         </div>

@@ -18,9 +18,7 @@ use Carbon\Carbon;
                 @else
                     <h6 data-filter-by="text">{{$event->name}}</h6>
                 @endif
-                <span class="text-small {{($event->end && $event->end<now())?'text-danger':''}}">
-                    {{ Carbon::parse($event->end)->diffForHumans() }}
-                </span>
+                {!!\Helpers::showTimeForHumans($event->start)!!}
             </div>
             <div class="card-title col-xs-12 col-sm-5">
             </div>
