@@ -161,39 +161,51 @@ $(function() {
         updateFilters();
     });
 
-    $('.filter-input').on('change',function(e){
+    let timeout = null;
+
+    $('.filter-input').on('input',function(e){
+    // $('.filter-input').on('change',function(e){
     // $('.filter-input').on('keyup',function(e){
             e.preventDefault();
 
         $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
 
-        var filter = $(this).val();
+        clearTimeout(timeout);
 
-        var url = new URL(window.location.href);
-        
-        if(filter){
-            url.searchParams.set("filter", filter);
-        }else{
-            url.searchParams.delete("filter");
-        }
+        textInput = $(this);
 
-        $.ajax({
-            url : url.href,
-        }).done(function (data) 
-        {
-            $('.paginate-container').html(data);  
-            LetterAvatar.transform();
+        // Make a new timeout set to go off in 1000ms (1 second)
+        timeout = setTimeout(function () {
 
-            // Create the event
-            var event = new CustomEvent("paginate-filter");
-            // Dispatch/Trigger/Fire the event
-            document.dispatchEvent(event);            
+            var filter = textInput.val();
 
-        }).fail(function () 
-        {
-            toastrs('Data could not be loaded!', 'error');            
-        });
+            var url = new URL(window.location.href);
+            
+            if(filter){
+                url.searchParams.set("filter", filter);
+            }else{
+                url.searchParams.delete("filter");
+            }
 
-        window.history.replaceState(null, null, url.href);
+            $.ajax({
+                url : url.href,
+            }).done(function (data) 
+            {
+                $('.paginate-container').html(data);  
+                LetterAvatar.transform();
+
+                // Create the event
+                var event = new CustomEvent("paginate-filter");
+                // Dispatch/Trigger/Fire the event
+                document.dispatchEvent(event);            
+
+            }).fail(function () 
+            {
+                toastrs('Data could not be loaded!', 'error');            
+            });
+
+            window.history.replaceState(null, null, url.href);
+
+        }, 500);
     });
 });

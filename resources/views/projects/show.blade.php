@@ -23,7 +23,7 @@ if(Gate::check('manage task')){
 
 $(function() {
 
-    localStorage.setItem('sort', 'order');
+    localStorage.setItem('sort', 'priority');
     localStorage.setItem('dir', 'asc');
     localStorage.setItem('tag', '');
 
@@ -225,7 +225,6 @@ $(function() {
                 <div class="filter-container col-auto">
                     <div class="filter-controls">
                         <div>Sort by:</div>
-                        <a class="sort" href="#" data-sort="order">Order</a>
                         <a class="sort" href="#" data-sort="priority">Priority</a>
                         <a class="sort" href="#" data-sort="due_date">Date</a>
                     </div>

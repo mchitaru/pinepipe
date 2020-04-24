@@ -158,10 +158,14 @@ const mrFilterList = (($) => {
 
     bindInputEvents() {
       const filterInput = this.element.querySelector(`.${Selector.FILTER_INPUT}`);
+      $(filterInput).val('');
       // Store reference to data-filter-list element on the input itself
       $(filterInput).data(DATA_KEY, this);
-      filterInput.addEventListener('keyup', this.searchLists, false);
-      filterInput.addEventListener('paste', this.searchLists, false);
+      // filterInput.addEventListener('keyup', this.searchLists, false);
+      // filterInput.addEventListener('paste', this.searchLists, false);
+      filterInput.addEventListener('input', this.searchLists, false);
+      // filterInput.addEventListener('change', this.searchLists, false);
+      
       // Handle submit to disable page reload
       filterInput.closest('form').addEventListener('submit', (evt) => {
         if (evt.preventDefault) {
@@ -183,10 +187,10 @@ const mrFilterList = (($) => {
       return this.each(function jqEachFilterList() {
         const $element = $(this);
         let data = $element.data(DATA_KEY);
-        if (!data) {
+        // if (!data) {
           data = new FilterList(this);
           $element.data(DATA_KEY, data);
-        }
+        // }
       });
     }
   }
@@ -199,6 +203,16 @@ const mrFilterList = (($) => {
    */
 
   $(window).on(Event.LOAD_DATA_API, () => {
+    const filterLists = $.makeArray($(Selector.FILTER));
+
+    /* eslint-disable no-plusplus */
+    for (let i = filterLists.length; i--;) {
+      const $list = $(filterLists[i]);
+      FilterList.jQueryInterface.call($list, $list.data());
+    }
+  });
+
+  $(document).on("paginate-sort paginate-tag paginate-click paginate-filter", function(e) {
     const filterLists = $.makeArray($(Selector.FILTER));
 
     /* eslint-disable no-plusplus */
