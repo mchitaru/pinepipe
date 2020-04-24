@@ -87,12 +87,12 @@ class Task extends Model implements HasMedia
             $users = $post['user_id'];
         }else{
 
-            $users = collect();
+            $users = [];
         }
 
-        if(\Auth::user()->type != 'company')
-        {
-            $users->prepend(\Auth::user()->id);
+        if(\Auth::user()->type != 'company' && empty($users)){
+            
+            $users[] = \Auth::user()->id;
         }
 
         $task->users()->sync($users);
@@ -122,13 +122,12 @@ class Task extends Model implements HasMedia
             $users = $post['user_id'];
         }else{
 
-            $users = collect();
+            $users = [];
         }
 
-        if(\Auth::user()->type != 'company' &&
-            empty($users))
-        {
-            $users->prepend(\Auth::user()->id);
+        if(\Auth::user()->type != 'company' && empty($users)){
+
+            $users[] = \Auth::user()->id;
         }
 
         $this->users()->sync($users);

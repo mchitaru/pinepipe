@@ -33,6 +33,11 @@
             {{ Form::label('user_id', __('Assign'), array('class'=>'col-3')) }}
             {!! Form::select('user_id[]', $users, null,array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
+        @else
+        <div class="form-group row align-items-center required">
+            {{ Form::label('user_id', __('Assign'), array('class'=>'col-3')) }}
+            {!! Form::select('user_id[]', $users, null,array('class' => 'form-control col', 'required'=>'true', 'multiple'=>'multiple')) !!}
+        </div>
         @endif
         <div class="form-group row align-items-center">
             {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
