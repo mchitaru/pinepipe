@@ -34,28 +34,16 @@ class TaskUpdateRequest extends FormRequest
     {
         if ($this->isMethod('put'))
         {
-            if(\Auth::user()->type == 'company') {
-                return [
-                    'title' => 'required|string|min:2|max:60',
-                    'description' => 'nullable|string',
-                    'priority' => 'required|numeric',
-                    'user_id' => 'nullable|array', //+
-                    'project_id' => 'nullable|integer',
-                    'due_date' => 'nullable|date',
-                    'stage_id' => 'integer',
-                    'tags'=>'nullable|array'
-                ];
-            }else{
-                return [
-                    'title' => 'required|string|min:2|max:60',
-                    'description' => 'nullable|string',
-                    'priority' => 'required|numeric',
-                    'project_id' => 'nullable|integer',
-                    'due_date' => 'nullable|date',
-                    'stage_id' => 'integer',
-                    'tags'=>'nullable|array'
-                ];
-            }
+            return [
+                'title' => 'required|string|min:2|max:60',
+                'description' => 'nullable|string',
+                'priority' => 'required|numeric',
+                'user_id' => 'nullable|array', //+
+                'project_id' => 'nullable|integer',
+                'due_date' => 'nullable|date',
+                'stage_id' => 'integer',
+                'tags'=>'nullable|array'
+            ];
         }else{
 
             return [

@@ -29,26 +29,15 @@ class TaskStoreRequest extends FormRequest
      */
     public function rules()
     {
-        if(\Auth::user()->type == 'company') {
-            return [
-                'title' => 'required|string|min:2|max:60',
-                'description' => 'nullable|string',
-                'priority' => 'required|numeric',
-                'user_id' => 'nullable|array', //+
-                'project_id' => 'nullable|integer',
-                'due_date' => 'nullable|date',
-                'tags'=>'nullable|array'
-            ];
-        }else{
-            return [
-                'title' => 'required|string|min:2|max:60',
-                'description' => 'nullable|string',
-                'priority' => 'required|numeric',
-                'project_id' => 'nullable|integer',
-                'due_date' => 'nullable|date',
-                'tags'=>'nullable|array'
-            ];
-        }
+        return [
+            'title' => 'required|string|min:2|max:60',
+            'description' => 'nullable|string',
+            'priority' => 'required|numeric',
+            'user_id' => 'nullable|array', //+
+            'project_id' => 'nullable|integer',
+            'due_date' => 'nullable|date',
+            'tags'=>'nullable|array'
+        ];
     }
 
     protected function getRedirectUrl()
