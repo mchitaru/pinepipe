@@ -283,7 +283,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getTodayTasks()
     {
         return  \Auth::user()->tasks()
-                                ->whereDate('tasks.due_date', '<=', \Helpers::localToUTC(strtotime('today')))
+                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('today')))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -291,8 +291,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getThisWeekTasks()
     {
         return  \Auth::user()->tasks()
-                                ->whereDate('tasks.due_date', '>=', \Helpers::localToUTC(strtotime('tomorrow')))
-                                ->whereDate('tasks.due_date', '<=', \Helpers::localToUTC(strtotime('friday this week')))
+                                ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('tomorrow')))
+                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('friday this week')))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -300,8 +300,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNextWeekTasks()
     {
         return  \Auth::user()->tasks()
-                                ->whereDate('tasks.due_date', '>=', \Helpers::localToUTC(strtotime('monday next week')))
-                                ->whereDate('tasks.due_date', '<=', \Helpers::localToUTC(strtotime('friday next week')))
+                                ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('monday next week')))
+                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('friday next week')))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -309,8 +309,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getTodayEvents()
     {
         return  \Auth::user()->events()
-                                ->whereDate('events.start', '<=', \Helpers::localToUTC(strtotime('today')))
-                                ->whereDate('events.end', '>=', \Helpers::localToUTC(strtotime('today')))
+                                ->whereDate('events.start', '<=', Carbon::parse(strtotime('today')))
+                                ->whereDate('events.end', '>=', Carbon::parse(strtotime('today')))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
@@ -318,8 +318,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getThisWeekEvents()
     {
         return  \Auth::user()->events()
-                                ->where('events.start', '>=', \Helpers::localToUTC(strtotime('tomorrow')))
-                                ->where('events.end', '<=', \Helpers::localToUTC(strtotime('friday this week')))
+                                ->where('events.start', '>=', Carbon::parse(strtotime('tomorrow')))
+                                ->where('events.end', '<=', Carbon::parse(strtotime('friday this week')))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
@@ -327,8 +327,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNextWeekEvents()
     {
         return  \Auth::user()->events()
-                                ->where('events.start', '>=', \Helpers::localToUTC(strtotime('monday next week')))
-                                ->where('events.end', '<=', \Helpers::localToUTC(strtotime('friday next week')))
+                                ->where('events.start', '>=', Carbon::parse(strtotime('monday next week')))
+                                ->where('events.end', '<=', Carbon::parse(strtotime('friday next week')))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }

@@ -97,7 +97,7 @@ class Helpers
 
         $date = \Helpers::utcToLocal($date);
 
-        $color = ($date < now())?'text-danger':'';
+        $color = ($date->startOfDay() < now(\Auth::user()->timezone)->startOfDay())?'text-danger':'';
 
         if($date->isYesterday()){
 
@@ -129,7 +129,7 @@ class Helpers
 
         $time = \Helpers::utcToLocal($time);
 
-        $color = ($time < now())?'text-danger':'';
+        $color = ($time < now(\Auth::user()->timezone))?'text-danger':'';
         $text = $time->format('M d, H:m').' ('.$time->diffForHumans().')';
 
         return '<span class="text-small '.$color.'">'.$text.'</span>';
