@@ -33,6 +33,7 @@
         }
     }
     .card-list-body{
+        min-height:25vh;
         user-select: none;
         overflow-y: scroll;
         @extend .no-scroll-bars;
@@ -43,4 +44,23 @@
         padding: 0;
         }
     }
+
+    .card-empty-text {
+        margin: 0;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        -ms-transform: translate(-50%, -30%);
+        transform: translate(-50%, -30%);        
+    }
 }
+ 
+@include media-breakpoint-down(lg) {
+    .scrollable-list{
+      .card-list-body{
+
+        min-height:15vh;
+      }
+    }
+  }
+  

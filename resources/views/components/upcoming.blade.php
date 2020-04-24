@@ -6,7 +6,7 @@ use App\TaskStage;
 $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
 @endphp
 
-<div class="scrollable-list col-lg-4 col-xs-12 col-sm-12" style="max-height:50vh">
+<div class="scrollable-list col-lg-4 col-m-12" style="max-height:50vh">
     <div class="card-list">
         <div class="card-list-head">
         <h6>{{__($title)}} ({{count($tasks) + count($events)}})</h6>
@@ -14,9 +14,9 @@ $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->g
             <i class="material-icons">more_horiz</i>
         </button>
         </div>
-        <div class="card-list-body collapse show" style="min-height:186px" id="{{$title}}">
+        <div class="card-list-body collapse show" id="{{$title}}">
             @if(count($tasks)+count($events) == 0)
-                <div class="d-flex align-items-center p-5">
+                <div class="card-empty-text">
                     {{__('Hooray! Nothing here.')}}
                 </div>
             @endif
