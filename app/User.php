@@ -292,7 +292,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return  \Auth::user()->tasks()
                                 ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('tomorrow')))
-                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('friday this week')))
+                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('sunday this week')))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -301,7 +301,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return  \Auth::user()->tasks()
                                 ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('monday next week')))
-                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('friday next week')))
+                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('sunday next week')))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -319,7 +319,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return  \Auth::user()->events()
                                 ->where('events.start', '>=', Carbon::parse(strtotime('tomorrow')))
-                                ->where('events.end', '<=', Carbon::parse(strtotime('friday this week')))
+                                ->where('events.end', '<=', Carbon::parse(strtotime('sunday this week')))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
@@ -328,7 +328,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return  \Auth::user()->events()
                                 ->where('events.start', '>=', Carbon::parse(strtotime('monday next week')))
-                                ->where('events.end', '<=', Carbon::parse(strtotime('friday next week')))
+                                ->where('events.end', '<=', Carbon::parse(strtotime('sunday next week')))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
