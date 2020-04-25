@@ -82,9 +82,9 @@ class Task extends Model implements HasMedia
         $task->order = $stage->tasks->count();
         $task->save();
 
-        if(isset($post['user_id'])){
+        if(isset($post['users'])){
 
-            $users = $post['user_id'];
+            $users = $post['users'];
         }else{
 
             $users = [];
@@ -113,36 +113,39 @@ class Task extends Model implements HasMedia
         return $task;
     }
 
-    public function updateTask($post)
+    public function updateTask($post, $patch)
     {
         $this->update($post);
 
-        if(isset($post['user_id']))
-        {
-            $users = $post['user_id'];
-        }else{
+        if(!$patch) {
 
-            $users = [];
-        }
-
-        if(\Auth::user()->type != 'company' && empty($users)){
-
-            $users[] = \Auth::user()->id;
-        }
-
-        $this->users()->sync($users);
-
-        //tags
-        $tags = [];
-
-        if(isset($post['tags'])){
-            foreach($post['tags'] as $tag)
+            if(isset($post['users']))
             {
-                $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
-            }
-        }
+                $users = $post['users'];
+            }else{
 
-        $this->tags()->sync($tags);
+                $users = [];
+            }
+
+            if(\Auth::user()->type != 'company' && empty($users)){
+
+                $users[] = \Auth::user()->id;
+            }
+
+            $this->users()->sync($users);
+
+            //tags
+            $tags = [];
+
+            if(isset($post['tags'])){
+                foreach($post['tags'] as $tag)
+                {
+                    $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
+                }
+            }
+
+            $this->tags()->sync($tags);
+        }
 
         Activity::updateTask($this);
     }

@@ -49,45 +49,56 @@ function updateFilters(sort, dir, filter, tag)
 
 $(function() {
 
+    let timeout = null;
+
     $('body').on('click', '.pagination a', function(e) {
         e.preventDefault();
 
         $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
 
-        var currentURL = new URL(window.location.href);
-        sort = currentURL.searchParams.get("sort");
-        dir = currentURL.searchParams.get("dir");
-        filter = currentURL.searchParams.get("filter");
+        clearTimeout(timeout);
 
-        var newURL = new URL($(this).attr('href'));        
+        btn = $(this);
+
+        // Make a new timeout set to go off in 1000ms (1 second)
+        timeout = setTimeout(function () {
+
+            var currentURL = new URL(window.location.href);
+            sort = currentURL.searchParams.get("sort");
+            dir = currentURL.searchParams.get("dir");
+            filter = currentURL.searchParams.get("filter");
+
+            var newURL = new URL(btn.attr('href'));        
+            
+            if(sort){
+                newURL.searchParams.set("sort", sort);
+                newURL.searchParams.set("dir", dir);
+            }
+
+            if(filter){
+                newURL.searchParams.set("filter", filter);
+            }
         
-        if(sort){
-            newURL.searchParams.set("sort", sort);
-            newURL.searchParams.set("dir", dir);
-        }
+            $.ajax({
+                url : newURL.href  
+            }).done(function (data) 
+            {
+                $('.paginate-container').html(data);  
+                LetterAvatar.transform();
 
-        if(filter){
-            newURL.searchParams.set("filter", filter);
-        }
-    
-        $.ajax({
-            url : newURL.href  
-        }).done(function (data) 
-        {
-            $('.paginate-container').html(data);  
-            LetterAvatar.transform();
+                // Create the event
+                var event = new CustomEvent("paginate-click");
+                // Dispatch/Trigger/Fire the event
+                document.dispatchEvent(event);                        
 
-            // Create the event
-            var event = new CustomEvent("paginate-click");
-            // Dispatch/Trigger/Fire the event
-            document.dispatchEvent(event);                        
+            }).fail(function () 
+            {
+                toastrs('Data could not be loaded!', 'danger');            
+            });
 
-        }).fail(function () 
-        {
-            toastrs('Data could not be loaded!', 'error');            
-        });
+            window.history.replaceState(null, null, newURL.href);        
 
-        window.history.replaceState(null, null, newURL.href);        
+        }, 100);
     });
 
     $('.filter-controls a').on('click',function(e){
@@ -95,33 +106,42 @@ $(function() {
 
         $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
         
-        var sort = $(this).data('sort');
-        var dir = $(this).hasClass('asc')?'desc':'asc';
-        
-        var url = new URL(window.location.href);
-        url.searchParams.set("sort", sort);
-        url.searchParams.set("dir", dir);
+        clearTimeout(timeout);
 
-        $.ajax({
-            url : url.href,
-        }).done(function (data) 
-        {
-            $('.paginate-container').html(data);  
-            LetterAvatar.transform();
+        btn = $(this);
 
-            // Create the event
-            var event = new CustomEvent("paginate-sort");
-            // Dispatch/Trigger/Fire the event
-            document.dispatchEvent(event);            
+        // Make a new timeout set to go off in 1000ms (1 second)
+        timeout = setTimeout(function () {
 
-        }).fail(function () 
-        {
-            toastrs('Data could not be loaded!', 'error');            
-        });
+            var sort = btn.data('sort');
+            var dir = btn.hasClass('asc')?'desc':'asc';
+            
+            var url = new URL(window.location.href);
+            url.searchParams.set("sort", sort);
+            url.searchParams.set("dir", dir);
 
-        window.history.replaceState(null, null, url.href);
+            $.ajax({
+                url : url.href,
+            }).done(function (data) 
+            {
+                $('.paginate-container').html(data);  
+                LetterAvatar.transform();
 
-        updateFilters();
+                // Create the event
+                var event = new CustomEvent("paginate-sort");
+                // Dispatch/Trigger/Fire the event
+                document.dispatchEvent(event);            
+
+            }).fail(function () 
+            {
+                toastrs('Data could not be loaded!', 'danger');            
+            });
+
+            window.history.replaceState(null, null, url.href);
+
+            updateFilters();
+
+        }, 100);
     });
 
     $('.filter-tags div').on('click',function(e){
@@ -129,39 +149,47 @@ $(function() {
 
         $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
         
-        var tag = $(this).data('filter');
+        clearTimeout(timeout);
 
-        var url = new URL(window.location.href);
-        
-        if(url.searchParams.get("tag") == tag){
-            url.searchParams.delete("tag");
-        }else{
-            url.searchParams.set("tag", tag);
-        }
+        btn = $(this);
 
-        $.ajax({
-            url : url.href,
-        }).done(function (data) 
-        {
-            $('.paginate-container').html(data);  
-            LetterAvatar.transform();
+        // Make a new timeout set to go off in 1000ms (1 second)
+        timeout = setTimeout(function () {
 
-            // Create the event
-            var event = new CustomEvent("paginate-tag");
-            // Dispatch/Trigger/Fire the event
-            document.dispatchEvent(event);            
+            var tag = btn.data('filter');
 
-        }).fail(function () 
-        {
-            toastrs('Data could not be loaded!', 'error');            
-        });
+            var url = new URL(window.location.href);
+            
+            if(url.searchParams.get("tag") == tag){
+                url.searchParams.delete("tag");
+            }else{
+                url.searchParams.set("tag", tag);
+            }
 
-        window.history.replaceState(null, null, url.href);
+            $.ajax({
+                url : url.href,
+            }).done(function (data) 
+            {
+                $('.paginate-container').html(data);  
+                LetterAvatar.transform();
 
-        updateFilters();
+                // Create the event
+                var event = new CustomEvent("paginate-tag");
+                // Dispatch/Trigger/Fire the event
+                document.dispatchEvent(event);            
+
+            }).fail(function () 
+            {
+                toastrs('Data could not be loaded!', 'danger');            
+            });
+
+            window.history.replaceState(null, null, url.href);
+
+            updateFilters();
+
+        }, 100);
+
     });
-
-    let timeout = null;
 
     $('.filter-input').on('input',function(e){
     // $('.filter-input').on('change',function(e){
@@ -201,7 +229,7 @@ $(function() {
 
             }).fail(function () 
             {
-                toastrs('Data could not be loaded!', 'error');            
+                toastrs('Data could not be loaded!', 'danger');            
             });
 
             window.history.replaceState(null, null, url.href);

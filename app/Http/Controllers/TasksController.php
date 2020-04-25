@@ -69,6 +69,8 @@ class TasksController extends Controller
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $priority   = Project::$priority;
 
+        $user_id = null;
+
         if($project_id)
         {
             $project = Project::find($project_id);
@@ -76,6 +78,7 @@ class TasksController extends Controller
 
             if(isSet($users[\Auth::user()->id])) {
                 $users[\Auth::user()->id] = __('(myself)');
+                $user_id = \Auth::user()->id;
             }
 
         }else
@@ -85,6 +88,8 @@ class TasksController extends Controller
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend('(myself)', \Auth::user()->id);
+
+            $user_id = \Auth::user()->id;
         }
 
         $milestones = null;
@@ -93,7 +98,7 @@ class TasksController extends Controller
                         ->get()
                         ->pluck('name', 'name');
 
-        return view('tasks.create', compact('project_id', 'projects', 'users', 'priority', 'milestones', 'tags'));
+        return view('tasks.create', compact('project_id', 'projects', 'users', 'user_id', 'priority', 'milestones', 'tags'));
     }
 
     /**
@@ -185,14 +190,9 @@ class TasksController extends Controller
      */
     public function update(TaskUpdateRequest $request, Task $task)
     {
-        if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
-        {
-            return view('helpers.archive');
-        }
-
         $post = $request->validated();
 
-        $task->updateTask($post);
+        $task->updateTask($post, $request->isMethod('patch'));
 
         $request->session()->flash('success', __('Task successfully updated.'));
 

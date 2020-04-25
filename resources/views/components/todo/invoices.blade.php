@@ -4,7 +4,7 @@ use Carbon\Carbon;
 $can_show_invoice = Gate::check('show invoice');
 @endphp
 
-<div class="scrollable-list col" style="max-height:80vh">
+<div class="scrollable-list col" style="max-height:90vh">
     <div class="card-list">
         <div class="card-list-head">
             <div class="d-flex align-items-center">

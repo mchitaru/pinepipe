@@ -5,7 +5,7 @@ use Carbon\Carbon;
 $last_stage = \Auth::user()->last_projectstage();
 @endphp
 
-<div class="scrollable-list col" style="max-height:80vh">
+<div class="scrollable-list col" style="max-height:90vh">
     <div class="card-list">
         <div class="card-list-head">
             <div class="d-flex align-items-center">

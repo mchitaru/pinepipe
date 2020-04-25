@@ -42,7 +42,7 @@
         </div>
         <div class="form-group row required">
             {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple','required'=>'required')) !!}
+            {!! Form::select('users[]', $users, \Auth::user()->id, array('class' => 'form-control col', 'multiple'=>'multiple','required'=>'required')) !!}
         </div>
         <hr>
         <h6>{{__('Attach')}}</h6>

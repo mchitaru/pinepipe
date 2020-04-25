@@ -65,9 +65,7 @@ class EventController extends Controller
         if(isset($request['lead_id']))
             $lead_id = $request['lead_id'];
             
-        $user_id = \Auth::user()->id;
-
-        return view('events.create', compact('categories', 'users', 'user_id', 'leads', 'start', 'end', 'lead_id'));
+        return view('events.create', compact('categories', 'users', 'leads', 'start', 'end', 'lead_id'));
     }
 
     /**

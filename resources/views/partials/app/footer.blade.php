@@ -83,7 +83,6 @@ gtag('config', 'AW-983938734');
     $.fn.select2.defaults.set( "theme", "bootstrap" ); 
 
     function toastrs(message, status) {
-        /*toastr[status](message)*/
         $.notify({
                     message: message
                 },{

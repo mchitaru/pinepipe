@@ -29,15 +29,15 @@ async function initDropzone(selector, url, model_id, files)
             LetterAvatar.transform();
         } else {
             this.removeFile(file);
-            toastrs(response.error, 'error');
+            toastrs(response.error, 'danger');
         }
     },
     error: function (file, response) {
         this.removeFile(file);
         if (response.error) {
-            toastrs(response.error, 'error');
+            toastrs(response.error, 'danger');
         } else {
-            toastrs(response.error, 'error');
+            toastrs(response.error, 'danger');
         }
     },
     sending: function(file, xhr, formData) {

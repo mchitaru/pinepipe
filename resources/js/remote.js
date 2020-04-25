@@ -63,5 +63,5 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
 $(document).on('ajax:error', function(e, xhr, status, error){
 
-    toastrs(error, 'error')
+    toastrs(error, 'danger')
 });

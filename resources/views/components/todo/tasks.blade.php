@@ -7,7 +7,7 @@ $current_user=\Auth::user();
 $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
 @endphp
 
-<div class="scrollable-list col" style="max-height:80vh">
+<div class="scrollable-list col" style="max-height:90vh">
     <div class="card-list">
         <div class="card-list-head">
             <div class="d-flex align-items-center">
