@@ -321,8 +321,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getThisWeekEvents()
     {
         return  \Auth::user()->events()
-                                ->where('events.start', '>=', Carbon::parse(strtotime('tomorrow')))
-                                ->where('events.end', '<=', Carbon::parse(strtotime('sunday this week')))
+                                ->whereDate('events.start', '>=', Carbon::parse(strtotime('tomorrow')))
+                                ->whereDate('events.end', '<=', Carbon::parse(strtotime('sunday this week')))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
@@ -330,8 +330,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNextWeekEvents()
     {
         return  \Auth::user()->events()
-                                ->where('events.start', '>=', Carbon::parse(strtotime('monday next week')))
-                                ->where('events.end', '<=', Carbon::parse(strtotime('sunday next week')))
+                                ->whereDate('events.start', '>=', Carbon::parse(strtotime('monday next week')))
+                                ->whereDate('events.end', '<=', Carbon::parse(strtotime('sunday next week')))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
