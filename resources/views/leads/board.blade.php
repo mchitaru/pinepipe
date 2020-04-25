@@ -156,7 +156,7 @@ use Carbon\Carbon;
                                 <h6>{{$stage->name}}</h6>
                                 <span class="small count">({{ $stage->leads->count() }})</span>
                             </div>
-                            <h7 class="total" data-id={{$stage->total_amount}}>{{ \Auth::user()->priceFormat($stage->total_amount) }}</h7>
+                            <span class="total" data-id={{$stage->total_amount}}>{{ \Auth::user()->priceFormat($stage->total_amount) }}</span>
                             <div class="dropdown">
                                 <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">more_vert</i>
@@ -173,7 +173,7 @@ use Carbon\Carbon;
 
                         <div class="card card-kanban" data-id={{$lead->id}}>
 
-                        <div class="card-body">
+                        <div class="card-body p-2">
                             <div class="dropdown card-options">
                             <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>

@@ -6,7 +6,6 @@ use App\Project;
 @endphp
 
 @foreach($stages as $stage)
-
 <div class="kanban-col">
     <div class="card-list">
         <div class="card-list-header">
@@ -26,116 +25,79 @@ use App\Project;
             </div>
         </div>
         <div class="card-list-body" data-id={{$stage->id}}>
-
-            {{-- <div class="card card-kanban">
-
-            <div class="card-body">
-                <div class="dropdown card-options">
-                <button class="btn-options" type="button" id="kanban-dropdown-button-13" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
-                </div>
-                </div>
-                <div class="card-title">
-                <a href="#" data-toggle="modal" data-target="#task-modal">
-                    <h6>A/B testing</h6>
-                </a>
-                </div>
-
-            </div>
-            </div> --}}
-
             @foreach($stage->tasks as $task)
-
             @php
                 $total_subtask = $task->getTotalChecklistCount();
                 $completed_subtask = $task->getCompleteChecklistCount();
-
                 $task_percentage=0;
                 if($total_subtask!=0){
                     $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
                 }
-
                 $label = Project::getProgressColor($task_percentage);
-
             @endphp
-
             <div class="card card-kanban" data-id={{$task->id}}>
-
-            <div class="progress">
-            <div class="progress-bar task-progress-{{$task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-
-            <div class="card-body">
-                <div class="dropdown card-options">
-                <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit task')
-                        <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
-                            {{__('Edit')}}
+                <div class="progress">
+                    <div class="progress-bar task-progress-{{$task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="card-body p-2">
+                    <div class="dropdown card-options">
+                        <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @can('edit task')
+                                <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
+                                    {{__('Edit')}}
+                                </a>
+                            @endcan
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
+                            @can('delete task')
+                                <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
+                                    {{__('Delete')}}
+                                </a>
+                            @endcan
+                        </div>
+                    </div>
+                    <div class="card-title">
+                        <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text">
+                            <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
                         </a>
-                    @endcan
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
-                    @can('delete task')
-                        <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
-                            {{__('Delete')}}
-                        </a>
-                    @endcan
-                </div>
-                </div>
-                <div class="card-title">
-                    <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text">
-                        <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
-                    </a>
-
-                </div>
-
-                {!! Helpers::getPriorityBadge($task->priority) !!}
-
-                <div class="d-flex justify-content-between">
-                    <ul class="avatars">
-                        @foreach($task->users as $user)
-                        <li>
-                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                                {!!Helpers::buildUserAvatar($user)!!}
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul>
-
-                    <div data-toggle="tooltip" title="{{__('Labels')}}">
-                        @foreach($task->tags as $tag)
-                            <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
-                        @endforeach
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        {!! Helpers::getPriorityBadge($task->priority) !!}
+                        <ul class="avatars">
+                            @foreach($task->users as $user)
+                            <li>
+                                <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                                    {!!Helpers::buildUserAvatar($user)!!}
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <div data-toggle="tooltip" title="{{__('Labels')}}">
+                            @foreach($task->tags as $tag)
+                                <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="card-meta d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="material-icons">playlist_add_check</i>
+                            <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
+                                <span>{{$completed_subtask}}/{{$total_subtask}}</span>
+                            </p>
+                        </div>
+                        {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
                     </div>
                 </div>
-
-                <div class="card-meta d-flex justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <i class="material-icons">playlist_add_check</i>
-                        <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
-                            <span>{{$completed_subtask}}/{{$total_subtask}}</span>
-                        </p>
-                    </div>
-
-                    {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
-                </div>
-
             </div>
-            </div>
-
             @endforeach
-
         </div>
     </div>
 </div>
-
 @endforeach
 
 <div class="kanban-col">
