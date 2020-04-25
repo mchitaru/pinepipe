@@ -130,9 +130,14 @@ class Helpers
         $time = \Helpers::utcToLocal($time);
 
         $color = ($time < now(\Auth::user()->timezone))?'text-danger':'';
-        $text = $time->format('M d, H:m').' ('.$time->diffForHumans().')';
+        $text = $time->format('M d, H:m');
 
         return '<span class="text-small '.$color.'">'.$text.'</span>';
+    }
+
+    public static function showTimespan($start, $end)
+    {
+        return '<span class="text-small font-italic">('.Carbon::parse($start)->timespan(Carbon::parse($end)).')</span>';
     }
 
     static function fragment($route, $fragment)

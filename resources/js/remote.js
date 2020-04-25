@@ -5,6 +5,24 @@ async function attachPlugins() {
     });
 
     $('[data-flatpickr]').mrFlatpickr();
+
+    $('.start[data-flatpickr]').flatpickr().config.onChange.push(function(selectedDates, dateStr, instance) { 
+ 
+        var end = $('.end[data-flatpickr]').flatpickr();
+
+        if(end) {
+
+            if(end.selectedDates.length && 
+                (Date.parse(end.selectedDates[0]) < Date.parse(dateStr)))
+            {
+                end.setDate(dateStr);
+            }
+    
+            end.config.minDate = dateStr;
+        }
+    });
+
+
     LetterAvatar.transform();
 
     $("[data-refresh]").each(function() 
@@ -63,5 +81,5 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
 $(document).on('ajax:error', function(e, xhr, status, error){
 
-    toastrs(error, 'danger')
+    toastrs(error, 'error')
 });

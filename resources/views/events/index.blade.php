@@ -19,6 +19,7 @@ use Carbon\Carbon;
                     <h6 data-filter-by="text">{{$event->name}}</h6>
                 @endif
                 {!!\Helpers::showTimeForHumans($event->start)!!}
+                {!!\Helpers::showTimespan($event->start, $event->end)!!}
             </div>
             <div class="card-title col-xs-12 col-sm-5">
             </div>

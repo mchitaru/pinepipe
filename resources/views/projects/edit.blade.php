@@ -54,12 +54,12 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('start_date', __('Start Date'), array('class'=>'col-4')) }}
-            {{ Form::date('start_date', '', array('class' => 'form-control col', 'placeholder'=>'Select Date', 
+            {{ Form::date('start_date', '', array('class' => 'start form-control col', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-default-date'=> $start_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-4')) }}
-            {{ Form::date('due_date', '', array('class' => 'form-control col', 'placeholder'=>'Select Date', 
+            {{ Form::date('due_date', '', array('class' => 'end form-control col', 'placeholder'=>'Select Date', 
                                                 'data-flatpickr', 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
     </div>

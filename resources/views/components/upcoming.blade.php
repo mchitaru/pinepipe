@@ -70,6 +70,7 @@ $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->g
                             <h6 data-filter-by="text">{{$event->name}}</h6>
                         </a>
                         {!!\Helpers::showTimeForHumans($event->start)!!}
+                        {!!\Helpers::showTimespan($event->start, $event->end)!!}
                     </div>
                     <div class="card-meta float-right">
                         <div class="dropdown card-options">
