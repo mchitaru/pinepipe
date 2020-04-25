@@ -1,7 +1,7 @@
 @php
 use Carbon\Carbon;
 
-$last_stage = \Auth::user()->last_projectstage();
+$last_stage = \Auth::user()->getLastTaskStage();
 @endphp
 
 @php clock()->startEvent('projects.index', "Display projects"); @endphp

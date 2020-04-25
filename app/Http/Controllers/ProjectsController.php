@@ -195,7 +195,7 @@ class ProjectsController extends Controller
                 $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id)->get();
             }
 
-            $project->computeStatistics($user->last_projectstage()->id);
+            $project->computeStatistics($user->getLastTaskStage()->id);
 
             clock()->endEvent('ProjectsController');
 

@@ -2,7 +2,7 @@
 use App\Project;
 use Carbon\Carbon;
 
-$last_stage = \Auth::user()->last_projectstage();
+$last_stage = \Auth::user()->getLastTaskStage();
 @endphp
 
 <div class="scrollable-list col" style="max-height:90vh">
@@ -20,6 +20,10 @@ $last_stage = \Auth::user()->last_projectstage();
         </div>
         <div class="card-list-body collapse" id="{{$type}}">
             @foreach($items as $project)
+
+            @php
+                $project->computeStatistics($last_stage->id);
+            @endphp
 
             <div class="card card-task">
                 <div class="progress">

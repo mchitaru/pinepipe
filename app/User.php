@@ -280,26 +280,29 @@ class User extends Authenticatable implements MustVerifyEmail
                                     ->first();
     }
 
-    public function getTodayTasks()
+    public function getTodayTasks($lastStageId)
     {
         return  \Auth::user()->tasks()
+                                ->where('stage_id', '<', $lastStageId)
                                 ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('today')))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
 
-    public function getThisWeekTasks()
+    public function getThisWeekTasks($lastStageId)
     {
         return  \Auth::user()->tasks()
+                                ->where('stage_id', '<', $lastStageId)
                                 ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('tomorrow')))
                                 ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('sunday this week')))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
 
-    public function getNextWeekTasks()
+    public function getNextWeekTasks($lastStageId)
     {
         return  \Auth::user()->tasks()
+                                ->where('stage_id', '<', $lastStageId)
                                 ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('monday next week')))
                                 ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('sunday next week')))
                                 ->orderBy('tasks.due_date', 'ASC')
@@ -390,12 +393,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $settings["invoice_prefix"] . sprintf("%05d", $number);
     }
 
-    public function last_leadstage()
-    {
-        return LeadStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
-    }
-
-    public function last_projectstage()
+    public function getLastTaskStage()
     {
         return TaskStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
     }

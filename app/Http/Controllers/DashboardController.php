@@ -18,77 +18,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if(\Auth::user()->type == 'company'){
-
-            clock()->startEvent('DahsboardController', "Load dash");
-
-            $todayTasks = \Auth::user()->getTodayTasks();
-            $thisWeekTasks = \Auth::user()->getThisWeekTasks();
-            $nextWeekTasks = \Auth::user()->getNextWeekTasks();
-
-            $todayEvents = \Auth::user()->getTodayEvents();
-            $thisWeekEvents = \Auth::user()->getThisWeekEvents();
-            $nextWeekEvents = \Auth::user()->getNextWeekEvents();
-
-            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())
-                                    ->where('archived', '0')
-                                    ->get();
-
-            $invoices = Invoice::with('project')
-                                    ->where('created_by', '=', \Auth::user()->creatorId())
-                                    ->where('status', '<', '3')
-                                    ->get();
-            $leads = [];
-            $tasks = \Auth::user()->tasks()
-                                    ->where('stage_id', '<', \Auth::user()->last_projectstage()->id)
-                                    ->get();
-
-            clock()->endEvent('DashboardController');
-
-            return view('dashboard.company', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
-                                                    'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
-                                                    'projects', 'tasks', 'invoices', 'leads'));
-
-        }else if(\Auth::user()->type == 'client'){
-
-            clock()->startEvent('DahsboardController', "Load dash");
-
-            $todayTasks = \Auth::user()->getTodayTasks();
-            $thisWeekTasks = \Auth::user()->getThisWeekTasks();
-            $nextWeekTasks = \Auth::user()->getNextWeekTasks();
-
-            $todayEvents = \Auth::user()->getTodayEvents();
-            $thisWeekEvents = \Auth::user()->getThisWeekEvents();
-            $nextWeekEvents = \Auth::user()->getNextWeekEvents();
-
-            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())
-                                    ->where('client_id', \Auth::user()->client_id)
-                                    ->where('archived', '0')
-                                    ->get();
-
-            $invoices = Invoice::with('project')
-                                    ->whereHas('project', function ($query)
-                                    {
-                                        $query->whereHas('client', function ($query)
-                                        {
-                                            $query->where('id', \Auth::user()->client_id);
-                                        });
-                                    })
-                                    ->where('created_by', '=', \Auth::user()->creatorId())
-                                    ->where('status', '<', '3')
-                                    ->get();
-
-            $tasks = \Auth::user()->tasks()
-                                    ->where('stage_id', '<', \Auth::user()->last_projectstage()->id)
-                                    ->get();
-
-            clock()->endEvent('DashboardController');
-
-            return view('dashboard.client', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
-                                                    'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
-                                                    'projects', 'tasks', 'invoices'));
-
-        }else if(\Auth::user()->type == 'super admin'){
+        //admin dash
+        if(\Auth::user()->type == 'super admin'){
 
             clock()->startEvent('DahsboardController', "Load dash");
 
@@ -104,34 +35,96 @@ class DashboardController extends Controller
             clock()->endEvent('DashboardController');
 
             return view('dashboard.admin',compact('user','chartData'));
+        }        
 
-        }else {
 
-            clock()->startEvent('DahsboardController', "Load dash");
+        clock()->startEvent('DahsboardController', "Load dash");
 
-            $todayTasks = \Auth::user()->getTodayTasks();
-            $thisWeekTasks = \Auth::user()->getThisWeekTasks();
-            $nextWeekTasks = \Auth::user()->getNextWeekTasks();
+        $lastStageId = \Auth::user()->getLastTaskStage()->id;
 
-            $todayEvents = \Auth::user()->getTodayEvents();
-            $thisWeekEvents = \Auth::user()->getThisWeekEvents();
-            $nextWeekEvents = \Auth::user()->getNextWeekEvents();
+        $todayTasks = \Auth::user()->getTodayTasks($lastStageId);
+        $thisWeekTasks = \Auth::user()->getThisWeekTasks($lastStageId);
+        $nextWeekTasks = \Auth::user()->getNextWeekTasks($lastStageId);
 
-            $projects = \Auth::user()->projects()
+        $todayEvents = \Auth::user()->getTodayEvents();
+        $thisWeekEvents = \Auth::user()->getThisWeekEvents();
+        $nextWeekEvents = \Auth::user()->getNextWeekEvents();
+
+        if(\Auth::user()->type == 'company'){
+
+            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())
                                     ->where('archived', '0')
+                                    ->orderBy('due_date', 'ASC')
                                     ->get();
 
+            $invoices = Invoice::with('project')
+                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->where('status', '<', '3')
+                                    ->orderBy('due_date', 'ASC')
+                                    ->get();
             $leads = [];
             $tasks = \Auth::user()->tasks()
-                                    ->where('stage_id', '<', \Auth::user()->last_projectstage()->id)
+                                    ->where('stage_id', '<', $lastStageId)
+                                    ->orderBy('priority', 'ASC')
                                     ->get();
 
             clock()->endEvent('DashboardController');
 
-            return view('dashboard.collaborator', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
-                                                            'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
-                                                            'projects', 'tasks', 'leads'));
+            return view('dashboard.company', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
+                                                    'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
+                                                    'projects', 'tasks', 'invoices', 'leads'));
+
+        }else if(\Auth::user()->type == 'client'){
+
+            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())
+                                    ->where('client_id', \Auth::user()->client_id)
+                                    ->where('archived', '0')
+                                    ->orderBy('due_date', 'ASC')
+                                    ->get();
+
+            $invoices = Invoice::with('project')
+                                    ->whereHas('project', function ($query)
+                                    {
+                                        $query->whereHas('client', function ($query)
+                                        {
+                                            $query->where('id', \Auth::user()->client_id);
+                                        });
+                                    })
+                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->where('status', '<', '3')
+                                    ->orderBy('due_date', 'ASC')
+                                    ->get();
+
+            $tasks = \Auth::user()->tasks()
+                                    ->where('stage_id', '<', $lastStageId)
+                                    ->orderBy('priority', 'ASC')
+                                    ->get();
+
+            clock()->endEvent('DashboardController');
+
+            return view('dashboard.client', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
+                                                    'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
+                                                    'projects', 'tasks', 'invoices'));
+
         }
+
+        //collaborator dash
+        $projects = \Auth::user()->projects()
+                                ->where('archived', '0')
+                                ->orderBy('due_date', 'ASC')
+                                ->get();
+
+        $leads = [];
+        $tasks = \Auth::user()->tasks()
+                                ->where('stage_id', '<', $lastStageId)
+                                ->orderBy('priority', 'ASC')
+                                ->get();
+
+        clock()->endEvent('DashboardController');
+
+        return view('dashboard.collaborator', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
+                                                        'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
+                                                        'projects', 'tasks', 'leads'));
     }
 
     public function getOrderChart($arrParam){
