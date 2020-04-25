@@ -29,17 +29,23 @@ class TasksController extends Controller
         {
             clock()->startEvent('TasksController', "Load tasks");
 
+            if($request['tag'] == 'all'){
+                $users = [];
+            }else{
+                $users = [\Auth::user()->id];
+            }
+
             if($project_id)
             {
                 $project = Project::find($project_id);
-                $stages = $project->stages($request['sort'], $request['dir'])->get();
+                $stages = $project->stages($request['sort']?$request['sort']:'order', $request['dir'], $users)->get();
                 $project_name = $project->name;
             }
             else
             {
                 $project = null;
                 $project_name = null;
-                $stages = TaskStage::stagesByUserType($request['sort'], $request['dir'])->get();
+                $stages = TaskStage::stagesByUserType($request['sort'], $request['dir'], $users)->get();
             }
 
             clock()->endEvent('TasksController');

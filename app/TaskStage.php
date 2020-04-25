@@ -26,49 +26,88 @@ class TaskStage extends Model
         return $this->hasMany('App\Task', 'stage_id', 'id');
     }
 
-    public static function stagesByUserType($sort, $dir)
+    public static function stagesByUserType($sort, $dir, $users)
     {
         if(\Auth::user()->type == 'client')
         {
-            return TaskStage::with(['tasks' => function ($query) use($sort, $dir)
+            return TaskStage::with(['tasks' => function ($query) use($sort, $dir, $users)
             {
-                $query->WhereHas('project', function ($query) {
-                    
-                    $query->where('client_id', '=', \Auth::user()->client_id);
+                if(empty($users)) {
 
-                })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                    $query->WhereHas('project', function ($query) {
+                    
+                        $query->where('client_id', '=', \Auth::user()->client_id);
+    
+                    })
+                    ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+    
+                }else{
+
+                    $query->WhereHas('project', function ($query) {
+                    
+                        $query->where('client_id', '=', \Auth::user()->client_id);
+    
+                    })
+                    ->whereHas('users', function ($query) use($users)
+                    {
+                        $query->whereIn('users.id', $users);
+                        
+                    })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                }
+
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
 
         }else if(\Auth::user()->type == 'company')
         {
-            return TaskStage::with(['tasks' => function ($query) use($sort, $dir)
+            return TaskStage::with(['tasks' => function ($query) use($sort, $dir, $users)
             {
-                $query->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                if(empty($users)) {
+
+                    $query->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+
+                }else{
+
+                    $query->whereHas('users', function ($query) use($users)
+                    {
+                        $query->whereIn('users.id', $users);
+
+                    })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                }
 
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
         }else
         {
-            return TaskStage::with(['tasks' => function ($query) use($sort, $dir)
+            return TaskStage::with(['tasks' => function ($query) use($sort, $dir, $users)
             {
-                $query->whereHas('users', function ($query) 
-                {
-                    // tasks with the current user assigned.
-                    $query->where('users.id', \Auth::user()->id);
+                if(empty($users)) {
 
-                })->orWhereHas('project', function ($query) {
-                    
-                    // only include tasks with projects where...
-                    $query->whereHas('users', function ($query) {
-
-                        // ...the current user is assigned.
+                    $query->whereHas('users', function ($query) 
+                    {
+                        // tasks with the current user assigned.
                         $query->where('users.id', \Auth::user()->id);
-                    });
-                })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
+                    })->orWhereHas('project', function ($query) {
+                        
+                        // only include tasks with projects where...
+                        $query->whereHas('users', function ($query) {
+
+                            // ...the current user is assigned.
+                            $query->where('users.id', \Auth::user()->id);
+                        });
+                    })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                }else {
+
+                    $query->whereHas('users', function ($query) use($users)
+                    {
+                        // tasks with the current user assigned.
+                        $query->whereIn('users.id', $users);
+
+                    })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                }
             },'tasks.users'])
             ->where('created_by', '=', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
