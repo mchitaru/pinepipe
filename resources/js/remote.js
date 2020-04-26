@@ -6,22 +6,27 @@ async function attachPlugins() {
 
     $('[data-flatpickr]').mrFlatpickr();
 
-    $('.start[data-flatpickr]').flatpickr().config.onChange.push(function(selectedDates, dateStr, instance) { 
- 
-        var end = $('.end[data-flatpickr]').flatpickr();
-
-        if(end) {
-
-            if(end.selectedDates.length && 
-                (Date.parse(end.selectedDates[0]) < Date.parse(dateStr)))
-            {
-                end.setDate(dateStr);
-            }
+    $('.start[data-flatpickr]').each(function() {
     
-            end.config.minDate = dateStr;
+        if($(this).flatpickr()) {
+            
+            $(this).flatpickr().config.onChange.push(function(selectedDates, dateStr, instance) { 
+    
+                var end = $('.end[data-flatpickr]').flatpickr();
+
+                if(end) {
+
+                    if(end.selectedDates.length && 
+                        (Date.parse(end.selectedDates[0]) < Date.parse(dateStr)))
+                    {
+                        end.setDate(dateStr);
+                    }
+            
+                    end.config.minDate = dateStr;
+                }
+            });
         }
     });
-
 
     LetterAvatar.transform();
 
