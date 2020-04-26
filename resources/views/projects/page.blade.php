@@ -94,8 +94,8 @@
                         </div>    
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
-                            <div class="tag filter" data-filter="active">{{__('active')}}</div>
-                            <div class="tag filter" data-filter="archived">{{__('archived')}}</div>
+                            <div class="tag filter" data-filter="active">{{__('Active')}}</div>
+                            <div class="tag filter" data-filter="archived">{{__('Archived')}}</div>
                         </div>                                           
                     </div>
                 </div>

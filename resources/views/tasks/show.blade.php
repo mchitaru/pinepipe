@@ -163,13 +163,9 @@ $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->g
                 <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Priority')}}>
                     {!! Helpers::getPriorityBadge($task->priority) !!}
                 </div>
-                <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Status')}}>
-                    <i class="material-icons">check</i>
-                    <span class="badge badge-secondary">{{ $task_status }}</span>
-                </div>
                 <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Completed')}}>
                     <i class="material-icons">playlist_add_check</i>
-                    <span>{{$completed_task}}/{{$total_task}}</span>
+                    <span class="badge badge-secondary">{{ $task_status }}</span>
                 </div>
                 {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
             </div>

@@ -140,8 +140,8 @@ document.addEventListener("paginate-sort", function(e) {
                         </div>     
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
-                            <div class="tag filter" data-filter="mine">{{__('my tasks')}}</div>
-                            <div class="tag filter" data-filter="all">{{__('all tasks')}}</div>
+                            <div class="tag filter" data-filter="mine">{{__('My Tasks')}}</div>
+                            <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
                         </div>                                           
                     </div>
                     <form class="col-md-auto">
