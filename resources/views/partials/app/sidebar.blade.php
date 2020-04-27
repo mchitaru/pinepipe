@@ -140,15 +140,15 @@ $languages=$user->languages();
             <div id="submenu-3" class="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
-                @can('manage project')
-                <li class="nav-item">
-                    <a class="nav-link {{(Request::segment(1) == 'projects')?' active':''}}" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
-                </li>
-                @endcan
-
                 @can('manage task')
                 <li class="nav-item">
                     <a class="nav-link {{(Request::segment(1) == 'tasks')?' active':''}}" href="{{ route('tasks.board') }}">{{__('Tasks')}}</a>
+                </li>
+                @endcan
+
+                @can('manage project')
+                <li class="nav-item">
+                    <a class="nav-link {{(Request::segment(1) == 'projects')?' active':''}}" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
                 </li>
                 @endcan
 
@@ -244,15 +244,18 @@ $languages=$user->languages();
               {{__('Add New')}}
             </button>
             <div class="dropdown-menu">
-                @can('create contact')
-                    <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
-                @endcan
-                @can('create project')
-                    <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
+                @can('create event')
+                    <a class="dropdown-item" href="{{ route('events.create') }}" data-remote="true" data-type="text">{{__('Event')}}</a>
                 @endcan
                 @can('create task')
                     <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
                 @endcan
+                @can('create contact')
+                    <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
+                @endcan
+                @can('create lead')
+                    <a class="dropdown-item" href="{{ route('leads.create') }}" data-remote="true" data-type="text">{{__('Lead')}}</a>
+                @endcan    
             </div>
         </div>
         @endif
