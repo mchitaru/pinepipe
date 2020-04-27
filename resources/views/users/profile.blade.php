@@ -97,11 +97,6 @@ use App\PaymentPlan;
         <li class="nav-item">
             <a class="nav-link" id="integrations-tab" data-toggle="tab" href="#integrations" role="tab" aria-controls="integrations" aria-selected="false">{{__('Integrations')}}</a>
         </li>
-        @can('manage company settings')
-        <li class="nav-item">
-            <a class="nav-link" id="system-tab" data-toggle="tab" href="#system" role="tab" aria-controls="profile" aria-selected="true">{{__('System Settings')}}</a>
-        </li>
-        @endcan
         </ul>
     </div>
     <div class="col-xl-8 col-lg-10">
@@ -118,9 +113,6 @@ use App\PaymentPlan;
                 <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.partials.subscription')</div>
                 @endif
                 <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.partials.integrations')</div>
-                @can('manage company settings')
-                <div class="tab-pane fade show" role="tabpanel" id="system">@include('users.partials.system')</div>
-                @endcan
             </div>
         </div>
         </div>

@@ -136,6 +136,11 @@ class ClientsController extends Controller
 
         $client->updateClient($post);
 
+        if($request->hasFile('avatar')){
+            
+            $file = $client->addMedia($request->file('avatar'))->toMediaCollection('logos');
+        }
+
         $request->session()->flash('success', __('Client successfully updated.'));
 
         return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();        
@@ -237,38 +242,4 @@ class ClientsController extends Controller
             return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
     }
-
-    // public function profile()
-    // {
-    //     $userDetail=\Auth::user();
-    //     return view('clients.profile')->with('userDetail',$userDetail);
-    // }
-
-    // public function editprofile(Request $request)
-    // {
-    //     $userDetail=\Auth::user();
-    //     $user = User::findOrFail($userDetail['id']);
-    //     $this->validate($request, [
-    //         'name'=>'required|max:120',
-    //         'email'=>'required|email|unique:users,email,'.$userDetail['id'],
-    //     ]);
-
-    //     if($request->hasFile('profile'))
-    //     {
-    //         $path = \Helpers::storePublicFile($request->file('profile'));
-    //         $user['avatar'] = $path;
-    //     }
-
-    //     $user['name'] = $request['name'];
-    //     $user['email'] = $request['email'];
-    //     $user->save();
-
-    //     return Redirect::to(URL::previous())->with('error', __('Profile successfully updated.'));
-    // }
-
-    // public function convert($id)
-    // {
-    //     $leads=Lead::find($id);
-    //     return view('client.convert_client',compact('leads'));
-    // }
 }

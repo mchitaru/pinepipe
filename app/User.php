@@ -22,9 +22,12 @@ use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use App\Traits\Eventable;
 
-class User extends Authenticatable implements MustVerifyEmail
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
-    use HasRoles, Notifiable, SoftDeletes, Actionable, Billable, Eventable;
+    use HasRoles, Notifiable, SoftDeletes, Actionable, Billable, Eventable, HasMediaTrait;
 
     public static $SEED_COMPANY_COUNT = 1;
     public static $SEED_STAFF_COUNT = 2;
@@ -69,7 +72,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'notify_major_updates' => 'boolean',
         'notify_minor_updates' => 'boolean'
     ];
-    public    $settings;
 
     public function creatorId()
     {
@@ -82,40 +84,6 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->created_by;
         }
     }
-
-    public function settings()
-    {
-        if(empty($this->settings))
-        {
-            $data     = DB::table('settings')->where('created_by', '=', $this->creatorId())->get();
-            $settings = [
-                "site_currency" => "EUR",
-                "site_date_format" => "M j, Y",
-                "site_time_format" => "g:i A",
-                "company_name" => "",
-                "company_logo" => "",
-                "company_address" => "",
-                "company_city" => "",
-                "company_state" => "",
-                "company_zipcode" => "",
-                "company_country" => "",
-                "company_telephone" => "",
-                "company_email" => "",
-                "company_email_from_name" => "",
-                "invoice_prefix" => "#INV",
-            ];
-
-            foreach($data as $row)
-            {
-                $settings[$row->name] = $row->value;
-            }
-
-            $this->settings = $settings;
-        }
-
-        return $this->settings;
-    }
-
 
     public function languages()
     {
@@ -179,6 +147,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function client()
     {
         return $this->hasOne('App\Client', 'id', 'client_id');
+    }
+
+    public function companySettings()
+    {
+        return $this->hasOne('App\CompanySettings', 'created_by', 'id');
     }
 
     public function staffTasks()
@@ -360,9 +333,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function priceFormat($price)
     {
-        $settings = $this->settings();
+        $settings = $this->companySettings;
+        $currency = $settings?$settings->currency:'EUR';
 
-        $money = new Money($price*100, new Currency($settings['site_currency']));
+        $money = new Money($price*100, new Currency($currency));
         $currencies = new ISOCurrencies();
 
         $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
@@ -374,23 +348,20 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function dateFormat($date)
     {
-        $settings = $this->settings();
-
-        return date($settings['site_date_format'], strtotime($date));
+        return date('M j, Y', strtotime($date));
     }
 
     public function timeFormat($time)
     {
-        $settings = $this->settings();
-
-        return date($settings['site_time_format'], strtotime($time));
+        return date('g:i A', strtotime($time));
     }
 
     public function invoiceNumberFormat($number)
     {
-        $settings = $this->settings();
+        $settings = $this->companySettings;
+        $prefix = $settings?$settings->invoice:'#INV';
 
-        return $settings["invoice_prefix"] . sprintf("%05d", $number);
+        return $prefix . sprintf("%05d", $number);
     }
 
     public function getLastTaskStage()

@@ -3,6 +3,7 @@
 use App\User;
 use App\Client;
 use App\Project;
+use App\Media;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -20,18 +21,11 @@ class Helpers
         return Carbon::parse($timestamp, 'UTC')->tz(\Auth::user()->timezone);
     }
 
-    public static function storePublicFile(UploadedFile $file)
-    {
-        $path = $file->store('avatar/'.\Auth::user()->creatorId(), 'public');
-
-        return $path;
-    }
-
     public static function buildAvatar($name, $avatar, $size = 36, $class = 'avatar')
     {
         return "<img data-filter-by='alt' width=".$size." height=".$size.
                     (empty($avatar) ? (" class='".$class."' avatar='".$name."'") :
-                                            (" class='".$class."' src='".Storage::url($avatar)."'"))."/>";
+                                            (" class='".$class."' src='".$avatar."'"))."/>";
     }
 
     public static function buildUserAvatar(User $user, $size = 36, $class = 'avatar')
@@ -41,7 +35,7 @@ class Helpers
 
         if($user){
             $name = $user->name;
-            $avatar = $user->avatar;
+            $avatar = $user->hasMedia('logos') ? $user->media('logos')->first()->getFullUrl() : null;    
         }
 
         return Helpers::buildAvatar($name, $avatar, $size, $class);
@@ -54,7 +48,7 @@ class Helpers
 
         if($client){
             $name = $client->name;
-            $avatar = $client->avatar;
+            $avatar = $client->hasMedia('logos') ? $client->media('logos')->first()->getFullUrl() : null;    
         }
 
         return Helpers::buildAvatar($name, $avatar, $size, $class);

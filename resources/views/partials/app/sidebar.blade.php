@@ -66,7 +66,7 @@ $languages=$user->languages();
     <ul class="navbar-nav d-lg-block">
 
         <li class="nav-item">
-            <a class="nav-link {{(Request::segment(1) == 'home')?' active':''}}" href="{{ route('home') }}">{{__('Home')}}</a>
+            <a class="nav-link {{(empty(Request::segment(1)) || Request::segment(1) == 'home')?' active':''}}" href="{{ route('home') }}">{{__('Home')}}</a>
         </li>
 
         @if(\Auth::user()->type!='super admin')
@@ -99,21 +99,21 @@ $languages=$user->languages();
             <div id="submenu-2" class="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
-                @can('manage contact')
-                <li class="nav-item">
-                    <a class="nav-link {{(Request::segment(1) == 'contacts')?' active':''}}" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
+                <li class="nav-item ">
+                    <a class="nav-link {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
                 </li>
-                @endif
 
                 @can('manage lead')
                 <li class="nav-item">
                     <a class="nav-link {{(Request::segment(1) == 'leads')?' active':''}}" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
                 </li>
                 @endif
-
-                <li class="nav-item ">
-                    <a class="nav-link {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
+                
+                @can('manage contact')
+                <li class="nav-item">
+                    <a class="nav-link {{(Request::segment(1) == 'contacts')?' active':''}}" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
                 </li>
+                @endif
 
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">{{__('Proposals')}}</a>

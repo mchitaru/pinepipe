@@ -86,7 +86,7 @@
                                         <div class="col-12 text-md-center">
                                             <address>
                                                 <span class="row align-items-center justify-content-center">
-                                                    <img width="60" height="60" alt="{{$settings['company_name']}}" {!! empty($settings['company_logo']) ? "avatar='".$settings['company_name']."'" : "" !!} class="rounded" src="{{!empty($settings['company_logo'])?Storage::url($settings['company_logo']):''}}" data-filter-by="alt"/>
+                                                    <img width="60" height="60" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
                                                 </span>
                                                 <span class="row align-items-center justify-content-center">
                                                     <h5>{{$client->name}} invoice</h5>
@@ -103,10 +103,16 @@
                                         <div class="col-xs-12 col-md-6">
                                             <address>
                                                 <strong>{{__('From')}} : </strong><br>
-                                                {{$settings['company_name']}}<br>
-                                                {{$settings['company_address']}}<br>
-                                                {{$settings['company_city']}}, {{$settings['company_state']}}-{{$settings['company_zipcode']}}<br>
-                                                {{$settings['company_country']}}
+                                                @if($companySettings && $companyName)
+                                                {{$companyName}}<br>
+                                                {{$companySettings->address}}<br>
+                                                {{$companySettings->city}}, {{$companySettings->state}}-{{$companySettings->zipcode}}<br>
+                                                {{$companySettings->country}}
+                                                @else
+                                                <a href="{{ route('profile.show') }}#company">
+                                                    <u>{{__('Edit company info')}}</u>
+                                                </a>                                                    
+                                                @endif
                                             </address>
                                         </div>
                                         <div class="col-xs-12 col-md-6 text-md-right">
@@ -140,7 +146,6 @@
                                         @can('create invoice item')
                                         <div class="col-md-12 text-right d-print-none">
                                             <a href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
-                                                <span><i class="fas fa-plus"></i></span>
                                                 <u>{{__('Add Item')}}</u>
                                             </a>
                                         </div>

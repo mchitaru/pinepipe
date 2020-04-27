@@ -7,11 +7,14 @@ use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Eventable;
 use App\Traits\Taggable;
 
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-class Client extends Model
+class Client extends Model implements HasMedia
 {
-    use NullableFields, Eventable, Taggable;
+    use NullableFields, Eventable, Taggable, HasMediaTrait;
 
     protected $fillable = [
         'name',
@@ -84,13 +87,6 @@ class Client extends Model
     public function updateClient($post)
     {
         $this->update($post);
-
-        if(isset($post['avatar']))
-        {
-            $path = \Helpers::storePublicFile($post['avatar']);
-            $this->avatar = $path;
-        }
-
         $this->save();
     }
 

@@ -65,11 +65,8 @@ Route::group(
         Route::put('profile/{tab}', 'UserProfileController@update')->name('profile.update');
 
         //Settings
-        Route::post('settings/email', 'SystemSettingsController@updateEmail')->name('settings.email');
-        Route::post('settings/company', 'SystemSettingsController@updateCompany')->name('settings.company');
-        Route::post('settings/stripe', 'SystemSettingsController@updateStripe')->name('settings.stripe');
-        Route::post('settings/system', 'SystemSettingsController@updateSystem')->name('settings.system');
-
+        Route::post('settings/company', 'CompanySettingsController@update')->name('settings.company');
+        
         //Leads
         Route::resource('leadstages', 'LeadStagesController');
         Route::post(

@@ -1,9 +1,9 @@
-{{Form::model($user->settings,array('route'=>'settings.company','method'=>'post', 'enctype' => 'multipart/form-data'))}}
+{{Form::model($user->companySettings, array('route'=>'settings.company','method'=>'post', 'enctype' => 'multipart/form-data'))}}
 <div class="card-body">
     <div class="row">
         <div class="media mb-4 avatar-container">
             <div class="d-flex flex-column avatar-preview">
-                <img width="60" height="60" alt="{{$user->settings['company_name']}}" {!! empty($user->settings['company_logo']) ? "avatar='".$user->settings['company_name']."'" : "" !!} class="rounded" src="{{!empty($user->settings['company_logo'])?Storage::url($user->settings['company_logo']):""}}" data-filter-by="alt"/>
+                <img width="60" height="60" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
             </div>
             <div class="media-body ml-3">
                 <div class="custom-file custom-file-naked d-block mb-1">
@@ -22,76 +22,94 @@
         </div>
         <!--end of logo-->
 
-        <div class="form-group col-md-6">
-            {{Form::label('company_name *',__('Company Name *')) }}
-            {{Form::text('company_name',null,array('class'=>'form-control font-style'))}}
-            @error('company_name')
+        <div class="form-group col-md-6 required">
+            {{Form::label('name',__('Company Name')) }}
+            {{Form::text('name',null,array('class'=>'form-control font-style', 'placeholder'=>__('Pinepipe')))}}
+            @error('name')
             <span class="invalid-company_name" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </span>
             @enderror
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('company_email',__('Company Email *')) }}
-            {{Form::text('company_email',null,array('class'=>'form-control'))}}
-            @error('company_email')
+            {{Form::label('email',__('Company Email')) }}
+            {{Form::text('email',null,array('class'=>'form-control', 'placeholder'=>__('team@pinepipe.com')))}}
+            @error('email')
             <span class="invalid-company_email" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </span>
             @enderror
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('company_address',__('Address')) }}
-            {{Form::text('company_address',null,array('class'=>'form-control font-style'))}}
-            @error('company_address')
+            {{Form::label('address',__('Address')) }}
+            {{Form::text('address',null,array('class'=>'form-control font-style', 'placeholder'=>__('101 California Street')))}}
+            @error('address')
             <span class="invalid-company_address" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </span>
             @enderror
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('company_city',__('City')) }}
-            {{Form::text('company_city',null,array('class'=>'form-control font-style'))}}
-            @error('company_city')
+            {{Form::label('city',__('City')) }}
+            {{Form::text('city',null,array('class'=>'form-control font-style', 'placeholder'=>__('San Francisco')))}}
+            @error('city')
             <span class="invalid-company_city" role="alert">
                         <strong class="text-danger">{{ $message }}</strong>
                     </span>
             @enderror
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('company_state',__('State')) }}
-            {{Form::text('company_state',null,array('class'=>'form-control font-style'))}}
-            @error('company_state')
+            {{Form::label('state',__('State')) }}
+            {{Form::text('state',null,array('class'=>'form-control font-style', 'placeholder'=>__('California')))}}
+            @error('state')
             <span class="invalid-company_state" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </span>
             @enderror
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('company_zipcode',__('Zip/Post Code')) }}
-            {{Form::text('company_zipcode',null,array('class'=>'form-control'))}}
-            @error('company_zipcode')
+            {{Form::label('zipcode',__('Zip/Post Code')) }}
+            {{Form::text('zipcode',null,array('class'=>'form-control', 'placeholder'=>__('CA 94111')))}}
+            @error('zipcode')
             <span class="invalid-company_zipcode" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </span>
             @enderror
         </div>
         <div class="form-group  col-md-6">
-            {{Form::label('company_country',__('Country')) }}
-            {{Form::text('company_country',null,array('class'=>'form-control font-style'))}}
-            @error('company_country')
+            {{Form::label('country',__('Country')) }}
+            {{Form::text('country',null,array('class'=>'form-control font-style', 'placeholder'=>__('United States')))}}
+            @error('country')
             <span class="invalid-company_country" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </span>
             @enderror
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('company_phone',__('Phone')) }}
-            {{Form::text('company_phone',null,array('class'=>'form-control'))}}
-            @error('company_phone')
+            {{Form::label('phone',__('Phone')) }}
+            {{Form::text('phone',null,array('class'=>'form-control', 'placeholder'=>__('(800) 613-1303')))}}
+            @error('phone')
             <span class="invalid-company_phone" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </span>
+            @enderror
+        </div>
+        <div class="form-group col-md-6">
+            {{Form::label('currency',__('Currency')) }}
+            {!! Form::select('currency', $currencies, ($user->companySettings == null)?'EUR':null, array('class' => 'form-control col')) !!}            
+            @error('currency')
+            <span class="invalid-site_currency" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+        <div class="form-group col-md-6">
+            {{Form::label('invoice',__('Invoice Prefix')) }}
+            {{Form::text('invoice',null, array('class'=>'form-control', 'placeholder'=>__('#INV')))}}
+            @error('invoice')
+            <span class="invalid-invoice_prefix" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </span>
             @enderror
         </div>
     </div>

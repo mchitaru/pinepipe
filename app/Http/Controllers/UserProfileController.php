@@ -28,7 +28,9 @@ class UserProfileController extends Controller
 
         $plans = PaymentPlan::get();
 
-        $settings = \Auth::user()->settings();
+        $companySettings = \Auth::user()->companySettings;        
+        $companyName = $companySettings ? $companySettings->name : null;
+        $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
         $currencies = [];
         $isoCurrencies = new ISOCurrencies();
@@ -37,7 +39,7 @@ class UserProfileController extends Controller
             $currencies[$currency->getCode()] = $currency->getCode();
         }
 
-        return view('users.profile', compact('user', 'user_plan', 'plans', 'settings', 'currencies'));
+        return view('users.profile', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies'));
     }
 
     public function update(UserProfileRequest $request, $tab)
@@ -47,14 +49,12 @@ class UserProfileController extends Controller
         $user = \Auth::user();
 
         $user->fill($post);
-
-        if($request->hasFile('avatar'))
-        {
-            $path = \Helpers::storePublicFile($request->file('avatar'));
-            $user->avatar = $path;
-        }
-
         $user->save();
+
+        if($request->hasFile('avatar')){
+            
+            $file = $user->addMedia($request->file('avatar'))->toMediaCollection('logos');
+        }
 
         return Redirect::to(URL::previous())->with('success', __('Profile updated successfully.'));
     }

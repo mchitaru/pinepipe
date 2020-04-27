@@ -127,10 +127,13 @@ class InvoicesController extends Controller
         {
             if($invoice->created_by == \Auth::user()->creatorId())
             {
-                $settings = \Auth::user()->settings();
+                $companySettings = \Auth::user()->companySettings;        
+                $companyName = $companySettings ? $companySettings->name : null;
+                $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+
                 $client   = $invoice->project->client;
 
-                return view('invoices.show', compact('invoice', 'settings', 'client'));
+                return view('invoices.show', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
             }
             else
             {
