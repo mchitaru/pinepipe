@@ -83,7 +83,7 @@ use App\PaymentPlan;
         @endcan
         @can('manage company settings')
         <li class="nav-item">
-            <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="profile" aria-selected="true">{{__('Company Info')}}</a>
+            <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="profile" aria-selected="true">{{__('Company')}}</a>
         </li>
         @endcan
         <li class="nav-item">

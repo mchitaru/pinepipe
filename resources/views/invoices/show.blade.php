@@ -110,7 +110,7 @@
                                                 {{$companySettings->country}}
                                                 @else
                                                 <a href="{{ route('profile.show') }}#company">
-                                                    <u>{{__('Edit company info')}}</u>
+                                                    <u>{{__('Edit Company Info')}}</u>
                                                 </a>                                                    
                                                 @endif
                                             </address>
