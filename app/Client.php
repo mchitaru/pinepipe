@@ -18,7 +18,6 @@ class Client extends Model implements HasMedia
 
     protected $fillable = [
         'name',
-        'avatar',
         'email',
         'phone',
         'address',
@@ -28,7 +27,6 @@ class Client extends Model implements HasMedia
 
     protected $nullable = [
         'email',
-        'avatar',
         'phone',
         'address',
         'website',
