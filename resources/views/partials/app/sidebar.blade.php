@@ -93,15 +93,18 @@ $languages=$user->languages();
         @endif
 
         @can('manage client')
+
+        <li class="nav-item ">
+            <a class="nav-link {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
+        </li>
+        @endcan
+
+        @if(Gate::check('manage lead') || Gate::check('manage contact'))
             <li class="nav-item">
 
-            <a class="nav-link {{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?'true':'false'}}" data-target="#submenu-2" aria-controls="submenu-2">{{__('Sales')}}</a>
-            <div id="submenu-2" class="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads' || Request::segment(1) == 'clients')?'':'collapse'}}">
+            <a class="nav-link {{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?'true':'false'}}" data-target="#submenu-2" aria-controls="submenu-2">{{__('Sales')}}</a>
+            <div id="submenu-2" class="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
-
-                <li class="nav-item ">
-                    <a class="nav-link {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
-                </li>
 
                 @can('manage lead')
                 <li class="nav-item">
