@@ -148,6 +148,7 @@ Route::group(
         Route::get('tasks/{task}/subtask', 'TaskChecklistController@index')->name('tasks.subtask.index');
         Route::post('tasks/{task}/subtask', 'TaskChecklistController@store')->name('tasks.subtask.store');
         Route::put('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@update')->name('tasks.subtask.update');
+        Route::patch('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@update')->name('tasks.subtask.update');
         Route::delete('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@destroy')->name('tasks.subtask.destroy');
         Route::post('tasks/{task}/subtask/order', 'TaskChecklistController@order')->name('tasks.subtask.order');
 

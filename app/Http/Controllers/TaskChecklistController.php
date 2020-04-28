@@ -64,7 +64,7 @@ class TaskChecklistController extends Controller
 
         $subtask->save();
 
-        return $this->taskShow($task);
+        return response('');
     }
 
     /**
@@ -77,7 +77,7 @@ class TaskChecklistController extends Controller
     {
         $subtask->delete();
 
-        return $this->taskShow($task);
+        return response('');
     }
 
     public function order(Request $request, Task $task)

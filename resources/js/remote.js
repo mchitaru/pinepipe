@@ -65,7 +65,7 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
         if(data.url){
             
-            window.location=data.url;
+            window.location = data.url;
         }else{
 
             window.location.reload();
@@ -82,9 +82,10 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
         attachPlugins();
     }
+
 });
 
 $(document).on('ajax:error', function(e, xhr, status, error){
 
-    toastrs(error, 'error')
+    toastrs(error, 'danger')
 });
