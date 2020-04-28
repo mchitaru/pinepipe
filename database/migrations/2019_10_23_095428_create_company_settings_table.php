@@ -15,7 +15,7 @@ class CreateCompanySettingsTable extends Migration
     {
         Schema::create('company_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('email')->nullable()->unique();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
