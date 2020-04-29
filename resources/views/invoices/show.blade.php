@@ -111,7 +111,7 @@
                                                 @else
                                                 <a href="{{ route('profile.show') }}#company">
                                                     <u>{{__('Edit Company Info')}}</u>
-                                                </a>                                                    
+                                                </a>
                                                 @endif
                                             </address>
                                         </div>
@@ -181,14 +181,14 @@
                                                             <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                 <i class="material-icons">more_vert</i>
                                                             </button>
-                                            
+
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <a class="dropdown-item text-danger" href="{{ route('invoices.items.delete', [$invoice->id, $items->id]) }}" data-method="delete" data-remote="true" data-type="text">
                                                                     <span>{{'Delete'}}</span>
                                                                 </a>
                                                             </div>
                                                         </div>
-                                            
+
                                                         @endcan
                                                     </td>
                                                 </tr>
@@ -260,7 +260,7 @@
                                                         {{ Auth::user()->dateFormat($payment->date) }}
                                                     </td>
                                                     <td class="text-center">
-                                                        {{(!empty($payment->payment)?$payment->payment->name:'')}}
+                                                        {{(!$payment->categories->isEmpty()?$payment->categories->first()->name:'')}}
                                                     </td>
                                                     <td class="text-center">
                                                         {{$payment->notes}}
