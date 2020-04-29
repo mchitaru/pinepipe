@@ -24,10 +24,10 @@ class LeadStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required|max:20',
+            'name' => 'string|required|max:60',
             'price' => 'numeric|nullable',
             'stage_id' => 'integer|required',
-            'category' => 'string|required',
+            'category' => 'string|nullable',
             'client_id' => 'integer|required',
             'contact_id' => 'integer|nullable',
             'user_id' => 'integer|nullable',
