@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\InvoicePayment;
+use App\Payment;
 use App\Invoice;
-use App\PaymentType;
+use App\Category;
 
 class InvoicePaymentsController extends Controller
 {
@@ -15,13 +15,13 @@ class InvoicePaymentsController extends Controller
         {
             if(\Auth::user()->type == 'client')
             {
-                $payments = InvoicePayment::select(['invoice_payments.*'])->join('invoices', 'invoice_payments.invoice_id', '=', 'invoices.id')->join('projects', 'invoices.project_id', '=', 'projects.id')->where('projects.client_id', '=', \Auth::user()->client_id)->where(
+                $payments = Payment::select(['payments.*'])->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->join('projects', 'invoices.project_id', '=', 'projects.id')->where('projects.client_id', '=', \Auth::user()->client_id)->where(
                     'invoices.created_by', '=', \Auth::user()->creatorId()
                 )->get();
             }
             else
             {
-                $payments = InvoicePayment::select(['invoice_payments.*'])->join('invoices', 'invoice_payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
+                $payments = Payment::select(['payments.*'])->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
             }
 
             return view('invoices.all-payments', compact('payments'));
@@ -38,9 +38,11 @@ class InvoicePaymentsController extends Controller
         {
             if($invoice->created_by == \Auth::user()->creatorId())
             {
-                $payment_methods = PaymentType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                        ->where('class', Payment::class)
+                                        ->get()->pluck('name', 'name');
 
-                return view('invoices.payment', compact('invoice', 'payment_methods'));
+                return view('invoices.payment', compact('invoice', 'categories'));
             }
             else
             {
@@ -63,7 +65,7 @@ class InvoicePaymentsController extends Controller
                     $request->all(), [
                                        'amount' => 'required|numeric|min:1',
                                        'date' => 'required',
-                                       'payment_id' => 'required',
+                                       'category' => 'required',
                                    ]
                 );
                 if($validator->fails())
@@ -73,19 +75,20 @@ class InvoicePaymentsController extends Controller
                     return redirect()->route('invoices.show', $invoice->id)->with('error', $messages->first());
                 }
 
-                $latest_payment = InvoicePayment::select('invoice_payments.*')->join('invoices', 'invoice_payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->latest()->first();
+                $latest_payment = Payment::select('payments.*')->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->latest()->first();
 
-                InvoicePayment::create(
+                $payment = Payment::create(
                     [
                         'transaction_id' => $latest_payment?($latest_payment->transaction_id + 1):1,
                         'invoice_id' => $invoice->id,
                         'amount' => $request->amount,
                         'date' => $request->date,
-                        'payment_id' => $request->payment_id,
                         'notes' => $request->notes,
                     ]
                 );
-                
+
+                $payment->syncCategory($request['category'], Payment::class);
+
                 $invoice->updateStatus();
 
                 return redirect()->route('invoices.show', $invoice->id)->with('success', __('Payment successfully added.'));

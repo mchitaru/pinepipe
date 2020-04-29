@@ -66,7 +66,7 @@ Route::group(
 
         //Settings
         Route::post('settings/company', 'CompanySettingsController@update')->name('settings.company');
-        
+
         //Leads
         Route::resource('leadstages', 'LeadStagesController');
         Route::post(
@@ -88,9 +88,9 @@ Route::group(
         Route::get('leads/{lead}/file/{file}', 'LeadFilesController@show')->name('leads.file.download');
         Route::delete('leads/{lead}/file/{file}', 'LeadFilesController@destroy')->name('leads.file.delete');
 
-        //PaymentPlans
-        Route::post('plans/upgrade', 'PaymentPlansController@upgrade')->name('plans.upgrade');
-        Route::resource('plans', 'PaymentPlansController');
+        //SubscriptionPlans
+        Route::post('plans/upgrade', 'SubscriptionPlansController@upgrade')->name('plans.upgrade');
+        Route::resource('plans', 'SubscriptionPlansController');
 
         Route::get('plans/{plan}/subscription', 'SubscriptionsController@create')->name('subscriptions.create');
         Route::delete('subscriptions/{subscription}', 'SubscriptionsController@destroy')->name('subscriptions.destroy');

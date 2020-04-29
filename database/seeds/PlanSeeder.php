@@ -1,6 +1,6 @@
 <?php
 
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use Illuminate\Database\Seeder;
 
 class PlanSeeder extends Seeder
@@ -12,7 +12,7 @@ class PlanSeeder extends Seeder
      */
     public function run()
     {
-        PaymentPlan::create(
+        SubscriptionPlan::create(
             [
                 'name' => 'Free',
                 'paddle_id' => 'free',
@@ -24,7 +24,7 @@ class PlanSeeder extends Seeder
                 'max_space' => null
             ]
         );
-        PaymentPlan::create(
+        SubscriptionPlan::create(
             [
                 'name' => 'Freelancer',
                 'paddle_id' => '587387',
@@ -36,7 +36,7 @@ class PlanSeeder extends Seeder
                 'max_space' => null
             ]
         );
-        PaymentPlan::create(
+        SubscriptionPlan::create(
             [
                 'name' => 'Startup',
                 'paddle_id' => '587388',
@@ -48,7 +48,7 @@ class PlanSeeder extends Seeder
                 'max_space' => null
             ]
         );
-        PaymentPlan::create(
+        SubscriptionPlan::create(
             [
                 'name' => 'Enterprise',
                 'paddle_id' => '587389',

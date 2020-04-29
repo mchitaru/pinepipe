@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use App\User;
 use App\Notifications\PaymentPlanExpiredAlert;
 
@@ -24,7 +24,7 @@ class PaymentPlanReminderJob
      */
     public function __construct()
     {
-        $this->free_plan = PaymentPlan::where('price', '=', '0.0')->first();
+        $this->free_plan = SubscriptionPlan::where('price', '=', '0.0')->first();
 
         //TO DO
         // $this->users = User::with('plan')
@@ -44,6 +44,6 @@ class PaymentPlanReminderJob
         foreach($this->users as $user)
         {
             $user->notify(new PaymentPlanExpiredAlert($user));
-        }        
+        }
     }
 }

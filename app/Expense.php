@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
+use App\Traits\Categorizable;
 
 class Expense extends Model
 {
-    use NullableFields, Taggable;
+    use NullableFields, Taggable, Categorizable;
 
     protected $fillable = [
         'amount',
@@ -26,14 +27,9 @@ class Expense extends Model
         'category_id',
         'user_id'
     ];
-    
+
     public static $SEED = 10;
 
-    public function category()
-    {
-        return $this->hasOne('App\ExpenseCategory','id','category_id');
-    }
-    
     public function project()
     {
         return $this->hasOne('App\Project','id','project_id');
@@ -51,18 +47,18 @@ class Expense extends Model
             return Expense::with(['user','project'])
                     ->whereHas('project', function ($query)
                     {
-                        $query->whereHas('client', function ($query) 
+                        $query->whereHas('client', function ($query)
                         {
-                            $query->where('id', \Auth::user()->id);                
+                            $query->where('id', \Auth::user()->id);
                         });
                     });
 
         }
         elseif(\Auth::user()->type == 'company'){
-            
+
             return Expense::with(['user','project']);
         }else{
-            
+
             return Expense::with(['user','project'])
                             ->where(function ($query)  {
                                 $query->where('user_id', \Auth::user()->id);

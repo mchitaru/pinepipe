@@ -4,7 +4,7 @@ namespace App;
 
 use Exception;
 use Carbon\Carbon;
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use LogicException;
 use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
@@ -95,4 +95,4 @@ class Subscription extends Model
 
         return false;
     }
-}   
+}

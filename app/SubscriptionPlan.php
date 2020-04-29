@@ -5,7 +5,7 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentPlan extends Model
+class SubscriptionPlan extends Model
 {
     protected $fillable = [
         'name',
@@ -19,6 +19,6 @@ class PaymentPlan extends Model
 
     public static function total_plan()
     {
-        return PaymentPlan::count();
+        return SubscriptionPlan::count();
     }
 }

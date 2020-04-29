@@ -478,7 +478,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $company        = User::find($this->creatorId());
 
         if(!$company->subscribed()){
-            $max_projects = PaymentPlan::first()->max_projects;
+            $max_projects = SubscriptionPlan::first()->max_projects;
         }else{
             $max_projects = $company->subscription()->max_projects;
         }
@@ -495,7 +495,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $company        = User::find($this->creatorId());
 
         if(!$company->subscribed()){
-            $max_clients = PaymentPlan::first()->max_clients;
+            $max_clients = SubscriptionPlan::first()->max_clients;
         }else{
             $max_clients = $company->subscription()->max_clients;
         }
@@ -512,7 +512,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $company        = User::find($this->creatorId());
 
         if(!$company->subscribed()){
-            $max_users = PaymentPlan::first()->max_users;
+            $max_users = SubscriptionPlan::first()->max_users;
         }else{
             $max_users = $company->subscription()->max_users;
         }
@@ -587,85 +587,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 ]
             );
         }
-
-        // LeadSource
-        $leadSource = [
-            'Email',
-            'Facebook',
-            'Google',
-            'Phone',
-        ];
-        foreach($leadSource as $source)
-        {
-            Leadsource::create(
-                [
-                    'name' => $source,
-                    'created_by' => $id,
-                ]
-            );
-        }
-
-        // Label
-        $labels = [
-            'On Hold' => 'bg-red-thunderbird bg-font-red-thunderbird',
-            'New' => 'bg-yellow-casablanca bg-font-yellow-casablanca',
-            'Pending' => 'bg-purple-intense bg-font-purple-intense',
-            'Loss' => 'bg-purple-medium bg-font-purple-medium',
-            'Win' => 'bg-yellow-soft bg-font-yellow-soft',
-        ];
-
-        // ExpenseCategory
-        $expenseCat = [
-            'Snack',
-            'Server Charge',
-            'Bills',
-            'Office',
-            'Assests',
-        ];
-        foreach($expenseCat as $cat)
-        {
-            ExpenseCategory::create(
-                [
-                    'name' => $cat,
-                    'created_by' => $id,
-                ]
-            );
-        }
-
-        // Payments
-        $payments = [
-            'Cash',
-            'Bank',
-        ];
-        foreach($payments as $payment)
-        {
-            PaymentType::create(
-                [
-                    'name' => $payment,
-                    'created_by' => $id,
-                ]
-            );
-        }
-
-        // EventCategory
-        $eventCat = [
-            'Call',
-            'Meeting',
-            'ToDo',
-            'Deadline',
-            'Email',
-            'Lunch'
-        ];
-        foreach($eventCat as $category)
-        {
-            EventCategory::create(
-                [
-                    'name' => $category,
-                    'created_by' => $id,
-                ]
-            );
-        }
-
     }
 
     public function destroyUserProjectInfo()

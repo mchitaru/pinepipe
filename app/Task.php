@@ -91,22 +91,12 @@ class Task extends Model implements HasMedia
         }
 
         if(\Auth::user()->type != 'company' && empty($users)){
-            
+
             $users[] = \Auth::user()->id;
         }
 
         $task->users()->sync($users);
-
-        //tags
-        $tags = [];
-        if(isset($post['tags'])){
-            foreach($post['tags'] as $tag)
-            {
-                $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
-            }
-        }
-
-        $task->tags()->sync($tags);
+        $task->syncTags($post['tags']);
 
         Activity::createTask($task);
 
@@ -133,18 +123,7 @@ class Task extends Model implements HasMedia
             }
 
             $this->users()->sync($users);
-
-            //tags
-            $tags = [];
-
-            if(isset($post['tags'])){
-                foreach($post['tags'] as $tag)
-                {
-                    $tags[] = Tag::firstOrCreate(['name' => $tag])->id;
-                }
-            }
-
-            $this->tags()->sync($tags);
+            $this->syncTags($post['tags']);
         }
 
         Activity::updateTask($this);

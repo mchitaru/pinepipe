@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Expense;
-use App\ExpenseCategory;
+use App\Category;
 use App\Invoice;
-use App\InvoicePayment;
+use App\Payment;
 use App\InvoiceItem;
 use App\Milestone;
-use App\PaymentType;
 use App\Products;
 use App\Task;
 use App\Tax;
@@ -127,7 +126,7 @@ class InvoicesController extends Controller
         {
             if($invoice->created_by == \Auth::user()->creatorId())
             {
-                $companySettings = \Auth::user()->companySettings;        
+                $companySettings = \Auth::user()->companySettings;
                 $companyName = $companySettings ? $companySettings->name : null;
                 $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 

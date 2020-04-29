@@ -17,7 +17,6 @@ class CreateExpensesTable extends Migration
             $table->bigIncrements('id');
             $table->float('amount')->nullable();
             $table->date('date')->nullable();
-            $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('project_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->text('description')->nullable();

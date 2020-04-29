@@ -9,13 +9,14 @@ use App\Traits\Eventable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use App\Traits\Taggable;
+use App\Traits\Categorizable;
 
 use App\Traits\Actionable;
 use App\Traits\Notable;
 
 class Lead extends Model implements HasMedia
 {
-    use NullableFields, Eventable, HasMediaTrait, Actionable, Notable, Taggable;
+    use NullableFields, Eventable, HasMediaTrait, Actionable, Notable, Taggable, Categorizable;
 
     protected $fillable = [
         'name',
@@ -35,9 +36,9 @@ class Lead extends Model implements HasMedia
         'contact_id',
 	];
 
- 
+
     public static $SEED = 10;
-    
+
     public function user()
     {
         return $this->hasOne('App\User', 'id', 'user_id');
@@ -63,15 +64,10 @@ class Lead extends Model implements HasMedia
         return Project::where('lead_id','=',$this->id)->update(array('lead_id' => 0));
     }
 
-    public function sources()
-    {
-        return $this->hasOne('App\Leadsource', 'id', 'source_id');
-    }
-
     public static function createLead($post)
     {
         $stage = LeadStage::find($post['stage_id']);
-        
+
         $post['order']   = $stage->leads->count();
 
         if(\Auth::user()->type != 'company')
@@ -83,6 +79,8 @@ class Lead extends Model implements HasMedia
         $lead->created_by    = \Auth::user()->creatorId();
         $lead->save();
 
+        $lead->syncCategory($post['category'], Lead::class);
+
         Activity::createLead($lead);
 
         return $lead;
@@ -91,6 +89,8 @@ class Lead extends Model implements HasMedia
     public function updateLead($post)
     {
         $this->update($post);
+
+        $this->syncCategory($post['category'], Lead::class);
 
         Activity::updateLead($this);
     }
@@ -104,7 +104,7 @@ class Lead extends Model implements HasMedia
             $this->order = $order;
             $this->stage_id = $stage;
             $this->save();
-    
+
             Activity::updateLead($this);
         }
 

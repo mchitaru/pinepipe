@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ExpenseCategory;
+use App\Category;
 use App\Lead;
 use App\Leadsource;
 use App\LeadStage;
@@ -64,9 +64,12 @@ class LeadsController extends Controller
                 $contacts = Contact::contactsByUserType()
                                     ->get()->pluck('name', 'id');
             }
-            $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'owners', 'clients', 'contacts', 'sources'));
+            $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                    ->where('class', Lead::class)
+                                    ->get()->pluck('name', 'name');
+
+            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'owners', 'clients', 'contacts', 'categories'));
         }
         else
         {
@@ -97,7 +100,12 @@ class LeadsController extends Controller
                             ->prepend('(myself)', \Auth::user()->id);
 
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $sources = Leadsource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
+            $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                    ->where('class', Lead::class)
+                                    ->get()->pluck('name', 'name');
+
+            $category = !$lead->categories->isEmpty() ? $lead->categories->first()->name : '';
 
             $client_id    = $lead->client_id;
 
@@ -112,7 +120,7 @@ class LeadsController extends Controller
                                     ->get()->pluck('name', 'id');
             }
 
-            return view('leads.edit', compact('stages', 'owners', 'sources', 'lead', 'clients', 'contacts'));
+            return view('leads.edit', compact('stages', 'owners', 'categories', 'category', 'lead', 'clients', 'contacts'));
         }
         else
         {

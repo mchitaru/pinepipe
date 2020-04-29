@@ -62,7 +62,7 @@ class Invoice extends Model
 
     public function payments()
     {
-        return $this->hasMany('App\InvoicePayment', 'invoice_id', 'id');
+        return $this->hasMany('App\Payment', 'invoice_id', 'id');
     }
 
     public function getSubTotal()
@@ -161,7 +161,7 @@ class Invoice extends Model
 
     public function detachInvoice()
     {
-        InvoicePayment::where('invoice_id', '=', $this->id)->delete();
+        Payment::where('invoice_id', '=', $this->id)->delete();
         InvoiceItem::where('invoice_id', '=', $this->id)->delete();
     }
 

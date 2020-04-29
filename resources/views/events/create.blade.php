@@ -15,20 +15,20 @@
             {{ Form::label('name', __('Title'), array('class'=>'col-3')) }}
             {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Call with Client', 'required'=>'required')) }}
         </div>
-        <div class="form-group row">
-            {{ Form::label('category_id', __('Type'), array('class'=>'col-3')) }}
-            {!! Form::select('category_id', $categories, null,array('class' => 'form-control col','required'=>'required')) !!}
-        </div>    
+        <div class="form-group row required">
+            {{ Form::label('category', __('Type'), array('class'=>'col-3')) }}
+            {!! Form::select('category', $categories, null,array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Category...')) !!}
+        </div>
         <hr>
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('start', __('Start'), array('class'=>'col-3')) }}
-            {{ Form::date('start', null, array('class' => 'start form-control col', 'required'=>'required', 'placeholder'=>'Select Date', 
+            {{ Form::date('start', null, array('class' => 'start form-control col', 'required'=>'required', 'placeholder'=>'Select Date',
                                                 'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($start), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('end', __('End'), array('class'=>'col-3')) }}
-            {{ Form::date('end', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'Select Date', 
+            {{ Form::date('end', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'Select Date',
                                                 'data-flatpickr', 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($end), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">
@@ -49,7 +49,7 @@
         <div class="form-group row">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
             {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Lead')) !!}
-        </div>    
+        </div>
         <hr>
         <h6>{{__('Visibility')}}</h6>
         <div class="row">
@@ -65,7 +65,7 @@
             <label class="custom-control-label" for="visibility-me">Just me</label>
             </div>
         </div>
-        </div>    
+        </div>
     </div>
     @include('partials.errors')
 @endsection

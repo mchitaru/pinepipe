@@ -6,10 +6,11 @@ use App\Lead;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
+use App\Traits\Categorizable;
 
 class Event extends Model
 {
-    use NullableFields, Taggable;
+    use NullableFields, Taggable, Categorizable;
 
     protected $fillable = [
         'active',
@@ -32,11 +33,6 @@ class Event extends Model
     public function owner()
     {
         return $this->hasOne('App\User', 'id', 'user_id');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo('App\EventCategory');
     }
 
     public function users()
@@ -76,12 +72,14 @@ class Event extends Model
             $event->leads()->sync($leads);
 
             $lead = $event->leads->first();
-            
+
             Activity::createLeadEvent($lead, $event);
         }
 
         $users = collect($post['users']);
         $event->users()->sync($users);
+
+        $event->syncCategory($post['category'], Event::class);
 
         return $event;
     }
@@ -105,6 +103,8 @@ class Event extends Model
 
         $users = collect($post['users']);
         $this->users()->sync($users);
+
+        $this->syncCategory($post['category'], Event::class);
 
         $lead = $this->leads->first();
 

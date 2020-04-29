@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use Carbon\Carbon;
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use ProtoneMedia\LaravelPaddle\Events\SubscriptionCreated;
@@ -30,7 +30,7 @@ class CreateSubscription
     public function handle(SubscriptionCreated $event)
     {
         $plan_id = $event->passthrough['plan_id'];
-        $plan = PaymentPlan::find($plan_id);
+        $plan = SubscriptionPlan::find($plan_id);
 
         $subscription = Subscription::create(['user_id' => $event->passthrough['user_id'],
                                                 'paddle_subscription' => $event->subscription_id,
@@ -40,7 +40,7 @@ class CreateSubscription
                                                 'max_clients' => $plan->max_clients,
                                                 'max_projects' => $plan->max_projects,
                                                 'max_users' => $plan->max_users,
-                                                'max_space' => $plan->max_space]);        
+                                                'max_space' => $plan->max_space]);
 
     }
 }

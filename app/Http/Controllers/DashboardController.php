@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Invoice;
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use App\Project;
 use App\User;
 use App\Client;
@@ -28,14 +28,14 @@ class DashboardController extends Controller
             $user['total_paid_user']=$user->countPaidCompany();
             $user['total_orders'] = Subscription::count();
             $user['total_orders_price'] = 0;
-            $user['total_plan'] = PaymentPlan::total_plan();
+            $user['total_plan'] = SubscriptionPlan::total_plan();
             $user['most_purchese_plan'] = 0;
             $chartData = $this->getOrderChart(['duration'=>'week']);
 
             clock()->endEvent('DashboardController');
 
             return view('dashboard.admin',compact('user','chartData'));
-        }        
+        }
 
 
         clock()->startEvent('DahsboardController', "Load dash");

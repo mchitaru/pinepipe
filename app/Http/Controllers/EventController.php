@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\EventCategory;
+use App\Category;
 use App\User;
 use App\Lead;
 use Illuminate\Http\Request;
@@ -38,7 +38,10 @@ class EventController extends Controller
         $start = $request->start?$request->start:Carbon::now();
         $end = $request->end?$request->end:Carbon::now();
 
-        $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                ->where('class', Event::class)
+                                ->get()->pluck('name', 'name');
+
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
@@ -64,7 +67,7 @@ class EventController extends Controller
         $lead_id = null;
         if(isset($request['lead_id']))
             $lead_id = $request['lead_id'];
-            
+
         return view('events.create', compact('categories', 'users', 'leads', 'start', 'end', 'lead_id'));
     }
 
@@ -106,7 +109,12 @@ class EventController extends Controller
     {
         $user = \Auth::user();
 
-        $categories = EventCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                ->where('class', Event::class)
+                                ->get()->pluck('name', 'name');
+
+        $category = !$event->categories->isEmpty() ? $event->categories->first()->name : '';
+
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
@@ -130,11 +138,11 @@ class EventController extends Controller
         }
 
         $lead = $event->leads->first();
-        $lead_id = $lead?$lead->id:null;                
+        $lead_id = $lead?$lead->id:null;
 
         $user_id = $event->users()->get()->pluck('id');
 
-        return view('events.edit', compact('event', 'categories', 'users', 'user_id', 'leads', 'lead_id'));
+        return view('events.edit', compact('event', 'categories', 'category', 'users', 'user_id', 'leads', 'lead_id'));
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use App\Client;
 use App\User;
 use App\Contact;
@@ -137,13 +137,13 @@ class ClientsController extends Controller
         $client->updateClient($post);
 
         if($request->hasFile('avatar')){
-            
+
             $file = $client->addMedia($request->file('avatar'))->toMediaCollection('logos');
         }
 
         $request->session()->flash('success', __('Client successfully updated.'));
 
-        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();        
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
 
@@ -184,7 +184,7 @@ class ClientsController extends Controller
                 })
                 ->limit(20)
                 ->orderBy('id', 'desc')
-                ->get();        
+                ->get();
 
             }else
             {
@@ -215,23 +215,23 @@ class ClientsController extends Controller
                     ->limit(20)
                     ->orderBy('id', 'desc')
                     ->get();
-    
+
                 }else{
 
                     $activities = Activity::whereHas('projects', function ($query) use ($client) {
                         $query->where('client_id', $client->id)
                                 ->whereHas('users', function ($query) {
-        
+
                                     // tasks with the current user assigned.
                                     $query->where('users.id', \Auth::user()->id);
-                    
+
                                 });
                     })
                     ->limit(20)
                     ->orderBy('id', 'desc')
                     ->get();
-    
-                }                                
+
+                }
             }
 
             clock()->endEvent('ClientsController');

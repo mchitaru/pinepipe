@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use App\User;
 
 use Illuminate\Support\Facades\Redirect;
@@ -21,14 +21,14 @@ class UserProfileController extends Controller
         $user = \Auth::user();
 
         if(!$user->subscribed()){
-            $user_plan = PaymentPlan::first();
+            $user_plan = SubscriptionPlan::first();
         }else{
-            $user_plan = PaymentPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
+            $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
         }
 
-        $plans = PaymentPlan::get();
+        $plans = SubscriptionPlan::get();
 
-        $companySettings = \Auth::user()->companySettings;        
+        $companySettings = \Auth::user()->companySettings;
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
@@ -52,7 +52,7 @@ class UserProfileController extends Controller
         $user->save();
 
         if($request->hasFile('avatar')){
-            
+
             $file = $user->addMedia($request->file('avatar'))->toMediaCollection('logos');
         }
 

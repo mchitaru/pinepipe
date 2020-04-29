@@ -9,7 +9,7 @@ use App\Comment;
 use App\Invoice;
 use App\Lead;
 use App\Milestone;
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use App\Project;
 use App\ProjectFile;
 use App\TaskStage;

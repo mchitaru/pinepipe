@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @php
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 @endphp
 
 @push('stylesheets')
@@ -48,7 +48,7 @@ use App\PaymentPlan;
       var fileName = $(this).val().split("\\").pop();
       $(this).siblings(".file-label").addClass("selected").html(fileName);
     });
-    
+
 </script>
 @endpush
 

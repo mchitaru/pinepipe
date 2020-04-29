@@ -24,8 +24,8 @@
         {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'Select Project...')) }}
     </div>
     <div class="form-group row">
-        {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $category, null, array('class' => 'form-control col', 'placeholder'=>'Select Category...')) }}
+        {{ Form::label('category', __('Category'), array('class'=>'col-3')) }}
+        {{ Form::select('category', $categories, null, array('class' => 'form-control col', 'placeholder'=>'Select Category...')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('attachment', __('Attachment'), array('class'=>'col-3')) }}

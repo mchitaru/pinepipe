@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
@@ -31,8 +31,8 @@ class SubscriptionsController extends Controller
     public function create(Request $request, $plan_id)
     {
         if(\Auth::user()->can('buy plan'))
-        {    
-            $plan = PaymentPlan::find($plan_id);
+        {
+            $plan = SubscriptionPlan::find($plan_id);
 
             $payload = [
                 'product_id' => $plan->paddle_id,
@@ -45,7 +45,7 @@ class SubscriptionsController extends Controller
                 ->generatePayLink($payload)
                 ->send();
 
-            return Redirect::to($paddleResponse['url']);            
+            return Redirect::to($paddleResponse['url']);
         }
         else
         {
@@ -74,7 +74,7 @@ class SubscriptionsController extends Controller
     public function destroy(Request $request, Subscription $subscription)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 

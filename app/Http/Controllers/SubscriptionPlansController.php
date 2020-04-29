@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\PaymentPlan;
+use App\SubscriptionPlan;
 use App\Utility;
 use Carbon\Carbon;
 use File;
 use Illuminate\Http\Request;
 
-class PaymentPlansController extends Controller
+class SubscriptionPlansController extends Controller
 {
     public function index()
     {
         if(\Auth::user()->can('manage plan'))
         {
-            $plans = PaymentPlan::get();
+            $plans = SubscriptionPlan::get();
             return view('plan.index', compact('plans'));
         }
         else
@@ -58,9 +58,9 @@ class PaymentPlansController extends Controller
                 $request->validate($validation);
                 $post = $request->all();
 
-                if(PaymentPlan::create($post))
+                if(SubscriptionPlan::create($post))
                 {
-                    return redirect()->back()->with('success', __('PaymentPlan Successfully created.'));
+                    return redirect()->back()->with('success', __('SubscriptionPlan Successfully created.'));
                 }
                 else
                 {
@@ -80,7 +80,7 @@ class PaymentPlansController extends Controller
     {
         if(\Auth::user()->can('edit plan'))
         {
-            $plan        = PaymentPlan::find($plan_id);
+            $plan        = SubscriptionPlan::find($plan_id);
 
             return view('plan.edit', compact('plan'));
         }
@@ -101,7 +101,7 @@ class PaymentPlansController extends Controller
             }
             else
             {
-                $plan = PaymentPlan::find($plan_id);
+                $plan = SubscriptionPlan::find($plan_id);
                 if(!empty($plan))
                 {
                     $validation                 = [];
@@ -118,7 +118,7 @@ class PaymentPlansController extends Controller
 
                     if($plan->update($post))
                     {
-                        return redirect()->back()->with('success', __('PaymentPlan Successfully updated.'));
+                        return redirect()->back()->with('success', __('SubscriptionPlan Successfully updated.'));
                     }
                     else
                     {
@@ -127,7 +127,7 @@ class PaymentPlansController extends Controller
                 }
                 else
                 {
-                    return redirect()->back()->with('error', __('PaymentPlan not found.'));
+                    return redirect()->back()->with('error', __('SubscriptionPlan not found.'));
                 }
             }
         }
@@ -143,7 +143,7 @@ class PaymentPlansController extends Controller
     {
 
         $planID  = \Illuminate\Support\Facades\Crypt::decrypt($request->code);
-        $plan    = PaymentPlan::find($planID);
+        $plan    = SubscriptionPlan::find($planID);
 
         if($plan)
         {
@@ -151,7 +151,7 @@ class PaymentPlansController extends Controller
             {
                 \Auth::user()->assignPlan($plan->id);
 
-                return redirect()->route('plans.index')->with('success', __('PaymentPlan Successfully activated.'));
+                return redirect()->route('plans.index')->with('success', __('SubscriptionPlan Successfully activated.'));
             }
             else
             {
@@ -160,7 +160,7 @@ class PaymentPlansController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', __('PaymentPlan not found.'));
+            return redirect()->back()->with('error', __('SubscriptionPlan not found.'));
         }
     }
 }

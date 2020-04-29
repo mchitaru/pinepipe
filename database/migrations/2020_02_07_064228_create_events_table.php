@@ -21,7 +21,6 @@ class CreateEventsTable extends Migration
             $table->timestamp('end')->default(now());
             $table->boolean('busy');
             $table->text('notes')->nullable();
-            $table->unsignedInteger('category_id');
             $table->unsignedInteger('user_id')->default(0);
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();

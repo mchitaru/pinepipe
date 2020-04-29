@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Expense;
-use App\ExpenseCategory;
+use App\Category;
 use App\Project;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class ExpensesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('manage expense') || 
+        if(\Auth::user()->can('manage expense') ||
            \Auth::user()->type == 'client')
         {
             clock()->startEvent('ExpensesController', "Load expenses");
@@ -38,9 +38,9 @@ class ExpensesController extends Controller
 
             clock()->endEvent('ExpensesController');
 
-            if ($request->ajax()) 
+            if ($request->ajax())
             {
-                return view('expenses.index', ['expenses' => $expenses])->render();  
+                return view('expenses.index', ['expenses' => $expenses])->render();
             }
 
             return view('expenses.page', compact('expenses'));
@@ -57,7 +57,10 @@ class ExpensesController extends Controller
         {
             $project_id = $request['project_id'];
 
-            $category = ExpenseCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                    ->where('class', Expense::class)
+                                    ->get()->pluck('name', 'name');
+
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
@@ -66,7 +69,7 @@ class ExpensesController extends Controller
                             ->pluck('name', 'id')
                             ->prepend('(myself)', \Auth::user()->id);
 
-            return view('expenses.create', compact('category', 'project_id', 'projects', 'owners'));
+            return view('expenses.create', compact('categories', 'project_id', 'projects', 'owners'));
         }
         else
         {
@@ -101,18 +104,17 @@ class ExpensesController extends Controller
             }
 
             $expense              = new Expense();
-            $expense->category_id = $request->category_id;
             $expense->description = $request->description;
             $expense->amount      = $request->amount;
             $expense->date        = $request->date;
             $expense->project_id  = $request->project_id;
-    
+
             if(!empty($request->user_id))
             {
                 $expense->user_id     = $request->user_id;
             }
             else{
-                
+
                 $expense->user_id     = \Auth::user()->id;
             }
 
@@ -126,6 +128,8 @@ class ExpensesController extends Controller
                 $expense->attachment = $imageName;
                 $expense->save();
             }
+
+            $expense->syncCategory($request['category'], Expense::class);
 
             return Redirect::to(URL::previous())->with('success', __('Expense successfully created.'));
         }
@@ -142,7 +146,12 @@ class ExpensesController extends Controller
         {
             if($expense->created_by == \Auth::user()->creatorId())
             {
-                $category = ExpenseCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                        ->where('class', Expense::class)
+                                        ->get()->pluck('name', 'name');
+
+                $category = !$expense->categories->isEmpty() ? $expense->categories->first()->name : '';
+
                 $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
                 $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
@@ -151,7 +160,7 @@ class ExpensesController extends Controller
                                 ->pluck('name', 'id')
                                 ->prepend('(myself)', \Auth::user()->id);
 
-                return view('expenses.edit', compact('expense', 'category', 'projects', 'owners'));
+                return view('expenses.edit', compact('expense', 'categories', 'category', 'projects', 'owners'));
             }
             else
             {
@@ -192,7 +201,6 @@ class ExpensesController extends Controller
 
                     return Redirect::to(URL::previous())->with('error', $messages->first());
                 }
-                $expense->category_id = $request->category_id;
                 $expense->description = $request->description;
                 $expense->amount      = $request->amount;
                 $expense->date        = $request->date;
@@ -203,7 +211,7 @@ class ExpensesController extends Controller
                     $expense->user_id     = $request->user_id;
                 }
                 else{
-                    
+
                     $expense->user_id     = \Auth::user()->id;
                 }
 
@@ -220,6 +228,8 @@ class ExpensesController extends Controller
                     $expense->attachment = $imageName;
                     $expense->save();
                 }
+
+                $expense->syncCategory($request['category'], Expense::class);
 
                 return Redirect::to(URL::previous())->with('success', __('Expense successfully updated.'));
             }
@@ -238,7 +248,7 @@ class ExpensesController extends Controller
     public function destroy(Request $request, Expense $expense)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 
