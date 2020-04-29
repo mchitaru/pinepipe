@@ -40,7 +40,7 @@ class InvoicePaymentsController extends Controller
             {
                 $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
                                         ->where('class', Payment::class)
-                                        ->get()->pluck('name', 'name');
+                                        ->get()->pluck('name', 'id');
 
                 return view('invoices.payment', compact('invoice', 'categories'));
             }
@@ -65,7 +65,7 @@ class InvoicePaymentsController extends Controller
                     $request->all(), [
                                        'amount' => 'required|numeric|min:1',
                                        'date' => 'required',
-                                       'category' => 'required',
+                                       'category_id' => 'required|numeric',
                                    ]
                 );
                 if($validator->fails())
@@ -84,10 +84,9 @@ class InvoicePaymentsController extends Controller
                         'amount' => $request->amount,
                         'date' => $request->date,
                         'notes' => $request->notes,
+                        'category_id' => $request->category_id
                     ]
                 );
-
-                $payment->syncCategory($request['category'], Payment::class);
 
                 $invoice->updateStatus();
 

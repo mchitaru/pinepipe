@@ -22,6 +22,7 @@ class CreateMilestonesTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedInteger('created_by');
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

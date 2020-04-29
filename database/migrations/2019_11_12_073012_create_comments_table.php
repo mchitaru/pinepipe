@@ -20,6 +20,7 @@ class CreateCommentsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by');
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

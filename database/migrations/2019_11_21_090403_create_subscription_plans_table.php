@@ -25,6 +25,7 @@ class CreateSubscriptionPlansTable extends Migration
             $table->unsignedInteger('max_space')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

@@ -67,7 +67,7 @@ class LeadsController extends Controller
 
             $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
                                     ->where('class', Lead::class)
-                                    ->get()->pluck('name', 'name');
+                                    ->get()->pluck('name', 'id');
 
             return view('leads.create', compact('client_id', 'stage_id', 'stages', 'owners', 'clients', 'contacts', 'categories'));
         }
@@ -103,9 +103,7 @@ class LeadsController extends Controller
 
             $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
                                     ->where('class', Lead::class)
-                                    ->get()->pluck('name', 'name');
-
-            $category = !$lead->categories->isEmpty() ? $lead->categories->first()->name : '';
+                                    ->get()->pluck('name', 'id');
 
             $client_id    = $lead->client_id;
 
@@ -120,7 +118,7 @@ class LeadsController extends Controller
                                     ->get()->pluck('name', 'id');
             }
 
-            return view('leads.edit', compact('stages', 'owners', 'categories', 'category', 'lead', 'clients', 'contacts'));
+            return view('leads.edit', compact('stages', 'owners', 'categories', 'lead', 'clients', 'contacts'));
         }
         else
         {

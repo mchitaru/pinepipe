@@ -23,9 +23,10 @@ class CreateLeadsTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('client_id')->nullable();
             $table->unsignedInteger('contact_id')->nullable();
-            $table->unsignedInteger('source_id')->default(0);
+            $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         }
         );
     }

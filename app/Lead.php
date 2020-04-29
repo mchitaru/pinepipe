@@ -27,6 +27,7 @@ class Lead extends Model implements HasMedia
         'client_id',
         'contact_id',
         'source_id',
+        'category_id',
         'created_by',
     ];
 
@@ -79,8 +80,6 @@ class Lead extends Model implements HasMedia
         $lead->created_by    = \Auth::user()->creatorId();
         $lead->save();
 
-        $lead->syncCategory($post['category'], Lead::class);
-
         Activity::createLead($lead);
 
         return $lead;
@@ -89,8 +88,6 @@ class Lead extends Model implements HasMedia
     public function updateLead($post)
     {
         $this->update($post);
-
-        $this->syncCategory($post['category'], Lead::class);
 
         Activity::updateLead($this);
     }

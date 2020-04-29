@@ -23,6 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('website')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

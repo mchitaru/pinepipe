@@ -27,6 +27,7 @@ class CreateCompanySettingsTable extends Migration
             $table->string('currency', '3');
             $table->unsignedInteger('created_by')->unique();
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

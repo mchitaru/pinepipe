@@ -27,7 +27,7 @@ class LeadStoreRequest extends FormRequest
             'name' => 'string|required|max:60',
             'price' => 'numeric|nullable',
             'stage_id' => 'integer|required',
-            'category' => 'string|nullable',
+            'category_id' => 'numeric|nullable',
             'client_id' => 'integer|required',
             'contact_id' => 'integer|nullable',
             'user_id' => 'integer|nullable',

@@ -25,6 +25,7 @@ class CreateInvoicesTable extends Migration
             $table->text('notes')->nullable();
             $table->unsignedInteger('created_by');
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

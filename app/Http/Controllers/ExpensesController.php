@@ -59,7 +59,7 @@ class ExpensesController extends Controller
 
             $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
                                     ->where('class', Expense::class)
-                                    ->get()->pluck('name', 'name');
+                                    ->get()->pluck('name', 'id');
 
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
@@ -108,6 +108,7 @@ class ExpensesController extends Controller
             $expense->amount      = $request->amount;
             $expense->date        = $request->date;
             $expense->project_id  = $request->project_id;
+            $expense->category_id  = $request->category_id;
 
             if(!empty($request->user_id))
             {
@@ -129,8 +130,6 @@ class ExpensesController extends Controller
                 $expense->save();
             }
 
-            $expense->syncCategory($request['category'], Expense::class);
-
             return Redirect::to(URL::previous())->with('success', __('Expense successfully created.'));
         }
         else
@@ -148,9 +147,7 @@ class ExpensesController extends Controller
             {
                 $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
                                         ->where('class', Expense::class)
-                                        ->get()->pluck('name', 'name');
-
-                $category = !$expense->categories->isEmpty() ? $expense->categories->first()->name : '';
+                                        ->get()->pluck('name', 'id');
 
                 $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
@@ -160,7 +157,7 @@ class ExpensesController extends Controller
                                 ->pluck('name', 'id')
                                 ->prepend('(myself)', \Auth::user()->id);
 
-                return view('expenses.edit', compact('expense', 'categories', 'category', 'projects', 'owners'));
+                return view('expenses.edit', compact('expense', 'categories', 'projects', 'owners'));
             }
             else
             {
@@ -205,6 +202,7 @@ class ExpensesController extends Controller
                 $expense->amount      = $request->amount;
                 $expense->date        = $request->date;
                 $expense->project_id  = $request->project_id;
+                $expense->category_id  = $request->category_id;
 
                 if(!empty($request->user_id))
                 {
@@ -228,8 +226,6 @@ class ExpensesController extends Controller
                     $expense->attachment = $imageName;
                     $expense->save();
                 }
-
-                $expense->syncCategory($request['category'], Expense::class);
 
                 return Redirect::to(URL::previous())->with('success', __('Expense successfully updated.'));
             }

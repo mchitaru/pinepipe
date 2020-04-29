@@ -25,6 +25,7 @@ class CreateSubscriptionsTable extends Migration
             $table->unsignedInteger('max_users')->nullable();
             $table->unsignedInteger('max_space')->nullable();
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

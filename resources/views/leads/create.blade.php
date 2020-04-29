@@ -24,8 +24,8 @@
         {{ Form::select('stage_id', $stages, $stage_id, array('class' => 'form-control col font-style selectric','required'=>'required')) }}
     </div>
     <div class="form-group row">
-        {{ Form::label('category', __('Source'), array('class'=>'col-3')) }}
-        {!! Form::select('category', $categories, null,array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Category...')) !!}
+        {{ Form::label('category_id', __('Source'), array('class'=>'col-3')) }}
+        {!! Form::select('category_id', $categories, null,array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Source...')) !!}
     </div>
     @if(\Auth::user()->type=='company')
         <div class="form-group row">

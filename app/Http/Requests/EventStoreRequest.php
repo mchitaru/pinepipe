@@ -25,7 +25,7 @@ class EventStoreRequest extends FormRequest
     {
         return [
             'name'=>'required|string|min:3',
-            'category'=>'required|string',
+            'category_id'=>'required|numeric',
             'start'=>'required|date_format:Y-m-d H:i',
             'end'=>'required|date_format:Y-m-d H:i',
             // 'busy'=>'required|boolean',

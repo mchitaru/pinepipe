@@ -79,8 +79,6 @@ class Event extends Model
         $users = collect($post['users']);
         $event->users()->sync($users);
 
-        $event->syncCategory($post['category'], Event::class);
-
         return $event;
     }
 
@@ -103,8 +101,6 @@ class Event extends Model
 
         $users = collect($post['users']);
         $this->users()->sync($users);
-
-        $this->syncCategory($post['category'], Event::class);
 
         $lead = $this->leads->first();
 

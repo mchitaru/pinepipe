@@ -21,8 +21,10 @@ class CreateCategoriesTable extends Migration
             $table->boolean('active');
             $table->unsignedInteger('order')->default(0);
             $table->string('description')->nullable();
+            $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         });
 
         Schema::create('categorizables', function (Blueprint $table) {

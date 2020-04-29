@@ -21,8 +21,8 @@ class CreateTaskStagesTable extends Migration
             $table->unsignedInteger('created_by')->default(0);
             $table->unsignedInteger('order')->default(0);;
             $table->timestamps();
-        }
-        );
+            $table->softDeletes();            
+        });
     }
 
     /**

@@ -29,6 +29,7 @@ class CreateContactsTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         }
         );
     }

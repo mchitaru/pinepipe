@@ -17,10 +17,12 @@ class CreatePaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('transaction_id');
             $table->unsignedInteger('invoice_id');
+            $table->unsignedInteger('category_id');
             $table->float('amount');
             $table->date('date');
             $table->text('notes');
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

@@ -15,7 +15,8 @@ class Category extends Model
         'name',
         'active',
         'order',
-        'description'
+        'description',
+        'category_id'
     ];
 
     protected $nullable = [
@@ -24,27 +25,27 @@ class Category extends Model
 
     public function events()
     {
-        return $this->morphedByMany('App\Event', 'categorizable');
+        return $this->hasMany('App\Event', 'category_id', 'id');
     }
 
     public function expenses()
     {
-        return $this->morphedByMany('App\Expense', 'categorizable');
+        return $this->hasMany('App\Expense', 'category_id', 'id');
     }
 
     public function payments()
     {
-        return $this->morphedByMany('App\Payment', 'categorizable');
+        return $this->hasMany('App\Payment', 'category_id', 'id');
     }
 
     public function leads()
     {
-        return $this->morphedByMany('App\Lead', 'categorizable');
+        return $this->hasMany('App\Lead', 'category_id', 'id');
     }
 
     public function children()
     {
-        return $this->morphedByMany('App\Category', 'categorizable');
+        return $this->hasMany('App\Category', 'category_id', 'id');
     }
 
     /**

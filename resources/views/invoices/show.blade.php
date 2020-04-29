@@ -260,7 +260,7 @@
                                                         {{ Auth::user()->dateFormat($payment->date) }}
                                                     </td>
                                                     <td class="text-center">
-                                                        {{(!$payment->categories->isEmpty()?$payment->categories->first()->name:'')}}
+                                                        {{($payment->category?$payment->category->name:'')}}
                                                     </td>
                                                     <td class="text-center">
                                                         {{$payment->notes}}

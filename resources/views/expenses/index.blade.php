@@ -13,10 +13,10 @@ use Carbon\Carbon;
             <div class="card-title col-sm-3">
                 @if(Gate::check('edit expense'))
                     <a href="{{ route('expenses.edit',$expense->id) }}" data-remote="true" data-type="text">
-                        <h6 data-filter-by="text">{{  (!$expense->categories->isEmpty()?$expense->categories->first()->name:'---')}}</h6>
+                        <h6 data-filter-by="text">{{  ($expense->category?$expense->category->name:'---')}}</h6>
                     </a>
                 @else
-                    <h6 data-filter-by="text">{{  (!$expense->categories->isEmpty()?$expense->categories->first()->name:'---')}}</h6>
+                    <h6 data-filter-by="text">{{  ($expense->category?$expense->category->name:'---')}}</h6>
                 @endif
                 <p>
                     {!!\Helpers::showDateForHumans($expense->date)!!}

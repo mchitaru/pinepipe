@@ -27,6 +27,7 @@ class CreateProjectsTable extends Migration
             $table->boolean('archived')->default(false);
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
 
         }
         );

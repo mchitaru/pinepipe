@@ -15,9 +15,9 @@
             {{ Form::label('name', __('Title'), array('class'=>'col-3')) }}
             {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Call with Client', 'required'=>'required')) }}
         </div>
-        <div class="form-group row required">
-            {{ Form::label('category', __('Type'), array('class'=>'col-3')) }}
-            {!! Form::select('category', $categories, null,array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Category...')) !!}
+        <div class="form-group row">
+            {{ Form::label('category_id', __('Type'), array('class'=>'col-3')) }}
+            {!! Form::select('category_id', $categories, null,array('class' => 'form-control col','required'=>'required')) !!}
         </div>
         <hr>
         <h6>{{__('Timeline')}}</h6>

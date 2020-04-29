@@ -19,6 +19,7 @@ class CreateTagsTable extends Migration
             $table->string('slug');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         });
 
         Schema::create('taggables', function (Blueprint $table) {

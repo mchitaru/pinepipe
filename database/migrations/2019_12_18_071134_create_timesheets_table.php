@@ -28,6 +28,7 @@ class CreateTimesheetsTable extends Migration
             $table->text('remark')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         }
         );
     }

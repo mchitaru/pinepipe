@@ -26,6 +26,7 @@ class CreateTasksTable extends Migration
             $table->unsignedInteger('order')->default(0);
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

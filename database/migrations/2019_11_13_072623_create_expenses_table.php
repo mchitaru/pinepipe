@@ -19,10 +19,12 @@ class CreateExpensesTable extends Migration
             $table->date('date')->nullable();
             $table->unsignedInteger('project_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('category_id')->nullable();
             $table->text('description')->nullable();
             $table->string('attachment')->nullable();
             $table->unsignedInteger('created_by')->default('0');
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

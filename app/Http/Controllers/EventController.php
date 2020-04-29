@@ -40,7 +40,7 @@ class EventController extends Controller
 
         $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
                                 ->where('class', Event::class)
-                                ->get()->pluck('name', 'name');
+                                ->get()->pluck('name', 'id');
 
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
@@ -111,9 +111,7 @@ class EventController extends Controller
 
         $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
                                 ->where('class', Event::class)
-                                ->get()->pluck('name', 'name');
-
-        $category = !$event->categories->isEmpty() ? $event->categories->first()->name : '';
+                                ->get()->pluck('name', 'id');
 
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
@@ -142,7 +140,7 @@ class EventController extends Controller
 
         $user_id = $event->users()->get()->pluck('id');
 
-        return view('events.edit', compact('event', 'categories', 'category', 'users', 'user_id', 'leads', 'lead_id'));
+        return view('events.edit', compact('event', 'categories', 'users', 'user_id', 'leads', 'lead_id'));
     }
 
     /**

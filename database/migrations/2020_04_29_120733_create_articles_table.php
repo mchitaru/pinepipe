@@ -22,6 +22,7 @@ class CreateArticlesTable extends Migration
             $table->unsignedInteger('user_id')->default(0);
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

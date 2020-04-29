@@ -14,7 +14,8 @@ class Payment extends Model
         'invoice_id',
         'amount',
         'date',
-        'notes'
+        'notes',
+        'category_id'
     ];
 
     public function invoice()

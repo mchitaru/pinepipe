@@ -19,9 +19,9 @@
         {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
                                         'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    <div class="form-group row required">
-        {{ Form::label('category', __('Payment Method'), array('class'=>'col-3')) }}
-        {{ Form::select('category', $categories, null, array('class' => 'form-control col','required'=>'required')) }}
+    <div class="form-group row">
+        {{ Form::label('category_id', __('Payment Method'), array('class'=>'col-3')) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'form-control col','required'=>'required')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}

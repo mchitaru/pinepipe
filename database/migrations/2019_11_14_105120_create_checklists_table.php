@@ -21,6 +21,7 @@ class CreateChecklistsTable extends Migration
             $table->boolean('status')->default(false);
             $table->unsignedInteger('created_by');
             $table->timestamps();
+            $table->softDeletes();            
         });
     }
 
