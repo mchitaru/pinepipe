@@ -39,6 +39,11 @@
         weekNumbers: true,
         eventLimit: true,
         selectable: true,
+        eventTimeFormat: { 
+                hour: 'numeric',
+                minute: '2-digit',
+                meridiem: 'narrow'
+            },
         events: events,
 
         select: function(info)

@@ -35,6 +35,5 @@ class CalendarController extends Controller
         return view('calendar.index', compact('events'));
     }
     public function store(Request $request){
-        dd('dsd');
     }
 }
