@@ -12,7 +12,6 @@ $factory->define(Expense::class, function (Faker $faker) {
     return [
         'amount' => $faker->randomNumber(3),
         'date' => $faker->date(),
-        'category_id' => $faker->numberBetween(1,5),
         'project_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Project::$SEED + 1, 
                         User::$SEED_COMPANY_IDX*Project::$SEED),
         'user_id' => $faker->numberBetween(User::$SEED_COMPANY_ID + Client::$SEED + 1, 

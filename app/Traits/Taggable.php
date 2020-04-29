@@ -16,13 +16,10 @@ trait Taggable
         //tags
         $tags = [];
 
-        if(isset($names)){
-
-            foreach($names as $name)
-            {
-                $tags[] = Tag::firstOrCreate(['name' => $name,
-                                            'created_by' => \Auth::user()->creatorId()])->id;
-            }
+        foreach($names as $name)
+        {
+            $tags[] = Tag::firstOrCreate(['name' => $name,
+                                        'created_by' => \Auth::user()->creatorId()])->id;
         }
 
         $this->tags()->sync($tags);

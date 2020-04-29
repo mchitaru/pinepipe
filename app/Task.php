@@ -96,7 +96,7 @@ class Task extends Model implements HasMedia
         }
 
         $task->users()->sync($users);
-        $task->syncTags($post['tags']);
+        $task->syncTags(isset($post['tags'])?$post['tags']:[]);
 
         Activity::createTask($task);
 
@@ -123,7 +123,7 @@ class Task extends Model implements HasMedia
             }
 
             $this->users()->sync($users);
-            $this->syncTags($post['tags']);
+            $this->syncTags(isset($post['tags'])?$post['tags']:[]);
         }
 
         Activity::updateTask($this);

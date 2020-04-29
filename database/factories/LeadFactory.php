@@ -18,7 +18,6 @@ $factory->define(Lead::class, function (Faker $faker) {
                                             User::$SEED_COMPANY_ID + Client::$SEED + User::$SEED_STAFF_COUNT),
         'client_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Client::$SEED + 1,
                                                 User::$SEED_COMPANY_IDX*Client::$SEED),
-        'source_id' => $faker->numberBetween(1, 4),
         'contact_id' => null,
         'created_by' => User::$SEED_COMPANY_ID
     ];

@@ -66,7 +66,7 @@ class Contact extends Model
         $contact->created_by    = \Auth::user()->creatorId();
         $contact->save();
 
-        $contact->syncTags($post['tags']);
+        $contact->syncTags(isset($post['tags'])?$post['tags']:[]);
 
         return $contact;
     }
@@ -74,7 +74,7 @@ class Contact extends Model
     public function updateContact($post)
     {
         $this->update($post);
-        $this->syncTags($post['tags']);
+        $this->syncTags(isset($post['tags'])?$post['tags']:[]);
     }
 
     public function detachContact()

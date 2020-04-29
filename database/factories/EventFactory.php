@@ -15,7 +15,6 @@ $factory->define(Event::class, function (Faker $faker) {
     return [
         'active' => true,
         'name' => $faker->company.' event',
-        'category_id' => $faker->numberBetween(1, 6),
         'start' => $date,
         'end' => Carbon::parse($date)->addHours($faker->numberBetween(1, 24)),
         'busy' => true,
