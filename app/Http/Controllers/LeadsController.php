@@ -94,7 +94,7 @@ class LeadsController extends Controller
         {
             $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                            ->where('type', '=', 'employee')
+                            ->where('type', '=', 'collaborator')
                             ->get()
                             ->pluck('name', 'id')
                             ->prepend('(myself)', \Auth::user()->id);

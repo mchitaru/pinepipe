@@ -76,8 +76,6 @@ Route::group(
                                ]
         );
 
-        Route::resource('leadsources', 'LeadSourcesController');
-
         Route::get('leads/board', 'LeadsController@board')->name('leads.board');
         Route::post('leads/order', 'LeadsController@order')->name('leads.order');
         Route::get('leads/{lead}/refresh', 'LeadsController@refresh')->name('leads.refresh');
