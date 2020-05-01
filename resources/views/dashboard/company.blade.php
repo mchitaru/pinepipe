@@ -33,10 +33,10 @@ use Carbon\Carbon;
                     </div>
                     <h3> {{__("Let's take on the day!")}} </h3>
                     <div class="row pb-3">
-                        <x-todo type="projects" icon="folder" text="projects in progress." :items='$projects'></x-todo>
-                        <x-todo type="tasks" icon="playlist_add_check" text="things to do." :items='$tasks'></x-todo>
-                        <x-todo type="invoices" icon="description" text="unpaid invoices." :items='$invoices'></x-todo>
-                        <x-todo type="leads" icon="phone" text="leads rotting." :items='$leads'></x-todo>
+                        <x-todo type="projects" icon="folder" :text="__('projects in progress.')" :items='$projects'></x-todo>
+                        <x-todo type="tasks" icon="playlist_add_check" :text="__('important things to do.')" :items='$tasks'></x-todo>
+                        <x-todo type="invoices" icon="description" :text="__('unpaid invoices.')" :items='$invoices'></x-todo>
+                        <x-todo type="leads" icon="phone" :text="__('leads rotting.')" :items='$leads'></x-todo>
                     </div>
                 </div>
             </div>

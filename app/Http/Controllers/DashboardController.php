@@ -6,6 +6,7 @@ use App\Activity;
 use App\Invoice;
 use App\SubscriptionPlan;
 use App\Project;
+use Carbon\Carbon;
 use App\User;
 use App\Client;
 use App\Subscription;
@@ -40,11 +41,12 @@ class DashboardController extends Controller
 
         clock()->startEvent('DahsboardController', "Load dash");
 
-        $lastStageId = \Auth::user()->getLastTaskStage()->id;
+        $lastTaskStageId = \Auth::user()->getLastTaskStage()->id;
+        $lastLeadStageId = \Auth::user()->getLastLeadStage()->id;
 
-        $todayTasks = \Auth::user()->getTodayTasks($lastStageId);
-        $thisWeekTasks = \Auth::user()->getThisWeekTasks($lastStageId);
-        $nextWeekTasks = \Auth::user()->getNextWeekTasks($lastStageId);
+        $todayTasks = \Auth::user()->getTodayTasks($lastTaskStageId);
+        $thisWeekTasks = \Auth::user()->getThisWeekTasks($lastTaskStageId);
+        $nextWeekTasks = \Auth::user()->getNextWeekTasks($lastTaskStageId);
 
         $todayEvents = \Auth::user()->getTodayEvents();
         $thisWeekEvents = \Auth::user()->getThisWeekEvents();
@@ -62,9 +64,19 @@ class DashboardController extends Controller
                                     ->where('status', '<', '3')
                                     ->orderBy('due_date', 'ASC')
                                     ->get();
-            $leads = [];
+
+            $leads = \Auth::user()->leads()
+                                    ->where('stage_id', '<', $lastLeadStageId)
+                                    ->whereDate('updated_at', '<', Carbon::now()->subDays(7))
+                                    ->orderBy('order', 'ASC')
+                                    ->get();
+
             $tasks = \Auth::user()->tasks()
-                                    ->where('stage_id', '<', $lastStageId)
+                                    ->where('stage_id', '<', $lastTaskStageId)
+                                    ->where(function ($query){
+                                        $query->where('priority', 'high')
+                                                ->orWhereDate('due_date', '=', Carbon::now());
+                                    })
                                     ->orderBy('priority', 'ASC')
                                     ->get();
 
@@ -96,7 +108,11 @@ class DashboardController extends Controller
                                     ->get();
 
             $tasks = \Auth::user()->tasks()
-                                    ->where('stage_id', '<', $lastStageId)
+                                    ->where('stage_id', '<', $lastTaskStageId)
+                                    ->where(function ($query){
+                                        $query->where('priority', 'high')
+                                                ->orWhereDate('due_date', '=', Carbon::now());
+                                    })
                                     ->orderBy('priority', 'ASC')
                                     ->get();
 
@@ -114,9 +130,18 @@ class DashboardController extends Controller
                                 ->orderBy('due_date', 'ASC')
                                 ->get();
 
-        $leads = [];
+        $leads = \Auth::user()->leads()
+                                ->where('stage_id', '<', $lastLeadStageId)
+                                ->whereDate('updated_at', '<', Carbon::now()->subDays(7))
+                                ->orderBy('order', 'ASC')
+                                ->get();
+                                
         $tasks = \Auth::user()->tasks()
-                                ->where('stage_id', '<', $lastStageId)
+                                ->where('stage_id', '<', $lastTaskStageId)
+                                ->where(function ($query){
+                                    $query->where('priority', 'high')
+                                            ->orWhereDate('due_date', '=', Carbon::now());
+                                })
                                 ->orderBy('priority', 'ASC')
                                 ->get();
 

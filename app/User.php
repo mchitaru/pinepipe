@@ -251,7 +251,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     {
         return  \Auth::user()->tasks()
                                 ->where('stage_id', '<', $lastStageId)
-                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('today')))
+                                ->whereDate('tasks.due_date', '<=', Carbon::now())
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -260,8 +260,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     {
         return  \Auth::user()->tasks()
                                 ->where('stage_id', '<', $lastStageId)
-                                ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('tomorrow')))
-                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('sunday this week')))
+                                ->whereDate('tasks.due_date', '>=', Carbon::parse('tomorrow'))
+                                ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday this week'))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -270,8 +270,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     {
         return  \Auth::user()->tasks()
                                 ->where('stage_id', '<', $lastStageId)
-                                ->whereDate('tasks.due_date', '>=', Carbon::parse(strtotime('monday next week')))
-                                ->whereDate('tasks.due_date', '<=', Carbon::parse(strtotime('sunday next week')))
+                                ->whereDate('tasks.due_date', '>=', Carbon::parse('monday next week'))
+                                ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday next week'))
                                 ->orderBy('tasks.due_date', 'ASC')
                                 ->get();
     }
@@ -279,8 +279,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function getTodayEvents()
     {
         return  \Auth::user()->events()
-                                ->whereDate('events.start', '<=', Carbon::parse(strtotime('today')))
-                                ->whereDate('events.end', '>=', Carbon::parse(strtotime('today')))
+                                ->whereDate('events.start', '<=', Carbon::now())
+                                ->whereDate('events.end', '>=', Carbon::now())
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
@@ -288,8 +288,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function getThisWeekEvents()
     {
         return  \Auth::user()->events()
-                                ->whereDate('events.start', '>=', Carbon::parse(strtotime('tomorrow')))
-                                ->whereDate('events.end', '<=', Carbon::parse(strtotime('sunday this week')))
+                                ->whereDate('events.start', '>=', Carbon::parse('tomorrow'))
+                                ->whereDate('events.end', '<=', Carbon::parse('sunday this week'))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
@@ -297,8 +297,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function getNextWeekEvents()
     {
         return  \Auth::user()->events()
-                                ->whereDate('events.start', '>=', Carbon::parse(strtotime('monday next week')))
-                                ->whereDate('events.end', '<=', Carbon::parse(strtotime('sunday next week')))
+                                ->whereDate('events.start', '>=', Carbon::parse('monday next week'))
+                                ->whereDate('events.end', '<=', Carbon::parse('sunday next week'))
                                 ->orderBy('events.end', 'ASC')
                                 ->get();
     }
@@ -373,6 +373,24 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                     ->where('open', 0)
                     ->where('created_by', $this->creatorId())
                     ->orderBy('order', 'desc')
+                    ->first();
+    }
+
+    public function getFirstLeadStage()
+    {
+        return Stage::where('class', Lead::class)
+                    ->where('open', 1)
+                    ->where('created_by', $this->creatorId())
+                    ->orderBy('order', 'asc')
+                    ->first();
+    }
+
+    public function getLastLeadStage()
+    {
+        return Stage::where('class', Lead::class)
+                    ->where('open', 0)
+                    ->where('created_by', $this->creatorId())
+                    ->orderBy('order', 'asc')
                     ->first();
     }
 
