@@ -4,6 +4,7 @@
 use App\User;
 use App\Contact;
 use App\Lead;
+use App\Stage;
 use Faker\Generator as Faker;
 use App\Client;
 
