@@ -8,6 +8,7 @@ class Stage extends Model
 {
     protected $fillable = [
         'name',
+        'class',
         'order',
         'open',
         'pipeline_id',
