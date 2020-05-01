@@ -89,7 +89,7 @@ class Project extends Model implements HasMedia
 
     public function stages($sort, $dir, $users)
     {
-        return TaskStage::with(['tasks' => function ($query) use ($sort, $dir, $users)
+        return Stage::with(['tasks' => function ($query) use ($sort, $dir, $users)
         {
             if(empty($users)) {
 
@@ -106,7 +106,8 @@ class Project extends Model implements HasMedia
             }
                     
         }], 'tasks.users')
-        ->where('created_by', '=', \Auth::user()->creatorId())
+        ->where('class', Task::class)
+        ->where('created_by', \Auth::user()->creatorId())
         ->orderBy('order', 'ASC');
     }
 

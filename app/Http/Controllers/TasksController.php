@@ -9,7 +9,7 @@ use App\Project;
 use App\Milestone;
 use App\UserProject;
 use App\Activity;
-use App\TaskStage;
+use App\Stage;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Requests\TaskDestroyRequest;
@@ -45,7 +45,7 @@ class TasksController extends Controller
             {
                 $project = null;
                 $project_name = null;
-                $stages = TaskStage::stagesByUserType($request['sort'], $request['dir'], $users)->get();
+                $stages = Stage::taskStagesByUserType($request['sort'], $request['dir'], $users)->get();
             }
 
             clock()->endEvent('TasksController');
@@ -145,7 +145,10 @@ class TasksController extends Controller
     {
         $project    = Project::where('created_by', '=', \Auth::user()->creatorId())->where('projects.id', '=', $task->project_id)->first();
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $stages     = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $stages     = Stage::where('class', Task::class)
+                            ->where('created_by', \Auth::user()->creatorId())
+                            ->get()
+                            ->pluck('name', 'id');
 
         if($project)
         {

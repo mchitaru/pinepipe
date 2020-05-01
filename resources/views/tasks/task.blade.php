@@ -1,7 +1,6 @@
 @php
 use Carbon\Carbon;
 use App\Project;
-use App\TaskStage;
 
 $total_subtask = $task->getTotalChecklistCount();
 $completed_subtask = $task->getCompleteChecklistCount();

@@ -3,10 +3,9 @@
 @php
     use Carbon\Carbon;
     use App\Project;
-    use App\TaskStage;
 
     $current_user=\Auth::user();
-    $stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
+    $stage_done = \Auth::user()->getLastTaskStage()->id;
 @endphp
 
 @foreach($stages as $key=>$stage)

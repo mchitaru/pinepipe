@@ -12,11 +12,12 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use App\Traits\Invoiceable;
 use App\Traits\Checklistable;
 use App\Traits\Commentable;
+use App\Traits\Stageable;
 use App\Traits\Taggable;
 
 class Task extends Model implements HasMedia
 {
-    use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable, Taggable;
+    use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable, Taggable, Stageable;
 
     protected $fillable = [
         'title',
@@ -46,11 +47,6 @@ class Task extends Model implements HasMedia
         return $this->belongsTo('App\Project');
     }
 
-    public function stage()
-    {
-        return $this->belongsTo('App\TaskStage');
-    }
-
     public function users()
     {
         return $this->belongsToMany('App\User', 'user_tasks');
@@ -66,14 +62,9 @@ class Task extends Model implements HasMedia
         return $this->hasMany('App\Timesheet', 'task_id', 'id');
     }
 
-    public function getStatus()
-    {
-        return TaskStage::find($this->stage_id)->name;
-    }
-
     public static function createTask($post)
     {
-        $stage = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->first();
+        $stage = \Auth::user()->getFirstTaskStage();
 
         $post['stage_id']   = $stage->id;
 

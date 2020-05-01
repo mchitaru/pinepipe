@@ -67,15 +67,6 @@ Route::group(
         //Settings
         Route::post('settings/company', 'CompanySettingsController@update')->name('settings.company');
 
-        //Leads
-        Route::resource('leadstages', 'LeadStagesController');
-        Route::post(
-            '/leadstages/order', [
-                                   'as' => 'leadstages.order',
-                                   'uses' => 'LeadStagesController@order',
-                               ]
-        );
-
         Route::get('leads/board', 'LeadsController@board')->name('leads.board');
         Route::post('leads/order', 'LeadsController@order')->name('leads.order');
         Route::get('leads/{lead}/refresh', 'LeadsController@refresh')->name('leads.refresh');
@@ -94,14 +85,6 @@ Route::group(
         Route::delete('subscriptions/{subscription}', 'SubscriptionsController@destroy')->name('subscriptions.destroy');
         // Route::resource('subscriptions', 'SubscriptionsController');
 
-        //Projects
-        Route::resource('taskstages', 'TaskStagesController');
-        Route::post(
-            '/taskstages/order', [
-                                      'as' => 'taskstages.order',
-                                      'uses' => 'TaskStagesController@order',
-                                  ]
-        );
 
         Route::resource('projects', 'ProjectsController');
 

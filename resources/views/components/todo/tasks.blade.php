@@ -1,10 +1,9 @@
 @php
 use App\Project;
 use Carbon\Carbon;
-use App\TaskStage;
 
 $current_user=\Auth::user();
-$stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
+$stage_done = \Auth::user()->getLastTaskStage()->id;
 @endphp
 
 <div class="scrollable-list col" style="max-height:90vh">

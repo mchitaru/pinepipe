@@ -13,35 +13,16 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'active',
+        'class',
         'order',
         'description',
         'category_id'
     ];
 
     protected $nullable = [
+        'category_id',
         'description'
 	];
-
-    public function events()
-    {
-        return $this->hasMany('App\Event', 'category_id', 'id');
-    }
-
-    public function expenses()
-    {
-        return $this->hasMany('App\Expense', 'category_id', 'id');
-    }
-
-    public function payments()
-    {
-        return $this->hasMany('App\Payment', 'category_id', 'id');
-    }
-
-    public function leads()
-    {
-        return $this->hasMany('App\Lead', 'category_id', 'id');
-    }
 
     public function children()
     {

@@ -220,11 +220,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         }
     }
 
-    public function taskStages()
-    {
-        return TaskStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'ASC');
-    }
-
     public function getProfileAttribute()
     {
         return null;
@@ -363,9 +358,22 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $prefix . sprintf("%05d", $number);
     }
 
+    public function getFirstTaskStage()
+    {
+        return Stage::where('class', Task::class)
+                    ->where('open', 1)
+                    ->where('created_by', $this->creatorId())
+                    ->orderBy('order', 'asc')
+                    ->first();
+    }
+
     public function getLastTaskStage()
     {
-        return TaskStage::where('created_by', '=', $this->creatorId())->orderBy('order', 'DESC')->first();
+        return Stage::where('class', Task::class)
+                    ->where('open', 0)
+                    ->where('created_by', $this->creatorId())
+                    ->orderBy('order', 'desc')
+                    ->first();
     }
 
     public function total_lead()
@@ -559,11 +567,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         ];
         foreach($leadStages as $key => $stage)
         {
-            LeadStage::create(
+            Stage::create(
                 [
                     'name' => $stage,
-                    'color' => $colors[$key],
+                    'class' => Lead::class,
                     'order' => $key,
+                    'open' => ($key < count($leadStages) - 2) ? 1 : 0,
                     'created_by' => $id,
                 ]
             );
@@ -578,11 +587,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         ];
         foreach($taskStages as $key => $stage)
         {
-            TaskStage::create(
+            Stage::create(
                 [
                     'name' => $stage,
-                    'color' => $colors[$key],
+                    'class' => Task::class,
                     'order' => $key,
+                    'open' => ($key < count($taskStages) - 1) ? 1 : 0,
                     'created_by' => $id,
                 ]
             );

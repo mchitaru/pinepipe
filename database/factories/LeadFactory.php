@@ -4,7 +4,6 @@
 use App\User;
 use App\Contact;
 use App\Lead;
-use App\LeadStage;
 use Faker\Generator as Faker;
 use App\Client;
 
@@ -12,8 +11,8 @@ $factory->define(Lead::class, function (Faker $faker) {
     return [
         'name' => $faker->company.' lead',
         'price' => $faker->randomNumber(4),
-        'stage_id'=> $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*LeadStage::$SEED + 1,
-                                            User::$SEED_COMPANY_IDX*LeadStage::$SEED),
+        'stage_id'=> $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Stage::$SEED + 1,
+                                            User::$SEED_COMPANY_IDX*Stage::$SEED),
         'user_id'=> $faker->numberBetween(User::$SEED_COMPANY_ID + Client::$SEED + 1,
                                             User::$SEED_COMPANY_ID + Client::$SEED + User::$SEED_STAFF_COUNT),
         'client_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Client::$SEED + 1,

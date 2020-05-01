@@ -13,10 +13,11 @@ use App\Traits\Categorizable;
 
 use App\Traits\Actionable;
 use App\Traits\Notable;
+use App\Traits\Stageable;
 
 class Lead extends Model implements HasMedia
 {
-    use NullableFields, Eventable, HasMediaTrait, Actionable, Notable, Taggable, Categorizable;
+    use NullableFields, Eventable, HasMediaTrait, Actionable, Notable, Taggable, Categorizable, Stageable;
 
     protected $fillable = [
         'name',
@@ -55,11 +56,6 @@ class Lead extends Model implements HasMedia
         return $this->belongsTo('App\Contact');
     }
 
-    public function stage()
-    {
-        return $this->belongsTo('App\LeadStage');
-    }
-
     public function removeProjectLead()
     {
         return Project::where('lead_id','=',$this->id)->update(array('lead_id' => 0));
@@ -67,7 +63,7 @@ class Lead extends Model implements HasMedia
 
     public static function createLead($post)
     {
-        $stage = LeadStage::find($post['stage_id']);
+        $stage = Stage::find($post['stage_id']);
 
         $post['order']   = $stage->leads->count();
 

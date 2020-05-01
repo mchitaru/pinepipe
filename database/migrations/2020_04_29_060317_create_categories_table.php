@@ -14,24 +14,16 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('slug');
             $table->string('class');
-            $table->boolean('active');
             $table->unsignedInteger('order')->default(0);
             $table->string('description')->nullable();
             $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            
-        });
-
-        Schema::create('categorizables', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('category_id')->default(0);
-            $table->morphs('categorizable');
-            $table->timestamps();
         });
     }
 
@@ -42,7 +34,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categorizables');
         Schema::dropIfExists('categories');
     }
 }

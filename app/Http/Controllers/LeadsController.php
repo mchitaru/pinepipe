@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Lead;
-use App\Leadsource;
-use App\LeadStage;
+use App\Stage;
 use App\User;
 use App\Client;
 use App\Contact;
@@ -26,7 +25,7 @@ class LeadsController extends Controller
         {
             clock()->startEvent('LeadsController', "Load leads");
 
-            $stages = LeadStage::stagesByUserType()->get();
+            $stages = Stage::leadStagesByUserType()->get();
 
             clock()->endEvent('LeadsController');
 
@@ -45,7 +44,10 @@ class LeadsController extends Controller
             $stage_id = $request['stage_id'];
             $client_id = $request['client_id'];
 
-            $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $stages     = Stage::where('class', Lead::class)
+                                    ->where('created_by', \Auth::user()->creatorId())
+                                    ->get()
+                                    ->pluck('name', 'id');
 
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
                             ->where('type', '!=', 'client')
@@ -92,7 +94,11 @@ class LeadsController extends Controller
     {
         if(\Auth::user()->can('edit lead'))
         {
-            $stages  = LeadStage::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $stages  = Stage::where('class', Lead::class)
+                            ->where('created_by', \Auth::user()->creatorId())
+                            ->get()
+                            ->pluck('name', 'id');
+
             $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
                             ->where('type', '=', 'collaborator')
                             ->get()
@@ -175,7 +181,9 @@ class LeadsController extends Controller
                 $files[] = $file;
             }
 
-            $stageCount = LeadStage::count();
+            $stageCount = Stage::where('created_by', \Auth::user()->creatorId())
+                                    ->where('class', Lead::class)->count();
+                                    
             $progress = $lead->stage_id * 100 / ($stageCount-1); //TO DO
 
             clock()->endEvent('LeadsController');

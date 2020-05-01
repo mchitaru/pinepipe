@@ -6,11 +6,11 @@
 @php
 use Carbon\Carbon;
 use App\Project;
-use App\TaskStage;
+use App\Stage;
 
 $current_user=\Auth::user();
 
-$task_status = $task->getStatus();
+$task_status = $task->stage->name;
 $total_task = $task->getTotalChecklistCount();
 $completed_task=$task->getCompleteChecklistCount();
 
@@ -22,7 +22,7 @@ if($total_task!=0){
 $label = $task->getProgressColor($percentage);
 $dz_id = 'task-files-dz';
 
-$stage_done = TaskStage::where('created_by', '=', \Auth::user()->creatorId())->get()->last()->id;
+$stage_done = \Auth::user()->getLastTaskStage()->id;
 
 @endphp
 
