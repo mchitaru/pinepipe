@@ -65,6 +65,9 @@ $(function() {
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-11">
             <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h1>{{$client->name}}</h1>
+                </div>
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
