@@ -11,13 +11,21 @@
 @section('content')
     <div class="tab-content">
         <h6>{{__('General Details')}}</h6>
+        <div class="form-group row required">
+            {{ Form::label('category_id', __('Type'), array('class'=>'col-3')) }}
+            {!! Form::select('category_id', $categories, null,array('class' => 'form-control col','required'=>'required')) !!}
+        </div>
         <div class="form-group row align-items-center required">
             {{ Form::label('name', __('Title'), array('class'=>'col-3')) }}
             {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>'Call with Client', 'required'=>'required')) }}
         </div>
+        <div class="form-group row required">
+            {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
+            {!! Form::select('users[]', $users, \Auth::user()->id, array('class' => 'form-control col', 'multiple'=>'multiple','required'=>'required')) !!}
+        </div>
         <div class="form-group row">
-            {{ Form::label('category_id', __('Type'), array('class'=>'col-3')) }}
-            {!! Form::select('category_id', $categories, null,array('class' => 'form-control col','required'=>'required')) !!}
+            {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
+            {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>'Some notes about the call']) !!}
         </div>
         <hr>
         <h6>{{__('Timeline')}}</h6>
@@ -33,16 +41,6 @@
         </div>
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>
-        </div>
-        <hr>
-        <h6>{{__('Details')}}</h6>
-        <div class="form-group row">
-            {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
-            {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>'Some notes about the call']) !!}
-        </div>
-        <div class="form-group row required">
-            {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, \Auth::user()->id, array('class' => 'form-control col', 'multiple'=>'multiple','required'=>'required')) !!}
         </div>
         <hr>
         <h6>{{__('Attach')}}</h6>
