@@ -34,7 +34,7 @@ class CompanySettingsRequest extends FormRequest
             'phone' => 'string',
             'invoice' => 'string',
             'currency' => 'required',
-            'file' => 'nullable|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048'
+            'logo' => 'nullable|mimetypes:image/*|max:2048'
         ];
     }
 

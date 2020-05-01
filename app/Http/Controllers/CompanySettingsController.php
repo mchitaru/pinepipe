@@ -25,10 +25,10 @@ class CompanySettingsController extends Controller
 
         $settings = CompanySettings::updateOrCreate(['created_by' => \Auth::user()->creatorId()], $post);
 
-        if($request->hasFile('company_logo')){
+        if($request->hasFile('logo')){
             
             $settings->clearMediaCollection('logos');
-            $file = $settings->addMedia($request->file('company_logo'))->toMediaCollection('logos');
+            $file = $settings->addMedia($request->file('logo'))->toMediaCollection('logos');
         }
 
         return Redirect::to(URL::previous())->with('success', __('Settings updated successfully.'));

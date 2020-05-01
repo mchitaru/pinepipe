@@ -17,9 +17,9 @@ async function initDropzone(selector, url, model_id, files)
     createImageThumbnails: false,
     previewsContainer: selector + '-previews',
     maxFiles: 20,
-    maxFilesize: 2,
+    maxFilesize: 10,
     parallelUploads: 1,
-    acceptedFiles: '.jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar',
+    acceptedFiles: '.jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar,.xls,.xlsx',
     url: url,
 
     success: function (file, response) {
@@ -29,16 +29,12 @@ async function initDropzone(selector, url, model_id, files)
             LetterAvatar.transform();
         } else {
             this.removeFile(file);
-            toastrs(response.error, 'danger');
+            toastrs('You can only upload images, documents and archives that are less than 10MB in size.', 'danger');
         }
     },
     error: function (file, response) {
         this.removeFile(file);
-        if (response.error) {
-            toastrs(response.error, 'danger');
-        } else {
-            toastrs(response.error, 'danger');
-        }
+        toastrs('You can only upload images, documents and archives that are less than 10MB in size.', 'danger');
     },
     sending: function(file, xhr, formData) {
         formData.append('_token', $('meta[name="csrf-token"]').attr('content'));

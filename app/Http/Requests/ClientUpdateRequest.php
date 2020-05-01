@@ -31,7 +31,7 @@ class ClientUpdateRequest extends FormRequest
             'phone'=>'nullable|string',
             'address'=>'nullable|string',
             'website'=>'nullable|string',
-            'avatar' => 'mimes:png,jpeg,jpg|max:2048'
+            'avatar' => 'mimetypes:image/*|max:2048'
         ];
     }
 

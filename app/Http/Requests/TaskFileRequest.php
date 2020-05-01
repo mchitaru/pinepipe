@@ -24,7 +24,7 @@ class TaskFileRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048'
+            'file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar,xls,xlsx|max:10240'
         ];
     }
 

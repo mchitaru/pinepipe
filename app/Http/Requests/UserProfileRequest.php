@@ -34,7 +34,7 @@ class UserProfileRequest extends FormRequest
                 return [
                     'name' => 'required|max:120',
                     'email' => 'required|email|unique:users,email,' .  \Auth::user()->id,
-                    'avatar' => 'mimes:png,jpeg,jpg|max:2048',
+                    'avatar' => 'mimetypes:image/*|max:2048',
                     'bio' => 'string|nullable',
                 ];
             }else{
