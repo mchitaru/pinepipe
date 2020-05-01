@@ -17,8 +17,8 @@ $factory->define(Task::class, function (Faker $faker) {
         'project_id' => null,
         'milestone_id' => null,
         'order' => 0,
-        'stage_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Stage::$SEED + 1,
-                                                User::$SEED_COMPANY_IDX*Stage::$SEED),
+        'stage_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Stage::$TASK_SEED + Stage::$LEAD_SEED + 1,
+                                                User::$SEED_COMPANY_IDX*Stage::$TASK_SEED + Stage::$LEAD_SEED),
         'created_by' => User::$SEED_COMPANY_ID,
     ];
 });

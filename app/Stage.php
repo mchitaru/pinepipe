@@ -19,7 +19,8 @@ class Stage extends Model
 
     ];
 
-    public static $SEED = 4;
+    public static $LEAD_SEED = 5;
+    public static $TASK_SEED = 4;
 
     public function tasks()
     {

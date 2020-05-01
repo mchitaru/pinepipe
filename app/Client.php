@@ -32,7 +32,7 @@ class Client extends Model implements HasMedia
         'website',
     ];
 
-    public static $SEED = 1;
+    public static $SEED = 2;
     
     public function users()
     {

@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
     use HasRoles, Notifiable, SoftDeletes, Actionable, Billable, Eventable, HasMediaTrait;
 
-    public static $SEED_COMPANY_COUNT = 1;
+    public static $SEED_COMPANY_COUNT = 2;
     public static $SEED_STAFF_COUNT = 2;
 
     public static $SEED_COMPANY_IDX = 0;

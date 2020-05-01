@@ -12,8 +12,8 @@ $factory->define(Lead::class, function (Faker $faker) {
     return [
         'name' => $faker->company.' lead',
         'price' => $faker->randomNumber(4),
-        'stage_id'=> $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Stage::$SEED + 1,
-                                            User::$SEED_COMPANY_IDX*Stage::$SEED),
+        'stage_id'=> $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Stage::$LEAD_SEED + 1,
+                                            User::$SEED_COMPANY_IDX*Stage::$LEAD_SEED),
         'user_id'=> $faker->numberBetween(User::$SEED_COMPANY_ID + Client::$SEED + 1,
                                             User::$SEED_COMPANY_ID + Client::$SEED + User::$SEED_STAFF_COUNT),
         'client_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Client::$SEED + 1,
