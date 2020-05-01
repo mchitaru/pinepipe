@@ -6,16 +6,14 @@ use App\Lead;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
-use App\Traits\Categorizable;
 
 class Event extends Model
 {
-    use NullableFields, Taggable, Categorizable;
+    use NullableFields, Taggable;
 
     protected $fillable = [
         'active',
         'name',
-        'category_id',
         'start',
         'end',
         'busy',

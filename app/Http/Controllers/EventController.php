@@ -38,10 +38,6 @@ class EventController extends Controller
         $start = $request->start?$request->start:Carbon::now();
         $end = $request->end?$request->end:Carbon::now();
 
-        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
-                                ->where('class', Event::class)
-                                ->get()->pluck('name', 'id');
-
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
@@ -68,7 +64,7 @@ class EventController extends Controller
         if(isset($request['lead_id']))
             $lead_id = $request['lead_id'];
 
-        return view('events.create', compact('categories', 'users', 'leads', 'start', 'end', 'lead_id'));
+        return view('events.create', compact('users', 'leads', 'start', 'end', 'lead_id'));
     }
 
     /**
@@ -109,10 +105,6 @@ class EventController extends Controller
     {
         $user = \Auth::user();
 
-        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
-                                ->where('class', Event::class)
-                                ->get()->pluck('name', 'id');
-
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
@@ -140,7 +132,7 @@ class EventController extends Controller
 
         $user_id = $event->users()->get()->pluck('id');
 
-        return view('events.edit', compact('event', 'categories', 'users', 'user_id', 'leads', 'lead_id'));
+        return view('events.edit', compact('event', 'users', 'user_id', 'leads', 'lead_id'));
     }
 
     /**

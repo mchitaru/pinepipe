@@ -25,10 +25,8 @@ class EventUpdateRequest extends FormRequest
     {
         return [
             'name'=>'required|string|min:3',
-            'category_id'=>'required|numeric',
             'start'=>'required|date_format:Y-m-d H:i',
             'end'=>'required|date_format:Y-m-d H:i',
-            // 'busy'=>'required|boolean',
             'notes'=>'nullable|string',
             'lead_id'=>'nullable|integer',
             'users'=>'required|array',
