@@ -27,6 +27,7 @@ class CompanySettingsController extends Controller
 
         if($request->hasFile('company_logo')){
             
+            $settings->clearMediaCollection('logos');
             $file = $settings->addMedia($request->file('company_logo'))->toMediaCollection('logos');
         }
 

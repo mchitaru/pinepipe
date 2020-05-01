@@ -53,6 +53,7 @@ class UserProfileController extends Controller
 
         if($request->hasFile('avatar')){
 
+            $user->clearMediaCollection('logos');            
             $file = $user->addMedia($request->file('avatar'))->toMediaCollection('logos');
         }
 

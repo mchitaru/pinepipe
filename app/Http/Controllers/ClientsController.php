@@ -138,6 +138,7 @@ class ClientsController extends Controller
 
         if($request->hasFile('avatar')){
 
+            $client->clearMediaCollection('logos');
             $file = $client->addMedia($request->file('avatar'))->toMediaCollection('logos');
         }
 

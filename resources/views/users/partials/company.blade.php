@@ -7,7 +7,7 @@
             </div>
             <div class="media-body ml-3">
                 <div class="custom-file custom-file-naked d-block mb-1">
-                    <input type="file" class="custom-file-input avatar-input d-none" name="company_logo" id="company_logo">
+                    <input type="file" class="custom-file-input avatar-input d-none" name="company_logo" id="company_logo" accept="image/*">
                     <label class="custom-file-label position-relative" for="company_logo">
                     <span class="btn btn-primary">
                         {{__('Upload logo')}}

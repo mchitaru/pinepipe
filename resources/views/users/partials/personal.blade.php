@@ -6,7 +6,7 @@
     </div>
     <div class="media-body ml-3">
         <div class="custom-file custom-file-naked d-block mb-1">
-            <input type="file" class="custom-file-input avatar-input d-none" name="avatar" id="avatar">
+            <input type="file" class="custom-file-input avatar-input d-none" name="avatar" id="avatar" accept="image/*">
             <label class="custom-file-label position-relative" for="avatar">
             <span class="btn btn-primary">
                 {{__('Upload avatar')}}

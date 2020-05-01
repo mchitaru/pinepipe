@@ -39,7 +39,7 @@ $languages=$user->languages();
             <div class="dropdown-menu dropdown-menu-right">
                 @can('manage account')
                     <a class="dropdown-item" href="{{route('profile.show')}}">
-                        {{__('Account Settings')}}
+                        {{__('My Profile')}}
                     </a>
                     <div class="dropdown-divider"></div>
                 @endcan
@@ -279,7 +279,7 @@ $languages=$user->languages();
         <div class="dropdown-menu">
             @can('manage account')
                 <a class="dropdown-item" href="{{route('profile.show')}}">
-                    {{__('Account Settings')}}
+                    {{__('My Profile')}}
                 </a>
                 <div class="dropdown-divider"></div>
             @endcan
