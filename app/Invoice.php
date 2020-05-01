@@ -19,7 +19,6 @@ class Invoice extends Model
         'discount',
         'tax_id',
         'notes',
-        'created_by',
     ];
 
     protected $nullable = [
@@ -63,6 +62,22 @@ class Invoice extends Model
     public function payments()
     {
         return $this->hasMany('App\Payment', 'invoice_id', 'id');
+    }
+
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($invoice) {
+            if ($user = \Auth::user()) {
+                $invoice->user_id = $user->id;
+                $invoice->created_by = $user->creatorId();
+            }
+        });
     }
 
     public function getSubTotal()
@@ -144,7 +159,6 @@ class Invoice extends Model
         $invoice->status      = 0;
         $invoice->discount    = 0;
         $invoice->invoice_id = $last_invoice?($last_invoice->id + 1):1;
-        $invoice->created_by  = \Auth::user()->creatorId();
         $invoice->save();
 
         Activity::createInvoice($invoice);

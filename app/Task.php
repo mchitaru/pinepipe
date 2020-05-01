@@ -62,6 +62,23 @@ class Task extends Model implements HasMedia
         return $this->hasMany('App\Timesheet', 'task_id', 'id');
     }
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($task) {
+            if ($user = \Auth::user()) {
+                $task->user_id = $user->id;
+                $task->created_by = $user->creatorId();
+            }
+        });
+    }
+
+
     public static function createTask($post)
     {
         $stage = \Auth::user()->getFirstTaskStage();
@@ -69,7 +86,6 @@ class Task extends Model implements HasMedia
         $post['stage_id']   = $stage->id;
 
         $task               = Task::make($post);
-        $task->created_by  = \Auth::user()->creatorId();
         $task->order = $stage->tasks->count();
         $task->save();
 

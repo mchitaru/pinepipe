@@ -23,6 +23,7 @@ class CreateInvoicesTable extends Migration
             $table->float('discount');
             $table->unsignedInteger('tax_id')->nullable();
             $table->text('notes')->nullable();
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by');
             $table->timestamps();
             $table->softDeletes();            

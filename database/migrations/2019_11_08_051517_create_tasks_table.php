@@ -24,6 +24,7 @@ class CreateTasksTable extends Migration
             $table->unsignedInteger('milestone_id')->nullable();
             $table->unsignedInteger('stage_id')->default(0);
             $table->unsignedInteger('order')->default(0);
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            
