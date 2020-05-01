@@ -30,7 +30,7 @@ class SubscriptionsController extends Controller
      */
     public function create(Request $request, $plan_id)
     {
-        if(\Auth::user()->can('buy plan'))
+        if(\Auth::user()->type == 'company')
         {
             $plan = SubscriptionPlan::find($plan_id);
 

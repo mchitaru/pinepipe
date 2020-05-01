@@ -12,7 +12,7 @@ class TaxesController extends Controller
 
     public function index()
     {
-        if(\Auth::user()->can('manage tax')) {
+        if(\Auth::user()->can('manage invoice')) {
             $taxes = Tax::where('created_by','=',\Auth::user()->creatorId())->get();
             return view('taxes.index')->with('taxes', $taxes);
         }else{
@@ -23,7 +23,7 @@ class TaxesController extends Controller
 
     public function create()
     {
-        if(\Auth::user()->can('create tax')) {
+        if(\Auth::user()->can('edit invoice')) {
             return view('taxes.create');
         }else{
             return response()->json(['error'=>__('Permission denied.')],401);
@@ -32,7 +32,7 @@ class TaxesController extends Controller
 
     public function store(Request $request)
     {
-        if(\Auth::user()->can('create tax')) {
+        if(\Auth::user()->can('edit invoice')) {
 
             $validator = \Validator::make($request->all(), [
                 'name' => 'required|max:20',
@@ -58,7 +58,7 @@ class TaxesController extends Controller
 
     public function edit(Tax $tax)
     {
-        if(\Auth::user()->can('edit tax')) {
+        if(\Auth::user()->can('edit invoice')) {
             if($tax->created_by == \Auth::user()->creatorId()) {
                 return view('taxes.edit', compact('tax'));
             }else{
@@ -72,7 +72,7 @@ class TaxesController extends Controller
 
     public function update(Request $request, Tax $tax)
     {
-        if(\Auth::user()->can('edit tax')) {
+        if(\Auth::user()->can('edit invoice')) {
             if($tax->created_by == \Auth::user()->creatorId()) {
                 $validator = \Validator::make($request->all(), [
                     'name' => 'required|max:20',
@@ -93,7 +93,7 @@ class TaxesController extends Controller
 
     public function destroy(Tax $tax)
     {
-        if(\Auth::user()->can('delete tax')) {
+        if(\Auth::user()->can('edit invoice')) {
             if($tax->created_by == \Auth::user()->creatorId()) {
                 $tax->delete();
                 return redirect()->route('taxes.index')->with('success',__('Tax rate successfully deleted.'));

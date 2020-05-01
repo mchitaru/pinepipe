@@ -34,11 +34,11 @@
             <div class="row content-list-head">
             <div class="col-auto">
                 <h3>{{__('Plans')}}</h3>
-                @can('create plan')
+                @if(\Auth::user()->type=='super admin')
                 <a class="btn btn-round" href="{{ route('plans.create') }}" data-remote="true" data-type="text">
                     <i class="material-icons">add</i>
                 </a>
-                @endcan
+                @endif
             </div>
             <form class="col-md-auto">
                 <div class="input-group input-group-round">
@@ -85,11 +85,11 @@
                             </button>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                                @can('edit plan')
+                                @if(\Auth::user()->type=='super admin')
                                 <a class="dropdown-item" href="{{ route('plans.edit',$plan->id)  }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
-                                @endcan
+                                @endif
                             </div>
                         </div>
                         </div>

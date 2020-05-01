@@ -33,7 +33,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
                 <div class="card-body p-2">
                     <div class="card-title col-xs-12 col-sm-4">
 
-                        @if(Gate::check('show project'))
+                        @if(Gate::check('manage project'))
                             <a href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
                                 <h5 data-filter-by="text">{{ $project->name }}</h5>
                             </a>
@@ -47,7 +47,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
                     <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">
                         <div class="row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                             <i class="material-icons mr-1">apartment</i>
-                            @if(Gate::check('show client'))
+                            @if(Gate::check('manage client'))
                                 <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
                                     {{(!empty($project->client)?$project->client->name:'---')}}
                                 </a>

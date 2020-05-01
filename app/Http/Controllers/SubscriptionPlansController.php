@@ -12,7 +12,7 @@ class SubscriptionPlansController extends Controller
 {
     public function index()
     {
-        if(\Auth::user()->can('manage plan'))
+        if(\Auth::user()->type == 'super admin')
         {
             $plans = SubscriptionPlan::get();
             return view('plan.index', compact('plans'));
@@ -26,7 +26,7 @@ class SubscriptionPlansController extends Controller
 
     public function create()
     {
-        if(\Auth::user()->can('create plan'))
+        if(\Auth::user()->type == 'super admin')
         {
             return view('plan.create');
         }
@@ -39,7 +39,7 @@ class SubscriptionPlansController extends Controller
 
     public function store(Request $request)
     {
-        if(\Auth::user()->can('create plan'))
+        if(\Auth::user()->type == 'super admin')
         {
             if(empty(env('STRIPE_KEY')) || empty(env('STRIPE_SECRET')))
             {
@@ -78,7 +78,7 @@ class SubscriptionPlansController extends Controller
 
     public function edit($plan_id)
     {
-        if(\Auth::user()->can('edit plan'))
+        if(\Auth::user()->type == 'super admin')
         {
             $plan        = SubscriptionPlan::find($plan_id);
 
@@ -93,7 +93,7 @@ class SubscriptionPlansController extends Controller
 
     public function update(Request $request, $plan_id)
     {
-        if(\Auth::user()->can('edit plan'))
+        if(\Auth::user()->type == 'super admin')
         {
             if(empty(env('STRIPE_KEY')) || empty(env('STRIPE_SECRET')))
             {

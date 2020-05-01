@@ -11,7 +11,7 @@ class InvoicePaymentsController extends Controller
 {
     public function index()
     {
-        if(\Auth::user()->can('manage invoice payment') || \Auth::user()->type == 'client')
+        if(\Auth::user()->can('edit invoice') || \Auth::user()->type == 'client')
         {
             if(\Auth::user()->type == 'client')
             {
@@ -34,7 +34,7 @@ class InvoicePaymentsController extends Controller
 
     public function create(Invoice $invoice)
     {
-        if(\Auth::user()->can('create invoice payment'))
+        if(\Auth::user()->can('edit invoice'))
         {
             if($invoice->created_by == \Auth::user()->creatorId())
             {
@@ -57,7 +57,7 @@ class InvoicePaymentsController extends Controller
 
     public function store(Request $request, Invoice $invoice)
     {
-        if(\Auth::user()->can('create invoice payment'))
+        if(\Auth::user()->can('edit invoice'))
         {
             if($invoice->created_by == \Auth::user()->creatorId())
             {

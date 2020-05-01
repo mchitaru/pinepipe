@@ -35,6 +35,7 @@ class Lead extends Model implements HasMedia
     protected $nullable = [
         'price',
         'client_id',
+        'category_id',
         'contact_id',
 	];
 

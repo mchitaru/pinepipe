@@ -50,12 +50,12 @@
                                         <span>{{__('Export PDF')}}</span>
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    @can('create invoice item')
+                                    @can('edit invoice')
                                     <a class="dropdown-item" href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                                         <span>{{__('Add Item')}}</span>
                                     </a>
                                     @endcan
-                                    @can('create invoice payment')
+                                    @can('edit invoice')
                                     <a class="dropdown-item" href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
                                         <span>{{__('Add Payment')}}</span>
                                     </a>
@@ -143,7 +143,7 @@
                             <div class="row ">
                                 <div class="col-md-12">
                                     <div class="section-title"><b>{{__('Order Summary')}}</b>
-                                        @can('create invoice item')
+                                        @can('edit invoice')
                                         <div class="col-md-12 text-right d-print-none">
                                             <a href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                                                 <u>{{__('Add Item')}}</u>
@@ -175,7 +175,7 @@
                                                         {{Auth::user()->priceFormat($items->price)}}
                                                     </td>
                                                     <td class="table-actions text-right">
-                                                        @can('delete invoice item')
+                                                        @can('edit invoice')
 
                                                         <div class="dropdown float-right">
                                                             <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -232,7 +232,7 @@
                             <div class="row ">
                                 <div class="col-md-12">
                                     <div class="section-title">{{__('Payment History')}}
-                                        @can('create invoice payment')
+                                        @can('edit invoice')
                                         <div class="col-md-12 text-right d-print-none">
                                             <a href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
                                                 <span><i class="fas fa-plus"></i></span>

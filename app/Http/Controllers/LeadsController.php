@@ -44,7 +44,7 @@ class LeadsController extends Controller
             $stage_id = $request['stage_id'];
             $client_id = $request['client_id'];
 
-            $stages     = Stage::where('class', Lead::class)
+            $stages = Stage::where('class', Lead::class)
                                     ->where('created_by', \Auth::user()->creatorId())
                                     ->get()
                                     ->pluck('name', 'id');

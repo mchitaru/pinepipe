@@ -202,7 +202,7 @@ use Carbon\Carbon;
                                 @endif
 
                                 @if($lead->client)
-                                    @if(Gate::check('show client'))
+                                    @if(Gate::check('manage client'))
                                     <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                                         <p><span class="text-small">{{ $lead->client->name }}</span></p>
                                     </a>

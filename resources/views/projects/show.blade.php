@@ -143,7 +143,7 @@ $(function() {
 
                 </ul>
 
-                @can('invite user project')
+                @can('manage project')
 
                 <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
                     <i class="material-icons">add</i>

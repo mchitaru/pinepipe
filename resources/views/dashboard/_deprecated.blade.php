@@ -350,7 +350,7 @@ if($client_project_budget_due_per<=15){
                                                     {{ Carbon::parse($top_task->due_date)->diffForHumans() }}
                                                 </span>
                                                 @if(!empty($top_task->project))
-                                                    @if(Gate::check('show project'))
+                                                    @if(Gate::check('manage project'))
                                                         <a href="{{ $top_task->project?route('projects.show', $top_task->project->id):'#' }}">
                                                             <p><span class="text-small">{{$top_task->project->name}}</span></p>
                                                         </a>

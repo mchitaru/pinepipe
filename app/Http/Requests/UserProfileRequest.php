@@ -14,7 +14,7 @@ class UserProfileRequest extends FormRequest
     public function authorize()
     {
         if ($this->isMethod('patch'))
-            return \Auth::check() && \Auth::user()->can('change password account');
+            return \Auth::check();
 
         return \Auth::check();
     }

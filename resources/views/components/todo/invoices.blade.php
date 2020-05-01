@@ -1,7 +1,7 @@
 @php
 use App\Project;
 use Carbon\Carbon;
-$can_show_invoice = Gate::check('show invoice');
+$can_show_invoice = Gate::check('manage invoice');
 @endphp
 
 <div class="scrollable-list col" style="max-height:90vh">

@@ -76,20 +76,18 @@ use App\SubscriptionPlan;
         <li class="nav-item">
             <a class="nav-link" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true">{{__('Personal Info')}}</a>
         </li>
-        @can('change password account')
         <li class="nav-item">
             <a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">{{__('Password')}}</a>
         </li>
-        @endcan
-        @can('manage company settings')
+        @if(\Auth::user()->type=='company')
         <li class="nav-item">
             <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="profile" aria-selected="true">{{__('Company')}}</a>
         </li>
-        @endcan
+        @endif
         <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">{{__('Email Notifications')}}</a>
         </li>
-        @if(Gate::check('manage plan') && \Auth::user()->type!='super admin')
+        @if(\Auth::user()->type=='company')
         <li class="nav-item">
             <a class="nav-link" id="subscription-tab" data-toggle="tab" href="#subscription" role="tab" aria-controls="subscription" aria-selected="false">{{__('Subscription')}}</a>
         </li>
@@ -105,11 +103,11 @@ use App\SubscriptionPlan;
             <div class="tab-content">
                 <div class="tab-pane fade show" role="tabpanel" id="personal">@include('users.partials.personal')</div>
                 <div class="tab-pane fade" role="tabpanel" id="password">@include('users.partials.password')</div>
-                @can('manage company settings')
+                @if(\Auth::user()->type=='company')
                 <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.partials.company')</div>
-                @endcan
+                @endif
                 <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.partials.notifications')</div>
-                @if(Gate::check('manage plan') && \Auth::user()->type!='super admin')
+                @if(\Auth::user()->type=='company')
                 <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.partials.subscription')</div>
                 @endif
                 <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.partials.integrations')</div>

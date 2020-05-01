@@ -34,20 +34,12 @@ $languages=$user->languages();
     @endif
 
     @if(\Auth::user()->type=='super admin')
-        @can('create language')
         <li class="nav-item">
             <a class="nav-link" href="{{url('/languages')}}">{{__('Languages')}}</a>
         </li>
-        @endcan
-
-        @can('manage plan')
         <li class="nav-item">
             <a class="nav-link" href="{{route('plans.index')}}">{{__('Price Plans')}}</a>
         </li>
-        @endcan
-
-        @can('manage order')
-        @endcan
     @endif
 
     @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
@@ -94,7 +86,7 @@ $languages=$user->languages();
     </li>
     @endif
 
-    @if((Gate::check('manage item') || Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('manage payment') || Gate::check('manage tax')) || \Auth::user()->type=='client')
+    @if((Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('edit invoice') || Gate::check('manage invoice')) || \Auth::user()->type=='client')
     <li class="nav-item">
 
         <div class="dropdown">
@@ -168,14 +160,10 @@ $languages=$user->languages();
             {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                @can('manage account')
                 <a class="dropdown-item" href="{{route('profile.show')}}">
                     {{__('My Profile')}}
                 </a>
-                @endcan
-
                 <div class="dropdown-divider"></div>
-
                 @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
                 @if(Gate::check('manage user'))
                     <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
@@ -185,7 +173,6 @@ $languages=$user->languages();
                 @endif
                 <div class="dropdown-divider"></div>
                 @endif
-
                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                     {{__('Logout')}}
                 </a>

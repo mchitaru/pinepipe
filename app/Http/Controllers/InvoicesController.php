@@ -122,7 +122,7 @@ class InvoicesController extends Controller
 
     public function show(Invoice $invoice)
     {
-        if(\Auth::user()->can('show invoice') || \Auth::user()->type == 'client')
+        if(\Auth::user()->can('manage invoice') || \Auth::user()->type == 'client')
         {
             if($invoice->created_by == \Auth::user()->creatorId())
             {

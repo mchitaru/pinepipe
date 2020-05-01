@@ -36,7 +36,7 @@ use Carbon\Carbon;
                     <div class="d-flex align-items-center">
                         @if($lead->client)
                             <i class="material-icons mr-1">apartment</i>
-                            @if(Gate::check('show client'))
+                            @if(Gate::check('manage client'))
                             <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                                 {{$lead->client->name}}
                             </a>

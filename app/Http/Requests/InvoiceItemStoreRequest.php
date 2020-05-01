@@ -19,7 +19,7 @@ class InvoiceItemStoreRequest extends FormRequest
         if($invoice->created_by != \Auth::user()->creatorId())
             return false;            
 
-        return $this->user()->can('create invoice item');
+        return $this->user()->can('edit invoice');
     }
 
     /**

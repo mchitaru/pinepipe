@@ -31,7 +31,7 @@
                 <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                     <i class="material-icons">apartment</i>
                     <span data-filter-by="text" class="text-small text-truncate ">
-                        @if(Gate::check('show client') && !empty($invoice->project->client))
+                        @if(Gate::check('manage client') && !empty($invoice->project->client))
                         <a href="{{ route('clients.show', $invoice->project->client->id) }}" data-filter-by="text">
                             {{$invoice->project->client->name}}
                         </a>
