@@ -18,6 +18,7 @@ $factory->define(Invoice::class, function (Faker $faker) {
         'discount' => '0',
         'tax_id' => '1',
         'notes' => null,
+        'user_id' => User::$SEED_COMPANY_ID,
         'created_by'=> User::$SEED_COMPANY_ID,
     ];
 });
