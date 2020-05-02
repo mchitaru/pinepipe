@@ -111,6 +111,23 @@ class Project extends Model implements HasMedia
         ->orderBy('order', 'ASC');
     }
 
+
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($project) {
+            if ($user = \Auth::user()) {
+                $project->user_id = $user->id;
+                $project->created_by = $user->creatorId();
+            }
+        });
+    }
+
     public function computeStatistics($last_stage_id)
     {
         $this->progress = 0;
@@ -182,7 +199,6 @@ class Project extends Model implements HasMedia
     public static function createProject($post)
     {
         $project              = Project::make($post);
-        $project->created_by  = \Auth::user()->creatorId();
         $project->save();
 
         if(isset($post['user_id']))

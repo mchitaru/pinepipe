@@ -25,6 +25,7 @@ class CreateProjectsTable extends Migration
             $table->unsignedInteger('lead_id')->nullable();
             $table->boolean('enabled')->default(true);
             $table->boolean('archived')->default(false);
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            

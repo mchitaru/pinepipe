@@ -17,6 +17,7 @@ $factory->define(Project::class, function (Faker $faker) {
                                             User::$SEED_COMPANY_IDX*Client::$SEED),
         'description' => $faker->text,
         'archived' => false,
+        'user_id' => User::$SEED_COMPANY_ID,
         'created_by' => User::$SEED_COMPANY_ID,
     ];
 });
