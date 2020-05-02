@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\URL;
 class UserRolesController extends Controller
 {
     private static $modules = [ 'contact', 'client', 'lead', 'project', 'task', 'timesheet', 'invoice', 'expense', 
-                                'lead stage', 'project stage', 'user', 'role'];
+                                'lead stage', 'task stage', 'user', 'role'];
 
     public function index()
     {

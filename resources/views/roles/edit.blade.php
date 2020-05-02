@@ -45,6 +45,14 @@ modal-xl
                                 <td>{{ ucfirst($module) }}</td>
                                 <td>
                                     <div class="row">
+                                        @if(in_array('view all '.$module,(array) $permissions))
+                                            @if($key = array_search('view '.$module,$permissions))
+                                                <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
+                                                    {{Form::checkbox('permissions[]',$key,false, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
+                                                    {{Form::label('permission'.$key,'View all',['class'=>'custom-control-label'])}}<br>
+                                                </div>
+                                            @endif
+                                        @endif
                                         @if(in_array('view '.$module,(array) $permissions))
                                             @if($key = array_search('view '.$module,$permissions))
                                                 <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
