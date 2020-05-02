@@ -30,7 +30,6 @@ class LeadStoreRequest extends FormRequest
             'category_id' => 'numeric|nullable',
             'client_id' => 'integer|required',
             'contact_id' => 'integer|nullable',
-            'user_id' => 'integer|nullable',
         ];
     }
 

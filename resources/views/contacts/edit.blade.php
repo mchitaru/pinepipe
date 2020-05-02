@@ -44,12 +44,6 @@
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
         {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'2']) !!}
     </div>
-    @if(\Auth::user()->type=='company')
-        <div class="form-group row">
-            {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
-            {!! Form::select('user_id', $owners, null,array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
-        </div>
-    @endif
     <div class="form-group row align-items-center">
         {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
         {!! Form::select('tags[]', $tags, $contact_tags, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}

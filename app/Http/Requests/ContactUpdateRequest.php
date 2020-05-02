@@ -43,7 +43,6 @@ class ContactUpdateRequest extends FormRequest
             'website'=>'nullable|string',
             'birthday'=>'nullable|date',
             'notes'=>'nullable|string',
-            'user_id'=>'nullable|integer',
             'tags'=>'nullable|array'
         ];
     }

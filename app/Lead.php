@@ -24,12 +24,10 @@ class Lead extends Model implements HasMedia
         'price',
         'stage_id',
         'order',
-        'user_id',
         'client_id',
         'contact_id',
         'source_id',
         'category_id',
-        'created_by',
     ];
 
     protected $nullable = [
@@ -55,6 +53,22 @@ class Lead extends Model implements HasMedia
     public function contact()
     {
         return $this->belongsTo('App\Contact');
+    }
+
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($lead) {
+            if ($user = \Auth::user()) {
+                $lead->user_id = $user->id;
+                $lead->created_by = $user->creatorId();
+            }
+        });
     }
 
     public function removeProjectLead()

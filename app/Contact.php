@@ -22,7 +22,6 @@ class Contact extends Model
         'birthday',
         'notes',
         'client_id',
-        'user_id',
     ];
 
     protected $nullable = [
@@ -64,6 +63,7 @@ class Contact extends Model
 
         static::creating(function ($contact) {
             if ($user = \Auth::user()) {
+                $contact->user_id = $user->id;
                 $contact->created_by = $user->creatorId();
             }
         });

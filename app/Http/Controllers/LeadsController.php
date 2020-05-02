@@ -49,12 +49,6 @@ class LeadsController extends Controller
                                     ->get()
                                     ->pluck('name', 'id');
 
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                            ->where('type', '!=', 'client')
-                            ->get()
-                            ->pluck('name', 'id')
-                            ->prepend('(myself)', \Auth::user()->id);
-
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             if($client_id)
             {
@@ -71,7 +65,7 @@ class LeadsController extends Controller
                                     ->where('class', Lead::class)
                                     ->get()->pluck('name', 'id');
 
-            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'owners', 'clients', 'contacts', 'categories'));
+            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'clients', 'contacts', 'categories'));
         }
         else
         {
@@ -99,12 +93,6 @@ class LeadsController extends Controller
                             ->get()
                             ->pluck('name', 'id');
 
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                            ->where('type', '=', 'collaborator')
-                            ->get()
-                            ->pluck('name', 'id')
-                            ->prepend('(myself)', \Auth::user()->id);
-
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
@@ -124,7 +112,7 @@ class LeadsController extends Controller
                                     ->get()->pluck('name', 'id');
             }
 
-            return view('leads.edit', compact('stages', 'owners', 'categories', 'lead', 'clients', 'contacts'));
+            return view('leads.edit', compact('stages', 'categories', 'lead', 'clients', 'contacts'));
         }
         else
         {

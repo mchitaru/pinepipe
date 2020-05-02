@@ -23,12 +23,6 @@
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}
         {{Form::text('phone',null,array('class'=>'form-control col','placeholder'=>__('(800) 613-1303')))}}
     </div>
-    @if(\Auth::user()->type=='company')
-        <div class="form-group row">
-            {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
-            {!! Form::select('user_id', $owners, null, array('class' => 'form-control col font-style selectric','required'=>'required')) !!}
-        </div>
-    @endif
     <div class="form-group row align-items-center">
         {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
         {!! Form::select('tags[]', $tags, null, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}

@@ -60,11 +60,6 @@ class ContactsController extends Controller
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
                     ->get()
                     ->pluck('name', 'id');
-        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                        ->where('type', '!=', 'client')
-                        ->get()
-                        ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
 
         $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
                     ->whereHas('contacts')
@@ -72,7 +67,7 @@ class ContactsController extends Controller
                     ->pluck('name', 'name');
 
 
-        return view('contacts.create', compact('clients', 'owners', 'tags', 'client_id'));
+        return view('contacts.create', compact('clients', 'tags', 'client_id'));
     }
 
     /**
@@ -104,12 +99,6 @@ class ContactsController extends Controller
                         ->get()
                         ->pluck('name', 'id');
 
-        $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                        ->where('type', '!=', 'client')
-                        ->get()
-                        ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
-
         $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
                     ->whereHas('contacts')
                     ->get()
@@ -121,7 +110,7 @@ class ContactsController extends Controller
             $contact_tags[] = $tag->name;    
         }
 
-        return view('contacts.edit', compact('contact', 'clients', 'owners', 'tags', 'contact_tags'));
+        return view('contacts.edit', compact('contact', 'clients', 'tags', 'contact_tags'));
     }
 
     /**
