@@ -42,8 +42,8 @@ class TaxesController extends Controller
             $tax = new Tax();
             $tax->name = $request->name;
             $tax->rate = $request->rate;
-            $tax->created_by = \Auth::user()->creatorId();
             $tax->save();
+
             return redirect()->route('taxes.index')->with('success',__('Tax rate successfully created.'));
         }else{
             return redirect()->back()->with('error',__('Permission denied.'));

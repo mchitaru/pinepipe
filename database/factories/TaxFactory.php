@@ -9,6 +9,7 @@ $factory->define(Tax::class, function (Faker $faker) {
     return [
         'name' => 'VAT', 
         'rate' => 19.00, 
+        'user_id' => User::$SEED_COMPANY_ID,
         'created_by' => User::$SEED_COMPANY_ID
     ];
 });

@@ -34,7 +34,6 @@ class TaskChecklistController extends Controller
         $post = $request->validated();
 
         $post['title']         = __('Something To Do...');
-        $post['created_by']   = \Auth::user()->id;
         
         $subtask = $task->checklist()->create($post);
 
