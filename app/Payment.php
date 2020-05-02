@@ -22,4 +22,20 @@ class Payment extends Model
     {
         return $this->hasOne('App\Invoice','id','invoice_id');
     }
+
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($payment) {
+            if ($user = \Auth::user()) {
+                $payment->user_id = $user->id;
+                $payment->created_by = $user->creatorId();
+            }
+        });
+    }
 }

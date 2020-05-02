@@ -9,7 +9,6 @@ class Tag extends Model
 {
     protected $fillable = [
         'name',
-        'created_by',
     ];
 
     public function tasks()
@@ -32,6 +31,7 @@ class Tag extends Model
 
         static::creating(function ($tag) {
             if ($user = \Auth::user()) {
+                $tag->user_id = $user->id;
                 $tag->created_by = $user->creatorId();
             }
 

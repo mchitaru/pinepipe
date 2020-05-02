@@ -19,6 +19,7 @@ class CreateChecklistsTable extends Migration
             $table->string('title');
             $table->morphs('checklistable');
             $table->boolean('status')->default(false);
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by');
             $table->timestamps();
             $table->softDeletes();            

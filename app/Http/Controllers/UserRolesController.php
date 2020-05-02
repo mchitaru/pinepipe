@@ -74,10 +74,11 @@ class UserRolesController extends Controller
                             'permissions' => 'required',
                         ]
             );
-            $name        = $request['name'];
-            $role        = new Role();
-            $role->name  = $name;
-            $role->created_by=\Auth::user()->creatorId();
+            $name               = $request['name'];
+            $role               = new Role();
+            $role->name         = $name;
+            $role->user_id      = \Auth::user()->id;  
+            $role->created_by   = \Auth::user()->creatorId();
             $permissions = $request['permissions'];
             $role->save();
 

@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->unsignedInteger('order')->default(0);
             $table->string('description')->nullable();
             $table->unsignedInteger('category_id')->nullable();
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            

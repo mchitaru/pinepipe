@@ -17,6 +17,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            

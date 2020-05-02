@@ -22,7 +22,6 @@ class Client extends Model implements HasMedia
         'phone',
         'address',
         'website',
-        'created_by',
     ];
 
     protected $nullable = [
@@ -69,10 +68,25 @@ class Client extends Model implements HasMedia
         return $this->hasManyThrough('App\Expense', 'App\Project', 'client_id', 'project_id', 'id');
     }
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($client) {
+            if ($user = \Auth::user()) {
+                $client->user_id = $user->id;
+                $client->created_by = $user->creatorId();
+            }
+        });
+    }
+
     public static function createClient($post)
     {
         $client = Client::make($post);
-        $client->created_by = \Auth::user()->creatorId();
         $client->save();
 
         // $user = User::create($request->all());

@@ -19,6 +19,7 @@ class CreateStagesTable extends Migration
             $table->string('class');
             $table->unsignedInteger('order')->default(0);
             $table->boolean('open')->default(true);
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            

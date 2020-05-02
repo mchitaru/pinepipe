@@ -21,6 +21,7 @@ class CreateClientsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('website')->nullable();
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            

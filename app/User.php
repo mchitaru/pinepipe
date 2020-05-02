@@ -591,6 +591,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                     'class' => Lead::class,
                     'order' => $key,
                     'open' => ($key < count($leadStages) - 2) ? 1 : 0,
+                    'user_id' => $id,
                     'created_by' => $id,
                 ]
             );
@@ -611,6 +612,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                     'class' => Task::class,
                     'order' => $key,
                     'open' => ($key < count($taskStages) - 1) ? 1 : 0,
+                    'user_id' => $id,
                     'created_by' => $id,
                 ]
             );

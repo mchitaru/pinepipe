@@ -23,7 +23,6 @@ class Contact extends Model
         'notes',
         'client_id',
         'user_id',
-        'created_by',
     ];
 
     protected $nullable = [
@@ -55,6 +54,21 @@ class Contact extends Model
         return $this->hasMany('App\Lead', 'contact_id', 'id');
     }
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($contact) {
+            if ($user = \Auth::user()) {
+                $contact->created_by = $user->creatorId();
+            }
+        });
+    }
+
     public static function createContact($post)
     {
         if(\Auth::user()->type != 'company')
@@ -63,7 +77,6 @@ class Contact extends Model
         }
 
         $contact                = Contact::make($post);
-        $contact->created_by    = \Auth::user()->creatorId();
         $contact->save();
 
         $contact->syncTags(isset($post['tags'])?$post['tags']:[]);

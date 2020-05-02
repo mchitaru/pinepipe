@@ -31,6 +31,7 @@ class CategorySeeder extends Seeder
                     'name' => $lead,
                     'class' => Lead::class,
                     'active' => true,
+                    'user_id' => 0,
                     'created_by' => 0,
                 ]
             );
@@ -51,6 +52,7 @@ class CategorySeeder extends Seeder
                     'name' => $expense,
                     'class' => Expense::class,
                     'active' => true,
+                    'user_id' => 0,
                     'created_by' => 0,
                 ]
             );
@@ -68,6 +70,7 @@ class CategorySeeder extends Seeder
                     'name' => $payment,
                     'class' => Payment::class,
                     'active' => true,
+                    'user_id' => 0,
                     'created_by' => 0,
                 ]
             );
@@ -89,6 +92,7 @@ class CategorySeeder extends Seeder
                     'name' => $event,
                     'class' => Event::class,
                     'active' => true,
+                    'user_id' => 0,
                     'created_by' => 0,
                 ]
             );

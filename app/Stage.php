@@ -12,7 +12,8 @@ class Stage extends Model
         'order',
         'open',
         'pipeline_id',
-        'created_by',
+        'user_id',
+        'created_by'
     ];
 
     protected $hidden = [
@@ -30,6 +31,23 @@ class Stage extends Model
     public function leads()
     {
         return $this->hasMany('App\Lead', 'stage_id', 'id');
+    }
+
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($stage) {
+
+            if ($user = \Auth::user()) {
+                $stage->user_id = $user->id;
+                $stage->created_by = $user->creatorId();
+            }
+        });
     }
 
     public function computeStatistics()

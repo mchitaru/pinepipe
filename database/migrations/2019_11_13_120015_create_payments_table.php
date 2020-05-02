@@ -21,6 +21,8 @@ class CreatePaymentsTable extends Migration
             $table->float('amount');
             $table->date('date');
             $table->text('notes');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('created_by');
             $table->timestamps();
             $table->softDeletes();            
         });

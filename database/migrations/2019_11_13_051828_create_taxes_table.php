@@ -17,6 +17,7 @@ class CreateTaxesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->float('rate')->default(0.00);
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by');
             $table->timestamps();
             $table->softDeletes();            

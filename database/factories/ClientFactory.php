@@ -13,6 +13,7 @@ $factory->define(Client::class, function (Faker $faker) {
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,
         'website' => 'https:\\www.pinepipe.com',
+        'user_id' => User::$SEED_COMPANY_ID,
         'created_by' => User::$SEED_COMPANY_ID
     ];
 });

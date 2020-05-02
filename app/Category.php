@@ -39,6 +39,7 @@ class Category extends Model
 
         static::creating(function ($category) {
             if ($user = \Auth::user()) {
+                $category->user_id = $user->id;
                 $category->created_by = $user->creatorId();
             }
 
