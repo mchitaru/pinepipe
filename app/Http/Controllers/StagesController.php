@@ -15,16 +15,9 @@ class StagesController extends Controller
      */
     public function index()
     {
-        if(\Auth::user()->can('view project stage'))
-        {
-            $taskStages = Stage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
+        $taskStages = Stage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 
-            return view('taskstages.index', compact('taskStages'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+        return view('taskstages.index', compact('taskStages'));
     }
 
     /**
@@ -34,7 +27,7 @@ class StagesController extends Controller
      */
     public function create()
     {
-        if(\Auth::user()->can('create project stage'))
+        if(\Auth::user()->can('create task stage'))
         {
             return view('taskstages.create');
         }
@@ -52,7 +45,7 @@ class StagesController extends Controller
      */
     public function store(Request $request)
     {
-        if(\Auth::user()->can('create project stage'))
+        if(\Auth::user()->can('create task stage'))
         {
             $validator = \Validator::make(
                 $request->all(), [
@@ -101,7 +94,7 @@ class StagesController extends Controller
      */
     public function edit(Stage $stage)
     {
-        if(\Auth::user()->can('edit project stage'))
+        if(\Auth::user()->can('edit task stage'))
         {
             $leadstages = Stage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
@@ -128,7 +121,7 @@ class StagesController extends Controller
      */
     public function update(Request $request, Stage $stage)
     {
-        if(\Auth::user()->can('edit project stage'))
+        if(\Auth::user()->can('edit task stage'))
         {
             $leadstages = Stage::findOrfail($id);
             if($leadstages->created_by == \Auth::user()->creatorId())
@@ -172,7 +165,7 @@ class StagesController extends Controller
      */
     public function destroy(Stage $stage)
     {
-        if(\Auth::user()->can('delete project stage'))
+        if(\Auth::user()->can('delete task stage'))
         {
             $taskStages = Stage::findOrfail($id);
             if($taskStages->created_by == \Auth::user()->creatorId())

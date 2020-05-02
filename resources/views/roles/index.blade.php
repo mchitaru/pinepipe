@@ -3,7 +3,7 @@
     <div class="pl-3 row align-items-center">
         <div class="card-body">
             <div class="card-title mr-3 col-xs">
-                @if($role->created_by != 1 && Gate::check('edit role'))
+                @if($role->created_by != 1 && Gate::check('edit permission'))
                     <a href="{{ route('roles.edit',$role->id) }}" data-remote="true" data-type="text">
                         <h6 data-filter-by="text">{{ $role->name }}</h6>
                     </a>
@@ -25,12 +25,12 @@
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit role')
+                    @can('edit permission')
                     <a class="dropdown-item" href="{{ route('roles.edit',$role->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
-                    @can('delete role')
+                    @can('delete permission')
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ route('roles.destroy', $role->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>

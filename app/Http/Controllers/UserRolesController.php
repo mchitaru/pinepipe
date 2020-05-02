@@ -18,7 +18,7 @@ class UserRolesController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        if(\Auth::user()->can('view role'))
+        if(\Auth::user()->can('view permission'))
         {
             $roles = Role::where(function ($query) use ($user) {
                         $query->where('created_by', '=', 1)
@@ -36,7 +36,7 @@ class UserRolesController extends Controller
     
     public function create()
     {
-        if(\Auth::user()->can('create role')){
+        if(\Auth::user()->can('create permission')){
             
             $user = \Auth::user();
             $modules = UserRolesController::$modules;
@@ -67,7 +67,7 @@ class UserRolesController extends Controller
 
     public function store(Request $request)
     {
-        if(\Auth::user()->can('create role')){
+        if(\Auth::user()->can('create permission')){
             $this->validate(
                 $request, [
                             'name' => 'required|not_in:super admin|max:100|unique:roles,name,NULL,id,created_by,'.\Auth::user()->creatorId(),
@@ -99,7 +99,7 @@ class UserRolesController extends Controller
 
     public function edit(Role $role)
     {
-        if(\Auth::user()->can('edit role')){
+        if(\Auth::user()->can('edit permission')){
 
             $modules = UserRolesController::$modules;
             $user = \Auth::user();
@@ -130,7 +130,7 @@ class UserRolesController extends Controller
 
     public function update(Request $request, Role $role)
     {
-        if(\Auth::user()->can('edit role')){
+        if(\Auth::user()->can('edit permission')){
             $this->validate(
                 $request, [
                             'name' => 'required|not_in:super admin|max:100|unique:roles,name,'. $role['id'].',id,created_by,'.\Auth::user()->creatorId(),
@@ -179,7 +179,7 @@ class UserRolesController extends Controller
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete role')){
+        if(\Auth::user()->can('delete permission')){
             $role->delete();
 
             return Redirect::to(URL::previous())->with('success', __('Role successfully deleted.'));
