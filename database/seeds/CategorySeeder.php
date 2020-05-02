@@ -24,13 +24,13 @@ class CategorySeeder extends Seeder
             'Google',
             'Phone',
         ];
-        foreach($leads as $lead)
+        foreach($leads as $key => $lead)
         {
             Category::create(
                 [
                     'name' => $lead,
                     'class' => Lead::class,
-                    'active' => true,
+                    'order' => $key,
                     'user_id' => 0,
                     'created_by' => 0,
                 ]
@@ -45,13 +45,13 @@ class CategorySeeder extends Seeder
             'Office',
             'Assests',
         ];
-        foreach($expenses as $expense)
+        foreach($expenses as $key => $expense)
         {
             Category::create(
                 [
                     'name' => $expense,
                     'class' => Expense::class,
-                    'active' => true,
+                    'order' => $key,
                     'user_id' => 0,
                     'created_by' => 0,
                 ]
@@ -63,35 +63,13 @@ class CategorySeeder extends Seeder
             'Cash',
             'Bank',
         ];
-        foreach($payments as $payment)
+        foreach($payments as $key => $payment)
         {
             Category::create(
                 [
                     'name' => $payment,
                     'class' => Payment::class,
-                    'active' => true,
-                    'user_id' => 0,
-                    'created_by' => 0,
-                ]
-            );
-        }
-
-        // Event Category
-        $events = [
-            'Call',
-            'Meeting',
-            'ToDo',
-            'Deadline',
-            'Email',
-            'Lunch'
-        ];
-        foreach($events as $event)
-        {
-            Category::create(
-                [
-                    'name' => $event,
-                    'class' => Event::class,
-                    'active' => true,
+                    'order' => $key,
                     'user_id' => 0,
                     'created_by' => 0,
                 ]
