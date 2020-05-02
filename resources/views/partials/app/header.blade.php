@@ -42,18 +42,18 @@ $languages=$user->languages();
         </li>
     @endif
 
-    @if(\Auth::user()->type!='super admin' && Gate::check('manage client'))
+    @if(\Auth::user()->type!='super admin' && Gate::check('view client'))
     <li class="nav-item">
 
         <div class="dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Clients')}}</a>
             <div class="dropdown-menu">
 
-                @can('manage contact')
+                @can('view contact')
                     <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
                 @endif
 
-                @can('manage lead')
+                @can('view lead')
                     <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
                 @endif
 
@@ -67,17 +67,17 @@ $languages=$user->languages();
     </li>
     @endif
 
-    @if(Gate::check('manage project') || Gate::check('manage task'))
+    @if(Gate::check('view project') || Gate::check('view task'))
     <li class="nav-item">
         <div class="dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Projects')}}</a>
         <div class="dropdown-menu">
 
-            @can('manage project')
+            @can('view project')
                 <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
             @endcan
 
-            @can('manage task')
+            @can('view task')
                 <a class="dropdown-item" href="{{ route('tasks.board') }}">{{__('Tasks')}}</a>
             @endcan
 
@@ -86,17 +86,17 @@ $languages=$user->languages();
     </li>
     @endif
 
-    @if((Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('edit invoice') || Gate::check('manage invoice')) || \Auth::user()->type=='client')
+    @if((Gate::check('view invoice') || Gate::check('view expense') || Gate::check('edit invoice') || Gate::check('view invoice')) || \Auth::user()->type=='client')
     <li class="nav-item">
 
         <div class="dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Finance')}}</a>
             <div class="dropdown-menu">
-                @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
+                @if(Gate::check('view invoice') || \Auth::user()->type=='client')
                     <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
                 @endcan
 
-                @if(Gate::check('manage expense') || \Auth::user()->type=='client')
+                @if(Gate::check('view expense') || \Auth::user()->type=='client')
                     <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
                 @endif
             </div>
@@ -104,7 +104,7 @@ $languages=$user->languages();
     </li>
     @endif
 
-    @if(Gate::check('manage project') || \Auth::user()->type!='super admin')
+    @if(Gate::check('view project') || \Auth::user()->type!='super admin')
     <li class="nav-item">
 
         <div class="dropdown">
@@ -164,11 +164,11 @@ $languages=$user->languages();
                     {{__('My Profile')}}
                 </a>
                 <div class="dropdown-divider"></div>
-                @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
-                @if(Gate::check('manage user'))
+                @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view role')))
+                @if(Gate::check('view user'))
                     <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                 @endif
-                @if(Gate::check('manage role'))
+                @if(Gate::check('view role'))
                     <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
                 @endif
                 <div class="dropdown-divider"></div>

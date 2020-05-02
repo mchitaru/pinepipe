@@ -18,7 +18,7 @@ class UserRolesController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        if(\Auth::user()->can('manage role'))
+        if(\Auth::user()->can('view role'))
         {
             $roles = Role::where(function ($query) use ($user) {
                         $query->where('created_by', '=', 1)

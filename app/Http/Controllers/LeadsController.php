@@ -21,7 +21,7 @@ class LeadsController extends Controller
 {
     public function board()
     {
-        if(\Auth::user()->can('manage lead'))
+        if(\Auth::user()->can('view lead'))
         {
             clock()->startEvent('LeadsController', "Load leads");
 
@@ -160,7 +160,7 @@ class LeadsController extends Controller
     {
         $user = \Auth::user();
 
-        if(\Auth::user()->can('manage lead'))
+        if(\Auth::user()->can('view lead'))
         {
             clock()->startEvent('LeadsController', "Load lead");
 

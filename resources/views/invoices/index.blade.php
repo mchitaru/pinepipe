@@ -2,7 +2,7 @@
 
 @php
 use Carbon\Carbon;
-$can_show_invoice = Gate::check('manage invoice');
+$can_show_invoice = Gate::check('view invoice');
 @endphp
 
 @foreach ($invoices as $invoice)

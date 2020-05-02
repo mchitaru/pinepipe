@@ -8,7 +8,7 @@ trait Taskable
 {
     public function taskShow(Task $task)
     {
-        if(\Auth::user()->can('manage task'))
+        if(\Auth::user()->can('view task'))
         {
             clock()->startEvent('Taskable.show', "Load task");
 

@@ -91,7 +91,7 @@
                     </div>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body filter-list paginate-container">@can('manage invoice')@include('invoices.index')@endcan</div>
+                    <div class="content-list-body filter-list paginate-container">@can('view invoice')@include('invoices.index')@endcan</div>
                     <!--end of content list body-->
                 </div>
             <!--end of tab-->

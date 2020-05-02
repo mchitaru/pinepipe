@@ -27,7 +27,7 @@ class InvoicesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('manage invoice') ||
+        if(\Auth::user()->can('view invoice') ||
            \Auth::user()->type == 'client')
         {
             clock()->startEvent('InvoicesController', "Load invoices");
@@ -61,7 +61,7 @@ class InvoicesController extends Controller
             else
             {
 
-                if(\Auth::user()->can('manage invoice'))
+                if(\Auth::user()->can('view invoice'))
                 {
                     $invoices = Invoice::with('project')
                                 ->where('created_by', '=', \Auth::user()->creatorId())
@@ -122,7 +122,7 @@ class InvoicesController extends Controller
 
     public function show(Invoice $invoice)
     {
-        if(\Auth::user()->can('manage invoice') || \Auth::user()->type == 'client')
+        if(\Auth::user()->can('view invoice') || \Auth::user()->type == 'client')
         {
             if($invoice->created_by == \Auth::user()->creatorId())
             {

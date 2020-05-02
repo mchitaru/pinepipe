@@ -21,7 +21,7 @@
                                     {{__('Edit')}}
                                 </a>
                             @endcan
-                            @can('manage invite user')
+                            @can('view invite user')
                                 <a class="dropdown-item" href="{{ route('projects.invite.create', $project->id) }}" data-remote="true" data-type="text">
                                     {{__('Add User')}}
                                 </a>
@@ -53,7 +53,7 @@
                     </div>
             @endif
             <div class="card-title d-flex justify-content-between align-items-center">
-                @if(Gate::check('manage project'))
+                @if(Gate::check('view project'))
                     <a href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
                         <h5 data-filter-by="text">{{ $project->name }}</h5>
                     </a>
@@ -86,7 +86,7 @@
                 </div> --}}
                 <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
                     <i class="material-icons mr-1">apartment</i>
-                    @if(Gate::check('manage client') && !empty($project->client))
+                    @if(Gate::check('view client') && !empty($project->client))
                         <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
                             {{$project->client->name}}
                         </a>

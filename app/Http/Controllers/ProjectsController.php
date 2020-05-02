@@ -36,7 +36,7 @@ class ProjectsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('manage project'))
+        if($user->can('view project'))
         {
             clock()->startEvent('ProjectsController.index', "Load projects");
 
@@ -153,7 +153,7 @@ class ProjectsController extends Controller
     {
         $user = \Auth::user();
 
-        if(\Auth::user()->can('manage project'))
+        if(\Auth::user()->can('view project'))
         {
             clock()->startEvent('ProjectsController', "Load project");
 

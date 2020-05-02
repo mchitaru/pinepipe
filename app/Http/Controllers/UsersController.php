@@ -21,7 +21,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $user = \Auth::user();
-        if(\Auth::user()->can('manage user'))
+        if(\Auth::user()->can('view user'))
         {
             if(\Auth::user()->type == 'super admin')
             {

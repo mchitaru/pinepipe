@@ -293,7 +293,7 @@ class Project extends Model implements HasMedia
         'edit task',
         'delete task',
         'show uploading',
-        'manage timesheet',
+        'view timesheet',
         'create timesheet',
         'edit timesheet',
         'delete timesheet'

@@ -126,7 +126,7 @@ $(function() {
             </div>
 
             <ul class="nav nav-tabs nav-fill" role="tablist">
-            @can('manage event')
+            @can('view event')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">Events
                     <span class="badge badge-secondary">{{ $events->count() }}</span>
@@ -172,7 +172,7 @@ $(function() {
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('manage event')@include('events.index')@endcan</div>
+                <div class="content-list-body">@can('view event')@include('events.index')@endcan</div>
                 <!--end of content list-->
             </div>
             <!--end of tab-->

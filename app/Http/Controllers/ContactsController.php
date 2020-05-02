@@ -20,7 +20,7 @@ class ContactsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('manage contact'))
+        if($user->can('view contact'))
         {
             clock()->startEvent('ContactsController', "Load contacts");
 

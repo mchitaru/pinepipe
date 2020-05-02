@@ -33,7 +33,7 @@
                 <div class="row align-items-center">
                     @if($contact->client)
                         <i class="material-icons mr-1">apartment</i>
-                        @if(Gate::check('manage client'))
+                        @if(Gate::check('view client'))
                         <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$contact->client->id) }}">
                             {{$contact->client->name}}
                         </a>

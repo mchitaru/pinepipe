@@ -41,11 +41,11 @@ $languages=$user->languages();
                     {{__('My Profile')}}
                 </a>
                 <div class="dropdown-divider"></div>
-                @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
-                    @if(Gate::check('manage user'))
+                @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view role')))
+                    @if(Gate::check('view user'))
                         <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                     @endif
-                    @if(Gate::check('manage role'))
+                    @if(Gate::check('view role'))
                         <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
                     @endif
 
@@ -81,27 +81,27 @@ $languages=$user->languages();
             </li>
         @endif
 
-        @can('manage client')
+        @can('view client')
 
         <li class="nav-item ">
             <a class="nav-link {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
         </li>
         @endcan
 
-        @if(Gate::check('manage lead') || Gate::check('manage contact'))
+        @if(Gate::check('view lead') || Gate::check('view contact'))
             <li class="nav-item">
 
             <a class="nav-link {{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?'true':'false'}}" data-target="#submenu-2" aria-controls="submenu-2">{{__('Sales')}}</a>
             <div id="submenu-2" class="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
-                @can('manage lead')
+                @can('view lead')
                 <li class="nav-item">
                     <a class="nav-link {{(Request::segment(1) == 'leads')?' active':''}}" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
                 </li>
                 @endif
                 
-                @can('manage contact')
+                @can('view contact')
                 <li class="nav-item">
                     <a class="nav-link {{(Request::segment(1) == 'contacts')?' active':''}}" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
                 </li>
@@ -122,20 +122,20 @@ $languages=$user->languages();
         @endcan
 
 
-        @if(Gate::check('manage project') || Gate::check('manage task'))
+        @if(Gate::check('view project') || Gate::check('view task'))
             <li class="nav-item">
 
             <a class="nav-link {{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'true':'false'}}" data-target="#submenu-3" aria-controls="submenu-3">{{__('Workspace')}}</a>
             <div id="submenu-3" class="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
-                @can('manage task')
+                @can('view task')
                 <li class="nav-item">
                     <a class="nav-link {{(Request::segment(1) == 'tasks')?' active':''}}" href="{{ route('tasks.board') }}">{{__('Tasks')}}</a>
                 </li>
                 @endcan
 
-                @can('manage project')
+                @can('view project')
                 <li class="nav-item">
                     <a class="nav-link {{(Request::segment(1) == 'projects')?' active':''}}" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
                 </li>
@@ -147,7 +147,7 @@ $languages=$user->languages();
             </li>
         @endif
 
-        @if((Gate::check('manage invoice') || Gate::check('manage expense') || Gate::check('edit invoice') || Gate::check('manage invoice')) || \Auth::user()->type=='client')
+        @if((Gate::check('view invoice') || Gate::check('view expense') || Gate::check('edit invoice') || Gate::check('view invoice')) || \Auth::user()->type=='client')
             <li class="nav-item">
 
                 <a class="nav-link {{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?'true':'false'}}" data-target="#submenu-4" aria-controls="submenu-4">{{__('Finances')}}</a>
@@ -155,13 +155,13 @@ $languages=$user->languages();
                     <ul class="nav nav-small flex-column">
 
 
-                    @if(Gate::check('manage invoice') || \Auth::user()->type=='client')
+                    @if(Gate::check('view invoice') || \Auth::user()->type=='client')
                     <li class="nav-item">
                         <a class="nav-link {{(Request::segment(1) == 'invoices')?' active':''}}" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
                     </li>
                     @endcan
 
-                    @if(Gate::check('manage expense') || \Auth::user()->type=='client')
+                    @if(Gate::check('view expense') || \Auth::user()->type=='client')
                     <li class="nav-item">
                         <a class="nav-link {{(Request::segment(1) == 'expenses')?' active':''}}" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
                     </li>
@@ -173,7 +173,7 @@ $languages=$user->languages();
             </li>
         @endif
 
-        @if(Gate::check('manage project') || \Auth::user()->type!='super admin')
+        @if(Gate::check('view project') || \Auth::user()->type!='super admin')
             <li class="nav-item">
 
                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">{{__('Reports')}}</a>
@@ -208,12 +208,12 @@ $languages=$user->languages();
     {{-- <div class="d-none d-lg-none d-xl-block w-100">
         <span class="text-small text-muted">{{__('Quick Links')}}</span>
         <ul class="nav nav-small flex-column mt-2">
-        @can('manage contact')
+        @can('view contact')
             <li class="nav-item">
                 <a href="{{ route('clients.index') }}" class="nav-link">{{__('Clients')}}</a>
             </li>
         @endcan
-        @can('manage project')
+        @can('view project')
             <li class="nav-item">
                 <a href="{{ route('projects.index') }}" class="nav-link">{{__('Projects')}}</a>
             </li>
@@ -270,11 +270,11 @@ $languages=$user->languages();
                 {{__('My Profile')}}
             </a>
             <div class="dropdown-divider"></div>
-            @if(\Auth::user()->type!='client' && (Gate::check('manage user') || Gate::check('manage role')))
-                @if(Gate::check('manage user'))
+            @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view role')))
+                @if(Gate::check('view user'))
                     <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
                 @endif
-                @if(Gate::check('manage role'))
+                @if(Gate::check('view role'))
                     <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
                 @endif
                 <div class="dropdown-divider"></div>

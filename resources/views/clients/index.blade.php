@@ -10,7 +10,7 @@
         </div>
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-4">
-                @if(Gate::check('manage client'))
+                @if(Gate::check('view client'))
                 <a href="{{ route('clients.show',$client->id) }}">
                     <h6 data-filter-by="text">{{$client->name}}</h6>
                 </a>

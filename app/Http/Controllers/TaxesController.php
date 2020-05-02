@@ -12,7 +12,7 @@ class TaxesController extends Controller
 
     public function index()
     {
-        if(\Auth::user()->can('manage invoice')) {
+        if(\Auth::user()->can('view invoice')) {
             $taxes = Tax::where('created_by','=',\Auth::user()->creatorId())->get();
             return view('taxes.index')->with('taxes', $taxes);
         }else{

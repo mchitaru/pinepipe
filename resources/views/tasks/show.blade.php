@@ -193,7 +193,7 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
         <div class="tab-content">
             <div class="tab-pane fade show {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" id="task" role="tabpanel">
 
-                @can('manage task')
+                @can('view task')
                 <div class="content-list">
                     <div class="row content-list-head">
                         <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">

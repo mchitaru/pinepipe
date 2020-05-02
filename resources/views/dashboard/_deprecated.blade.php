@@ -242,7 +242,7 @@ if($client_project_budget_due_per<=15){
                         <div class="col">
                             <div class="card card-info">
                                 <div class="card-body">
-                                    @if(Gate::check('manage task'))
+                                    @if(Gate::check('view task'))
                                     <a href="{{ route('tasks.board') }}">
                                         <h5 class="card-title">{{__('Tasks changes overview')}}</h5>
                                     </a>
@@ -255,7 +255,7 @@ if($client_project_budget_due_per<=15){
                         </div>
                     </div>
                     <div class="row">
-                        @can('manage project')
+                        @can('view project')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">
@@ -313,7 +313,7 @@ if($client_project_budget_due_per<=15){
                             </div>
                         </div>
                         @endcan
-                        @can('manage task')
+                        @can('view task')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">
@@ -350,7 +350,7 @@ if($client_project_budget_due_per<=15){
                                                     {{ Carbon::parse($top_task->due_date)->diffForHumans() }}
                                                 </span>
                                                 @if(!empty($top_task->project))
-                                                    @if(Gate::check('manage project'))
+                                                    @if(Gate::check('view project'))
                                                         <a href="{{ $top_task->project?route('projects.show', $top_task->project->id):'#' }}">
                                                             <p><span class="text-small">{{$top_task->project->name}}</span></p>
                                                         </a>
@@ -396,7 +396,7 @@ if($client_project_budget_due_per<=15){
                             </div>
                         </div>
                         @endcan
-                        @can('manage invoice')
+                        @can('view invoice')
                         <div class="col-lg-6 col-xs-12 col-sm-12">
                             <div class="card-list">
                                 <div class="card-list-head">

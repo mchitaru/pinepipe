@@ -13,7 +13,7 @@ class PermissionsController extends Controller
 
     public function index()
     {
-        if(\Auth::user()->can('manage permission'))
+        if(\Auth::user()->can('view permission'))
         {
             $permissions = Permission::all();
 

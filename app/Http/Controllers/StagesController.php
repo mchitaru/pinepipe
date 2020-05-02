@@ -15,7 +15,7 @@ class StagesController extends Controller
      */
     public function index()
     {
-        if(\Auth::user()->can('manage project stage'))
+        if(\Auth::user()->can('view project stage'))
         {
             $taskStages = Stage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
 

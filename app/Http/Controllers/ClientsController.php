@@ -26,7 +26,7 @@ class ClientsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('manage client'))
+        if($user->can('view client'))
         {
             clock()->startEvent('ClientsController', "Load clients");
 
@@ -165,7 +165,7 @@ class ClientsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('manage client'))
+        if($user->can('view client'))
         {
             clock()->startEvent('ClientsController', "Load contacts, leads, projects");
 

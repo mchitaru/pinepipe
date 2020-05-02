@@ -7,7 +7,7 @@ use App\Project;
 $current_user=\Auth::user();
 $dz_id = 'project-files-dz';
 
-if(Gate::check('manage task')){
+if(Gate::check('view task')){
     $default_tab = '#tasks';
 }else{
     $default_tab = '#timesheets';
@@ -82,7 +82,7 @@ $(function() {
             @endcan
 
             <div class="dropdown-divider"></div>
-            @can('manage task')
+            @can('view task')
                 <a class="dropdown-item" href="{{ route('tasks.board', $project->id) }}" data-title="{{__('Task Board')}}">
                     {{__('Task Board')}}
                 </a>
@@ -143,7 +143,7 @@ $(function() {
 
                 </ul>
 
-                @can('manage project')
+                @can('view project')
 
                 <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
                     <i class="material-icons">add</i>
@@ -179,7 +179,7 @@ $(function() {
             </div>
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
-            @can('manage task')
+            @can('view task')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
                     <span class="badge badge-secondary">{{ $project->tasks->count() }}</span>
@@ -241,7 +241,7 @@ $(function() {
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body filter-list paginate-container">@can('manage task')@include('tasks.index')@endcan</div>
+                <div class="content-list-body filter-list paginate-container">@can('view task')@include('tasks.index')@endcan</div>
                 <!--end of content list-->
             </div>
             <!--end of tab-->
@@ -269,7 +269,7 @@ $(function() {
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('manage timesheet')@include('timesheets.index')@endcan</div>
+                <div class="content-list-body">@can('view timesheet')@include('timesheets.index')@endcan</div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="invoices" role="tabpanel" data-filter-list="content-list-body">
@@ -295,7 +295,7 @@ $(function() {
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('manage invoice')@include('invoices.index')@endcan</div>
+                <div class="content-list-body">@can('view invoice')@include('invoices.index')@endcan</div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="content-list-body">
@@ -321,7 +321,7 @@ $(function() {
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('manage expense')@include('expenses.index')@endcan</div>
+                <div class="content-list-body">@can('view expense')@include('expenses.index')@endcan</div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">

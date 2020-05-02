@@ -193,7 +193,7 @@ use Carbon\Carbon;
                             </div>
                             </div>
                             <div class="card-title">
-                                @if(Gate::check('manage lead'))
+                                @if(Gate::check('view lead'))
                                 <a href="{{ route('leads.show',$lead->id) }}">
                                     <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
                                 </a>
@@ -202,7 +202,7 @@ use Carbon\Carbon;
                                 @endif
 
                                 @if($lead->client)
-                                    @if(Gate::check('manage client'))
+                                    @if(Gate::check('view client'))
                                     <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                                         <p><span class="text-small">{{ $lead->client->name }}</span></p>
                                     </a>

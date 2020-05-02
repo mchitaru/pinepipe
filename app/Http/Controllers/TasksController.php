@@ -25,7 +25,7 @@ class TasksController extends Controller
 
     public function board(Request $request, $project_id = null)
     {
-        if(\Auth::user()->can('manage task'))
+        if(\Auth::user()->can('view task'))
         {
             clock()->startEvent('TasksController', "Load tasks");
 

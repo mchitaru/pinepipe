@@ -14,12 +14,12 @@ class ExpensesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('manage expense') ||
+        if(\Auth::user()->can('view expense') ||
            \Auth::user()->type == 'client')
         {
             clock()->startEvent('ExpensesController', "Load expenses");
 
-            if(\Auth::user()->can('manage expense'))
+            if(\Auth::user()->can('view expense'))
             {
                 $expenses = Expense::expensesByUserType()
                             ->where('created_by', '=', \Auth::user()->creatorId())
