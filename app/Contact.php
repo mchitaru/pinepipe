@@ -22,6 +22,8 @@ class Contact extends Model
         'birthday',
         'notes',
         'client_id',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

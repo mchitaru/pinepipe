@@ -20,7 +20,7 @@
             </div>
             <div class="card-title col-sm-2">
                 <div class="container row align-items-center">
-                    <span data-filter-by="text" class="text-small">{{ Auth::user()->invoiceNumberFormat($invoice->id) }}</span>
+                    <span data-filter-by="text" class="text-small">{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}</span>
                 </div>
             </div>
             <div class="card-title col-sm-5">

@@ -28,6 +28,8 @@ class Lead extends Model implements HasMedia
         'contact_id',
         'source_id',
         'category_id',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

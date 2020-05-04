@@ -36,7 +36,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-11">
-                                <h6>{{ Auth::user()->invoiceNumberFormat($invoice->id) }}
+                                <h6>{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}
                                     {!! $invoice->getStatusBadge() !!}
                                 </h6>
                             </div>

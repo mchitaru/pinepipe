@@ -29,6 +29,8 @@ class Task extends Model implements HasMedia
         'milestone_id',
         'order',
         'stage_id',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

@@ -583,9 +583,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
             'Won',
             'Lost',
         ];
+
+        $leadStage = null;
         foreach($leadStages as $key => $stage)
         {
-            Stage::create(
+            $s = Stage::create(
                 [
                     'name' => $stage,
                     'class' => Lead::class,
@@ -595,6 +597,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                     'created_by' => $id,
                 ]
             );
+
+            if($leadStage == null){
+
+                $leadStage = $s;
+            }
         }
 
         // TaskStages
@@ -604,9 +611,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
             'Bugs',
             'Done',
         ];
+
+        $taskStage = null;
         foreach($taskStages as $key => $stage)
         {
-            Stage::create(
+            $s = Stage::create(
                 [
                     'name' => $stage,
                     'class' => Task::class,
@@ -616,7 +625,139 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                     'created_by' => $id,
                 ]
             );
+
+            if($taskStage == null){
+
+                $taskStage = $s;
+            }
         }
+
+        //Sample Client
+        $client = Client::create(
+            [
+                'name' => __('Sample Client'),
+                'email' => 'client@example.com',
+                'phone' => '1-540-568-0645',
+                'address' => '45646 Jaleel Pines
+                                South Laron, SD 45620',
+                'website' => 'https:\\www.pinepipe.com',
+                'user_id' => $id,
+                'created_by' => $id    
+            ]
+        );
+
+        //Sample Contact
+        $contact = Contact::create(
+            [
+                'name' => __('Sample Contact'),
+                'client_id' => $client->id,
+                'email' => 'contact@example.com',
+                'phone' => '1-540-568-0645',
+                'address' => '45646 Jaleel Pines
+                                South Laron, SD 45620',
+                'company' => __('Sample Client'),
+                'job' => 'CEO',
+                'website' => 'https:\\www.pinepipe.com',
+                'birthday' => '1981-05-09',
+                'notes' => null,
+                'user_id' => $id,
+                'created_by' => $id
+            ]
+        );
+
+        //Sample Lead
+        $lead = Lead::create(
+            [
+                'name' => 'Sample Lead',
+                'price' => '10000',
+                'stage_id'=> $leadStage->id,
+                'user_id'=> $id,
+                'client_id' => $client->id,
+                'contact_id' => $contact->id,
+                'created_by' => $id
+            ]
+        );
+
+        //Sample Project
+        $project = Project::create(
+            [
+                'name' => 'Sample Project',
+                'price' => '1000',
+                'start_date' => null,
+                'due_date' => null,
+                'client_id' => $client->id,
+                'description' => 'Redesign main website.',
+                'archived' => false,
+                'user_id' => $id,
+                'created_by' => $id,        
+            ]
+        );
+
+        $project->users()->sync(array($id));
+
+        //Sample Task
+        $task = Task::create(
+            [
+                'title' => 'Sample Task',
+                'priority' => 0,
+                'description' => 'Create a new logo.',
+                'due_date'  => null,
+                'project_id' => $project->id,
+                'milestone_id' => null,
+                'order' => 0,
+                'stage_id' => $taskStage->id,
+                'user_id' => $id,
+                'created_by' => $id,        
+            ]
+        );
+
+        $task->users()->sync(array($id));
+
+        //Sample Timesheet
+        Timesheet::create(
+            [
+                'project_id' => $project->id,
+                'user_id' => $id,
+                'task_id' => $task->id,
+                'date' => Carbon::now(),
+                'rate' => 50,
+                'hours' => 8,
+                'minutes' => 0,
+                'seconds' => 0,
+                'remark' => null,
+                'created_by' => $id   
+            ]
+        );
+
+        //Sample Expense
+        Expense::create(
+            [
+                'amount' => 500,
+                'date' => Carbon::now(),
+                'project_id' => $project->id,
+                'category_id' => 5,
+                'user_id' => $id, 
+                'description' => null,
+                'attachment' => null,
+                'created_by' => $id,        
+            ]
+        );
+
+        //Sample Invoice
+        Invoice::create(
+            [
+                'invoice_id' => 1,
+                'project_id' => $project->id,
+                'status' => 0,
+                'issue_date' => Carbon::now(),
+                'due_date' => Carbon::now()->add(30, 'days'),
+                'discount' => '0',
+                'tax_id' => null,
+                'notes' => null,
+                'user_id' => $id,
+                'created_by'=> $id,
+            ]
+        );
     }
 
     public function destroyUserProjectInfo()

@@ -24,6 +24,8 @@ class Project extends Model implements HasMedia
         'archived',
         'start_date',
         'due_date',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

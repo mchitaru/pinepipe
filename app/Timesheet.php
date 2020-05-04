@@ -22,7 +22,9 @@ class Timesheet extends Model
         'minutes',
         'seconds',
         'rate',
-        'remark'
+        'remark',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

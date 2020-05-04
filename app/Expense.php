@@ -19,6 +19,7 @@ class Expense extends Model
         'user_id',
         'description',
         'attachment',
+        'user_id',
         'created_by'
     ];
 

@@ -19,6 +19,8 @@ class Invoice extends Model
         'discount',
         'tax_id',
         'notes',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

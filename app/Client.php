@@ -22,6 +22,8 @@ class Client extends Model implements HasMedia
         'phone',
         'address',
         'website',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

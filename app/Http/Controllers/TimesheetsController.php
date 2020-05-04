@@ -32,19 +32,13 @@ class TimesheetsController extends Controller
      */
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create timesheet'))
-        {
-            $project_id = $request['project_id'];
+        $project_id = $request['project_id'];
 
-            $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
-            $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
+        $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
-            return view('timesheets.create', compact('projects', 'project_id', 'tasks'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+        $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
+
+        return view('timesheets.create', compact('projects', 'project_id', 'tasks'));
     }
 
     /**
@@ -83,27 +77,20 @@ class TimesheetsController extends Controller
      */
     public function edit(Timesheet $timesheet)
     {
-        if(\Auth::user()->can('edit timesheet'))
-        {
-            $project    = $timesheet->project;
-            $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
+        $project    = $timesheet->project;
+        $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
-            if($project)
-            {
-                $project_id = $project->id;
-                $tasks     = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
-            }else
-            {
-                $project_id = null;
-                $tasks   = [];
-            }
-
-            return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id'));
-        }
-        else
+        if($project)
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            $project_id = $project->id;
+            $tasks     = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
+        }else
+        {
+            $project_id = null;
+            $tasks   = [];
         }
+
+        return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id'));
     }
 
     /**
