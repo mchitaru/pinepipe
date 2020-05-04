@@ -19,6 +19,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->text('name');
             $table->float('price')->default(0.00);
             $table->nullableMorphs('invoiceable');
+            $table->unsignedInteger('created_by')->default('0');
             $table->timestamps();
         });
     }

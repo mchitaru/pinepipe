@@ -35,6 +35,43 @@ class Client extends Model implements HasMedia
 
     public static $SEED = 2;
     
+
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($client) {
+            if ($user = \Auth::user()) {
+                $client->user_id = $user->id;
+                $client->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($client) {
+
+            $client->projects()->each(function($project) {
+                $project->delete();
+             });
+
+            $client->leads()->each(function($lead) {
+                $lead->delete();
+            });
+
+            $client->users()->each(function($user) {
+                $user->delete();
+            });
+
+            $client->tags()->detach();
+            $client->events()->detach();
+
+            Contact::where('client_id', '=', $client->id)->update(array('client_id' => null));
+        });
+    }
+
     public function users()
     {
         return $this->hasMany('App\User', 'client_id', 'id');
@@ -70,22 +107,6 @@ class Client extends Model implements HasMedia
         return $this->hasManyThrough('App\Expense', 'App\Project', 'client_id', 'project_id', 'id');
     }
 
-    /**
-     * Boot events
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($client) {
-            if ($user = \Auth::user()) {
-                $client->user_id = $user->id;
-                $client->created_by = $user->creatorId();
-            }
-        });
-    }
-
     public static function createClient($post)
     {
         $client = Client::make($post);
@@ -104,11 +125,4 @@ class Client extends Model implements HasMedia
         $this->save();
     }
 
-    public function detachClient()
-    {
-        Project::where('client_id', '=', $this->id)->update(array('client_id' => null));
-        Lead::where('client_id', '=', $this->id)->update(array('client_id' => null));
-        Contact::where('client_id', '=', $this->id)->update(array('client_id' => null));
-        User::where('client_id', '=', $this->id)->update(array('client_id' => null));
-    }
 }

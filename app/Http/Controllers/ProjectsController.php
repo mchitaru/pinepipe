@@ -218,8 +218,6 @@ class ProjectsController extends Controller
             return view('helpers.destroy');
         }
 
-        $project->detachProject();
-
         $project->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Project successfully deleted'));

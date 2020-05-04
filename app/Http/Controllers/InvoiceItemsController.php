@@ -57,8 +57,6 @@ class InvoiceItemsController extends Controller
             return view('helpers.destroy');
         }
 
-        $item->detachItem($invoice);
-
         $item->delete();
 
         $invoice->updateStatus();

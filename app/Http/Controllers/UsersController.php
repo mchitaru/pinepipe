@@ -218,7 +218,6 @@ class UsersController extends Controller
             return view('helpers.destroy');
         }
 
-        $user->detachUser();
         $user->delete();
 
         return Redirect::to(URL::previous())->with('success', __('User successfully deleted.'));

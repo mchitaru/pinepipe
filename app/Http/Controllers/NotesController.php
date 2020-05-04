@@ -87,8 +87,6 @@ class NotesController extends Controller
             return view('helpers.destroy');
         }
 
-        $note->detachNote();
-
         $note->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Note successfully deleted.'));

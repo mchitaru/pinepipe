@@ -40,21 +40,6 @@ class Contact extends Model
 
     public static $SEED = 10;
 
-    public function user()
-    {
-        return $this->hasOne('App\User', 'id', 'user_id');
-    }
-
-    public function client()
-    {
-        return $this->hasOne('App\Client', 'id', 'client_id');
-    }
-
-    public function leads()
-    {
-        return $this->hasMany('App\Lead', 'contact_id', 'id');
-    }
-
     /**
      * Boot events
      * @return void
@@ -69,6 +54,27 @@ class Contact extends Model
                 $contact->created_by = $user->creatorId();
             }
         });
+
+        static::deleting(function ($contact) {
+
+            $contact->tags()->detach();
+            $contact->events()->detach();
+        });
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
+    public function client()
+    {
+        return $this->hasOne('App\Client', 'id', 'client_id');
+    }
+
+    public function leads()
+    {
+        return $this->hasMany('App\Lead', 'contact_id', 'id');
     }
 
     public static function createContact($post)
@@ -85,10 +91,6 @@ class Contact extends Model
     {
         $this->update($post);
         $this->syncTags(isset($post['tags'])?$post['tags']:[]);
-    }
-
-    public function detachContact()
-    {
     }
 
     public static function contactsByUserType()

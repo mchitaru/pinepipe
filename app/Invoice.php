@@ -46,6 +46,35 @@ class Invoice extends Model
         'badge-light',
     ];
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($invoice) {
+            if ($user = \Auth::user()) {
+                $invoice->user_id = $user->id;
+                $invoice->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($invoice) {
+
+            $invoice->payments()->each(function($payment) {
+                $payment->delete();
+            });
+
+            $invoice->items()->each(function($item) {
+                $item->delete();
+            });
+
+            $invoice->tags()->detach();
+        });
+    }
+
     public function project()
     {
         return $this->hasOne('App\Project', 'id', 'project_id');
@@ -64,22 +93,6 @@ class Invoice extends Model
     public function payments()
     {
         return $this->hasMany('App\Payment', 'invoice_id', 'id');
-    }
-
-    /**
-     * Boot events
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($invoice) {
-            if ($user = \Auth::user()) {
-                $invoice->user_id = $user->id;
-                $invoice->created_by = $user->creatorId();
-            }
-        });
     }
 
     public function getSubTotal()
@@ -174,12 +187,5 @@ class Invoice extends Model
 
         Activity::updateInvoice($this);
     }
-
-    public function detachInvoice()
-    {
-        Payment::where('invoice_id', '=', $this->id)->delete();
-        InvoiceItem::where('invoice_id', '=', $this->id)->delete();
-    }
-
 
 }

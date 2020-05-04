@@ -27,5 +27,9 @@ class Article extends Model
 
             $article->slug = Str::of($article->name)->slug('-');
         });
+
+        static::deleting(function ($article) {
+
+        });
     }
 }

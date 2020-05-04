@@ -221,8 +221,6 @@ class TasksController extends Controller
             return view('helpers.destroy');
         }
 
-        $task->detachTask();
-
         $task->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Task successfully deleted'));

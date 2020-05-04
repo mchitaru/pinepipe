@@ -21,6 +21,10 @@ class Media extends BaseMedia
                 $media->created_by = $user->creatorId();
             }
         });
+
+        static::deleting(function ($article) {
+
+        });
     }
 
     /**

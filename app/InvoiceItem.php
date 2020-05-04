@@ -30,6 +30,25 @@ class InvoiceItem extends Model
         return $this->morphTo();
     }
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($item) {
+            if ($user = \Auth::user()) {
+                $item->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($item) {
+
+        });
+    }
+
     public static function createItem($post, Invoice $invoice)
     {
         if($post['type'] == 'timesheet')
@@ -70,7 +89,4 @@ class InvoiceItem extends Model
         $invoice->updateStatus();
     }
 
-    public function detachItem(Invoice $invoice)
-    {
-    }
 }

@@ -43,6 +43,53 @@ class Project extends Model implements HasMedia
 
     public static $SEED = 10;
 
+
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($project) {
+            if ($user = \Auth::user()) {
+                $project->user_id = $user->id;
+                $project->created_by = $user->creatorId();
+            }
+        });
+
+        self::deleting(function ($project) {
+
+            $project->users()->detach();
+    
+            $project->expenses()->each(function($expense) {
+                $expense->delete();
+             });
+
+            $project->milestones()->each(function($milestone) {
+                $milestone->delete();
+            });
+
+            $project->timesheets()->each(function($timesheet) {
+                $timesheet->delete();
+            });
+
+            $project->invoices()->each(function($invoice) {
+                $invoice->delete();
+            });
+
+            $project->tasks()->each(function($task) {
+                $task->delete();
+            });
+                
+            $project->tags()->detach();
+
+            $project->activities()->delete();    
+        });
+    }
+
+
     public function tasks()
     {
         return $this->hasMany('App\Task', 'project_id', 'id');
@@ -111,23 +158,6 @@ class Project extends Model implements HasMedia
         ->where('class', Task::class)
         ->where('created_by', \Auth::user()->creatorId())
         ->orderBy('order', 'ASC');
-    }
-
-
-    /**
-     * Boot events
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($project) {
-            if ($user = \Auth::user()) {
-                $project->user_id = $user->id;
-                $project->created_by = $user->creatorId();
-            }
-        });
     }
 
     public function computeStatistics($last_stage_id)
@@ -244,26 +274,6 @@ class Project extends Model implements HasMedia
         $this->users()->sync($users);
 
         Activity::updateProject($this);
-    }
-
-    public function detachProject()
-    {
-        $users = collect();
-
-        $this->users()->sync($users);
-
-        $this->milestones()->delete();
-
-        Invoice::where('project_id', $this->id)->update(array('project_id' => 0));
-
-        foreach($this->tasks as $task)
-        {
-            $task->detachTask();
-
-            $task->delete();
-        }
-
-        $this->activities()->delete();
     }
 
     static function humanFileSize($bytes, $decimals = 2) {

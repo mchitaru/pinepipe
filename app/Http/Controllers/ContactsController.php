@@ -144,8 +144,6 @@ class ContactsController extends Controller
             return view('helpers.destroy');
         }
 
-        $contact->detachContact();
-
         $contact->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Contact successfully deleted.'));

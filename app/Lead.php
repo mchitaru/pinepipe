@@ -42,21 +42,6 @@ class Lead extends Model implements HasMedia
 
     public static $SEED = 10;
 
-    public function user()
-    {
-        return $this->hasOne('App\User', 'id', 'user_id');
-    }
-
-    public function client()
-    {
-        return $this->belongsTo('App\Client');
-    }
-
-    public function contact()
-    {
-        return $this->belongsTo('App\Contact');
-    }
-
     /**
      * Boot events
      * @return void
@@ -71,6 +56,35 @@ class Lead extends Model implements HasMedia
                 $lead->created_by = $user->creatorId();
             }
         });
+
+        static::deleting(function ($lead) {
+
+            $lead->removeProjectLead();
+
+            $lead->tags()->detach();
+            $lead->events()->detach();
+
+            $lead->notes()->each(function($note) {
+                $note->delete();
+            });
+
+            $lead->activities()->delete();
+        });
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo('App\Contact');
     }
 
     public function removeProjectLead()
@@ -119,13 +133,6 @@ class Lead extends Model implements HasMedia
         }
 
         return $updated;
-    }
-
-    public function detachLead()
-    {
-        $this->removeProjectLead();
-
-        $this->activities()->delete();
     }
 
 }

@@ -44,6 +44,40 @@ class Task extends Model implements HasMedia
     public static $SEED_PROJECT = 50;
     public static $SEED_FREE = 10;
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($task) {
+            if ($user = \Auth::user()) {
+                $task->user_id = $user->id;
+                $task->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($task) {
+
+            $task->users()->detach();
+            $task->tags()->detach();
+    
+            $task->comments()->each(function($comment) {
+                $comment->delete();
+            });
+
+            $task->checklist()->each(function($check) {
+                $check->delete();
+            });
+
+            $task->invoiceables()->each(function($inv) {
+                $inv->delete();
+            });
+        });
+    }
+
     public function project()
     {
         return $this->belongsTo('App\Project');
@@ -63,23 +97,6 @@ class Task extends Model implements HasMedia
     {
         return $this->hasMany('App\Timesheet', 'task_id', 'id');
     }
-
-    /**
-     * Boot events
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($task) {
-            if ($user = \Auth::user()) {
-                $task->user_id = $user->id;
-                $task->created_by = $user->creatorId();
-            }
-        });
-    }
-
 
     public static function createTask($post)
     {
@@ -153,14 +170,4 @@ class Task extends Model implements HasMedia
 
         return $updated;
     }
-
-    public function detachTask()
-    {
-        $this->users()->detach();
-        $this->tags()->detach();
-
-        $this->comments()->delete();
-        $this->checklist()->delete();
-    }
-
 }

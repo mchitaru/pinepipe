@@ -166,8 +166,6 @@ class EventController extends Controller
             return view('helpers.destroy');
         }
 
-        $event->detachEvent();
-
         $event->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Event successfully deleted.'));

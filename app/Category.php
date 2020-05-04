@@ -24,11 +24,6 @@ class Category extends Model
         'description'
 	];
 
-    public function children()
-    {
-        return $this->hasMany('App\Category', 'category_id', 'id');
-    }
-
     /**
      * Boot events
      * @return void
@@ -50,5 +45,15 @@ class Category extends Model
 
             $category->slug = Str::of($category->name)->slug('-');
         });
+
+        static::deleting(function ($category) {
+
+            $category->children()->detach();
+        });
+    }
+
+    public function children()
+    {
+        return $this->hasMany('App\Category', 'category_id', 'id');
     }
 }

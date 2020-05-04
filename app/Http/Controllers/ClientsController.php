@@ -155,7 +155,6 @@ class ClientsController extends Controller
             return view('helpers.destroy');
         }
 
-        $client->detachClient();
         $client->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Client successfully deleted.'));

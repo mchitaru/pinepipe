@@ -11,16 +11,6 @@ class Tag extends Model
         'name',
     ];
 
-    public function tasks()
-    {
-        return $this->morphedByMany('App\Task', 'taggable');
-    }
-
-    public function contacts()
-    {
-        return $this->morphedByMany('App\Contact', 'taggable');
-    }
-
     /**
      * Boot events
      * @return void
@@ -42,5 +32,22 @@ class Tag extends Model
 
             $tag->slug = Str::of($tag->name)->slug('-');
         });
+
+        static::deleting(function ($tag) {
+
+            $tag->tasks()->detach();
+            $tag->contacts()->detach();
+
+        });
+    }
+
+    public function tasks()
+    {
+        return $this->morphedByMany('App\Task', 'taggable');
+    }
+
+    public function contacts()
+    {
+        return $this->morphedByMany('App\Contact', 'taggable');
     }
 }

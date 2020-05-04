@@ -28,6 +28,32 @@ class Event extends Model
 
     public static $SEED = 10;
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($event) {
+            if ($user = \Auth::user()) {
+                $event->user_id = $user->id;
+                $event->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($event) {
+
+            $event->users()->detach();
+            $event->clients()->detach();
+            $event->contacts()->detach();
+            $event->leads()->detach();
+
+            $event->tags()->detach();
+        });
+    }
+
     public function owner()
     {
         return $this->hasOne('App\User', 'id', 'user_id');
@@ -107,7 +133,4 @@ class Event extends Model
         }
     }
 
-    public function detachEvent()
-    {
-    }
 }

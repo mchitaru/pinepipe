@@ -18,11 +18,6 @@ class Payment extends Model
         'category_id'
     ];
 
-    public function invoice()
-    {
-        return $this->hasOne('App\Invoice','id','invoice_id');
-    }
-
     /**
      * Boot events
      * @return void
@@ -37,5 +32,14 @@ class Payment extends Model
                 $payment->created_by = $user->creatorId();
             }
         });
+
+        static::deleting(function ($payment) {
+
+        });
+    }
+
+    public function invoice()
+    {
+        return $this->hasOne('App\Invoice','id','invoice_id');
     }
 }

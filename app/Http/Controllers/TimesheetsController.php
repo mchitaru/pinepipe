@@ -124,7 +124,6 @@ class TimesheetsController extends Controller
             return view('helpers.destroy');
         }
 
-        $timesheet->detachTimesheet();
         $timesheet->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Timesheet successfully deleted.'));

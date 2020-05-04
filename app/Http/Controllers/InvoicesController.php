@@ -185,8 +185,6 @@ class InvoicesController extends Controller
             return view('helpers.destroy');
         }
 
-        $invoice->detachInvoice();
-
         $invoice->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Invoice successfully deleted.'));

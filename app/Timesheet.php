@@ -36,6 +36,29 @@ class Timesheet extends Model
     
     public static $SEED = 0;
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($timesheet) {
+            if ($user = \Auth::user()) {
+                $timesheet->user_id = $user->id;
+                $timesheet->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($timesheet) {
+
+            $timesheet->invoiceables()->each(function($inv) {
+                $inv->delete();
+            });
+        });
+    }
+
     public function project()
     {
         return $this->belongsTo('App\Project');
@@ -64,10 +87,6 @@ class Timesheet extends Model
     public function updateTimesheet($post)
     {
         $this->update($post);
-    }
-
-    public function detachTimesheet()
-    {
     }
 
     public function computeTime()

@@ -31,6 +31,26 @@ class Expense extends Model
 
     public static $SEED = 10;
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($expense) {
+            if ($user = \Auth::user()) {
+                $expense->user_id = $user->id;
+                $expense->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($expense) {
+
+        });
+    }
+
     public function project()
     {
         return $this->hasOne('App\Project','id','project_id');

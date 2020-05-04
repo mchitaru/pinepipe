@@ -37,6 +37,25 @@ class CompanySettings extends Model implements HasMedia
         'invoice',
     ];
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($settings) {
+            if ($user = \Auth::user()) {
+                $settings->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($settings) {
+
+        });
+    }
+
     public function company()
     {
         return $this->belongsTo('App\User', 'id', 'created_by');

@@ -13,6 +13,25 @@ class Note extends Model
         'created_by',
     ];
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($note) {
+            if ($user = \Auth::user()) {
+                $note->user_id = $user->id;
+                $note->created_by = $user->creatorId();
+            }
+        });
+
+        static::deleting(function ($note) {
+
+        });
+    }
     
     public function notable()
     {
@@ -46,10 +65,6 @@ class Note extends Model
     public function updateNote($post)
     {
         $this->update($post);
-    }
-
-    public function detachNote()
-    {
     }
 
 }

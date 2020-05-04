@@ -138,7 +138,6 @@ class LeadsController extends Controller
             return view('helpers.destroy');
         }
 
-        $lead->detachLead();
         $lead->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Lead successfully deleted.'));

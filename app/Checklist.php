@@ -11,11 +11,6 @@ class Checklist extends Model
         'status',
     ];
 
-    public function checklistable()
-    {
-        return $this->morphTo();
-    }
-
     /**
      * Boot events
      * @return void
@@ -30,5 +25,14 @@ class Checklist extends Model
                 $checklist->created_by = $user->creatorId();
             }
         });
+
+        static::deleting(function ($article) {
+
+        });
+    }
+
+    public function checklistable()
+    {
+        return $this->morphTo();
     }
 }

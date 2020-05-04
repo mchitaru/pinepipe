@@ -72,6 +72,29 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         'notify_minor_updates' => 'boolean'
     ];
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+
+            $user->events()->detach();
+            $user->projects()->detach();
+            $user->tasks()->detach();
+
+            $user->removeUserLeadInfo();
+            $user->destroyUserNotesInfo();
+            $user->removeUserExpenseInfo();
+            $user->destroyUserTaskAllInfo();    
+
+            $user->activities()->delete();    
+        });
+    }
+
     public function creatorId()
     {
         if($this->type == 'company' || $this->type == 'super admin')
@@ -735,7 +758,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'amount' => 500,
                 'date' => Carbon::now(),
                 'project_id' => $project->id,
-                'category_id' => 5,
+                'category_id' => 6,
                 'user_id' => $id, 
                 'description' => null,
                 'attachment' => null,
@@ -760,11 +783,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         );
     }
 
-    public function destroyUserProjectInfo()
-    {
-        return UserProject::where('user_id', '=', $this->id)->delete();
-    }
-
     public function removeUserLeadInfo()
     {
         return Lead::where('user_id', '=', $this->id)->update(array('user_id' => null));
@@ -775,21 +793,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return Expense::where('user_id', '=', $this->id)->update(array('user_id' => null));
     }
 
-    public function removeUserTaskInfo()
-    {
-        return UserTask::where('user_id', '=', $this->id)->delete();
-    }
-
-    public function destroyUserNotesInfo()
-    {
-        return Note::where('created_by', '=', $this->id)->delete();
-    }
-
-    public function destroyUserTaskAllInfo()
-    {
-        Checklist::where('created_by', '=', $this->id)->delete();
-        Comment::where('created_by', '=', $this->id)->delete();
-    }
 
     public function total_company_user($company_id)
     {
@@ -862,16 +865,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $roles[] = $post['role'];
 
         $this->roles()->sync($roles);
-    }
-
-    public function detachUser()
-    {
-        $this->destroyUserProjectInfo();
-        $this->removeUserLeadInfo();
-        $this->destroyUserNotesInfo();
-        $this->removeUserExpenseInfo();
-        $this->removeUserTaskInfo();
-        $this->destroyUserTaskAllInfo();
     }
 
 }

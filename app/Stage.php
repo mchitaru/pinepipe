@@ -23,15 +23,6 @@ class Stage extends Model
     public static $LEAD_SEED = 5;
     public static $TASK_SEED = 4;
 
-    public function tasks()
-    {
-        return $this->hasMany('App\Task', 'stage_id', 'id');
-    }
-
-    public function leads()
-    {
-        return $this->hasMany('App\Lead', 'stage_id', 'id');
-    }
 
     /**
      * Boot events
@@ -48,6 +39,20 @@ class Stage extends Model
                 $stage->created_by = $user->creatorId();
             }
         });
+
+        static::deleting(function ($article) {
+
+        });
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Task', 'stage_id', 'id');
+    }
+
+    public function leads()
+    {
+        return $this->hasMany('App\Lead', 'stage_id', 'id');
     }
 
     public function computeStatistics()
