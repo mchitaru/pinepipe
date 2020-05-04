@@ -71,11 +71,6 @@ class Contact extends Model
 
     public static function createContact($post)
     {
-        if(\Auth::user()->type != 'company')
-        {
-            $post['user_id'] = \Auth::user()->id;
-        }
-
         $contact                = Contact::make($post);
         $contact->save();
 

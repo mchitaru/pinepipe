@@ -7,12 +7,15 @@ use Illuminate\Support\Collection;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Auth;
+use App\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
+use Illuminate\Support\Arr;
+
 class UserRolesController extends Controller
 {
-    private static $modules = [ 'contact', 'client', 'lead', 'project', 'task', 'timesheet', 'invoice', 'expense', 
+    private static $modules = [ 'contact', 'client', 'lead', 'project', 'task', 'timesheet', 'invoice', 'expense',
                                 'lead stage', 'task stage', 'user', 'role'];
 
     public function index()
@@ -20,11 +23,22 @@ class UserRolesController extends Controller
         $user = \Auth::user();
         if(\Auth::user()->can('view permission'))
         {
-            $roles = Role::where(function ($query) use ($user) {
-                        $query->where('created_by', '=', 1)
-                            ->orWhere('created_by', '=', $user->creatorId());
-                    })->get();
-    
+            $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
+
+            $roles = Role::where('created_by', \Auth::user()->creatorId())->get();
+
+            foreach($defaultRoles as $defaultRole){
+
+                $role = Arr::first($roles, function ($value, $key) use($defaultRole) {
+
+                    return $value->name == $defaultRole->name;
+                });
+
+                if(!$role) {
+                    $roles->prepend($defaultRole);
+                }
+            }
+
             return view('roles.page', compact('roles'));
         }
         else
@@ -33,11 +47,11 @@ class UserRolesController extends Controller
         }
 
     }
-    
+
     public function create()
     {
         if(\Auth::user()->can('create permission')){
-            
+
             $user = \Auth::user();
             $modules = UserRolesController::$modules;
 
@@ -55,7 +69,7 @@ class UserRolesController extends Controller
                 }
                 $permissions = $permissions->pluck('name','id')->toArray();
             }
-            
+
             return view('roles.create', compact('modules', 'permissions'));
         }else
         {
@@ -77,7 +91,7 @@ class UserRolesController extends Controller
             $name               = $request['name'];
             $role               = new Role();
             $role->name         = $name;
-            $role->user_id      = \Auth::user()->id;  
+            $role->user_id      = \Auth::user()->id;
             $role->created_by   = \Auth::user()->creatorId();
             $permissions = $request['permissions'];
             $role->save();
@@ -146,7 +160,21 @@ class UserRolesController extends Controller
             }
 
             $permissions = $request['permissions'];
-            
+
+            $defaultRole = $role;
+            $users = [];
+
+            if($role->created_by != \Auth::user()->creatorId()){
+
+                $role               = $role->replicate();
+
+                $role->user_id      = \Auth::user()->id;
+                $role->created_by   = \Auth::user()->creatorId();
+
+                $users = User::withTrashed()
+                            ->where('created_by', '=', \Auth::user()->creatorId())->get();
+            }
+
             $role->fill($input);
             $role->save();
 
@@ -163,6 +191,18 @@ class UserRolesController extends Controller
                 $role->givePermissionTo($p);
             }
 
+            //if we made a copy, assign users to new role
+            if($role != $defaultRole){
+
+                foreach($users as $user){
+
+                    if($user->hasRole(array($defaultRole->id))) {
+
+                        $user->roles()->sync(array($role->id));
+                    }
+                }
+            }
+
             return Redirect::to(URL::previous())->with('success', __('Role successfully updated.'));
         }else
         {
@@ -175,11 +215,27 @@ class UserRolesController extends Controller
     public function destroy(Request $request, Role $role)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete permission')){
+        if($role->created_by != 1 && \Auth::user()->can('delete permission')){
+
+            $defaultRole = Role::where('created_by', 1)
+                                    ->where('name', 'collaborator')
+                                    ->first();
+
+            $users = User::withTrashed()
+                ->where('created_by', '=', \Auth::user()->creatorId())->get();
+
+            foreach($users as $user){
+
+                if($user->hasRole(array($role->id))) {
+
+                    $user->roles()->sync(array($defaultRole->id));
+                }
+            }
+
             $role->delete();
 
             return Redirect::to(URL::previous())->with('success', __('Role successfully deleted.'));
@@ -187,6 +243,6 @@ class UserRolesController extends Controller
         {
             return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
-        
+
     }
 }

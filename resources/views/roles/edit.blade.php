@@ -46,9 +46,9 @@ modal-xl
                                 <td>
                                     <div class="row">
                                         @if(in_array('view all '.$module,(array) $permissions))
-                                            @if($key = array_search('view '.$module,$permissions))
+                                            @if($key = array_search('view all '.$module,$permissions))
                                                 <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
-                                                    {{Form::checkbox('permissions[]',$key,false, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
+                                                    {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
                                                     {{Form::label('permission'.$key,'View all',['class'=>'custom-control-label'])}}<br>
                                                 </div>
                                             @endif
@@ -57,7 +57,7 @@ modal-xl
                                             @if($key = array_search('view '.$module,$permissions))
                                                 <div class="col-md-3 custom-control custom-checkbox custom-checkbox-switch">
                                                     {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'custom-control-input','id' =>'permission'.$key])}}
-                                                    {{Form::label('permission'.$key,'Manage',['class'=>'custom-control-label'])}}<br>
+                                                    {{Form::label('permission'.$key,'View',['class'=>'custom-control-label'])}}<br>
                                                 </div>
                                             @endif
                                         @endif

@@ -15,6 +15,8 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UserDestroyRequest;
 
+use Illuminate\Support\Arr;
+
 class UsersController extends Controller
 {
 
@@ -45,10 +47,10 @@ class UsersController extends Controller
                                 ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                                 ->paginate(25, ['*'], 'user-page');
             }
-    
-            if ($request->ajax()) 
+
+            if ($request->ajax())
             {
-                return view('users.index', ['users' => $users])->render();  
+                return view('users.index', ['users' => $users])->render();
             }
 
             return view('users.page', compact('users'));
@@ -63,14 +65,25 @@ class UsersController extends Controller
     public function create(Request $request)
     {
         $user  = \Auth::user();
-        $roles = Role::where(function ($query) use ($user) {
-                            $query->where('created_by', '=', 1)
-                                ->orWhere('created_by', '=', $user->creatorId());
-                        })
-                        ->orderBy('id', 'DESC')
-                        ->get()
-                        ->pluck('name', 'id');
-                        
+
+        $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
+
+        $roles = Role::where('created_by', \Auth::user()->creatorId())->get();
+
+        foreach($defaultRoles as $defaultRole){
+
+            $role = Arr::first($roles, function ($value, $key) use($defaultRole) {
+
+                return $value->name == $defaultRole->name;
+            });
+
+            if(!$role) {
+                $roles->prepend($defaultRole);
+            }
+        }
+
+        $roles = $roles->pluck('name', 'id');
+
         $clients = Client::where('created_by', '=', $user->creatorId())
                         ->orderBy('id', 'DESC')
                         ->get()
@@ -92,7 +105,7 @@ class UsersController extends Controller
         if(\Auth::user()->type == 'super admin')
         {
             $user = User::createCompany($post);
-            
+
             $request->session()->flash('success', __('User successfully created.'));
 
             return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
@@ -117,13 +130,23 @@ class UsersController extends Controller
 
     public function edit(Request $request, User $user)
     {
-        $roles = Role::where(function ($query) use ($user) {
-                            $query->where('created_by', '=', 1)
-                                    ->orWhere('created_by', '=', \Auth::user()->creatorId());
-                        })
-                        ->orderBy('id', 'DESC')
-                        ->get()
-                        ->pluck('name', 'id');
+        $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
+
+        $roles = Role::where('created_by', \Auth::user()->creatorId())->get();
+
+        foreach($defaultRoles as $defaultRole){
+
+            $role = Arr::first($roles, function ($value, $key) use($defaultRole) {
+
+                return $value->name == $defaultRole->name;
+            });
+
+            if(!$role) {
+                $roles->prepend($defaultRole);
+            }
+        }
+
+        $roles = $roles->pluck('name', 'id');
 
         $clients = Client::where('created_by', '=', $user->creatorId())
                             ->orderBy('id', 'DESC')
@@ -133,7 +156,7 @@ class UsersController extends Controller
         if(isset($request['role'])){
             $role = Role::findById($request['role']);
         }else{
-            $role = Role::findByName($user->type);
+            $role = $user->roles()->first();
         }
 
         return view('users.edit', compact('user', 'roles', 'role', 'clients'));
@@ -165,14 +188,14 @@ class UsersController extends Controller
             $request->session()->flash('success', __('User successfully updated.'));
         }
         else
-        {    
+        {
             //soft delete
             if(\Auth::user()->can('delete user'))
             {
                 $user = User::withTrashed()->find($user_id);
-                
+
                 if(!$user->trashed())
-                {    
+                {
                     $user->delete();
                     $request->session()->flash('success', __('User successfully deleted.'));
                 }
@@ -180,7 +203,7 @@ class UsersController extends Controller
                 {
                     $user->restore();
                     $request->session()->flash('success', __('User successfully restored.'));
-                }        
+                }
             }
         }
 
@@ -191,7 +214,7 @@ class UsersController extends Controller
     public function destroy(UserDestroyRequest $request, User $user)
     {
         if($request->ajax()){
-            
+
             return view('helpers.destroy');
         }
 
@@ -209,7 +232,7 @@ class UsersController extends Controller
     public function readNotifications()
     {
         \Auth::user()->unreadNotifications->markAsRead();
-        
+
         return response('');
     }
 
@@ -229,5 +252,5 @@ class UsersController extends Controller
 
         return $this->create($request);
 
-    } 
+    }
 }
