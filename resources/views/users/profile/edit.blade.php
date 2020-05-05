@@ -89,9 +89,9 @@ use App\SubscriptionPlan;
             <a class="nav-link" id="subscription-tab" data-toggle="tab" href="#subscription" role="tab" aria-controls="subscription" aria-selected="false">{{__('Subscription')}}</a>
         </li>
         @endif
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" id="integrations-tab" data-toggle="tab" href="#integrations" role="tab" aria-controls="integrations" aria-selected="false">{{__('Integrations')}}</a>
-        </li>
+        </li> --}}
         </ul>
     </div>
     <div class="col-xl-8 col-lg-10">
@@ -107,7 +107,7 @@ use App\SubscriptionPlan;
                 @if(\Auth::user()->type=='company')
                 <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.profile.partials.subscription')</div>
                 @endif
-                <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.profile.partials.integrations')</div>
+                {{-- <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.profile.partials.integrations')</div> --}}
             </div>
         </div>
         </div>
