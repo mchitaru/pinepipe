@@ -1,5 +1,5 @@
 
-{{Form::model($user, array('route' => array('profile.update', 'personal'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
+{{Form::model($user, array('route' => array('profile.update', \Auth::user()->id), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
 <div class="media mb-4 avatar-container">
     <div class="d-flex flex-column avatar-preview">
         {!!Helpers::buildUserAvatar($user, 60, 'rounded')!!}
@@ -16,7 +16,7 @@
         </div>
         <div class="alert alert-warning text-small" role="alert">
             <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
-        </div>            
+        </div>
     </div>
 </div>
 <!--end of avatar-->
@@ -29,7 +29,7 @@
             <strong class="text-danger">{{ $message }}</strong>
         </span>
         @enderror
-    </div>                    
+    </div>
 </div>
 <div class="form-group row align-items-center">
     {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
@@ -40,7 +40,7 @@
             <strong class="text-danger">{{ $message }}</strong>
         </span>
         @enderror
-    </div>                    
+    </div>
 </div>
 <div class="form-group row">
     <label class="col-3">Bio</label>
@@ -56,8 +56,6 @@
     </div>
 </div>
 <div class="row justify-content-end">
-    @can('edit account')
-        {{Form::submit('Save',array('class'=>'btn btn-primary'))}}
-    @endcan
+    {{Form::submit('Save',array('class'=>'btn btn-primary'))}}
 </div>
 {{Form::close()}}

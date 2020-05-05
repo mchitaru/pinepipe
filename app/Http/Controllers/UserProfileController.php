@@ -16,55 +16,65 @@ use Money\Currency;
 
 class UserProfileController extends Controller
 {
-    public function show()
+    public function show(User $user)
     {
-        $user = \Auth::user();
-
-        if(!$user->subscribed()){
-            $user_plan = SubscriptionPlan::first();
-        }else{
-            $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
-        }
-
-        $plans = SubscriptionPlan::get();
-
         $companySettings = \Auth::user()->companySettings;
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
-        $currencies = [];
-        $isoCurrencies = new ISOCurrencies();
-
-        foreach ($isoCurrencies as $currency) {
-            $currencies[$currency->getCode()] = $currency->getCode();
-        }
-
-        return view('users.profile', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies'));
+        return view('users.profile.show', compact('user', 'companySettings', 'companyName', 'companyLogo'));
     }
 
-    public function update(UserProfileRequest $request, $tab)
+    public function edit(User $user)
+    {
+        if(\Auth::user()->id == $user->id) {
+
+            if(!$user->subscribed()){
+                $user_plan = SubscriptionPlan::first();
+            }else{
+                $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
+            }
+
+            $plans = SubscriptionPlan::get();
+
+            $companySettings = \Auth::user()->companySettings;
+            $companyName = $companySettings ? $companySettings->name : null;
+            $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+
+            $currencies = [];
+            $isoCurrencies = new ISOCurrencies();
+
+            foreach ($isoCurrencies as $currency) {
+                $currencies[$currency->getCode()] = $currency->getCode();
+            }
+
+            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies'));
+
+        }else{
+
+            return Redirect::to(URL::previous())->with('error', __('Access forbidden!'));
+        }
+    }
+
+    public function update(UserProfileRequest $request, User $user)
     {
         $post = $request->validated();
-
-        $user = \Auth::user();
 
         $user->fill($post);
         $user->save();
 
         if($request->hasFile('avatar')){
 
-            $user->clearMediaCollection('logos');            
+            $user->clearMediaCollection('logos');
             $file = $user->addMedia($request->file('avatar'))->toMediaCollection('logos');
         }
 
         return Redirect::to(URL::previous())->with('success', __('Profile updated successfully.'));
     }
 
-    public function password(UserProfileRequest $request)
+    public function password(UserProfileRequest $request, User $user)
     {
         $post = $request->validated();
-
-        $user               = \Auth::user();
 
         if(Hash::check($post['current_password'], $user->password))
         {

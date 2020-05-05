@@ -37,7 +37,7 @@ $languages=$user->languages();
                 {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="{{route('profile.show')}}">
+                <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->id)}}">
                     {{__('My Profile')}}
                 </a>
                 <div class="dropdown-divider"></div>
@@ -100,7 +100,7 @@ $languages=$user->languages();
                     <a class="nav-link {{(Request::segment(1) == 'leads')?' active':''}}" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
                 </li>
                 @endif
-                
+
                 @can('view contact')
                 <li class="nav-item">
                     <a class="nav-link {{(Request::segment(1) == 'contacts')?' active':''}}" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
@@ -244,7 +244,7 @@ $languages=$user->languages();
                 @endcan
                 @can('create lead')
                     <a class="dropdown-item" href="{{ route('leads.create') }}" data-remote="true" data-type="text">{{__('Lead')}}</a>
-                @endcan    
+                @endcan
             </div>
         </div>
         @endif
@@ -266,7 +266,7 @@ $languages=$user->languages();
             {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
         </a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{route('profile.show')}}">
+            <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->id)}}">
                 {{__('My Profile')}}
             </a>
             <div class="dropdown-divider"></div>

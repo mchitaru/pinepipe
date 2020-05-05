@@ -124,7 +124,7 @@ class UsersController extends Controller
             $request->session()->flash('error', __('Your have reached your user limit. Please upgrade your subscription to add more users!'));
         }
 
-        $url = redirect()->route('profile.show')->getTargetUrl().'/#subscription';
+        $url = redirect()->route('profile.edit', \Auth::user()->id)->getTargetUrl().'/#subscription';
         return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
     }
 

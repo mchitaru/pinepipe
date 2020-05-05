@@ -1,4 +1,4 @@
-{{Form::model($user, array('route' => array('profile.update', 'notifications'), 'method' => 'put'))}}
+{{Form::model($user, array('route' => array('profile.update', \Auth::user()->id), 'method' => 'put'))}}
     <h6>{{__('Activity Notifications')}}</h6>
     <div class="form-group">
         <div class="custom-control custom-checkbox custom-checkbox-switch">
@@ -49,7 +49,7 @@
             {{Form::checkbox('notify_minor_updates', 1, null, ['class'=>'custom-control-input', 'id' =>'notify_minor_updates'])}}
             {{Form::label('notify_minor_updates', __('Minor updates and bug fixes'), ['class'=>'custom-control-label'])}}
         </div>
-    </div>    
+    </div>
     <div class="row justify-content-end">
         {{Form::submit('Save', array('class'=>'btn btn-primary'))}}
     </div>

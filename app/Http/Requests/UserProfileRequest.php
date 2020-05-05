@@ -13,10 +13,9 @@ class UserProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        if ($this->isMethod('patch'))
-            return \Auth::check();
+        $user = $this->route()->parameter('user');
 
-        return \Auth::check();
+        return \Auth::check() && \Auth::user()->id == $user->id;
     }
 
     /**
@@ -28,27 +27,20 @@ class UserProfileRequest extends FormRequest
     {
         if ($this->isMethod('put'))
         {
-            $tab = $this->route()->parameter('tab');
+            return [
+                'name' => 'required_without:notify_item_overdue|max:120',
+                'email' => 'required_without:notify_item_overdue|email|unique:users,email,' .  \Auth::user()->id,
+                'avatar' => 'mimetypes:image/*|max:2048',
+                'bio' => 'string|nullable',
 
-            if($tab == 'personal'){
-                return [
-                    'name' => 'required|max:120',
-                    'email' => 'required|email|unique:users,email,' .  \Auth::user()->id,
-                    'avatar' => 'mimetypes:image/*|max:2048',
-                    'bio' => 'string|nullable',
+                'notify_task_assign' => 'boolean',
+                'notify_project_assign' => 'boolean',
+                'notify_project_activity' => 'boolean',
+                'notify_item_overdue' => 'boolean',
+                'notify_newsletter' => 'boolean',
+                'notify_major_updates' => 'boolean',
+                'notify_minor_updates' => 'boolean',
                 ];
-            }else{
-                return [
-                    'notify_task_assign' => 'boolean',
-                    'notify_project_assign' => 'boolean',
-                    'notify_project_activity' => 'boolean',
-                    'notify_item_overdue' => 'boolean',
-                    'notify_newsletter' => 'boolean',
-                    'notify_major_updates' => 'boolean',
-                    'notify_minor_updates' => 'boolean',
-                ];
-            }
-
         }else{
 
             return [
@@ -60,6 +52,6 @@ class UserProfileRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.show');
+        return route('profile.edit', \Auth::user()->id);
     }
 }

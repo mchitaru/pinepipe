@@ -2,7 +2,7 @@
     <a href="{{route('users.notifications')}}" id="notification-bell" name="notification-bell" role="button" data-method="post" data-remote="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$user->unreadNotifications->count().' '.__('notifications')}}">
         <i class="material-icons">{{$user->unreadNotifications->count()?'notifications':'notifications_none'}}</i>
     </a>
-    
+
     <ul class="dropdown-menu pre-scrollable">
         @if(!$user->notifications->isEmpty())
 
@@ -10,7 +10,7 @@
                 <a class="dropdown-header" href="{{route('tasks.board')}}">
                     {!!__('See all tasks')!!}
                     <i class="material-icons text-small">arrow_forward</i>
-                </a>    
+                </a>
             </li> --}}
 
             @foreach ($user->notifications as $notification)
@@ -26,16 +26,16 @@
                 @elseif($notification->type == 'App\Notifications\PaymentPlanExpiredAlert')
                     @foreach ($notification->data as $key=>$message)
                     <li>
-                        <a class="dropdown-item" href="{{route('profile.show')}}/#subscription">
+                        <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->id)}}/#subscription">
                                 {!! $message !!}
                                 <small class="badge badge-info">{{ $notification->created_at->diffForHumans() }}</small>
                         </a>
                     </li>
                     @endforeach
                 @endif
-            @endforeach                
+            @endforeach
         @else
             <li>{{__('No notifications.')}}</li>
         @endif
-    </ul>    
+    </ul>
 </div>

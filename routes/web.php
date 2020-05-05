@@ -12,8 +12,7 @@
 */
 Auth::routes(['verify' => true]);
 
-// Route::put('change-password', 'UsersController@updatePassword')->name('update.password');
-Route::patch('profile', 'UserProfileController@password')->name('profile.password');
+Route::get('profile/{user}', 'UserProfileController@show')->name('profile.show');
 
 //trigger the scheduler
 Route::get('/hshhdyw7820037lammxh29', 'SchedulerController@run')->name('scheduler.run');
@@ -61,8 +60,9 @@ Route::group(
         Route::resource('contacts', 'ContactsController');
 
         //Profile
-        Route::get('profile', 'UserProfileController@show')->name('profile.show');
-        Route::put('profile/{tab}', 'UserProfileController@update')->name('profile.update');
+        Route::get('profile/{user}/edit', 'UserProfileController@edit')->name('profile.edit');
+        Route::put('profile/{user}', 'UserProfileController@update')->name('profile.update');
+        Route::patch('profile/{user}', 'UserProfileController@password')->name('profile.password');
 
         //Settings
         Route::post('settings/company', 'CompanySettingsController@update')->name('settings.company');
@@ -147,14 +147,10 @@ Route::group(
         Route::get('invoices/{invoice}/payments', 'InvoicePaymentsController@create')->name('invoices.payments.create');
         Route::post('invoices/{invoice}/payments', 'InvoicePaymentsController@store')->name('invoices.payments.store');
 
-        Route::resource('expensescategory', 'ExpenseCategoriesController');
         Route::resource('taxes', 'TaxesController');
 
         //Expenses
         Route::resource('expenses', 'ExpensesController');
-
-        //Payments
-        Route::resource('payments', 'PaymentTypesController');
 
         //Notes
         // Route::resource('notes', 'NotesController');

@@ -24,22 +24,19 @@ use App\SubscriptionPlan;
 
     $(document).ready(function() {
 
-        $('a[data-toggle="tab"]').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-        });
-
         $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+            window.history.replaceState(null, null, $(e.target).attr('href'));
+            window.location.hash = $(e.target).attr('href');
+
             var id = $(e.target).attr("href");
-            sessionStorage.setItem('profile.tab', id)
+            sessionStorage.setItem('profile.tab', id);
         });
 
-        var selectedTab = sessionStorage.getItem('profile.tab');
+        var hash = window.location.hash ? window.location.hash : sessionStorage.getItem('profile.tab');
 
-        if(selectedTab == null) selectedTab = '#personal';
+        if(hash == null) hash = '#personal';
 
-        $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
-
+        $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
 
         $('select').select2();
     });
@@ -101,16 +98,16 @@ use App\SubscriptionPlan;
         <div class="card">
         <div class="card-body">
             <div class="tab-content">
-                <div class="tab-pane fade show" role="tabpanel" id="personal">@include('users.partials.personal')</div>
-                <div class="tab-pane fade" role="tabpanel" id="password">@include('users.partials.password')</div>
+                <div class="tab-pane fade show" role="tabpanel" id="personal">@include('users.profile.partials.personal')</div>
+                <div class="tab-pane fade" role="tabpanel" id="password">@include('users.profile.partials.password')</div>
                 @if(\Auth::user()->type=='company')
-                <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.partials.company')</div>
+                <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.profile.partials.company')</div>
                 @endif
-                <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.partials.notifications')</div>
+                <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.profile.partials.notifications')</div>
                 @if(\Auth::user()->type=='company')
-                <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.partials.subscription')</div>
+                <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.profile.partials.subscription')</div>
                 @endif
-                <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.partials.integrations')</div>
+                <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.profile.partials.integrations')</div>
             </div>
         </div>
         </div>
