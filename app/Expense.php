@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
 use App\Traits\Categorizable;
+use App\Traits\Invoiceable;
 
 class Expense extends Model
 {
-    use NullableFields, Taggable, Categorizable;
+    use NullableFields, Taggable, Categorizable, Invoiceable;
 
     protected $fillable = [
         'amount',
@@ -48,6 +49,9 @@ class Expense extends Model
 
         static::deleting(function ($expense) {
 
+            $expense->invoiceables()->each(function($inv) {
+                $inv->delete();
+            });
         });
     }
 

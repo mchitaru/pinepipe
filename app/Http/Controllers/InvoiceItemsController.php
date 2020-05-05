@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Invoice;
 use App\InvoiceItem;
 use App\Task;
+use App\Expense;
 use App\Timesheet;
 use App\Http\Requests\InvoiceItemStoreRequest;
 use App\Http\Requests\InvoiceItemDestroyRequest;
@@ -22,19 +23,30 @@ class InvoiceItemsController extends Controller
                                     ->where('project_id', $invoice->project_id)
                                     ->get()
                                     ->pluck('title', 'id');
+
             $timesheets = Timesheet::doesntHave('invoiceables')
                                         ->where('project_id', $invoice->project_id)
                                         ->get()
                                         ->pluck('date', 'id');
+
+            $expenses      = Expense::doesntHave('invoiceables')
+                                    ->where('project_id', $invoice->project_id)
+                                    ->get()
+                                    ->pluck('amount', 'id');
 
             $price = null;
             if(isSet($request->timesheet_id))
             {
                 $timesheet = Timesheet::find($request->timesheet_id);
                 $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
+
+            }else if(isSet($request->expense_id))
+            {
+                $expense = Expense::find($request->expense_id);
+                $price = $expense->amount;
             }
 
-            return view('invoices.item', compact('invoice', 'tasks', 'timesheets', 'price'));
+            return view('invoices.item', compact('invoice', 'tasks', 'timesheets', 'expenses', 'price'));
         }
     }
 
@@ -77,6 +89,12 @@ class InvoiceItemsController extends Controller
             $request->timesheet_id = null;
             $request->name = null;
             $request->flashOnly(['task_id']);
+
+        }else if($request->type == 'expense') {
+
+            $request->timesheet_id = null;
+            $request->name = null;
+            $request->flashOnly(['expense_id']);
 
         }else {
 

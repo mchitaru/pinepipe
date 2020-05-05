@@ -10,7 +10,7 @@ class InvoiceItem extends Model
     use NullableFields;
 
     protected $fillable = [
-        'invoice_id', 
+        'invoice_id',
         'name',
         'price'
     ];
@@ -53,7 +53,7 @@ class InvoiceItem extends Model
     {
         if($post['type'] == 'timesheet')
         {
-            $timesheet = Timesheet::find($post['timesheet_id']);    
+            $timesheet = Timesheet::find($post['timesheet_id']);
 
             $timesheet->invoiceables()->create(
                 [
@@ -61,7 +61,7 @@ class InvoiceItem extends Model
                     'name' => (!empty($timesheet->task)?$timesheet->task->title:__('Project timesheet: ').\Auth::user()->dateFormat($timesheet->date)),
                     'price' => $post['price']
                 ]
-            );    
+            );
         }
         else if($post['type'] == 'task')
         {
@@ -73,7 +73,19 @@ class InvoiceItem extends Model
                     'name' => $task->title,
                     'price' => $post['price']
                 ]
-            );    
+            );
+        }
+        else if($post['type'] == 'expense')
+        {
+            $expense      = Expense::find($post['expense_id']);
+
+            $expense->invoiceables()->create(
+                [
+                    'invoice_id' => $invoice->id,
+                    'name' => $expense->category?$expense->category->name:__('Uncategorized Expense'),
+                    'price' => $post['price']
+                ]
+            );
         }
         else
         {
@@ -83,7 +95,7 @@ class InvoiceItem extends Model
                     'name' => $post['name'],
                     'price' => $post['price']
                 ]
-            );    
+            );
         }
 
         $invoice->updateStatus();

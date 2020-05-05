@@ -17,7 +17,7 @@ class InvoiceItemStoreRequest extends FormRequest
         $invoice = $this->route()->parameter('invoice');
 
         if($invoice->created_by != \Auth::user()->creatorId())
-            return false;            
+            return false;
 
         return $this->user()->can('edit invoice');
     }
@@ -37,6 +37,11 @@ class InvoiceItemStoreRequest extends FormRequest
         }else if($this->type == 'task'){
             return [
                 'task_id' => 'required',
+                'price' => 'required',
+            ];
+        }else if($this->type == 'expense'){
+            return [
+                'expense_id' => 'required',
                 'price' => 'required',
             ];
         }else{

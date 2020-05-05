@@ -3,6 +3,7 @@
 @php
     $isTimesheet = (empty(session('type')) || session('type') == 'timesheet');
     $isTask = (session('type') == 'task');
+    $isExpense = (session('type') == 'expense');
     $isOther = (session('type') == 'other');
 @endphp
 
@@ -64,16 +65,35 @@
           </div>
         </div>
         <div class="card mb-0">
-          <div class="card-header p-1" id="headingThree">
+            <div class="card-header p-1" id="headingThree">
+              <h5 class="mb-0">
+                  <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" name="type" id="expense" value="expense" data-toggle="collapse" data-target="#collapseThree" aria-expanded="{{$isExpense?'true':'false'}}" aria-controls="collapseThree" {{$isExpense?'checked':''}}>
+                      {{ Form::label('expense', __('Expense'), array('class'=>'custom-control-label')) }}
+                  </div>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse {{$isExpense?'show':''}}" aria-labelledby="headingThree" data-parent="#productAccordion">
+              <div class="card-body">
+                  <div class="form-group row">
+                      {{ Form::label('expense_id', __('Expense'), array('class'=>'col-3')) }}
+                      {!! Form::select('expense_id', $expenses, null, array('class' => 'form-control col', 'placeholder'=>'Select Expense', 'style'=>'width: 310.5px',
+                                          'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-0">
+          <div class="card-header p-1" id="headingFour">
             <h5 class="mb-0">
                 <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" name="type" id="other" value="other" data-toggle="collapse" data-toggle="collapse" data-target="#collapseThree" aria-expanded="{{$isOther?'true':'false'}}" aria-controls="collapseThree" {{$isOther?'checked':''}}>
+                    <input type="radio" class="custom-control-input" name="type" id="other" value="other" data-toggle="collapse" data-toggle="collapse" data-target="#collapseFour" aria-expanded="{{$isOther?'true':'false'}}" aria-controls="collapseFour" {{$isOther?'checked':''}}>
                     {{ Form::label('other', __('Other'), array('class'=>'custom-control-label',
                                         'data-refresh'=>route('invoices.items.refresh', $invoice->id))) }}
                 </div>
             </h5>
           </div>
-          <div id="collapseThree" class="collapse {{$isOther?'show':''}}" aria-labelledby="headingThree" data-parent="#productAccordion">
+          <div id="collapseFour" class="collapse {{$isOther?'show':''}}" aria-labelledby="headingFour" data-parent="#productAccordion">
             <div class="card-body">
                 <div class="form-group row">
                     {{ Form::label('name', __('Item Name'), array('class'=>'col-3')) }}
