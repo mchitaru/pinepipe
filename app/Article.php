@@ -25,7 +25,7 @@ class Article extends Model
 
         static::updating(function ($article) {
 
-            $article->slug = Str::of($article->name)->slug('-');
+            $article->slug = Str::of($article->title)->slug('-');
         });
 
         static::deleting(function ($article) {

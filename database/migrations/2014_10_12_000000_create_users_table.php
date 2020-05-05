@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('handle')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -33,7 +34,7 @@ class CreateUsersTable extends Migration
             $table->boolean('notify_major_updates')->default(true);
             $table->boolean('notify_minor_updates')->default(false);
             $table->boolean('enabled')->default(true);
-            $table->timestamp('trial_ends_at')->nullable();            
+            $table->timestamp('trial_ends_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

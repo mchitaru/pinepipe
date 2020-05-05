@@ -21,6 +21,7 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use App\Traits\Eventable;
+use Illuminate\Support\Str;
 
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -80,6 +81,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     {
         parent::boot();
 
+        static::creating(function ($user) {
+
+            $user->handle = Str::of($user->name)->slug('-');
+        });
+
         static::deleting(function ($user) {
 
             $user->events()->detach();
@@ -89,9 +95,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
             $user->removeUserLeadInfo();
             $user->destroyUserNotesInfo();
             $user->removeUserExpenseInfo();
-            $user->destroyUserTaskAllInfo();    
+            $user->destroyUserTaskAllInfo();
 
-            $user->activities()->delete();    
+            $user->activities()->delete();
+        });
+
+        static::updating(function ($user) {
+
+            $user->handle = Str::of($user->name)->slug('-');
         });
     }
 
@@ -665,7 +676,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                                 South Laron, SD 45620',
                 'website' => 'https:\\www.pinepipe.com',
                 'user_id' => $id,
-                'created_by' => $id    
+                'created_by' => $id
             ]
         );
 
@@ -712,7 +723,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'description' => 'Redesign main website.',
                 'archived' => false,
                 'user_id' => $id,
-                'created_by' => $id,        
+                'created_by' => $id,
             ]
         );
 
@@ -730,7 +741,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'order' => 0,
                 'stage_id' => $taskStage->id,
                 'user_id' => $id,
-                'created_by' => $id,        
+                'created_by' => $id,
             ]
         );
 
@@ -748,7 +759,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'minutes' => 0,
                 'seconds' => 0,
                 'remark' => null,
-                'created_by' => $id   
+                'created_by' => $id
             ]
         );
 
@@ -759,10 +770,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'date' => Carbon::now(),
                 'project_id' => $project->id,
                 'category_id' => 6,
-                'user_id' => $id, 
+                'user_id' => $id,
                 'description' => null,
                 'attachment' => null,
-                'created_by' => $id,        
+                'created_by' => $id,
             ]
         );
 

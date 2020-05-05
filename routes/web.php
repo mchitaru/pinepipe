@@ -12,7 +12,7 @@
 */
 Auth::routes(['verify' => true]);
 
-Route::get('profile/{user}', 'UserProfileController@show')->name('profile.show');
+Route::get('profile/{user:handle}', 'UserProfileController@show')->name('profile.show');
 
 //trigger the scheduler
 Route::get('/hshhdyw7820037lammxh29', 'SchedulerController@run')->name('scheduler.run');
@@ -60,9 +60,9 @@ Route::group(
         Route::resource('contacts', 'ContactsController');
 
         //Profile
-        Route::get('profile/{user}/edit', 'UserProfileController@edit')->name('profile.edit');
-        Route::put('profile/{user}', 'UserProfileController@update')->name('profile.update');
-        Route::patch('profile/{user}', 'UserProfileController@password')->name('profile.password');
+        Route::get('profile/{user:handle}/edit', 'UserProfileController@edit')->name('profile.edit');
+        Route::put('profile/{user:handle}', 'UserProfileController@update')->name('profile.update');
+        Route::patch('profile/{user:handle}', 'UserProfileController@password')->name('profile.password');
 
         //Settings
         Route::post('settings/company', 'CompanySettingsController@update')->name('settings.company');
