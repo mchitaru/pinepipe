@@ -34,7 +34,7 @@ use App\SubscriptionPlan;
 
         var hash = window.location.hash ? window.location.hash : sessionStorage.getItem('profile.tab');
 
-        if(hash == null) hash = '#personal';
+        if(hash == null) hash = '#profile';
 
         $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
 
@@ -71,14 +71,14 @@ use App\SubscriptionPlan;
     <div class="col-lg-3 mb-3">
         <ul class="nav nav-tabs flex-lg-column" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true">{{__('Personal Info')}}</a>
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">{{__('Profile')}}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">{{__('Password')}}</a>
         </li>
         @if(\Auth::user()->type=='company')
         <li class="nav-item">
-            <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="profile" aria-selected="true">{{__('Company')}}</a>
+            <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="company" aria-selected="true">{{__('Company')}}</a>
         </li>
         @endif
         <li class="nav-item">
@@ -98,7 +98,7 @@ use App\SubscriptionPlan;
         <div class="card">
         <div class="card-body">
             <div class="tab-content">
-                <div class="tab-pane fade show" role="tabpanel" id="personal">@include('users.profile.partials.personal')</div>
+                <div class="tab-pane fade show" role="tabpanel" id="profile">@include('users.profile.partials.profile')</div>
                 <div class="tab-pane fade" role="tabpanel" id="password">@include('users.profile.partials.password')</div>
                 @if(\Auth::user()->type=='company')
                 <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.profile.partials.company')</div>

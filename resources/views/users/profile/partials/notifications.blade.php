@@ -1,4 +1,4 @@
-{{Form::model($user, array('route' => array('profile.update', \Auth::user()->id), 'method' => 'put'))}}
+{{Form::model($user, array('route' => array('profile.update', \Auth::user()->handle()), 'method' => 'put'))}}
     <h6>{{__('Activity Notifications')}}</h6>
     <div class="form-group">
         <div class="custom-control custom-checkbox custom-checkbox-switch">

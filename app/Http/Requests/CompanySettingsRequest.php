@@ -40,6 +40,6 @@ class CompanySettingsRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.edit', \Auth::user()->id);
+        return route('profile.edit', \Auth::user()->handle());
     }
 }

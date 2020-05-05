@@ -37,7 +37,7 @@ $languages=$user->languages();
                 {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->id)}}">
+                <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
                     {{__('My Profile')}}
                 </a>
                 <div class="dropdown-divider"></div>
@@ -266,7 +266,7 @@ $languages=$user->languages();
             {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
         </a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->id)}}">
+            <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
                 {{__('My Profile')}}
             </a>
             <div class="dropdown-divider"></div>

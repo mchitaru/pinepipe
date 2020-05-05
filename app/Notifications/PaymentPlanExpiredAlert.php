@@ -44,7 +44,7 @@ class PaymentPlanExpiredAlert extends Notification implements ShouldQueue
                     ->greeting('Subscription expired')
                     ->subject('Your subscription expired')
                     ->line('Your subscription has expired. Please renew it, so you can keep using all our premium features!')
-                    ->action('View Subscription', url(route('profile.edit', \Auth::user()->id).'/#subscription'))
+                    ->action('View Subscription', url(route('profile.edit', \Auth::user()->handle()).'/#subscription'))
                     ->line('Thank you for using our application!');
     }
 

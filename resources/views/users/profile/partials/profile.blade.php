@@ -1,5 +1,5 @@
 
-{{Form::model($user, array('route' => array('profile.update', \Auth::user()->id), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
+{{Form::model($user, array('route' => array('profile.update', \Auth::user()->handle()), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
 <div class="media mb-4 avatar-container">
     <div class="d-flex flex-column avatar-preview">
         {!!Helpers::buildUserAvatar($user, 60, 'rounded')!!}
@@ -47,6 +47,20 @@
     <div class="col">
         {!!Form::textarea('bio', null, ['class'=>'form-control col','rows'=>'4', 'placeholder'=>'Tell us a little about yourself']) !!}
         <small>{{__('This will be displayed on your public profile')}}</small>
+    </div>
+</div>
+<div class="form-group row">
+    {{Form::label('handle',__('Public Profile URL'), array('class'=>'input-group col-3')) }}
+    <div class="input-group col">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">{{url('/profile').'/'}}</span>
+        </div>
+        {{Form::text('handle', null, array('class'=>'form-control', 'aria-describedby' => 'basic-addon3'))}}
+        @error('handle')
+        <span class="invalid-handle" role="alert">
+            <strong class="text-danger">{{ $message }}</strong>
+        </span>
+        @enderror
     </div>
 </div>
 <div class="form-group row">

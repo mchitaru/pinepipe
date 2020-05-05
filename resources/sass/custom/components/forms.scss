@@ -41,7 +41,8 @@ label[class*='col']{
 
 .input-group-prepend{
   .input-group-text{
-    padding-right: 0;
+    padding: 0;
+    padding-left: .5rem;
     .material-icons{
       font-size: 1.125rem;
     }

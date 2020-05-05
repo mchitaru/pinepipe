@@ -109,7 +109,7 @@
                                                 {{$companySettings->city}}, {{$companySettings->state}}-{{$companySettings->zipcode}}<br>
                                                 {{$companySettings->country}}
                                                 @else
-                                                <a href="{{ route('profile.edit', \Auth::user()->id) }}#company">
+                                                <a href="{{ route('profile.edit', \Auth::user()->handle()) }}#company">
                                                     <u>{{__('Edit Company Info')}}</u>
                                                 </a>
                                                 @endif

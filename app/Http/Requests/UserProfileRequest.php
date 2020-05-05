@@ -29,6 +29,7 @@ class UserProfileRequest extends FormRequest
         {
             return [
                 'name' => 'required_without:notify_item_overdue|max:120',
+                'handle' => 'required_without:notify_item_overdue|unique:users,handle,' .  \Auth::user()->id,
                 'email' => 'required_without:notify_item_overdue|email|unique:users,email,' .  \Auth::user()->id,
                 'avatar' => 'mimetypes:image/*|max:2048',
                 'bio' => 'string|nullable',
@@ -52,6 +53,6 @@ class UserProfileRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.edit', \Auth::user()->id);
+        return route('profile.edit', \Auth::user()->handle());
     }
 }

@@ -40,6 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     protected $fillable = [
         'name',
+        'handle',
         'email',
         'password',
         'type',
@@ -83,7 +84,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
         static::creating(function ($user) {
 
-            $user->handle = Str::of($user->name)->slug('-');
         });
 
         static::deleting(function ($user) {
@@ -102,8 +102,24 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
         static::updating(function ($user) {
 
-            $user->handle = Str::of($user->name)->slug('-');
         });
+    }
+
+    public function handle()
+    {
+        if($this->handle == null) {
+
+            $this->handle = Str::of($this->name)->slug('-');
+
+            if (User::where('handle', $this->handle)->exists()) {
+                
+                $this->handle = Str::of($this->name.' '.$this->id)->slug('-');                
+             }
+
+            $this->save();
+        }
+
+        return $this->handle;
     }
 
     public function creatorId()
@@ -184,7 +200,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     public function companySettings()
     {
-        return $this->hasOne('App\CompanySettings', 'created_by', 'id');
+        if($this->type == 'company' || $this->type == 'super admin') {
+
+            return $this->hasOne('App\CompanySettings', 'created_by', 'id');
+
+        }else{
+
+            return $this->hasOne('App\CompanySettings', 'created_by', 'created_by');
+        }
     }
 
     public function staffTasks()

@@ -18,7 +18,7 @@ class UserProfileController extends Controller
 {
     public function show(User $user)
     {
-        $companySettings = \Auth::user()->companySettings;
+        $companySettings = $user->companySettings;
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
@@ -37,7 +37,7 @@ class UserProfileController extends Controller
 
             $plans = SubscriptionPlan::get();
 
-            $companySettings = \Auth::user()->companySettings;
+            $companySettings = $user->companySettings;
             $companyName = $companySettings ? $companySettings->name : null;
             $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
@@ -69,7 +69,7 @@ class UserProfileController extends Controller
             $file = $user->addMedia($request->file('avatar'))->toMediaCollection('logos');
         }
 
-        return Redirect::to(URL::previous())->with('success', __('Profile updated successfully.'));
+        return redirect(route('profile.edit', $user->handle()))->with('success', __('Profile updated successfully.'));
     }
 
     public function password(UserProfileRequest $request, User $user)

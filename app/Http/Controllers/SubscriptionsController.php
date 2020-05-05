@@ -50,7 +50,7 @@ class SubscriptionsController extends Controller
         else
         {
             $request->session()->flash('error', __('There was an error processing your payment request! If this continues, please contact our support team'));
-            return redirect()->route('profile.edit', \Auth::user()->id)->getTargetUrl().'/#subscription';
+            return redirect()->route('profile.edit', \Auth::user()->handle())->getTargetUrl().'/#subscription';
         }
     }
 
@@ -85,6 +85,6 @@ class SubscriptionsController extends Controller
         Paddle::subscription()->cancelUser($payload)->send();
 
         $request->session()->flash('success', __('Subscription cancelled'));
-        return redirect()->route('profile.edit', \Auth::user()->id)->getTargetUrl().'/#subscription';
+        return redirect()->route('profile.edit', \Auth::user()->handle())->getTargetUrl().'/#subscription';
     }
 }
