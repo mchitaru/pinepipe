@@ -4,14 +4,14 @@ $user=\Auth::user();
 $timesheet=$user?$user->getActiveTimesheet():null;
 @endphp
 
-<!-- Global site tag (gtag.js) - Google Ads: 983938734 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-983938734"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165597316-1"></script>
 <script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-gtag('config', 'AW-983938734');
+  gtag('config', 'UA-165597316-1');
 </script>
 
 <!-- WARNING!! DO NOT LEAVE LINE COMMENTS IN SCRIPTS!! -->
@@ -80,7 +80,7 @@ gtag('config', 'AW-983938734');
 
     $("#search-element").easyAutocomplete(options);
 
-    $.fn.select2.defaults.set( "theme", "bootstrap" ); 
+    $.fn.select2.defaults.set( "theme", "bootstrap" );
 
     function toastrs(message, status) {
         $.notify({
