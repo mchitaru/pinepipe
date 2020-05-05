@@ -29,21 +29,39 @@ class InvoiceItemsController extends Controller
                                         ->get()
                                         ->pluck('date', 'id');
 
-            $expenses      = Expense::doesntHave('invoiceables')
+            $expenses      = Expense::with('category')
+                                    ->doesntHave('invoiceables')
                                     ->where('project_id', $invoice->project_id)
                                     ->get()
-                                    ->pluck('amount', 'id');
+                                    ->pluck('category.name', 'id');
+
+
+            foreach($expenses as $key => $value)
+            {
+                if(empty($value)){
+
+                    $expenses[$key] = __('Uncategorized Expense');
+                }
+            }
 
             $price = null;
             if(isSet($request->timesheet_id))
             {
                 $timesheet = Timesheet::find($request->timesheet_id);
-                $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
+
+                if($timesheet) {
+
+                    $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
+                }
 
             }else if(isSet($request->expense_id))
             {
                 $expense = Expense::find($request->expense_id);
-                $price = $expense->amount;
+
+                if($expense) {
+
+                    $price = $expense->amount;
+                }
             }
 
             return view('invoices.item', compact('invoice', 'tasks', 'timesheets', 'expenses', 'price'));
