@@ -62,7 +62,7 @@ class Project extends Model implements HasMedia
         self::deleting(function ($project) {
 
             $project->users()->detach();
-    
+
             $project->expenses()->each(function($expense) {
                 $expense->delete();
              });
@@ -82,10 +82,10 @@ class Project extends Model implements HasMedia
             $project->tasks()->each(function($task) {
                 $task->delete();
             });
-                
+
             $project->tags()->detach();
 
-            $project->activities()->delete();    
+            $project->activities()->delete();
         });
     }
 
@@ -153,7 +153,7 @@ class Project extends Model implements HasMedia
 
                         })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
             }
-                    
+
         }], 'tasks.users')
         ->where('class', Task::class)
         ->where('created_by', \Auth::user()->creatorId())
@@ -233,9 +233,9 @@ class Project extends Model implements HasMedia
         $project              = Project::make($post);
         $project->save();
 
-        if(isset($post['user_id']))
+        if(isset($post['users']))
         {
-            $users = $post['user_id'];
+            $users = $post['users'];
         }else{
 
             $users = collect();
@@ -257,9 +257,9 @@ class Project extends Model implements HasMedia
     {
         $this->update($post);
 
-        if(isset($post['user_id']))
+        if(isset($post['users']))
         {
-            $users = $post['user_id'];
+            $users = $post['users'];
         }else{
 
             $users = collect();

@@ -21,7 +21,7 @@
         <a class="nav-link" id="project-visibility-tab" data-toggle="tab" href="#project-visibility" role="tab" aria-controls="project-visibility" aria-selected="false">{{__('Visibility')}}</a>
     </li>
 </ul>
-  
+
 <div class="tab-content">
     <div class="tab-pane fade show active" id="project-add-details" role="tabpanel">
         <h6>{{__('General Details')}}</h6>
@@ -38,8 +38,8 @@
             {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'What this project is about']) !!}
         </div>
         <div class="form-group row">
-            {{ Form::label('user_id', __('Assign'), array('class'=>'col-4')) }}
-            {!! Form::select('user_id[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
+            {{ Form::label('users', __('Assign'), array('class'=>'col-4')) }}
+            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('price', __('Budget'), array('class'=>'col-4')) }}
@@ -54,12 +54,12 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('start_date', __('Start Date'), array('class'=>'col-4')) }}
-            {{ Form::date('start_date', '', array('class' => 'start form-control col', 'placeholder'=>'Select Date', 
+            {{ Form::date('start_date', '', array('class' => 'start form-control col', 'placeholder'=>'Select Date',
                                                 'data-flatpickr', 'data-default-date'=> $start_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-4')) }}
-            {{ Form::date('due_date', '', array('class' => 'end form-control col', 'placeholder'=>'Select Date', 
+            {{ Form::date('due_date', '', array('class' => 'end form-control col', 'placeholder'=>'Select Date',
                                                 'data-flatpickr', 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
     </div>

@@ -28,7 +28,7 @@ class ProjectStoreRequest extends FormRequest
             'start_date' => 'nullable|date',
             'due_date' => 'nullable|date',
             'client_id' => 'required|integer',
-            'user_id' => 'nullable|array',
+            'users' => 'nullable|array',
             'lead_id' => 'nullable|integer',
             'price' => 'nullable|numeric',
             'description' => 'nullable|string',

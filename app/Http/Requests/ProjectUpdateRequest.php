@@ -38,7 +38,7 @@ class ProjectUpdateRequest extends FormRequest
                 'start_date' => 'nullable|date',
                 'due_date' => 'nullable|date',
                 'client_id' => 'nullable|integer',
-                'user_id' => 'nullable|array',
+                'users' => 'nullable|array',
                 'lead_id' => 'nullable|integer',
                 'price' => 'required|numeric',
                 'description' => 'nullable|string',
