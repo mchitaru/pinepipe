@@ -6,7 +6,7 @@ use App\Project;
 @endphp
 
 @foreach($stages as $stage)
-<div class="kanban-col">
+<div class="kanban-col" data-id={{$stage->id}}>
     <div class="card-list">
         <div class="card-list-header">
             <div class="col">

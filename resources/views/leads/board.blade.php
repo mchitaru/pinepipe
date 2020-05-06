@@ -28,6 +28,36 @@ use Carbon\Carbon;
         delay: 200,
     });
 
+    sortableLists.on('sortable:stop', (evt) => {
+
+        var order = [];
+
+        var list = sortableLists.getDraggableElementsForContainer(evt.newContainer);
+
+        for (var i = 0; i < list.length; i++)
+        {
+            if(list[i].attributes['data-id']){
+
+                order[i] = list[i].attributes['data-id'].value;
+            }
+        }
+
+        $.ajax({
+            url: '{{route('stages.order')}}',
+            type: 'POST',
+            data: {order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
+            success: function (response) {
+
+                if(response.is_success){
+                    toastrs('Stage order succesfully updated.', 'success');
+                }
+            },
+            error: function (data) {
+                toastrs('This operation is not allowed!', 'danger');
+            }
+        });
+    });
+
     sortableCards.on('sortable:stop', (evt) => {
 
         var order = [];
@@ -148,7 +178,7 @@ use Carbon\Carbon;
 
             @php $stage->computeStatistics() @endphp
 
-            <div class="kanban-col">
+            <div class="kanban-col" data-id={{$stage->id}}>
                 <div class="card-list">
                     <div class="card-list-header">
                         <div class="col">

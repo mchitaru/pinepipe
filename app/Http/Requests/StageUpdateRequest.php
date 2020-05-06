@@ -29,10 +29,18 @@ class StageUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|string|min:3',
-            'open' => 'required|boolean',
-        ];
+        if($this->isMethod('put')){
+
+            return [
+                'name' => 'required|string|min:3',
+                'open' => 'required|boolean',
+            ];
+        }else {
+
+            return [
+                'order' => 'required|array',
+            ];
+        }
     }
 
     protected function getRedirectUrl()

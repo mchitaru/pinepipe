@@ -93,4 +93,23 @@ class StagesController extends Controller
 
         return Redirect::to(URL::previous())->with('success', __('Stage successfully deleted.'));
     }
+
+    public function order(StageUpdateRequest $request)
+    {
+        $post  = $request->validated();
+
+        $updated = false;
+
+        foreach($post['order'] as $key => $item)
+        {
+            $stage = Stage::find($item);
+
+            $updated = $stage->updateOrder($key) || $updated;
+        }
+
+        $return               = [];
+        $return['is_success'] = $updated;
+
+        return response()->json($return);
+    }
 }

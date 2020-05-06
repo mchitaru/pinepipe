@@ -149,6 +149,7 @@ Route::group(
 
         Route::resource('taxes', 'TaxesController');
 
+        Route::post('stages/order', 'StagesController@order')->name('stages.order');
         Route::resource('stages', 'StagesController');
 
         //Expenses

@@ -32,17 +32,47 @@ function initCards() {
         delay: 200,
     });
 
+    sortableLists.on('sortable:stop', (evt) => {
+
+        var order = [];
+
+        var list = sortableLists.getDraggableElementsForContainer(evt.newContainer);
+
+        for (var i = 0; i < list.length; i++)
+        {
+            if(list[i].attributes['data-id']){
+
+                order[i] = list[i].attributes['data-id'].value;
+            }
+        }
+
+        $.ajax({
+            url: '{{route('stages.order')}}',
+            type: 'POST',
+            data: {order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
+            success: function (response) {
+
+                if(response.is_success){
+                    toastrs('Stage order succesfully updated.', 'success');
+                }
+            },
+            error: function (data) {
+                /* console.log('error'); */
+            }
+        });
+    });
+
     sortableCards.on('sortable:stop', (evt) => {
 
         var order = [];
-        
+
         var list = sortableCards.getDraggableElementsForContainer(evt.newContainer);
 
-        for (var i = 0; i < list.length; i++) 
+        for (var i = 0; i < list.length; i++)
         {
             order[i] = list[i].attributes['data-id'].value;
         }
-        
+
         var task_id = evt.newContainer.children[evt.newIndex].attributes['data-id'].value;
         var stage_id = evt.newContainer.attributes['data-id'].value;
 
@@ -137,12 +167,12 @@ document.addEventListener("paginate-sort", function(e) {
                             <a class="sort" href="#" data-sort="order">Order</a>
                             <a class="sort" href="#" data-sort="priority">Priority</a>
                             <a class="sort" href="#" data-sort="due_date">Date</a>
-                        </div>     
+                        </div>
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
                             <div class="tag filter" data-filter="mine">{{__('My Tasks')}}</div>
                             <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
-                        </div>                                           
+                        </div>
                     </div>
                     <form class="col-md-auto">
                         <div class="input-group input-group-round">
