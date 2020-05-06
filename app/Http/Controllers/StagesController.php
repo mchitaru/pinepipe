@@ -6,35 +6,26 @@ use App\Stage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\StageStoreRequest;
+use App\Http\Requests\StageUpdateRequest;
+use App\Http\Requests\StageDestroyRequest;
+
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+
 class StagesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $taskStages = Stage::where('created_by', '=', \Auth::user()->creatorId())->orderBy('order')->get();
-
-        return view('taskstages.index', compact('taskStages'));
-    }
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        if(\Auth::user()->can('create task stage'))
-        {
-            return view('taskstages.create');
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+        $class = $request->class;
+        $order = $request->order;
+
+        return view('stages.create', compact('class', 'order'));
     }
 
     /**
@@ -43,47 +34,15 @@ class StagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StageStoreRequest $request)
     {
-        if(\Auth::user()->can('create task stage'))
-        {
-            $validator = \Validator::make(
-                $request->all(), [
-                                   'name' => 'required|max:20',
-                               ]
-            );
-            if($validator->fails())
-            {
-                $messages = $validator->getMessageBag();
+        $post = $request->validated();
 
-                return redirect()->route('taskstages.index')->with('error', $messages->first());
-            }
-            $all_stage         = Stage::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->first();
-            $stage             = new Stage();
-            $stage->name       = $request->name;
-            $stage->color      = $request->color;
-            $stage->created_by = \Auth::user()->creatorId();
-            $stage->order      = (!empty($all_stage) ? ($all_stage->order + 1) : 0);
+        Stage::create($post);
 
-            $stage->save();
+        $request->session()->flash('success', __('Stage successfully added.'));
 
-            return redirect()->route('taskstages.index')->with('success', __('Project stage successfully created.'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Stage  $stage
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Stage $stage)
-    {
-        //
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
@@ -92,24 +51,11 @@ class StagesController extends Controller
      * @param  \App\Stage  $stage
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stage $stage)
+    public function edit(Request $request, Stage $stage)
     {
-        if(\Auth::user()->can('edit task stage'))
-        {
-            $leadstages = Stage::findOrfail($id);
-            if($leadstages->created_by == \Auth::user()->creatorId())
-            {
-                return view('taskstages.edit', compact('leadstages'));
-            }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+        $class = $request->class;
+
+        return view('stages.edit', compact('stage', 'class'));
     }
 
     /**
@@ -119,42 +65,15 @@ class StagesController extends Controller
      * @param  \App\Stage  $stage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stage $stage)
+    public function update(StageUpdateRequest $request, Stage $stage)
     {
-        if(\Auth::user()->can('edit task stage'))
-        {
-            $leadstages = Stage::findOrfail($id);
-            if($leadstages->created_by == \Auth::user()->creatorId())
-            {
+        $post = $request->validated();
 
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'name' => 'required|max:20',
-                                   ]
-                );
+        $stage->update($post);
 
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
+        $request->session()->flash('success', __('Stage successfully updated.'));
 
-                    return redirect()->route('taskstages.index')->with('error', $messages->first());
-                }
-
-                $leadstages->name  = $request->name;
-                $leadstages->color = $request->color;
-                $leadstages->save();
-
-                return redirect()->route('taskstages.index')->with('success', __('Project stage successfully updated.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
@@ -163,33 +82,15 @@ class StagesController extends Controller
      * @param  \App\Stage  $stage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stage $stage)
+    public function destroy(StageDestroyRequest $request, Stage $stage)
     {
-        if(\Auth::user()->can('delete task stage'))
-        {
-            $taskStages = Stage::findOrfail($id);
-            if($taskStages->created_by == \Auth::user()->creatorId())
-            {
-                $checkStage = Task::where('stage', '=', $taskStages->id)->get()->toArray();
-                if(empty($checkStage))
-                {
-                    $taskStages->delete();
+        if($request->ajax()){
 
-                    return redirect()->route('taskstages.index')->with('success', __('Project stage successfully deleted.'));
-                }
-                else
-                {
-                    return redirect()->route('taskstages.index')->with('error', __('Project task already assign this stage , so please remove or move task to other project stage.'));
-                }
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
+            return view('helpers.destroy');
         }
-        else
-        {
-            return redirect()->back()->with('error', 'Permission denied.');
-        }
+
+        $stage->delete();
+
+        return Redirect::to(URL::previous())->with('success', __('Stage successfully deleted.'));
     }
 }

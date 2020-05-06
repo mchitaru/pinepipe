@@ -31,14 +31,14 @@ use Carbon\Carbon;
     sortableCards.on('sortable:stop', (evt) => {
 
         var order = [];
-        
+
         var list = sortableCards.getDraggableElementsForContainer(evt.newContainer);
 
-        for (var i = 0; i < list.length; i++) 
+        for (var i = 0; i < list.length; i++)
         {
             order[i] = list[i].attributes['data-id'].value;
         }
-        
+
         var lead_id = evt.newContainer.children[evt.newIndex].attributes['data-id'].value;
         var lead_value = parseInt($(evt.newContainer.children[evt.newIndex]).find('.price').attr('data-id'));
 
@@ -62,7 +62,7 @@ use Carbon\Carbon;
             type: 'POST',
             data: {lead_id: lead_id, stage_id: new_stage_id, order: order, total_old: total_old, total_new: total_new, "_token": $('meta[name="csrf-token"]').attr('content')},
             success: function (response) {
-        
+
                 $(evt.oldContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.oldContainer).length + ')');
                 $(evt.newContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.newContainer).length + ')');
 
@@ -143,7 +143,7 @@ use Carbon\Carbon;
             </div>
         </div>
         <div class="kanban-board container-fluid">
-                
+
             @foreach($stages as $stage)
 
             @php $stage->computeStatistics() @endphp
@@ -162,7 +162,17 @@ use Carbon\Carbon;
                                     <i class="material-icons">more_vert</i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
+                                    @can('edit lead stage')
+                                        <a class="dropdown-item" href="{{ route('stages.edit',$stage->id) }}" data-remote="true" data-type="text">
+                                            <span>{{__('Edit')}}</span>
+                                        </a>
+                                    @endcan
+                                    <div class="dropdown-divider"></div>
+                                    @can('delete lead stage')
+                                        <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                            <span>{{__('Delete')}}</span>
+                                        </a>
+                                    @endcan
                                 </div>
                             </div>
                         </div>
@@ -234,17 +244,21 @@ use Carbon\Carbon;
                         <a href="{{ route('leads.create') }}" class="btn btn-link btn-sm text-small" data-params="stage_id={{$stage->id}}" data-remote="true" data-type="text">
                             {{__('Add lead')}}
                         </a>
-                    </div>  
+                    </div>
                 </div>
             </div>
 
             @endforeach
 
+            @can('create lead stage')
             <div class="kanban-col">
                 <div class="card-list">
-                <button class="btn btn-link btn-sm text-small">{{__('Add Stage')}}</button>
+                    <a href="{{ route('stages.create') }}" class="btn btn-link btn-sm text-small" data-params="class=App\Lead&order={{$stages->last()->order + 1}}" data-remote="true" data-type="text">
+                        {{__('Add Stage')}}
+                    </a>
                 </div>
             </div>
+            @endcan
         </div>
     </div>
 @endsection

@@ -11,7 +11,6 @@ class Stage extends Model
         'class',
         'order',
         'open',
-        'pipeline_id',
         'user_id',
         'created_by'
     ];
@@ -40,7 +39,7 @@ class Stage extends Model
             }
         });
 
-        static::deleting(function ($article) {
+        static::deleting(function ($stage) {
 
         });
     }
@@ -97,23 +96,23 @@ class Stage extends Model
                 if(empty($users)) {
 
                     $query->WhereHas('project', function ($query) {
-                    
+
                         $query->where('client_id', '=', \Auth::user()->client_id);
-    
+
                     })
                     ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
-    
+
                 }else{
 
                     $query->WhereHas('project', function ($query) {
-                    
+
                         $query->where('client_id', '=', \Auth::user()->client_id);
-    
+
                     })
                     ->whereHas('users', function ($query) use($users)
                     {
                         $query->whereIn('users.id', $users);
-                        
+
                     })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }
 
@@ -149,13 +148,13 @@ class Stage extends Model
             {
                 if(empty($users)) {
 
-                    $query->whereHas('users', function ($query) 
+                    $query->whereHas('users', function ($query)
                     {
                         // tasks with the current user assigned.
                         $query->where('users.id', \Auth::user()->id);
 
                     })->orWhereHas('project', function ($query) {
-                        
+
                         // only include tasks with projects where...
                         $query->whereHas('users', function ($query) {
 
@@ -177,7 +176,7 @@ class Stage extends Model
             ->where('created_by', \Auth::user()->creatorId())
             ->orderBy('order', 'ASC');
         }
-    }    
+    }
 
     public static function leadStagesByUserType()
     {
@@ -216,6 +215,19 @@ class Stage extends Model
                     ->where('created_by', \Auth::user()->creatorId())
                     ->orderBy('order');
         }
+    }
+
+    public function updateOrder($order)
+    {
+        $updated = ($this->order != $order);
+
+        if($updated){
+
+            $this->order = $order;
+            $this->save();
+        }
+
+        return $updated;
     }
 
 }

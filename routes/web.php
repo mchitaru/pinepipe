@@ -149,6 +149,8 @@ Route::group(
 
         Route::resource('taxes', 'TaxesController');
 
+        Route::resource('stages', 'StagesController');
+
         //Expenses
         Route::resource('expenses', 'ExpensesController');
 

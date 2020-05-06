@@ -19,7 +19,17 @@ use App\Project;
                         <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
+                        @can('edit task stage')
+                            <a class="dropdown-item" href="{{ route('stages.edit',$stage->id) }}" data-remote="true" data-type="text">
+                                <span>{{__('Edit')}}</span>
+                            </a>
+                        @endcan
+                        <div class="dropdown-divider"></div>
+                        @can('delete task stage')
+                            <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                <span>{{__('Delete')}}</span>
+                            </a>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -100,10 +110,14 @@ use App\Project;
 </div>
 @endforeach
 
+@can('create task stage')
 <div class="kanban-col">
     <div class="card-list">
-    <button class="btn btn-link btn-sm text-small">{{__('Add stage')}}</button>
+        <a href="{{ route('stages.create') }}" class="btn btn-link btn-sm text-small" data-params="class=App\Task&order={{$stages->last()->order + 1}}" data-remote="true" data-type="text">
+            {{__('Add Stage')}}
+        </a>
     </div>
 </div>
+@endcan
 
 @php clock()->endEvent('tasks.board'); @endphp
