@@ -112,8 +112,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
             $this->handle = Str::of($this->name)->slug('-');
 
             if (User::where('handle', $this->handle)->exists()) {
-                
-                $this->handle = Str::of($this->name.' '.$this->id)->slug('-');                
+
+                $this->handle = Str::of($this->name.' '.$this->id)->slug('-');
              }
 
             $this->save();
@@ -695,9 +695,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'name' => __('Sample Client'),
                 'email' => 'client@example.com',
                 'phone' => '1-540-568-0645',
-                'address' => '45646 Jaleel Pines
-                                South Laron, SD 45620',
-                'website' => 'https:\\www.pinepipe.com',
+                'address' => '45646 Jaleel Pines South Laron, SD 45620',
+                'website' => 'https://pinepipe.com',
                 'user_id' => $id,
                 'created_by' => $id
             ]
@@ -710,11 +709,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'client_id' => $client->id,
                 'email' => 'contact@example.com',
                 'phone' => '1-540-568-0645',
-                'address' => '45646 Jaleel Pines
-                                South Laron, SD 45620',
+                'address' => '45646 Jaleel Pines South Laron, SD 45620',
                 'company' => __('Sample Client'),
                 'job' => 'CEO',
-                'website' => 'https:\\www.pinepipe.com',
+                'website' => 'https://pinepipe.com',
                 'birthday' => '1981-05-09',
                 'notes' => null,
                 'user_id' => $id,
