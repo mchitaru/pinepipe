@@ -23,6 +23,7 @@ class CategorySeeder extends Seeder
             'Facebook',
             'Google',
             'Phone',
+            'Other',
         ];
         foreach($leads as $key => $lead)
         {
@@ -40,10 +41,10 @@ class CategorySeeder extends Seeder
         // Expense Category
         $expenses = [
             'Snack',
-            'Server Charge',
-            'Bills',
             'Office',
-            'Assests',
+            'Gas',
+            'Travel',
+            'Other',
         ];
         foreach($expenses as $key => $expense)
         {
@@ -62,6 +63,7 @@ class CategorySeeder extends Seeder
         $payments = [
             'Cash',
             'Bank',
+            'Other',
         ];
         foreach($payments as $key => $payment)
         {

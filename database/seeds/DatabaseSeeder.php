@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PlanSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(CategorySeeder::class);
 
         for($idx = 1; $idx <= User::$SEED_COMPANY_COUNT; $idx++)
         {
