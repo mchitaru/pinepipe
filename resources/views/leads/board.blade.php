@@ -49,6 +49,7 @@ use Carbon\Carbon;
             success: function (response) {
 
                 if(response.is_success){
+
                     toastrs('Stage order succesfully updated.', 'success');
                 }
             },

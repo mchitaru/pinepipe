@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Lead;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\URL;
 
 class StageUpdateRequest extends FormRequest
 {
@@ -45,7 +47,12 @@ class StageUpdateRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        $stage = $this->route()->parameter('stage');
-        return route('stages.edit', $stage);
+        if($this->isMethod('put')){
+
+            $stage = $this->route()->parameter('stage');
+            return route('stages.edit', $stage);
+        }
+
+        return URL::previous();
     }
 }
