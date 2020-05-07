@@ -61,6 +61,10 @@
         {{Form::label('website',__('Website'), array('class'=>'col-3'))}}
         {{Form::text('website',null,array('class'=>'form-control col','placeholder'=>__('https://pinepipe.com/')))}}
     </div>
+    <div class="form-group row">
+        {{Form::label('tax',__('Tax ID'), array('class'=>'col-3'))}}
+        {{Form::text('tax',null,array('class'=>'form-control col','placeholder'=>'#'))}}
+    </div>
 </div>
 @include('partials.errors')
 @endsection

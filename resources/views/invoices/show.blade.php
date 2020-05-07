@@ -120,6 +120,7 @@
                                             {{$client->email}}<br>
                                             {{$client->phone}}<br>
                                             {{$client->address}}<br>
+                                            {{$client->tax}}<br>
                                         </address>
                                     </div>
                                 </div>
