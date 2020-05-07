@@ -49,7 +49,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('rate', __('Hourly Rate'), array('class'=>'col-3')) }}
-        {{ Form::number('rate', null, array('class' => 'form-control col', 'min'=>'0', "step"=>"0.01", 'placeholder'=>'$50')) }}
+        {{ Form::number('rate', null, array('class' => 'form-control col', 'min'=>'0', "step"=>"0.01", 'placeholder'=>\Auth::user()->priceFormat(50))) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}

@@ -107,7 +107,7 @@
     <h6>{{__('Pricing')}}</h6>
     <div class="form-group row">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
-        {{ Form::number('price', $price, array('class' => 'form-control col','placeholder'=>'$500', 'min'=>'0', 'step'=>'0.01')) }}
+        {{ Form::number('price', $price, array('class' => 'form-control col','placeholder'=>\Auth::user()->priceFormat(500), 'min'=>'0', 'step'=>'0.01')) }}
     </div>
 </div>
 @include('partials.errors')
