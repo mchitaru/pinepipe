@@ -741,7 +741,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'start_date' => null,
                 'due_date' => null,
                 'client_id' => $client->id,
-                'description' => 'Redesign main website.',
+                'description' => "Learn about Pinepipe's cool features.",
                 'archived' => false,
                 'user_id' => $id,
                 'created_by' => $id,
@@ -753,10 +753,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         //Sample Task
         $task = Task::create(
             [
-                'title' => 'Sample Task',
+                'title' => "Explore Pinepipe's Home",
                 'priority' => 0,
-                'description' => 'Create a new logo.',
-                'due_date'  => null,
+                'description' => 'Explore the simple and effective Home dashboard.',
+                'due_date'  => Carbon::now(),
                 'project_id' => $project->id,
                 'milestone_id' => null,
                 'order' => 0,
