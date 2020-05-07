@@ -27,7 +27,7 @@ class ClientUpdateRequest extends FormRequest
 
         return [
             'name'=>'required|max:120',
-            'email'=>'email|unique:users,email,'.$client->id,
+            'email'=>'nullable|email',
             'phone'=>'nullable|string',
             'address'=>'nullable|string',
             'website'=>'nullable|string',

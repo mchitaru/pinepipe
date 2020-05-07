@@ -116,8 +116,10 @@
                                     <div class="col-xs-12 col-md-6 text-md-right">
                                         <address>
                                             <strong>{{__('To')}}:</strong><br>
-                                            {{(!empty($client))?$client->name:''}}<br>
-                                            {{(!empty($client))?$client->email:''}}<br>
+                                            {{$client->name}}<br>
+                                            {{$client->email}}<br>
+                                            {{$client->phone}}<br>
+                                            {{$client->address}}<br>
                                         </address>
                                     </div>
                                 </div>
