@@ -26,7 +26,10 @@ $timesheet=$user?$user->getActiveTimesheet():null;
 
         @foreach ($user->timesheets()->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc')->get() as $timesheet)
         <a class="dropdown-item timer-entry {{$timesheet->isStarted()?'active':''}}" href="{{route('timesheets.timer')}}" data-id="{{$timesheet->id}}" data-toggle="tooltip" title="{{__('Continue this timesheet.')}}">
-            {!!'<u>'.Auth::user()->dateFormat($timesheet->date).'</u> - '.($timesheet->project?$timesheet->project->name:'---'.'('.$timesheet->formatTime().')')!!}
+            {!!'<u>'.Auth::user()->dateFormat($timesheet->date).'</u> - '.
+                ($timesheet->project?$timesheet->project->name.' - ':' --- ').
+                ($timesheet->task?$timesheet->task->title.' - ':'').
+                '('.$timesheet->formatTime().')'!!}
         </a>
         @endforeach                
 
