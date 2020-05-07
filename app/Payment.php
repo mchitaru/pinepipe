@@ -42,4 +42,22 @@ class Payment extends Model
     {
         return $this->hasOne('App\Invoice','id','invoice_id');
     }
+
+    public static function createPayment($post, Invoice $invoice)
+    {
+        $latest_payment = Payment::select('payments.*')->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->latest()->first();
+
+        $payment = Payment::create(
+            [
+                'transaction_id' => $latest_payment?($latest_payment->transaction_id + 1):1,
+                'invoice_id' => $invoice->id,
+                'category_id' => $post['category_id'],
+                'amount' => $post['amount'],
+                'date' => $post['date'],
+                'notes' => $post['notes'],
+            ]
+        );
+
+        $invoice->updateStatus();
+    }
 }

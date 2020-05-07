@@ -148,6 +148,9 @@ Route::group(
         Route::get('invoices/payments', 'InvoicePaymentsController@index')->name('invoices.payments.index');
         Route::get('invoices/{invoice}/payments', 'InvoicePaymentsController@create')->name('invoices.payments.create');
         Route::post('invoices/{invoice}/payments', 'InvoicePaymentsController@store')->name('invoices.payments.store');
+        Route::get('invoices/{invoice}/payments/{payment}/edit', 'InvoicePaymentsController@edit')->name('invoices.payments.edit');
+        Route::put('invoices/{invoice}/payments/{payment}', 'InvoicePaymentsController@update')->name('invoices.payments.update');
+        Route::delete('invoices/{invoice}/payments/{payment}', 'InvoicePaymentsController@delete')->name('invoices.payments.delete');
 
         Route::resource('taxes', 'TaxesController');
 

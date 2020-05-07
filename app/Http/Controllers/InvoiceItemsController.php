@@ -18,55 +18,52 @@ class InvoiceItemsController extends Controller
 {
     public function create(Request $request, Invoice $invoice)
     {
-        if($invoice->created_by == \Auth::user()->creatorId())
+        $tasks      = Task::doesntHave('invoiceables')
+                                ->where('project_id', $invoice->project_id)
+                                ->get()
+                                ->pluck('title', 'id');
+
+        $timesheets = Timesheet::doesntHave('invoiceables')
+                                    ->where('project_id', $invoice->project_id)
+                                    ->get()
+                                    ->pluck('date', 'id');
+
+        $expenses      = Expense::with('category')
+                                ->doesntHave('invoiceables')
+                                ->where('project_id', $invoice->project_id)
+                                ->get()
+                                ->pluck('category.name', 'id');
+
+
+        foreach($expenses as $key => $value)
         {
-            $tasks      = Task::doesntHave('invoiceables')
-                                    ->where('project_id', $invoice->project_id)
-                                    ->get()
-                                    ->pluck('title', 'id');
+            if(empty($value)){
 
-            $timesheets = Timesheet::doesntHave('invoiceables')
-                                        ->where('project_id', $invoice->project_id)
-                                        ->get()
-                                        ->pluck('date', 'id');
-
-            $expenses      = Expense::with('category')
-                                    ->doesntHave('invoiceables')
-                                    ->where('project_id', $invoice->project_id)
-                                    ->get()
-                                    ->pluck('category.name', 'id');
-
-
-            foreach($expenses as $key => $value)
-            {
-                if(empty($value)){
-
-                    $expenses[$key] = __('Uncategorized Expense');
-                }
+                $expenses[$key] = __('Uncategorized Expense');
             }
-
-            $price = null;
-            if(isSet($request->timesheet_id))
-            {
-                $timesheet = Timesheet::find($request->timesheet_id);
-
-                if($timesheet) {
-
-                    $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
-                }
-
-            }else if(isSet($request->expense_id))
-            {
-                $expense = Expense::find($request->expense_id);
-
-                if($expense) {
-
-                    $price = $expense->amount;
-                }
-            }
-
-            return view('invoices.items.create', compact('invoice', 'tasks', 'timesheets', 'expenses', 'price'));
         }
+
+        $price = null;
+        if(isSet($request->timesheet_id))
+        {
+            $timesheet = Timesheet::find($request->timesheet_id);
+
+            if($timesheet) {
+
+                $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
+            }
+
+        }else if(isSet($request->expense_id))
+        {
+            $expense = Expense::find($request->expense_id);
+
+            if($expense) {
+
+                $price = $expense->amount;
+            }
+        }
+
+        return view('invoices.items.create', compact('invoice', 'tasks', 'timesheets', 'expenses', 'price'));
     }
 
     public function store(InvoiceItemStoreRequest $request, Invoice $invoice)
@@ -78,16 +75,12 @@ class InvoiceItemsController extends Controller
 
         $request->session()->flash('success', __('Item successfully created.'));
 
-        return "<script>window.location.reload()</script>";
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     public function edit(Request $request, Invoice $invoice, InvoiceItem $item)
     {
-        if($invoice->created_by == \Auth::user()->creatorId())
-        {
-
-            return view('invoices.items.edit', compact('invoice', 'item'));
-        }
+        return view('invoices.items.edit', compact('invoice', 'item'));
     }
 
     public function update(InvoiceItemUpdateRequest $request, Invoice $invoice, InvoiceItem $item)
@@ -98,7 +91,7 @@ class InvoiceItemsController extends Controller
 
         $request->session()->flash('success', __('Item successfully updated.'));
 
-        return "<script>window.location.reload()</script>";
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     public function delete(InvoiceItemDestroyRequest $request, Invoice $invoice, InvoiceItem $item)

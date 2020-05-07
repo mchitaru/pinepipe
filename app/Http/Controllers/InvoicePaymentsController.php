@@ -7,99 +7,72 @@ use App\Payment;
 use App\Invoice;
 use App\Category;
 
+use App\Http\Requests\InvoicePaymentStoreRequest;
+use App\Http\Requests\InvoicePaymentUpdateRequest;
+use App\Http\Requests\InvoicePaymentDestroyRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+
 class InvoicePaymentsController extends Controller
 {
     public function index()
     {
-        if(\Auth::user()->can('edit invoice') || \Auth::user()->type == 'client')
-        {
-            if(\Auth::user()->type == 'client')
-            {
-                $payments = Payment::select(['payments.*'])->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->join('projects', 'invoices.project_id', '=', 'projects.id')->where('projects.client_id', '=', \Auth::user()->client_id)->where(
-                    'invoices.created_by', '=', \Auth::user()->creatorId()
-                )->get();
-            }
-            else
-            {
-                $payments = Payment::select(['payments.*'])->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
-            }
+        $payments = Payment::select(['payments.*'])->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
 
-            return view('invoices.all-payments', compact('payments'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+        return view('invoices.all-payments', compact('payments'));
     }
 
     public function create(Invoice $invoice)
     {
-        if(\Auth::user()->can('edit invoice'))
-        {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
-                                        ->where('class', Payment::class)
-                                        ->get()->pluck('name', 'id');
+        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                ->where('class', Payment::class)
+                                ->get()->pluck('name', 'id');
 
-                return view('invoices.payments.create', compact('invoice', 'categories'));
-            }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
-        }
-        else
-        {
-            return response()->json(['error' => __('Permission denied.')], 401);
-        }
+        return view('invoices.payments.create', compact('invoice', 'categories'));
     }
 
-    public function store(Request $request, Invoice $invoice)
+    public function store(InvoicePaymentStoreRequest $request, Invoice $invoice)
     {
-        if(\Auth::user()->can('edit invoice'))
-        {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $validator = \Validator::make(
-                    $request->all(), [
-                                       'amount' => 'required|numeric|min:1',
-                                       'date' => 'required',
-                                       'category_id' => 'required|numeric',
-                                   ]
-                );
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
+        $post = $request->validated();
 
-                    return redirect()->route('invoices.show', $invoice->id)->with('error', $messages->first());
-                }
+        Payment::createPayment($post, $invoice);
 
-                $latest_payment = Payment::select('payments.*')->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->latest()->first();
+        $request->session()->flash('success', __('Payment successfully created.'));
 
-                $payment = Payment::create(
-                    [
-                        'transaction_id' => $latest_payment?($latest_payment->transaction_id + 1):1,
-                        'invoice_id' => $invoice->id,
-                        'amount' => $request->amount,
-                        'date' => $request->date,
-                        'notes' => $request->notes,
-                        'category_id' => $request->category_id
-                    ]
-                );
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+    }
 
-                $invoice->updateStatus();
+    public function edit(Request $request, Invoice $invoice, Payment $payment)
+    {
+        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+                                ->where('class', Payment::class)
+                                ->get()->pluck('name', 'id');
 
-                return redirect()->route('invoices.show', $invoice->id)->with('success', __('Payment successfully added.'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
+        return view('invoices.payments.edit', compact('invoice', 'payment', 'categories'));
+    }
+
+    public function update(InvoicePaymentUpdateRequest $request, Invoice $invoice, Payment $payment)
+    {
+        $post = $request->validated();
+
+        $payment->update($post);
+
+        $request->session()->flash('success', __('Payment successfully updated.'));
+
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+    }
+
+    public function delete(InvoicePaymentDestroyRequest $request, Invoice $invoice, Payment $payment)
+    {
+        if($request->ajax()){
+
+            return view('helpers.destroy');
         }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+
+        $payment->delete();
+
+        $invoice->updateStatus();
+
+        return Redirect::to(URL::previous())->with('success', __('Payment successfully deleted'));
     }
 }

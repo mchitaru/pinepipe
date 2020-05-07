@@ -157,8 +157,7 @@
                                                 <th data-width="40">#</th>
                                                 <th class="text-center">{{__('Item')}}</th>
                                                 <th class="text-center">{{__('Price')}}</th>
-                                                <th class="text-right d-print-none">{{__('Action')}}</th>
-
+                                                <th class="text-right d-print-none"></th>
                                             </tr>
                                         </thead>
                                         
@@ -176,8 +175,8 @@
                                                 <td class="text-center">
                                                     {{Auth::user()->priceFormat($item->price)}}
                                                 </td>
+                                                @can('edit invoice')
                                                 <td class="table-actions text-right d-print-none">
-                                                    @can('edit invoice')
                                                     <div class="dropdown float-right">
                                                         <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="material-icons">more_vert</i>
@@ -193,8 +192,8 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    @endcan
                                                 </td>
+                                                @endcan
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -249,6 +248,7 @@
                                                 <th class="text-center">{{__('Payment Method')}}</th>
                                                 <th class="text-center">{{__('Note')}}</th>
                                                 <th class="text-right">{{__('Amount')}}</th>
+                                                <th class="text-right d-print-none"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -270,6 +270,25 @@
                                                 <td class="text-right">
                                                     {{Auth::user()->priceFormat($payment->amount)}}
                                                 </td>
+                                                @can('edit invoice')
+                                                <td class="table-actions text-right d-print-none">
+                                                    <div class="dropdown float-right">
+                                                        <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="material-icons">more_vert</i>
+                                                        </button>
+
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item" href="{{ route('invoices.payments.edit', [$invoice->id, $payment->id]) }}" data-remote="true" data-type="text">
+                                                                <span>{{__('Edit')}}</span>
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item text-danger" href="{{ route('invoices.payments.delete', [$invoice->id, $payment->id]) }}" data-method="delete" data-remote="true" data-type="text">
+                                                                <span>{{'Delete'}}</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                @endcan
                                             </tr>
                                         @endforeach
                                         </tbody>
