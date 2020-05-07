@@ -9,9 +9,9 @@
 
 $primary:       lighten($primary, 10%);
 $secondary:     $gray-600;
-$success:       lighten($green, 10%);
-$info:          lighten($cyan, 10%);
-$warning:       lighten($yellow, 10%);
+$success:       $green;
+$info:          $cyan;
+$warning:       lighten($yellow, 20%);
 $danger:        lighten($red, 10%);
 $light:         $gray-100;
 $dark:          $gray-800;
