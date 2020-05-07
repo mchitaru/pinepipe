@@ -21,9 +21,12 @@
         </div>
         <div class="form-group col custom-control custom-checkbox custom-checkbox-switch">
             <input type="hidden" name="open" value="0">
-            {{Form::checkbox('open', 1, null, ['class'=>'custom-control-input', 'id' =>'open'])}}
+            {{Form::checkbox('open', 1, 1, ['class'=>'custom-control-input', 'id' =>'open'])}}
             {{Form::label('open', __('Open'), ['class'=>'custom-control-label'])}}
         </div>
+    </div>
+    <div class="alert alert-warning text-small" role="alert">
+        <span>{{__('The items in an Open stage will be considered as not finished.')}}</span>
     </div>
 </div>
 @include('partials.errors')

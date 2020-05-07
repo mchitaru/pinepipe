@@ -24,6 +24,9 @@
             {{Form::label('open', __('Open'), ['class'=>'custom-control-label'])}}
         </div>
     </div>
+    <div class="alert alert-warning text-small" role="alert">
+        <span>{{__('The items in an Open stage will be considered as not finished.')}}</span>
+    </div>
 </div>
 @include('partials.errors')
 @endsection
