@@ -19,8 +19,8 @@ class PlanSeeder extends Seeder
                 'price' => 0,
                 'duration' => null,
                 'max_users' => 0,
-                'max_clients' => 1,
-                'max_projects' => 1,
+                'max_clients' => 2,
+                'max_projects' => 2,
                 'max_space' => null
             ]
         );
