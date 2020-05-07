@@ -64,7 +64,7 @@ class InvoiceItemsController extends Controller
                 }
             }
 
-            return view('invoices.item', compact('invoice', 'tasks', 'timesheets', 'expenses', 'price'));
+            return view('invoices.items.create', compact('invoice', 'tasks', 'timesheets', 'expenses', 'price'));
         }
     }
 
@@ -98,27 +98,62 @@ class InvoiceItemsController extends Controller
     {
         if($request->type == 'timesheet') {
 
+            if($request->timesheet_id) {
+
+                $timesheet = Timesheet::find($request->timesheet_id);
+
+                $request['text'] = (!empty($timesheet->task)?
+                                        $timesheet->task->title:
+                                        __('Project timesheet (').\Auth::user()->dateFormat($timesheet->date).'|'.$timesheet->formatTime().')');
+
+            }else{
+
+                $request['text'] = null;
+            }
+
             $request->task_id = null;
-            $request->name = null;
-            $request->flashOnly(['timesheet_id']);
+            $request->expense_id = null;
+            $request->flashOnly(['timesheet_id', 'text']);
 
         }else if($request->type == 'task') {
 
+            if($request->task_id){
+
+                $task = Task::find($request->task_id);
+
+                $request['text'] = $task->title;
+            }else{
+
+                $request['text'] = null;
+            }
+
             $request->timesheet_id = null;
-            $request->name = null;
-            $request->flashOnly(['task_id']);
+            $request->expense_id = null;
+
+            $request->flashOnly(['task_id', 'text']);
 
         }else if($request->type == 'expense') {
 
+            if($request->expense_id){
+
+                $expense = Expense::find($request->expense_id);
+
+                $request['text'] = $expense->category?$expense->category->name:__('Uncategorized Expense');                
+            }else{
+
+                $request['text'] = null;
+            }
+
+            $request->task_id = null;
             $request->timesheet_id = null;
-            $request->name = null;
-            $request->flashOnly(['expense_id']);
+            $request->flashOnly(['expense_id', 'text']);
 
         }else {
 
             $request->task_id = null;
             $request->timesheet_id = null;
-            $request->flashOnly(['name']);
+            $request->expense_id = null;
+            $request->flashOnly(['text']);
         }
 
         $request->session()->flash('type', $request->type);

@@ -42,7 +42,7 @@ class InvoicePaymentsController extends Controller
                                         ->where('class', Payment::class)
                                         ->get()->pluck('name', 'id');
 
-                return view('invoices.payment', compact('invoice', 'categories'));
+                return view('invoices.payments.create', compact('invoice', 'categories'));
             }
             else
             {

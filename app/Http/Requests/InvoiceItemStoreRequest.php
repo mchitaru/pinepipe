@@ -33,21 +33,25 @@ class InvoiceItemStoreRequest extends FormRequest
             return [
                 'timesheet_id' => 'required',
                 'price' => 'required',
+                'text' => 'required|string'
             ];
         }else if($this->type == 'task'){
             return [
                 'task_id' => 'required',
                 'price' => 'required',
+                'text' => 'required|string'
             ];
         }else if($this->type == 'expense'){
             return [
                 'expense_id' => 'required',
                 'price' => 'required',
+                'text' => 'required|string'
             ];
         }else{
             return [
                 'name' => 'required',
                 'price' => 'required',
+                'text' => 'required|string'
             ];
         }
     }

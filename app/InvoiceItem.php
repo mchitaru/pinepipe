@@ -11,7 +11,7 @@ class InvoiceItem extends Model
 
     protected $fillable = [
         'invoice_id',
-        'name',
+        'text',
         'price'
     ];
 
@@ -58,7 +58,7 @@ class InvoiceItem extends Model
             $timesheet->invoiceables()->create(
                 [
                     'invoice_id' => $invoice->id,
-                    'name' => (!empty($timesheet->task)?$timesheet->task->title:__('Project timesheet: ').\Auth::user()->dateFormat($timesheet->date)),
+                    'text' => $post['text'],
                     'price' => $post['price']
                 ]
             );
@@ -70,7 +70,7 @@ class InvoiceItem extends Model
             $task->invoiceables()->create(
                 [
                     'invoice_id' => $invoice->id,
-                    'name' => $task->title,
+                    'text' => $post['text'],
                     'price' => $post['price']
                 ]
             );
@@ -82,7 +82,7 @@ class InvoiceItem extends Model
             $expense->invoiceables()->create(
                 [
                     'invoice_id' => $invoice->id,
-                    'name' => $expense->category?$expense->category->name:__('Uncategorized Expense'),
+                    'text' => $post['text'],
                     'price' => $post['price']
                 ]
             );
@@ -92,7 +92,7 @@ class InvoiceItem extends Model
             InvoiceItem::create(
                 [
                     'invoice_id' => $invoice->id,
-                    'name' => $post['name'],
+                    'text' => $post['text'],
                     'price' => $post['price']
                 ]
             );

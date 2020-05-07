@@ -16,7 +16,7 @@ class CreateInvoiceItemsTable extends Migration
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('invoice_id');
-            $table->text('name');
+            $table->text('text');
             $table->float('price')->default(0.00);
             $table->nullableMorphs('invoiceable');
             $table->unsignedInteger('created_by')->default('0');
