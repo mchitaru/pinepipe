@@ -163,7 +163,7 @@
                                                 <th class="text-right d-print-none"></th>
                                             </tr>
                                         </thead>
-                                        
+
                                         <tbody>
                                         @php $i=0; @endphp
 
@@ -214,12 +214,12 @@
                                 <span>{{__('Subtotal')}}</span>
                                 <span class="text-muted">{{Auth::user()->priceFormat($subTotal)}}</span>
                             </li>
-                            {{-- @if($invoice->discount != 0) --}}
+                            @if($invoice->discount != 0)
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <span>{{__('Discount')}}</span>
                                 <span class="text-muted">{{$invoice->discount}}%</span>
                             </li>
-                            {{-- @endif --}}
+                            @endif
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <span>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span>
                                 <span class="text-muted">{{Auth::user()->priceFormat($tax)}}</span>
@@ -228,7 +228,7 @@
                                 <span><h3>{{__('Total')}}</h3></span>
                                 <h3>{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</h3>
                             </li>
-                        </ul>                        
+                        </ul>
                         <div class="row d-print-none">
                             <hr>
                             <div class="col-md-12">
@@ -305,7 +305,7 @@
                                 <span>{{__('Due Amount')}}</span>
                                 <span class="text-muted">{{Auth::user()->priceFormat($invoice->getDue())}}</span>
                             </li>
-                        </ul>                            
+                        </ul>
 
                         {{--                    <div class="text-md-right">--}}
                         {{--                        <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i> Print</button>--}}
