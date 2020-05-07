@@ -9,6 +9,7 @@ use App\Task;
 use App\Expense;
 use App\Timesheet;
 use App\Http\Requests\InvoiceItemStoreRequest;
+use App\Http\Requests\InvoiceItemUpdateRequest;
 use App\Http\Requests\InvoiceItemDestroyRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -76,6 +77,26 @@ class InvoiceItemsController extends Controller
         InvoiceItem::createItem($post, $invoice);
 
         $request->session()->flash('success', __('Item successfully created.'));
+
+        return "<script>window.location.reload()</script>";
+    }
+
+    public function edit(Request $request, Invoice $invoice, InvoiceItem $item)
+    {
+        if($invoice->created_by == \Auth::user()->creatorId())
+        {
+
+            return view('invoices.items.edit', compact('invoice', 'item'));
+        }
+    }
+
+    public function update(InvoiceItemUpdateRequest $request, Invoice $invoice, InvoiceItem $item)
+    {
+        $post = $request->validated();
+
+        $item->update($post);
+
+        $request->session()->flash('success', __('Item successfully updated.'));
 
         return "<script>window.location.reload()</script>";
     }

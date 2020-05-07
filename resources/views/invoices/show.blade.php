@@ -165,32 +165,34 @@
                                         <tbody>
                                         @php $i=0; @endphp
 
-                                        @foreach($invoice->items as $items)
+                                        @foreach($invoice->items as $item)
                                             <tr>
                                                 <td>
                                                     {{++$i}}
                                                 </td>
                                                 <td class="text-center">
-                                                    <i>{{$items->text}}</i>
+                                                    <i>{{$item->text}}</i>
                                                 </td>
                                                 <td class="text-center">
-                                                    {{Auth::user()->priceFormat($items->price)}}
+                                                    {{Auth::user()->priceFormat($item->price)}}
                                                 </td>
                                                 <td class="table-actions text-right d-print-none">
                                                     @can('edit invoice')
-
                                                     <div class="dropdown float-right">
                                                         <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="material-icons">more_vert</i>
                                                         </button>
 
                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item text-danger" href="{{ route('invoices.items.delete', [$invoice->id, $items->id]) }}" data-method="delete" data-remote="true" data-type="text">
+                                                            <a class="dropdown-item" href="{{ route('invoices.items.edit', [$invoice->id, $item->id]) }}" data-remote="true" data-type="text">
+                                                                <span>{{__('Edit')}}</span>
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item text-danger" href="{{ route('invoices.items.delete', [$invoice->id, $item->id]) }}" data-method="delete" data-remote="true" data-type="text">
                                                                 <span>{{'Delete'}}</span>
                                                             </a>
                                                         </div>
                                                     </div>
-
                                                     @endcan
                                                 </td>
                                             </tr>

@@ -49,7 +49,6 @@ class InvoiceItemStoreRequest extends FormRequest
             ];
         }else{
             return [
-                'name' => 'required',
                 'price' => 'required',
                 'text' => 'required|string'
             ];

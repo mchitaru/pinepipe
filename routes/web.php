@@ -140,6 +140,8 @@ Route::group(
         Route::get('invoices/{invoice}/items/refresh', 'InvoiceItemsController@refresh')->name('invoices.items.refresh');
         Route::get('invoices/{invoice}/items', 'InvoiceItemsController@create')->name('invoices.items.create');
         Route::post('invoices/{invoice}/items', 'InvoiceItemsController@store')->name('invoices.items.store');
+        Route::get('invoices/{invoice}/items/{item}/edit', 'InvoiceItemsController@edit')->name('invoices.items.edit');
+        Route::put('invoices/{invoice}/items/{item}', 'InvoiceItemsController@update')->name('invoices.items.update');
         Route::delete('invoices/{invoice}/items/{item}', 'InvoiceItemsController@delete')->name('invoices.items.delete');
 
         //Invoice payments
