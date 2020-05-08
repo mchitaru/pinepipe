@@ -10,7 +10,7 @@ $languages=$user->languages();
 
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible;">
     <div class="w-100 d-none d-lg-block">
-        <a class="navbar-brand float-left" href="{{ route('home') }}">
+        <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
             <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
         </a>
         @include('partials.app.notifications')
@@ -19,7 +19,7 @@ $languages=$user->languages();
         @endif
     </div>
     <div class="d-lg-none">
-        <a class="navbar-brand float-left" href="{{ route('home') }}">
+        <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
             <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
         </a>
         @include('partials.app.notifications')
