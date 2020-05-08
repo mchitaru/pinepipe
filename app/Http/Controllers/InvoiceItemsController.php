@@ -116,9 +116,7 @@ class InvoiceItemsController extends Controller
 
                 $timesheet = Timesheet::find($request->timesheet_id);
 
-                $request['text'] = (!empty($timesheet->task)?
-                                        $timesheet->task->title:
-                                        __('Project timesheet (').\Auth::user()->dateFormat($timesheet->date).'|'.$timesheet->formatTime().')');
+                $request['text'] = ((!empty($timesheet->task)?$timesheet->task->title:__('Project timesheet')).' ('.\Auth::user()->dateFormat($timesheet->date).' | '.$timesheet->formatTime().')');
 
             }else{
 

@@ -17,7 +17,7 @@
     </div>
     <div class="form-group row required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id,array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Client')) !!}
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col','required'=>'required', 'placeholder'=>'Select Client')) !!}
     </div>
     <div class="form-group row">
         {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}

@@ -1,7 +1,24 @@
 async function attachPlugins() {
     
     $('select').each(function() {
-        $(this).select2({tags: $(this).hasClass('tags')});
+        $(this).select2({
+            tags: $(this).hasClass('tags'),
+            createTag: function (params) {
+                var term = $.trim(params.term);
+            
+                console.log(params);
+                
+                if (term === '') {
+                  return null;
+                }
+            
+                return {
+                  id: term,
+                  text: term+' \u271A',
+                  newTag: true // add additional parameters
+                }
+            }
+        });
     });
 
     $('[data-flatpickr]').mrFlatpickr();
