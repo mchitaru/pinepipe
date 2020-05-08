@@ -79,7 +79,7 @@
                 <div class="card-body invoice">
                     <div class="invoice-print">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 p-4">
                                 <div class="row">
                                     <div class="col-12 text-md-center">
                                         <address>
@@ -96,7 +96,11 @@
                                         </address>
                                     </div>
                                 </div>
-                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr>
+                            <div class="col-lg-12 p-4">
                                 <div class="row">
                                     <div class="col-xs-12 col-md-6">
                                         <address>
@@ -140,9 +144,9 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
                         <div class="row ">
-                            <div class="col-md-12">
+                            <hr>
+                            <div class="col-md-12 p-4">
                                 <div class="section-title"><b>{{__('Order Summary')}}</b>
                                     @can('edit invoice')
                                     <div class="col-md-12 text-right d-print-none">
@@ -205,7 +209,7 @@
                                             @endphp
                                             <tr>
                                                 <th></th>
-                                                <th class="text-muted text-small text-right"><span>{{__('Subtotal')}}</span></th>
+                                                <th class="text-muted text-right"><span>{{__('Subtotal')}}</span></th>
                                                 <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($subTotal)}}</span></th>
                                                 <th class="d-print-none"></th>
                                             </tr>
@@ -223,8 +227,8 @@
                                             </tr>
                                             <tr>
                                                 <td></td>
-                                                <th class="text-right"><span><h4>{{__('Total')}}</h4></span></th>
-                                                <th class="text-right"><h4>{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</h4></th>
+                                                <th class="text-right"><span><h5>{{__('Total')}}</h5></span></th>
+                                                <th class="text-right"><h5>{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</h5></th>
                                                 <th class="d-print-none"></th>
                                             </tr>
                                         </tfoot>
@@ -234,7 +238,7 @@
                         </div>
                         <div class="row d-print-none">
                             <hr>
-                            <div class="col-md-12">
+                            <div class="col-md-12 p-4">
                                 <div class="section-title"><b>{{__('Payment History')}}</b>
                                     @can('edit invoice')
                                     <div class="col-md-12 text-right d-print-none">
@@ -298,7 +302,7 @@
                                             <tr>
                                                 <th></th>
                                                 <th></th>
-                                                <th class="text-muted text-small text-right"><span>{{__('Total Due')}}</span></th>
+                                                <th class="text-muted text-right"><span>{{__('Total Due')}}</span></th>
                                                 <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($invoice->getDue())}}</span></th>
                                                 </tr>
                                         </tfoot>
