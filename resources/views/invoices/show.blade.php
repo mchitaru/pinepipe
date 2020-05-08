@@ -152,18 +152,16 @@
                                     </div>
                                     @endcan
                                 </div>
-
                                 <div class="table-responsive">
-                                    <table class="table table-md">
+                                    <table class="table table-md table-hover">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th data-width="40">#</th>
-                                                <th class="text-center">{{__('Item')}}</th>
-                                                <th class="text-center">{{__('Price')}}</th>
-                                                <th class="text-right d-print-none"></th>
+                                                <th>#</th>
+                                                <th class="text-right">{{__('Item')}}</th>
+                                                <th class="text-right">{{__('Price')}}</th>
+                                                <th class="text-right d-print-none pl-0 pr-0"></th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                         @php $i=0; @endphp
 
@@ -172,14 +170,14 @@
                                                 <td>
                                                     {{++$i}}
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-right">
                                                     <i>{{$item->text}}</i>
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-right">
                                                     {{Auth::user()->priceFormat($item->price)}}
                                                 </td>
                                                 @can('edit invoice')
-                                                <td class="table-actions text-right d-print-none">
+                                                <td class="table-actions text-right d-print-none pl-0 pr-0">
                                                     <div class="dropdown float-right">
                                                         <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="material-icons">more_vert</i>
@@ -200,35 +198,40 @@
                                             </tr>
                                         @endforeach
                                         </tbody>
+                                        <tfoot class="borderless">
+                                            @php
+                                                $subTotal = $invoice->getSubTotal();
+                                                $tax = $invoice->getTax();
+                                            @endphp
+                                            <tr>
+                                                <th></th>
+                                                <th class="text-muted text-small text-right"><span>{{__('Subtotal')}}</span></th>
+                                                <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($subTotal)}}</span></th>
+                                                <th class="d-print-none"></th>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-small text-right"><span>{{__('Discount')}}</span></td>
+                                                <td class="text-small text-right"><span class="text-muted">{{$invoice->discount}}%</span></td>
+                                                <td class="d-print-none"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span></td>
+                                                <td class="text-small text-right"><span class="text-muted">{{Auth::user()->priceFormat($tax)}}</span></td>
+                                                <td class="d-print-none"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <th class="text-right"><span><h4>{{__('Total')}}</h4></span></th>
+                                                <th class="text-right"><h4>{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</h4></th>
+                                                <th class="d-print-none"></th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
-                        <ul class="list-group mb-3 pl-3 pr-3">
-                            @php
-                                $subTotal = $invoice->getSubTotal();
-                                $tax = $invoice->getTax();
-                            @endphp
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <span>{{__('Subtotal')}}</span>
-                                <span class="text-muted">{{Auth::user()->priceFormat($subTotal)}}</span>
-                            </li>
-                            @if($invoice->discount != 0)
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <span>{{__('Discount')}}</span>
-                                <span class="text-muted">{{$invoice->discount}}%</span>
-                            </li>
-                            @endif
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <span>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span>
-                                <span class="text-muted">{{Auth::user()->priceFormat($tax)}}</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span><h3>{{__('Total')}}</h3></span>
-                                <h3>{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</h3>
-                            </li>
-                        </ul>
                         <div class="row d-print-none">
                             <hr>
                             <div class="col-md-12">
@@ -243,15 +246,14 @@
                                     @endcan
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-md">
+                                    <table class="table table-md table-hover">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>{{__('Transaction ID')}}</th>
-                                                <th class="text-center">{{__('Payment Date')}}</th>
-                                                <th class="text-center">{{__('Payment Method')}}</th>
-                                                <th class="text-center">{{__('Note')}}</th>
+                                                <th class="text-right">{{__('Date')}}</th>
+                                                <th class="text-right">{{__('Method')}}</th>
                                                 <th class="text-right">{{__('Amount')}}</th>
-                                                <th class="text-right d-print-none"></th>
+                                                <th class="text-right d-print-none pl-0 pr-0"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -261,20 +263,17 @@
                                                 <td>
                                                     {{sprintf("%05d", $payment->transaction_id)}}
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-right">
                                                     {{ Auth::user()->dateFormat($payment->date) }}
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-right">
                                                     {{($payment->category?$payment->category->name:'')}}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{$payment->notes}}
                                                 </td>
                                                 <td class="text-right">
                                                     {{Auth::user()->priceFormat($payment->amount)}}
                                                 </td>
                                                 @can('edit invoice')
-                                                <td class="table-actions text-right d-print-none">
+                                                <td class="table-actions text-right pl-0 pr-0 d-print-none">
                                                     <div class="dropdown float-right">
                                                         <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <i class="material-icons">more_vert</i>
@@ -295,17 +294,19 @@
                                             </tr>
                                         @endforeach
                                         </tbody>
+                                        <tfoot class="borderless">
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th class="text-muted text-small text-right"><span>{{__('Total Due')}}</span></th>
+                                                <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($invoice->getDue())}}</span></th>
+                                                </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
 
                             </div>
                         </div>
-                        <ul class="list-group mb-3 pl-3 pr-3 d-print-none">
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <span>{{__('Due Amount')}}</span>
-                                <span class="text-muted">{{Auth::user()->priceFormat($invoice->getDue())}}</span>
-                            </li>
-                        </ul>
 
                         {{--                    <div class="text-md-right">--}}
                         {{--                        <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i> Print</button>--}}

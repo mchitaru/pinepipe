@@ -27,6 +27,12 @@
   100% { opacity: 1 }
 }
 
+table {
+    .borderless td {
+      border: none;
+    }
+}
+
 .btn-fade {
   animation: fading 3000ms infinite;
 }
