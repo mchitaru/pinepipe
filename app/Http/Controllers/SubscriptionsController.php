@@ -84,6 +84,8 @@ class SubscriptionsController extends Controller
 
         Paddle::subscription()->cancelUser($payload)->send();
 
-        return Redirect::to(URL::previous())->with('success', __('Subscription canceled'));
+        $request->session()->flash('canceled', 1);
+
+        return Redirect::to(URL::previous())->with('success', __('Subscription was canceled. You can still use it during the remaining grace period.'));
     }
 }

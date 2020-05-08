@@ -35,8 +35,8 @@
                                         {{__('Start Trial')}}
                                     </a>         
                                 @elseif($user_plan->id == $plan->id)
-                                    <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-danger {{(!$user->subscription()->active())?'disabled':''}}" data-method="delete" data-remote="true" data-type="text">
-                                        {{$user->subscription()->active()?__('Cancel'):__('Canceled')}}
+                                    <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-danger {{(!$user->subscription()->active() || Session::has('canceled'))?'disabled':''}}" data-method="delete" data-remote="true" data-type="text">
+                                        {{($user->subscription()->active() && !Session::has('canceled'))?__('Cancel'):__('Canceled')}}
                                     </a>         
                                 @endif   
                             @endif
