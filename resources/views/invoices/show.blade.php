@@ -33,10 +33,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row align-items-center">
-                        <div class="col-11 d-print-none">
-                            <h6>{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}
-                                {!! $invoice->getStatusBadge() !!}
-                            </h6>
+                        <div class="col-11">
+                            <p><strong>{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}</strong>
+                                {{__('invoice')}}
+                                <span class="d-print-none">{!! $invoice->getStatusBadge() !!}</span>
+                            </p>
                         </div>
                         <div class="col-1 dropdown card-options d-print-none">
                             <button class="btn-options float-right" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -87,7 +88,7 @@
                                                 <img width="60" height="60" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
                                             </span>
                                             <span class="row align-items-center justify-content-center">
-                                                <h5>{{$client->name}} invoice</h5>
+                                                <h5>{{$client->name}}</h5>
                                             </span>
                                             <span class="row align-items-center justify-content-center">
                                                 <i class="material-icons" title="{{__('Project')}}">folder</i>
@@ -121,9 +122,9 @@
                                         <address>
                                             <strong>{{__('To')}}:</strong><br>
                                             {{$client->name}}<br>
+                                            {{$client->address}}<br>
                                             {{$client->email}}<br>
                                             {{$client->phone}}<br>
-                                            {{$client->address}}<br>
                                             {{$client->tax}}<br>
                                         </address>
                                     </div>
@@ -161,7 +162,7 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th class="text-right">{{__('Item')}}</th>
+                                                <th class="text-left">{{__('Item')}}</th>
                                                 <th class="text-right">{{__('Price')}}</th>
                                                 <th class="text-right d-print-none pl-0 pr-0"></th>
                                             </tr>
@@ -174,7 +175,7 @@
                                                 <td>
                                                     {{++$i}}
                                                 </td>
-                                                <td class="text-right">
+                                                <td class="text-left">
                                                     <i>{{$item->text}}</i>
                                                 </td>
                                                 <td class="text-right">
@@ -213,12 +214,14 @@
                                                 <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($subTotal)}}</span></th>
                                                 <th class="d-print-none"></th>
                                             </tr>
+                                            @if($invoice->discount > 0)
                                             <tr>
                                                 <td></td>
                                                 <td class="text-small text-right"><span>{{__('Discount')}}</span></td>
                                                 <td class="text-small text-right"><span class="text-muted">{{$invoice->discount}}%</span></td>
                                                 <td class="d-print-none"></td>
                                             </tr>
+                                            @endif
                                             <tr>
                                                 <td></td>
                                                 <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span></td>
@@ -253,8 +256,8 @@
                                     <table class="table table-md table-hover">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th>{{__('Transaction ID')}}</th>
-                                                <th class="text-right">{{__('Date')}}</th>
+                                                <th>{{__('Transaction')}}</th>
+                                                <th class="text-left">{{__('Date')}}</th>
                                                 <th class="text-right">{{__('Method')}}</th>
                                                 <th class="text-right">{{__('Amount')}}</th>
                                                 <th class="text-right d-print-none pl-0 pr-0"></th>
@@ -267,8 +270,8 @@
                                                 <td>
                                                     {{sprintf("%05d", $payment->transaction_id)}}
                                                 </td>
-                                                <td class="text-right">
-                                                    {{ Auth::user()->dateFormat($payment->date) }}
+                                                <td class="text-left">
+                                                    <i>{{ Auth::user()->dateFormat($payment->date) }}</i>
                                                 </td>
                                                 <td class="text-right">
                                                     {{($payment->category?$payment->category->name:'')}}
