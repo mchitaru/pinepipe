@@ -15,7 +15,7 @@
 
             var colours = [
                 "#92dacb", "#e7afa9",  "#acd6f1", "#e4c695", "#728191", "#a3e4d7", "#93d6af", "#7fb2d4", "#dab7e9", "#7c9cbd",
-                "#dfce8c", "#dfb999", "#9fdfb9", "#ecf0f1", "#95a5a6", "#dcb5eb", "#e0b699", "#e4a9a1", "#bdc3c7", "#90a0a1", "#92dacb"
+                "#dfce8c", "#dfb999", "#9fdfb9", "#c0c3c4", "#95a5a6", "#dcb5eb", "#e0b699", "#e4a9a1", "#adbcc7", "#90a0a1", "#92dacb"
             ],
 
                 nameSplit = String(name).toUpperCase().split(' '),
