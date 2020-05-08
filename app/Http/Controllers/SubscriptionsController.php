@@ -84,7 +84,6 @@ class SubscriptionsController extends Controller
 
         Paddle::subscription()->cancelUser($payload)->send();
 
-        $request->session()->flash('success', __('Subscription cancelled'));
-        return redirect()->route('profile.edit', \Auth::user()->handle())->getTargetUrl().'/#subscription';
+        return Redirect::to(URL::previous())->with('success', __('Subscription canceled'));
     }
 }
