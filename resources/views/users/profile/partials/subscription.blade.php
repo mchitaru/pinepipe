@@ -17,7 +17,7 @@
 
                             <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
                                 <span class="text-small">{{$plan->price?'/month':''}}</span>
-                            </h4>                                    
+                            </h4>
                             <ul class="list-unstyled">
                                 <li class="text-small">
                                     <b>{{!isset($plan->max_clients)?'Unlimited':$plan->max_clients}}</b> {{__('client(s)')}}
@@ -31,14 +31,14 @@
                             </ul>
                             @if($key != 0 )
                                 @if($user_plan->id != $plan->id)
-                                    <a href="{{ route('subscriptions.create', $plan->id) }}" class="btn btn-primary {{$user->subscription()->active()?'disabled':''}}">
+                                    <a href="{{ route('subscriptions.create', $plan->id) }}" class="btn btn-primary {{($user->subscription() && $user->subscription()->active())?'disabled':''}}">
                                         {{__('Start Trial')}}
-                                    </a>         
+                                    </a>
                                 @elseif($user_plan->id == $plan->id)
                                     <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-danger {{(!$user->subscription()->active() || Session::has('canceled'))?'disabled':''}}" data-method="delete" data-remote="true" data-type="text">
                                         {{($user->subscription()->active() && !Session::has('canceled'))?__('Cancel'):__('Canceled')}}
-                                    </a>         
-                                @endif   
+                                    </a>
+                                @endif
                             @endif
                         </div>
                     </div>
