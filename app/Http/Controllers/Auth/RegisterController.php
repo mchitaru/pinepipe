@@ -97,6 +97,9 @@ class RegisterController extends Controller
             ]
         );
 
+        $location = geoip('92.83.46.62');
+        $user->setLocale($location);
+
         $role = Role::findByName('company');
 
         $user->initCompanyDefaults();
