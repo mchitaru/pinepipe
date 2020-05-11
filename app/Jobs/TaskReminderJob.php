@@ -25,12 +25,32 @@ class TaskReminderJob
      */
     public function __construct()
     {
-        $this->users = User::with(['tasks' => function ($query) {
-            $query->where('tasks.due_date', '<', date('Y-m-d'))->pluck('tasks.title', 'tasks.id');
-        }])
-        ->where('type', '!=', 'super admin')
-        ->where('notify_item_overdue','=',true)
-        ->get();
+        $this->users = User::whereHas('tasks', function ($query) {
+                                                    
+                                $query->whereHas('stage', function ($query) {
+                                
+                                    $query->where('open', 1);
+                                })                                                
+                                ->where('tasks.due_date', '<', date('Y-m-d'));
+                            })
+                            ->with(['tasks' => function ($query) {
+
+                                $query->whereHas('stage', function ($query) {
+                                
+                                    $query->where('open', 1);
+                                })                                                
+                                ->where('tasks.due_date', '<', date('Y-m-d'))->pluck('tasks.title', 'tasks.id');
+                            }])            
+                            ->where('type', '!=', 'super admin')
+                            ->where('notify_item_overdue','=',true)
+                            ->get();
+
+        // $this->users = User::with(['tasks' => function ($query) {
+        //     $query->where('tasks.due_date', '<', date('Y-m-d'))->pluck('tasks.title', 'tasks.id');
+        // }])
+        // ->where('type', '!=', 'super admin')
+        // ->where('notify_item_overdue','=',true)
+        // ->get();
     }
 
     /**

@@ -88,6 +88,11 @@ class Task extends Model implements HasMedia
         return $this->belongsToMany('App\User', 'user_tasks');
     }
 
+    public function stage()
+    {
+        return $this->hasOne('App\Stage', 'id', 'stage_id');
+    }
+
     public function milestone()
     {
         return $this->hasOne('App\Milestone','id','milestone_id');
