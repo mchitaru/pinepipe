@@ -30,6 +30,7 @@ class InvoiceItemUpdateRequest extends FormRequest
     {
         return [
             'price' => 'required',
+            'quantity' => 'required|numeric',
             'text' => 'required|string'
         ];
     }

@@ -163,7 +163,9 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th class="text-left">{{__('Item')}}</th>
+                                                <th class="text-right">{{__('Quantity')}}</th>
                                                 <th class="text-right">{{__('Price')}}</th>
+                                                <th class="text-right">{{__('Total')}}</th>
                                                 <th class="text-right d-print-none pl-0 pr-0"></th>
                                             </tr>
                                         </thead>
@@ -179,7 +181,13 @@
                                                     <i>{{$item->text}}</i>
                                                 </td>
                                                 <td class="text-right">
+                                                    {{number_format($item->quantity, 2)}}
+                                                </td>
+                                                <td class="text-right">
                                                     {{Auth::user()->priceFormat($item->price)}}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{Auth::user()->priceFormat($item->quantity * $item->price)}}
                                                 </td>
                                                 @can('edit invoice')
                                                 <td class="table-actions text-right d-print-none pl-0 pr-0">
@@ -210,12 +218,16 @@
                                             @endphp
                                             <tr>
                                                 <th></th>
+                                                <th></th>
+                                                <th></th>
                                                 <th class="text-muted text-right"><span>{{__('Subtotal')}}</span></th>
                                                 <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($subTotal)}}</span></th>
                                                 <th class="d-print-none"></th>
                                             </tr>
                                             @if($invoice->discount > 0)
                                             <tr>
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td class="text-small text-right"><span>{{__('Discount')}}</span></td>
                                                 <td class="text-small text-right"><span class="text-muted">{{$invoice->discount}}%</span></td>
@@ -224,11 +236,15 @@
                                             @endif
                                             <tr>
                                                 <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span></td>
                                                 <td class="text-small text-right"><span class="text-muted">{{Auth::user()->priceFormat($tax)}}</span></td>
                                                 <td class="d-print-none"></td>
                                             </tr>
                                             <tr>
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <th class="text-right"><span><h5>{{__('Total')}}</h5></span></th>
                                                 <th class="text-right"><h5>{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</h5></th>

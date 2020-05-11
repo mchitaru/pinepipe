@@ -100,7 +100,7 @@ class Invoice extends Model
         $subTotal = 0;
         foreach($this->items as $item)
         {
-            $subTotal += $item->price;
+            $subTotal += $item->quantity * $item->price;
         }
 
         return $subTotal;

@@ -23,6 +23,10 @@
     </div>
     <hr>
     <div class="form-group row">
+        {{ Form::label('quantity', __('Quantity'), array('class'=>'col-3')) }}
+        {{ Form::number('quantity', number_format($item->quantity, 2), array('class' => 'form-control col', 'min'=>'0', 'step'=>'0.1')) }}
+    </div>
+    <div class="form-group row">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
         {{ Form::number('price', number_format($item->price, 2), array('class' => 'form-control col','placeholder'=>\Auth::user()->priceFormat(500), 'min'=>'0', 'step'=>'0.01')) }}
     </div>

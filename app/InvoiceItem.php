@@ -12,7 +12,8 @@ class InvoiceItem extends Model
     protected $fillable = [
         'invoice_id',
         'text',
-        'price'
+        'price',
+        'quantity'
     ];
 
     protected $nullable = [
@@ -59,7 +60,8 @@ class InvoiceItem extends Model
                 [
                     'invoice_id' => $invoice->id,
                     'text' => $post['text'],
-                    'price' => $post['price']
+                    'price' => $post['price'],
+                    'quantity' => $post['quantity']
                 ]
             );
         }
@@ -71,7 +73,8 @@ class InvoiceItem extends Model
                 [
                     'invoice_id' => $invoice->id,
                     'text' => $post['text'],
-                    'price' => $post['price']
+                    'price' => $post['price'],
+                    'quantity' => $post['quantity']
                 ]
             );
         }
@@ -83,7 +86,8 @@ class InvoiceItem extends Model
                 [
                     'invoice_id' => $invoice->id,
                     'text' => $post['text'],
-                    'price' => $post['price']
+                    'price' => $post['price'],
+                    'quantity' => $post['quantity']
                 ]
             );
         }
@@ -93,7 +97,8 @@ class InvoiceItem extends Model
                 [
                     'invoice_id' => $invoice->id,
                     'text' => $post['text'],
-                    'price' => $post['price']
+                    'price' => $post['price'],
+                    'quantity' => $post['quantity']
                 ]
             );
         }
