@@ -32,10 +32,10 @@ class InvoicesController extends Controller
         {
             clock()->startEvent('InvoicesController', "Load invoices");
 
-            if($request['tag']){
-                $status = array(array_search($request['tag'], Invoice::$status));
+            if(empty($request['tag']) || $request['tag'] == 'all'){
+                $status = array_keys(Invoice::$status);
             }else{
-                $status = array(array_search('pending', Invoice::$status));
+                $status = array(array_search($request['tag'], Invoice::$status));
             }
 
             if(\Auth::user()->type == 'client')

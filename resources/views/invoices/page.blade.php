@@ -11,7 +11,7 @@
         localStorage.setItem('sort', '');
         localStorage.setItem('dir', '');
         localStorage.setItem('filter', '');
-        localStorage.setItem('tag', 'pending');
+        localStorage.setItem('tag', 'all');
         
         updateFilters();
 
@@ -83,6 +83,7 @@
                     <div class="filter-container col-auto">
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
+                            <div class="tag filter" data-filter="all">{{__('All')}}</div>
                             <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
                             <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>
                             <div class="tag filter" data-filter="partial payment">{{__('Partial Payment')}}</div>
