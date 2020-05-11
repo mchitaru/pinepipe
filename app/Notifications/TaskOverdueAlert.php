@@ -47,7 +47,7 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
                     ->greeting('Tasks Reminder')
                     ->subject('You have '. $this->tasks->count(). ' overdue task(s)')
                     ->line('You have '. $this->tasks->count(). ' overdue task(s).')
-                    ->action('View All', route("tasks.board"))
+                    ->action('View All', route("home"))
                     ->line('Thank you for using our application!');
     }
 

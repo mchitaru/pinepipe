@@ -753,9 +753,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         //Sample Task
         $task = Task::create(
             [
-                'title' => "Explore Pinepipe's Home",
+                'title' => "First task: Explore the samples",
                 'priority' => 0,
-                'description' => 'Explore the simple and effective Home dashboard.',
+                'description' => 'Sample items have been automatically generated for you, in order to try out the available modules',
                 'due_date'  => Carbon::now(),
                 'project_id' => $project->id,
                 'milestone_id' => null,
@@ -765,6 +765,27 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
                 'created_by' => $id,
             ]
         );
+
+        $task->checklist()->create([
+            'title' => 'Explore the Home dashboard',
+            'user_id' => $id,
+            'created_by' => $id,
+        ]);
+        $task->checklist()->create([
+            'title' => 'Open the Sample Project and add a new task',
+            'user_id' => $id,
+            'created_by' => $id,
+        ]);
+        $task->checklist()->create([
+            'title' => 'Log in some time and create a Timesheet for the new task',
+            'user_id' => $id,
+            'created_by' => $id,
+        ]);
+        $task->checklist()->create([
+            'title' => 'Invoice the Timesheet to the Client using the Sample Invoice',
+            'user_id' => $id,
+            'created_by' => $id,
+        ]);
 
         $task->users()->sync(array($id));
 

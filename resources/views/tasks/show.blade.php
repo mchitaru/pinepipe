@@ -26,6 +26,10 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
 
 @endphp
 
+@section('size')
+modal-lg
+@endsection
+
 @push('scripts')
 
 <script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.min.js') }}"></script>
