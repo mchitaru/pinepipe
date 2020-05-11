@@ -27,6 +27,13 @@
   100% { opacity: 1 }
 }
 
+
+.input-group-text.dark {
+  color: $input-group-addon-color-dark;
+  background-color: $input-group-addon-bg-dark;
+  border: $input-border-width solid $input-group-addon-border-color-dark;
+}
+
 table {
     .borderless td {
       border: none;

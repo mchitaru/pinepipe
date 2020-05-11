@@ -53,7 +53,7 @@
     {{Form::label('handle',__('Public Profile URL'), array('class'=>'input-group col-3')) }}
     <div class="input-group col">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">{{url('/profile').'/'}}</span>
+            <span class="input-group-text dark" id="basic-addon3">{{url('/profile').'/'}}</span>
         </div>
         {{Form::text('handle', null, array('class'=>'form-control', 'aria-describedby' => 'basic-addon3'))}}
         @error('handle')
