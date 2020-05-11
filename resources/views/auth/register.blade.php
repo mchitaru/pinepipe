@@ -6,12 +6,12 @@
     <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7">
         <div class="text-center">
-            <h1 class="h2">{{ __('Create account') }}</h1>
+            <h1 class="h2">{{ __('Create an account') }}</h1>
             <p class="lead">{{ __('Start doing things for free, in an instant') }}</p>
-            <button class="btn btn-lg btn-block btn-primary" disabled>
+            {{-- <button class="btn btn-lg btn-block btn-primary" disabled>
             <img alt="Google" src="{{asset('assets/img/logo-google.svg')}}" class="rounded align-top mr-2" />{{ __('Continue with Google') }}
             </button>
-            <hr>
+            <hr> --}}
             {{Form::open(array('route'=>'register','method'=>'post','id'=>'loginForm'))}}
             <div class="form-group">
                 {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Name')))}}
