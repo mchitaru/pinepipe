@@ -52,9 +52,17 @@ class LeadsController extends Controller
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             if($client_id)
             {
-                $contacts = Contact::contactsByUserType()
-                                    ->where('client_id', '=', $client_id)
-                                    ->get()->pluck('name', 'id');
+                if(is_numeric($client_id)) {
+
+                    $contacts = Contact::contactsByUserType()
+                                        ->where('client_id', '=', $client_id)
+                                        ->get()->pluck('name', 'id');
+                }else{
+
+                    //new client
+                    $contacts = [];
+                    $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+                }
             }else
             {
                 $contacts = Contact::contactsByUserType()

@@ -94,6 +94,13 @@ class Lead extends Model implements HasMedia
 
     public static function createLead($post)
     {
+        if(!is_numeric($post['client_id'])) {
+
+            //new client
+            $client = Client::create(['name' => $post['client_id']]);
+            $post['client_id'] = $client->id;
+        }
+
         $stage = Stage::find($post['stage_id']);
 
         $post['order']   = $stage->leads->count();

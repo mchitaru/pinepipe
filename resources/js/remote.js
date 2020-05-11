@@ -6,15 +6,13 @@ async function attachPlugins() {
             createTag: function (params) {
                 var term = $.trim(params.term);
             
-                console.log(params);
-                
                 if (term === '') {
                   return null;
                 }
             
                 return {
                   id: term,
-                  text: term+' \u271A',
+                  text: '\u271A '+term,
                   newTag: true // add additional parameters
                 }
             }

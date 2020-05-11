@@ -25,7 +25,7 @@ class ContactStoreRequest extends FormRequest
     {
         return [
             'name'=>'required|string|min:3',
-            'client_id'=>'nullable|integer',
+            'client_id'=>'nullable',
             'email'=>'nullable|email',
             'phone'=>'nullable|string',
             'tags'=>'nullable|array'

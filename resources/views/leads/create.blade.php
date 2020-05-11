@@ -31,7 +31,7 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col font-style selectric', 'required'=>'true', 'placeholder'=>'Select Client',
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col font-style selectric', 'required'=>'true', 'placeholder'=>'Select Client',
                             'data-refresh'=>route('leads.refresh','0'))) !!}
     </div>
     <div class="form-group row">

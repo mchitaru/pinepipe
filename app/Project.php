@@ -230,6 +230,13 @@ class Project extends Model implements HasMedia
 
     public static function createProject($post)
     {
+        if(!is_numeric($post['client_id'])) {
+
+            //new client
+            $client = Client::create(['name' => $post['client_id']]);
+            $post['client_id'] = $client->id;
+        }
+
         $project              = Project::make($post);
         $project->save();
 
