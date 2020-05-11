@@ -147,8 +147,9 @@ modal-lg
 
                 </ul>
             </div>
-            <div>
+            <div class="row">
                 @if(!empty($task->project))
+                    <i class="material-icons" title="project">folder</i>
                     <a href="{{ route('projects.show',$project->id) }}" data-toggle="tooltip" title={{__('Project')}}>
                         <h5>{{ $task->project->name }}</h5>
                     </a>
