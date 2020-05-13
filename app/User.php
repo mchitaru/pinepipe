@@ -387,7 +387,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $settings = $this->companySettings;
         $currency = $settings?$settings->currency:'EUR';
 
-        $money = new Money($price*100, new Currency($currency));
+        $money = new Money((int)\Helpers::ceil($price * 100), new Currency($currency));
         $currencies = new ISOCurrencies();
 
         $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
