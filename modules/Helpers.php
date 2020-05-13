@@ -21,6 +21,12 @@ class Helpers
         return Carbon::parse($timestamp, 'UTC')->tz(\Auth::user()->timezone);
     }
 
+    public static function ceil($value, $precision = 2)
+    {
+        $mult = pow(10, abs($precision));
+         return $precision < 0 ? ceil($value / $mult) * $mult : ceil($value * $mult) / $mult;
+    }
+    
     public static function buildAvatar($name, $avatar, $size = 36, $class = 'avatar')
     {
         return "<img data-filter-by='alt' width=".$size." height=".$size.
