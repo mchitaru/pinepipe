@@ -137,7 +137,10 @@ class Helpers
 
     public static function showTimespan($start, $end)
     {
-        return '<span class="text-small font-italic">('.Carbon::parse($start)->timespan(Carbon::parse($end)).')</span>';
+        if($start < $end)
+            return '<span class="text-small font-italic">('.Carbon::parse($start)->timespan(Carbon::parse($end)).')</span>';
+
+        return '';
     }
 
     static function fragment($route, $fragment)
