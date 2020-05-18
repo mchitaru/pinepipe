@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "barryvdh/laravel-dompdf": "^0.8.6",
+        "dompdf/dompdf": "^0.8.5",
         "fideloper/proxy": "^4.0",
         "iatstuti/laravel-nullable-fields": "^3.0",
         "itsgoingd/clockwork": "^4.0",

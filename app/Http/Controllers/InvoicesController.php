@@ -145,6 +145,32 @@ class InvoicesController extends Controller
         }
     }
 
+    public function pdf(Invoice $invoice)
+    {
+        if(\Auth::user()->can('view invoice') || \Auth::user()->type == 'client')
+        {
+            if($invoice->created_by == \Auth::user()->creatorId())
+            {
+                $companySettings = \Auth::user()->companySettings;
+                $companyName = $companySettings ? $companySettings->name : null;
+                $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+
+                $client   = $invoice->project->client;
+
+                $pdf = \PDF::loadView('invoices.pdf', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
+                return $pdf->download(Auth::user()->invoiceNumberFormat($invoice->invoice_id).'.pdf');
+            }
+            else
+            {
+                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            }
+        }
+        else
+        {
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+        }
+    }
+
     public function edit(Invoice $invoice)
     {
         if(\Auth::user()->can('edit invoice'))

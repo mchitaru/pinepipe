@@ -6,7 +6,7 @@ $can_show_invoice = Gate::check('view invoice');
 @endphp
 
 @foreach ($invoices as $invoice)
-@include('invoices.invoice')
+@include('invoices.item')
 @endforeach
 
 @if(method_exists($invoices,'links'))

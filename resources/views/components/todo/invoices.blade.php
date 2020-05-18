@@ -19,7 +19,7 @@ $can_show_invoice = Gate::check('view invoice');
         </div>
         <div class="card-list-body collapse" id="{{$type}}">
             @foreach($items as $invoice)
-                @include('invoices.invoice')
+                @include('invoices.item')
             @endforeach
         </div>
     </div>
