@@ -60,14 +60,14 @@ a.text-danger:focus,a.text-danger:hover{color:#ae1c17!important;}
 *,:after,:before{box-sizing:border-box;}
 html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:rgba(0,0,0,0);}
 nav{display:block;}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Inter UI,Segoe UI,Roboto;font-size:1rem;font-weight:400;line-height:1.5;color:#6c757d;text-align:left;background-color:#fff;}
+body{margin:0;font-family:Inter UI,sans-serif;font-size:1rem;font-weight:400;line-height:1.5;color:#6c757d;text-align:left;background-color:#fff;}
 hr{box-sizing:content-box;height:0;overflow:visible;}
 h5{margin-top:0;margin-bottom:.75rem;}
 p{margin-top:0;margin-bottom:1rem;}
 address{font-style:normal;line-height:inherit;}
 address,ol{margin-bottom:1rem;}
 ol{margin-top:0;}
-b,strong{font-weight:bolder;}
+b,strong{font-weight:bold;}
 a{color:#007bff;}
 a:hover{color:#0056b3;text-decoration:none;}
 img{border-style:none;}
