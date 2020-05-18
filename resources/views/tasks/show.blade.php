@@ -157,9 +157,6 @@ modal-lg
             </div>
         </div>
         <div>
-            <div class="d-flex flex-row-reverse">
-                <small class="card-text" style="float:right;" >{{$percentage}}%</small>
-            </div>
             <div class="progress mt-0">
                 <div class="progress-bar task-progress-{{$task->id}} {{$label}}" style="width:{{$percentage}}%;"></div>
             </div>
@@ -168,10 +165,10 @@ modal-lg
                 <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Priority')}}>
                     {!! Helpers::getPriorityBadge($task->priority) !!}
                 </div>
-                <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Completed')}}>
+                {{-- <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Completed')}}>
                     <i class="material-icons">playlist_add_check</i>
                     <span class="badge badge-secondary">{{ $task_status }}</span>
-                </div>
+                </div> --}}
                 {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
             </div>
         </div>
