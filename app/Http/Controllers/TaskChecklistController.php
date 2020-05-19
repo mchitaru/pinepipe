@@ -32,8 +32,6 @@ class TaskChecklistController extends Controller
     public function store(TaskChecklistRequest $request, Task $task)
     {
         $post = $request->validated();
-
-        $post['title']         = __('Something To Do...');
         
         $subtask = $task->checklist()->create($post);
 
