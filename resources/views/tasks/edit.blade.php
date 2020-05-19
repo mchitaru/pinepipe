@@ -35,7 +35,7 @@
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}
-            {!! Form::select('priority', $priority, null,array('class' => 'form-control col','required'=>'required')) !!}
+            {!! Form::select('priority', $priorities, null,array('class' => 'form-control col','required'=>'required')) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}

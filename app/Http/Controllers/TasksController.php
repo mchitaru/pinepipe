@@ -73,7 +73,7 @@ class TasksController extends Controller
         $project_id = $request['project_id'];
 
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $priority   = Project::$priority;
+        $priorities = Project::$priority;
 
         $user_id = null;
 
@@ -104,7 +104,7 @@ class TasksController extends Controller
                         ->get()
                         ->pluck('name', 'name');
 
-        return view('tasks.create', compact('project_id', 'projects', 'users', 'user_id', 'priority', 'milestones', 'tags'));
+        return view('tasks.create', compact('project_id', 'projects', 'users', 'user_id', 'priorities', 'milestones', 'tags'));
     }
 
     /**
@@ -171,7 +171,7 @@ class TasksController extends Controller
 
         $user_id = $task->users()->get()->pluck('id');
 
-        $priority   = Project::$priority;
+        $priorities  = Project::$priority;
         $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
 
         $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
@@ -187,7 +187,7 @@ class TasksController extends Controller
 
         $due_date = $task->due_date;
 
-        return view('tasks.edit', compact('task', 'stages', 'project_id', 'projects', 'user_id', 'users', 'priority', 'milestones', 'tags', 'task_tags', 'due_date'));
+        return view('tasks.edit', compact('task', 'stages', 'project_id', 'projects', 'user_id', 'users', 'priorities', 'milestones', 'tags', 'task_tags', 'due_date'));
     }
 
     /**

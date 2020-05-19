@@ -21,7 +21,7 @@
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}
-            {!! Form::select('priority', $priority, null,array('class' => 'form-control col','required'=>'required')) !!}
+            {!! Form::select('priority', $priorities, 1, array('class' => 'form-control col','required'=>'required')) !!}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
