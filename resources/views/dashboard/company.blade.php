@@ -5,6 +5,8 @@
 @php
 use App\Project;
 use Carbon\Carbon;
+
+$user=\Auth::user();
 @endphp
 
 @push('stylesheets')

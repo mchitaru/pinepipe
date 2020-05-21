@@ -14,7 +14,7 @@ $label = Project::getProgressColor($task_percentage);
 
 @endphp
 
-<div class="card card-task">
+<div class="card card-task task" data-id={{$task->id}}>
     <div class="progress">
         <div class="progress-bar task-progress-{{$task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
     </div>

@@ -297,6 +297,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $this->timesheets()->where('started_at','!=',null)->first();
     }
 
+    public function getLastTimesheet()
+    {
+        return $this->timesheets()->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc')->first();
+    }
+
     public function getEmptyTimesheet()
     {
         return $this->timesheets()->where('date', date('Y-m-d'))

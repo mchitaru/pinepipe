@@ -310,7 +310,9 @@ modal-lg
 @endsection
 
 @section('footer')
-    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-success" data-params="stage_id={{$stage_done}}&archived=1" data-method="PATCH" data-remote="true" data-type="text">
+    @include('partials.app.timesheetctrl')
+
+    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-outline-success" data-params="stage_id={{$stage_done}}&archived=1" data-method="PATCH" data-remote="true" data-type="text">
         {{__('Mark as Done')}}
     </a>
 

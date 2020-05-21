@@ -1,7 +1,7 @@
 @php
 use Carbon\Carbon;
 $user=\Auth::user();
-$timesheet=$user?$user->getActiveTimesheet():null;
+$timesheet=$user?$user->getLastTimesheet():null;
 @endphp
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -98,7 +98,7 @@ $timesheet=$user?$user->getActiveTimesheet():null;
 
     $(function() {
 
-        var offset = {!! $timesheet ? $timesheet->computeTime() : 0 !!};
+        var offset = {!! $timesheet&&$timesheet->isStarted() ? $timesheet->computeTime() : 0 !!};
 
         if(offset)
         {

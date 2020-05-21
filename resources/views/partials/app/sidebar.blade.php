@@ -10,33 +10,46 @@ $languages=$user->languages();
 
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible;">
     <div class="w-100 d-none d-lg-block">
-        <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
-            <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
-        </a>
-        @include('partials.app.notifications')
-        @if(\Auth::user()->type!='super admin')
-            @include('partials.app.timesheets')
-        @endif
-    </div>
-    <div class="d-lg-none">
-        <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
-            <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
-        </a>
-        @include('partials.app.notifications')
-        @if(\Auth::user()->type!='super admin')
-            @include('partials.app.timesheets')
-        @endif
-    </div>
-    <div class="d-flex align-items-center">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="d-block d-lg-none ml-2">
-            <div class="dropdown">
+        <div class="dropdown navbar-brand float-left p-0">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
+                    {{__('My Profile')}}
+                </a>
+                <div class="dropdown-divider"></div>
+                @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view permission')))
+                    @if(Gate::check('view user'))
+                        <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
+                    @endif
+                    @if(Gate::check('view permission'))
+                        <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
+                    @endif
+                    <div class="dropdown-divider"></div>
+                @endif
+    
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                    {{__('Logout')}}
+                </a>
+                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </div>    
+            {{-- <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
+                <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
+            </a> --}}
+        </div>    
+        <div class="dropdown float-right">
+            @include('partials.app.notifications')
+        </div>
+    </div>
+    <div class="d-block d-lg-none">
+        <div class="dropdown">
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
+            </a>
+            <div class="dropdown-menu dropdown-menu-left">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
                     {{__('My Profile')}}
                 </a>
@@ -56,8 +69,22 @@ $languages=$user->languages();
                     {{__('Logout')}}
                 </a>
             </div>
+            <div class="dropdown float-right pl-1">
+                @include('partials.app.notifications')
             </div>
         </div>
+    </div>
+    <div class="d-block d-lg-none">    
+        @if(\Auth::user()->type!='super admin')
+        <div class="dropdown float-right align-items-center">
+            @include('partials.app.timesheets')
+        </div>
+        @endif    
+    </div>
+    <div class="d-flex align-items-center">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
     <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
     <ul class="navbar-nav d-lg-block">
@@ -205,6 +232,7 @@ $languages=$user->languages();
 
     </ul>
     <hr>
+
     {{-- <div class="d-none d-lg-none d-xl-block w-100">
         <span class="text-small text-muted">{{__('Quick Links')}}</span>
         <ul class="nav nav-small flex-column mt-2">
@@ -257,36 +285,16 @@ $languages=$user->languages();
             </div>
         </form>
         @endif
-
     </div>
+    </div>
+    <div class="w-100 d-none d-lg-block">
+        @if(\Auth::user()->type!='super admin')
+        <hr>
+        <div class="dropup text-center align-items-center">
+            @include('partials.app.timesheets')
+        </div>
+        @endif
     </div>
     <div class="d-none d-lg-block {{! Cookie::get('laravel_cookie_consent')?'pb-5':''}}">
-    <div class="dropup">
-        <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
-        </a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
-                {{__('My Profile')}}
-            </a>
-            <div class="dropdown-divider"></div>
-            @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view permission')))
-                @if(Gate::check('view user'))
-                    <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-                @endif
-                @if(Gate::check('view permission'))
-                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
-                @endif
-                <div class="dropdown-divider"></div>
-            @endif
-
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-                {{__('Logout')}}
-            </a>
-            <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
-        </div>
-    </div>
     </div>
 </div>

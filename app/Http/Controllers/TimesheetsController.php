@@ -145,15 +145,19 @@ class TimesheetsController extends Controller
     }
 
     public function timer(Request $request)
-    {
+    {        
+        $timesheet = null;
         $start = false;
         $offset = 0;
 
-        $timesheet = Timesheet::find($request['timesheet_id']);
+        $task = Task::find($request['task_id']);
 
-        if(is_null($timesheet)) {
+        if($task) {
 
-            $timesheet = \Auth::user()->getActiveTimesheet();
+            $timesheet = Timesheet::where('task_id', $task->id)->orderBy('updated_at', 'desc')->first();
+        }else{
+
+            $timesheet = Timesheet::find($request['timesheet_id']);
         }
 
         if(is_null($timesheet)) {
@@ -163,6 +167,12 @@ class TimesheetsController extends Controller
             $post['minutes'] = 0;
             $post['seconds'] = 0;
             $post['rate'] = 0;
+
+            if($task) {
+
+                $post['project_id'] = $task->project_id;
+                $post['task_id'] = $task->id;
+            }
 
             $timesheet = Timesheet::createTimesheet($post);
         }
@@ -187,11 +197,14 @@ class TimesheetsController extends Controller
 
         $offset = $timesheet->computeTime();
 
-        $view = view('partials.app.timesheets')->render();
+        $popup = view('partials.app.timesheets')->render();
+        $control = view('partials.app.timesheetctrl', compact('task', 'timesheet'))->render();
 
         return response()->json(['start' => $start,
-                                    'url' => route('timesheets.edit', $timesheet->id),
+                                    'url' => ($task == null) ? route('timesheets.edit', $timesheet->id) : null,
                                     'offset' => $offset,
-                                    'html' => $view]);
+                                    'task_id' => $timesheet->task_id,
+                                    'popup' => $popup,
+                                    'control' => $control]);
     }
 }

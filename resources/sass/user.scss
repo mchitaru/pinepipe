@@ -10,13 +10,13 @@
 // }
 
 @keyframes glowing {
-  0% { box-shadow: 0 0 -10px #c4a300; }
-  40% { box-shadow: 0 0 20px #c4a300; }
-  60% { box-shadow: 0 0 20px #c4a300; }
-  100% { box-shadow: 0 0 -10px #c4a300; }
+  0% { box-shadow: 0 0 -5px $primary; }
+  40% { box-shadow: 0 0 10px $primary; }
+  60% { box-shadow: 0 0 10px $primary; }
+  100% { box-shadow: 0 0 -5px $primary; }
 }
 
-.btn-glow {
+.glow-animation {
   animation: glowing 5000ms infinite;
 }
 
@@ -27,6 +27,17 @@
   100% { opacity: 1 }
 }
 
+.fade-animation {
+  animation: fading 3000ms infinite;
+}
+
+.dropdown-item{
+  &:not(:hover){
+    .item-options{
+      opacity: 0;
+    }
+  }
+}
 
 .input-group-text.dark {
   color: $input-group-addon-color-dark;
@@ -38,10 +49,6 @@ table {
     .borderless td {
       border: none;
     }
-}
-
-.btn-fade {
-  animation: fading 3000ms infinite;
 }
 
 

@@ -3,6 +3,7 @@
 use App\Task;
 use App\Project;
 use App\Checklist;
+use App\Timesheet;
 
 trait Taskable
 {
@@ -29,9 +30,11 @@ trait Taskable
                 $files[] = $file;
             }
 
+            $timesheet = Timesheet::where('task_id', $task->id)->orderBy('updated_at', 'desc')->first();
+
             clock()->endEvent('Taskable.show');
 
-            return view('tasks.show', compact('task', 'subtasks', 'project', 'files'));
+            return view('tasks.show', compact('task', 'subtasks', 'project', 'files', 'timesheet'));
         }
         else
         {

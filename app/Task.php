@@ -59,6 +59,20 @@ class Task extends Model implements HasMedia
             }
         });
 
+        static::updated(function ($task) {
+
+            if(!$task->stage->open) {
+                
+                $task->timesheets()->each(function($time) {
+
+                    if($time->isStarted()){
+
+                        $time->stop();
+                    }
+                });    
+            }
+        });
+
         static::deleting(function ($task) {
 
             $task->users()->detach();
