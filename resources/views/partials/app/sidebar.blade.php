@@ -1,7 +1,6 @@
 @php
 use Carbon\Carbon;
 
-$user=\Auth::user();
 $logo = asset(Storage::url('logo/'));
 
 $languages=$user->languages();
@@ -12,7 +11,7 @@ $languages=$user->languages();
     <div class="w-100 d-none d-lg-block">
         <div class="dropdown navbar-brand float-left p-0">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
+                {!!Helpers::buildUserAvatar($user, 30, 'round')!!}
             </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
@@ -40,14 +39,14 @@ $languages=$user->languages();
                 <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
             </a> --}}
         </div>    
-        <div class="dropdown float-right">
+        {{-- <div class="dropdown float-right">
             @include('partials.app.notifications')
-        </div>
+        </div> --}}
     </div>
     <div class="d-block d-lg-none">
         <div class="dropdown">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
+                {!!Helpers::buildUserAvatar($user, 30, 'round')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-left">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
@@ -69,9 +68,9 @@ $languages=$user->languages();
                     {{__('Logout')}}
                 </a>
             </div>
-            <div class="dropdown float-right pl-1">
+            {{-- <div class="dropdown float-right pl-1">
                 @include('partials.app.notifications')
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="d-block d-lg-none">    

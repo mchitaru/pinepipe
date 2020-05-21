@@ -45,7 +45,7 @@ use App\Project;
                 }
                 $label = Project::getProgressColor($task_percentage);
             @endphp
-            <div class="card card-kanban task" data-id={{$task->id}}>
+            <div class="card card-kanban task {{($timesheet&&($timesheet->task_id==$task->id)&&$timesheet->isStarted())?'glow-animation':''}}" data-id={{$task->id}}>
                 <div class="progress">
                     <div class="progress-bar task-progress-{{$task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>

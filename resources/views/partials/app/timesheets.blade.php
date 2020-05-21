@@ -1,8 +1,5 @@
 @php
 use Carbon\Carbon;
-$user=\Auth::user();
-$timesheets = $user->timesheets()->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc')->get();
-$timesheet = $timesheets->first();
 @endphp
 
 <div class="timer-popup d-flex align-items-center">

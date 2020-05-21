@@ -29,5 +29,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        view()->composer('*', function($view){
+
+            $user = \Auth::user();
+
+            $timesheets = $user?$user->timesheets()->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc')->get():[];
+            $timesheet = $timesheets?$timesheets->first():null;
+            
+            $view->with(compact('user', 'timesheets', 'timesheet'));
+        });
+        // View::share('key', 'value');
     }
 }

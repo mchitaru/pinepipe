@@ -1,7 +1,5 @@
 @php
 use Carbon\Carbon;
-$user=\Auth::user();
-$timesheet=$user?$user->getLastTimesheet():null;
 @endphp
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

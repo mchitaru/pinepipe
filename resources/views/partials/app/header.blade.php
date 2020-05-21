@@ -1,5 +1,4 @@
 @php
-$user=\Auth::user();
 $logo = asset(Storage::url('logo/'));
 
 $languages=$user->languages();
@@ -157,7 +156,7 @@ $languages=$user->languages();
         <div class="dropdown mx-lg-2 float-right">
             <div class="dropdown dropdown-toggle">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {!!Helpers::buildUserAvatar($user, 36, 'round')!!}
+            {!!Helpers::buildUserAvatar($user, 30, 'round')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
