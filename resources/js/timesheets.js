@@ -16,7 +16,7 @@ function timer(instance, offset)
     });
 }
 
-function updateUI(data)
+function updateTimerUI(data)
 {
     $('.timer-popup').each(function(){
 
@@ -77,7 +77,7 @@ $(function() {
                     }
                 }
 
-                updateUI(data);
+                updateTimerUI(data);
                 
             },
             error: function (data) {

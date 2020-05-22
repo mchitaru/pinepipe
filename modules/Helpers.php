@@ -27,7 +27,7 @@ class Helpers
          return $precision < 0 ? ceil($value / $mult) * $mult : ceil($value * $mult) / $mult;
     }
     
-    public static function buildAvatar($name, $avatar, $size = 30, $class = 'avatar')
+    public static function buildAvatar($name, $avatar, $size = 32, $class = 'avatar')
     {
         return "<img data-filter-by='alt' width=".$size." height=".$size.
                     (empty($avatar) ? (" class='".$class."' avatar='".$name."'") :

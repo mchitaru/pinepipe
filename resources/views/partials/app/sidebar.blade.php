@@ -11,7 +11,7 @@ $languages=$user->languages();
     <div class="w-100 d-none d-lg-block">
         <div class="dropdown navbar-brand float-left p-0">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildUserAvatar($user, 30, 'round')!!}
+                {!!Helpers::buildUserAvatar($user, 32, 'rounded')!!}
             </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
@@ -46,7 +46,7 @@ $languages=$user->languages();
     <div class="d-block d-lg-none">
         <div class="dropdown">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildUserAvatar($user, 30, 'round')!!}
+                {!!Helpers::buildUserAvatar($user, 32, 'rounded')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-left">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
@@ -252,6 +252,14 @@ $languages=$user->languages();
         <hr>
     </div> --}}
     <div>
+        @if(\Auth::user()->type !='super admin')
+        <form class="form-group my-lg-0 my-2" method="post" autocomplete="off">
+            @csrf
+            <div class="input-group input-group-dark input-group-round mb-2">
+                <input type="search" class="form-control form-control-dark border-0" placeholder="Search..." aria-label="Search app" id="search-element">
+            </div>
+        </form>
+        @endif
         @if(Gate::check('create contact') ||
             Gate::check('create project') ||
             Gate::check('create tasks'))
@@ -274,15 +282,6 @@ $languages=$user->languages();
                 @endcan
             </div>
         </div>
-        @endif
-
-        @if(\Auth::user()->type !='super admin')
-        <form class="form-group my-lg-0 my-2" method="post" autocomplete="off">
-            @csrf
-            <div class="input-group input-group-dark input-group-round mt-2">
-                <input type="search" class="form-control form-control-dark border-0" placeholder="Search" aria-label="Search app" id="search-element">
-            </div>
-        </form>
         @endif
     </div>
     </div>
