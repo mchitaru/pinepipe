@@ -9,11 +9,12 @@
 
     {{-- <div class="layout layout-nav-top"> --}}
 
-        {{-- @include('partials.app.header') --}}
+        {{-- @include('partials.app.headbar') --}}
         @include('partials.app.sidebar')
 
         <div class="main-container">
 
+            @include('partials.app.header')
             @include('partials.app.content')
 
         </div>

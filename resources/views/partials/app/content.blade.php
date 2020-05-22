@@ -1,3 +1,1 @@
-@yield('breadcrumb')
-
 @yield('content')

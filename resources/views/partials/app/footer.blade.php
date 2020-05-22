@@ -76,7 +76,11 @@ use Carbon\Carbon;
         adjustWidth: false,
     };
 
-    $("#search-element").easyAutocomplete(options);
+    $('.search-element').each(function(){
+
+        $(this).easyAutocomplete(options);
+    });
+
 
     $.fn.select2.defaults.set( "theme", "bootstrap" );
 

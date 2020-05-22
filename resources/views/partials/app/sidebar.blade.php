@@ -9,46 +9,41 @@ $languages=$user->languages();
 
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible;">
     <div class="w-100 d-none d-lg-block">
-        <div class="dropdown navbar-brand float-left p-0">
-            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {!!Helpers::buildUserAvatar($user, 32, 'rounded')!!}
-            </a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
-                    {{__('My Profile')}}
-                </a>
-                <div class="dropdown-divider"></div>
-                @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view permission')))
-                    @if(Gate::check('view user'))
-                        <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-                    @endif
-                    @if(Gate::check('view permission'))
-                        <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
-                    @endif
-                    <div class="dropdown-divider"></div>
-                @endif
-    
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-                    {{__('Logout')}}
-                </a>
-                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form>
-            </div>    
-            {{-- <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
+        <div class="navbar-brand float-left p-0">
+            <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
                 <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
-            </a> --}}
+            </a>
         </div>    
         {{-- <div class="dropdown float-right">
             @include('partials.app.notifications')
         </div> --}}
     </div>
     <div class="d-block d-lg-none">
+        <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
+            <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
+        </a>
         <div class="dropdown">
-            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{-- <div class="dropdown float-right pl-1">
+                @include('partials.app.notifications')
+            </div> --}}
+        </div>
+    </div>
+    <div class="d-block d-lg-none">    
+        @if(\Auth::user()->type!='super admin')
+        <div class="align-items-center">
+            @include('partials.app.timesheets')
+        </div>
+        @endif    
+    </div>
+    <div class="d-lg-none d-flex align-items-center">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="dropdown ml-2">    
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{$user->name}}">
                 {!!Helpers::buildUserAvatar($user, 32, 'rounded')!!}
             </a>
-            <div class="dropdown-menu dropdown-menu-left">
+            <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">
                     {{__('My Profile')}}
                 </a>
@@ -68,36 +63,18 @@ $languages=$user->languages();
                     {{__('Logout')}}
                 </a>
             </div>
-            {{-- <div class="dropdown float-right pl-1">
-                @include('partials.app.notifications')
-            </div> --}}
         </div>
-    </div>
-    <div class="d-block d-lg-none">    
-        @if(\Auth::user()->type!='super admin')
-        <div class="dropdown float-right align-items-center">
-            @include('partials.app.timesheets')
-        </div>
-        @endif    
-    </div>
-    <div class="d-flex align-items-center">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
     </div>
     <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
     <ul class="navbar-nav d-lg-block">
-
         <li class="nav-item">
             <a class="nav-link {{(empty(Request::segment(1)) || Request::segment(1) == 'home')?' active':''}}" href="{{ route('home') }}">{{__('Home')}}</a>
         </li>
-
         @if(\Auth::user()->type!='super admin')
         <li class="nav-item">
             <a class="nav-link {{(Request::segment(1) == 'calendar')?' active':''}}" href="{{ route('calendar.index') }}">{{__('Calendar')}}</a>
         </li>
         @endif
-
         @if(\Auth::user()->type=='super admin')
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/languages')}}">{{__('Languages')}}</a>
@@ -106,14 +83,11 @@ $languages=$user->languages();
                 <a class="nav-link" href="{{route('plans.index')}}">{{__('Price Plans')}}</a>
             </li>
         @endif
-
         @can('view client')
-
         <li class="nav-item ">
             <a class="nav-link {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
         </li>
         @endcan
-
         @if(Gate::check('view lead') || Gate::check('view contact'))
             <li class="nav-item">
 
@@ -146,8 +120,6 @@ $languages=$user->languages();
 
             </li>
         @endcan
-
-
         @if(Gate::check('view project') || Gate::check('view task'))
             <li class="nav-item">
 
@@ -172,7 +144,6 @@ $languages=$user->languages();
 
             </li>
         @endif
-
         @if((Gate::check('view invoice') || Gate::check('view expense') || Gate::check('edit invoice') || Gate::check('view invoice')) || \Auth::user()->type=='client')
             <li class="nav-item">
 
@@ -198,7 +169,6 @@ $languages=$user->languages();
 
             </li>
         @endif
-
         @if(Gate::check('view project') || \Auth::user()->type!='super admin')
             <li class="nav-item">
 
@@ -213,58 +183,26 @@ $languages=$user->languages();
                 </div>
 
             </li>
-            {{-- <li class="nav-item">
-
-                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6">{{__('Files')}}</a>
-                <div id="submenu-6" class="collapse">
-                    <ul class="nav nav-small flex-column">
-
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">{{__('Wiki')}}</a>
-                        <a class="nav-link disabled" href="{{ route('sharepoint') }}">{{__('Sharepoint')}}</a>
-                    </li>
-                    </ul>
-                </div>
-
-            </li> --}}
         @endif
 
     </ul>
     <hr>
-
-    {{-- <div class="d-none d-lg-none d-xl-block w-100">
-        <span class="text-small text-muted">{{__('Quick Links')}}</span>
-        <ul class="nav nav-small flex-column mt-2">
-        @can('view contact')
-            <li class="nav-item">
-                <a href="{{ route('clients.index') }}" class="nav-link">{{__('Clients')}}</a>
-            </li>
-        @endcan
-        @can('view project')
-            <li class="nav-item">
-                <a href="{{ route('projects.index') }}" class="nav-link">{{__('Projects')}}</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('tasks.board') }}" class="nav-link">{{__('Tasks')}}</a>
-            </li>
-        @endcan
-        </ul>
-        <hr>
-    </div> --}}
-    <div>
-        @if(\Auth::user()->type !='super admin')
-        <form class="form-group my-lg-0 my-2" method="post" autocomplete="off">
-            @csrf
-            <div class="input-group input-group-dark input-group-round mb-2">
-                <input type="search" class="form-control form-control-dark border-0" placeholder="Search..." aria-label="Search app" id="search-element">
-            </div>
-        </form>
-        @endif
+    <div class="w-100">
+        <div class="d-block d-lg-none">
+            @if(\Auth::user()->type !='super admin')
+            <form class="form-group" method="post" autocomplete="off">
+                @csrf
+                <div class="input-group input-group-dark ">
+                    <input type="search" class="form-control form-control-dark search-element" placeholder="Search..." aria-label="Search app">
+                </div>
+            </form>
+            @endif
+        </div>        
         @if(Gate::check('create contact') ||
             Gate::check('create project') ||
             Gate::check('create tasks'))
         <div class="dropdown">
-            <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-primary dropdown-toggle col" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{__('Add New')}}
             </button>
             <div class="dropdown-menu">
@@ -284,14 +222,6 @@ $languages=$user->languages();
         </div>
         @endif
     </div>
-    </div>
-    <div class="w-100 d-none d-lg-block">
-        @if(\Auth::user()->type!='super admin')
-        <hr>
-        <div class="dropup text-center align-items-center">
-            @include('partials.app.timesheets')
-        </div>
-        @endif
     </div>
     <div class="d-none d-lg-block {{! Cookie::get('laravel_cookie_consent')?'pb-5':''}}">
     </div>

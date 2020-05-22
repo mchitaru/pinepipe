@@ -23,8 +23,10 @@ use Carbon\Carbon;
 <div class="container">
     <div class="row justify-content-center">
         <div class="container-fluid">
-            <div class="row pt-4">
+            <div class="row">
                 <div class="col">
+                    <div class="page-header">
+                    </div>                
                     <h3> {{__('Hey')}} {{\Auth::user()->name}}! {{__('After')}} &#x2615;, {{__("here is what's coming up")}}:</h3>
                     <div class="row pt-1 pb-3">
                         <x-upcoming title="TODAY" :tasks='$todayTasks' :events='$todayEvents'></x-upcoming>
