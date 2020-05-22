@@ -19,7 +19,7 @@ use Carbon\Carbon;
             @endcan
         </div>
         @foreach ($timesheets as $key => $timesheet)
-        <a class="dropdown-item timer-entry  {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}" data-toggle="tooltip" title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
+        <a class="dropdown-item timer-entry d-flex align-items-center {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}" data-toggle="tooltip" title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
             @if($timesheet->isStarted())
                 <i class="material-icons">stop</i>
             @else
