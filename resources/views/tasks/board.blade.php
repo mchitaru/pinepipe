@@ -3,6 +3,7 @@
 @php
 use Carbon\Carbon;
 use App\Project;
+$timesheet = $_timesheets->first();
 @endphp
 
 @foreach($stages as $stage)
