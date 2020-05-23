@@ -34,10 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
             $user = \Auth::user();
 
-            $timesheets = $user?$user->timesheets()->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc')->get():[];
-            $timesheet = $timesheets?$timesheets->first():null;
+            $_timesheets = $user?$user->timesheets()->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc')->get():collect();
             
-            $view->with(compact('user', 'timesheets', 'timesheet'));
+            $view->with(compact('user', '_timesheets'));
         });
         // View::share('key', 'value');
     }
