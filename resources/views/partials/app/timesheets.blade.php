@@ -1,6 +1,7 @@
 @php
 use Carbon\Carbon;
-$timesheet = $_timesheets->first();
+$timesheets = $user->timesheets; 
+$timesheet = $timesheets->first();
 @endphp
 
 <div class="timer-popup d-flex align-items-center">
@@ -19,7 +20,7 @@ $timesheet = $_timesheets->first();
                 </a>
             @endcan
         </div>
-        @foreach ($_timesheets as $key => $timesheet)
+        @foreach ($timesheets as $key => $timesheet)
         <a class="dropdown-item timer-entry d-flex align-items-center {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}" data-toggle="tooltip" title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
             @if($timesheet->isStarted())
                 <i class="material-icons">stop</i>

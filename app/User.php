@@ -175,7 +175,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     public function timesheets()
     {
-        return $this->hasMany('App\Timesheet', 'user_id', 'id');
+        return $this->hasMany('App\Timesheet', 'user_id', 'id')->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc');
     }
 
     public function projects()

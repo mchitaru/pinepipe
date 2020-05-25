@@ -197,6 +197,9 @@ class TimesheetsController extends Controller
 
         $offset = $timesheet->computeTime();
 
+        //reload the relationship to reflect the changes
+        \Auth::user()->load('timesheets');
+
         $popup = view('partials.app.timesheets')->render();
         $control = view('partials.app.timesheetctrl', compact('task', 'timesheet'))->render();
 
