@@ -29,7 +29,7 @@
                     <span data-filter-by="text" class="text-truncate text-small">{{ $invoice->project->name }}</span>
                 </div>
                 <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
-                    <i class="material-icons">apartment</i>
+                    <i class="material-icons">business</i>
                     <span data-filter-by="text" class="text-small text-truncate ">
                         @if(Gate::check('view client') && !empty($invoice->project->client))
                         <a href="{{ route('clients.show', $invoice->project->client->id) }}" data-filter-by="text">

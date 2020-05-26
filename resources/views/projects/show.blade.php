@@ -123,7 +123,7 @@ $(function() {
                 <div class="d-flex align-items-center">
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
-                        <i class="material-icons mr-1">apartment</i>
+                        <i class="material-icons mr-1">business</i>
                         <a href="{{ route('clients.show',$project->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
                             {{ (!empty($project->client)?$project->client->name:'') }}
                         </a>

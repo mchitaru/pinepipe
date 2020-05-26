@@ -93,7 +93,7 @@ $(function() {
                 <div class="d-flex align-items-center">
                     <h1>{{$lead->name}}</h1>
                     <div class="pl-2">
-                        <i class="material-icons mr-1">apartment</i>
+                        <i class="material-icons mr-1">business</i>
                         <a href="{{ route('clients.show',$lead->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
                             {{ (!empty($lead->client)?$lead->client->name:'') }}
                         </a>

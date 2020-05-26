@@ -68,11 +68,17 @@ $languages=$user->languages();
     <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
     <ul class="navbar-nav d-lg-block">
         <li class="nav-item">
-            <a class="nav-link {{(empty(Request::segment(1)) || Request::segment(1) == 'home')?' active':''}}" href="{{ route('home') }}">{{__('Home')}}</a>
+            <a class="nav-link d-flex {{(empty(Request::segment(1)) || Request::segment(1) == 'home')?' active':''}}" href="{{ route('home') }}">
+                <i class="material-icons pr-2">home</i>
+                {{__('Home')}}
+            </a>
         </li>
         @if(\Auth::user()->type!='super admin')
         <li class="nav-item">
-            <a class="nav-link {{(Request::segment(1) == 'calendar')?' active':''}}" href="{{ route('calendar.index') }}">{{__('Calendar')}}</a>
+            <a class="nav-link d-flex {{(Request::segment(1) == 'calendar')?' active':''}}" href="{{ route('calendar.index') }}">
+                <i class="material-icons pr-2">calendar_today</i>
+                {{__('Calendar')}}
+            </a>
         </li>
         @endif
         @if(\Auth::user()->type=='super admin')
@@ -85,13 +91,21 @@ $languages=$user->languages();
         @endif
         @can('view client')
         <li class="nav-item ">
-            <a class="nav-link {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">{{__('Clients')}}</a>
+            <a class="nav-link d-flex {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">
+                <i class="material-icons pr-2">business</i>
+                {{__('Clients')}}
+            </a>
         </li>
         @endcan
         @if(Gate::check('view lead') || Gate::check('view contact'))
             <li class="nav-item">
 
-            <a class="nav-link {{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?'true':'false'}}" data-target="#submenu-2" aria-controls="submenu-2">{{__('Sales')}}</a>
+            <a class="nav-link {{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?'true':'false'}}" data-target="#submenu-2" aria-controls="submenu-2">
+                <div class="d-flex ">
+                    <i class="material-icons pr-2">call</i>
+                    {{__('Sales')}}
+                </div>
+            </a>
             <div id="submenu-2" class="{{(Request::segment(1) == 'contacts' || Request::segment(1) == 'leads')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
@@ -123,7 +137,12 @@ $languages=$user->languages();
         @if(Gate::check('view project') || Gate::check('view task'))
             <li class="nav-item">
 
-            <a class="nav-link {{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'true':'false'}}" data-target="#submenu-3" aria-controls="submenu-3">{{__('Workspace')}}</a>
+            <a class="nav-link {{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'true':'false'}}" data-target="#submenu-3" aria-controls="submenu-3">
+                <div class="d-flex ">
+                    <i class="material-icons pr-2">work_outline</i>
+                    {{__('Workspace')}}
+                </div>
+            </a>
             <div id="submenu-3" class="{{(Request::segment(1) == 'projects' || Request::segment(1) == 'tasks')?'':'collapse'}}">
                 <ul class="nav nav-small flex-column">
 
@@ -147,7 +166,12 @@ $languages=$user->languages();
         @if((Gate::check('view invoice') || Gate::check('view expense') || Gate::check('edit invoice') || Gate::check('view invoice')) || \Auth::user()->type=='client')
             <li class="nav-item">
 
-                <a class="nav-link {{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?'true':'false'}}" data-target="#submenu-4" aria-controls="submenu-4">{{__('Finances')}}</a>
+                <a class="nav-link {{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?'true':'false'}}" data-target="#submenu-4" aria-controls="submenu-4">
+                    <div class="d-flex ">
+                        <i class="material-icons pr-2">account_balance</i>
+                        {{__('Finances')}}
+                    </div>
+                </a>
                 <div id="submenu-4" class="{{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?'':'collapse'}}">
                     <ul class="nav nav-small flex-column">
 
@@ -172,7 +196,12 @@ $languages=$user->languages();
         @if(Gate::check('view project') || \Auth::user()->type!='super admin')
             <li class="nav-item">
 
-                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">{{__('Reports')}}</a>
+                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
+                    <div class="d-flex ">
+                        <i class="material-icons pr-2">show_chart</i>
+                        {{__('Reports')}}
+                    </div>
+                </a>
                 <div id="submenu-5" class="collapse">
                     <ul class="nav nav-small flex-column">
 
