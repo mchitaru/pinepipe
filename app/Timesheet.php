@@ -86,6 +86,16 @@ class Timesheet extends Model
 
     public static function createTimesheet($post)
     {
+        if(isset($post['task_id']) && !is_numeric($post['task_id'])) {
+
+            //new task
+            $task = Task::create(['title' => $post['task_id'],
+                                    'project_id' => $post['project_id'],
+                                    'priority' => 1]);
+
+            $post['task_id'] = $task->id;
+        }
+
         $timeSheet             = Timesheet::make($post);
         $timeSheet->user_id    = \Auth::user()->id;
         $timeSheet->created_by = \Auth::user()->creatorId();
@@ -96,6 +106,15 @@ class Timesheet extends Model
 
     public function updateTimesheet($post)
     {
+        if(isset($post['task_id']) && !is_numeric($post['task_id'])) {
+
+            //new task
+            $task = Task::create(['title' => $post['task_id'],
+                                    'project_id' => $post['project_id'],
+                                    'priority' => 1]);
+            $post['task_id'] = $task->id;
+        }
+
         $this->update($post);
     }
 

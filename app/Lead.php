@@ -94,14 +94,14 @@ class Lead extends Model implements HasMedia
 
     public static function createLead($post)
     {
-        if(!is_numeric($post['client_id'])) {
+        if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
             //new client
             $client = Client::create(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
 
-        if(!is_numeric($post['contact_id'])) {
+        if(isset($post['contact_id']) && !is_numeric($post['contact_id'])) {
 
             //new contact
             $contact = Contact::create(['name' => $post['contact_id'],
@@ -130,14 +130,14 @@ class Lead extends Model implements HasMedia
 
     public function updateLead($post)
     {
-        if(!is_numeric($post['client_id'])) {
+        if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
             //new client
             $client = Client::create(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
 
-        if(!is_numeric($post['contact_id'])) {
+        if(isset($post['contact_id']) && !is_numeric($post['contact_id'])) {
 
             //new contact
             $contact = Contact::create(['name' => $post['contact_id'],

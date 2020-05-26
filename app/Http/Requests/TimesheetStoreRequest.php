@@ -31,7 +31,7 @@ class TimesheetStoreRequest extends FormRequest
     {
         return [
             'project_id' => 'nullable|integer',
-            'task_id'  => 'nullable|integer',
+            'task_id'  => 'nullable',
             'date'  => 'required|date',
             'hours' => 'required|integer',
             'minutes' => 'required|integer',

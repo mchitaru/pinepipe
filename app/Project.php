@@ -230,7 +230,7 @@ class Project extends Model implements HasMedia
 
     public static function createProject($post)
     {
-        if(!is_numeric($post['client_id'])) {
+        if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
             //new client
             $client = Client::create(['name' => $post['client_id']]);
@@ -262,7 +262,7 @@ class Project extends Model implements HasMedia
 
     public function updateProject($post)
     {
-        if(!is_numeric($post['client_id'])) {
+        if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
             //new client
             $client = Client::create(['name' => $post['client_id']]);

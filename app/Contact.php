@@ -79,7 +79,7 @@ class Contact extends Model
 
     public static function createContact($post)
     {
-        if(!is_numeric($post['client_id'])) {
+        if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
             //new client
             $client = Client::create(['name' => $post['client_id']]);
