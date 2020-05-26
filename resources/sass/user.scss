@@ -103,7 +103,6 @@ table {
 .round { border-radius: 50%; }
 
 .easy-autocomplete{
-    min-width: 300px;
     width:100% !important
 }
 
@@ -126,7 +125,7 @@ table {
 .expandable{
 
   &:focus {
-    min-width: 500px;
+    min-width: 400px;
   }
 }
 
