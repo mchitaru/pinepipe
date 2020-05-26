@@ -111,16 +111,24 @@ class LeadsController extends Controller
 
             if($client_id)
             {
-                $contacts = Contact::contactsByUserType()
-                                    ->where('client_id', '=', $client_id)
-                                    ->get()->pluck('name', 'id');
+                if(is_numeric($client_id)) {
+
+                    $contacts = Contact::contactsByUserType()
+                                        ->where('client_id', '=', $client_id)
+                                        ->get()->pluck('name', 'id');
+                }else{
+
+                    //new client
+                    $contacts = [];
+                    $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+                }
             }else
             {
                 $contacts = Contact::contactsByUserType()
                                     ->get()->pluck('name', 'id');
             }
 
-            return view('leads.edit', compact('stages', 'categories', 'lead', 'clients', 'contacts'));
+            return view('leads.edit', compact('client_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));
         }
         else
         {

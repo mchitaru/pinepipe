@@ -29,7 +29,7 @@ class LeadStoreRequest extends FormRequest
             'stage_id' => 'integer|required',
             'category_id' => 'numeric|nullable',
             'client_id' => 'required',
-            'contact_id' => 'integer|nullable',
+            'contact_id' => 'nullable',
         ];
     }
 

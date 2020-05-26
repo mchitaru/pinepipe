@@ -101,6 +101,15 @@ class Lead extends Model implements HasMedia
             $post['client_id'] = $client->id;
         }
 
+        if(!is_numeric($post['contact_id'])) {
+
+            //new contact
+            $contact = Contact::create(['name' => $post['contact_id'],
+                                        'client_id' => $post['client_id']]);
+
+            $post['contact_id'] = $contact->id;
+        }
+
         $stage = Stage::find($post['stage_id']);
 
         $post['order']   = $stage->leads->count();
@@ -121,6 +130,22 @@ class Lead extends Model implements HasMedia
 
     public function updateLead($post)
     {
+        if(!is_numeric($post['client_id'])) {
+
+            //new client
+            $client = Client::create(['name' => $post['client_id']]);
+            $post['client_id'] = $client->id;
+        }
+
+        if(!is_numeric($post['contact_id'])) {
+
+            //new contact
+            $contact = Contact::create(['name' => $post['contact_id'],
+                                        'client_id' => $post['client_id']]);
+
+            $post['contact_id'] = $contact->id;
+        }
+
         $this->update($post);
 
         Activity::updateLead($this);

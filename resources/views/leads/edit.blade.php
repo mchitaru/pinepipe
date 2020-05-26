@@ -31,12 +31,12 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col font-style selectric', 'required'=>'true', 'placeholder'=>'Select Client',
+        {!! Form::select('client_id', $clients, null,array('class' => (Gate::check('create client')?'tags':'').' form-control col font-style selectric', 'required'=>'true', 'placeholder'=>'Select Client',
                         'data-refresh'=>route('leads.refresh', $lead->id))) !!}
     </div>
     <div class="form-group row">
         {{ Form::label('contact_id', __('Contact'), array('class'=>'col-3')) }}
-        {!! Form::select('contact_id', $contacts, null, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Contact')) !!}
+        {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>'Select Contact')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

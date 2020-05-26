@@ -37,8 +37,8 @@ class LeadUpdateRequest extends FormRequest
             'price' => 'numeric|nullable',
             'stage_id' => 'integer|required',
             'category_id' => 'numeric|nullable',
-            'client_id' => 'integer|required',
-            'contact_id' => 'integer|nullable',
+            'client_id' => 'required',
+            'contact_id' => 'nullable',
         ];
     }
 
