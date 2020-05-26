@@ -23,10 +23,11 @@ class InvoiceItemsController extends Controller
                                 ->get()
                                 ->pluck('title', 'id');
 
-        $timesheets = Timesheet::doesntHave('invoiceables')
+        $timesheets = Timesheet::with('task')
+                                    ->doesntHave('invoiceables')
                                     ->where('project_id', $invoice->project_id)
                                     ->get()
-                                    ->pluck('date', 'id');
+                                    ->pluck('short_title', 'id');
 
         $expenses      = Expense::with('category')
                                 ->doesntHave('invoiceables')
@@ -116,7 +117,7 @@ class InvoiceItemsController extends Controller
 
                 $timesheet = Timesheet::find($request->timesheet_id);
 
-                $request['text'] = ((!empty($timesheet->task)?$timesheet->task->title:__('Project timesheet')).' ('.\Auth::user()->dateFormat($timesheet->date).' | '.$timesheet->formatTime().')');
+                $request['text'] = $timesheet->title;
 
             }else{
 

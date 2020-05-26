@@ -74,6 +74,16 @@ class Timesheet extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function getTitleAttribute()
+    {
+        return ((!empty($this->task)?$this->task->title:__('Timesheet')).' ('.\Auth::user()->dateFormat($this->date).' | '.$this->formatTime().')');
+    }
+
+    public function getShortTitleAttribute()
+    {
+        return (!empty($this->task) ? $this->task->title : (\Auth::user()->dateFormat($this->date).' | '.$this->formatTime()));
+    }
+
     public static function createTimesheet($post)
     {
         $timeSheet             = Timesheet::make($post);
