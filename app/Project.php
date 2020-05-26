@@ -262,6 +262,13 @@ class Project extends Model implements HasMedia
 
     public function updateProject($post)
     {
+        if(!is_numeric($post['client_id'])) {
+
+            //new client
+            $client = Client::create(['name' => $post['client_id']]);
+            $post['client_id'] = $client->id;
+        }
+
         $this->update($post);
 
         if(isset($post['users']))
