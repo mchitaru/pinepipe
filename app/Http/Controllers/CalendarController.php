@@ -21,7 +21,11 @@ class CalendarController extends Controller
         }
 
         //add tasks
-        foreach(\Auth::user()->tasksByUserType()->get() as $t)
+        $lastTaskStageId = \Auth::user()->getLastTaskStage()->id;
+        $tasks = \Auth::user()->tasksByUserType()
+                                ->where('stage_id', '<', $lastTaskStageId)
+                                ->get();
+        foreach($tasks as $t)
         {
             $task['title']  = $t->title;
             $task['start']  = $t->due_date;
