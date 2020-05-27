@@ -47,8 +47,8 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-            {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'Select Date', 
-                                                'data-flatpickr', 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+            {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'Select Date',
+                                                'data-flatpickr', 'data-default-date'=> $end, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>
@@ -68,7 +68,7 @@
             <label class="custom-control-label" for="visibility-me">Just me</label>
             </div>
         </div>
-        </div>    
+        </div>
     </div>
     @include('partials.errors')
 @endsection
