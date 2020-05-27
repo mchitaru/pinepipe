@@ -5,7 +5,7 @@ use Carbon\Carbon;
 $stage_done = \Auth::user()->getLastTaskStage()->id;
 @endphp
 
-<div class="scrollable-list col-lg-4 col-m-12" style="max-height:50vh">
+<div class="scrollable-list col-lg-4 col-md-12" style="max-height:50vh">
     <div class="card-list">
         <div class="card-list-head">
         <h6>{{__($title)}} ({{count($tasks) + count($events)}})</h6>

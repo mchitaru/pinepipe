@@ -7,7 +7,6 @@
 .scrollable-list{
     user-select: none;
     flex: 1 0 auto;
-    width: calc(100vw - 24px);
     max-height: 100vh;
     padding-right: $spacer/2;
     padding-bottom: $spacer/2;
