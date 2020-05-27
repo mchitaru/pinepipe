@@ -1,6 +1,6 @@
 @php
 use Carbon\Carbon;
-$timesheet = $user?$user->timesheets->first():null;
+$timesheet = $_user?$_user->timesheets->first():null;
 @endphp
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

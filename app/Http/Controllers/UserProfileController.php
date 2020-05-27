@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserProfileRequest;
+use App\Http\Requests\UserUnsubscribeRequest;
 use Illuminate\Support\Facades\Hash;
 
 use Money\Currencies\ISOCurrencies;
@@ -48,7 +49,9 @@ class UserProfileController extends Controller
                 $currencies[$currency->getCode()] = $currency->getCode();
             }
 
-            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies'));
+            $url = route('profile.update', \Auth::user()->handle());
+
+            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'url'));
 
         }else{
 
@@ -87,5 +90,22 @@ class UserProfileController extends Controller
         {
             return Redirect::to(URL::previous())->with('error', __('Current pasword is incorrect.'));
         }
+    }
+
+    public function editUnsubscribe(User $user)
+    {
+        $url = URL::signedRoute('unsubscribe.update', ['user' => $user]);
+
+        return view('users.profile.unsubscribe', compact('user', 'url'));
+    }
+
+    public function updateUnsubscribe(UserUnsubscribeRequest $request, User $user)
+    {
+        $post = $request->validated();
+
+        $user->fill($post);
+        $user->save();
+
+        return redirect()->back()->with('success', __('Notifications updated successfully.'));
     }
 }

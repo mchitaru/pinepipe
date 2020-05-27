@@ -20,6 +20,18 @@ Route::get('/hshhdyw7820037lammxh29', 'SchedulerController@run')->name('schedule
 Route::group(
     [
         'middleware' => [
+            'signed'
+        ],
+    ], function (){
+
+    Route::get('unsubscribe/{user}', 'UserProfileController@editUnsubscribe')->name('unsubscribe.edit');
+    Route::put('unsubscribe/{user}', 'UserProfileController@updateUnsubscribe')->name('unsubscribe.update');
+
+});
+
+Route::group(
+    [
+        'middleware' => [
             'auth',
             'xss',
             'verified'

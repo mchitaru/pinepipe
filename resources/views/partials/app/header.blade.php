@@ -16,8 +16,8 @@
         </div>
         @endif
         <div class="dropdown">
-            <button href="#" class="btn dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{$user->name}}">
-                {!!Helpers::buildUserAvatar($user, 32, 'rounded')!!}
+            <button href="#" class="btn dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{$_user->name}}">
+                {!!Helpers::buildUserAvatar($_user, 32, 'rounded')!!}
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">

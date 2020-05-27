@@ -1,7 +1,7 @@
 @php
 $logo = asset(Storage::url('logo/'));
 
-$languages=$user->languages();
+$languages=$_user->languages();
 @endphp
 
 <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
@@ -156,7 +156,7 @@ $languages=$user->languages();
         <div class="dropdown mx-lg-2 float-right">
             <div class="dropdown dropdown-toggle">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {!!Helpers::buildUserAvatar($user, 30, 'round')!!}
+            {!!Helpers::buildUserAvatar($_user, 30, 'round')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">

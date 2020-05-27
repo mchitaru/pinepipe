@@ -3,7 +3,7 @@ use Carbon\Carbon;
 
 $logo = asset(Storage::url('logo/'));
 
-$languages=$user->languages();
+$languages = $_user->languages();
 
 @endphp
 
@@ -40,8 +40,8 @@ $languages=$user->languages();
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="dropdown ml-2">    
-            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{$user->name}}">
-                {!!Helpers::buildUserAvatar($user, 32, 'rounded')!!}
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{$_user->name}}">
+                {!!Helpers::buildUserAvatar($_user, 32, 'rounded')!!}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}">

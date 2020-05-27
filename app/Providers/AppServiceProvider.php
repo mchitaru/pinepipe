@@ -32,9 +32,9 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function($view){
 
-            $user = \Auth::user();
+            $_user = \Auth::user();
 
-            $view->with(compact('user'));
+            $view->with(compact('_user'));
         });
     }
 }

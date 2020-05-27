@@ -1,9 +1,9 @@
-<a href="{{route('users.notifications')}}" id="notification-bell" name="notification-bell" role="button" data-method="post" data-remote="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$user->unreadNotifications->count().' '.__('notifications')}}">
-    <i class="material-icons">{{$user->unreadNotifications->count()?'notifications':'notifications_none'}}</i>
+<a href="{{route('users.notifications')}}" id="notification-bell" name="notification-bell" role="button" data-method="post" data-remote="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$_user->unreadNotifications->count().' '.__('notifications')}}">
+    <i class="material-icons">{{$_user->unreadNotifications->count()?'notifications':'notifications_none'}}</i>
 </a>
 
 <ul class="dropdown-menu pre-scrollable">
-    @if(!$user->notifications->isEmpty())
+    @if(!$_user->notifications->isEmpty())
 
         {{-- <li>
             <a class="dropdown-header" href="{{route('tasks.board')}}">
@@ -12,7 +12,7 @@
             </a>
         </li> --}}
 
-        @foreach ($user->notifications as $notification)
+        @foreach ($_user->notifications as $notification)
             @if($notification->type == 'App\Notifications\TaskOverdueAlert')
                 @foreach ($notification->data as $key=>$task)
                 <li>

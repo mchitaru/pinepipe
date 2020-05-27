@@ -8,14 +8,6 @@ use App\SubscriptionPlan;
 @endpush
 
 @push('scripts')
-<!-- Load the required client component. -->
-<script src="https://js.braintreegateway.com/web/3.58.0/js/client.min.js"></script>
-
-<!-- Load Hosted Fields component. -->
-<script src="https://js.braintreegateway.com/web/3.58.0/js/hosted-fields.min.js"></script>
-
-<script src="https://js.braintreegateway.com/web/dropin/1.8.1/js/dropin.min.js"></script>
-
 <script>
 
     $(".avatar-input").change(function () {

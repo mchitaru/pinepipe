@@ -7,11 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Task;
+use Illuminate\Support\Facades\URL;
+use App\Mail\SubscriberMailMessage;
 
 class TaskOverdueAlert extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $user;
     public $tasks;
 
     /**
@@ -19,8 +22,9 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($tasks)
+    public function __construct($user, $tasks)
     {
+        $this->user = $user;
         $this->tasks = $tasks;
     }
 
@@ -32,7 +36,8 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        // return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -43,7 +48,9 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $unsubscribeUrl = URL::signedRoute('unsubscribe.edit', ['user' => $this->user]);
+
+        return (new SubscriberMailMessage($unsubscribeUrl))
                     ->greeting('Tasks Reminder')
                     ->subject('You have '. $this->tasks->count(). ' overdue task(s)')
                     ->line('You have '. $this->tasks->count(). ' overdue task(s).')

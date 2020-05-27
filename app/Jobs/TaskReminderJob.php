@@ -64,7 +64,7 @@ class TaskReminderJob
         {
             if(!$user->tasks->isEmpty())
             {
-                $user->notify(new TaskOverdueAlert($user->tasks));
+                $user->notify(new TaskOverdueAlert($user, $user->tasks));
             }
         }        
     }

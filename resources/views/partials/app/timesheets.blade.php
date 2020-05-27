@@ -1,6 +1,6 @@
 @php
 use Carbon\Carbon;
-$timesheets = $user->timesheets; 
+$timesheets = $_user->timesheets; 
 $timesheet = $timesheets->first();
 @endphp
 
