@@ -5,9 +5,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ 'Pinepipe — CRM and Project Management, made simple' }}</title>
+    <title>{{ 'Pinepipe — Client Relationship Management, made simple' }}</title>
 
-    <meta name="description" content="A simple CRM and Project Management platform, for freelancers and small businesses.">
+    <meta name="description" content="A complete Client Relationship Management platform, for freelancers and small businesses.">
     <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
