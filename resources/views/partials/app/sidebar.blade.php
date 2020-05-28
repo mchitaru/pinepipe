@@ -11,7 +11,7 @@ $languages = $_user->languages();
     <div class="w-100 d-none d-lg-block">
         <div class="navbar-brand float-left p-0">
             <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
-                <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
+                <img alt="Pinepipe" width=50 src="{{ asset('assets/img/logo-white.png') }}" />
             </a>
         </div>
         {{-- <div class="dropdown float-right">
@@ -20,7 +20,7 @@ $languages = $_user->languages();
     </div>
     <div class="d-block d-lg-none">
         <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
-            <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
+            <img alt="Pinepipe" width=32 src="{{ asset('assets/img/logo-white.png') }}" />
         </a>
         <div class="dropdown">
             {{-- <div class="dropdown float-right pl-1">
