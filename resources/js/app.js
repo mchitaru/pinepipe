@@ -4,8 +4,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+global.$ = require('jquery'); 
+global.jQuery = global.$;
+
 require('jquery-ujs');
+require('bootstrap');
 require('select2');
 require('easy-autocomplete');
 require('dropzone');

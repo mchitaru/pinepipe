@@ -197,20 +197,16 @@ modal-lg
 
                 @can('view task')
                 <div class="content-list">
-                    <div class="row content-list-head">
-                        <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
-                            <div class="form-group row align-items-center">
-                                <div class ="col">
-                                    <h3>{{__('Subtasks')}}</h3>
-                                </div>
-                                <div class ="col">
-                                    <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
-                                        <i class="material-icons">add</i>
-                                    </button>
-                                </div>
+                    <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
+                        <div class="row content-list-head">
+                            <div class ="col-auto">
+                                <h3>{{__('Subtasks')}}</h3>
+                                <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
+                                    <i class="material-icons">add</i>
+                                </button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
 
                 <!--end of content list head-->
                 <div class="content-list-body">

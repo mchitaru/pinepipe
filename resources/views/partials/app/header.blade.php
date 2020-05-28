@@ -1,4 +1,4 @@
-<div class="navbar bg-white sticky-top align-items-center d-none d-lg-flex" >
+<div class="navbar bg-white sticky-top align-items-center d-none d-lg-flex" style="z-index: 1019">
     <div class="d-flex align-items-center">
         @if(\Auth::user()->type !='super admin')
         <form class="form-group mb-0" method="post" autocomplete="off">
