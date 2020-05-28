@@ -72,6 +72,8 @@ class TasksController extends Controller
     {
         $project_id = $request['project_id'];
 
+        $end = $request->end;
+
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $priorities = Project::$priority;
 
@@ -104,7 +106,7 @@ class TasksController extends Controller
                         ->get()
                         ->pluck('name', 'name');
 
-        return view('tasks.create', compact('project_id', 'projects', 'users', 'user_id', 'priorities', 'milestones', 'tags'));
+        return view('tasks.create', compact('project_id', 'projects', 'users', 'user_id', 'priorities', 'milestones', 'tags', 'end'));
     }
 
     /**
@@ -182,7 +184,7 @@ class TasksController extends Controller
         $task_tags = [];
         foreach($task->tags as $tag)
         {
-            $task_tags[] = $tag->name;    
+            $task_tags[] = $tag->name;
         }
 
         $due_date = $task->due_date;

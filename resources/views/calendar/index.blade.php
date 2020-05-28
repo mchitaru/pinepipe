@@ -39,7 +39,7 @@
         weekNumbers: true,
         eventLimit: true,
         selectable: true,
-        eventTimeFormat: { 
+        eventTimeFormat: {
                 hour: 'numeric',
                 minute: '2-digit',
                 meridiem: 'narrow'
@@ -48,23 +48,19 @@
 
         select: function(info)
         {
-            $.ajax({
-                url: '{{url("/events/create")}}',
-                type: 'get',
-                data: {start: info.startStr, end: info.endStr, "_token": $('meta[name="csrf-token"]').attr('content')},
-                dataType: 'text',
-                    success: function(data, status, xhr) {
-                        $(document).trigger('ajax:success', [data, status, xhr]);
-                    },
-                    complete: function(xhr, status) {
-                        $(document).trigger('ajax:complete', [xhr, status]);
-                    },
-                    error: function(xhr, status, error) {
-                        $(document).trigger('ajax:error', [xhr, status, error]);
-                    }
+            $(".context-menu > a").each(function() {
+                $(this).attr("data-start", info.startStr);
+                $(this).attr("data-end", info.endStr);
+            });
+
+            $(".context-menu").finish().toggle().
+
+            css({
+                top: info.jsEvent.pageY + "px",
+                left: info.jsEvent.pageX + "px"
             });
         },
-        eventClick: function(info) 
+        eventClick: function(info)
         {
             info.jsEvent.preventDefault();
 
@@ -86,14 +82,54 @@
                 });
             }
         },
-        datesRender: function (info) 
+        datesRender: function (info)
         {
             localStorage.setItem("fcDefaultView", info.view.type);
-        }        
+        }
         });
 
         calendar.render();
 
+    </script>
+
+    <script>
+        // If the document is clicked somewhere
+        $(document).bind("mousedown", function (e) {
+
+            // If the clicked element is not the menu
+            if (!$(e.target).parents(".context-menu").length > 0) {
+
+                // Hide it
+                $(".context-menu").hide();
+            }
+        });
+
+        $(".context-menu a").click(function(e){
+
+            e.preventDefault();
+
+            startStr = $(this).attr("data-start");
+            endStr = $(this).attr("data-end");
+
+            $.ajax({
+                url: $(this).attr("href"),
+                type: 'get',
+                data: {start: startStr, end: endStr, "_token": $('meta[name="csrf-token"]').attr('content')},
+                dataType: 'text',
+                    success: function(data, status, xhr) {
+                        $(document).trigger('ajax:success', [data, status, xhr]);
+                    },
+                    complete: function(xhr, status) {
+                        $(document).trigger('ajax:complete', [xhr, status]);
+                    },
+                    error: function(xhr, status, error) {
+                        $(document).trigger('ajax:error', [xhr, status, error]);
+                    }
+            });
+
+            // Hide it AFTER the action was triggered
+            $(".custom-menu").hide();
+        });
     </script>
 @endpush
 
@@ -126,6 +162,11 @@
 
 
 @section('content')
+<div class="dropdown-menu context-menu">
+    <a class="dropdown-item" href="{{ route('events.create') }}" >{{__('New Event')}}</a>
+    <a class="dropdown-item" href="{{ route('tasks.create') }}" >{{__('New Task')}}</a>
+</div>
+
 <div class="container">
     <div class="page-header">
     </div>

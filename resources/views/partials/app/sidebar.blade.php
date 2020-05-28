@@ -13,7 +13,7 @@ $languages = $_user->languages();
             <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
                 <img alt="Pinepipe" width=30 src="{{ asset('assets/img/logo.svg') }}" />
             </a>
-        </div>    
+        </div>
         {{-- <div class="dropdown float-right">
             @include('partials.app.notifications')
         </div> --}}
@@ -28,18 +28,18 @@ $languages = $_user->languages();
             </div> --}}
         </div>
     </div>
-    <div class="d-block d-lg-none">    
+    <div class="d-block d-lg-none">
         @if(\Auth::user()->type!='super admin')
         <div class="align-items-center">
             @include('partials.app.timesheets')
         </div>
-        @endif    
+        @endif
     </div>
     <div class="d-lg-none d-flex align-items-center">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="dropdown ml-2">    
+        <div class="dropdown ml-2">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{$_user->name}}">
                 {!!Helpers::buildUserAvatar($_user, 32, 'rounded')!!}
             </a>
@@ -110,22 +110,22 @@ $languages = $_user->languages();
                 <ul class="nav nav-small flex-column">
 
                 @can('view lead')
-                <li class="nav-item">
+                <li class="nav-item pl-3">
                     <a class="nav-link {{(Request::segment(1) == 'leads')?' active':''}}" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
                 </li>
                 @endif
 
                 @can('view contact')
-                <li class="nav-item">
+                <li class="nav-item pl-3">
                     <a class="nav-link {{(Request::segment(1) == 'contacts')?' active':''}}" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
                 </li>
                 @endif
 
-                <li class="nav-item">
+                <li class="nav-item pl-3">
                     <a class="nav-link disabled" href="#">{{__('Proposals')}}</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item pl-3">
                     <a class="nav-link disabled" href="#">{{__('Contracts')}}</a>
                 </li>
 
@@ -147,13 +147,13 @@ $languages = $_user->languages();
                 <ul class="nav nav-small flex-column">
 
                 @can('view task')
-                <li class="nav-item">
+                <li class="nav-item pl-3">
                     <a class="nav-link {{(Request::segment(1) == 'tasks')?' active':''}}" href="{{ route('tasks.board') }}">{{__('Tasks')}}</a>
                 </li>
                 @endcan
 
                 @can('view project')
-                <li class="nav-item">
+                <li class="nav-item pl-3">
                     <a class="nav-link {{(Request::segment(1) == 'projects')?' active':''}}" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
                 </li>
                 @endcan
@@ -177,13 +177,13 @@ $languages = $_user->languages();
 
 
                     @if(Gate::check('view invoice') || \Auth::user()->type=='client')
-                    <li class="nav-item">
+                    <li class="nav-item pl-3">
                         <a class="nav-link {{(Request::segment(1) == 'invoices')?' active':''}}" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
                     </li>
                     @endcan
 
                     @if(Gate::check('view expense') || \Auth::user()->type=='client')
-                    <li class="nav-item">
+                    <li class="nav-item pl-3">
                         <a class="nav-link {{(Request::segment(1) == 'expenses')?' active':''}}" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
                     </li>
                     @endif
@@ -205,7 +205,7 @@ $languages = $_user->languages();
                 <div id="submenu-5" class="collapse">
                     <ul class="nav nav-small flex-column">
 
-                    <li class="nav-item">
+                    <li class="nav-item pl-3">
                         <a class="nav-link disabled" href="#">{{__('Timesheets')}}</a>
                     </li>
                     </ul>
@@ -226,7 +226,7 @@ $languages = $_user->languages();
                 </div>
             </form>
             @endif
-        </div>        
+        </div>
         @if(Gate::check('create contact') ||
             Gate::check('create project') ||
             Gate::check('create tasks'))
