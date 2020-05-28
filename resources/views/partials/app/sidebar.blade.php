@@ -7,7 +7,7 @@ $languages = $_user->languages();
 
 @endphp
 
-<div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top" style="overflow:visible;">
+<div class="navbar navbar-expand-lg bg-dark navbar-dark" style="overflow:visible;">
     <div class="w-100 d-none d-lg-block">
         <div class="navbar-brand float-left p-0">
             <a class="navbar-brand float-left p-0" href="{{ route('home') }}">
