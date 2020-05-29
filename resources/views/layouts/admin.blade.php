@@ -13,6 +13,7 @@
 
         <div class="main-container">
 
+            @include('partials.app.header')
             @include('partials.app.content')
 
         </div>
