@@ -122,33 +122,6 @@ document.addEventListener("paginate-sort", function(e) {
     {{__('Task Board')}}
 @endsection
 
-@section('breadcrumb')
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
-            </li>
-            @if($project_id)
-                <li class="breadcrumb-item" aria-current="page"><a href="{{ route('projects.show',$project_id) }}">{{$project_name}}</a>
-                </li>
-            @endif
-            <li class="breadcrumb-item active" aria-current="page">{{__('Tasks')}}</li>
-        </ol>
-    </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-            <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-
-            <a class="dropdown-item disabled" href="#">{{__('New Task')}}</a>
-
-        </div>
-    </div>
-</div>
-@endsection
-
 @section('content')
     <div class="container-kanban" data-filter-list="card-list-body">
         <div class="container-fluid page-header d-flex justify-content-between align-items-start">

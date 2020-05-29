@@ -32,39 +32,11 @@ $(function() {
     {{$client->name}}
 @endsection
 
-@section('breadcrumb')
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}">{{__('Home')}}</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <a href="{{ route('clients.index') }}">{{__('Clients')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{$client->name}}</li>
-        </ol>
-    </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-            <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-
-            <a class="dropdown-item" href="#">{{__('New Client')}}</a>
-            <a class="dropdown-item" href="#">{{__('New contact')}}</a>
-
-        </div>
-    </div>
-</div>
-@endsection
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-11">
-            <div class="page-header">
+            <div class="page-header justify-content-between">
                 <div class="d-flex align-items-center">
                     <h1>{{$client->name}}</h1>
                 </div>

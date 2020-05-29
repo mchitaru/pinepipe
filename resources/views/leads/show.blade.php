@@ -43,49 +43,7 @@ $(function() {
     {{__('Lead Details')}}
 @endsection
 
-@section('breadcrumb')
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}">{{__('Home')}}</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <a href="{{ route('leads.board') }}">{{__('Leads')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{$lead->name}}</li>
-        </ol>
-    </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-          <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-            @if(Gate::check('edit lead') || Gate::check('delete lead'))
-
-            @can('edit lead')
-                <a class="dropdown-item" href="{{ route('leads.edit', $lead->id) }}" data-remote="true" data-type="text">
-                    {{__('Edit Lead')}}
-                </a>
-            @endcan
-
-            <div class="dropdown-divider"></div>
-            
-            @can('delete lead')
-                <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
-                    {{__('Delete')}}
-                </a>
-            @endcan
-
-            @endif
-        </div>
-    </div>
-</div>
-@endsection
-
 @section('content')
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-11">
@@ -149,25 +107,51 @@ $(function() {
             <div class="tab-content">
             <div class="tab-pane fade show" id="events" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>{{__('Events')}}</h3>
+                    <div class="col-auto">
+                        <h3>{{__('Events')}}</h3>
 
-                    @can('create event')
-                        <a href="{{ route('events.create')  }}" class="btn btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
-                            <i class="material-icons">add</i>
-                        </a>
-                    @endcan
-                </div>
-                <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                        </span>
+                        @can('create event')
+                            <a href="{{ route('events.create')  }}" class="btn btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
+                                <i class="material-icons">add</i>
+                            </a>
+                        @endcan
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter events" aria-label="Filter Events">
+                    <div class="col-md-auto">
+                        <form>
+                            <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="Filter events" aria-label="Filter Events">
+                            </div>
+                        </form>
+                        <div class="dropdown pl-2">
+                            <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+                            <i class="material-icons">expand_more</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                @if(Gate::check('edit lead') || Gate::check('delete lead'))
+                    
+                                @can('edit lead')
+                                    <a class="dropdown-item" href="{{ route('leads.edit', $lead->id) }}" data-remote="true" data-type="text">
+                                        {{__('Edit Lead')}}
+                                    </a>
+                                @endcan
+                    
+                                <div class="dropdown-divider"></div>
+                                
+                                @can('delete lead')
+                                    <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                        {{__('Delete')}}
+                                    </a>
+                                @endcan
+                    
+                                @endif
+                            </div>
+                        </div>                
                     </div>
-                </form>
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">@include('events.index')</div>

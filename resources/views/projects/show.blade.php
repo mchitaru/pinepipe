@@ -54,66 +54,6 @@ $(function() {
     {{__('Project Details')}}
 @endsection
 
-@section('breadcrumb')
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}">{{__('Home')}}</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <a href="{{ route('projects.index') }}">{{__('Projects')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{$project->name}}</li>
-        </ol>
-    </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-          <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-            @if(Gate::check('edit project') || Gate::check('delete project'))
-
-            @can('edit project')
-                <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
-                    {{__('Edit Project')}}
-                </a>
-            @endcan
-
-            <div class="dropdown-divider"></div>
-            @can('view task')
-                <a class="dropdown-item" href="{{ route('tasks.board', $project->id) }}" data-title="{{__('Task Board')}}">
-                    {{__('Task Board')}}
-                </a>
-            @endcan
-            <a class="dropdown-item disabled" href="#">{{__('Share')}}</a>
-            <div class="dropdown-divider"></div>
-
-            @can('edit project')
-                @if(!$project->archived)
-                    <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
-                        {{__('Archive')}}
-                    </a>
-                @else
-                    <a href="{{ route('projects.update', $project->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
-                        {{__('Restore')}}
-                    </a>
-                @endif
-            @endcan
-
-            @can('delete project')
-                <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
-                    {{__('Delete')}}
-                </a>
-            @endcan
-
-            @endif
-        </div>
-    </div>
-</div>
-@endsection
-
 @section('content')
 
 <div class="container">
@@ -130,26 +70,66 @@ $(function() {
                     </div>
                 </div>
             <p class="lead">{!! nl2br(e($project->description)) !!}</p>
-            <div class="d-flex align-items-center">
-                <ul class="avatars">
-
-                    @foreach($project->users as $user)
-                    <li>
-                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
-                            {!!Helpers::buildUserAvatar($user)!!}
-                        </a>
-                    </li>
-                    @endforeach
-
-                </ul>
-
-                @can('view project')
-
-                <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
-                    <i class="material-icons">add</i>
-                </a>
-                @endcan
-
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <ul class="avatars">
+                        @foreach($project->users as $user)
+                        <li>
+                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                                {!!Helpers::buildUserAvatar($user)!!}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @can('view project')
+                    <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
+                        <i class="material-icons">add</i>
+                    </a>
+                    @endcan
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+                      <i class="material-icons">expand_more</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @if(Gate::check('edit project') || Gate::check('delete project'))
+            
+                        @can('edit project')
+                            <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
+                                {{__('Edit Project')}}
+                            </a>
+                        @endcan
+            
+                        <div class="dropdown-divider"></div>
+                        @can('view task')
+                            <a class="dropdown-item" href="{{ route('tasks.board', $project->id) }}" data-title="{{__('Task Board')}}">
+                                {{__('Task Board')}}
+                            </a>
+                        @endcan
+                        <a class="dropdown-item disabled" href="#">{{__('Share')}}</a>
+                        <div class="dropdown-divider"></div>
+            
+                        @can('edit project')
+                            @if(!$project->archived)
+                                <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
+                                    {{__('Archive')}}
+                                </a>
+                            @else
+                                <a href="{{ route('projects.update', $project->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                                    {{__('Restore')}}
+                                </a>
+                            @endif
+                        @endcan
+            
+                        @can('delete project')
+                            <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                {{__('Delete')}}
+                            </a>
+                        @endcan
+            
+                        @endif
+                    </div>
+                </div>            
             </div>
             <div>
                 <div class="d-flex flex-row-reverse">

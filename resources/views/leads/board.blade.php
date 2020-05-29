@@ -118,34 +118,6 @@ use Carbon\Carbon;
     {{__('Lead Board')}}
 @endsection
 
-@section('breadcrumb')
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('Leads')}}</li>
-        </ol>
-    </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-            <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-
-            @can('create lead')
-            <a class="dropdown-item" href="{{ route('leads.create') }}" data-remote="true" data-type="text">{{__('New Lead')}}</a>
-            @endcan
-
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
-            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Export')}}</a>
-        </div>
-    </div>
-</div>
-@endsection
-
 @section('content')
 
     <div class="container-kanban" data-filter-list="card-list-body">
@@ -160,16 +132,18 @@ use Carbon\Carbon;
                         </a>
                         @endcan
                     </div>
-                    <form class="col-md-auto">
-                        <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                            </span>
-                        </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Leads')}}" aria-label="{{__('Filter Leads')}}">
-                        </div>
-                    </form>
+                    <div class="col-md-auto">
+                        <form>
+                            <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Leads')}}" aria-label="{{__('Filter Leads')}}">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

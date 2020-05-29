@@ -13,9 +13,6 @@ use Carbon\Carbon;
 @push('scripts')
 @endpush
 
-@section('breadcrumb')
-@endsection
-
 @section('content')
 @php
 @endphp

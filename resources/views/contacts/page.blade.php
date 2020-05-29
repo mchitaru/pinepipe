@@ -26,36 +26,6 @@
     {{__('Contacts')}}
 @endsection
 
-@section('breadcrumb')
-
-<div class="breadcrumb-bar navbar bg-white sticky-top">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('Home')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{__('Contacts')}}</li>
-        </ol>
-    </nav>
-
-    <div class="dropdown">
-        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-            <i class="material-icons">bookmarks</i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-
-            @can('create contact')
-                <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('New Contact')}}</a>
-            @endcan
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Import')}}</a>
-            <a class="dropdown-item disabled" href="#" data-remote="true" data-type="text">{{__('Export')}}</a>
-
-        </div>
-    </div>
-</div>
-@endsection
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
