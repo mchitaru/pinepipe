@@ -59,7 +59,7 @@
 ) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span><br>
 {{-- Unsubscribe --}}
 @isset($unsubscribeUrl)
-<p style="text-align: center;"><a href='{{ $unsubscribeUrl }}'>@lang('Unsubscribe from notification emails')</a></p>
+<p style="text-align: center; opacity: 0.5;"><small><a href='{{ $unsubscribeUrl }}'>@lang('Unsubscribe from notification emails')</a></small></p>
 @endisset
 @endslot
 @endisset
