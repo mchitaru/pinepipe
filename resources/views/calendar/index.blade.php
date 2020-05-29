@@ -26,8 +26,22 @@
         plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap', 'interaction' ],
         timeZone: 'local',
         themeSystem: 'bootstrap',
+        customButtons: {
+            new: {
+                text: '\u271A',
+                click: function() {
+
+                    $(".context-menu").finish().toggle().
+
+                    css({
+                        top: $(this).position().top + $(this).height() + "px",
+                        left: $(this).position().left + $(this).width() + "px"
+                    });
+                }
+            },
+        },        
         header: {
-            left: 'prev,next today',
+            left: 'new prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay listMonth'
         },
@@ -89,6 +103,10 @@
         });
 
         calendar.render();
+
+        $(function() {
+            $('.fc-new-button').addClass('dropdown-toggle');
+        });
 
     </script>
 
