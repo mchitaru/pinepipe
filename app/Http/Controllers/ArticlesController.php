@@ -136,7 +136,6 @@ class ArticlesController extends Controller
 
         if($article != null) {
             $path = implode('/', $categories);
-            dump($path);
             $slug = array_pop($categories);            
         }
 
@@ -178,8 +177,6 @@ class ArticlesController extends Controller
 
             return view('helpers.destroy');
         }
-
-        dump(URL::current());
 
         $article->delete();
 
