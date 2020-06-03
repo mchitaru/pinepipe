@@ -24,13 +24,17 @@ class Tag extends Model
                 $tag->user_id = $user->id;
                 $tag->created_by = $user->creatorId();
             }
+        });
 
-            $tag->slug = Str::of($tag->name)->slug('-');
+        static::created(function ($tag) {
+
+            $tag->slug = Str::of($tag->name.' '.$tag->id)->slug('-');
+            $tag->save();
         });
 
         static::updating(function ($tag) {
 
-            $tag->slug = Str::of($tag->name)->slug('-');
+            $tag->slug = Str::of($tag->name.' '.$tag->id)->slug('-');
         });
 
         static::deleting(function ($tag) {

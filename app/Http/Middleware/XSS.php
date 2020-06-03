@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Stevebauman\Purify\Facades\Purify;
 
 class XSS
 {
@@ -15,18 +16,26 @@ class XSS
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
-        if(\Auth::check())
-        {
-            \App::setLocale(\Auth::user()->lang);
-        }
+    {       
         $input = $request->all();
-        array_walk_recursive(
-            $input, function (&$input){
-            $input = strip_tags($input);
+
+        if(!empty($input)) {
+
+            if(\Auth::check())
+            {
+                \App::setLocale(\Auth::user()->lang);
+            }
+    
+            array_walk_recursive(
+                $input, function (&$input){
+
+                    // $input = strip_tags($input);
+                    $input = Purify::clean($input);
+                }
+            );
+            $request->merge($input);
         }
-        );
-        $request->merge($input);
+
         return $next($request);
     }
 }

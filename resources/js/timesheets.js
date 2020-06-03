@@ -5,15 +5,18 @@ $.getScript('../assets/js/easytimer.min.js', function()
 
 function timer(instance, offset)
 {
-    instance.stop();
-    instance.start({precision: 'seconds', startValues: {seconds: offset}});
-    instance.addEventListener('secondsUpdated', function (e) {
+    if(instance) {
 
-        $('.active-timer').each(function(){
-
-            $(this).text(instance.getTimeValues().toString());
-        });
-    });
+        instance.stop();
+        instance.start({precision: 'seconds', startValues: {seconds: offset}});
+        instance.addEventListener('secondsUpdated', function (e) {
+    
+            $('.active-timer').each(function(){
+    
+                $(this).text(instance.getTimeValues().toString());
+            });
+        });    
+    }
 }
 
 function updateTimerUI(data)

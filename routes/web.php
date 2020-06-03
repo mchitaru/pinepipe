@@ -173,6 +173,7 @@ Route::group(
         //Expenses
         Route::resource('expenses', 'ExpensesController');
 
-        //Notes
-        // Route::resource('notes', 'NotesController');
+        Route::resource('articles', 'ArticlesController');        
 });
+
+Route::get('wiki/{user:handle}/{categories?}', 'WikiController@index')->where('categories','^[a-zA-Z0-9-_\/]+$')->name('wiki.index');

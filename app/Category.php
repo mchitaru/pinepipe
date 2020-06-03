@@ -37,13 +37,17 @@ class Category extends Model
                 $category->user_id = $user->id;
                 $category->created_by = $user->creatorId();
             }
+        });
 
-            $category->slug = Str::of($category->name)->slug('-');
+        static::created(function ($category) {
+
+            $category->slug = Str::of($category->name.' '.$category->id)->slug('-');
+            $category->save();
         });
 
         static::updating(function ($category) {
 
-            $category->slug = Str::of($category->name)->slug('-');
+            $category->slug = Str::of($category->name.' '.$category->id)->slug('-');
         });
 
         static::deleting(function ($category) {

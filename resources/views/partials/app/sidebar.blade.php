@@ -213,7 +213,6 @@ $languages = $_user->languages();
 
             </li>
         @endif
-
     </ul>
     <hr>
     <div class="w-100">

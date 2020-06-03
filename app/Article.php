@@ -5,8 +5,31 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Article extends Model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Article extends Model implements HasMedia
 {
+    use HasMediaTrait;
+
+    protected $fillable = [
+        'title', 
+        'content',
+        'published',
+        'user_id',
+        'created_by',
+    ];
+
+    protected $nullable = [
+        'slug',
+        'category_id',
+    ];    
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
     /**
      * Boot events
      * @return void
@@ -17,19 +40,37 @@ class Article extends Model
 
         static::creating(function ($article) {
             if ($user = \Auth::user()) {
+
+                $article->user_id = $user->id;
                 $article->created_by = $user->creatorId();
             }
+        });
 
-            $article->slug = Str::of($article->title)->slug('-');
+        static::created(function ($article) {
+
+            $article->slug = Str::of($article->title.' '.$article->id)->slug('-');
+            $article->save();
         });
 
         static::updating(function ($article) {
 
-            $article->slug = Str::of($article->title)->slug('-');
+            $article->slug = Str::of($article->title.' '.$article->id)->slug('-');
         });
 
         static::deleting(function ($article) {
 
         });
+    }
+
+    public static function createArticle($post)
+    {
+        $article = Article::create($post);
+
+        return $article;
+    }
+
+    public function updateArticle($post)
+    {
+        $this->update($post);
     }
 }

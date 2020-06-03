@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Composers\BreadcrumbComposer;
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -36,5 +38,8 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with(compact('_user'));
         });
+
+        // Push the breadcrumbs to the view
+        View::composer('wiki.*', BreadcrumbComposer::class);        
     }
 }

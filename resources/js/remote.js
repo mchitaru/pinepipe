@@ -70,6 +70,13 @@ async function attachPlugins() {
             });
         });
     });
+
+    $(".summernote").each(function() 
+    {
+        $(this).summernote({
+            height: 400,
+        });
+    });
 }
 
 $(document).on('ajax:success', function(e, data, status, xhr){
