@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'smith@pinepipe' =>
+  'smith@pinepipe' => 
   array (
-    'io' => '',
+    'com' => '',
   ),
 );

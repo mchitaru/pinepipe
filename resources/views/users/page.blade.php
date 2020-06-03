@@ -38,15 +38,17 @@
                     </div>
                 </div>
             </div>
+            @if(\Auth::user()->type!='super admin')
             <div class="row content-list-head">
                 <div class="filter-container col-auto">
                     <div class="filter-controls">
                         <div>Sort by:</div>
                         <a class="sort" href="#" data-sort="name">Name</a>
                         <a class="sort" href="#" data-sort="email">Email</a>
-                    </div>     
+                    </div>
                 </div>
             </div>
+            @endif
             <!--end of content list head-->
             <div class="content-list-body filter-list paginate-container">@include('users.index')</div>
             </div>

@@ -33,7 +33,6 @@ class UsersController extends Controller
                                     $query->where('name','like','%'.$request['filter'].'%')
                                     ->orWhere('email','like','%'.$request['filter'].'%');
                                 })
-                                ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                                 ->paginate(25, ['*'], 'user-page');
             }
             else

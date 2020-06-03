@@ -27,6 +27,9 @@
                         </span>
                     </a>
                 </span>
+                    @if(\Auth::user()->type=='super admin')
+                        <span class="text-small">{{$user->created_at}}</span>
+                    @endif
                     @if($user->trashed())
                         <span class="badge badge-danger">{{__('Deleted')}}</span>
                     @endif
@@ -75,7 +78,7 @@
                                 <div class="dropdown-divider"></div>
                                 @endcan
                             @endif
-                            
+
                             @can('delete user')
                                 @if(!$user->trashed())
                                     <a class="dropdown-item text-danger" href="{{ route('users.update', $user->id) }}" data-method="patch" data-remote="true" data-type="text">
@@ -84,7 +87,7 @@
                                 @else
                                     <a href="{{ route('users.update', $user->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
                                         {{__('Restore')}}
-                                    </a>            
+                                    </a>
                                 @endif
                             {{-- <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
