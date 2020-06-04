@@ -31,7 +31,7 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col', 'placeholder'=>'Select Client')) !!}
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col', 'placeholder'=>__('Select Client...'))) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>
@@ -39,13 +39,13 @@
     <div class="col">
         <div class="custom-control custom-radio">
         <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" >
-        <label class="custom-control-label" for="visibility-everyone">Everyone</label>
+        <label class="custom-control-label" for="visibility-everyone">{{__('Everyone')}}</label>
         </div>
     </div>
     <div class="col">
         <div class="custom-control custom-radio">
         <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true" checked>
-        <label class="custom-control-label" for="visibility-me">Just me</label>
+        <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
         </div>
     </div>
     </div>

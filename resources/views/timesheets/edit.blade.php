@@ -44,7 +44,7 @@
     </div>
     <div class="form-group row required">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
-        {{ Form::date('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date',
+        {{ Form::date('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Select Date...'),
                                         'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
@@ -53,7 +53,7 @@
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...',
+        {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>__('Select Project...'),
                                     'data-refresh'=>route('timesheets.refresh', $timesheet->id))) !!}
     </div>
     <div class="form-group row">

@@ -19,7 +19,7 @@
 <div class="tab-content">
     <div class="form-group row">
         {{ Form::label('text', __('Description'), array('class'=>'col-3')) }}
-        {{ Form::textarea('text', null, array('class' => 'form-control col', 'rows' => 3,'placeholder'=>'Website Redesign')) }}
+        {{ Form::textarea('text', null, array('class' => 'form-control col', 'rows' => 3,'placeholder'=>__('Website Redesign'))) }}
     </div>
     <hr>
     <div class="form-group row">

@@ -25,18 +25,18 @@
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Source'), array('class'=>'col-3')) }}
-        {!! Form::select('category_id', $categories, null, array('class' => 'form-control col font-style selectric', 'placeholder'=>'Select Source...')) !!}
+        {!! Form::select('category_id', $categories, null, array('class' => 'form-control col font-style selectric', 'placeholder'=>__('Select Source...'))) !!}
     </div>
     <hr>
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => (Gate::check('create client')?'tags':'').' form-control col font-style selectric', 'required'=>'true', 'placeholder'=>'Select Client',
+        {!! Form::select('client_id', $clients, null,array('class' => (Gate::check('create client')?'tags':'').' form-control col font-style selectric', 'required'=>'true', 'placeholder'=>__('Select Client...'),
                         'data-refresh'=>route('leads.refresh', $lead->id))) !!}
     </div>
     <div class="form-group row">
         {{ Form::label('contact_id', __('Contact'), array('class'=>'col-3')) }}
-        {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>'Select Contact')) !!}
+        {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>__('Select Contact...'))) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>
@@ -44,13 +44,13 @@
     <div class="col">
         <div class="custom-control custom-radio">
         <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" >
-        <label class="custom-control-label" for="visibility-everyone">Everyone</label>
+        <label class="custom-control-label" for="visibility-everyone">{{__('Everyone')}}</label>
         </div>
     </div>
     <div class="col">
         <div class="custom-control custom-radio">
         <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true" checked>
-        <label class="custom-control-label" for="visibility-me">Just me</label>
+        <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
         </div>
     </div>
     </div>

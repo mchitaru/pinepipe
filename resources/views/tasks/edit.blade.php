@@ -43,7 +43,7 @@
         </div>    
         <div class="form-group row align-items-center">
             {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-            {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'Select Project...',
+            {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>__('Select Project...'),
                                         'data-refresh'=>route('tasks.refresh', $task->id))) !!}
         </div>
         @if(\Auth::user()->type == 'company')
@@ -66,7 +66,7 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-            {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'Select Date', 
+            {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>__('Select Date...'), 
                                                 'data-flatpickr', 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">
@@ -79,13 +79,13 @@
         <div class="col">
             <div class="custom-control custom-radio">
             <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" checked>
-            <label class="custom-control-label" for="visibility-everyone">Everyone</label>
+            <label class="custom-control-label" for="visibility-everyone">{{__('Everyone')}}</label>
             </div>
         </div>
         <div class="col">
             <div class="custom-control custom-radio">
             <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true">
-            <label class="custom-control-label" for="visibility-me">Just me</label>
+            <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
             </div>
         </div>
         </div>    

@@ -37,7 +37,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('birthday', __('Birthday'), array('class'=>'col-3')) }}
-        {{ Form::date('birthday', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Select Date', 
+        {{ Form::date('birthday', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Select Date...'), 
                                             'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
@@ -52,7 +52,7 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>'Select Client')) !!}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>__('Select Client...'))) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>
@@ -60,13 +60,13 @@
     <div class="col">
         <div class="custom-control custom-radio">
         <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" >
-        <label class="custom-control-label" for="visibility-everyone">Everyone</label>
+        <label class="custom-control-label" for="visibility-everyone">{{__('Everyone')}}</label>
         </div>
     </div>
     <div class="col">
         <div class="custom-control custom-radio">
         <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true" checked>
-        <label class="custom-control-label" for="visibility-me">Just me</label>
+        <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
         </div>
     </div>
     </div>

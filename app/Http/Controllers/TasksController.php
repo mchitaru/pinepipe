@@ -85,7 +85,7 @@ class TasksController extends Controller
             $users   = $project->users()->get()->pluck('name', 'id');
 
             if(isSet($users[\Auth::user()->id])) {
-                $users[\Auth::user()->id] = __('(myself)');
+                $users[\Auth::user()->id] = __(__('(myself)'));
                 $user_id = \Auth::user()->id;
             }
 
@@ -95,7 +95,7 @@ class TasksController extends Controller
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
+                        ->prepend(__('(myself)'), \Auth::user()->id);
 
             $user_id = \Auth::user()->id;
         }
@@ -158,7 +158,7 @@ class TasksController extends Controller
             $users   = $project->users()->get()->pluck('name', 'id');
 
             if(isSet($users[\Auth::user()->id])) {
-                $users[\Auth::user()->id] = __('(myself)');
+                $users[\Auth::user()->id] = __(__('(myself)'));
             }
 
         }else
@@ -168,7 +168,7 @@ class TasksController extends Controller
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
+                        ->prepend(__('(myself)'), \Auth::user()->id);
         }
 
         $user_id = $task->users()->get()->pluck('id');

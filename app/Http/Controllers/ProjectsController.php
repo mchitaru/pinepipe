@@ -82,7 +82,7 @@ class ProjectsController extends Controller
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
+                        ->prepend(__('(myself)'), \Auth::user()->id);
 
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -121,7 +121,7 @@ class ProjectsController extends Controller
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
+                        ->prepend(__('(myself)'), \Auth::user()->id);
 
         $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 

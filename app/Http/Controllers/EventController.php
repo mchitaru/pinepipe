@@ -42,7 +42,7 @@ class EventController extends Controller
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
+                        ->prepend(__('(myself)'), \Auth::user()->id);
 
         if($user->type == 'company')
         {
@@ -109,7 +109,7 @@ class EventController extends Controller
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
-                        ->prepend('(myself)', \Auth::user()->id);
+                        ->prepend(__('(myself)'), \Auth::user()->id);
 
         if($user->type == 'company')
         {
