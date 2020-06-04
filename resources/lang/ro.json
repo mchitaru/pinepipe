@@ -601,5 +601,6 @@
     "Tasks Reminder": "Memento sarcini",
     "You have :count overdue task(s)": "Ai :count sarcini întârziate",
     "View all": "Vezi tot",
-    "Thank you for using our application!": "Îți mulțumim pentru că utilizezi aplicația noastră!"
+    "Thank you for using our application!": "Îți mulțumim pentru că utilizezi aplicația noastră!",
+    "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below into your web browser:": "Daca nu reușești să faci click pe butonul \":actionText\", copie adresa URL de mai jos în browser:"
 }
