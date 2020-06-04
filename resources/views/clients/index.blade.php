@@ -17,7 +17,7 @@
                 @else
                     <h6 data-filter-by="text">{{$client->name}}</h6>
                 @endif
-    
+
                 @if(!$client->contacts->isEmpty())
                     <span class="text-small">{{$client->contacts->count()}} {{__('contact(s)')}}</span>
                 @endif
@@ -61,7 +61,7 @@
                     <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
                     @can('delete client')
                         <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
-                            <span>{{'Delete'}}</span>
+                            <span>{{__('Delete')}}</span>
                         </a>
                     @endcan
                 </div>

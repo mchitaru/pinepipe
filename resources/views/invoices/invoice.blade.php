@@ -37,7 +37,7 @@
                         <div class="dropdown-divider"></div>
                         @can('delete invoice')
                             <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                <span>{{'Delete'}}</span>
+                                <span>{{__('Delete')}}</span>
                             </a>
                         @endcan
                     </div>
@@ -92,7 +92,7 @@
                                 <td class="text-right">{{$client->phone}}</td>
                             </tr>
                             <tr>
-                                <td class="text-left">{{($companySettings&&$companySettings->tax)?(__('TAX ID').': '.$companySettings->tax):''}}</td>                                        
+                                <td class="text-left">{{($companySettings&&$companySettings->tax)?(__('TAX ID').': '.$companySettings->tax):''}}</td>
                                 <td class="text-right">{{$client->tax?(__('TAX ID').': '.$client->tax):''}}</td>
                             </tr>
                         </tfoot>
@@ -167,7 +167,7 @@
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item text-danger" href="{{ route('invoices.items.delete', [$invoice->id, $item->id]) }}" data-method="delete" data-remote="true" data-type="text">
-                                                <span>{{'Delete'}}</span>
+                                                <span>{{__('Delete')}}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -272,7 +272,7 @@
                                                 </a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item text-danger" href="{{ route('invoices.payments.delete', [$invoice->id, $payment->id]) }}" data-method="delete" data-remote="true" data-type="text">
-                                                    <span>{{'Delete'}}</span>
+                                                    <span>{{__('Delete')}}</span>
                                                 </a>
                                             </div>
                                         </div>

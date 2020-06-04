@@ -4,7 +4,7 @@
         <form class="form-group mb-0" method="post" autocomplete="off">
             @csrf
             <div class="input-group input-group-light ">
-                <input type="search" class="form-control form-control-light expandable search-element" placeholder="Search..." aria-label="Search app">
+                <input type="search" class="form-control form-control-light expandable search-element" placeholder="{{__('Search')}}..." aria-label="Search app">
             </div>
         </form>
         @endif
@@ -33,14 +33,14 @@
                     @endif
                     <div class="dropdown-divider"></div>
                 @endif
-    
+
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                     {{__('Logout')}}
                 </a>
                 <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>
-            </div>    
-        </div>    
+            </div>
+        </div>
     </div>
 </div>

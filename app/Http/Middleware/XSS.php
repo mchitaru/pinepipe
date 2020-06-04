@@ -16,16 +16,16 @@ class XSS
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {       
+    {
         $input = $request->all();
+
+        if(\Auth::check())
+        {
+            \App::setLocale(\Auth::user()->locale);
+        }
 
         if(!empty($input)) {
 
-            if(\Auth::check())
-            {
-                \App::setLocale(\Auth::user()->lang);
-            }
-    
             array_walk_recursive(
                 $input, function (&$input){
 

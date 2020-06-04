@@ -138,9 +138,9 @@ document.addEventListener("paginate-sort", function(e) {
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>Sort by:</div>
-                            <a class="sort" href="#" data-sort="order">Order</a>
-                            <a class="sort" href="#" data-sort="priority">Priority</a>
-                            <a class="sort" href="#" data-sort="due_date">Date</a>
+                            <a class="sort" href="#" data-sort="order">{{__('Order')}}</a>
+                            <a class="sort" href="#" data-sort="priority">{{__('Priority')}}</a>
+                            <a class="sort" href="#" data-sort="due_date">{{__('Date')}}</a>
                         </div>
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>

@@ -51,7 +51,7 @@
                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_vert</i>
                         </button>
-        
+
                         <div class="dropdown-menu dropdown-menu-right">
                             @can('edit client')
                                 <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
@@ -62,15 +62,15 @@
                             <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
                             @can('delete client')
                                 <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                    <span>{{'Delete'}}</span>
+                                    <span>{{__('Delete')}}</span>
                                 </a>
                             @endcan
                         </div>
                     </div>
                 </div>
             </div>
-        </div>        
-    </div>        
-</div>        
+        </div>
+    </div>
+</div>
 </div>
 </div>

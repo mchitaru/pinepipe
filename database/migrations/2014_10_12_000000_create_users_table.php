@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('type', 20);
             $table->string('avatar')->nullable();
-            $table->string('lang', 100);
             $table->text('bio')->nullable();
             $table->unsignedInteger('created_by')->default(0);
             $table->unsignedInteger('client_id')->nullable();
@@ -35,6 +34,8 @@ class CreateUsersTable extends Migration
             $table->boolean('notify_minor_updates')->default(false);
             $table->boolean('enabled')->default(true);
             $table->timestamp('trial_ends_at')->nullable();
+            $table->string('locale', 10)->nullable();
+            $table->string('timezone')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

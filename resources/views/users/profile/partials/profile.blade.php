@@ -49,7 +49,25 @@
         <small>{{__('This will be displayed on your public profile')}}</small>
     </div>
 </div>
-<div class="form-group row">
+<hr>
+<div class="form-group row align-items-center">
+    {{Form::label('locale',__('Language'), array('class'=>'col-3')) }}
+    <div class="col">
+        {!! Form::select('locale', $locales, null, array('class' => 'form-control col')) !!}
+        @error('locale')
+        <span class="invalid-locale" role="alert">
+            <strong class="text-danger">{{ $message }}</strong>
+        </span>
+        @enderror
+    </div>
+</div>
+<div class="form-group row align-items-center">
+    {{Form::label('timezone',__('Timezone'), array('class'=>'col-3')) }}
+    <div class="col">
+        {{Form::text('timezone', null, array('class'=>'form-control', 'disabled'))}}
+    </div>
+</div>
+<div class="form-group row align-items-center">
     {{Form::label('handle',__('Public Profile URL'), array('class'=>'input-group col-3')) }}
     <div class="input-group col">
         <div class="input-group-prepend">
@@ -61,12 +79,6 @@
             <strong class="text-danger">{{ $message }}</strong>
         </span>
         @enderror
-    </div>
-</div>
-<div class="form-group row">
-    {{Form::label('timezone',__('Timezone'), array('class'=>'col-3')) }}
-    <div class="col">
-        {{Form::text('timezone',null,array('class'=>'form-control', 'disabled'))}}
     </div>
 </div>
 <div class="row justify-content-end">

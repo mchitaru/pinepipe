@@ -48,7 +48,7 @@
                         @foreach($contact->tags as $tag)
                             <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
                         @endforeach
-                    @endif            
+                    @endif
                 </div>
             </div>
             <div class="dropdown card-options">
@@ -65,7 +65,7 @@
                     <div class="dropdown-divider"></div>
                     @can('delete contact')
                         <a class="dropdown-item text-danger" href="{{ route('contacts.destroy', $contact->id) }}" data-method="delete" data-remote="true" data-type="text">
-                            <span>{{'Delete'}}</span>
+                            <span>{{__('Delete')}}</span>
                         </a>
                     @endcan
                 </div>

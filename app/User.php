@@ -45,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         'password',
         'type',
         'bio',
-        'lang',
+        'locale',
         'client_id',
         'created_by',
         'notify_task_assign',
@@ -383,6 +383,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     public function setLocale($locale)
     {
+        if($this->locale == null) {
+
+            $this->locale = \Helpers::countryToLocale($locale->iso_code);
+        }
         $this->timezone = $locale->timezone;
         $this->save();
     }

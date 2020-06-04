@@ -39,7 +39,7 @@ use Carbon\Carbon;
                     <div class="dropdown-divider"></div>
                     @can('delete event')
                         <a class="dropdown-item text-danger" href="{{ route('events.destroy', $event->id) }}" data-method="delete" data-remote="true" data-type="text">
-                            <span>{{'Delete'}}</span>
+                            <span>{{__('Delete')}}</span>
                         </a>
                     @endcan
                 </div>

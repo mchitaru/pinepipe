@@ -66,7 +66,7 @@ use Carbon\Carbon;
                     <div class="dropdown-divider"></div>
                     @can('delete expense')
                         <a href="{{route('expenses.destroy',$expense->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
-                            <span>{{'Delete'}}</span>
+                            <span>{{__('Delete')}}</span>
                         </a>
                     @endcan
                 </div>

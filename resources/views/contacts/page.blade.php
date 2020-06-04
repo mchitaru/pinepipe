@@ -58,11 +58,11 @@
                         <div class="filter-container col-auto">
                             <div class="filter-controls">
                                 <div>Sort by:</div>
-                                <a class="sort" href="#" data-sort="name">Name</a>
-                                <a class="sort" href="#" data-sort="email">Email</a>
-                                <a class="sort" href="#" data-sort="phone">Phone</a>
-                                <a class="sort" href="#" data-sort="created_at">Date</a>
-                            </div>     
+                                <a class="sort" href="#" data-sort="name">{{__('Name')}}</a>
+                                <a class="sort" href="#" data-sort="email">{{__('Email')}}</a>
+                                <a class="sort" href="#" data-sort="phone">{{__('Phone')}}</a>
+                                <a class="sort" href="#" data-sort="created_at">{{__('Date')}}</a>
+                            </div>
                         </div>
                     </div>
                     <!--end of content list head-->

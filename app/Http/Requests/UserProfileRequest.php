@@ -33,6 +33,7 @@ class UserProfileRequest extends FormRequest
                 'email' => 'required_without:notify_item_overdue|email|unique:users,email,' .  \Auth::user()->id,
                 'avatar' => 'mimetypes:image/*|max:2048',
                 'bio' => 'string|nullable',
+                'locale' => 'required_without:notify_item_overdue|string',
 
                 'notify_task_assign' => 'boolean',
                 'notify_project_assign' => 'boolean',

@@ -26,7 +26,7 @@ class Helpers
         $mult = pow(10, abs($precision));
          return $precision < 0 ? ceil($value / $mult) * $mult : ceil($value * $mult) / $mult;
     }
-    
+
     public static function buildAvatar($name, $avatar, $size = 32, $class = 'avatar')
     {
         return "<img data-filter-by='alt' width=".$size." height=".$size.
@@ -41,7 +41,7 @@ class Helpers
 
         if($user){
             $name = $user->name;
-            $avatar = $user->hasMedia('logos') ? $user->media('logos')->first()->getFullUrl() : null;    
+            $avatar = $user->hasMedia('logos') ? $user->media('logos')->first()->getFullUrl() : null;
         }
 
         return Helpers::buildAvatar($name, $avatar, $size, $class);
@@ -54,7 +54,7 @@ class Helpers
 
         if($client){
             $name = $client->name;
-            $avatar = $client->hasMedia('logos') ? $client->media('logos')->first()->getFullUrl() : null;    
+            $avatar = $client->hasMedia('logos') ? $client->media('logos')->first()->getFullUrl() : null;
         }
 
         return Helpers::buildAvatar($name, $avatar, $size, $class);
@@ -146,5 +146,14 @@ class Helpers
     static function fragment($route, $fragment)
     {
         return route($route) . "/#{$fragment}";
+    }
+
+    static function countryToLocale($country)
+    {
+        switch($country)
+        {
+            case 'RO':  return 'ro';
+            default:    return 'en';
+        }
     }
 }

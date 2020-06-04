@@ -49,9 +49,11 @@ class UserProfileController extends Controller
                 $currencies[$currency->getCode()] = $currency->getCode();
             }
 
+            $locales = ['en' => 'English', 'ro' => 'Română'];
+
             $url = route('profile.update', \Auth::user()->handle());
 
-            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'url'));
+            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url'));
 
         }else{
 

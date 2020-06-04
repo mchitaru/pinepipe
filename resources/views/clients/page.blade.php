@@ -53,16 +53,16 @@ $(function() {
                                 </span>
                             </div>
                             <input type="search" class="form-control filter-input" placeholder="{{__('Filter Clients')}}" aria-label="{{__('Filter Clients')}}">
-                            </div>   
+                            </div>
                         </div>
                     </div>
                     <div class="row content-list-head">
                         <div class="filter-container col-auto">
                             <div class="filter-controls">
                                 <div>Sort by:</div>
-                                <a class="sort" href="#" data-sort="name">Name</a>
-                                <a class="sort" href="#" data-sort="email">Email</a>
-                            </div>     
+                                <a class="sort" href="#" data-sort="name">{{__('Name')}}</a>
+                                <a class="sort" href="#" data-sort="email">{{__('Email')}}</a>
+                            </div>
                         </div>
                     </div>
                     <!--end of content list head-->

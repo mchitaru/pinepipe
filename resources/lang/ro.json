@@ -478,7 +478,7 @@
     "Create an account": "Creează un cont",
     "By clicking \\'Sign Up\\' you agree to our ": "Făcând clic pe \\ 'Înregistrare \\', ești de acord cu ",
     "Tax ID": "Cod fiscal",
-    "You have": "Tu ai",
+    "You have": "Ai",
     "Hooray! Nothing here.": "Ura! Nimic aici",
     "Labels": "Etichete",
     "Attach": "Atașează",
@@ -572,5 +572,11 @@
     "No articles published yet.": "Nu există articole publicate încă",
     "Articles": "Articole",
     "Filter Articles": "Filtrează articolele",
-    "New article": "Articol nou"
+    "New article": "Articol nou",
+    "Language": "Limba",
+    "TODAY": "ASTĂZI",
+    "THIS WEEK": "SĂPTĂMÂNA ASTA",
+    "NEXT WEEK": "SĂPTĂMÂNA URMĂTOARE",
+    "Search": "Cautare",
+    "Order": "Ordine"
 }

@@ -93,13 +93,13 @@ $(function() {
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         @if(Gate::check('edit project') || Gate::check('delete project'))
-            
+
                         @can('edit project')
                             <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                                 {{__('Edit Project')}}
                             </a>
                         @endcan
-            
+
                         <div class="dropdown-divider"></div>
                         @can('view task')
                             <a class="dropdown-item" href="{{ route('tasks.board', $project->id) }}" data-title="{{__('Task Board')}}">
@@ -108,7 +108,7 @@ $(function() {
                         @endcan
                         <a class="dropdown-item disabled" href="#">{{__('Share')}}</a>
                         <div class="dropdown-divider"></div>
-            
+
                         @can('edit project')
                             @if(!$project->archived)
                                 <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
@@ -120,16 +120,16 @@ $(function() {
                                 </a>
                             @endif
                         @endcan
-            
+
                         @can('delete project')
                             <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 {{__('Delete')}}
                             </a>
                         @endcan
-            
+
                         @endif
                     </div>
-                </div>            
+                </div>
             </div>
             <div>
                 <div class="d-flex flex-row-reverse">
@@ -205,8 +205,8 @@ $(function() {
                 <div class="filter-container col-auto">
                     <div class="filter-controls">
                         <div>Sort by:</div>
-                        <a class="sort" href="#" data-sort="priority">Priority</a>
-                        <a class="sort" href="#" data-sort="due_date">Date</a>
+                        <a class="sort" href="#" data-sort="priority">{{__('Priority')}}</a>
+                        <a class="sort" href="#" data-sort="due_date">{{__('Date')}}</a>
                     </div>
                 </div>
                 <form class="col-md-auto">
