@@ -86,6 +86,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        Mail::queue('mail.newuser', $data, function ($message) {
+        
+            $message->to('team@pinepipe.com')
+                    ->subject('New user registration!');
+        });        
 
         $user = User::create(
             [
