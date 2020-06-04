@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewUserMail;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -86,11 +87,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        Mail::send('mail.newuser', $data, function ($message) {
-        
-            $message->to('team@pinepipe.com')
-                    ->subject('New user registration!');
-        });        
+        Mail::to('team@pinepipe.com')
+                ->queue(new NewUserMail($data['name'], $data['email']));
 
         $user = User::create(
             [
