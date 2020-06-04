@@ -24,7 +24,7 @@ class XSS
             \App::setLocale(\Auth::user()->locale);
         }else{
 
-            $locale = geoip('92.83.46.62');
+            $locale = geoip($request->ip());
             \App::setLocale(\Helpers::countryToLocale($locale->iso_code));
         }
 

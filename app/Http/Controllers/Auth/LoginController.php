@@ -51,7 +51,7 @@ class LoginController extends Controller
 
         $user->handle = $user->handle();
 
-        $location = geoip('92.83.46.62');
+        $location = geoip($request->ip());
         $user->setLocale($location);
     }
 }

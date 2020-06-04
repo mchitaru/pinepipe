@@ -12,6 +12,7 @@ use Spatie\Permission\Models\Role;
 use App\Providers\RouteServiceProvider;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -85,7 +86,7 @@ class RegisterController extends Controller
      *
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $request, array $data)
     {
         Mail::to('team@pinepipe.com')
                 ->queue(new NewUserMail($data['name'], $data['email']));
@@ -99,7 +100,7 @@ class RegisterController extends Controller
             ]
         );
 
-        $location = geoip('92.83.46.62');
+        $location = geoip($request->ip());
         $user->setLocale($location);
 
         $role = Role::findByName('company');

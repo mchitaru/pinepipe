@@ -156,7 +156,7 @@ return [
         'postal_code' => '06510',
         'lat' => 41.31,
         'lon' => -72.92,
-        'timezone' => 'Europe/Bucharest',
+        'timezone' => 'America/New_York',
         'continent' => 'NA',
         'default' => true,
         'currency' => 'USD',
