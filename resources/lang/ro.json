@@ -592,10 +592,14 @@
     "Regards": "O zi frumoasă",
     "Unsubscribe from notification emails": "Dezabonează-mă de la notificări pe email",
     "Reset Password Notification": "Cerere resetare parolă",
-    "You are receiving this email because we received a password reset request for your account.": "Ai primit acest email deoarece a fost cerută resetarea perolei pentru contul tău.",
+    "You are receiving this email because we received a password reset request for your account.": "Ai primit acest email deoarece a fost cerută resetarea parolei pentru contul tău.",
     "This password reset link will expire in :count minutes.": "Link-ul de resetare a parolei va expira în :count minute.",
     "If you did not request a password reset, no further action is required.": "Dacă nu ai cerut resetarea parolei, te rugăm să ignori acest mesaj.",
     "Verify Email Address": "Verifică adresa de email",
     "Please click the button below to verify your email address.": "Te rugăm să dai click pe butonul de mai jos pentru a-ți verifica adresa de email.",
-    "If you did not create an account, no further action is required.": "Dacă nu ai creat tu contul, te rugăm să ignori acest mesaj."
+    "If you did not create an account, no further action is required.": "Dacă nu ai creat tu contul, te rugăm să ignori acest mesaj.",
+    "Tasks Reminder": "Memento sarcini",
+    "You have :count overdue task(s)": "Ai :count sarcini întârziate",
+    "View all": "Vezi tot",
+    "Thank you for using our application!": "Îți mulțumim pentru că utilizezi aplicația noastră!"
 }

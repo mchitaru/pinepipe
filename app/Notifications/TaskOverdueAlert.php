@@ -51,11 +51,11 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
         $unsubscribeUrl = URL::signedRoute('unsubscribe.edit', ['user' => $this->user]);
 
         return (new SubscriberMailMessage($unsubscribeUrl))
-                    ->greeting('Tasks Reminder')
-                    ->subject('You have '. $this->tasks->count(). ' overdue task(s)')
-                    ->line('You have '. $this->tasks->count(). ' overdue task(s).')
-                    ->action('View All', route("home"))
-                    ->line('Thank you for using our application!');
+                    ->greeting(__('Tasks Reminder'))
+                    ->subject(__('You have :count overdue task(s)', ['count' => $this->tasks->count()]))
+                    ->line(__('You have :count overdue task(s)', ['count' => $this->tasks->count()]))
+                    ->action(__('View all'), route("home"))
+                    ->line(__('Thank you for using our application!'));
     }
 
     /**

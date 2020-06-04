@@ -595,5 +595,9 @@
     "If you did not request a password reset, no further action is required.": "",
     "Verify Email Address": "",
     "Please click the button below to verify your email address.": "",
-    "If you did not create an account, no further action is required.": ""
+    "If you did not create an account, no further action is required.": "",
+    "Tasks Reminder": "",
+    "You have :count overdue task(s)": "",
+    "View all": "",
+    "Thank you for using our application!": ""
 }
