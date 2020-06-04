@@ -32,7 +32,7 @@
             <small>{{ __('By clicking \'Sign Up\' you agree to our ') }}<a href="https://www.pinepipe.com/privacy.html">{{__('Terms of Use')}}</a>
             </small>
             {{Form::close()}}
-            <small>{{ __('Already Have Account?') }}<a href="{{ route('login') }}">{{ __('Log In') }}</a>
+            <small>{{ __('Already Have Account?') }} <a href="{{ route('login') }}">{{ __('Log In') }}</a>
             </small>
         </div>
         </div>
