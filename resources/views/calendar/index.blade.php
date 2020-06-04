@@ -16,6 +16,7 @@
     <script src="{{asset('assets/module/fullcalendar/timegrid.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/interaction.min.js')}}"></script>
     <script src="{{asset('assets/module/fullcalendar/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/module/fullcalendar/locales-all.min.js')}}"></script>
 
     <script>
         var events = {!! ($events) !!};
@@ -25,6 +26,7 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap', 'interaction' ],
         timeZone: 'local',
+        locale: '{{\Auth::user()->locale}}',
         themeSystem: 'bootstrap',
         customButtons: {
             new: {
@@ -39,7 +41,7 @@
                     });
                 }
             },
-        },        
+        },
         header: {
             left: 'new prev,next today',
             center: 'title',

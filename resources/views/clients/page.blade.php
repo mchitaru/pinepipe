@@ -59,7 +59,7 @@ $(function() {
                     <div class="row content-list-head">
                         <div class="filter-container col-auto">
                             <div class="filter-controls">
-                                <div>Sort by:</div>
+                                <div>{{__('Sort')}}:</div>
                                 <a class="sort" href="#" data-sort="name">{{__('Name')}}</a>
                                 <a class="sort" href="#" data-sort="email">{{__('Email')}}</a>
                             </div>

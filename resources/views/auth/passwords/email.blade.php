@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7">
             <div class="text-center">
-                <h1 class="h2">{{_('Forgot password')}} &#x1f62B;</h1>
+                <h1 class="h2">{{__('Forgot password')}} &#x1f62B;</h1>
                 <p class="lead">{{__('Enter your email address to reset')}}</p>
 
                 @if (session('status'))

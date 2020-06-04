@@ -15,18 +15,18 @@
                                 @endif
                             </h6>
 
-                            <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
-                                <span class="text-small">{{$plan->price?'/month':''}}</span>
+                            <h4 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?$plan->price/$plan->duration:$plan->price)}}
+                                <span class="text-small">{{$plan->price?'/'.__('month'):''}}</span>
                             </h4>
                             <ul class="list-unstyled">
                                 <li class="text-small">
-                                    <b>{{!isset($plan->max_clients)?'Unlimited':$plan->max_clients}}</b> {{__('client(s)')}}
+                                    <b>{{!isset($plan->max_clients)?__('Unlimited'):$plan->max_clients}}</b> {{__('client(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{!isset($plan->max_projects)?'Unlimited':$plan->max_projects}}</b> {{__('project(s)')}}
+                                    <b>{{!isset($plan->max_projects)?__('Unlimited'):$plan->max_projects}}</b> {{__('project(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{!isset($plan->max_users)?'Unlimited':($plan->max_users==0?'No':$plan->max_users)}}</b> {{__('collaborator(s)')}}
+                                    <b>{{!isset($plan->max_users)?__('Unlimited'):($plan->max_users==0?'No':$plan->max_users)}}</b> {{__('collaborator(s)')}}
                                 </li>
                             </ul>
                             @if($key != 0 )

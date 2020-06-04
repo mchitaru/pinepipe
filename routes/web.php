@@ -10,17 +10,26 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(['verify' => true]);
+Route::group(
+    [
+        'middleware' => [
+            'xss'
+        ],
+    ], function (){
 
-Route::get('profile/{user:handle}', 'UserProfileController@show')->name('profile.show');
+    Auth::routes(['verify' => true]);
 
-//trigger the scheduler
-Route::get('/hshhdyw7820037lammxh29', 'SchedulerController@run')->name('scheduler.run');
+    Route::get('profile/{user:handle}', 'UserProfileController@show')->name('profile.show');
+
+    //trigger the scheduler
+    Route::get('/hshhdyw7820037lammxh29', 'SchedulerController@run')->name('scheduler.run');
+});
 
 Route::group(
     [
         'middleware' => [
-            'signed'
+            'signed',
+            'xss'
         ],
     ], function (){
 
@@ -173,7 +182,7 @@ Route::group(
         //Expenses
         Route::resource('expenses', 'ExpensesController');
 
-        Route::resource('articles', 'ArticlesController');        
+        Route::resource('articles', 'ArticlesController');
 });
 
-Route::get('wiki/{user:handle}/{categories?}', 'WikiController@index')->where('categories','^[a-zA-Z0-9-_\/]+$')->name('wiki.index');
+Route::get('wiki/{user:handle}/{categories?}', 'WikiController@index')->where('categories','^[a-zA-Z0-9-_\/]+$')->name('wiki.index')->middleware('xss');

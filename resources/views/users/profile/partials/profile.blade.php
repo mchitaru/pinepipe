@@ -43,9 +43,9 @@
     </div>
 </div>
 <div class="form-group row">
-    <label class="col-3">Bio</label>
+    <label class="col-3">{{__('Bio')}}</label>
     <div class="col">
-        {!!Form::textarea('bio', null, ['class'=>'form-control col','rows'=>'4', 'placeholder'=>'Tell us a little about yourself']) !!}
+        {!!Form::textarea('bio', null, ['class'=>'form-control col','rows'=>'4', 'placeholder'=>__('Tell us a little about yourself')]) !!}
         <small>{{__('This will be displayed on your public profile')}}</small>
     </div>
 </div>
