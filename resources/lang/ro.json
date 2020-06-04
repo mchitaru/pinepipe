@@ -136,7 +136,7 @@
     "A fresh verification link has been sent to your email address.": "Un nou link de verificare a fost trimis pe adresa ta de email",
     "Before proceeding, please check your email for a verification link.": "Înainte de a continua, te rugăm să dai click pe linkul pe care ți l-am trimis pe adresa ta de email.",
     "If you did not receive the email": "Dacă nu ai primit email-ul",
-    "click here to request another": "Dă click aici pentru a solicita unul nou",
+    "click here to request another": "Click aici pentru a solicita unul nou",
     "Calendar": "Calendar",
     "Home": "Acasă",
     "New Event": "Eveniment nou",
@@ -585,5 +585,17 @@
     "month": "lună",
     "Unlimited": "Nelimitat",
     "Bio": "Biografie",
-    "Tell us a little about yourself": "Spune-ne ceva despre tine"
+    "Tell us a little about yourself": "Spune-ne ceva despre tine",
+    "All rights reserved.": "Toate drepturile rezervate",
+    "Whoops!": "Ooops!",
+    "Hello!": "Bună!",
+    "Regards": "O zi frumoasă",
+    "Unsubscribe from notification emails": "Dezabonează-mă de la notificări pe email",
+    "Reset Password Notification": "Cerere resetare parolă",
+    "You are receiving this email because we received a password reset request for your account.": "Ai primit acest email deoarece a fost cerută resetarea perolei pentru contul tău.",
+    "This password reset link will expire in :count minutes.": "Link-ul de resetare a parolei va expira în :count minute.",
+    "If you did not request a password reset, no further action is required.": "Dacă nu ai cerut resetarea parolei, te rugăm să ignori acest mesaj.",
+    "Verify Email Address": "Verifică adresa de email",
+    "Please click the button below to verify your email address.": "Te rugăm să dai click pe butonul de mai jos pentru a-ți verifica adresa de email.",
+    "If you did not create an account, no further action is required.": "Dacă nu ai creat tu contul, te rugăm să ignori acest mesaj."
 }

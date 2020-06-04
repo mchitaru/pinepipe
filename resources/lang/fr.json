@@ -583,5 +583,17 @@
     "month": "",
     "Unlimited": "",
     "Bio": "",
-    "Tell us a little about yourself": ""
+    "Tell us a little about yourself": "",
+    "All rights reserved.": "",
+    "Whoops!": "",
+    "Hello!": "",
+    "Regards": "",
+    "Unsubscribe from notification emails": "",
+    "Reset Password Notification": "",
+    "You are receiving this email because we received a password reset request for your account.": "",
+    "This password reset link will expire in :count minutes.": "",
+    "If you did not request a password reset, no further action is required.": "",
+    "Verify Email Address": "",
+    "Please click the button below to verify your email address.": "",
+    "If you did not create an account, no further action is required.": ""
 }

@@ -35,7 +35,7 @@ return [
     | when finding missing translations.
     |
     */
-    'translation_methods' => ['trans', '__'],
+    'translation_methods' => ['trans', '__', '@lang', 'Lang::get'],
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
     | looking for missing translations.
     |
     */
-    'scan_paths' => [app_path(), resource_path()],
+    'scan_paths' => [app_path(), resource_path(), base_path('vendor/laravel/framework/src/Illuminate/Auth/Notifications')],
 
     /*
     |--------------------------------------------------------------------------

@@ -25,8 +25,9 @@ use Illuminate\Support\Str;
 
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
-class User extends Authenticatable implements MustVerifyEmail, HasMedia
+class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLocalePreference
 {
     use HasRoles, Notifiable, SoftDeletes, Actionable, Billable, Eventable, HasMediaTrait;
 
@@ -390,6 +391,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $this->timezone = $locale->timezone;
         $this->save();
     }
+
+    /**
+     * Get the user's preferred locale.
+     *
+     * @return string
+     */
+    public function preferredLocale()
+    {
+        return $this->locale;
+    }    
 
     public function priceFormat($price)
     {
