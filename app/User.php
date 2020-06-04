@@ -880,7 +880,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     {
         $post['password']   = Hash::make($post['password']);
         $user['type']       = 'company';
-        $user['lang']       = 'en';
         $user['created_by'] = \Auth::user()->creatorId();
 
         $user = User::create($post);
@@ -898,7 +897,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
         $post['password']   = Hash::make($post['password']);
         $post['type']       = $role_r->name;
-        $post['lang']       = 'en';
         $post['created_by'] = \Auth::user()->creatorId();
 
         $user = User::create($post);

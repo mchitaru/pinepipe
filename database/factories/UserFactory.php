@@ -24,7 +24,6 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => Hash::make('1234'), // password
         'remember_token' => Str::random(10),
         'type' => 'collaborator',
-        'lang' => 'en',
         'created_by' => User::$SEED_COMPANY_ID,
         'enabled' => true
     ];

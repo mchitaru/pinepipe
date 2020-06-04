@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'next' => 'Urmator &raquo;',
+  'next' => 'Următor &raquo;',
   'previous' => '&laquo; Anterior',
 );

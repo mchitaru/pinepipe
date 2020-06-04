@@ -22,7 +22,6 @@ class CompanySeeder extends Seeder
                 'email' => $faker->companyEmail(),
                 'password' => Hash::make('1234'),
                 'type' => 'company',
-                'lang' => 'en',
                 'avatar' => null,
                 'created_by' => 1,
                 'email_verified_at' => now(),

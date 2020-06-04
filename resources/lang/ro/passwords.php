@@ -1,9 +1,9 @@
 <?php
 
 return array (
-  'password' => 'Parolele trebuie sa contina macar 8 caractere si sa se potriveasca cu parola initiala.',
-  'reset' => 'Parola a fost resetata!',
-  'sent' => 'Ti-am trimis un link de resetare a parolei la adresa ta de email!',
-  'token' => 'This password reset token is invalid.',
-  'user' => 'We can\'t find a user with that e-mail address.',
+  'password' => 'Parolele trebuie să conțină măcar 8 caractere și să se potrivească cu parola inițială.',
+  'reset' => 'Parola a fost resetată!',
+  'sent' => 'Ți-am trimis un link de resetare a parolei la adresa ta de email!',
+  'token' => 'Link-ul de resetare a parolei a expirat. Te rugăm să refaci operațiunea!',
+  'user' => 'Nu am găsit un utilizator cu această adresă de email.',
 );

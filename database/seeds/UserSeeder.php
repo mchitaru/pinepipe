@@ -283,7 +283,6 @@ class UserSeeder extends Seeder
                 'email' => 'superadmin@example.com',
                 'password' => Hash::make('metallicarulz'),
                 'type' => 'super admin',
-                'lang' => 'en',
                 'avatar' => '',
                 'created_by' => 0,
                 'email_verified_at' => now(),
