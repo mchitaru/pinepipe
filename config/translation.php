@@ -46,7 +46,7 @@ return [
     | looking for missing translations.
     |
     */
-    'scan_paths' => [app_path(), resource_path(), base_path('vendor/laravel/framework/src/Illuminate/Auth/Notifications')],
+    'scan_paths' => [app_path(), resource_path(), base_path('modules'), base_path('vendor/laravel/framework/src/Illuminate/Auth/Notifications')],
 
     /*
     |--------------------------------------------------------------------------

@@ -600,5 +600,9 @@
     "You have :count overdue task(s)": "",
     "View all": "",
     "Thank you for using our application!": "",
-    "If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\n into your web browser:": ""
+    "If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\n into your web browser:": "",
+    "If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below into your web browser:": "",
+    "yesterday": "",
+    "today": "",
+    "tomorrow": ""
 }
