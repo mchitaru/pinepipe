@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LeadUpdateRequest extends FormRequest
+class ExpenseUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,13 +13,13 @@ class LeadUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('edit lead'))
+        if($this->user()->can('edit expense'))
         {
-            $lead = $this->route()->parameter('lead');
+            $expense = $this->route()->parameter('expense');
 
-            return $lead->created_by == \Auth::user()->creatorId() &&
+            return $expense->created_by == \Auth::user()->creatorId() &&
                     (\Auth::user()->type == 'company' ||
-                    $lead->user_id == \Auth::user()->id);
+                    $expense->user_id == \Auth::user()->id);
         }
 
         return false;
@@ -33,18 +33,17 @@ class LeadUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required|max:60',
-            'price' => 'numeric|nullable',
-            'stage_id' => 'integer|required',
+            'amount' => 'required',
+            'date' => 'required',
             'category_id' => 'nullable',
-            'client_id' => 'required',
-            'contact_id' => 'nullable',
+            'project_id' => 'integer|nullable',
+            'attachment' => 'mimetypes:image/*|max:2048'
         ];
     }
 
     protected function getRedirectUrl()
     {
-        $lead = $this->route()->parameter('lead');
-        return route('leads.edit', $lead);
-    }
+        $expense = $this->route()->parameter('expense');
+        return route('expenses.edit', $expense);
+    }    
 }

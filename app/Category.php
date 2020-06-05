@@ -16,7 +16,9 @@ class Category extends Model
         'class',
         'order',
         'description',
-        'category_id'
+        'category_id',
+        'user_id',
+        'created_by'
     ];
 
     protected $nullable = [

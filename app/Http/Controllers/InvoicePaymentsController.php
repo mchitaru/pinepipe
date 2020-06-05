@@ -24,7 +24,7 @@ class InvoicePaymentsController extends Controller
 
     public function create(Invoice $invoice)
     {
-        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+        $categories = Category::where('created_by', \Auth::user()->creatorId())
                                 ->where('class', Payment::class)
                                 ->get()->pluck('name', 'id');
 
@@ -44,7 +44,7 @@ class InvoicePaymentsController extends Controller
 
     public function edit(Request $request, Invoice $invoice, Payment $payment)
     {
-        $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+        $categories = Category::where('created_by', \Auth::user()->creatorId())
                                 ->where('class', Payment::class)
                                 ->get()->pluck('name', 'id');
 
@@ -55,7 +55,7 @@ class InvoicePaymentsController extends Controller
     {
         $post = $request->validated();
 
-        $payment->update($post);
+        $payment->updatePayment($post);
 
         $request->session()->flash('success', __('Payment successfully updated.'));
 

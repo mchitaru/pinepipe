@@ -43,6 +43,7 @@ class LeadsController extends Controller
         {
             $stage_id = $request['stage_id'];
             $client_id = $request['client_id'];
+            $category_id = $request['category_id'];
 
             $stages = Stage::where('class', Lead::class)
                                     ->where('created_by', \Auth::user()->creatorId())
@@ -69,11 +70,16 @@ class LeadsController extends Controller
                                     ->get()->pluck('name', 'id');
             }
 
-            $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+            $categories = Category::where('created_by', \Auth::user()->creatorId())
                                     ->where('class', Lead::class)
                                     ->get()->pluck('name', 'id');
 
-            return view('leads.create', compact('client_id', 'stage_id', 'stages', 'clients', 'contacts', 'categories'));
+            if($category_id){
+
+                $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
+            }
+
+            return view('leads.create', compact('client_id', 'stage_id', 'category_id', 'stages', 'clients', 'contacts', 'categories'));
         }
         else
         {
@@ -92,10 +98,12 @@ class LeadsController extends Controller
         return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
-    public function edit(Lead $lead)
+    public function edit(Request $request, Lead $lead)
     {
         if(\Auth::user()->can('edit lead'))
         {
+            $category_id = $request['category_id'];
+
             $stages  = Stage::where('class', Lead::class)
                             ->where('created_by', \Auth::user()->creatorId())
                             ->get()
@@ -103,9 +111,15 @@ class LeadsController extends Controller
 
             $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+            $categories = Category::where('created_by', \Auth::user()->creatorId())
                                     ->where('class', Lead::class)
                                     ->get()->pluck('name', 'id');
+
+            if($category_id){
+
+                $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
+            }
+
 
             $client_id    = $lead->client_id;
 
@@ -128,7 +142,7 @@ class LeadsController extends Controller
                                     ->get()->pluck('name', 'id');
             }
 
-            return view('leads.edit', compact('client_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));
+            return view('leads.edit', compact('client_id', 'category_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));
         }
         else
         {
@@ -228,7 +242,7 @@ class LeadsController extends Controller
             $lead = Lead::find($lead_id);
             $lead->client_id = $request['client_id'];
 
-            return $this->edit($lead);
+            return $this->edit($request, $lead);
         }
 
         return $this->create($request);

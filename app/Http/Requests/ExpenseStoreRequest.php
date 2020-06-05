@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LeadStoreRequest extends FormRequest
+class ExpenseStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class LeadStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create lead');
+        return $this->user()->can('create expense');
     }
 
     /**
@@ -24,17 +24,16 @@ class LeadStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required|max:60',
-            'price' => 'numeric|nullable',
-            'stage_id' => 'integer|required',
+            'amount' => 'required',
+            'date' => 'required',
             'category_id' => 'nullable',
-            'client_id' => 'required',
-            'contact_id' => 'nullable',
+            'project_id' => 'integer|nullable',
+            'attachment' => 'mimetypes:image/*|max:2048'
         ];
     }
 
     protected function getRedirectUrl()
     {
-        return route('leads.create');
+        return route('expenses.create');
     }
 }

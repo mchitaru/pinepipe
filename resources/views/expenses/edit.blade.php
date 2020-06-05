@@ -1,8 +1,16 @@
 @extends('layouts.modal')
 
 @section('form-start')
-    {{ Form::model($expense, array('route' => array('expenses.update', $expense->id), 'method' => 'PUT','enctype' => "multipart/form-data")) }}
+    {{ Form::model($expense, array('route' => array('expenses.update', $expense->id), 'method' => 'PUT','enctype' => "multipart/form-data", 'data-remote' => 'true')) }}
 @endsection
+
+@push('scripts')
+<script>
+    $(".avatar-input").change(function () {
+        PreviewAvatarImage(this, 60, 'rounded');
+    });
+</script>
+@endpush
 
 @section('title')
     {{__('Edit Expense')}}
@@ -25,11 +33,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $categories, null, array('class' => 'form-control col', 'placeholder'=>__('Select Category...'))) }}
-    </div>
-    <div class="form-group row">
-        {{ Form::label('attachment', __('Attachment'), array('class'=>'col-3')) }}
-        {{ Form::file('attachment', array('class' => 'form-control col','accept'=>'.jpeg,.jpg,.png,.doc,.pdf')) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>__('Select Category...'))) }}
     </div>
     <div class="form-group row">
         {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
@@ -41,6 +45,29 @@
         {{ Form::select('user_id', $owners, null, array('class' => 'form-control col')) }}
     </div>
     @endif
+    <div class="form-group row avatar-container">
+        <div class="d-flex flex-column avatar-preview">
+            @if(!$expense->hasMedia('attachments'))
+                <img data-filter-by='alt' width="60" height="60" class="rounded" avatar="?">      
+            @else
+                <img data-filter-by='alt' width="60" height="60" class="rounded" src="{{route('expenses.attachment', [$expense, $expense->media('attachments')->first()->file_name])}}">
+            @endif
+        </div>
+        <div class="media-body ml-3">
+            <div class="custom-file custom-file-naked d-block mb-1">
+                <input type="file" class="custom-file-input avatar-input d-none" name="attachment" id="attachment" accept="image/*">
+                <label class="custom-file-label position-relative" for="attachment">
+                <span class="btn btn-primary">
+                    {{__('Upload receipt')}}
+                </span>
+                </label>
+                <label class="file-label position-relative"></label>
+            </div>
+            <div class="alert alert-warning text-small" role="alert">
+                <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
+            </div>
+        </div>
+    </div>
 </div>
 @include('partials.errors')
 @endsection

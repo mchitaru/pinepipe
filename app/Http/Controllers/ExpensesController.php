@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Media;
 use App\Expense;
 use App\Category;
+use App\Http\Requests\ExpenseDestroyRequest;
+use App\Http\Requests\ExpenseStoreRequest;
+use App\Http\Requests\ExpenseUpdateRequest;
 use App\Project;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,27 +18,23 @@ class ExpensesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('view expense') ||
-           \Auth::user()->type == 'client')
+        if(\Auth::user()->can('view expense'))
         {
             clock()->startEvent('ExpensesController', "Load expenses");
 
-            if(\Auth::user()->can('view expense'))
-            {
-                $expenses = Expense::expensesByUserType()
-                            ->where('created_by', '=', \Auth::user()->creatorId())
-                            ->where(function ($query) use ($request) {
-                                $query->whereHas('user', function ($query) use($request) {
+            $expenses = Expense::expensesByUserType()
+                        ->where('created_by', '=', \Auth::user()->creatorId())
+                        ->where(function ($query) use ($request) {
+                            $query->whereHas('user', function ($query) use($request) {
 
-                                    $query->where('name','like','%'.$request['filter'].'%');
-                                })
-                                ->orWhereHas('project', function ($query) use($request) {
-
-                                    $query->where('name','like','%'.$request['filter'].'%');
-                                });
+                                $query->where('name','like','%'.$request['filter'].'%');
                             })
-                            ->paginate(25, ['*'], 'invoice-page');
-            }
+                            ->orWhereHas('project', function ($query) use($request) {
+
+                                $query->where('name','like','%'.$request['filter'].'%');
+                            });
+                        })
+                        ->paginate(25, ['*'], 'invoice-page');
 
             clock()->endEvent('ExpensesController');
 
@@ -57,7 +57,7 @@ class ExpensesController extends Controller
         {
             $project_id = $request['project_id'];
 
-            $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
+            $categories = Category::where('created_by', \Auth::user()->creatorId())
                                     ->where('class', Expense::class)
                                     ->get()->pluck('name', 'id');
 
@@ -77,65 +77,21 @@ class ExpensesController extends Controller
         }
     }
 
-
-    public function store(Request $request)
+    public function store(ExpenseStoreRequest $request)
     {
-        if(\Auth::user()->can('create expense'))
-        {
+        $post = $request->validated();
 
-            $rules = [
-                'amount' => 'required',
-                'date' => 'required',
-                'category_id' => 'integer',
-                'project_id' => 'integer',
-            ];
-            if($request->attachment)
-            {
-                $rules['attachment'] = 'required|max:2048';
-            }
+        $expense = Expense::createExpense($post);
 
-            $validator = \Validator::make($request->all(), $rules);
+        if($request->hasFile('attachment')){
 
-            if($validator->fails())
-            {
-                $messages = $validator->getMessageBag();
-
-                return Redirect::to(URL::previous())->with('error', $messages->first());
-            }
-
-            $expense              = new Expense();
-            $expense->description = $request->description;
-            $expense->amount      = $request->amount;
-            $expense->date        = $request->date;
-            $expense->project_id  = $request->project_id;
-            $expense->category_id  = $request->category_id;
-
-            if(!empty($request->user_id))
-            {
-                $expense->user_id     = $request->user_id;
-            }
-            else{
-
-                $expense->user_id     = \Auth::user()->id;
-            }
-
-            $expense->created_by  = \Auth::user()->creatorId();
-            $expense->save();
-
-            if($request->attachment)
-            {
-                $imageName = 'expense_' . $expense->id . "_" . $request->attachment->getClientOriginalName();
-                $request->attachment->storeAs('public/attachment', $imageName);
-                $expense->attachment = $imageName;
-                $expense->save();
-            }
-
-            return Redirect::to(URL::previous())->with('success', __('Expense successfully created.'));
+            $expense->clearMediaCollection('attachments');
+            $file = $expense->addMedia($request->file('attachment'))->toMediaCollection('attachments', 'local');
         }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-        }
+
+        $request->session()->flash('success', __('Expense successfully created.'));
+
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
 
@@ -143,96 +99,19 @@ class ExpensesController extends Controller
     {
         if(\Auth::user()->can('edit expense'))
         {
-            if($expense->created_by == \Auth::user()->creatorId())
-            {
-                $categories = Category::whereIn('created_by', [0, \Auth::user()->creatorId()])
-                                        ->where('class', Expense::class)
-                                        ->get()->pluck('name', 'id');
+            $categories = Category::where('created_by', \Auth::user()->creatorId())
+                                    ->where('class', Expense::class)
+                                    ->get()->pluck('name', 'id');
 
-                $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
+            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-                $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
-                                ->where('type', '!=', 'client')
-                                ->get()
-                                ->pluck('name', 'id')
-                                ->prepend(__('(myself)'), \Auth::user()->id);
+            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(__('(myself)'), \Auth::user()->id);
 
-                return view('expenses.edit', compact('expense', 'categories', 'projects', 'owners'));
-            }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
-        }
-        else
-        {
-            return response()->json(['error' => __('Permission denied.')], 401);
-        }
-    }
-
-
-    public function update(Request $request, Expense $expense)
-    {
-        if(\Auth::user()->can('edit expense'))
-        {
-
-            if($expense->created_by == \Auth::user()->creatorId())
-            {
-
-                $rules = [
-                    'amount' => 'required',
-                    'date' => 'required',
-                    'category_id' => 'integer',
-                    'project_id' => 'integer',
-                ];
-                if($request->attachment)
-                {
-                    $rules['attachment'] = 'required|max:2048';
-                }
-
-                $validator = \Validator::make($request->all(), $rules);
-
-                if($validator->fails())
-                {
-                    $messages = $validator->getMessageBag();
-
-                    return Redirect::to(URL::previous())->with('error', $messages->first());
-                }
-                $expense->description = $request->description;
-                $expense->amount      = $request->amount;
-                $expense->date        = $request->date;
-                $expense->project_id  = $request->project_id;
-                $expense->category_id  = $request->category_id;
-
-                if(!empty($request->user_id))
-                {
-                    $expense->user_id     = $request->user_id;
-                }
-                else{
-
-                    $expense->user_id     = \Auth::user()->id;
-                }
-
-                $expense->save();
-
-                if($request->attachment)
-                {
-                    if($expense->attachment)
-                    {
-                        \File::delete(storage_path('app/public/attachment/' . $expense->attachment));
-                    }
-                    $imageName = 'expense_' . $expense->id . "_" . $request->attachment->getClientOriginalName();
-                    $request->attachment->storeAs('attachment', $imageName);
-                    $expense->attachment = $imageName;
-                    $expense->save();
-                }
-
-                return Redirect::to(URL::previous())->with('success', __('Expense successfully updated.'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-            }
+            return view('expenses.edit', compact('expense', 'categories', 'projects', 'owners'));
         }
         else
         {
@@ -241,29 +120,47 @@ class ExpensesController extends Controller
     }
 
 
-    public function destroy(Request $request, Expense $expense)
+    public function update(ExpenseUpdateRequest $request, Expense $expense)
+    {
+        $post = $request->validated();
+
+        $expense->updateExpense($post);
+
+        if($request->hasFile('attachment')){
+
+            $expense->clearMediaCollection('attachments');
+            $file = $expense->addMedia($request->file('attachment'))->toMediaCollection('attachments', 'local');
+        }
+
+        $request->session()->flash('success', __('Expense successfully updated.'));
+
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+    }
+
+
+    public function destroy(ExpenseDestroyRequest $request, Expense $expense)
     {
         if($request->ajax()){
 
             return view('helpers.destroy');
         }
 
-        if(\Auth::user()->can('delete expense'))
-        {
-            if($expense->created_by == \Auth::user()->creatorId())
-            {
-                $expense->delete();
+        $expense->delete();
 
-                return Redirect::to(URL::previous())->with('success', __('Expense successfully deleted.'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-        }
+        return Redirect::to(URL::previous())->with('success', __('Expense successfully deleted.'));
+    }
+
+    public function attachment(Expense $expense, $media)
+    {
+        $media = $expense->media('attachments')->first();
+
+        $file_path = $media->getPath();
+        $filename  = $media->file_name;
+        
+        return \Response::download(
+            $file_path, $filename, [
+                            'Content-Length: ' . filesize($file_path),
+                        ]
+        );
     }
 }

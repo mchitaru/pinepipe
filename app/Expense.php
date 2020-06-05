@@ -8,9 +8,12 @@ use App\Traits\Taggable;
 use App\Traits\Categorizable;
 use App\Traits\Invoiceable;
 
-class Expense extends Model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Expense extends Model implements HasMedia
 {
-    use NullableFields, Taggable, Categorizable, Invoiceable;
+    use NullableFields, Taggable, Categorizable, Invoiceable, HasMediaTrait ;
 
     protected $fillable = [
         'amount',
@@ -89,5 +92,34 @@ class Expense extends Model
                                 $query->where('user_id', \Auth::user()->id);
                             });
         }
+    }
+    
+
+    public static function createExpense($post)
+    {
+        if(isset($post['category_id']) && !is_numeric($post['category_id'])) {
+
+            //new category
+            $category = Category::create(['name' => $post['category_id'],
+                                            'class' => Expense::class]);
+            $post['category_id'] = $category->id;
+        }
+
+        $expense = Expense::create($post);
+
+        return $expense;
+    }
+
+    public function updateExpense($post)
+    {
+        if(isset($post['category_id']) && !is_numeric($post['category_id'])) {
+
+            //new category
+            $category = Category::create(['name' => $post['category_id'],
+                                            'class' => Expense::class]);
+            $post['category_id'] = $category->id;
+        }
+
+        $this->update($post);
     }
 }

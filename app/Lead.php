@@ -110,6 +110,14 @@ class Lead extends Model implements HasMedia
             $post['contact_id'] = $contact->id;
         }
 
+        if(isset($post['category_id']) && !is_numeric($post['category_id'])) {
+
+            //new category
+            $category = Category::create(['name' => $post['category_id'],
+                                            'class' => Lead::class]);
+            $post['category_id'] = $category->id;
+        }
+
         $stage = Stage::find($post['stage_id']);
 
         $post['order']   = $stage->leads->count();
@@ -144,6 +152,14 @@ class Lead extends Model implements HasMedia
                                         'client_id' => $post['client_id']]);
 
             $post['contact_id'] = $contact->id;
+        }
+
+        if(isset($post['category_id']) && !is_numeric($post['category_id'])) {
+
+            //new category
+            $category = Category::create(['name' => $post['category_id'],
+                                            'class' => Lead::class]);
+            $post['category_id'] = $category->id;
         }
 
         $this->update($post);

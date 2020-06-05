@@ -32,7 +32,7 @@ class InvoicePaymentUpdateRequest extends FormRequest
             'amount' => 'required|numeric',
             'date' => 'required|date',
             'notes' => 'nullable|string',
-            'category_id' => 'nullable|numeric'
+            'category_id' => 'nullable'
         ];
     }
 

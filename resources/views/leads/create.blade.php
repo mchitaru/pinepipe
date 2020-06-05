@@ -25,7 +25,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Source'), array('class'=>'col-3')) }}
-        {!! Form::select('category_id', $categories, null,array('class' => 'form-control col font-style selectric', 'placeholder'=>__('Select Source...'))) !!}
+        {!! Form::select('category_id', $categories, $category_id, array('class' => 'tags form-control col font-style selectric', 'placeholder'=>__('Select Source...'))) !!}
     </div>
     <hr>
     <h6>{{__('Attach')}}</h6>

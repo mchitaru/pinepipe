@@ -180,6 +180,7 @@ Route::group(
         Route::resource('stages', 'StagesController');
 
         //Expenses
+        Route::get('expenses/{expense}/attachment/{attachment}', 'ExpensesController@attachment')->name('expenses.attachment');
         Route::resource('expenses', 'ExpensesController');
 
         Route::resource('articles', 'ArticlesController');

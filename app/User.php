@@ -652,6 +652,61 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             "#dfce8c", "#dfb999", "#9fdfb9", "#ecf0f1", "#95a5a6", "#dcb5eb", "#e0b699", "#e4a9a1", "#bdc3c7", "#90a0a1"
         ];
 
+        // // LeadSource
+        // $leads = [
+        //     __('Facebook'),
+        //     __('Email'),
+        //     __('Phone'),
+        // ];
+        // foreach($leads as $key => $lead)
+        // {
+        //     Category::create(
+        //         [
+        //             'name' => $lead,
+        //             'class' => Lead::class,
+        //             'order' => $key,
+        //             'user_id' => $id,
+        //             'created_by' => $id,
+        //         ]
+        //     );
+        // }
+
+        // // Expense Category
+        // $expenses = [
+        //     __('Gas'),
+        //     __('Travel'),
+        // ];
+        // foreach($expenses as $key => $expense)
+        // {
+        //     Category::create(
+        //         [
+        //             'name' => $expense,
+        //             'class' => Expense::class,
+        //             'order' => $key,
+        //             'user_id' => $id,
+        //             'created_by' => $id,
+        //         ]
+        //     );
+        // }
+
+        // // Payments
+        // $payments = [
+        //     __('Cash'),
+        //     __('Bank'),
+        // ];
+        // foreach($payments as $key => $payment)
+        // {
+        //     Category::create(
+        //         [
+        //             'name' => $payment,
+        //             'class' => Payment::class,
+        //             'order' => $key,
+        //             'user_id' => $id,
+        //             'created_by' => $id,
+        //         ]
+        //     );
+        // }
+
         // LeadStage
         $leadStages = [
             __('Initial Contact'),
@@ -831,7 +886,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 'amount' => 500,
                 'date' => Carbon::now(),
                 'project_id' => $project->id,
-                'category_id' => 6,
+                'category_id' => null,
                 'user_id' => $id,
                 'description' => null,
                 'attachment' => null,

@@ -12,16 +12,16 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{ Form::label('amount', __('Amount'), array('class'=>'col-3')) }}
-        {{ Form::number('amount', $invoice->getDue(), array('class' => 'form-control col','required'=>'required','min'=>'0',"step"=>"0.01")) }}
+        {{ Form::number('amount', null, array('class' => 'form-control col','required'=>'required',"step"=>"0.01")) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row required">
         {{ Form::label('date', __('Payment Date'), array('class'=>'col-3')) }}
         {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Select Date...'),
                                         'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Payment Method'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $categories, null, array('class' => 'form-control col','required'=>'required')) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>__('Select Payment Method...'))) }}
     </div>
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}

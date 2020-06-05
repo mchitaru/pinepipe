@@ -244,7 +244,7 @@ $(function() {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter Timesheets")}}" aria-label="Filter Timesheets">
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter timesheets")}}" aria-label="Filter timesheets">
                     </div>
                 </form>
                 </div>

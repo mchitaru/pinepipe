@@ -5,15 +5,11 @@
 @endsection
 
 @push('scripts')
-
 <script>
-
     $(".avatar-input").change(function () {
         PreviewAvatarImage(this, 60, 'rounded');
     });
-
 </script>
-
 @endpush
 
 @section('title')
