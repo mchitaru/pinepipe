@@ -33,8 +33,11 @@ class XSS
             array_walk_recursive(
                 $input, function (&$input){
 
-                    // $input = strip_tags($input);
-                    $input = Purify::clean($input);
+                    if(!empty($input)) {
+
+                        // $input = strip_tags($input);
+                        $input = Purify::clean($input);
+                    }
                 }
             );
             $request->merge($input);
