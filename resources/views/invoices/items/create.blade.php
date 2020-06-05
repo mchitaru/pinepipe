@@ -39,7 +39,7 @@
             <div class="card-body">
                 <div class="form-group row">
                     {{ Form::label('timesheet_id', __('Timesheet'), array('class'=>'col-3')) }}
-                    {!! Form::select('timesheet_id', $timesheets, null, array('class' => 'form-control col', 'placeholder'=>__('Select Timesheet...'), 'style'=>'width: 310.5px',
+                    {!! Form::select('timesheet_id', $timesheets, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
                                         'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
                 </div>
             </div>
@@ -58,7 +58,7 @@
             <div class="card-body">
                 <div class="form-group row">
                     {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
-                    {!! Form::select('task_id', $tasks, null, array('class' => 'form-control col', 'placeholder'=>__('Select Task...'), 'style'=>'width: 310.5px',
+                    {!! Form::select('task_id', $tasks, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
                                         'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
                 </div>
             </div>
@@ -77,7 +77,7 @@
               <div class="card-body">
                   <div class="form-group row">
                       {{ Form::label('expense_id', __('Expense'), array('class'=>'col-3')) }}
-                      {!! Form::select('expense_id', $expenses, null, array('class' => 'form-control col', 'placeholder'=>__('Select Expense...'), 'style'=>'width: 310.5px',
+                      {!! Form::select('expense_id', $expenses, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
                                           'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
                   </div>
               </div>

@@ -47,19 +47,19 @@
         </div>
         <div class="form-group row">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-4')) }}
-            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col', 'placeholder' => __('Select a lead...'))) !!}
+            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col', 'placeholder' =>'...')) !!}
         </div>
     </div>
     <div class="tab-pane fade show" id="project-timeline" role="tabpanel">
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('start_date', __('Start Date'), array('class'=>'col-4')) }}
-            {{ Form::date('start_date', '', array('class' => 'start form-control col', 'placeholder'=>__('Select Date...'),
+            {{ Form::date('start_date', '', array('class' => 'start form-control col', 'placeholder'=>'...',
                                                 'data-flatpickr', 'data-default-date'=> $start_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-4')) }}
-            {{ Form::date('due_date', '', array('class' => 'end form-control col', 'placeholder'=>__('Select Date...'),
+            {{ Form::date('due_date', '', array('class' => 'end form-control col', 'placeholder'=>'...',
                                                 'data-flatpickr', 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
     </div>

@@ -16,12 +16,12 @@
     </div>
     <div class="form-group row required">
         {{ Form::label('date', __('Payment Date'), array('class'=>'col-3')) }}
-        {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Select Date...'),
+        {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...',
                                         'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Payment Method'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>__('Select Payment Method...'))) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}

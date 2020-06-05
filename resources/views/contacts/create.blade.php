@@ -31,7 +31,7 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col', 'placeholder'=>__('Select Client...'))) !!}
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col', 'placeholder'=>'...')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

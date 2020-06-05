@@ -37,7 +37,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('birthday', __('Birthday'), array('class'=>'col-3')) }}
-        {{ Form::date('birthday', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Select Date...'), 
+        {{ Form::date('birthday', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...', 
                                             'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
@@ -52,7 +52,7 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>__('Select Client...'))) !!}
+        {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>'...')) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>

@@ -12,16 +12,16 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>__('Select Project...'))) }}
+        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}
-        {{ Form::date('issue_date', null, array('class' => 'start form-control col','required'=>'required', 'placeholder'=>__('Select Date...'),
+        {{ Form::date('issue_date', null, array('class' => 'start form-control col','required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-default-date'=> $invoice->issue_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-        {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>__('Select Date...'),
+        {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-default-date'=> $invoice->due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">

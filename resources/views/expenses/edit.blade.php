@@ -24,16 +24,16 @@
     </div>
     <div class="form-group row">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
-        {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Select Date...'),
+        {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...',
                                         'data-flatpickr', 'data-default-date'=> $expense->date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>__('Select Project...'))) }}
+        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'...')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>__('Select Category...'))) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
