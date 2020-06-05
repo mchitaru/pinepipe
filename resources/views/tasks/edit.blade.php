@@ -27,11 +27,11 @@
         <h6>{{__('General Details')}}</h6>
         <div class="form-group row align-items-center required">
             {{ Form::label('title', __('Title'), array('class'=>'col-3')) }}
-            {{ Form::text('title', null, array('class' => 'form-control col', 'placeholder'=>'Task title', 'required'=>'required')) }}
+            {{ Form::text('title', null, array('class' => 'form-control col', 'placeholder'=>__('Task title'), 'required'=>'required')) }}
         </div>
         <div class="form-group row">
             {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
-            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'Task description']) !!}
+            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>__('Task description')]) !!}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}

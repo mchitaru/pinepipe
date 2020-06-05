@@ -90,7 +90,7 @@ $(function() {
         </ul>
 
         <div class="input-group">
-            <input type="text" class="form-control" placeholder={{__("Promo code")}}>
+            <input type="text" class="form-control" placeholder="{{__("Promo code")}}">
             <div class="input-group-append">
             <button type="submit" class="btn btn-secondary disabled">{{__('Redeem')}}</button>
             </div>

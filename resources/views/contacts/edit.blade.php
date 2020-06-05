@@ -25,7 +25,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('address', __('Address'), array('class'=>'col-3')) }}
-        {!!Form::textarea('address', null, ['class'=>'form-control col','rows'=>'2', 'placeholder'=>'Enter Contact Address']) !!}
+        {!!Form::textarea('address', null, ['class'=>'form-control col','rows'=>'2', 'placeholder'=>__('Enter Contact Address')]) !!}
     </div>
     <div class="form-group row">
         {{Form::label('website',__('Website'), array('class'=>'col-3'))}}

@@ -51,7 +51,7 @@
                                 <i class="material-icons">filter_list</i>
                             </span>
                             </div>
-                            <input type="search" class="form-control filter-input" placeholder="Filter projects" aria-label="Filter Projects">
+                            <input type="search" class="form-control filter-input" placeholder="{{__('Filter projects')}}" aria-label="Filter Projects">
                         </div>
                     </div>
                 </div>

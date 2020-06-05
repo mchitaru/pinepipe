@@ -124,7 +124,7 @@ $(function() {
                                 <i class="material-icons">filter_list</i>
                                 </span>
                             </div>
-                            <input type="search" class="form-control filter-list-input" placeholder="Filter events" aria-label="Filter Events">
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter events")}}" aria-label="Filter Events">
                             </div>
                         </form>
                         <div class="dropdown pl-2">
@@ -175,7 +175,7 @@ $(function() {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter Notes" aria-label="Filter Notes">
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter Notes")}}" aria-label="Filter Notes">
                     </div>
                 </form>
                 </div>
@@ -196,7 +196,7 @@ $(function() {
                                 <i class="material-icons">filter_list</i>
                             </span>
                             </div>
-                            <input type="search" class="form-control filter-list-input" placeholder="Filter files" aria-label="Filter Files">
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter files")}}" aria-label="Filter Files">
                         </div>
                     </form>
                 </div>
@@ -219,7 +219,7 @@ $(function() {
                             <i class="material-icons">filter_list</i>
                         </span>
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity">
+                        <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter activity")}}" aria-label="Filter activity">
                     </div>
                     </form>
                 </div>

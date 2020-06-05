@@ -155,7 +155,7 @@ document.addEventListener("paginate-sort", function(e) {
                             <i class="material-icons">filter_list</i>
                             </span>
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Filter tasks" aria-label="Filter Tasks">
+                        <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="Filter Tasks">
                         </div>
                     </form>
                 </div>

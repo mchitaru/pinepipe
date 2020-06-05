@@ -4,7 +4,7 @@
         <form class="form-group mb-0" method="post" autocomplete="off">
             @csrf
             <div class="input-group input-group-light ">
-                <input type="search" class="form-control form-control-light expandable search-element" placeholder="{{__('Search')}}..." aria-label="Search app">
+                <input type="search" class="form-control form-control-light expandable search-element" placeholder="{{__('Search...')}}" aria-label="Search app">
             </div>
         </form>
         @endif

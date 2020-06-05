@@ -58,7 +58,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
-        {!! Form::select('task_id', $tasks, null,array('class' => (Gate::check('create task')?'tags':'').' form-control col', 'placeholder'=>'Select Task...')) !!}
+        {!! Form::select('task_id', $tasks, null,array('class' => (Gate::check('create task')?'tags':'').' form-control col', 'placeholder'=>__('Select Task...'))) !!}
     </div>
 
     <div class="form-group row">

@@ -34,7 +34,7 @@
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter users" aria-label="Filter Users">
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter users")}}" aria-label="Filter Users">
                     </div>
                 </form>
                 </div>

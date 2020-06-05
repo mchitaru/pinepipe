@@ -221,7 +221,7 @@ $languages = $_user->languages();
             <form class="form-group" method="post" autocomplete="off">
                 @csrf
                 <div class="input-group input-group-dark ">
-                    <input type="search" class="form-control form-control-dark search-element" placeholder="Search..." aria-label="Search app">
+                    <input type="search" class="form-control form-control-dark search-element" placeholder="{{__("Search...")}}" aria-label="Search app">
                 </div>
             </form>
             @endif

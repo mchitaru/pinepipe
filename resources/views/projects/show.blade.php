@@ -161,33 +161,33 @@ $(function() {
             <ul class="nav nav-tabs nav-fill" role="tablist">
             @can('view task')
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Tasks
+                <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">{{__('Tasks')}}
                     <span class="badge badge-secondary">{{ $project->tasks->count() }}</span>
                 </a>
             </li>
             @endcan
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#timesheets" role="tab" aria-controls="timesheets" aria-selected="false">Timesheets
+                <a class="nav-link" data-toggle="tab" href="#timesheets" role="tab" aria-controls="timesheets" aria-selected="false">{{__('Timesheets')}}
                     <span class="badge badge-secondary">{{ $timesheets->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">Invoices
+                <a class="nav-link" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">{{__('Invoices')}}
                     <span class="badge badge-secondary">{{ $invoices->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses" aria-selected="false">Expenses
+                <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses" aria-selected="false">{{__('Expenses')}}
                     <span class="badge badge-secondary">{{ $expenses->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#project-files" role="tab" aria-controls="project-files" aria-selected="false">Files
+                <a class="nav-link" data-toggle="tab" href="#project-files" role="tab" aria-controls="project-files" aria-selected="false">{{__('Files')}}
                     <span class="badge badge-secondary">{{ count($files) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">Activity</a>
+                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
             </ul>
             <div class="tab-content">
@@ -216,7 +216,7 @@ $(function() {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter tasks" aria-label="Filter Tasks">
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="Filter Tasks">
                     </div>
                 </form>
                 </div>
@@ -244,7 +244,7 @@ $(function() {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter Timesheets" aria-label="Filter Timesheets">
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter Timesheets")}}" aria-label="Filter Timesheets">
                     </div>
                 </form>
                 </div>
@@ -270,7 +270,7 @@ $(function() {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter Invoices" aria-label="Filter Invoices">
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter Invoices")}}" aria-label="Filter Invoices">
                     </div>
                 </form>
                 </div>
@@ -296,7 +296,7 @@ $(function() {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter Expenses" aria-label="Filter Expenses">
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter Expenses")}}" aria-label="Filter Expenses">
                     </div>
                 </form>
                 </div>
@@ -317,7 +317,7 @@ $(function() {
                                 <i class="material-icons">filter_list</i>
                             </span>
                             </div>
-                            <input type="search" class="form-control filter-list-input" placeholder="Filter files" aria-label="Filter Tasks">
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter files")}}" aria-label="Filter Tasks">
                         </div>
                     </form>
                 </div>
@@ -340,7 +340,7 @@ $(function() {
                             <i class="material-icons">filter_list</i>
                         </span>
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity">
+                        <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter activity")}}" aria-label="Filter activity">
                     </div>
                     </form>
                 </div>

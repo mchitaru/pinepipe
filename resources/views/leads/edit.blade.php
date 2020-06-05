@@ -13,11 +13,11 @@
     <h6>{{__('General Details')}}</h6>
     <div class="form-group row align-items-center required">
         {{ Form::label('name', __('Name'), array('class'=>'col-3')) }}
-        {{ Form::text('name', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Lead name')) }}
+        {{ Form::text('name', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Lead name'))) }}
     </div>
     <div class="form-group row">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
-        {{ Form::number('price', null, array('class' => 'form-control col', 'placeholder'=>'Lead Value')) }}
+        {{ Form::number('price', null, array('class' => 'form-control col', 'placeholder'=>__('Lead Value'))) }}
     </div>
     <div class="form-group row">
         {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}

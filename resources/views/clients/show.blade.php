@@ -147,7 +147,7 @@ $(function() {
                                     <i class="material-icons">filter_list</i>
                                 </span>
                                 </div>
-                                <input type="search" class="form-control filter-list-input" placeholder="Filter projects" aria-label="Filter Projects">
+                                <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter projects")}}" aria-label="Filter Projects">
                             </div>
                             </form>
                         </div>
@@ -171,7 +171,7 @@ $(function() {
                                 <i class="material-icons">filter_list</i>
                             </span>
                             </div>
-                            <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity">
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter activity")}}" aria-label="Filter activity">
                         </div>
                         </form>
                     </div>

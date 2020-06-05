@@ -654,11 +654,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         // LeadStage
         $leadStages = [
-            'Initial Contact',
-            'Qualification',
-            'Proposal',
-            'Won',
-            'Lost',
+            __('Initial Contact'),
+            __('Qualification'),
+            __('Proposal'),
+            __('Won'),
+            __('Lost'),
         ];
 
         $leadStage = null;
@@ -683,10 +683,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         // TaskStages
         $taskStages = [
-            'To Do',
-            'In Progress',
-            'Bugs',
-            'Done',
+            __('To Do'),
+            __('In Progress'),
+            __('Bugs'),
+            __('Done'),
         ];
 
         $taskStage = null;
@@ -713,9 +713,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         $client = Client::create(
             [
                 'name' => __('Sample Client'),
-                'email' => 'client@example.com',
-                'phone' => '1-540-568-0645',
-                'address' => '45646 Jaleel Pines South Laron, SD 45620',
+                'email' => __('client@example.com'),
+                'phone' => __('1-540-568-0645'),
+                'address' => __('45646 Jaleel Pines South Laron, SD 45620'),
                 'website' => 'https://pinepipe.com',
                 'user_id' => $id,
                 'created_by' => $id
@@ -727,11 +727,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             [
                 'name' => __('Sample Contact'),
                 'client_id' => $client->id,
-                'email' => 'contact@example.com',
-                'phone' => '1-540-568-0645',
-                'address' => '45646 Jaleel Pines South Laron, SD 45620',
+                'email' => __('contact@example.com'),
+                'phone' => __('1-540-568-0645'),
+                'address' => __('45646 Jaleel Pines South Laron, SD 45620'),
                 'company' => __('Sample Client'),
-                'job' => 'CEO',
+                'job' => __('CEO'),
                 'website' => 'https://pinepipe.com',
                 'birthday' => '1981-05-09',
                 'notes' => null,
@@ -743,7 +743,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         //Sample Lead
         $lead = Lead::create(
             [
-                'name' => 'Sample Lead',
+                'name' => __('Sample Lead'),
                 'price' => '10000',
                 'stage_id'=> $leadStage->id,
                 'user_id'=> $id,
@@ -756,12 +756,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         //Sample Project
         $project = Project::create(
             [
-                'name' => 'Sample Project',
+                'name' => __('Sample Project'),
                 'price' => '1000',
                 'start_date' => null,
                 'due_date' => null,
                 'client_id' => $client->id,
-                'description' => "Learn about Pinepipe's cool features.",
+                'description' => __("Learn about Pinepipe's cool features."),
                 'archived' => false,
                 'user_id' => $id,
                 'created_by' => $id,
@@ -773,10 +773,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         //Sample Task
         $task = Task::create(
             [
-                'title' => "First task: Explore the samples",
+                'title' => __("First task: Explore the samples"),
                 'priority' => 0,
-                'description' => 'Sample items have been automatically generated for you, in order to try out the available modules',
-                'due_date'  => Carbon::now(),
+                'description' => __('Sample items have been automatically generated for you, in order to try out the available modules'),
+                'due_date'  => Carbon::now(\Auth::user()->timezone),
                 'project_id' => $project->id,
                 'milestone_id' => null,
                 'order' => 0,
@@ -787,22 +787,22 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         );
 
         $task->checklist()->create([
-            'title' => 'Explore the Home dashboard',
+            'title' => __('Explore the Home dashboard'),
             'user_id' => $id,
             'created_by' => $id,
         ]);
         $task->checklist()->create([
-            'title' => 'Open the Sample Project and add a new task',
+            'title' => __('Open the Sample Project and add a new task'),
             'user_id' => $id,
             'created_by' => $id,
         ]);
         $task->checklist()->create([
-            'title' => 'Log in some time and create a Timesheet for the new task',
+            'title' => __('Log in some time and create a Timesheet for the new task'),
             'user_id' => $id,
             'created_by' => $id,
         ]);
         $task->checklist()->create([
-            'title' => 'Invoice the Timesheet to the Client using the Sample Invoice',
+            'title' => __('Invoice the Timesheet to the Client using the Sample Invoice'),
             'user_id' => $id,
             'created_by' => $id,
         ]);
@@ -815,7 +815,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 'project_id' => $project->id,
                 'user_id' => $id,
                 'task_id' => $task->id,
-                'date' => Carbon::now(),
+                'date' => Carbon::now(\Auth::user()->timezone),
                 'rate' => 50,
                 'hours' => 8,
                 'minutes' => 0,
@@ -829,7 +829,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         Expense::create(
             [
                 'amount' => 500,
-                'date' => Carbon::now(),
+                'date' => Carbon::now(\Auth::user()->timezone),
                 'project_id' => $project->id,
                 'category_id' => 6,
                 'user_id' => $id,
@@ -845,8 +845,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 'invoice_id' => 1,
                 'project_id' => $project->id,
                 'status' => 0,
-                'issue_date' => Carbon::now(),
-                'due_date' => Carbon::now()->add(30, 'days'),
+                'issue_date' => Carbon::now(\Auth::user()->timezone),
+                'due_date' => Carbon::now(\Auth::user()->timezone)->add(30, 'days'),
                 'discount' => '0',
                 'tax_id' => null,
                 'notes' => null,

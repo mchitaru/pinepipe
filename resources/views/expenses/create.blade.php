@@ -25,7 +25,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $categories, null, array('class' => 'form-control col', 'placeholder'=>'Select Category...')) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'form-control col', 'placeholder'=>__('Select Category...'))) }}
     </div>
     <div class="form-group row">
         {{ Form::label('attachment', __('Attachment'), array('class'=>'col-3')) }}

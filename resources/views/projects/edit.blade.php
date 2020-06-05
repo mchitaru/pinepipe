@@ -35,7 +35,7 @@
         </div>
         <div class="form-group row">
             {{ Form::label('description', __('Description'), array('class'=>'col-4')) }}
-            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>'What this project is about']) !!}
+            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>__('What this project is about')]) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('users', __('Assign'), array('class'=>'col-4')) }}
@@ -75,7 +75,7 @@
             <div class="col">
                 <div class="custom-control custom-radio">
                 <input type="radio" id="visibility-members" name="visibility" class="custom-control-input" disabled="true">
-                <label class="custom-control-label" for="visibility-members">Members</label>
+                <label class="custom-control-label" for="visibility-members">{{__('Members')}}</label>
                 </div>
             </div>
             <div class="col">

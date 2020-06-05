@@ -18,7 +18,7 @@
             <i class="material-icons">email</i>
           </span>
         </div>
-        {{Form::email('email', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'Recipient email address'))}}
+        {{Form::email('email', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Recipient email address')))}}
       </div>
       <div class="text-right text-small mt-2">
         <a href="#" role="button">{{_('Add another recipient')}}</a>

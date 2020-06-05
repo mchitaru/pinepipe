@@ -50,7 +50,7 @@
     <div class="col">
         <div class="custom-control custom-radio">
         <input type="radio" id="visibility-members" name="visibility" class="custom-control-input" disabled="true">
-        <label class="custom-control-label" for="visibility-members">Members</label>
+        <label class="custom-control-label" for="visibility-members">{{__('Members')}}</label>
         </div>
     </div>
     <div class="col">
