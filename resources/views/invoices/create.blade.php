@@ -17,12 +17,12 @@
     <div class="form-group row">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}
         {{ Form::date('issue_date', null, array('class' => 'start form-control col','required'=>'required', 'placeholder'=>'...',
-                                            'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
         {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...', 
-                                            'data-flatpickr', 'data-default-date'=> date('Y-m-d', strtotime("+1 months", strtotime(date("Y-m-d")))), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d', strtotime("+1 months", strtotime(date("Y-m-d")))), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('tax_id', __('Tax %'), array('class'=>'col-3')) }}

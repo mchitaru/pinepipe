@@ -28,12 +28,12 @@
     <div class="form-group row align-items-center">
         {{ Form::label('start_date', __('Start Date'), array('class'=>'col-3')) }}
         {{ Form::date('start_date', null, array('class' => 'start form-control col', 'placeholder'=>'...',
-                                            'data-flatpickr', 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
         {{ Form::date('due_date', null, array('class' => 'end form-control col', 'placeholder'=>'...',
-                                            'data-flatpickr', 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="alert alert-warning text-small" role="alert">
     <span>{{__('You can change due dates at a later time.')}}</span>

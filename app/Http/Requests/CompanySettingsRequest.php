@@ -32,7 +32,7 @@ class CompanySettingsRequest extends FormRequest
             'zipcode' => 'string',
             'country' => 'string',
             'phone' => 'string',
-            'tax' => 'string',
+            'tax' => 'string|nullable',
             'invoice' => 'string',
             'currency' => 'required',
             'logo' => 'nullable|mimetypes:image/*|max:2048'

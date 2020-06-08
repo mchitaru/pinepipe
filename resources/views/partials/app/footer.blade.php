@@ -28,6 +28,7 @@ $timesheet = $_user?$_user->timesheets->first():null;
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ro.js"></script>
 
 <!-- Autosize - resizes textarea inputs as user types -->
 {{-- <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>
@@ -53,6 +54,7 @@ $timesheet = $_user?$_user->timesheets->first():null;
 </script> --}}
 
 <script>
+
     var options = {
         url: function(phrase) {
             return "{{route('search')}}/" + phrase ;

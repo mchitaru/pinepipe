@@ -109,9 +109,9 @@ return [
         'array' => ':attribute trebuie să conțină :size articole.',
     ],
     'starts_with' => ':attribute trebuie să înceapă cu una din următoarele: :values',
-    'string' => ':attribute trebuie să fie o înșiruire.',
+    'string' => ':attribute trebuie să fie o înșiruire de caractere.',
     'timezone' => ':attribute trebuie să fie o locație validă.',
-    'unique' => 'Acest :attribute a fost deja utilizat.',
+    'unique' => 'Acest :attribute a fost deja folosit.',
     'uploaded' => ':attribute nu s-a încărcat cu succes.',
     'url' => 'Formatul :attribute nu este valid.',
     'uuid' => ':attribute trebuie să fie un UUID valid.',
@@ -131,6 +131,9 @@ return [
         'attribute-name' => [
            'rule-name' => 'custom-message',
         ],
+        'email' => [
+            'unique' => 'Această adresă de email este deja folosită',
+        ]
     ],
 
     /*
@@ -144,6 +147,14 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'handle' => 'nume de utilizator',
+        'email' => 'adresă de email',
+        'password' => 'parola',
+        'name' => 'nume',
+        'current_password' => 'parola curentă',
+        'new_password' => 'parola nouă'
+
+    ],
 
 ];

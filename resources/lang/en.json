@@ -763,5 +763,8 @@
     "No collaborator(s)": "",
     "Unlimited collaborators": "",
     "No collaborators": "",
-    "https:\/\/www.pinepipe.com\/privacy.html": ""
+    "https:\/\/www.pinepipe.com\/privacy.html": "",
+    "default": "",
+    "client": "",
+    "collaborator": ""
 }

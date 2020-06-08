@@ -25,7 +25,7 @@
     <div class="form-group row">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
         {{ Form::text('date', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...',
-                                        'data-flatpickr', 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                        'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}

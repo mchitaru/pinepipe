@@ -48,7 +48,7 @@
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
             {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'...',
-                                                'data-flatpickr', 'data-default-date'=> $end, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                                'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $end, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>
