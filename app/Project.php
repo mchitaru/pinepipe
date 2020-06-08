@@ -296,16 +296,28 @@ class Project extends Model implements HasMedia
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 
+    static function translateStatus($status)
+    {
+        switch($status)
+        {
+            case 1: return __('archived');
+            default: return __('active');
+        }
+    }
+
+    static function translatePriority($priority)
+    {
+        switch($priority)
+        {
+            case 2: return __('low');
+            case 1: return __('medium');
+            default: return __('high');
+        }
+    }
 
     public static $status = [
         'active',
         'archived'
-    ];
-
-    public static $priority       = [
-        'high',
-        'medium',
-        'low',
     ];
 
     public static $permission = [

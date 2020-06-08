@@ -75,7 +75,7 @@ class TasksController extends Controller
         $end = $request->end;
 
         $projects   = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $priorities = Project::$priority;
+        $priorities = [Project::translatePriority(0), Project::translatePriority(1), Project::translatePriority(2)];
 
         $user_id = null;
 
@@ -173,7 +173,7 @@ class TasksController extends Controller
 
         $user_id = $task->users()->get()->pluck('id');
 
-        $priorities  = Project::$priority;
+        $priorities = [Project::translatePriority(0), Project::translatePriority(1), Project::translatePriority(2)];
         $milestones = Milestone::where('project_id', '=', $task->project_id)->get()->pluck('title', 'id');
 
         $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())

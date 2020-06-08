@@ -664,5 +664,8 @@
     "Unlimited collaborators": "Nelimitat colaboratori",
     "No collaborators": "Fără colaboratori",
     "https:\/\/www.pinepipe.com\/privacy.html": "https:\/\/www.pinepipe.com\/privacy_ro.html",
-    "default": "implicit"
+    "default": "implicit",
+    "low": "scăzută",
+    "medium": "medie",
+    "high": "ridicată"
 }

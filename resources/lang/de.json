@@ -686,5 +686,8 @@
     "https:\/\/www.pinepipe.com\/privacy.html": "",
     "default": "",
     "client": "",
-    "collaborator": ""
+    "collaborator": "",
+    "low": "",
+    "medium": "",
+    "high": ""
 }
