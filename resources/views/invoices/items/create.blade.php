@@ -40,7 +40,7 @@
                 <div class="form-group row">
                     {{ Form::label('timesheet_id', __('Timesheet'), array('class'=>'col-3')) }}
                     {!! Form::select('timesheet_id', $timesheets, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
-                                        'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
+                                        'data-refresh'=>route('invoices.items.refresh', $invoice->id), 'lang'=>\Auth::user()->locale)) !!}
                 </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
                 <div class="form-group row">
                     {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
                     {!! Form::select('task_id', $tasks, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
-                                        'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
+                                        'data-refresh'=>route('invoices.items.refresh', $invoice->id), 'lang'=>\Auth::user()->locale)) !!}
                 </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
                   <div class="form-group row">
                       {{ Form::label('expense_id', __('Expense'), array('class'=>'col-3')) }}
                       {!! Form::select('expense_id', $expenses, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
-                                          'data-refresh'=>route('invoices.items.refresh', $invoice->id))) !!}
+                                          'data-refresh'=>route('invoices.items.refresh', $invoice->id), 'lang'=>\Auth::user()->locale)) !!}
                   </div>
               </div>
             </div>

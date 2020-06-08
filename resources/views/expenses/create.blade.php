@@ -29,11 +29,11 @@
     </div>
     <div class="form-group row">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'...')) }}
+        {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...')) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row">
         {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
@@ -42,7 +42,7 @@
     @if(\Auth::user()->type=='company')
     <div class="form-group row">
         {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
-        {{ Form::select('user_id', $owners, \Auth::user()->id, array('class' => 'form-control col')) }}
+        {{ Form::select('user_id', $owners, \Auth::user()->id, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) }}
     </div>
     @endif
     <div class="form-group row avatar-container">

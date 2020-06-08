@@ -12,7 +12,7 @@
     </div>
     <div class="form-group  col-md-6">
         {{ Form::label('status', __('Status')) }}
-        {!! Form::select('status', $status, null,array('class' => 'form-control','required'=>'required')) !!}
+        {!! Form::select('status', $status, null,array('class' => 'form-control','required'=>'required', 'lang'=>\Auth::user()->locale)) !!}
         @error('client')
         <span class="invalid-client" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>

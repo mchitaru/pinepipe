@@ -19,7 +19,7 @@
         @if($role && $role->name == 'client')
         <div class="form-group row required">
             {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-            {!! Form::select('client_id', $clients, null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...')) !!}
+            {!! Form::select('client_id', $clients, null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         @endif
     @endif

@@ -53,7 +53,7 @@
 <div class="form-group row align-items-center">
     {{Form::label('locale',__('Language'), array('class'=>'col-3')) }}
     <div class="col">
-        {!! Form::select('locale', $locales, null, array('class' => 'form-control col')) !!}
+        {!! Form::select('locale', $locales, null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
         @error('locale')
         <span class="invalid-locale" role="alert">
             <strong class="text-danger">{{ $message }}</strong>

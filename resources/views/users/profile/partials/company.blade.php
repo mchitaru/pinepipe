@@ -134,7 +134,7 @@
     <div class="form-group row">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         <div class="col">
-            {!! Form::select('currency', $currencies, ($user->companySettings == null)?'EUR':null, array('class' => 'form-control col')) !!}            
+            {!! Form::select('currency', $currencies, ($user->companySettings == null)?'EUR':null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}            
             @error('currency')
             <span class="invalid-site_currency" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>

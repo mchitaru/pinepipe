@@ -12,7 +12,7 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...')) }}
+        {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}
@@ -30,7 +30,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('tax_id', __('Tax %'), array('class'=>'col-3')) }}
-        {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'placeholder'=>__('No Tax'))) }}
+        {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'placeholder'=>__('No Tax'), 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}

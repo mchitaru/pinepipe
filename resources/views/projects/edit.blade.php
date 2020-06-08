@@ -31,7 +31,7 @@
         </div>
         <div class="form-group row required">
             {{ Form::label('client_id', __('Client'), array('class'=>'col-4')) }}
-            {!! Form::select('client_id', $clients, null,array('class' => (Gate::check('create client')?'tags':'').' form-control col','required'=>'required')) !!}
+            {!! Form::select('client_id', $clients, null,array('class' => (Gate::check('create client')?'tags':'').' form-control col','required'=>'required', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('description', __('Description'), array('class'=>'col-4')) }}
@@ -39,7 +39,7 @@
         </div>
         <div class="form-group row">
             {{ Form::label('users', __('Assign'), array('class'=>'col-4')) }}
-            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
+            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('price', __('Budget'), array('class'=>'col-4')) }}
@@ -47,7 +47,7 @@
         </div>
         <div class="form-group row">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-4')) }}
-            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col', 'placeholder' =>'...')) !!}
+            {!! Form::select('lead_id', $leads, null, array('class' => 'form-control col', 'placeholder' =>'...', 'lang'=>\Auth::user()->locale)) !!}
         </div>
     </div>
     <div class="tab-pane fade show" id="project-timeline" role="tabpanel">

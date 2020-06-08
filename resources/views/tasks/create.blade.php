@@ -21,27 +21,27 @@
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}
-            {!! Form::select('priority', $priorities, 1, array('class' => 'form-control col','required'=>'required')) !!}
+            {!! Form::select('priority', $priorities, 1, array('class' => 'form-control col','required'=>'required', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         <div class="form-group row align-items-center">
             {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
             {!! Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'...',
-                            'data-refresh'=>route('tasks.refresh','0'))) !!}
+                            'data-refresh'=>route('tasks.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
         </div>
         @if(\Auth::user()->type == 'company')
         <div class="form-group row align-items-center">
             {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple')) !!}
+            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         @else
         <div class="form-group row align-items-center required">
             {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'required'=>'true', 'multiple'=>'multiple')) !!}
+            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'required'=>'true', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         @endif
         <div class="form-group row align-items-center">
             {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
-            {!! Form::select('tags[]', $tags, null, array('class' => 'tags form-control col', 'multiple'=>'multiple')) !!}
+            {!! Form::select('tags[]', $tags, null, array('class' => 'tags form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         <hr>
         <h6>{{__('Timeline')}}</h6>

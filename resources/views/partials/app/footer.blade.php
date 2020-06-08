@@ -29,6 +29,7 @@ $timesheet = $_user?$_user->timesheets->first():null;
 {{-- <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ro.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/ro.js"></script>
 
 <!-- Autosize - resizes textarea inputs as user types -->
 {{-- <script type="text/javascript" src="{{ asset('assets/js/autosize.min.js') }}"></script>

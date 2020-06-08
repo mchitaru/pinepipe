@@ -17,7 +17,7 @@
         </div>
         <div class="form-group row required">
             {{ Form::label('users', __('Atendees'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, \Auth::user()->id, array('class' => 'form-control col', 'multiple'=>'multiple','required'=>'required')) !!}
+            {!! Form::select('users[]', $users, \Auth::user()->id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         <div class="form-group row">
             {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
@@ -42,7 +42,7 @@
         <h6>{{__('Attach')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
-            {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'...')) !!}
+            {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         <hr>
         <h6>{{__('Visibility')}}</h6>

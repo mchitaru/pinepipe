@@ -21,7 +21,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Payment Method'), array('class'=>'col-3')) }}
-        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...')) }}
+        {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}

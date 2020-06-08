@@ -21,22 +21,22 @@
     </div>
     <div class="form-group row">
         {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
-        {{ Form::select('stage_id', $stages,null, array('class' => 'form-control col font-style selectric','required'=>'required')) }}
+        {{ Form::select('stage_id', $stages,null, array('class' => 'form-control col font-style selectric','required'=>'required', 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row">
         {{ Form::label('category_id', __('Source'), array('class'=>'col-3')) }}
-        {!! Form::select('category_id', $categories, $category_id, array('class' => 'tags form-control col font-style selectric', 'placeholder'=>'...')) !!}
+        {!! Form::select('category_id', $categories, $category_id, array('class' => 'tags form-control col font-style selectric', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <hr>
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, null,array('class' => (Gate::check('create client')?'tags':'').' form-control col font-style selectric', 'required'=>'true', 'placeholder'=>'...',
-                        'data-refresh'=>route('leads.refresh', $lead->id))) !!}
+                        'data-refresh'=>route('leads.refresh', $lead->id), 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <div class="form-group row">
         {{ Form::label('contact_id', __('Contact'), array('class'=>'col-3')) }}
-        {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>'...')) !!}
+        {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <hr>
     <h6>{{__('Visibility')}}</h6>
