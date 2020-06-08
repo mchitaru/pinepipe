@@ -111,7 +111,7 @@ return [
     'starts_with' => ':attribute trebuie să înceapă cu una din următoarele: :values',
     'string' => ':attribute trebuie să fie o înșiruire.',
     'timezone' => ':attribute trebuie să fie o locație validă.',
-    'unique' => ':attribute a fost deja utilizat.',
+    'unique' => 'Acest :attribute a fost deja utilizat.',
     'uploaded' => ':attribute nu s-a încărcat cu succes.',
     'url' => 'Formatul :attribute nu este valid.',
     'uuid' => ':attribute trebuie să fie un UUID valid.',

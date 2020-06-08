@@ -51,6 +51,6 @@
         </div>
     </div>
     <div class="row justify-content-end">
-        {{Form::submit('Save', array('class'=>'btn btn-primary'))}}
+        {{Form::submit(__('Save'), array('class'=>'btn btn-primary'))}}
     </div>
 {{Form::close()}}

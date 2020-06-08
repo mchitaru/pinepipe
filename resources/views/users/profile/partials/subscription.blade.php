@@ -26,7 +26,7 @@
                                     <b>{{!isset($plan->max_projects)?__('Unlimited'):$plan->max_projects}}</b> {{__('project(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{!isset($plan->max_users)?__('Unlimited'):($plan->max_users==0?'No':$plan->max_users)}}</b> {{__('collaborator(s)')}}
+                                    <b>{{!isset($plan->max_users)?__('Unlimited collaborators'):($plan->max_users==0?__('No collaborators'):$plan->max_users.' '.__('collaborator(s)'))}}</b>
                                 </li>
                             </ul>
                             @if($key != 0 )
