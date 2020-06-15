@@ -22,7 +22,6 @@
     </div>
 
         {{-- @include('partials.app.social') --}}
-    @include('partials.app.tawk')
     @include('partials.app.footer')
 
 </body>
