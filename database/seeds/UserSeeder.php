@@ -28,6 +28,11 @@ class UserSeeder extends Seeder
             'create permission',
             'edit permission',
             'delete permission',
+            'view all article',
+            'view article',
+            'create article',
+            'edit article',
+            'delete article'
         ];
         foreach($superAdminPermissions as $ap)
         {
@@ -108,7 +113,12 @@ class UserSeeder extends Seeder
             'view timesheet',
             'create timesheet',
             'edit timesheet',
-            'delete timesheet'
+            'delete timesheet',
+            'view all article',
+            'view article',
+            'create article',
+            'edit article',
+            'delete article'
         ];
 
         foreach($companyPermissions as $ap)
@@ -131,6 +141,7 @@ class UserSeeder extends Seeder
             'create task',
             'view invoice',
             'view expense',
+            'view all article',
         ];
 
         $role               =   new Role();
@@ -171,6 +182,11 @@ class UserSeeder extends Seeder
             'create timesheet',
             'edit timesheet',
             'delete timesheet',
+            'view all article',
+            'view article',
+            'create article',
+            'edit article',
+            'delete article'
         ];
 
         $role               =   new Role();
@@ -267,7 +283,12 @@ class UserSeeder extends Seeder
             'view timesheet',
             'create timesheet',
             'edit timesheet',
-            'delete timesheet'
+            'delete timesheet',
+            'view all article',
+            'view article',
+            'create article',
+            'edit article',
+            'delete article'
         ];
 
         foreach($arrPermissions as $ap)

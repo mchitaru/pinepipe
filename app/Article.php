@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Categorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -10,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Article extends Model implements HasMedia
 {
-    use HasMediaTrait;
+    use HasMediaTrait, Categorizable;
 
     protected $fillable = [
         'title', 
