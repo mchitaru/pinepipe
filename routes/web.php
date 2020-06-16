@@ -53,6 +53,7 @@ Route::group(
         //Dashboard
         Route::get('/', 'DashboardController@index');
         Route::get('home', 'DashboardController@index')->name('home');
+        Route::get('oauth/google', 'DashboardController@index');
 
         //Calendar
         Route::resource('calendar', 'CalendarController');
