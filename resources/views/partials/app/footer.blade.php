@@ -26,7 +26,7 @@ $timesheet = $_user?$_user->timesheets->first():null;
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ro.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/ro.js"></script>
