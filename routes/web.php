@@ -184,6 +184,11 @@ Route::group(
         Route::resource('expenses', 'ExpensesController');
 
         Route::resource('articles', 'ArticlesController');
+
+
+        // Managing Google accounts.
+        Route::get('google/oauth', 'GoogleAccountController@store')->name('google.store');
+        Route::delete('google/{googleAccount}', 'GoogleAccountController@destroy')->name('google.destroy');        
 });
 
 Route::get('wiki/{user:handle}/{categories?}', 'WikiController@index')->where('categories','^[a-zA-Z0-9-_\/]+$')->name('wiki.index')->middleware('xss');

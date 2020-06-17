@@ -15,8 +15,9 @@ class CalendarController extends Controller
             $event['title']  = $ev->name;
             $event['start']  = \Helpers::utcToLocal($ev->start);
             $event['end']  = \Helpers::utcToLocal($ev->end);
+            $event['allDay']  = $ev->allDay;
             $event['url'] = route('events.edit', $ev->id);
-            $event['backgroundColor'] = '#007bff';
+            $event['color'] = $ev->calendar?$ev->calendar->color:'#007bff';
             $events[]     = $event;
         }
 
@@ -29,8 +30,9 @@ class CalendarController extends Controller
         {
             $task['title']  = $t->title;
             $task['start']  = $t->due_date;
+            $task['allDay']  = true;
             $task['url'] = route('tasks.show', $t->id);
-            $task['backgroundColor'] = '#20c997';
+            $task['color'] = '#20c997';
             $events[]     = $task;
         }
 

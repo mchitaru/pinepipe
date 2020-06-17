@@ -99,6 +99,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             $user->destroyUserTaskAllInfo();
 
             $user->activities()->delete();
+
+            $user->googleAccounts()->each(function($account) {
+                $account->delete();
+            });
+
         });
 
         static::updating(function ($user) {
@@ -189,15 +194,20 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $this->belongsToMany('App\Task', 'user_tasks');
     }
 
-    public function events()
+    public function userEvents()
     {
-        return $this->morphToMany('App\Event', 'eventable');
+        return $this->hasMany('App\Event', 'user_id', 'id');
     }
 
     public function client()
     {
         return $this->hasOne('App\Client', 'id', 'client_id');
     }
+
+    public function googleAccounts()
+    {
+        return $this->hasMany(GoogleAccount::class);
+    }    
 
     public function companySettings()
     {

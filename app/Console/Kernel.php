@@ -5,6 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Jobs\PeriodicSynchronizationsJob;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -25,6 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('queue:work --queue=default --tries=1 --timeout=40 --stop-when-empty')->everyMinute();
+        $schedule->job(new PeriodicSynchronizationsJob())->everyFifteenMinutes();
         // $schedule->command('event:reminders')->everyMinute()->withoutOverlapping(5);
         $schedule->command('app:dailyreminders')->daily();
 

@@ -667,5 +667,12 @@
     "default": "implicit",
     "low": "scăzută",
     "medium": "medie",
-    "high": "ridicată"
+    "high": "ridicată",
+    "Google account succesfully linked.": "Contul tău Google a fost atașat cu succes",
+    "Google account access was revoked.": "Contul tău Google a fost revocat cu succes",
+    "All day": "Toată ziua",
+    "Google Calendar": "",
+    "Linked account:": "Cont atașat",
+    "none": "nimic",
+    "Link": "Atașează"
 }

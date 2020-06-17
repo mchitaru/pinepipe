@@ -27,9 +27,10 @@ class EventUpdateRequest extends FormRequest
             'name'=>'required|string|min:3',
             'start'=>'required|date_format:Y-m-d H:i',
             'end'=>'required|date_format:Y-m-d H:i',
-            'notes'=>'nullable|string',
+            'description'=>'nullable|string',
             'lead_id'=>'nullable|integer',
             'users'=>'required|array',
+            'allday'=>'required|boolean',
         ];
     }
 

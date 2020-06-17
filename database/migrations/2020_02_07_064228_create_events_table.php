@@ -15,12 +15,14 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('active');
+            $table->unsignedBigInteger('calendar_id');
+            $table->string('google_id');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamp('start')->default(now());
             $table->timestamp('end')->default(now());
-            $table->boolean('busy');
-            $table->text('notes')->nullable();
+            $table->boolean('allday')->default(false);
+            $table->boolean('busy')->default(true);
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('user_id')->default(0);
             $table->unsignedInteger('created_by')->default(0);

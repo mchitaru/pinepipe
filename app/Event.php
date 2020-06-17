@@ -11,19 +11,22 @@ class Event extends Model
 {
     use NullableFields, Taggable;
 
+    protected $with = ['calendar'];
+
     protected $fillable = [
-        'active',
         'name',
         'start',
         'end',
         'busy',
-        'notes',
+        'description',
         'user_id',
         'created_by',
+        'allday',
+        'google_id',        
     ];
 
     protected $nullable = [
-        'notes'
+        'description'
 	];
 
     public static $SEED = 10;
@@ -79,12 +82,29 @@ class Event extends Model
         return $this->morphedByMany('App\Lead', 'eventable');
     }
 
+    public function calendar()
+    {
+        return $this->belongsTo(Calendar::class);
+    }
+
+    public function getStartedAtAttribute($start)
+    {
+        return $this->asDateTime($start)->setTimezone($this->calendar->timezone);
+    }
+
+    public function getEndedAtAttribute($end)
+    {
+        return $this->asDateTime($end)->setTimezone($this->calendar->timezone);
+    }
+
+    public function getDurationAttribute()
+    {
+        return $this->started_at->diffForHumans($this->ended_at, true);
+    }    
+
     public static function createEvent($post)
     {
-        $post['active']     = true;
         $post['busy']       = true;
-        $post['user_id']    = \Auth::user()->id;
-        $post['created_by'] = \Auth::user()->creatorId();
 
         $post['start'] = \Helpers::localToUTC($post['start']);
         $post['end'] = \Helpers::localToUTC($post['end']);

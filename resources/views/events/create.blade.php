@@ -20,8 +20,8 @@
             {!! Form::select('users[]', $users, \Auth::user()->id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         <div class="form-group row">
-            {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
-            {!!Form::textarea('notes', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>__('Some notes about the call')]) !!}
+            {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
+            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'3', 'placeholder'=>__('Some notes about the call')]) !!}
         </div>
         <hr>
         <h6>{{__('Timeline')}}</h6>
@@ -34,6 +34,15 @@
             {{ Form::label('end', __('End'), array('class'=>'col-3')) }}
             {{ Form::date('end', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...',
                                                 'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($end), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+        </div>
+        <div class="row p-1 align-items-center">
+            <div class="col-9">
+            </div>
+            <div class="form-group col custom-control custom-checkbox custom-checkbox-switch">
+                <input type="hidden" name="allday" value="1">
+                {{Form::checkbox('allday', 1, 0, ['class'=>'custom-control-input', 'id' =>'allday'])}}
+                {{Form::label('allday', __('All day'), ['class'=>'custom-control-label'])}}
+            </div>
         </div>
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>
