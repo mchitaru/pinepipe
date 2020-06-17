@@ -22,11 +22,13 @@ class Event extends Model
         'user_id',
         'created_by',
         'allday',
+        'recurrence',
         'google_id',        
     ];
 
     protected $nullable = [
-        'description'
+        'description',
+        'recurrence'
 	];
 
     public static $SEED = 10;

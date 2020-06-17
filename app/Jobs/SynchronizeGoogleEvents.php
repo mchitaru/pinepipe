@@ -30,6 +30,8 @@ class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements Shoul
 
     public function getGoogleRequest($service, $options)
     {
+        // $options['singleEvents'] = true;
+
         return $service->events->listEvents(
             // We provide the Google ID of the calendar from which we want the events.
             $this->synchronizable->google_id, $options
@@ -40,7 +42,7 @@ class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements Shoul
     {
         // A Google event has been deleted if its status is `cancelled`.
         if ($googleEvent->status === 'cancelled' ||
-            $this->parseDatetime($googleEvent->end) < now()) {
+            ($googleEvent->recurrence == null && $this->parseDatetime($googleEvent->end) < now())) {
 
             return $this->synchronizable->events()
                 ->where('google_id', $googleEvent->id)
@@ -54,9 +56,10 @@ class SynchronizeGoogleEvents extends SynchronizeGoogleResource implements Shoul
             [
                 'name' => $googleEvent->summary,
                 'description' => $googleEvent->description,
-                'allday' => $this->isAllDayEvent($googleEvent), 
                 'start' => $this->parseDatetime($googleEvent->start), 
                 'end' => $this->parseDatetime($googleEvent->end), 
+                'allday' => $this->isAllDayEvent($googleEvent), 
+                'recurrence'=> json_encode($googleEvent->recurrence),
                 'user_id' => $this->synchronizable->user_id,
                 'created_by' => $this->synchronizable->created_by,                
             ]

@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->string('google_id');
             $table->string('name');
             $table->text('description')->nullable();
+            $table->text('recurrence')->nullable();            
             $table->timestamp('start')->default(now());
             $table->timestamp('end')->default(now());
             $table->boolean('allday')->default(false);

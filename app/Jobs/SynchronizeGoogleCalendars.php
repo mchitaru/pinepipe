@@ -39,7 +39,7 @@ class SynchronizeGoogleCalendars extends SynchronizeGoogleResource implements Sh
                 ->get()->each->delete();
         }        
 
-        $calendar = $this->synchronizable->calendars()->updateOrCreate(
+        $this->synchronizable->calendars()->updateOrCreate(
             [
                 'google_id' => $googleCalendar->id,
             ],
