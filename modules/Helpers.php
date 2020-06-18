@@ -130,7 +130,7 @@ class Helpers
         $time = \Helpers::utcToLocal($time);
 
         $color = ($time < now(\Auth::user()->timezone))?'text-danger':'';
-        $text = $time->format('M d, H:m');
+        $text = $time->format('M d, H:i');
 
         return '<span class="text-small '.$color.'">'.$text.'</span>';
     }
