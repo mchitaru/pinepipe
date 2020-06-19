@@ -835,51 +835,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $project->users()->sync(array($id));
 
-        //Sample Task
-        $task = Task::create(
-            [
-                'title' => __("First task: Explore the samples"),
-                'priority' => 0,
-                'description' => __('Sample items have been automatically generated for you, in order to try out the available modules'),
-                'due_date'  => Carbon::now(),
-                'project_id' => $project->id,
-                'milestone_id' => null,
-                'order' => 0,
-                'stage_id' => $taskStage->id,
-                'user_id' => $id,
-                'created_by' => $id,
-            ]
-        );
-
-        $task->checklist()->create([
-            'title' => __('Explore the Home dashboard'),
-            'user_id' => $id,
-            'created_by' => $id,
-        ]);
-        $task->checklist()->create([
-            'title' => __('Open the Sample Project and add a new task'),
-            'user_id' => $id,
-            'created_by' => $id,
-        ]);
-        $task->checklist()->create([
-            'title' => __('Log in some time and create a Timesheet for the new task'),
-            'user_id' => $id,
-            'created_by' => $id,
-        ]);
-        $task->checklist()->create([
-            'title' => __('Invoice the Timesheet to the Client using the Sample Invoice'),
-            'user_id' => $id,
-            'created_by' => $id,
-        ]);
-
-        $task->users()->sync(array($id));
-
         //Sample Timesheet
         Timesheet::create(
             [
                 'project_id' => $project->id,
                 'user_id' => $id,
-                'task_id' => $task->id,
+                'task_id' => null,
                 'date' => Carbon::now(),
                 'rate' => 50,
                 'hours' => 8,
