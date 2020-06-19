@@ -6,7 +6,10 @@
         <div class="media align-items-center">
         <img alt="Calendar" width=32 height=32 src="{{ asset('assets/img/logo-integration-google-calendar.png') }}" />
         <div class="media-body ml-2">
-            <span class="h6 mb-0 d-block">{{__('Google Calendar')}}</span>
+            <span class="h6 mb-0 d-block">
+                {{__('Google Calendar')}} 
+                <span class="badge badge-info" data-filter-by="text">{{__('experimental')}}</span>
+            </span>
             <span class="text-small text-muted">{{__('Linked account:')}} {{ \Auth::user()->googleAccounts->isEmpty()?__('none'):\Auth::user()->googleAccounts->first()->name}}</span>
         </div>
         </div>
