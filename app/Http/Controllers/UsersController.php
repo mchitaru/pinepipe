@@ -217,7 +217,7 @@ class UsersController extends Controller
             return view('helpers.destroy');
         }
 
-        $user->delete();
+        $user->forceDelete();
 
         return Redirect::to(URL::previous())->with('success', __('User successfully deleted.'));
     }

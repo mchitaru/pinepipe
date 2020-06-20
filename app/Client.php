@@ -64,7 +64,7 @@ class Client extends Model implements HasMedia
             });
 
             $client->users()->each(function($user) {
-                $user->delete();
+                $user->forceDelete();
             });
 
             $client->tags()->detach();

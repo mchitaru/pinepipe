@@ -89,14 +89,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         static::deleting(function ($user) {
 
+            //TO DO:
             $user->events()->detach();
             $user->projects()->detach();
             $user->tasks()->detach();
 
             $user->removeUserLeadInfo();
-            $user->destroyUserNotesInfo();
             $user->removeUserExpenseInfo();
-            $user->destroyUserTaskAllInfo();
 
             $user->activities()->delete();
 
