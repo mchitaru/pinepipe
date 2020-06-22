@@ -3,20 +3,20 @@
     <div class="row">
         @foreach($plans as $key=>$plan)
         <div class="col-lg-6">
-            <div class="card text-center" style="min-height: 270px;">
+            <div class="card {{$plan->deal?'bg-warning':''}} text-center" style="min-height: 270px;">
                 <div class="card-body">
                     <div class="row">
                         <div class="col mb-4">
-                            <h6 class="text-center">
+                            <h5 class="text-center">
                                 {{$plan->name}}
 
                                 @if($user_plan->id == $plan->id)
                                     <span class="badge badge-primary">{{__('active')}}</span>
                                 @endif
-                            </h6>
+                            </h5>
 
                             <h4 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?$plan->price/$plan->duration:$plan->price)}}
-                                <span class="text-small">{{$plan->price?'/'.__('month'):''}}</span>
+                                <span class="text-small">{{($plan->price && isset($plan->duration))?'/'.__('month'):''}}</span>
                             </h4>
                             <ul class="list-unstyled">
                                 <li class="text-small">

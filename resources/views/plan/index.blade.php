@@ -42,44 +42,44 @@
             <!--end of content list head-->
             <div class="content-list-body row">
                 @foreach($plans as $plan)
-                    <div class="card text-center" style="max-width: 250px;">
-                        <div class="card-body">
-                        <div class="row">
-                            <div class="col sm">
-                            <div class="mb-4">
-                                <h6>{{$plan->name}}</h6>
+                    <div class="col-lg-3">
+                        <div class="card text-center" style="max-width: 250px;">
+                            <div class="card-body">
+                                <div class="col sm">
+                                <div class="mb-4">
+                                    <h6>{{$plan->name}}</h6>
 
-                                <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
-                                    <span class="text-small">{{$plan->price?'/month':''}}</span>
-                                </h4>                                    
-    
+                                    <h4 class="mb-2 font-weight-bold">{{str_replace('.00','',Auth::user()->priceFormat($plan->duration?$plan->price/$plan->duration:$plan->price))}}
+                                        <span class="text-small">{{($plan->price && isset($plan->duration))?'/month':''}}</span>
+                                    </h4>                                    
+        
+                                </div>
+                                <ul class="list-unstyled">
+                                    <li class="text-small">
+                                        <b>{{!isset($plan->max_clients)?'Unlimited':$plan->max_clients}}</b> {{__('client(s)')}}
+                                    </li>
+                                    <li class="text-small">
+                                        <b>{{!isset($plan->max_projects)?'Unlimited':$plan->max_projects}}</b> {{__('project(s)')}}
+                                    </li>
+                                    <li class="text-small">
+                                        <b>{{!isset($plan->max_users)?'Unlimited':($plan->max_users==0?'No':$plan->max_users)}}</b> {{__('collaborator(s)')}}
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="list-unstyled">
-                                <li class="text-small">
-                                    <b>{{!isset($plan->max_clients)?'Unlimited':$plan->max_clients}}</b> {{__('client(s)')}}
-                                </li>
-                                <li class="text-small">
-                                    <b>{{!isset($plan->max_projects)?'Unlimited':$plan->max_projects}}</b> {{__('project(s)')}}
-                                </li>
-                                <li class="text-small">
-                                    <b>{{!isset($plan->max_users)?'Unlimited':($plan->max_users==0?'No':$plan->max_users)}}</b> {{__('collaborator(s)')}}
-                                </li>
-                            </ul>
-                        </div>
-                        </div>
-                        <div class="dropdown card-options">
-                            <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </button>
+                            <div class="dropdown card-options">
+                                <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </button>
 
-                            <div class="dropdown-menu dropdown-menu-right">
-                                @if(\Auth::user()->type=='super admin')
-                                <a class="dropdown-item" href="{{ route('plans.edit',$plan->id)  }}" data-remote="true" data-type="text">
-                                    <span>{{__('Edit')}}</span>
-                                </a>
-                                @endif
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    @if(\Auth::user()->type=='super admin')
+                                    <a class="dropdown-item" href="{{ route('plans.edit',$plan->id)  }}" data-remote="true" data-type="text">
+                                        <span>{{__('Edit')}}</span>
+                                    </a>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach

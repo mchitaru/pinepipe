@@ -36,7 +36,7 @@ class UserProfileController extends Controller
                 $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
             }
 
-            $plans = SubscriptionPlan::get();
+            $plans = SubscriptionPlan::orderBy('duration','asc')->get();
 
             $companySettings = $user->companySettings;
             $companyName = $companySettings ? $companySettings->name : null;

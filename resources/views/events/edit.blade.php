@@ -40,7 +40,7 @@
         <div class="col-9">
         </div>
         <div class="form-group col custom-control custom-checkbox custom-checkbox-switch">
-            <input type="hidden" name="allday" value="1">
+            <input type="hidden" name="allday" value="0">
             {{Form::checkbox('allday', 1, null, ['class'=>'custom-control-input', 'id' =>'allday'])}}
             {{Form::label('allday', __('All day'), ['class'=>'custom-control-label'])}}
         </div>

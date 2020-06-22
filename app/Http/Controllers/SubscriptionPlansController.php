@@ -42,12 +42,16 @@ class SubscriptionPlansController extends Controller
         if(\Auth::user()->type == 'super admin')
         {
             $validation                 = [];
-            $validation['name']         = 'required|unique:plans';
+            $validation['name']         = 'required|unique:subscription_plans';
+            $validation['paddle_id']    = 'required|string';
             $validation['price']        = 'required|numeric|min:0';
-            $validation['duration']     = 'required|nullable';
-            $validation['max_users']    = 'required|numeric';
-            $validation['max_clients']  = 'required|numeric';
-            $validation['max_projects'] = 'required|numeric';
+            $validation['deal']         = 'required|boolean';
+            $validation['duration']     = 'nullable|numeric';
+            $validation['max_users']    = 'nullable|numeric';
+            $validation['max_clients']  = 'nullable|numeric';
+            $validation['max_projects'] = 'nullable|numeric';
+            $validation['max_space']    = 'nullable|numeric';
+            $validation['description']  = 'nullable|string';
             $request->validate($validation);
             $post = $request->all();
 
@@ -86,12 +90,16 @@ class SubscriptionPlansController extends Controller
             if(!empty($plan))
             {
                 $validation                 = [];
-                $validation['name']         = 'required|unique:plans,name,' . $plan_id;
+                $validation['name']         = 'required|unique:subscription_plans,name,' . $plan_id;
+                $validation['paddle_id']    = 'required|string';
                 $validation['price']        = 'required|numeric|min:0';
-                $validation['duration']     = 'required|nullable';
-                $validation['max_users']    = 'required|numeric';
-                $validation['max_clients']  = 'required|numeric';
-                $validation['max_projects'] = 'required|numeric';
+                $validation['deal']         = 'required|boolean';
+                $validation['duration']     = 'nullable|numeric';
+                $validation['max_users']    = 'nullable|numeric';
+                $validation['max_clients']  = 'nullable|numeric';
+                $validation['max_projects'] = 'nullable|numeric';
+                $validation['max_space']    = 'nullable|numeric';
+                $validation['description']  = 'nullable|string';
 
                 $request->validate($validation);
 
