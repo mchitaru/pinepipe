@@ -16,7 +16,10 @@
                 @else
                     <h6 data-filter-by="text">{{$user->name}}</h6>
                 @endif
-                <span class="text-small">{{$user->type}}</span>
+                <p class="text-small">{{$user->type}}</p>
+                @if(\Auth::user()->type=='super admin')
+                    <p class="text-small">{{$user->created_at}}</p>
+                @endif
             </div>
             <div class="card-title col-xs-12 col-sm-4">
                 <span class="d-flex align-items-center">
@@ -27,39 +30,36 @@
                         </span>
                     </a>
                 </span>
-                    @if(\Auth::user()->type=='super admin')
-                        <span class="text-small">{{$user->created_at}}</span>
-                    @endif
-                    @if($user->trashed())
-                        <span class="badge badge-danger">{{__('Deleted')}}</span>
-                    @endif
+                @if($user->trashed())
+                    <span class="badge badge-danger">{{__('Deleted')}}</span>
+                @endif
             </div>
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
                     @if(\Auth::user()->type=='super admin')
                     <span class="badge badge-secondary mr-2">
-                        <i class="material-icons" title="Users">people</i>
+                        <i class="material-icons" title={{__("Collaborators")}}>people</i>
                         {{$user->total_company_user($user->id)}}
                     </span>
                     <span class="badge badge-secondary mr-2">
-                        <i class="material-icons" title="Projects">folder</i>
+                        <i class="material-icons" title={{__("Projects")}}>folder</i>
                         {{$user->total_company_project($user->id)}}
                     </span>
                     <span class="badge badge-secondary mr-2">
-                        <i class="material-icons" title="Clients">storefront</i>
+                        <i class="material-icons" title={{__("Clients")}}>storefront</i>
                         {{$user->total_company_client($user->id)}}
                     </span>
                     @else
                     <span class="badge badge-secondary mr-2">
-                        <i class="material-icons" title="Projects">folder</i>
+                        <i class="material-icons" title={{__("Projects")}}>folder</i>
                         {{$user->user_projects_count()}}
                     </span>
                     <span class="badge badge-secondary mr-2">
-                        <i class="material-icons" title="Tasks">playlist_add_check</i>
+                        <i class="material-icons" title={{__("Tasks")}}>playlist_add_check</i>
                         {{$user->user_tasks_count()}}
                     </span>
                     @endif
-                </div>
+                </div>    
             </div>
             <div class="dropdown card-options">
                     @if($user->enabled)
@@ -81,17 +81,20 @@
 
                             @can('delete user')
                                 @if(!$user->trashed())
-                                    <a class="dropdown-item text-danger" href="{{ route('users.update', $user->id) }}" data-method="patch" data-remote="true" data-type="text">
-                                        <span>{{__('Delete')}}</span>
-                                    </a>
+                                    @if(\Auth::user()->type=='super admin')
+                                        <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                            <span>{{__('Delete')}}</span>
+                                        </a>
+                                    @else
+                                        <a class="dropdown-item text-danger" href="{{ route('users.update', $user->id) }}" data-method="patch" data-remote="true" data-type="text">
+                                            <span>{{__('Delete')}}</span>
+                                        </a>
+                                    @endif
                                 @else
                                     <a href="{{ route('users.update', $user->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
                                         {{__('Restore')}}
                                     </a>
                                 @endif
-                            {{-- <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                <span>{{__('Delete')}}</span>
-                            </a> --}}
                             @endcan
                         </div>
                     @else

@@ -83,10 +83,16 @@ $languages = $_user->languages();
         @endif
         @if(\Auth::user()->type=='super admin')
             <li class="nav-item">
-                <a class="nav-link" href="{{url('/languages')}}">{{__('Languages')}}</a>
+                <a class="nav-link" href="{{url('/languages')}}">
+                    <i class="material-icons pr-2">language</i>
+                    {{__('Languages')}}
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{route('plans.index')}}">{{__('Price Plans')}}</a>
+                <a class="nav-link" href="{{route('plans.index')}}">
+                    <i class="material-icons pr-2">money</i>
+                    {{__('Subscription Plans')}}
+                </a>
             </li>
         @endif
         @can('view client')

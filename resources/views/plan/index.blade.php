@@ -6,7 +6,7 @@
 @endpush
 
 @section('page-title')
-    {{__('Plan')}}
+    {{__('Subscription Plans')}}
 @endsection
 
 @section('content')
@@ -21,7 +21,7 @@
         <div class="tab-pane fade show active" id="plans" role="tabpanel" data-filter-list="content-list-body">
             <div class="row content-list-head">
             <div class="col-auto">
-                <h3>{{__('Plans')}}</h3>
+                <h3>{{__('Subscription Plans')}}</h3>
                 @if(\Auth::user()->type=='super admin')
                 <a class="btn btn-round" href="{{ route('plans.create') }}" data-remote="true" data-type="text">
                     <i class="material-icons">add</i>

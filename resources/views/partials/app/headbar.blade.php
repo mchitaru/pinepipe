@@ -37,7 +37,7 @@ $languages=$_user->languages();
             <a class="nav-link" href="{{url('/languages')}}">{{__('Languages')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{route('plans.index')}}">{{__('Price Plans')}}</a>
+            <a class="nav-link" href="{{route('plans.index')}}">{{__('Subscription Plans')}}</a>
         </li>
     @endif
 
