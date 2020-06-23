@@ -74,7 +74,7 @@ class LeadsController extends Controller
                                     ->where('class', Lead::class)
                                     ->get()->pluck('name', 'id');
 
-            if($category_id){
+            if(isset($category_id) && !is_numeric($category_id)){
 
                 $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
             }
@@ -115,7 +115,7 @@ class LeadsController extends Controller
                                     ->where('class', Lead::class)
                                     ->get()->pluck('name', 'id');
 
-            if($category_id){
+            if(isset($category_id) && !is_numeric($category_id)){
 
                 $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
             }
