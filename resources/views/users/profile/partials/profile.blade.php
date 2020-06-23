@@ -85,3 +85,14 @@
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary'))}}
 </div>
 {{Form::close()}}
+
+{{-- <div class="pt-5">
+    <div class="card-footer row align-items-center">
+        <div class="col-8 text-small">{{__('Delete your account and data from Pinepipe')}}</div>
+        <div class="col-4">
+            <a href="{{ route('profile.destroy', $user) }}" class="btn btn-light" data-method="delete" data-remote="true" data-type="text">
+                {{__('Delete my account')}}
+            </a>
+        </div>
+    </div>
+</div>     --}}

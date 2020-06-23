@@ -85,6 +85,7 @@ Route::group(
         Route::get('profile/{user:handle}/edit', 'UserProfileController@edit')->name('profile.edit');
         Route::put('profile/{user:handle}', 'UserProfileController@update')->name('profile.update');
         Route::patch('profile/{user:handle}', 'UserProfileController@password')->name('profile.password');
+        Route::delete('profile/{user:handle}', 'UserProfileController@destroy')->name('profile.destroy');
 
         //Settings
         Route::post('settings/company', 'CompanySettingsController@update')->name('settings.company');

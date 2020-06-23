@@ -41,6 +41,13 @@ class Stage extends Model
 
         static::deleting(function ($stage) {
 
+            $stage->tasks()->each(function($task) {
+                $task->delete();
+            });
+
+            $stage->leads()->each(function($lead) {
+                $lead->delete();
+            });
         });
     }
 

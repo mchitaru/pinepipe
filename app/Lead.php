@@ -89,7 +89,7 @@ class Lead extends Model implements HasMedia
 
     public function removeProjectLead()
     {
-        return Project::where('lead_id','=',$this->id)->update(array('lead_id' => 0));
+        return Project::where('lead_id','=', $this->id)->update(array('lead_id' => 0));
     }
 
     public static function createLead($post)

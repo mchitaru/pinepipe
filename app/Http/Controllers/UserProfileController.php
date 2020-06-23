@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserProfileRequest;
+use App\Http\Requests\UserProfileDestroyRequest;
 use App\Http\Requests\UserUnsubscribeRequest;
 use Illuminate\Support\Facades\Hash;
 
@@ -75,6 +76,20 @@ class UserProfileController extends Controller
         }
 
         return redirect(route('profile.edit', $user->handle()))->with('success', __('Profile updated successfully.'));
+    }
+
+    public function destroy(UserProfileDestroyRequest $request, User $user)
+    {
+        if($request->ajax()){
+
+            return view('helpers.destroy');
+        }
+
+        \Auth::logout();
+
+        $user->forceDelete();
+
+        return Redirect::route('login')->with('success', __('Account successfully deleted.'));
     }
 
     public function password(UserProfileRequest $request, User $user)

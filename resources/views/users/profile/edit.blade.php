@@ -88,10 +88,10 @@ use App\SubscriptionPlan;
                 <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.profile.partials.subscription')</div>
                 @endif
                 <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.profile.partials.integrations')</div>
-            </div>
+            </div>            
         </div>
         </div>
     </div>
-    </div>
+    </div>    
 </div>
 @endsection

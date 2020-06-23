@@ -708,5 +708,8 @@
     "Maximum Clients": "",
     "Maximum Disk Space (GP)": "",
     "Leave the box empty for Unlimited (duration, users, clients, projects or space)": "",
-    "experimental": ""
+    "experimental": "",
+    "Account successfully deleted.": "",
+    "Delete your account and data from Pinepipe": "",
+    "Delete my account": ""
 }

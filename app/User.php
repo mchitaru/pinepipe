@@ -97,12 +97,17 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             $user->removeUserLeadInfo();
             $user->removeUserExpenseInfo();
 
-            $user->activities()->delete();
-
             $user->googleAccounts()->each(function($account) {
                 $account->delete();
             });
 
+            $user->activities()->delete();
+            $user->subscriptions()->delete();
+    
+            if($user->type == 'company') {
+
+                $user->deleteCompany();                
+            }
         });
 
         static::updating(function ($user) {
@@ -220,6 +225,101 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         }
     }
 
+    public function companyLeads()
+    {
+        return Lead::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyProjects()
+    {
+        return Project::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyTasks()
+    {
+        return Task::with('project')->where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyStaff()
+    {
+        return User::where('created_by', '=', $this->creatorId())->where('type', '!=', 'client');
+    }
+
+    public function companyRoles()
+    {
+        return Role::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyClients()
+    {
+        return Client::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyContacts()
+    {
+        return Contact::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyEvents()
+    {
+        return Event::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyTimesheets()
+    {
+        return Timesheet::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyStages()
+    {
+        return Stage::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyInvoices()
+    {
+        return Invoice::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyExpenses()
+    {
+        return Expense::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyArticles()
+    {
+        return Article::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyTags()
+    {
+        return Tag::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyCategories()
+    {
+        return Category::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyTaxes()
+    {
+        return Tax::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyActivities()
+    {
+        return Activity::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companyMedia()
+    {
+        return Media::where('created_by', '=', $this->creatorId());
+    }
+
+    public function companySubscriptions()
+    {
+        return Subscription::where('user_id', '=', $this->creatorId());
+    }
+
     public function staffTasks()
     {
         return Task::where(function ($query)
@@ -239,21 +339,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 });
             });
         });
-    }
-
-    public function companyLeads()
-    {
-        return Lead::where('created_by', '=', $this->creatorId());
-    }
-
-    public function companyProjects()
-    {
-        return Project::where('created_by', '=', $this->creatorId());
-    }
-
-    public function companyTasks()
-    {
-        return Task::with('project')->where('created_by', '=', $this->creatorId());
     }
 
     public function projectsByUserType()
@@ -290,16 +375,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function getProfileAttribute()
     {
         return null;
-    }
-
-    public static function companyStaff()
-    {
-        User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client');
-    }
-
-    public static function companyClients()
-    {
-        return Client::where('created_by', '=', \Auth::user()->creatorId());
     }
 
     public function getActiveTimesheet()
@@ -891,6 +966,72 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return Expense::where('user_id', '=', $this->id)->update(array('user_id' => null));
     }
 
+    public function deleteCompany()
+    {
+        $this->companyClients()->each(function($client) {
+            $client->delete();
+        });
+        $this->companyContacts()->each(function($contact) {
+            $contact->delete();
+        });
+        $this->companyLeads()->each(function($lead) {
+            $lead->delete();
+        });
+
+        $this->companyEvents()->each(function($event) {
+            $event->delete();
+        });
+        $this->companyProjects()->each(function($project) {
+            $project->delete();
+        });
+        $this->companyTasks()->each(function($task) {
+            $task->delete();
+        });
+        $this->companyTimesheets()->each(function($timesheet) {
+            $timesheet->delete();
+        });
+
+        $this->companyStages()->each(function($stage) {
+            $stage->delete();
+        });
+
+        $this->companyInvoices()->each(function($invoice) {
+            $invoice->delete();
+        });
+        $this->companyExpenses()->each(function($expense) {
+            $expense->delete();
+        });
+        $this->companyTaxes()->each(function($tax) {
+            $tax->delete();
+        });
+
+        $this->companyTags()->each(function($tag) {
+            $tag->delete();
+        });
+        $this->companyArticles()->each(function($article) {
+            $article->delete();
+        });
+        $this->companyCategories()->each(function($category) {
+            $category->delete();
+        });
+
+        $this->companyStaff()->each(function($staff) {
+            $staff->forceDelete();
+        });
+        $this->companyRoles()->each(function($role) {
+            $role->delete();
+        });
+
+        $this->companySettings()->each(function($setting) {
+            $setting->delete();
+        });
+        $this->companyMedia()->each(function($media) {
+            $media->delete();
+        });
+        
+        $this->companyActivities()->delete();        
+        $this->companySubscriptions()->delete();
+    }
 
     public function total_company_user($company_id)
     {

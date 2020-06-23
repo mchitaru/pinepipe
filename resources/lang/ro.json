@@ -686,5 +686,8 @@
     "Maximum Clients": "Număr maxim clienți",
     "Maximum Disk Space (GP)": "Spațiu pe disc maxim",
     "Leave the box empty for Unlimited (duration, users, clients, projects or space)": "Lasă căsuța goală pentru Nelimitat (durată, utilizatori, clienți, proiecte sau spațiu",
-    "experimental": ""
+    "experimental": "",
+    "Account successfully deleted.": "Contul a fost șters cu succes.",
+    "Delete your account and data from Pinepipe": "Șterge contul tău și toate datele asociate",
+    "Delete my account": "Șterge-mi contul"
 }
