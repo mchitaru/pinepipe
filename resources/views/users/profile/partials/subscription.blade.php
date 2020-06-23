@@ -14,7 +14,7 @@
                                     <span class="badge badge-primary">{{__('active')}}</span>
                                 @endif
                             </h5>
-
+                            <span class="text-small">{{$plan->description}}</span>
                             <h4 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?$plan->price/$plan->duration:$plan->price)}}
                                 <span class="text-small">{{($plan->price && isset($plan->duration))?'/'.__('month'):''}}</span>
                             </h4>

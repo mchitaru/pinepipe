@@ -141,7 +141,19 @@ class Invoice extends Model
 
     public function getStatusBadge()
     {
-        return '<span class="badge '.Invoice::$badge[$this->status].'">'.__(Invoice::$status[$this->status]).'</span>';
+        return '<span class="badge '.Invoice::$badge[$this->status].'">'.__(Invoice::translateStatus($this->status)).'</span>';
+    }
+
+    static function translateStatus($status)
+    {
+        switch($status)
+        {
+            case 1: return __('outstanding');
+            case 2: return __('partial payment');
+            case 3: return __('paid');
+            case 4: return __('cancelled');    
+            default: return __('pending');
+        }
     }
 
     public function updateStatus()

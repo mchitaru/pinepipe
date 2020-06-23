@@ -776,5 +776,17 @@
     "Google Calendar": "",
     "Linked account:": "",
     "none": "",
-    "Link": ""
+    "Link": "",
+    "outstanding": "",
+    "partial payment": "",
+    "paid": "",
+    "cancelled": "",
+    "pending": "",
+    "Paddle ID": "",
+    "Enter Paddle ID": "",
+    "Deal": "",
+    "Maximum Clients": "",
+    "Maximum Disk Space (GP)": "",
+    "Leave the box empty for Unlimited (duration, users, clients, projects or space)": "",
+    "experimental": ""
 }

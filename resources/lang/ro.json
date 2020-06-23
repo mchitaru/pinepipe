@@ -674,5 +674,17 @@
     "Google Calendar": "",
     "Linked account:": "Cont atașat",
     "none": "nimic",
-    "Link": "Integrează"
+    "Link": "Integrează",
+    "outstanding": "neîncasată",
+    "partial payment": "plată parțială",
+    "paid": "platită",
+    "cancelled": "anulată",
+    "pending": "în așteptare",
+    "Paddle ID": "",
+    "Enter Paddle ID": "Introdu Paddle ID",
+    "Deal": "Ofertă",
+    "Maximum Clients": "Număr maxim clienți",
+    "Maximum Disk Space (GP)": "Spațiu pe disc maxim",
+    "Leave the box empty for Unlimited (duration, users, clients, projects or space)": "Lasă căsuța goală pentru Nelimitat (durată, utilizatori, clienți, proiecte sau spațiu",
+    "experimental": ""
 }
