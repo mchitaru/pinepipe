@@ -1,6 +1,8 @@
 <div class="mb-4">
-    <h6>{{__('Subscription')}}</h6>
-    <div class="row">
+    @if(!$user->subscribed())
+        <span class="text-small">{{__('You have limited access on the Free plan. Choose your subscription and start a 14 day trial today!')}}</span>
+    @endif
+    <div class="row pt-2">
         @foreach($plans as $key=>$plan)
         <div class="col-lg-6">
             <div class="card {{$plan->deal?'bg-warning':''}} text-center" style="min-height: 270px;">
