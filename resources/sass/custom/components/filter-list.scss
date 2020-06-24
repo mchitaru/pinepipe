@@ -7,6 +7,7 @@
 [class*='filter-list']{
     &:after{
         pointer-events: none;
+        content: ' '; 
         border-radius: $border-radius*2;
         display: flex;
         background: $gray-200;
