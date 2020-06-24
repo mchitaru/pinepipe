@@ -1,6 +1,6 @@
 @php
 use Carbon\Carbon;
-$timesheets = $_user->timesheets; 
+$timesheets = $_user->timesheets;
 $timesheet = $timesheets->first();
 @endphp
 
@@ -8,7 +8,7 @@ $timesheet = $timesheets->first();
     <a role="button" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet?$timesheet->id:null}}" class="btn btn-round {{$timesheet&&$timesheet->isStarted()?'btn-danger fade-animation':'btn-primary'}} timer-entry" title="{{$timesheet&&$timesheet->isStarted()?__('Stop working'):__('Start working')}}">
         <i class="material-icons">{{$timesheet&&$timesheet->isStarted()?'stop':'play_arrow'}}</i>
     </a>
-    <a href="#" role="button" class="pl-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$timesheet&&$timesheet->task?__('Timesheet: ').$timesheet->task->title:'...'}}">
+    <a href="#" role="button" class="pl-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  title="{{$timesheet&&$timesheet->task?__('Timesheet: ').$timesheet->task->title:'...'}}">
         <span class="active-timer text-muted text-light dropdown-toggle">{{$timesheet?$timesheet->formatTime():'00:00:00'}}</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right pre-scrollable" id="timer-menu">
@@ -21,7 +21,7 @@ $timesheet = $timesheets->first();
             @endcan
         </div>
         @foreach ($timesheets as $key => $timesheet)
-        <a class="dropdown-item timer-entry d-flex align-items-center {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}" data-toggle="tooltip" title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
+        <a class="dropdown-item timer-entry d-flex align-items-center {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}"  title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
             @if($timesheet->isStarted())
                 <i class="material-icons">stop</i>
             @else
@@ -33,6 +33,6 @@ $timesheet = $timesheets->first();
             {!!'<u>'.Auth::user()->dateFormat($timesheet->date).' ['.$timesheet->formatTime().']</u>'!!}
             @endif
         </a>
-        @endforeach                
-    </div>    
+        @endforeach
+    </div>
 </div>

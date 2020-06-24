@@ -30,7 +30,7 @@
     </div>
     <div class="card-meta">
         @if(!empty($timesheet->user))
-        <a href="#" data-toggle="tooltip" title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
+        <a href="#"  title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
             {!!Helpers::buildUserAvatar($timesheet->user)!!}
         </a>
         @endif
@@ -40,7 +40,7 @@
                 <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                
+
                 @can('edit timesheet')
                 <a href="{{ route('timesheets.edit', $timesheet->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                     {{__('Edit')}}

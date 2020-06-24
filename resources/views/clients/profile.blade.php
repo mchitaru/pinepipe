@@ -6,7 +6,7 @@
             <div class="card">
             <div class="container row" style="min-height: 67px;">
                 <div class="pl-2 pt-3 position-absolute">
-                    <a href="#" data-toggle="tooltip" title={{$client->name}}>
+                    <a href="#"  title={{$client->name}}>
                         {!!Helpers::buildClientAvatar($client, 60, 'rounded')!!}
                     </a>
                 </div>

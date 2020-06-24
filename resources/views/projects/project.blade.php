@@ -71,20 +71,20 @@
 
                 @foreach($project->users as $user)
                 <li>
-                        <a href="{{ $project->enabled?route('users.index', $user->id):'#' }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
+                        <a href="{{ $project->enabled?route('users.index', $user->id):'#' }}"  title="{{(!empty($user)?$user->name:'')}}">
                             {!!Helpers::buildUserAvatar($user)!!}
                         </a>
                 </li>
                 @endforeach
             </ul>
             <div class="card-meta d-flex justify-content-between">
-                {{-- <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed Tasks')}}">
+                {{-- <div class="d-flex align-items-center"  title="{{__('Completed Tasks')}}">
                     <i class="material-icons mr-1">playlist_add_check</i>
                         <a  href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
                             {{$project->completed_tasks}}/{{$project->tasks->count()}}
                         </a>
                 </div> --}}
-                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
+                <div class="d-flex align-items-center"  title="{{__('Client')}}">
                     <i class="material-icons mr-1">business</i>
                     @if(Gate::check('view client') && !empty($project->client))
                         <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">

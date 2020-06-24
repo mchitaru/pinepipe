@@ -15,7 +15,7 @@ $dz_id = 'lead-files-dz';
 @push('scripts')
 
 <script>
-       
+
 $(function() {
     $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
         window.history.replaceState(null, null, $(e.target).attr('href'));
@@ -52,7 +52,7 @@ $(function() {
                     <h1>{{$lead->name}}</h1>
                     <div class="pl-2">
                         <i class="material-icons mr-1">business</i>
-                        <a href="{{ route('clients.show',$lead->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
+                        <a href="{{ route('clients.show',$lead->client->id) }}"  data-title="{{__('Client')}}">
                             {{ (!empty($lead->client)?$lead->client->name:'') }}
                         </a>
                     </div>
@@ -61,7 +61,7 @@ $(function() {
                 <ul class="avatars">
 
                     <li>
-                        <a href="{{ route('users.index',$lead->user->id) }}" data-toggle="tooltip" title="{{$lead->user->name}}">
+                        <a href="{{ route('users.index',$lead->user->id) }}"  title="{{$lead->user->name}}">
                             {!!Helpers::buildUserAvatar($lead->user)!!}
                         </a>
                     </li>
@@ -73,10 +73,10 @@ $(function() {
                         <div class="progress-bar {{Helpers::getProgressColor($progress)}}" style="width:{{$progress}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
-                    <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Stage')}}">
+                    <div class="d-flex align-items-center"  title="{{__('Stage')}}">
                         <span class="badge badge-info">{{$lead->stage->name}}</span>
                     </div>
-                    <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Value')}}">
+                    <div class="d-flex align-items-center"  title="{{__('Value')}}">
                         <span>{{ \Auth::user()->priceFormat($lead->price) }}</span>
                     </div>
                 </div>
@@ -133,24 +133,24 @@ $(function() {
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 @if(Gate::check('edit lead') || Gate::check('delete lead'))
-                    
+
                                 @can('edit lead')
                                     <a class="dropdown-item" href="{{ route('leads.edit', $lead->id) }}" data-remote="true" data-type="text">
                                         {{__('Edit Lead')}}
                                     </a>
                                 @endcan
-                    
+
                                 <div class="dropdown-divider"></div>
-                                
+
                                 @can('delete lead')
                                     <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
                                         {{__('Delete')}}
                                     </a>
                                 @endcan
-                    
+
                                 @endif
                             </div>
-                        </div>                
+                        </div>
                     </div>
                 </div>
                 <!--end of content list head-->

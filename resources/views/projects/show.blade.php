@@ -64,7 +64,7 @@ $(function() {
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
                         <i class="material-icons mr-1">business</i>
-                        <a href="{{ route('clients.show',$project->client->id) }}" data-toggle="tooltip" data-title="{{__('Client')}}">
+                        <a href="{{ route('clients.show',$project->client->id) }}"  data-title="{{__('Client')}}">
                             {{ (!empty($project->client)?$project->client->name:'') }}
                         </a>
                     </div>
@@ -75,14 +75,14 @@ $(function() {
                     <ul class="avatars">
                         @foreach($project->users as $user)
                         <li>
-                            <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                            <a href="{{ route('users.index',$user->id) }}"  title="{{$user->name}}">
                                 {!!Helpers::buildUserAvatar($user)!!}
                             </a>
                         </li>
                         @endforeach
                     </ul>
                     @can('view project')
-                    <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text" data-toggle="tooltip" title="{{__('Invite Users')}}">
+                    <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text"  title="{{__('Invite Users')}}">
                         <i class="material-icons">add</i>
                     </a>
                     @endcan
@@ -139,18 +139,18 @@ $(function() {
                         <div class="progress-bar {{Helpers::getProgressColor($project->progress)}}" style="width:{{$project->progress}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
-                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Status')}}">
+                <div class="d-flex align-items-center"  title="{{__('Status')}}">
                     @if(!$project->archived)
                         <span class="badge badge-info">{{__('active')}}</span>
                     @else
                         <span class="badge badge-success">{{__('archived')}}</span>
                     @endif
                 </div>
-                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Completed')}}">
+                <div class="d-flex align-items-center"  title="{{__('Completed')}}">
                     <i class="material-icons">playlist_add_check</i>
                     <span>{{$project->completed_tasks}}/{{$project->tasks->count()}}</span>
                 </div>
-                <div class="d-flex align-items-center" data-toggle="tooltip" title="{{__('Members')}}">
+                <div class="d-flex align-items-center"  title="{{__('Members')}}">
                     <i class="material-icons">people</i>
                     <span>{{$project->users()->count()}}</span>
                 </div>

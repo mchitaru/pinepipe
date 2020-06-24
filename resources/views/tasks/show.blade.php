@@ -139,7 +139,7 @@ modal-lg
 
                     @foreach($task->users as $user)
                     <li>
-                        <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                        <a href="{{ route('users.index',$user->id) }}"  title="{{$user->name}}">
                             {!!Helpers::buildUserAvatar($user)!!}
                         </a>
                     </li>
@@ -150,7 +150,7 @@ modal-lg
             <div class="row">
                 @if(!empty($task->project))
                     <i class="material-icons" title="project">folder</i>
-                    <a href="{{ route('projects.show',$project->id) }}" data-toggle="tooltip" title={{__('Project')}}>
+                    <a href="{{ route('projects.show',$project->id) }}"  title={{__('Project')}}>
                         <h5>{{ $task->project->name }}</h5>
                     </a>
                 @endif
@@ -162,10 +162,10 @@ modal-lg
             </div>
 
             <div class="d-flex justify-content-between text-small">
-                <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Priority')}}>
+                <div class="d-flex align-items-center"  title={{__('Priority')}}>
                     {!! Helpers::getPriorityBadge($task->priority) !!}
                 </div>
-                {{-- <div class="d-flex align-items-center" data-toggle="tooltip" title={{__('Completed')}}>
+                {{-- <div class="d-flex align-items-center"  title={{__('Completed')}}>
                     <i class="material-icons">playlist_add_check</i>
                     <span class="badge badge-secondary">{{ $task_status }}</span>
                 </div> --}}
@@ -254,7 +254,7 @@ modal-lg
                     <div class="card card-note">
                     <div class="card-header p-1">
                         <div class="media align-items-center">
-                            <a href="#" data-toggle="tooltip" title={{$comment->user->name}}>
+                            <a href="#"  title={{$comment->user->name}}>
                                 {!!Helpers::buildUserAvatar($comment->user)!!}
                             </a>
 

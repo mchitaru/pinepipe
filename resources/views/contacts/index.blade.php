@@ -34,7 +34,7 @@
                     @if($contact->client)
                         <i class="material-icons mr-1">business</i>
                         @if(Gate::check('view client'))
-                        <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$contact->client->id) }}">
+                        <a class  title='{{__('Client')}}' href="{{ route('clients.show',$contact->client->id) }}">
                             {{$contact->client->name}}
                         </a>
                         @else

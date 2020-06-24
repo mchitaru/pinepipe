@@ -29,7 +29,7 @@
                     @if($lead->client)
                         <i class="material-icons mr-1">business</i>
                         @if(Gate::check('view client'))
-                        <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
+                        <a class title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                             {{$lead->client->name}}
                         </a>
                         @else
@@ -40,7 +40,7 @@
             </div>
             <div class="card-meta col-1 float-right">
                 <div class="container row align-items-center">
-                    <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
+                    <a href="#"  title="{{$lead->user->name}}">
                         {!!Helpers::buildUserAvatar($lead->user)!!}
                     </a>
                 </div>

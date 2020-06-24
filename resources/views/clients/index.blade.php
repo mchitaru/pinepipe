@@ -4,7 +4,7 @@
 <div class="card card-task">
     <div class="container row align-items-center" style="min-height: 67px;">
         <div class="pl-2 position-absolute">
-            <a href="#" data-toggle="tooltip" title={{$client->name}}>
+            <a href="#"  title={{$client->name}}>
                 {!!Helpers::buildClientAvatar($client)!!}
             </a>
         </div>
@@ -37,11 +37,11 @@
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
                     <span class="badge badge-light mr-2">
-                        <i class="material-icons" data-toggle="tooltip" title="Projects">folder</i>
+                        <i class="material-icons"  title="Projects">folder</i>
                         {{$client->projects->count()}}
                     </span>
                     <span class="badge badge-light mr-2">
-                        <i class="material-icons" data-toggle="tooltip" title="Leads">phone</i>
+                        <i class="material-icons"  title="Leads">phone</i>
                         {{$client->leads->count()}}
                     </span>
                 </div>

@@ -24,7 +24,7 @@ use Carbon\Carbon;
 
             </div>
             <div class="card-title col-sm-4">
-                <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Project')}}">
+                <div class="container row align-items-center"  title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
                     <span data-filter-by="text" class="text-small text-truncate">{{ !empty($expense->project)?$expense->project->name:'---' }}</span>
                 </div>
@@ -36,14 +36,14 @@ use Carbon\Carbon;
             </div>
             <div class="card-title col-sm-1">
                 @if($expense->hasMedia('attachments'))
-                    <a href="{{route('expenses.attachment', [$expense, $expense->media('attachments')->first()->file_name])}}" download="" class="mr-2" data-toggle="tooltip" data-original-title="{{__('Download')}}">
+                    <a href="{{route('expenses.attachment', [$expense, $expense->media('attachments')->first()->file_name])}}" download="" class="mr-2"  data-original-title="{{__('Download')}}">
                         <i class="material-icons" title="attachment">attachment</i>
                     </a>
                 @endif
             </div>
             @if(!empty($expense->user))
             <div class="card-meta col">
-                <a href="#" data-toggle="tooltip" title={{$expense->user->name}}>
+                <a href="#"  title={{$expense->user->name}}>
                     {!!Helpers::buildUserAvatar($expense->user)!!}
                 </a>
             </div>

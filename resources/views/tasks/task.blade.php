@@ -32,16 +32,16 @@ $label = Project::getProgressColor($task_percentage);
         </p>
     </div>
     <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">
-        <div class="row align-items-center" data-toggle="tooltip" title="{{__('Project')}}">
+        <div class="row align-items-center"  title="{{__('Project')}}">
             <i class="material-icons">folder</i>
             <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->name : '---' }}</span>
         </div>
-        <div class="row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
+        <div class="row align-items-center"  title="{{__('Client')}}">
             <i class="material-icons">business</i>
             <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
         </div>
         @if(!$task->tags->isEmpty())
-        <div class="row align-items-center" data-toggle="tooltip" title="{{__('Labels')}}">
+        <div class="row align-items-center"  title="{{__('Labels')}}">
             <i class="material-icons">label</i>
             @foreach($task->tags as $tag)
                 <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
@@ -55,7 +55,7 @@ $label = Project::getProgressColor($task_percentage);
 
             @foreach($task->users as $user)
             <li>
-                <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                <a href="{{ route('users.index',$user->id) }}"  title="{{$user->name}}">
                     {!!Helpers::buildUserAvatar($user)!!}
                 </a>
             </li>

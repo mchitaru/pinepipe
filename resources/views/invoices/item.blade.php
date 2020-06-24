@@ -24,11 +24,11 @@
                 </div>
             </div>
             <div class="card-title col-sm-5">
-                <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Project')}}">
+                <div class="container row align-items-center"  title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
                     <span data-filter-by="text" class="text-truncate text-small">{{ $invoice->project->name }}</span>
                 </div>
-                <div class="container row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
+                <div class="container row align-items-center"  title="{{__('Client')}}">
                     <i class="material-icons">business</i>
                     <span data-filter-by="text" class="text-small text-truncate ">
                         @if(Gate::check('view client') && !empty($invoice->project->client))

@@ -4,7 +4,7 @@
 <div class="card card-note">
     <div class="card-header p-1">
         <div class="media align-items-center">
-            <a href="#" data-toggle="tooltip" title={{$note->user->name}}>
+            <a href="#"  title={{$note->user->name}}>
                 {!!Helpers::buildUserAvatar($note->user)!!}
             </a>
             <div class="media-body">

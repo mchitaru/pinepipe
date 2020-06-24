@@ -81,11 +81,11 @@ class Helpers
     {
         switch($priority) {
             case 2:
-                return '<span class="badge badge-success" data-toggle="tooltip" title="'.__('Priority').'">'.Project::translatePriority($priority).'</span>';
+                return '<span class="badge badge-success"  title="'.__('Priority').'">'.Project::translatePriority($priority).'</span>';
             case 1:
-                return '<span class="badge badge-warning" data-toggle="tooltip" title="'.__('Priority').'">'.Project::translatePriority($priority).'</span>';
+                return '<span class="badge badge-warning"  title="'.__('Priority').'">'.Project::translatePriority($priority).'</span>';
             default:
-                return '<span class="badge badge-danger" data-toggle="tooltip" title="'.__('Priority').'">' .Project::translatePriority($priority).'</span>';
+                return '<span class="badge badge-danger"  title="'.__('Priority').'">' .Project::translatePriority($priority).'</span>';
         }
     }
 

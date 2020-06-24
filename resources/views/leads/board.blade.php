@@ -218,7 +218,7 @@ use Carbon\Carbon;
 
                                 @if($lead->client)
                                     @if(Gate::check('view client'))
-                                    <a class data-toggle="tooltip" title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
+                                    <a class title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                                         <p><span class="text-small">{{ $lead->client->name }}</span></p>
                                     </a>
                                     @else
@@ -233,7 +233,7 @@ use Carbon\Carbon;
                                 </span>
                                 @if(!empty($lead->user))
                                 <div class="float-right">
-                                    <a href="#" data-toggle="tooltip" title="{{$lead->user->name}}">
+                                    <a href="#"  title="{{$lead->user->name}}">
                                         {!!Helpers::buildUserAvatar($lead->user)!!}
                                     </a>
                                 </div>

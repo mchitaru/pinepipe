@@ -45,7 +45,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
                     </div>
 
                     <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">
-                        <div class="row align-items-center" data-toggle="tooltip" title="{{__('Client')}}">
+                        <div class="row align-items-center"  title="{{__('Client')}}">
                             <i class="material-icons mr-1">business</i>
                             @if(Gate::check('view client'))
                                 <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
@@ -61,7 +61,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
 
                             @foreach($project->users as $user)
                             <li>
-                                    <a href="{{ $project->enabled?route('users.index', $user->id):'#' }}" data-toggle="tooltip" title="{{(!empty($user)?$user->name:'')}}">
+                                    <a href="{{ $project->enabled?route('users.index', $user->id):'#' }}"  title="{{(!empty($user)?$user->name:'')}}">
                                         {!!Helpers::buildUserAvatar($user)!!}
                                     </a>
                             </li>

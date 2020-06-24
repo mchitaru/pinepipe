@@ -1,4 +1,4 @@
-<a href="{{route('users.notifications')}}" id="notification-bell" name="notification-bell" role="button" data-method="post" data-remote="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="{{$_user->unreadNotifications->count().' '.__('notifications')}}">
+<a href="{{route('users.notifications')}}" id="notification-bell" name="notification-bell" role="button" data-method="post" data-remote="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  title="{{$_user->unreadNotifications->count().' '.__('notifications')}}">
     <i class="material-icons">{{$_user->unreadNotifications->count()?'notifications':'notifications_none'}}</i>
 </a>
 

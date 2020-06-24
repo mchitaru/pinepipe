@@ -80,7 +80,7 @@ $timesheet = $_user->timesheets->first();
                         <ul class="avatars">
                             @foreach($task->users as $user)
                             <li>
-                                <a href="{{ route('users.index',$user->id) }}" data-toggle="tooltip" title="{{$user->name}}">
+                                <a href="{{ route('users.index',$user->id) }}"  title="{{$user->name}}">
                                     {!!Helpers::buildUserAvatar($user)!!}
                                 </a>
                             </li>
@@ -88,7 +88,7 @@ $timesheet = $_user->timesheets->first();
                         </ul>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <div data-toggle="tooltip" title="{{__('Labels')}}">
+                        <div  title="{{__('Labels')}}">
                             @foreach($task->tags as $tag)
                                 <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
                             @endforeach
