@@ -19,7 +19,7 @@
                     </span>
                 </div>
                 {{ Form::number('hours', '0', array('class' => 'form-control col', 'required'=>'required','min'=>'0')) }}
-            </div>        
+            </div>
         </div>
         <div class="form-group col required">
             <div class="input-group">
@@ -58,7 +58,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
-        {!! Form::select('task_id', $tasks, null,array('class' => array('class' => (Gate::check('create task')?'tags':'').' form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
+        {!! Form::select('task_id', $tasks, null,array('class' => array('class' => (Gate::check('create task')?'tags':'').' form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale))) !!}
     </div>
 
     <div class="form-group row">
