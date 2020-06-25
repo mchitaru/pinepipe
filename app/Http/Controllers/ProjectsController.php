@@ -221,6 +221,11 @@ class ProjectsController extends Controller
 
         $project->delete();
 
+        if(URL::previous() == route('projects.show', $project)){
+
+            return Redirect::to(route('projects.index'))->with('success', __('Project successfully deleted'));
+        }
+
         return Redirect::to(URL::previous())->with('success', __('Project successfully deleted'));
     }
 

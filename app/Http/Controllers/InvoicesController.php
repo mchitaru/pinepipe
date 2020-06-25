@@ -213,6 +213,11 @@ class InvoicesController extends Controller
 
         $invoice->delete();
 
+        if(URL::previous() == route('invoices.show', $invoice)){
+
+            return Redirect::to(route('invoices.index'))->with('success', __('Invoice successfully deleted.'));
+        }
+
         return Redirect::to(URL::previous())->with('success', __('Invoice successfully deleted.'));
     }
 

@@ -170,6 +170,11 @@ class LeadsController extends Controller
 
         $lead->delete();
 
+        if(URL::previous() == route('leads.show', $lead)){
+
+            return Redirect::to(route('leads.board'))->with('success', __('Lead successfully deleted.'));
+        }
+
         return Redirect::to(URL::previous())->with('success', __('Lead successfully deleted.'));
     }
 
