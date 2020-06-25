@@ -53,7 +53,7 @@ function initCards() {
             success: function (response) {
 
                 if(response.is_success){
-                    toastrs('Stage order succesfully updated.', 'success');
+                    toastrs('Stage order successfully updated.', 'success');
                 }
             },
             error: function (data) {
@@ -88,7 +88,7 @@ function initCards() {
                 /* console.log('success'); */
 
                 if(data.is_success){
-                    toastrs('Task succesfully updated.', 'success');
+                    toastrs('Task successfully updated.', 'success');
                 }
             },
             error: function (data) {

@@ -50,7 +50,7 @@ use Carbon\Carbon;
 
                 if(response.is_success){
 
-                    toastrs('Stage order succesfully updated.', 'success');
+                    toastrs('Stage order successfully updated.', 'success');
                 }
             },
             error: function (data) {

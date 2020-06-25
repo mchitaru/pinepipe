@@ -47,7 +47,7 @@ class GoogleAccountController extends Controller
         );
         
         // Return to the account page.
-        return redirect(route('profile.edit', \Auth::user()->handle()))->with('success', __('Google account succesfully linked.'));
+        return redirect(route('profile.edit', \Auth::user()->handle()))->with('success', __('Google account successfully linked.'));
     }
 
     /**
