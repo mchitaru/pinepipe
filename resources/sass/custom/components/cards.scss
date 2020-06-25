@@ -169,8 +169,8 @@
   .avatars{
     margin-bottom: $spacer/2;
     .avatar{
-      max-width: $spacer*1.25;
-      max-height: $spacer*1.25;
+      width: $spacer*1.25;
+      height: $spacer*1.25;
     }
   }
   .card-options{

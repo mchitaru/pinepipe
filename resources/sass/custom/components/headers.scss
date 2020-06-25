@@ -23,8 +23,8 @@
   .page-header{
     padding-top: $spacer;
     .avatars .avatar{
-      max-width: $spacer*1.75;
-      max-height: $spacer*1.75;
+      width: $spacer*1.75;
+      height: $spacer*1.75;
     }
   }
 }

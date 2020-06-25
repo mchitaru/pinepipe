@@ -5,8 +5,8 @@
 //
 
 .avatar{
-  max-width: $spacer*1.5;
-  max-height: $spacer*1.5;
+  width: $spacer*1.5;
+  height: $spacer*1.5;
   border-radius: 50%;
   border: 2px solid $body-bg;
   background: $body-bg;
@@ -20,20 +20,20 @@
     }
   }
   &.avatar-lg{
-    max-width: $spacer*2;
-    max-height: $spacer*2;
+    width: $spacer*2;
+    height: $spacer*2;
   }
   &.avatar-sm{
-    max-width: $spacer;
-    max-height: $spacer;
+    width: $spacer;
+    height: $spacer;
   }
 }
 
 @include media-breakpoint-up(lg) {
   .avatar{
     &.avatar-lg{
-      max-width: $spacer*3;
-      max-height: $spacer*3;
+      width: $spacer*3;
+      height: $spacer*3;
     }
   }
 }
