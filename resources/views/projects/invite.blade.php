@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="tab-content">
-    <p>{{_('Send an invite link via email to add members to the project')}}</p>
+    <p>{{__('Send an invite link via email to add members to the project')}}</p>
     <div>
       <div class="input-group">
         <div class="input-group-prepend">
@@ -21,7 +21,7 @@
         {{Form::email('email', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>__('Recipient email address')))}}
       </div>
       <div class="text-right text-small mt-2">
-        <a href="#" role="button">{{_('Add another recipient')}}</a>
+        <a href="#" role="button">{{__('Add another recipient')}}</a>
       </div>
     </div>
 </div>

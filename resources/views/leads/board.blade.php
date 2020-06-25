@@ -101,7 +101,7 @@ use Carbon\Carbon;
                 $(evt.newContainer).prev().find('.total').text(response.total_new);
 
                 if(response.is_success){
-                    toastrs('Lead succesfully updated.', 'success');
+                    toastrs(__('Lead successfully updated.'), 'success');
                 }
             },
             error: function (data) {
