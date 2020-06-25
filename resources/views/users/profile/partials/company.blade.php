@@ -2,7 +2,7 @@
 <div class="card-body">
     <div class="media mb-4 avatar-container">
         <div class="d-flex flex-column avatar-preview">
-            <img width="60" height="60" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
+            <img style="max-width:60px; max-height:60px;" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
         </div>
         <div class="media-body ml-3">
             <div class="custom-file custom-file-naked d-block mb-1">

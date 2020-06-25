@@ -47,7 +47,7 @@
     @endif
     <div class="form-group row avatar-container">
         <div class="d-flex flex-column avatar-preview">
-            <img data-filter-by='alt' width="60" height="60" class="rounded" avatar="?">      
+            <img data-filter-by='alt' style="max-width:60px; max-height:60px;" class="rounded" avatar="?">      
         </div>
         <div class="media-body ml-3">
             <div class="custom-file custom-file-naked d-block mb-1">

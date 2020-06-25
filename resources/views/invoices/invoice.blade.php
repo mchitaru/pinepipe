@@ -49,7 +49,7 @@
                 <div class="text-center">
                     <address>
                         <span class="align-items-center justify-content-center">
-                            <img width="60" height="60" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
+                            <img style="max-width:60px; max-height:60px;". alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
                         </span>
                         <span class="align-items-center justify-content-center">
                             <h5>{{$client->name}}</h5>

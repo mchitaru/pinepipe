@@ -96,7 +96,7 @@
         {
             var reader = new FileReader();
             reader.onload = function (e) {
-                $(input).closest('.avatar-container').children('.avatar-preview').html('<img class="'+type+'" src="'+e.target.result+'" width="'+size+'" height="'+size+'"/>');
+                $(input).closest('.avatar-container').children('.avatar-preview').html('<img class="'+type+'" src="'+e.target.result+'" style="max-width:'+size+'px; max-height:'+size+'px;"/>');
             };
             reader.readAsDataURL(input.files[0]);
         }
