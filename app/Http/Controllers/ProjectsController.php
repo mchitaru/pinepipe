@@ -83,11 +83,12 @@ class ProjectsController extends Controller
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
+        $user_id = \Auth::user()->id;
 
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-        return view('projects.create', compact('clients', 'users', 'leads', 'client_id'));
+        return view('projects.create', compact('clients', 'users', 'user_id', 'leads', 'client_id'));
     }
 
 

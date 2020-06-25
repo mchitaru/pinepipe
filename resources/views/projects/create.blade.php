@@ -21,7 +21,7 @@
     </div>
     <div class="form-group row">
         {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-        {!! Form::select('users[]', $users, null, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
+        {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <hr>
     <h6>{{__('Timeline')}}</h6>
