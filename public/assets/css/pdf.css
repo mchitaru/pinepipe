@@ -1,12 +1,10 @@
-/*! CSS Used from: https://fonts.googleapis.com/icon?family=Material+Icons */
-.material-icons{font-family:'Material Icons';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:'liga';-webkit-font-smoothing:antialiased;}
 /*! CSS Used from: http://pinepipe.local/css/app.css ; media=all */
 @media all{
-:root{--blue:#3490dc;--indigo:#6574cd;--purple:#9561e2;--pink:#f66d9b;--red:#e3342f;--orange:#f6993f;--yellow:#ffed4a;--green:#38c172;--teal:#4dc0b5;--cyan:#6cb2eb;--primary:#3490dc;--success:#38c172;--info:#6cb2eb;--warning:#ffed4a;--danger:#e3342f;--font-family-sans-serif:"Inter UI",sans-serif;}
+:root{--blue:#3490dc;--indigo:#6574cd;--purple:#9561e2;--pink:#f66d9b;--red:#e3342f;--orange:#f6993f;--yellow:#ffed4a;--green:#38c172;--teal:#4dc0b5;--cyan:#6cb2eb;--primary:#3490dc;--success:#38c172;--info:#6cb2eb;--warning:#ffed4a;--danger:#e3342f;--font-family-sans-serif:"Inter",sans-serif;}
 a{color:#3490dc;}
 a:hover{color:#1d68a7;}
 h5{margin-bottom:.5rem;}
-h5{font-family:Inter UI,sans-serif;font-weight:400;line-height:1.2;color:#212529;}
+h5{font-family:Inter,sans-serif;font-weight:400;line-height:1.2;color:#212529;}
 hr{margin-top:1rem;}
 hr{margin-bottom:1rem;}
 .table{margin-bottom:1rem;}
@@ -30,7 +28,7 @@ hr{margin-bottom:1rem;}
 a.text-danger:focus,a.text-danger:hover{color:#ae1c17!important;}
 *,:after,:before{box-sizing:border-box;}
 html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:rgba(0,0,0,0);}
-body{margin:0;font-family:Inter UI,sans-serif;font-size:1rem;font-weight:400;line-height:1.5;color:#6c757d;text-align:left;background-color:#fff;}
+body{margin:0;font-family:Inter,sans-serif;font-size:1rem;font-weight:400;line-height:1.5;color:#6c757d;text-align:left;background-color:#fff;}
 hr{box-sizing:content-box;height:0;overflow:visible;}
 h5{margin-top:0;margin-bottom:.75rem;}
 p{margin-top:0;margin-bottom:1rem;}
@@ -59,7 +57,7 @@ hr{margin-top:1.5rem;margin-bottom:1.5rem;border:0;border-top:1px solid rgba(0,0
 .table-hover tbody tr:hover{color:#6c757d;background-color:rgba(0,0,0,.075);}
 .table .thead-light th{color:#495057;background-color:#e9ecef;border-color:#dee2e6;}
 .table-responsive{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.table th{font-family:Inter UI,sans-serif;font-weight:400;line-height:1.2;color:#212529;}
+.table th{font-family:Inter,sans-serif;font-weight:400;line-height:1.2;color:#212529;}
 .dropdown{position:relative;}
 .dropdown-menu{position:absolute;top:100%;left:0;z-index:1000;display:none;float:left;min-width:10rem;padding:.5rem 0;margin:.125rem 0 0;font-size:1rem;color:#6c757d;text-align:left;list-style:none;background-color:#fff;background-clip:padding-box;border:1px solid #dee2e6;border-radius:.5rem;}
 .dropdown-menu-right{right:0;left:auto;}
@@ -127,13 +125,3 @@ table .gapless td {padding:0;}
 a{color:#0062cc;text-decoration:none;background-color:transparent;}
 a:hover{text-decoration:underline;}
 }
-/*! CSS Used fontfaces */
-@font-face{font-family:'Material Icons';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/materialicons/v50/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');}
-@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(http://pinepipe.local/fonts/Inter-UI-Regular.woff2?ada67516bfcb321d3af9a10b5ac85969) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-Regular.woff?3ca46ee35e2e0a102cb63a64629ff935) format("woff");}
-@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(http://pinepipe.local/fonts/Inter-UI-Italic.woff2?bc389a025ce24c8a922a75a14efb9849) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-Italic.woff?8b0d16839ccd5eb17d2d2c57fc7b879c) format("woff");}
-@font-face{font-family:Inter UI;font-style:normal;font-weight:500;src:url(http://pinepipe.local/fonts/Inter-UI-Medium.woff2?a4b302b56c07e87c3428227270d313fa) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-Medium.woff?86c6d121f1d396c123e9f2b0b18040a0) format("woff");}
-@font-face{font-family:Inter UI;font-style:italic;font-weight:500;src:url(http://pinepipe.local/fonts/Inter-UI-MediumItalic.woff2?2b29c19f434999cda5a1cdc166684cb0) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-MediumItalic.woff?7719d61e224c7bfe4e45a2427f7c1dda) format("woff");}
-@font-face{font-family:Inter UI;font-style:normal;font-weight:700;src:url(http://pinepipe.local/fonts/Inter-UI-Bold.woff2?8506a8d02c2e819508bc53d65de6795a) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-Bold.woff?0a1242bedd6453e33ea8bfb1a7fb2af4) format("woff");}
-@font-face{font-family:Inter UI;font-style:italic;font-weight:700;src:url(http://pinepipe.local/fonts/Inter-UI-BoldItalic.woff2?8300e08855db2eb7f74402a173874e83) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-BoldItalic.woff?84c42c5d04986c70ad2fac54f3e00937) format("woff");}
-@font-face{font-family:Inter UI;font-style:normal;font-weight:900;src:url(http://pinepipe.local/fonts/Inter-UI-Black.woff2?28b144c25989d58d1efc682da3bbaafb) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-Black.woff?f0e3c382b00425de3b4ad83483ca72db) format("woff");}
-@font-face{font-family:Inter UI;font-style:italic;font-weight:900;src:url(http://pinepipe.local/fonts/Inter-UI-BlackItalic.woff2?da612650c903c13b297c827884dcb8db) format("woff2"),url(http://pinepipe.local/fonts/Inter-UI-BlackItalic.woff?f62e9538012bbc071a1c47254dcd6232) format("woff");}

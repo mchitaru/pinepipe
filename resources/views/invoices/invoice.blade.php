@@ -149,10 +149,10 @@
                                     {{number_format($item->quantity, 2)}}
                                 </td>
                                 <td class="text-right">
-                                    {{Auth::user()->priceFormat($item->price)}}
+                                    {!! htmlentities(Auth::user()->priceFormat($item->price), ENT_COMPAT, 'UTF-8') !!}
                                 </td>
                                 <td class="text-right">
-                                    {{Auth::user()->priceFormat($item->quantity * $item->price)}}
+                                    {!! htmlentities(Auth::user()->priceFormat($item->quantity * $item->price), ENT_COMPAT, 'UTF-8') !!}
                                 </td>
                                 @can('edit invoice')
                                 <td class="table-actions text-right d-print-none pl-0 pr-0">
@@ -186,7 +186,7 @@
                                 <th></th>
                                 <th></th>
                                 <th class="text-muted text-right"><span>{{__('Subtotal')}}</span></th>
-                                <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($subTotal)}}</span></th>
+                                <th class="text-right"><span class="text-muted">{!! htmlentities(Auth::user()->priceFormat($subTotal), ENT_COMPAT, 'UTF-8') !!}</span></th>
                                 <th class="d-print-none"></th>
                             </tr>
                             @if($invoice->discount > 0)
@@ -204,7 +204,7 @@
                                 <td></td>
                                 <td></td>
                                 <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span></td>
-                                <td class="text-small text-right"><span class="text-muted">{{Auth::user()->priceFormat($tax)}}</span></td>
+                                <td class="text-small text-right"><span class="text-muted">{!! htmlentities(Auth::user()->priceFormat($tax), ENT_COMPAT, 'UTF-8') !!}</span></td>
                                 <td class="d-print-none"></td>
                             </tr>
                             <tr>
@@ -212,7 +212,7 @@
                                 <td></td>
                                 <td></td>
                                 <th class="text-right"><span><h5>{{__('Total')}}</h5></span></th>
-                                <th class="text-right"><h5>{{Auth::user()->priceFormat($subTotal-$invoice->discount+$tax)}}</h5></th>
+                                <th class="text-right"><h5>{!! htmlentities(Auth::user()->priceFormat($subTotal-$invoice->discount+$tax), ENT_COMPAT, 'UTF-8') !!}</h5></th>
                                 <th class="d-print-none"></th>
                             </tr>
                         </tfoot>
@@ -257,7 +257,7 @@
                                         {{($payment->category?$payment->category->name:'')}}
                                     </td>
                                     <td class="text-right">
-                                        {{Auth::user()->priceFormat($payment->amount)}}
+                                        {!! htmlentities(Auth::user()->priceFormat($payment->amount), ENT_COMPAT, 'UTF-8') !!}
                                     </td>
                                     @can('edit invoice')
                                     <td class="table-actions text-right pl-0 pr-0 d-print-none">
@@ -286,7 +286,7 @@
                                     <th></th>
                                     <th></th>
                                     <th class="text-muted text-right"><span>{{__('Total Due')}}</span></th>
-                                    <th class="text-right"><span class="text-muted">{{Auth::user()->priceFormat($invoice->getDue())}}</span></th>
+                                    <th class="text-right"><span class="text-muted">{!! htmlentities(Auth::user()->priceFormat($invoice->getDue()), ENT_COMPAT, 'UTF-8') !!}</span></th>
                                     </tr>
                             </tfoot>
                         </table>

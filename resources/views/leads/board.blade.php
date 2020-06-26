@@ -71,13 +71,13 @@ use Carbon\Carbon;
         }
 
         var lead_id = evt.newContainer.children[evt.newIndex].attributes['data-id'].value;
-        var lead_value = parseInt($(evt.newContainer.children[evt.newIndex]).find('.price').attr('data-id'));
+        var lead_value = parseInt($(evt.newContainer.children[evt.newIndex]).find('.price').attr('data-id')) || 0;
 
         var old_stage_id = evt.oldContainer.attributes['data-id'].value;
         var new_stage_id = evt.newContainer.attributes['data-id'].value;
 
-        var total_old = parseInt($(evt.oldContainer).prev().find('.total').attr('data-id'));
-        var total_new = parseInt($(evt.newContainer).prev().find('.total').attr('data-id'));
+        var total_old = parseInt($(evt.oldContainer).prev().find('.total').attr('data-id')) || 0;
+        var total_new = parseInt($(evt.newContainer).prev().find('.total').attr('data-id')) || 0;
 
         if(old_stage_id != new_stage_id)
         {
