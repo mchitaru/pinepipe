@@ -9,6 +9,8 @@ use App\Traits\Taggable;
 
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media as BaseMedia;
+use Spatie\Image\Manipulations;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -36,7 +38,7 @@ class Client extends Model implements HasMedia
     ];
 
     public static $SEED = 2;
-    
+
 
     /**
      * Boot events
@@ -107,6 +109,12 @@ class Client extends Model implements HasMedia
     public function expenses()
     {
         return $this->hasManyThrough('App\Expense', 'App\Project', 'client_id', 'project_id', 'id');
+    }
+
+    public function registerMediaConversions(BaseMedia $media = null)
+    {
+        $this->addMediaConversion('thumb')
+              ->fit(Manipulations::FIT_FILL, 60, 60);
     }
 
     public static function createClient($post)

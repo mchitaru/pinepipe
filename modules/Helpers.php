@@ -41,7 +41,7 @@ class Helpers
 
         if($user){
             $name = $user->name;
-            $avatar = $user->hasMedia('logos') ? $user->media('logos')->first()->getFullUrl() : null;
+            $avatar = $user->hasMedia('logos') ? $user->media('logos')->first()->getFullUrl('thumb') : null;
         }
 
         return Helpers::buildAvatar($name, $avatar, $size, $class);
@@ -54,7 +54,7 @@ class Helpers
 
         if($client){
             $name = $client->name;
-            $avatar = $client->hasMedia('logos') ? $client->media('logos')->first()->getFullUrl() : null;
+            $avatar = $client->hasMedia('logos') ? $client->media('logos')->first()->getFullUrl('thumb') : null;
         }
 
         return Helpers::buildAvatar($name, $avatar, $size, $class);

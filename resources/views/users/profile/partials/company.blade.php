@@ -2,7 +2,7 @@
 <div class="card-body">
     <div class="media mb-4 avatar-container">
         <div class="d-flex flex-column avatar-preview">
-            <img style="max-width:60px; max-height:60px;" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl():""}}" data-filter-by="alt"/>
+            <img style="max-width:60px; max-height:60px;" alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl('thumb'):""}}" data-filter-by="alt"/>
         </div>
         <div class="media-body ml-3">
             <div class="custom-file custom-file-naked d-block mb-1">
@@ -16,7 +16,7 @@
             </div>
             <div class="alert alert-warning text-small" role="alert">
                 <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
-            </div>            
+            </div>
         </div>
     </div>
     <!--end of logo-->
@@ -134,7 +134,7 @@
     <div class="form-group row">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         <div class="col">
-            {!! Form::select('currency', $currencies, ($user->companySettings == null)?'EUR':null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}            
+            {!! Form::select('currency', $currencies, ($user->companySettings == null)?'EUR':null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
             @error('currency')
             <span class="invalid-site_currency" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>

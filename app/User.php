@@ -26,6 +26,8 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Spatie\MediaLibrary\Models\Media as BaseMedia;
+use Spatie\Image\Manipulations;
 
 class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLocalePreference
 {
@@ -103,10 +105,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             $user->activities()->delete();
             $user->subscriptions()->delete();
-    
+
             if($user->type == 'company') {
 
-                $user->deleteCompany();                
+                $user->deleteCompany();
             }
         });
 
@@ -211,7 +213,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function googleAccounts()
     {
         return $this->hasMany(GoogleAccount::class);
-    }    
+    }
 
     public function companySettings()
     {
@@ -484,7 +486,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function preferredLocale()
     {
         return $this->locale;
-    }    
+    }
 
     public function priceFormat($price)
     {
@@ -966,6 +968,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return Expense::where('user_id', '=', $this->id)->update(array('user_id' => null));
     }
 
+    public function registerMediaConversions(BaseMedia $media = null)
+    {
+        $this->addMediaConversion('thumb')
+                ->fit(Manipulations::FIT_FILL, 60, 60);
+    }
+
     public function deleteCompany()
     {
         $this->companyClients()->each(function($client) {
@@ -1028,8 +1036,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         $this->companyMedia()->each(function($media) {
             $media->delete();
         });
-        
-        $this->companyActivities()->delete();        
+
+        $this->companyActivities()->delete();
         $this->companySubscriptions()->delete();
     }
 
