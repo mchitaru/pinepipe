@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Activity;
 use App\Http\Requests\TaskFileRequest;
@@ -32,7 +33,7 @@ class TaskFilesController extends Controller
 
         if($request->hasFile('file'))
         {
-            $file = $task->addMedia($request->file('file'))->toMediaCollection('tasks', 'local');
+            $file = $task->addMedia($request->file('file'))->toMediaCollection('tasks', 's3');
         }
 
         $return               = [];
@@ -63,14 +64,7 @@ class TaskFilesController extends Controller
      */
     public function show(Task $task, Media $file)
     {
-        $file_path = $file->getPath();
-        $filename  = $file->file_name;
-        
-        return \Response::download(
-            $file_path, $filename, [
-                            'Content-Length: ' . filesize($file_path),
-                        ]
-        );
+        return Storage::disk('s3')->download($file->getPath());
     }
 
     /**

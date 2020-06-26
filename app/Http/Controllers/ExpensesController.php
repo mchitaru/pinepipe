@@ -13,6 +13,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
 
 class ExpensesController extends Controller
 {
@@ -86,7 +87,7 @@ class ExpensesController extends Controller
         if($request->hasFile('attachment')){
 
             $expense->clearMediaCollection('attachments');
-            $file = $expense->addMedia($request->file('attachment'))->toMediaCollection('attachments', 'local');
+            $file = $expense->addMedia($request->file('attachment'))->toMediaCollection('attachments', 's3');
         }
 
         $request->session()->flash('success', __('Expense successfully created.'));
@@ -129,7 +130,7 @@ class ExpensesController extends Controller
         if($request->hasFile('attachment')){
 
             $expense->clearMediaCollection('attachments');
-            $file = $expense->addMedia($request->file('attachment'))->toMediaCollection('attachments', 'local');
+            $file = $expense->addMedia($request->file('attachment'))->toMediaCollection('attachments', 's3');
         }
 
         $request->session()->flash('success', __('Expense successfully updated.'));
@@ -152,15 +153,8 @@ class ExpensesController extends Controller
 
     public function attachment(Expense $expense, $media)
     {
-        $media = $expense->media('attachments')->first();
+        $file = $expense->media('attachments')->first();
 
-        $file_path = $media->getPath();
-        $filename  = $media->file_name;
-        
-        return \Response::download(
-            $file_path, $filename, [
-                            'Content-Length: ' . filesize($file_path),
-                        ]
-        );
+        return Storage::disk('s3')->download($file->getPath());
     }
 }

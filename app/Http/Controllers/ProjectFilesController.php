@@ -6,6 +6,7 @@ use App\Project;
 use App\Media;
 use App\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -24,7 +25,7 @@ class ProjectFilesController extends Controller
 
         if($request->hasFile('file'))
         {
-            $file = $project->addMedia($request->file('file'))->toMediaCollection('projects', 'local');
+            $file = $project->addMedia($request->file('file'))->toMediaCollection('projects', 's3');
         }
 
         $return               = [];
@@ -55,14 +56,7 @@ class ProjectFilesController extends Controller
      */
     public function show(Project $project, Media $file)
     {
-        $file_path = $file->getPath();
-        $filename  = $file->file_name;
-        
-        return \Response::download(
-            $file_path, $filename, [
-                            'Content-Length: ' . filesize($file_path),
-                        ]
-        );
+        return Storage::disk('s3')->download($file->getPath());
     }
 
     /**

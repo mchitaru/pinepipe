@@ -87,7 +87,7 @@ class ArticlesController extends Controller
 
         //        $avatar = $user->hasMedia('logos') ? $user->media('logos')->first()->getFullUrl() : null;    
 
-        //        $file = $article->addMedia($request->file('file'))->toMediaCollection('articles', 'local');
+        //        $file = $article->addMedia($request->file('file'))->toMediaCollection('articles', 's3');
        
         //        $path = '/images/' . uniqid('', true) . '.' . $mimeType;
                
