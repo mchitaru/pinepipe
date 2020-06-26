@@ -54,8 +54,8 @@
                         <span class="align-items-center justify-content-center">
                             <h5>{{$client->name}}</h5>
                         </span>
-                        <span class="align-items-center justify-content-center">
-                            <i class="material-icons d-print-none" title="{{__('Project')}}">folder</i>
+                        <span class="align-items-center justify-content-center" style="vertical-align: middle;">
+                            <img alt="{{__('Project')}}" width=24 src="{{ asset('assets/img/folder.svg') }}" />
                             {{$invoice->project->name }}
                         </span>
                     </address>
