@@ -114,7 +114,8 @@ class Client extends Model implements HasMedia
     public function registerMediaConversions(BaseMedia $media = null)
     {
         $this->addMediaConversion('thumb')
-              ->fit(Manipulations::FIT_FILL, 60, 60);
+              ->fit(Manipulations::FIT_FILL, 60, 60)
+              ->nonQueued();
     }
 
     public static function createClient($post)

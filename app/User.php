@@ -971,7 +971,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function registerMediaConversions(BaseMedia $media = null)
     {
         $this->addMediaConversion('thumb')
-                ->fit(Manipulations::FIT_FILL, 60, 60);
+                ->fit(Manipulations::FIT_FILL, 60, 60)
+                ->nonQueued();
     }
 
     public function deleteCompany()
