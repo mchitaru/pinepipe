@@ -8,7 +8,8 @@ $timesheet = $timesheets->first();
     <a role="button" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet?$timesheet->id:null}}" class="btn btn-round {{$timesheet&&$timesheet->isStarted()?'btn-danger fade-animation':'btn-primary'}} timer-entry" title="{{$timesheet&&$timesheet->isStarted()?__('Stop working'):__('Start working')}}">
         <i class="material-icons">{{$timesheet&&$timesheet->isStarted()?'stop':'play_arrow'}}</i>
     </a>
-    <a href="#" role="button" class="pl-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  title="{{$timesheet&&$timesheet->task?__('Timesheet: ').$timesheet->task->title:'...'}}">
+    <a href="#" role="button" class="pl-2 d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  title="{{$timesheet&&$timesheet->task?__('Timesheet: ').$timesheet->task->title:__('No title')}}">
+        <span class="d-none d-lg-block text-muted text-light pr-2"><b>{{$timesheet&&$timesheet->task?$timesheet->task->title:__('No title')}}</b></span>
         <span class="active-timer text-muted text-light dropdown-toggle">{{$timesheet?$timesheet->formatTime():'00:00:00'}}</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right pre-scrollable" id="timer-menu">
