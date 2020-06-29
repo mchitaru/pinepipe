@@ -54,7 +54,11 @@ $(function() {
     $('body').on('click', '.pagination a', function(e) {
         e.preventDefault();
 
-        $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
+        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            </div>`);
 
         clearTimeout(timeout);
 
@@ -106,7 +110,11 @@ $(function() {
     $('.filter-controls a').on('click',function(e){
         e.preventDefault();
 
-        $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
+        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            </div>`);
         
         clearTimeout(timeout);
 
@@ -151,7 +159,11 @@ $(function() {
     $('.filter-tags div').on('click',function(e){
         e.preventDefault();
 
-        $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
+        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            </div>`);
         
         clearTimeout(timeout);
 
@@ -176,7 +188,7 @@ $(function() {
                 dataType: 'text',
             }).done(function (data) 
             {
-                $('.paginate-container').html(data);  
+                $('.paginate-container').html(data);
                 LetterAvatar.transform();
 
                 // Create the event
@@ -202,7 +214,11 @@ $(function() {
     // $('.filter-input').on('keyup',function(e){
             e.preventDefault();
 
-        $('.paginate-container a').not('.pagination a').css('color', '#dfecf6');
+        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            </div>`);
 
         clearTimeout(timeout);
 
