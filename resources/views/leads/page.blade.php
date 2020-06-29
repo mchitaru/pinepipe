@@ -172,7 +172,7 @@ function initLeadCards() {
             </div>
         </div>
         <div class="kanban-board container-fluid filter-list paginate-container">
-            <div class="h-100 w-100 row align-items-center justify-content-center">
+            <div class="w-100 row justify-content-center">
                 @include('partials.spinner')
             </div>
         </div>

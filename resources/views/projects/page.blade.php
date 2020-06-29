@@ -71,7 +71,7 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body filter-list row paginate-container">
-                    <div class="h-100 w-100 row align-items-center justify-content-center">
+                    <div class="w-100 row justify-content-center pt-3">
                         @include('partials.spinner')
                     </div>
                 </div>

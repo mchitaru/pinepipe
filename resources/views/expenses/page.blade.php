@@ -55,7 +55,7 @@
                 <!--end of content list head-->
                 @can('view expense')
                 <div class="content-list-body filter-list paginate-container">
-                    <div class="h-100 w-100 row align-items-center justify-content-center">
+                    <div class="w-100 row justify-content-center pt-3">
                         @include('partials.spinner')
                     </div>
                 <!--end of content list body-->
