@@ -85,22 +85,22 @@ $(function() {
 
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">Events
+                <a class="nav-link" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">{{__('Events')}}
                     <span class="badge badge-secondary">{{ $events->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">Notes
+                <a class="nav-link" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">{{__('Notes')}}
                     <span class="badge badge-secondary">{{ $notes->count() }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#lead-files" role="tab" aria-controls="lead-files" aria-selected="false">Files
+                <a class="nav-link" data-toggle="tab" href="#lead-files" role="tab" aria-controls="lead-files" aria-selected="false">{{__('Files')}}
                     <span class="badge badge-secondary">{{ count($files) }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">Activity</a>
+                <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
             </ul>
 

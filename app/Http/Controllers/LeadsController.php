@@ -203,10 +203,15 @@ class LeadsController extends Controller
                 $files[] = $file;
             }
 
-            $stageCount = Stage::where('created_by', \Auth::user()->creatorId())
-                                    ->where('class', Lead::class)->count();
-                                    
-            $progress = $lead->stage_id * 100 / ($stageCount-1); //TO DO
+            $stages = Stage::where('created_by', \Auth::user()->creatorId())
+                                ->where('class', Lead::class)
+                                ->get()
+                                ->pluck('id');
+
+
+            $index = array_search($lead->stage_id, $stages->toArray());
+
+            $progress = ($index + 1) * 100 / ($stages->count() - 1);
 
             clock()->endEvent('LeadsController');
 
