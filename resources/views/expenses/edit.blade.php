@@ -48,9 +48,9 @@
     <div class="form-group row avatar-container">
         <div class="d-flex flex-column avatar-preview">
             @if(!$expense->hasMedia('attachments'))
-                <img data-filter-by='alt' style="max-width:60px; max-height:60px;" class="rounded" avatar="?">      
+                <img data-filter-by='alt' width=60 height=60 class="rounded" avatar="?">      
             @else
-                <img data-filter-by='alt' style="max-width:60px; max-height:60px;" class="rounded" src="{{route('expenses.attachment', [$expense, $expense->media('attachments')->first()->file_name])}}">
+                <img data-filter-by='alt' width=60 height=60 class="rounded" src="{{route('expenses.attachment', [$expense, $expense->media('attachments')->first()->file_name])}}">
             @endif
         </div>
         <div class="media-body ml-3">
