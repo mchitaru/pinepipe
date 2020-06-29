@@ -10,7 +10,7 @@ $languages=$_user->languages();
 </a>
 
 <div class="mx-lg-2">
-    @include('partials.app.notifications')
+    {{-- @include('partials.app.notifications') --}}
     @include('partials.app.timesheets')
 </div>
 

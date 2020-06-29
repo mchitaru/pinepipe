@@ -9,7 +9,7 @@
         </form>
         @endif
     </div>
-    <div class="d-flex align-items-center ">
+    <div class="d-flex align-items-center w-60 justify-content-end">
         @if(\Auth::user()->type!='super admin')
         <div class="dropdown text-center align-items-center border-left pl-2 border-right pr-2">
             @include('partials.app.timesheets')
