@@ -21,6 +21,11 @@ class ExpensesController extends Controller
     {
         if(\Auth::user()->can('view expense'))
         {
+            if (!$request->ajax())
+            {
+                return view('expenses.page');
+            }
+
             clock()->startEvent('ExpensesController', "Load expenses");
 
             $expenses = Expense::expensesByUserType()
@@ -39,12 +44,7 @@ class ExpensesController extends Controller
 
             clock()->endEvent('ExpensesController');
 
-            if ($request->ajax())
-            {
-                return view('expenses.index', ['expenses' => $expenses])->render();
-            }
-
-            return view('expenses.page', compact('expenses'));
+            return view('expenses.index', ['expenses' => $expenses])->render();
         }
         else
         {

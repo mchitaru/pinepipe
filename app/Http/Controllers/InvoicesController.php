@@ -30,6 +30,11 @@ class InvoicesController extends Controller
         if(\Auth::user()->can('view invoice') ||
            \Auth::user()->type == 'client')
         {
+            if (!$request->ajax())
+            {
+                return view('invoices.page');
+            }
+
             clock()->startEvent('InvoicesController', "Load invoices");
 
             if(empty($request['tag']) || $request['tag'] == 'all'){
@@ -78,12 +83,7 @@ class InvoicesController extends Controller
 
             clock()->endEvent('InvoicesController');
 
-            if ($request->ajax())
-            {
-                return view('invoices.index', ['invoices' => $invoices])->render();
-            }
-
-            return view('invoices.page', compact('invoices'));
+            return view('invoices.index', ['invoices' => $invoices])->render();
         }
         else
         {

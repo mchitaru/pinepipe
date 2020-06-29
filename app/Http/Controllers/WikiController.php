@@ -17,6 +17,11 @@ class WikiController extends Controller
      */
     public function index(Request $request, User $user, $categories = null)
     {
+        if (!$request->ajax())
+        {
+            return view('wiki.page');        
+        }
+
         if(\Auth::user() && (\Auth::user()->creatorId() == $user->id)){
 
             $published = [0, 1];
@@ -67,11 +72,6 @@ class WikiController extends Controller
 
         $home = route('wiki.index', $user);
 
-        if ($request->ajax())
-        {
-            return view('wiki.index', compact('home', 'user', 'category', 'article', 'categories', 'articles'))->render();
-        }
-
-        return view('wiki.page', compact('home', 'user', 'category', 'article', 'categories', 'articles'));        
+        return view('wiki.index', compact('home', 'user', 'category', 'article', 'categories', 'articles'))->render();
     }
 }

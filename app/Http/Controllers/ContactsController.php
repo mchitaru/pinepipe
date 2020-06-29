@@ -22,6 +22,11 @@ class ContactsController extends Controller
 
         if($user->can('view contact'))
         {
+            if (!$request->ajax())
+            {
+                return view('contacts.page');
+            }
+
             clock()->startEvent('ContactsController', "Load contacts");
 
             $contacts = Contact::contactsByUserType()
@@ -35,12 +40,7 @@ class ContactsController extends Controller
 
             clock()->endEvent('ContactsController');
 
-            if ($request->ajax())
-            {
-                return view('contacts.index', ['contacts' => $contacts])->render();
-            }
-
-            return view('contacts.page', compact('contacts'));
+            return view('contacts.index', ['contacts' => $contacts])->render();
         }
         else
         {

@@ -80,7 +80,9 @@ $(function() {
             }
         
             $.ajax({
-                url : newURL.href  
+                url : newURL.href,
+                type: 'get',
+                dataType: 'text',
             }).done(function (data) 
             {
                 $('.paginate-container').html(data);  
@@ -122,6 +124,8 @@ $(function() {
 
             $.ajax({
                 url : url.href,
+                type: 'get',
+                dataType: 'text',
             }).done(function (data) 
             {
                 $('.paginate-container').html(data);  
@@ -168,6 +172,8 @@ $(function() {
 
             $.ajax({
                 url : url.href,
+                type: 'get',
+                dataType: 'text',
             }).done(function (data) 
             {
                 $('.paginate-container').html(data);  
@@ -217,6 +223,8 @@ $(function() {
 
             $.ajax({
                 url : url.href,
+                type: 'get',
+                dataType: 'text',
             }).done(function (data) 
             {
                 $('.paginate-container').html(data);  
@@ -236,4 +244,37 @@ $(function() {
 
         }, 500);
     });
+
+    function loadContent(container) {
+
+        var url = new URL(window.location.href);
+
+        $.ajax({
+            url : url.href,
+            type: 'get',
+            dataType: 'text',
+        }).done(function (data) 
+        {
+            $('.paginate-container').html(data);  
+            LetterAvatar.transform();
+
+            // Create the event
+            var event = new CustomEvent("paginate-load");
+            // Dispatch/Trigger/Fire the event
+            document.dispatchEvent(event);            
+
+        }).fail(function () 
+        {
+            // toastrs('Data could not be loaded!', 'danger');            
+        });
+    }
+
+    $('.paginate-container').each(function(e){
+
+        loadContent($(this));
+
+        //stop at first, for now
+        return false;
+    });
+
 });

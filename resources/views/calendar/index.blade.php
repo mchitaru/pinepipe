@@ -19,94 +19,95 @@
     <script src="{{asset('assets/module/fullcalendar/locales-all.min.js')}}"></script>
 
     <script>
-        var events = {!! ($events) !!};
+        $(function() {
 
-        var calendarEl = document.getElementById('calendar');
+            var events = {!! ($events) !!};
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap', 'interaction' ],
-        timeZone: 'local',
-        locale: '{{\Auth::user()->locale}}',
-        themeSystem: 'bootstrap',
-        customButtons: {
-            new: {
-                text: '\u271A',
-                click: function() {
+            var calendarEl = document.getElementById('calendar');
 
-                    $(".context-menu").finish().toggle().
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap', 'interaction' ],
+            timeZone: 'local',
+            locale: '{{\Auth::user()->locale}}',
+            themeSystem: 'bootstrap',
+            customButtons: {
+                new: {
+                    text: '\u271A',
+                    click: function() {
 
-                    css({
-                        top: $(this).position().top + $(this).height() + "px",
-                        left: $(this).position().left + $(this).width() + "px"
+                        $(".context-menu").finish().toggle().
+
+                        css({
+                            top: $(this).position().top + $(this).height() + "px",
+                            left: $(this).position().left + $(this).width() + "px"
+                        });
+                    }
+                },
+            },
+            header: {
+                left: 'new prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay listMonth'
+            },
+            buttonText: {
+                prev: '<',
+                next: '>'
+            },
+            defaultView: (localStorage.getItem("fcDefaultView") ? localStorage.getItem("fcDefaultView") : "listMonth"),
+            weekNumbers: true,
+            eventLimit: true,
+            selectable: true,
+            eventTimeFormat: {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    meridiem: 'narrow'
+                },
+            events: events,
+
+            select: function(info)
+            {
+                $(".context-menu > a").each(function() {
+                    $(this).attr("data-start", info.startStr);
+                    $(this).attr("data-end", info.endStr);
+                });
+
+                $(".context-menu").finish().toggle().
+
+                css({
+                    top: info.jsEvent.pageY + "px",
+                    left: info.jsEvent.pageX + "px"
+                });
+            },
+            eventClick: function(info)
+            {
+                info.jsEvent.preventDefault();
+
+                if (info.event.url) {
+
+                    $.ajax({
+                        url: info.event.url,
+                        type: 'get',
+                        dataType: 'text',
+                            success: function(data, status, xhr) {
+                                $(document).trigger('ajax:success', [data, status, xhr]);
+                            },
+                            complete: function(xhr, status) {
+                                $(document).trigger('ajax:complete', [xhr, status]);
+                            },
+                            error: function(xhr, status, error) {
+                                $(document).trigger('ajax:error', [xhr, status, error]);
+                            }
                     });
                 }
             },
-        },
-        header: {
-            left: 'new prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay listMonth'
-        },
-        buttonText: {
-            prev: '<',
-            next: '>'
-        },
-        defaultView: (localStorage.getItem("fcDefaultView") ? localStorage.getItem("fcDefaultView") : "listMonth"),
-        weekNumbers: true,
-        eventLimit: true,
-        selectable: true,
-        eventTimeFormat: {
-                hour: 'numeric',
-                minute: '2-digit',
-                meridiem: 'narrow'
-            },
-        events: events,
-
-        select: function(info)
-        {
-            $(".context-menu > a").each(function() {
-                $(this).attr("data-start", info.startStr);
-                $(this).attr("data-end", info.endStr);
-            });
-
-            $(".context-menu").finish().toggle().
-
-            css({
-                top: info.jsEvent.pageY + "px",
-                left: info.jsEvent.pageX + "px"
-            });
-        },
-        eventClick: function(info)
-        {
-            info.jsEvent.preventDefault();
-
-            if (info.event.url) {
-
-                $.ajax({
-                    url: info.event.url,
-                    type: 'get',
-                    dataType: 'text',
-                        success: function(data, status, xhr) {
-                            $(document).trigger('ajax:success', [data, status, xhr]);
-                        },
-                        complete: function(xhr, status) {
-                            $(document).trigger('ajax:complete', [xhr, status]);
-                        },
-                        error: function(xhr, status, error) {
-                            $(document).trigger('ajax:error', [xhr, status, error]);
-                        }
-                });
+            datesRender: function (info)
+            {
+                localStorage.setItem("fcDefaultView", info.view.type);
             }
-        },
-        datesRender: function (info)
-        {
-            localStorage.setItem("fcDefaultView", info.view.type);
-        }
-        });
+            });
 
-        calendar.render();
+            calendar.render();
 
-        $(function() {
             $('.fc-new-button').addClass('dropdown-toggle');
         });
 

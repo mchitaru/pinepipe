@@ -1,22 +1,19 @@
 @extends('layouts.app')
 
-@php clock()->startEvent('tasks.page', "Display task page"); @endphp
+@php clock()->startEvent('leads.page', "Display lead page"); @endphp
 
 @php
 use Carbon\Carbon;
-use App\Project;
 @endphp
 
 @push('stylesheets')
 @endpush
 
 @push('scripts')
-
 <script type="text/javascript" src="{{ asset('assets/js/draggable.bundle.min.js') }}"></script>
 
 <script>
-
-function initTaskCards() {
+function initLeadCards() {
 
     const sortableLists = new Draggable.Sortable(document.querySelectorAll('div.kanban-board'), {
         draggable: '.kanban-col:not(:last-child)',
@@ -53,11 +50,11 @@ function initTaskCards() {
             success: function (response) {
 
                 if(response.is_success){
+
                     toastrs('Stage order successfully updated.', 'success');
                 }
             },
             error: function (data) {
-
                 toastrs('This operation is not allowed!', 'danger');
             }
         });
@@ -74,21 +71,38 @@ function initTaskCards() {
             order[i] = list[i].attributes['data-id'].value;
         }
 
-        var task_id = evt.newContainer.children[evt.newIndex].attributes['data-id'].value;
-        var stage_id = evt.newContainer.attributes['data-id'].value;
+        var lead_id = evt.newContainer.children[evt.newIndex].attributes['data-id'].value;
+        var lead_value = parseInt($(evt.newContainer.children[evt.newIndex]).find('.price').attr('data-id')) || 0;
 
-        $(evt.oldContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.oldContainer).length + ')');
-        $(evt.newContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.newContainer).length + ')');
+        var old_stage_id = evt.oldContainer.attributes['data-id'].value;
+        var new_stage_id = evt.newContainer.attributes['data-id'].value;
+
+        var total_old = parseInt($(evt.oldContainer).prev().find('.total').attr('data-id')) || 0;
+        var total_new = parseInt($(evt.newContainer).prev().find('.total').attr('data-id')) || 0;
+
+        if(old_stage_id != new_stage_id)
+        {
+            total_old -= lead_value;
+            total_new += lead_value;
+        }
+
+        $(evt.oldContainer).prev().find('.total').attr('data-id', total_old);
+        $(evt.newContainer).prev().find('.total').attr('data-id', total_new);
 
         $.ajax({
-            url: '{{route('tasks.order')}}',
+            url: '{{route('leads.order')}}',
             type: 'POST',
-            data: {task_id: task_id, stage_id: stage_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
-            success: function (data) {
-                /* console.log('success'); */
+            data: {lead_id: lead_id, stage_id: new_stage_id, order: order, total_old: total_old, total_new: total_new, "_token": $('meta[name="csrf-token"]').attr('content')},
+            success: function (response) {
 
-                if(data.is_success){
-                    toastrs('{{__('Task successfully updated.')}}', 'success');
+                $(evt.oldContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.oldContainer).length + ')');
+                $(evt.newContainer).prev().find('.count').text('(' + sortableCards.getDraggableElementsForContainer(evt.newContainer).length + ')');
+
+                $(evt.oldContainer).prev().find('.total').text(response.total_old);
+                $(evt.newContainer).prev().find('.total').text(response.total_new);
+
+                if(response.is_success){
+                    toastrs('{{__('Lead successfully updated.')}}', 'success');
                 }
             },
             error: function (data) {
@@ -96,56 +110,52 @@ function initTaskCards() {
             }
         });
     });
-};
-
-$(function() {
+}
+    $(function() {
     
-    localStorage.setItem('sort', 'order');
-    localStorage.setItem('dir', 'asc');
-    localStorage.setItem('tag', '');
-    localStorage.setItem('tag', 'mine');
+        localStorage.setItem('sort', 'order');
+        localStorage.setItem('dir', 'asc');
+        localStorage.setItem('filter', '');
+        localStorage.setItem('tag', '');
 
-    updateFilters();
-});
+        updateFilters();
+    });
 
-document.addEventListener("paginate-sort", function(e) {
-    initTaskCards();
-});
+    document.addEventListener("paginate-sort", function(e) {
+        initLeadCards();
+    });
 
-document.addEventListener("paginate-load", function(e) {
-    initTaskCards();
-});
-
+    document.addEventListener("paginate-load", function(e) {
+        initLeadCards();
+    });
 </script>
 
 @endpush
 
 @section('page-title')
-    {{__('Task Board')}}
+    {{__('Lead Board')}}
 @endsection
 
 @section('content')
+
     <div class="container-kanban" data-filter-list="card-list-body">
         <div class="container-fluid page-header d-flex justify-content-between align-items-start">
             <div class="col">
                 <div class="row content-list-head">
                     <div class="col-auto">
-                        <h3>{{__('Tasks')}}</h3>
-                        <a href="{{ route('tasks.create') }}" class="btn btn-round" data-params="project_id={{$project_id}}" data-remote="true" data-type="text">
+                        <h3>{{__('Leads')}}</h3>
+                        @can('create lead')
+                        <a href="{{ route('leads.create') }}" class="btn btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
+                        @endcan
                     </div>
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
                             <a class="sort" href="#" data-sort="order">{{__('Order')}}</a>
-                            <a class="sort" href="#" data-sort="priority">{{__('Priority')}}</a>
-                            <a class="sort" href="#" data-sort="due_date">{{__('Date')}}</a>
-                        </div>
-                        <div class="filter-tags">
-                            <div>{{__('Tag')}}:</div>
-                            <div class="tag filter" data-filter="mine">{{__('My Tasks')}}</div>
-                            <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
+                            <a class="sort" href="#" data-sort="name">{{__('Name')}}</a>
+                            <a class="sort" href="#" data-sort="price">{{__('Value')}}</a>
                         </div>
                     </div>
                     <form class="col-md-auto">
@@ -155,7 +165,7 @@ document.addEventListener("paginate-load", function(e) {
                             <i class="material-icons">filter_list</i>
                             </span>
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="{{__("Filter tasks")}}">
+                        <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Leads')}}" aria-label="{{__('Filter Leads')}}">
                         </div>
                     </form>
                 </div>
@@ -169,4 +179,4 @@ document.addEventListener("paginate-load", function(e) {
     </div>
 @endsection
 
-@php clock()->endEvent('tasks.page'); @endphp
+@php clock()->endEvent('leads.page'); @endphp

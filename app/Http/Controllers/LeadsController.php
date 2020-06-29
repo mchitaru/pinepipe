@@ -19,17 +19,22 @@ use Illuminate\Support\Arr;
 
 class LeadsController extends Controller
 {
-    public function board()
+    public function board(Request $request)
     {
         if(\Auth::user()->can('view lead'))
         {
+            if (!$request->ajax())
+            {
+                return view('leads.page');
+            }
+
             clock()->startEvent('LeadsController', "Load leads");
 
-            $stages = Stage::leadStagesByUserType()->get();
+            $stages = Stage::leadStagesByUserType($request['sort'], $request['dir'])->get();
 
             clock()->endEvent('LeadsController');
 
-            return view('leads.board', compact('stages'));
+            return view('leads.board', compact('stages'))->render();
         }
         else
         {

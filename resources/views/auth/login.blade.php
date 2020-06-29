@@ -22,15 +22,7 @@
         <div class="row justify-content-center">
         <div class="col-lg-6 col-md-12 mb-5">
             <div class="row justify-content-center" id="headway-spinner">
-                <div class="spinner-grow" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-                <div class="spinner-grow" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-                <div class="spinner-grow" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
+                @include('partials.spinner')
             </div>
             <div class="row justify-content-center" id="headway-widget">
             </div>

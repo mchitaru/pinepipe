@@ -70,7 +70,11 @@
                     </div>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body filter-list row paginate-container">@include('projects.index')</div>
+                <div class="content-list-body filter-list row paginate-container">
+                    <div class="h-100 w-100 row align-items-center justify-content-center">
+                        @include('partials.spinner')
+                    </div>
+                </div>
             <!--end of content list body-->
             </div>
             <!--end of content list-->

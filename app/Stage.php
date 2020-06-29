@@ -185,14 +185,14 @@ class Stage extends Model
         }
     }
 
-    public static function leadStagesByUserType()
+    public static function leadStagesByUserType($sort, $dir)
     {
         if(\Auth::user()->type == 'client')
         {
-            return Stage::with(['leads' => function ($query) {
+            return Stage::with(['leads' => function ($query) use($sort, $dir){
 
                         $query->where('leads.client_id', \Auth::user()->client_id)
-                                ->orderBy('order');
+                                ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)
@@ -201,9 +201,9 @@ class Stage extends Model
         }
         elseif(\Auth::user()->type == 'company')
         {
-            return Stage::with(['leads' => function ($query) {
+            return Stage::with(['leads' => function ($query) use($sort, $dir){
 
-                        $query->orderBy('order');
+                        $query->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
                     },'leads.client','leads.user'])
                     ->where('class', Lead::class)
@@ -212,10 +212,10 @@ class Stage extends Model
 
         }else
         {
-            return Stage::with(['leads' => function ($query) {
+            return Stage::with(['leads' => function ($query) use($sort, $dir){
 
                         $query->where('leads.user_id', \Auth::user()->id)
-                                ->orderBy('order');
+                                ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)

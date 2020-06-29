@@ -27,6 +27,11 @@ class TasksController extends Controller
     {
         if(\Auth::user()->can('view task'))
         {
+            if (!$request->ajax())
+            {
+                return view('tasks.page', compact('project_id'));
+            }
+
             clock()->startEvent('TasksController', "Load tasks");
 
             if($request['tag'] == 'all'){
@@ -50,12 +55,7 @@ class TasksController extends Controller
 
             clock()->endEvent('TasksController');
 
-            if ($request->ajax())
-            {
-                return view('tasks.board', compact('stages', 'project_id', 'project_name'))->render();
-            }
-
-            return view('tasks.page', compact('stages', 'project_id', 'project_name'));
+            return view('tasks.board', compact('stages', 'project_id', 'project_name'))->render();
         }
         else
         {

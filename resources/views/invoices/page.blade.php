@@ -65,7 +65,13 @@
                     </div>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body filter-list paginate-container">@can('view invoice')@include('invoices.index')@endcan</div>
+                    @can('view invoice')
+                    <div class="content-list-body filter-list paginate-container">
+                        <div class="h-100 w-100 row align-items-center justify-content-center">
+                            @include('partials.spinner')
+                        </div>
+                    </div>
+                    @endcan
                     <!--end of content list body-->
                 </div>
             <!--end of tab-->

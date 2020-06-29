@@ -38,6 +38,11 @@ class ProjectsController extends Controller
 
         if($user->can('view project'))
         {
+            if (!$request->ajax())
+            {
+                return view('projects.page');
+            }
+
             clock()->startEvent('ProjectsController.index', "Load projects");
 
             if($request['tag']){
@@ -61,12 +66,7 @@ class ProjectsController extends Controller
 
             clock()->endEvent('ProjectsController.index');
 
-            if ($request->ajax())
-            {
-                return view('projects.index', ['projects' => $projects])->render();
-            }
-
-            return view('projects.page', compact('projects'));
+            return view('projects.index', ['projects' => $projects])->render();
         }
         else
         {

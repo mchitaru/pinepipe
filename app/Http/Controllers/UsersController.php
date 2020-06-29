@@ -25,6 +25,11 @@ class UsersController extends Controller
         $user = \Auth::user();
         if(\Auth::user()->can('view user'))
         {
+            if (!$request->ajax())
+            {
+                return view('users.page');
+            }
+
             if(\Auth::user()->type == 'super admin')
             {
                 $users = User::withTrashed()
@@ -47,12 +52,7 @@ class UsersController extends Controller
                                 ->paginate(25, ['*'], 'user-page');
             }
 
-            if ($request->ajax())
-            {
-                return view('users.index', ['users' => $users])->render();
-            }
-
-            return view('users.page', compact('users'));
+            return view('users.index', ['users' => $users])->render();
         }
         else
         {

@@ -28,6 +28,11 @@ class ClientsController extends Controller
 
         if($user->can('view client'))
         {
+            if (!$request->ajax())
+            {
+                return view('clients.page');
+            }
+
             clock()->startEvent('ClientsController', "Load clients");
 
             if($user->type == 'company')
@@ -67,12 +72,7 @@ class ClientsController extends Controller
 
             clock()->endEvent('ClientsController');
 
-            if ($request->ajax())
-            {
-                return view('clients.index', ['clients' => $clients])->render();
-            }
-
-            return view('clients.page', compact('clients'));
+            return view('clients.index', ['clients' => $clients])->render();
         }
         else
         {
