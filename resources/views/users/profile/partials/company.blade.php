@@ -121,6 +121,17 @@
         </div>
     </div>
     <div class="form-group row">
+        {{Form::label('iban',__('IBAN'), array('class'=>'col-3')) }}
+        <div class="col">
+            {{Form::text('iban',null, array('class'=>'form-control', 'placeholder'=>__('XX123456789')))}}
+            @error('iban')
+            <span class="invalid-iban" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
         {{Form::label('invoice',__('Invoice Prefix'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('invoice',null, array('class'=>'form-control', 'placeholder'=>__('#INV')))}}

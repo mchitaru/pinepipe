@@ -95,6 +95,9 @@
                                 <td class="text-left">{{($companySettings&&$companySettings->tax)?(__('TAX ID').': '.$companySettings->tax):''}}</td>
                                 <td class="text-right">{{$client->tax?(__('TAX ID').': '.$client->tax):''}}</td>
                             </tr>
+                            <tr>
+                                <td class="text-left">{{($companySettings&&$companySettings->iban)?(__('IBAN').': '.$companySettings->iban):''}}</td>
+                            </tr>
                         </tfoot>
                     </table>
                     <table class="table">

@@ -24,6 +24,7 @@ class CreateCompanySettingsTable extends Migration
             $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('tax')->nullable();
+            $table->string('iban')->nullable();
             $table->string('invoice')->nullable();
             $table->string('currency', '3');
             $table->unsignedInteger('created_by')->unique();
