@@ -4,6 +4,18 @@
 @endpush
 
 @push('scripts')
+<script>
+    $(function() {
+    
+    localStorage.setItem('sort', 'name');
+    localStorage.setItem('dir', 'asc');
+    localStorage.setItem('filter', '');
+    localStorage.setItem('tag', '');
+
+    updateFilters();
+
+});
+</script>
 @endpush
 
 @section('page-title')
