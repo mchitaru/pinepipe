@@ -8,7 +8,7 @@
             </a>
         </div>
         <div class="card-body p-2 pl-5">
-            <div class="card-title col-xs-12 col-sm-4">
+            <div class="card-title col-xs-12 col-sm-3">
                 @if(Gate::check('edit user'))
                     <a href="{{ $user->enabled?route('users.edit',$user->id):'#' }}" data-remote="true" data-type="text">
                         <h6 data-filter-by="text">{{$user->name}}</h6>
@@ -21,7 +21,7 @@
                     <p class="text-small">{{$user->created_at}}</p>
                 @endif
             </div>
-            <div class="card-title col-xs-12 col-sm-4">
+            <div class="card-title col-xs-12 col-sm-5">
                 <span class="d-flex align-items-center">
                     <i class="material-icons">email</i>
                     <a href="mailto:kenny.tran@example.com">
