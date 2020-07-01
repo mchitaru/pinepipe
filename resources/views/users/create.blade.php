@@ -14,7 +14,7 @@
     @if(\Auth::user()->type != 'super admin')
         <div class="form-group row required">
             {{ Form::label('role', __('User Role'), array('class'=>'col-3')) }}
-            {!! Form::select('role', $roles, $role?$role->id:null, array('class' => 'form-control col','required'=>'required',
+            {!! Form::select('role', $roles, $role?$role->id:null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...',
                             'data-refresh'=>route('users.refresh', '0'), 'lang'=>\Auth::user()->locale)) !!}
         </div>
         @if($role && $role->name == 'client')
