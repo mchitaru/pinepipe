@@ -54,12 +54,36 @@ class Category extends Model
 
         static::deleting(function ($category) {
 
-            $category->children()->detach();
+            $category->children()->update(['category_id' => null]);
+            $category->leads()->update(['category_id' => null]);
+            $category->articles()->update(['category_id' => null]);
+            $category->expenses()->update(['category_id' => null]);
+            $category->payments()->update(['category_id' => null]);
         });
     }
 
     public function children()
     {
         return $this->hasMany('App\Category', 'category_id', 'id');
+    }
+
+    public function leads()
+    {
+        return $this->hasMany('App\Lead', 'category_id', 'id');
+    }
+
+    public function articles()
+    {
+        return $this->hasMany('App\Article', 'category_id', 'id');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany('App\Expense', 'category_id', 'id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Payment', 'category_id', 'id');
     }
 }
