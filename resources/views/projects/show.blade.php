@@ -186,9 +186,11 @@ $(function() {
                     <span class="badge badge-secondary">{{ count($files) }}</span>
                 </a>
             </li>
+            @if(\Auth::user()->type!='client')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
+            @endif
             </ul>
             <div class="tab-content">
             <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">

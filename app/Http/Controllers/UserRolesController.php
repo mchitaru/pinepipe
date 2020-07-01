@@ -222,7 +222,7 @@ class UserRolesController extends Controller
         if($role->created_by != 1 && \Auth::user()->can('delete permission')){
 
             $defaultRole = Role::where('created_by', 1)
-                                    ->where('name', 'collaborator')
+                                    ->where('name', $role->name)
                                     ->first();
 
             $users = User::withTrashed()
