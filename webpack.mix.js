@@ -16,7 +16,8 @@ mix.js('resources/js/app.js', 'public/js')
             'resources/js/avatar.js',
             'resources/js/paginate.js',
             'resources/js/dropzone.js',
-            'resources/js/timesheets.js'], 'public/js/scripts.js')
+            'resources/js/timesheets.js',
+            'resources/js/hotjar.js'], 'public/js/scripts.js')
    // .scripts('resources/js/remote.js', 'public/js/remote.js')
    // .scripts('resources/js/avatar.js', 'public/js/avatar.js')
    .sass('resources/sass/app.scss', 'public/css')
