@@ -14,6 +14,8 @@
 
                                 @if($user_plan->id == $plan->id)
                                     <span class="badge badge-primary">{{__('active')}}</span>
+                                @else
+                                    <br><br>
                                 @endif
                             </h5>
                             <span class="text-small">{{$plan->description}}</span>
@@ -28,7 +30,7 @@
                                     <b>{{!isset($plan->max_projects)?__('Unlimited'):$plan->max_projects}}</b> {{__('project(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    @if($user_plan->id == $plan->id && $user->subscription()->active())
+                                    @if($user_plan->id == $plan->id && $user->subscription() && $user->subscription()->active())
                                         <b>{{!isset($user->subscription()->max_users)?__('Unlimited collaborators'):($user->subscription()->max_users==0?__('No collaborators'):$user->subscription()->max_users.' '.__('collaborator(s)'))}}</b>
                                     @else
                                         <b>{{!isset($plan->max_users)?__('Unlimited collaborators'):($plan->max_users==0?__('No collaborators'):$plan->max_users.' '.__('collaborator(s)'))}}</b>
