@@ -40,9 +40,13 @@
                             @if($key != 0 )
                                 @if($user_plan->id != $plan->id)
                                     <a href="{{ route('subscriptions.create', $plan->id) }}" class="btn btn-primary {{($user->subscription() && $user->subscription()->active())?'disabled':''}}">
-                                        {{__('Start Trial')}}
+                                        @if($plan->deal)
+                                            {{__('Activate')}}
+                                        @else
+                                            {{__('Start Trial')}}
+                                        @endif
                                     </a>
-                                @elseif($user_plan->id == $plan->id)
+                                @elseif(!$plan->deal && $user_plan->id == $plan->id)
                                     <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-danger {{(!$user->subscription()->active() || Session::has('canceled'))?'disabled':''}}" data-method="delete" data-remote="true" data-type="text">
                                         {{($user->subscription()->active() && !Session::has('canceled'))?__('Cancel'):__('Canceled')}}
                                     </a>

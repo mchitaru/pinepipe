@@ -718,5 +718,7 @@
     "Send an invite link via email to add members to the project": "",
     "Add another recipient": "",
     "You have limited access on the Free plan. Choose your subscription and start a 14 day trial today!": "",
-    "No title": ""
+    "No title": "",
+    "IBAN": "",
+    "Activate": ""
 }

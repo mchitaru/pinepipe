@@ -123,7 +123,7 @@
     <div class="form-group row">
         {{Form::label('iban',__('IBAN'), array('class'=>'col-3')) }}
         <div class="col">
-            {{Form::text('iban',null, array('class'=>'form-control', 'placeholder'=>__('XX123456789')))}}
+            {{Form::text('iban',null, array('class'=>'form-control', 'placeholder'=>'XX123456789'))}}
             @error('iban')
             <span class="invalid-iban" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>

@@ -35,6 +35,12 @@ class UserProfileController extends Controller
                 $user_plan = SubscriptionPlan::first();
             }else{
                 $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
+
+                if($user_plan == null) {
+
+                    //first user with trial
+                    $user_plan = SubscriptionPlan::where('deal', 1)->first();
+                }
             }
 
             $plans = SubscriptionPlan::orderBy('duration','asc')->get();
