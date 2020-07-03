@@ -113,7 +113,7 @@ use Carbon\Carbon;
 @can('create lead stage')
 <div class="kanban-col">
     <div class="card-list">
-        <a href="{{ route('stages.create') }}" class="btn btn-link btn-sm text-small" data-params="class=App\Lead&order={{$stages->last()->order + 1}}" data-remote="true" data-type="text">
+        <a href="{{ route('stages.create') }}" class="btn btn-link btn-sm text-small" data-params="class=App\Lead&order={{$stages->last()?($stages->last()->order + 1):0}}" data-remote="true" data-type="text">
             {{__('Add Stage')}}
         </a>
     </div>
