@@ -28,7 +28,11 @@
                                     <b>{{!isset($plan->max_projects)?__('Unlimited'):$plan->max_projects}}</b> {{__('project(s)')}}
                                 </li>
                                 <li class="text-small">
-                                    <b>{{!isset($plan->max_users)?__('Unlimited collaborators'):($plan->max_users==0?__('No collaborators'):$plan->max_users.' '.__('collaborator(s)'))}}</b>
+                                    @if($user_plan->id == $plan->id && $user->subscription()->active())
+                                        <b>{{!isset($user->subscription()->max_users)?__('Unlimited collaborators'):($user->subscription()->max_users==0?__('No collaborators'):$user->subscription()->max_users.' '.__('collaborator(s)'))}}</b>
+                                    @else
+                                        <b>{{!isset($plan->max_users)?__('Unlimited collaborators'):($plan->max_users==0?__('No collaborators'):$plan->max_users.' '.__('collaborator(s)'))}}</b>
+                                    @endif
                                 </li>
                             </ul>
                             @if($key != 0 )
