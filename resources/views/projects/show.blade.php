@@ -207,8 +207,8 @@ $(function() {
                 <div class="filter-container col-auto">
                     <div class="filter-controls">
                         <div>{{__('Sort')}}:</div>
-                        <a class="sort" href="#" data-sort="priority">{{__('Priority')}}</a>
-                        <a class="sort" href="#" data-sort="due_date">{{__('Date')}}</a>
+                        <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
+                        <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
                     </div>
                 </div>
                 <form class="col-md-auto">

@@ -59,8 +59,8 @@
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
-                            <a class="sort" href="#" data-sort="name">{{__('Name')}}</a>
-                            <a class="sort" href="#" data-sort="due_date">{{__('Date')}}</a>
+                            <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
+                            <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
                         </div>    
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>

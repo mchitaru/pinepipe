@@ -110,7 +110,7 @@ function initLeadCards() {
             }
         });
     });
-}
+};
     $(function() {
     
         localStorage.setItem('sort', 'order');
@@ -153,9 +153,9 @@ function initLeadCards() {
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
-                            <a class="sort" href="#" data-sort="order">{{__('Order')}}</a>
-                            <a class="sort" href="#" data-sort="name">{{__('Name')}}</a>
-                            <a class="sort" href="#" data-sort="price">{{__('Value')}}</a>
+                            <a class="order" href="#" data-sort="order">{{__('Order')}}</a>
+                            <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
+                            <a class="order" href="#" data-sort="price">{{__('Value')}}</a>
                         </div>
                     </div>
                     <form class="col-md-auto">

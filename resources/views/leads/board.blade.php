@@ -38,67 +38,61 @@ use Carbon\Carbon;
             </div>
         </div>
         <div class="card-list-body" data-id={{$stage->id}}>
-
             @foreach($stage->leads as $lead)
-
             <div class="card card-kanban" data-id={{$lead->id}}>
-
-            <div class="card-body p-2">
-                <div class="dropdown card-options">
-                <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit lead')
-                    <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
-                        <span>{{__('Edit')}}</span>
-                    </a>
-                    @endcan
-                    <div class="dropdown-divider"></div>
-                    @can('delete lead')
-                        <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
-                            <span>{{__('Delete')}}</span>
+                <div class="card-body p-2">
+                    <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @can('edit lead')
+                        <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
+                            <span>{{__('Edit')}}</span>
                         </a>
-                    @endcan
-                </div>
-                </div>
-                <div class="card-title">
-                    @if(Gate::check('view lead'))
-                    <a href="{{ route('leads.show',$lead->id) }}">
-                        <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
-                    </a>
-                    @else
-                        <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
-                    @endif
-
-                    @if($lead->client)
-                        @if(Gate::check('view client'))
-                        <a class title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
-                            <p><span class="text-small">{{ $lead->client->name }}</span></p>
+                        @endcan
+                        <div class="dropdown-divider"></div>
+                        @can('delete lead')
+                            <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                <span>{{__('Delete')}}</span>
+                            </a>
+                        @endcan
+                    </div>
+                    </div>
+                    <div class="card-title">
+                        @if(Gate::check('view lead'))
+                        <a href="{{ route('leads.show',$lead->id) }}">
+                            <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
                         </a>
                         @else
-                            <p><span class="text-small">{{ $lead->client->name }}</span></p>
+                            <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
                         @endif
-                    @endif
-                </div>
 
-                <div class="card-title">
-                    <span class="text-small price" data-id={{$lead->price}}>
-                        {{ \Auth::user()->priceFormat($lead->price) }}
-                    </span>
-                    @if(!empty($lead->user))
-                    <div class="float-right">
-                        <a href="#"  title="{{$lead->user->name}}">
-                            {!!Helpers::buildUserAvatar($lead->user)!!}
-                        </a>
+                        @if($lead->client)
+                            @if(Gate::check('view client'))
+                            <a class title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
+                                <p><span class="text-small">{{ $lead->client->name }}</span></p>
+                            </a>
+                            @else
+                                <p><span class="text-small">{{ $lead->client->name }}</span></p>
+                            @endif
+                        @endif
                     </div>
-                    @endif
+                    <div class="card-title">
+                        <span class="text-small price" data-id={{$lead->price}}>
+                            {{ \Auth::user()->priceFormat($lead->price) }}
+                        </span>
+                        @if(!empty($lead->user))
+                        <div class="float-right">
+                            <a href="#"  title="{{$lead->user->name}}">
+                                {!!Helpers::buildUserAvatar($lead->user)!!}
+                            </a>
+                        </div>
+                        @endif
+                    </div>
                 </div>
             </div>
-            </div>
-
             @endforeach
-
         </div>
         <div class="card-list-footer">
             <a href="{{ route('leads.create') }}" class="btn btn-link btn-sm text-small" data-params="stage_id={{$stage->id}}" data-remote="true" data-type="text">

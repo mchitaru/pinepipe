@@ -102,7 +102,7 @@ $(function() {
     
     localStorage.setItem('sort', 'order');
     localStorage.setItem('dir', 'asc');
-    localStorage.setItem('tag', '');
+    localStorage.setItem('filter', '');
     localStorage.setItem('tag', 'mine');
 
     updateFilters();
@@ -138,9 +138,9 @@ document.addEventListener("paginate-load", function(e) {
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
-                            <a class="sort" href="#" data-sort="order">{{__('Order')}}</a>
-                            <a class="sort" href="#" data-sort="priority">{{__('Priority')}}</a>
-                            <a class="sort" href="#" data-sort="due_date">{{__('Date')}}</a>
+                            <a class="order" href="#" data-sort="order">{{__('Order')}}</a>
+                            <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
+                            <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
                         </div>
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
