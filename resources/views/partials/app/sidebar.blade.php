@@ -224,12 +224,9 @@ $languages = $_user->languages();
     <div class="w-100">
         <div class="d-block d-lg-none">
             @if(\Auth::user()->type !='super admin')
-            <form class="form-group" method="post" autocomplete="off">
-                @csrf
-                <div class="input-group input-group-dark ">
-                    <input type="search" class="form-control form-control-dark search-element" placeholder="{{__("Search...")}}" aria-label="Search app">
-                </div>
-            </form>
+            <div class="input-group input-group-dark ">
+                <input type="search" class="form-control form-control-dark search-element" placeholder="{{__("Search...")}}" aria-label="Search app">
+            </div>
             @endif
         </div>
         @if(Gate::check('create contact') ||

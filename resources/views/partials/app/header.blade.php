@@ -1,12 +1,9 @@
 <div class="navbar bg-white sticky-top align-items-center d-none d-lg-flex" style="z-index: 1019">
     <div class="d-flex align-items-center">
         @if(\Auth::user()->type !='super admin')
-        <form class="form-group mb-0" autocomplete="off">
-            @csrf
-            <div class="input-group input-group-light ">
-                <input type="search" class="form-control form-control-light expandable search-element" placeholder="{{__('Search...')}}" aria-label="Search app">
-            </div>
-        </form>
+        <div class="input-group input-group-light ">
+            <input type="search" class="form-control form-control-light expandable search-element" placeholder="{{__('Search...')}}" aria-label="Search app">
+        </div>
         @endif
     </div>
     <div class="d-flex align-items-center w-60 justify-content-end">

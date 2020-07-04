@@ -48,7 +48,7 @@ Route::group(
     ], function (){
 
         //Search
-        Route::get('search/{search?}', 'ProjectsController@search')->name('search');
+        Route::get('search/{search?}', 'DashboardController@search')->name('search');
 
         //Dashboard
         Route::get('/', 'DashboardController@index');

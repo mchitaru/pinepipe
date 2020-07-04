@@ -72,9 +72,9 @@ $timesheet = $_user?$_user->timesheets->first():null;
         ],
         getValue: "text",
         template: {
-            type: "links",
-            fields: {
-                link: "link"
+            type: "custom",
+            method: function(value, item) {
+                return '<a href="' + item.link + '"' + item.param + '>' + value + '</a>';
             }
         },
         adjustWidth: false,
