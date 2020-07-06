@@ -49,7 +49,7 @@
                 <div class="form-check">
                     <label class="rememberme check mt-checkbox mt-checkbox-outline" for="remember">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        {{ __('Remember Me') }}
+                        {{ __('Keep me logged in') }}
                         <span></span>
                     </label>
                 </div>
