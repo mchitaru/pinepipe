@@ -182,107 +182,37 @@ class DashboardController extends Controller
 
     public function search($search)
     {
-        if(\Auth::user()->type == 'client')
-        {
-            $objProject = Project::select(
-                [
-                    'projects.id',
-                    'projects.name',
-                ]
-            )->where('projects.client_id', '=', Auth::user()->client_id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
-            $arrProject = [];
-            foreach($objProject as $project)
-            {
-                $arrProject[] = [
-                    'text' => $project->name,
-                    'link' => route('projects.show', [$project->id]),
-                ];
-            }
+        $projects = \Auth::user()->projectsByUserType()
+                                    ->with(['tasks', 'users', 'client'])
+                                    ->where(function ($query) use ($search) {
+                                        $query->where('name','like', $search.'%');
+                                    })
+                                    ->get();
 
-            $objTask = Task::select(
-                [
-                    'tasks.id',
-                    'tasks.project_id',
-                    'tasks.title',
-                ]
-            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.client_id', '=', Auth::user()->client_id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
-            $arrTask = [];
-            foreach($objTask as $task)
-            {
-                $arrTask[] = [
-                    'text' => $task->title,
-                    'link' => route('tasks.show', [$task->id]),
-                    'param' => 'data-remote="true" data-type="text"'
-                ];
-            }
+        $arrProject = [];
+        foreach($projects as $project)
+        {
+            $arrProject[] = [
+                'text' => $project->name,
+                'link' => route('projects.show', [$project->id]),
+            ];
         }
-        else if(\Auth::user()->type == 'company')
-        {
-            $objProject = Project::select(
-                [
-                    'projects.id',
-                    'projects.name',
-                ]
-            )->where('projects.created_by', '=', \Auth::user()->id)->where('projects.name', 'LIKE', $search . "%")->get();
-            $arrProject = [];
-            foreach($objProject as $project)
-            {
-                $arrProject[] = [
-                    'text' => $project->name,
-                    'link' => route('projects.show', [$project->id]),
-                ];
-            }
 
-            $objTask = Task::select(
-                [
-                    'tasks.id',
-                    'tasks.project_id',
-                    'tasks.title',
-                ]
-            )->join('projects', 'tasks.project_id', '=', 'projects.id')->where('projects.created_by', '=', \Auth::user()->id)->where('tasks.title', 'LIKE', $search . "%")->get();
-            $arrTask = [];
-            foreach($objTask as $task)
-            {
-                $arrTask[] = [
-                    'text' => $task->title,
-                    'link' => route('tasks.show', [$task->id]),
-                    'param' => 'data-remote="true" data-type="text"'
-                ];
-            }
-        }
-        else
-        {
-            $objProject = Project::select(
-                [
-                    'projects.id',
-                    'projects.name',
-                ]
-            )->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('projects.name', 'LIKE', $search . "%")->get();
-            $arrProject = [];
-            foreach($objProject as $project)
-            {
-                $arrProject[] = [
-                    'text' => $project->name,
-                    'link' => route('projects.show', [$project->id]),
-                ];
-            }
+        $tasks = \Auth::user()->tasksByUserType()
+                                ->with(['users'])
+                                ->where(function ($query) use ($search) {
+                                    $query->where('title','like', $search.'%');
+                                })
+                                ->get();
 
-            $objTask = Task::select(
-                [
-                    'tasks.id',
-                    'tasks.project_id',
-                    'tasks.title',
-                ]
-            )->join('projects', 'tasks.project_id', '=', 'projects.id')->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', Auth::user()->id)->where('projects.created_by', '=', \Auth::user()->creatorId())->where('tasks.title', 'LIKE', $search . "%")->get();
-            $arrTask = [];
-            foreach($objTask as $task)
-            {
-                $arrTask[] = [
-                    'text' => $task->title,
-                    'link' => route('tasks.show', [$task->id]),
-                    'param' => 'data-remote="true" data-type="text"'
-                ];
-            }
+        $arrTask = [];
+        foreach($tasks as $task)
+        {
+            $arrTask[] = [
+                'text' => $task->title,
+                'link' => route('tasks.show', [$task->id]),
+                'param' => 'data-remote="true" data-type="text"'
+            ];
         }
 
         return json_encode(

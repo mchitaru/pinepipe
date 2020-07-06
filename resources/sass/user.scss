@@ -129,11 +129,15 @@ table {
     }
 }
 
-.expandable{
+.expandable {
 
   &:focus {
     min-width: 400px;
   }
+
+  &:not(:placeholder-shown) {
+    min-width: 400px;
+  }  
 }
 
 a {

@@ -71,13 +71,19 @@ $timesheet = $_user?$_user->timesheets->first():null;
             }
         ],
         getValue: "text",
+        requestDelay: 200,
         template: {
             type: "custom",
             method: function(value, item) {
                 return '<a href="' + item.link + '"' + item.param + '>' + value + '</a>';
             }
         },
-        adjustWidth: false,
+        list: {
+            maxNumberOfElements: 10,
+            match: {
+                enabled: true
+            }
+        },
     };
 
     $('.search-element').each(function(){
