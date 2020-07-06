@@ -21,11 +21,11 @@
                                     {{__('Edit')}}
                                 </a>
                             @endcan
-                            @can('view invite user')
+                            {{-- @can('view invite user')
                                 <a class="dropdown-item" href="{{ route('projects.invite.create', $project->id) }}" data-remote="true" data-type="text">
                                     {{__('Add User')}}
                                 </a>
-                            @endcan
+                            @endcan --}}
                             <div class="dropdown-divider"></div>
 
                             @can('edit project')

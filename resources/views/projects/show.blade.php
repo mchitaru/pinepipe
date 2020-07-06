@@ -81,11 +81,11 @@ $(function() {
                         </li>
                         @endforeach
                     </ul>
-                    @can('view project')
+                    {{-- @can('view project')
                     <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-round" data-remote="true" data-type="text"  title="{{__('Invite Users')}}">
                         <i class="material-icons">add</i>
                     </a>
-                    @endcan
+                    @endcan --}}
                 </div>
                 <div class="dropdown">
                     <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
