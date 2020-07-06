@@ -269,6 +269,7 @@ $(function() {
             url : url.href,
             type: 'get',
             dataType: 'text',
+            cache: false,
         }).done(function (data) 
         {
             $('.paginate-container').html(data);  
