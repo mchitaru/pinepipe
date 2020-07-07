@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
 use App\Subscription;
+use Carbon\Carbon;
 
 use ProtoneMedia\LaravelPaddle\Paddle;
 
@@ -78,11 +79,19 @@ class SubscriptionsController extends Controller
             return view('helpers.destroy');
         }
 
-        $payload = [
-            'subscription_id' => $subscription->paddle_subscription,
-        ];
+        if(!empty($subscription->paddle_subscription)) {
 
-        Paddle::subscription()->cancelUser($payload)->send();
+            $payload = [
+                'subscription_id' => $subscription->paddle_subscription,
+            ];
+    
+            Paddle::subscription()->cancelUser($payload)->send();
+
+        }else{
+
+            $subscription->ends_at = Carbon::now();
+            $subscription->save();
+        }
 
         $request->session()->flash('canceled', 1);
 

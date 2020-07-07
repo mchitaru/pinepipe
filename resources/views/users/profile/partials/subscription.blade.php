@@ -5,7 +5,7 @@
     <div class="row pt-2">
         @foreach($plans as $key=>$plan)
         <div class="col-lg-6">
-            <div class="card {{$plan->deal?'bg-warning':''}} text-center" style="min-height: 270px;">
+            <div class="card {{$plan->deal?'bg-warning':''}} text-center" style="min-height: 300px;">
                 <div class="card-body">
                     <div class="row">
                         <div class="col mb-4">
@@ -14,9 +14,8 @@
 
                                 @if($user_plan->id == $plan->id)
                                     <span class="badge badge-primary">{{__('active')}}</span>
-                                @else
-                                    <br><br>
                                 @endif
+                                <br><br>
                             </h5>
                             <span class="text-small">{{$plan->description}}</span>
                             <h4 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?$plan->price/$plan->duration:$plan->price)}}
