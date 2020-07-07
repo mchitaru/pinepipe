@@ -11,7 +11,9 @@ $can_show_invoice = Gate::check('view invoice');
                 <div class="icon pr-2">
                     <i class="material-icons">{{$icon}}</i>
                 </div>
-                {{__('You have')}} {{count($items)}} {{$text}}
+                <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
+                    {{__('You have')}} {{count($items)}} {{$text}}
+                </button>
             </div>
             <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
                 <i class="material-icons">more_horiz</i>

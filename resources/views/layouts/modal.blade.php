@@ -5,7 +5,7 @@
             <h5 class="modal-title">@yield('title')</h5>
             <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
             <i class="material-icons">close</i>
-            </button>        
+            </button>
         </div>
         <div class="modal-body">@yield('content')</div>
         <div class="modal-footer">@yield('footer')</div>

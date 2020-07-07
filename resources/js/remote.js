@@ -1,15 +1,15 @@
 async function attachPlugins() {
-    
+
     $('select').each(function() {
         $(this).select2({
             tags: $(this).hasClass('tags'),
             createTag: function (params) {
                 var term = $.trim(params.term);
-            
+
                 if (term === '') {
                   return null;
                 }
-            
+
                 return {
                   id: term,
                   text: '\u271A '+term,
@@ -22,21 +22,21 @@ async function attachPlugins() {
     $('[data-flatpickr]').mrFlatpickr();
 
     $('.start[data-flatpickr]').each(function() {
-    
+
         if($(this).flatpickr()) {
-            
-            $(this).flatpickr().config.onChange.push(function(selectedDates, dateStr, instance) { 
-    
+
+            $(this).flatpickr().config.onChange.push(function(selectedDates, dateStr, instance) {
+
                 var end = $('.end[data-flatpickr]').flatpickr();
 
                 if(end) {
 
-                    if(end.selectedDates.length && 
+                    if(end.selectedDates.length &&
                         (Date.parse(end.selectedDates[0]) < Date.parse(dateStr)))
                     {
                         end.setDate(dateStr);
                     }
-            
+
                     end.config.minDate = dateStr;
                 }
             });
@@ -45,7 +45,7 @@ async function attachPlugins() {
 
     LetterAvatar.transform();
 
-    $("[data-refresh]").each(function() 
+    $("[data-refresh]").each(function()
     {
         $(this).on("change", function (e) {
             e.preventDefault();
@@ -71,7 +71,7 @@ async function attachPlugins() {
         });
     });
 
-    $(".summernote").each(function() 
+    $(".summernote").each(function()
     {
         $(this).summernote({
             height: 400,
@@ -86,7 +86,7 @@ $(document).on('ajax:success', function(e, data, status, xhr){
         $('#modal').modal('hide');
 
         if(data.url){
-            
+
             window.location = data.url;
         }else{
 
@@ -97,7 +97,7 @@ $(document).on('ajax:success', function(e, data, status, xhr){
     {
         if(!$('#modal').length)
         {
-            $('body').append($('<div class="modal show" id="modal" data-keyboard="false" data-backdrop="static"></div>'))
+            $('body').append($('<div class="modal show" id="modal" data-keyboard="true" tabindex="-1"></div>'))
         }
 
         $('#modal').html(xhr.responseText).modal('show');
