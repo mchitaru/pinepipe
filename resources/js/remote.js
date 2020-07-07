@@ -95,14 +95,22 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
     }else if(xhr.responseText)
     {
-        if(!$('#modal').length)
-        {
-            $('body').append($('<div class="modal show" id="modal" data-keyboard="true" tabindex="-1"></div>'))
+        if(xhr.responseText.includes('modal')){
+
+            if(!$('#modal').length)
+            {
+                $('body').append($('<div class="modal show" id="modal" data-keyboard="true" tabindex="-1"></div>'))
+            }
+
+            $('#modal').html(xhr.responseText).modal('show');
+
+            attachPlugins();
+
+        }else{
+
+            window.location.reload();
         }
 
-        $('#modal').html(xhr.responseText).modal('show');
-
-        attachPlugins();
     }
 
 });

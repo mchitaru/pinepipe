@@ -71,19 +71,19 @@ use Carbon\Carbon;
                         @if($lead->client)
                             @if(Gate::check('view client'))
                             <a class title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
-                                <p><span class="text-small">{{ $lead->client->name }}</span></p>
+                                <p><span data-filter-by="text" class="text-small">{{ $lead->client->name }}</span></p>
                             </a>
                             @else
-                                <p><span class="text-small">{{ $lead->client->name }}</span></p>
+                                <p><span data-filter-by="text" class="text-small">{{ $lead->client->name }}</span></p>
                             @endif
                         @endif
                     </div>
                     <div class="card-title">
-                        <span class="text-small price" data-id={{$lead->price}}>
+                        <span data-filter-by="text" class="text-small price" data-id={{$lead->price}}>
                             {{ \Auth::user()->priceFormat($lead->price) }}
                         </span>
                         @if(!empty($lead->user))
-                        <div class="float-right">
+                        <div data-filter-by="text" class="float-right">
                             <a href="#"  title="{{$lead->user->name}}">
                                 {!!Helpers::buildUserAvatar($lead->user)!!}
                             </a>
