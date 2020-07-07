@@ -54,7 +54,7 @@
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
-    <hr>
+    {{-- <hr>
     <h6>{{__('Visibility')}}</h6>
     <div class="row">
     <div class="col">
@@ -69,7 +69,7 @@
         <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
         </div>
     </div>
-    </div>
+    </div> --}}
 </div>
 @include('partials.errors')
 @endsection

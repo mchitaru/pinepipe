@@ -53,7 +53,7 @@
         <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can change due dates at any time')}}.</span>
         </div>
-        <hr>
+        {{-- <hr>
         <h6>{{__('Visibility')}}</h6>
         <div class="row">
         <div class="col">
@@ -68,7 +68,7 @@
             <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
             </div>
         </div>
-        </div>
+        </div> --}}
     </div>
     @include('partials.errors')
 @endsection

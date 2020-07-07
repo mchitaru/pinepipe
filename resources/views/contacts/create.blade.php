@@ -33,7 +33,7 @@
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
-    <hr>
+    {{-- <hr>
     <h6>{{__('Visibility')}}</h6>
     <div class="row">
     <div class="col">
@@ -48,7 +48,7 @@
         <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
         </div>
     </div>
-    </div>
+    </div> --}}
     <div class="alert alert-warning text-small" role="alert">
         <span>{{__('You can fill in additional details later.')}}</span>
     </div>

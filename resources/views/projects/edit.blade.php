@@ -17,9 +17,9 @@
     <li class="nav-item">
         <a class="nav-link" id="project-timeline-tab" data-toggle="tab" href="#project-timeline" role="tab" aria-controls="project-timeline" aria-selected="false">{{__('Timeline')}}</a>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" id="project-visibility-tab" data-toggle="tab" href="#project-visibility" role="tab" aria-controls="project-visibility" aria-selected="false">{{__('Visibility')}}</a>
-    </li>
+    </li> --}}
 </ul>
 
 <div class="tab-content">
@@ -63,7 +63,7 @@
                                                 'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
     </div>
-    <div class="tab-pane fade show" id="project-visibility" role="tabpanel">
+    {{-- <div class="tab-pane fade show" id="project-visibility" role="tabpanel">
         <h6>{{__('Visibility')}}</h6>
         <div class="row">
             <div class="col">
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 @include('partials.errors')
 @endsection

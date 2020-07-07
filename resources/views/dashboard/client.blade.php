@@ -26,9 +26,9 @@ use Carbon\Carbon;
                     </div>
                     <h3> {{__('Hey')}} {{\Auth::user()->name}}! {{__('After')}} &#x2615;, {{__("here is what's coming up")}}:</h3>
                     <div class="row pt-1 pb-3">
-                        <x-upcoming title="{{__('TODAY')}}" :tasks='$todayTasks' :events='$todayEvents'></x-upcoming>
-                        <x-upcoming title="{{__('THIS WEEK')}}" :tasks='$thisWeekTasks' :events='$thisWeekEvents'></x-upcoming>
-                        <x-upcoming title="{{__('NEXT WEEK')}}" :tasks='$nextWeekTasks' :events='$nextWeekEvents'></x-upcoming>
+                        <x-upcoming title="{{__('Today')}}" :tasks='$todayTasks' :events='$todayEvents'></x-upcoming>
+                        <x-upcoming title="{{__('This week')}}" :tasks='$thisWeekTasks' :events='$thisWeekEvents'></x-upcoming>
+                        <x-upcoming title="{{__('Next week')}}" :tasks='$nextWeekTasks' :events='$nextWeekEvents'></x-upcoming>
                     </div>
                     <h3> {{__("Let's take on the day!")}} </h3>
                     <div class="row pt-1 pb-3">
