@@ -45,9 +45,6 @@
             {{Form::label('allday', __('All day'), ['class'=>'custom-control-label'])}}
         </div>
     </div>
-    <div class="alert alert-warning text-small" role="alert">
-    <span>{{__('You can change due dates at any time')}}.</span>
-    </div>
     <hr>
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row align-items-center">

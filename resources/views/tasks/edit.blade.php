@@ -17,9 +17,9 @@
     <li class="nav-item">
         <a class="nav-link" id="task-timeline-tab" data-toggle="tab" href="#task-timeline" role="tab" aria-controls="task-timeline" aria-selected="false">{{__('Timeline')}}</a>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" id="task-visibility-tab" data-toggle="tab" href="#task-visibility" role="tab" aria-controls="task-visibility" aria-selected="false">{{__('Visibility')}}</a>
-    </li>
+    </li> --}}
 </ul>
 
 <div class="tab-content">
@@ -69,11 +69,8 @@
             {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'...', 
                                                 'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
-        <div class="alert alert-warning text-small" role="alert">
-        <span>{{__('You can change due dates at any time')}}.</span>
-        </div>
     </div>
-    <div class="tab-pane fade show" id="task-visibility" role="tabpanel">
+    {{-- <div class="tab-pane fade show" id="task-visibility" role="tabpanel">
         <h6>{{__('Visibility')}}</h6>
         <div class="row">
         <div class="col">
@@ -89,7 +86,7 @@
             </div>
         </div>
         </div>    
-    </div>    
+    </div>     --}}
 </div>
 @include('partials.errors')
 @endsection
