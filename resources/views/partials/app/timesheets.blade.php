@@ -16,7 +16,7 @@ $timesheet = $timesheets->first();
         <div class="dropdown-header d-flex align-items-center justify-content-between">
             <h3>{{__('Timesheets')}}</h3>
             @can('create timesheet')
-                <a role="button" href="{{route('timesheets.timer')}}" class="btn btn-round timer-entry" title="{{__('Start new timesheet')}}" >
+                <a role="button" href="{{route('timesheets.timer')}}" class="btn btn-primary btn-round timer-entry" title="{{__('Start new timesheet')}}" >
                     <i class="material-icons">add</i>
                 </a>
             @endcan

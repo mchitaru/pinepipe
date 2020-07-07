@@ -23,7 +23,7 @@
             <div class="col-auto">
                 <h3>{{__('Subscription Plans')}}</h3>
                 @if(\Auth::user()->type=='super admin')
-                <a class="btn btn-round" href="{{ route('plans.create') }}" data-remote="true" data-type="text">
+                <a class="btn btn-primary btn-round" href="{{ route('plans.create') }}" data-remote="true" data-type="text">
                     <i class="material-icons">add</i>
                 </a>
                 @endif

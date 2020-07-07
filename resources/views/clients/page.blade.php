@@ -40,7 +40,7 @@ $(function() {
                         <div class="col-auto">
                             <h3>{{__('Clients')}}</h3>
                             @can('create client')
-                            <a href="{{ route('clients.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                            <a href="{{ route('clients.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
                             </a>
                             @endcan

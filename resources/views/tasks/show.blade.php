@@ -201,7 +201,7 @@ modal-lg
                         <div class="row content-list-head">
                             <div class ="col-auto">
                                 <h3>{{__('Subtasks')}}</h3>
-                                <button id="btn-subtask" type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}} >
+                                <button id="btn-subtask" type="submit" class="btn btn-primary btn-round" data-disable="true" data-title={{__('Add')}} >
                                     <i class="material-icons">add</i>
                                 </button>
                             </div>
@@ -242,7 +242,7 @@ modal-lg
                                 <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="example-textarea" rows="3" required></textarea>
                             </div>
                             <div class ="col-1">
-                                <button type="submit" class="btn btn-round" data-disable="true" data-title={{__('Add')}}>
+                                <button type="submit" class="btn btn-primary btn-round" data-disable="true" data-title={{__('Add')}}>
                                     <i class="material-icons">add</i>
                                 </button>
                             </div>

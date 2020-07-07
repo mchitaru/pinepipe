@@ -111,7 +111,7 @@ $(function() {
                         <h3>{{__('Events')}}</h3>
 
                         @can('create event')
-                            <a href="{{ route('events.create')  }}" class="btn btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
+                            <a href="{{ route('events.create')  }}" class="btn btn-primary btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
                                 <i class="material-icons">add</i>
                             </a>
                         @endcan
@@ -163,7 +163,7 @@ $(function() {
                 <div class="col-auto">
                     <h3>{{__('Notes')}}</h3>
 
-                    <a href="{{ route('notes.create') }}" class="btn btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
+                    <a href="{{ route('notes.create') }}" class="btn btn-primary btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
                         <i class="material-icons">add</i>
                     </a>
 

@@ -36,7 +36,7 @@
                     <div class="col-auto">
                         <h3>{{__('Invoices')}}</h3>
                         @can('create invoice')
-                        <a href="{{ route('invoices.create') }}" class="btn btn-round" data-remote="true" data-type="text">
+                        <a href="{{ route('invoices.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
                         @endcan

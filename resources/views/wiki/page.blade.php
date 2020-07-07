@@ -26,7 +26,7 @@
                         <div class="col-auto">
                             <h3>{{__('Articles')}}</h3>
                             @if(\Auth::user() && (\Auth::user()->creatorId() == $user->id) && Gate::check('create article'))
-                            <a href="{{ route('articles.create') }}" class="btn btn-round" data-params="path={{Request::url()}}" data-remote="true" data-type="text" >
+                            <a href="{{ route('articles.create') }}" class="btn btn-primary btn-round" data-params="path={{Request::url()}}" data-remote="true" data-type="text" >
                                 <i class="material-icons">add</i>
                             </a>
                             @endif

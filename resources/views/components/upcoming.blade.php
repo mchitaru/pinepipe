@@ -9,9 +9,9 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
     <div class="card-list">
         <div class="card-list-head">
         <h6>{{__($title)}} ({{count($tasks) + count($events)}})</h6>
-        <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$title}}">
+        {{-- <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$title}}">
             <i class="material-icons">more_horiz</i>
-        </button>
+        </button> --}}
         </div>
         <div class="card-list-body collapse show" id="{{$title}}">
             @if(count($tasks)+count($events) == 0)
