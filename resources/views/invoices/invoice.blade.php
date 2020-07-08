@@ -50,10 +50,7 @@
                     <address>
                         <span class="align-items-center justify-content-center">
                             <img width=60 height=60 alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl('thumb'):""}}" data-filter-by="alt"/>
-                        </span>
-                        <span class="align-items-center justify-content-center">
-                            <h5>{{$client->name}}</h5>
-                        </span>
+                        </span><br><br>
                         <span class="align-items-center justify-content-center" style="vertical-align: middle;">
                             <img alt="{{__('Project')}}" width=24 src="{{ asset('assets/img/folder.svg') }}" />
                             {{$invoice->project->name }}
