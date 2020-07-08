@@ -207,6 +207,7 @@ class TimesheetsController extends Controller
                                     'url' => ($task == null) ? route('timesheets.edit', $timesheet->id) : null,
                                     'offset' => $offset,
                                     'task_id' => $timesheet->task_id,
+                                    'timesheet_id' => $timesheet->id,
                                     'popup' => $popup,
                                     'control' => $control]);
     }

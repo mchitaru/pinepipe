@@ -110,11 +110,12 @@ $timesheet = $_user?$_user->timesheets->first():null;
 
     $(function() {
 
+        var id = {!! $timesheet ? $timesheet->id : 0 !!};
         var offset = {!! $timesheet&&$timesheet->isStarted() ? $timesheet->computeTime() : 0 !!};
 
         if(offset)
         {
-            timer(window.timerInstance, offset);
+            timer(window.timerInstance, offset, id);
         }
     });
 

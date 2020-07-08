@@ -10,7 +10,7 @@ $timesheet = $timesheets->first();
     </a>
     <a href="#" role="button" class="pl-2 d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  title="{{$timesheet&&$timesheet->task?__('Timesheet: ').$timesheet->task->title:__('No title')}}">
         <span class="d-none d-lg-block text-muted text-light pr-2"><b>{{$timesheet&&$timesheet->task?$timesheet->task->title:__('No title')}}</b></span>
-        <span class="active-timer text-muted text-light dropdown-toggle">{{$timesheet?$timesheet->formatTime():'00:00:00'}}</span>
+        <span class="active-timer text-muted text-light dropdown-toggle" data-timesheet="{{$timesheet?$timesheet->id:null}}">{{$timesheet?$timesheet->formatTime():'00:00:00'}}</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right pre-scrollable" id="timer-menu">
         <div class="dropdown-header d-flex align-items-center justify-content-between">

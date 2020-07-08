@@ -3,19 +3,25 @@ $.getScript('../assets/js/easytimer.min.js', function()
     window.timerInstance = new easytimer.Timer();
 });
 
-function timer(instance, offset)
+function onUpdateTimer() {
+    
+    $('.active-timer[data-timesheet=' + window.timesheet + ']').each(function(){
+
+        $(this).text(window.timerInstance.getTimeValues().toString());
+    });
+}
+
+function timer(instance, offset, id)
 {
     if(instance) {
 
         instance.stop();
+        instance.removeEventListener('secondsUpdated', onUpdateTimer);
+
+        window.timesheet = id;
+
+        instance.addEventListener('secondsUpdated', onUpdateTimer);    
         instance.start({precision: 'seconds', startValues: {seconds: offset}});
-        instance.addEventListener('secondsUpdated', function (e) {
-    
-            $('.active-timer').each(function(){
-    
-                $(this).text(instance.getTimeValues().toString());
-            });
-        });    
     }
 }
 
@@ -58,9 +64,10 @@ $(function() {
             success: function (data) {
 
                 if(data.start){
-                    timer(window.timerInstance, data.offset);
+                    timer(window.timerInstance, data.offset, data.timesheet_id);
                 }else{
                     window.timerInstance.stop();
+                    window.timerInstance.removeEventListener('secondsUpdated', onUpdateTimer);
 
                     if(data.url) {
                         $.ajax({
