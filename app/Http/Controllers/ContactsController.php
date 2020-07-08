@@ -80,11 +80,19 @@ class ContactsController extends Controller
     {
         $post = $request->validated();
 
-        Contact::createContact($post);
+        if(Contact::createContact($post))
+        {
+            $request->session()->flash('success', __('Contact successfully created.'));
+    
+            return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+        }
+        else
+        {
+            $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your subscription to add more clients!'));
+        }
 
-        $request->session()->flash('success', __('Contact successfully created.'));
-
-        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+        $url = redirect()->route('profile.edit', \Auth::user()->handle())->getTargetUrl().'/#subscription';
+        return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
     }
 
     /**

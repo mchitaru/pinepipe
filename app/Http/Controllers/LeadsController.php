@@ -96,11 +96,19 @@ class LeadsController extends Controller
     {
         $post = $request->validated();
 
-        $lead = Lead::createLead($post);
+        if(Lead::createLead($post))
+        {
+            $request->session()->flash('success', __('Lead successfully created.'));
+    
+            return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+        }
+        else
+        {
+            $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your subscription to add more clients!'));
+        }
 
-        $request->session()->flash('success', __('Lead successfully created.'));
-
-        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+        $url = redirect()->route('profile.edit', \Auth::user()->handle())->getTargetUrl().'/#subscription';
+        return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
     }
 
     public function edit(Request $request, Lead $lead)
