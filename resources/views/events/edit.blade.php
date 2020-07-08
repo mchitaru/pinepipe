@@ -37,9 +37,7 @@
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($event->end), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="row p-1 align-items-center">
-        <div class="col-9">
-        </div>
-        <div class="form-group col custom-control custom-checkbox custom-checkbox-switch">
+        <div class="form-group col custom-control custom-checkbox custom-checkbox-switch d-flex justify-content-end">
             <input type="hidden" name="allday" value="0">
             {{Form::checkbox('allday', 1, null, ['class'=>'custom-control-input', 'id' =>'allday'])}}
             {{Form::label('allday', __('All day'), ['class'=>'custom-control-label'])}}

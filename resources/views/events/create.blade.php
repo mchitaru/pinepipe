@@ -36,16 +36,11 @@
                                                 'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($end), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
         <div class="row p-1 align-items-center">
-            <div class="col-9">
-            </div>
-            <div class="form-group col custom-control custom-checkbox custom-checkbox-switch">
-                <input type="hidden" name="allday" value="1">
+            <div class="form-group col custom-control custom-checkbox custom-checkbox-switch d-flex justify-content-end">
+                <input type="hidden" name="allday" value="0">
                 {{Form::checkbox('allday', 1, 0, ['class'=>'custom-control-input', 'id' =>'allday'])}}
                 {{Form::label('allday', __('All day'), ['class'=>'custom-control-label'])}}
             </div>
-        </div>
-        <div class="alert alert-warning text-small" role="alert">
-        <span>{{__('You can change due dates at any time')}}.</span>
         </div>
         <hr>
         <h6>{{__('Attach')}}</h6>
