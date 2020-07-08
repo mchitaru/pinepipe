@@ -3,7 +3,7 @@
         <div class="pl-2 position-absolute">
         </div>
         <div class="card-body p-2">
-            <div class="card-title col-sm-3">
+            <div class="card-title col-sm-4">
                 @if($can_show_invoice)
                 <a href="{{ route('invoices.show', $invoice->id) }}">
                 @endif
@@ -23,7 +23,7 @@
                     <span data-filter-by="text" class="text-small">{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}</span>
                 </div>
             </div>
-            <div class="card-title col-sm-5">
+            <div class="card-title col-sm-4">
                 <div class="container row align-items-center"  title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
                     <span data-filter-by="text" class="text-truncate text-small">{{ $invoice->project->name }}</span>
