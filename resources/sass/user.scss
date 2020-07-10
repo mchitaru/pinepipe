@@ -9,6 +9,10 @@
 //     -webkit-filter: blur(5px) grayscale(90%);
 // }
 
+body{
+  overflow-y:scroll;
+}
+
 .context-menu {
     display: none;
     z-index: 1000;
