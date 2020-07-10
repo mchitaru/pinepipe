@@ -182,6 +182,24 @@ class DashboardController extends Controller
 
     public function search($search)
     {
+        $arrClient = [];
+        if(\Auth::user()->can('view client')){
+
+            $clients = \Auth::user()->clientsByUserType()
+                                        ->where(function ($query) use ($search) {
+                                            $query->where('name','like', $search.'%');
+                                        })
+                                        ->get();
+
+            foreach($clients as $client)
+            {
+                $arrClient[] = [
+                    'text' => $client->name,
+                    'link' => route('clients.show', [$client->id]),
+                ];
+            }
+        }
+
         $projects = \Auth::user()->projectsByUserType()
                                     ->with(['tasks', 'users', 'client'])
                                     ->where(function ($query) use ($search) {
@@ -217,6 +235,7 @@ class DashboardController extends Controller
 
         return json_encode(
             [
+                'Clients' => $arrClient,
                 'Projects' => $arrProject,
                 'Tasks' => $arrTask,
             ]

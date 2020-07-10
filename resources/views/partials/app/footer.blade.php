@@ -62,6 +62,10 @@ $timesheet = $_user?$_user->timesheets->first():null;
         },
         categories: [
             {
+                listLocation: "Clients",
+                header: "<b>{{ __('CLIENTS') }}</b>"
+            },
+            {
                 listLocation: "Projects",
                 header: "<b>{{ __('PROJECTS') }}</b>"
             },

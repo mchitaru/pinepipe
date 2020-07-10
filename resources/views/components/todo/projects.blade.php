@@ -37,7 +37,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
 
                         @if(Gate::check('view project'))
                             <a href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
-                                <h5 data-filter-by="text">{{ $project->name }}</h5>
+                                <h6 data-filter-by="text">{{ $project->name }}</h6>
                             </a>
                         @else
                             <h5 data-filter-by="text">{{ $project->name }}</h5>

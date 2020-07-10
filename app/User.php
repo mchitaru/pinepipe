@@ -324,6 +324,22 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return Subscription::where('user_id', '=', $this->creatorId());
     }
 
+    public function staffClients()
+    {
+        return Client::where(function ($query)
+        {
+            $query->whereHas('projects', function ($query) {
+
+                // only include tasks with projects where...
+                $query->whereHas('users', function ($query) {
+
+                    // ...the current user is assigned.
+                    $query->where('users.id', $this->id);
+                });
+            });
+        });
+    }
+
     public function staffTasks()
     {
         return Task::where(function ($query)
@@ -343,6 +359,22 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 });
             });
         });
+    }
+
+    public function clientsByUserType()
+    {
+        if($this->type == 'client'){
+
+            return collect();
+        }
+        else if($this->type == 'company'){
+
+            return $this->companyclients();
+        }else{
+
+            return $this->staffClients();
+
+        }
     }
 
     public function projectsByUserType()
