@@ -57,7 +57,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         'notify_item_overdue',
         'notify_newsletter',
         'notify_major_updates',
-        'notify_minor_updates'
+        'notify_minor_updates',
+        'last_login_at',
+        'last_login_ip',        
     ];
 
     protected $hidden = [

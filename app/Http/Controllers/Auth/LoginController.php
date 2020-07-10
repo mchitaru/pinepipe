@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\SubscriptionPlan;
 use App\Project;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
@@ -44,14 +45,20 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $user->handle = $user->handle();
+
+        $location = geoip($request->ip());
+        
+        $user->setLocale($location);
+
+        $user->update([
+            'last_login_at' => Carbon::now()->toDateTimeString(),
+            'last_login_ip' => $request->getClientIp()
+        ]);
+
         if(/*!$user->delete_status ||*/ !$user->enabled)
         {
             auth()->logout();
         }
-
-        $user->handle = $user->handle();
-
-        $location = geoip($request->ip());
-        $user->setLocale($location);
     }
 }
