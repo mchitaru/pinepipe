@@ -24,17 +24,17 @@ async function initDropzone(selector, url, model_id, files)
 
     success: function (file, response) {
         if (response.is_success) {
-            toastrs('File uploaded', 'success');
+            toastrs(lang.get('messages.dropzone.upload'), 'success');
             initDropzoneLinks(file, response);
             LetterAvatar.transform();
         } else {
             this.removeFile(file);
-            toastrs('You can only upload images, documents and archives that are less than 10MB in size.', 'danger');
+            toastrs(lang.get('errors.dropzone.upload'), 'danger');
         }
     },
     error: function (file, response) {
         this.removeFile(file);
-        toastrs('You can only upload images, documents and archives that are less than 10MB in size.', 'danger');
+        toastrs(lang.get('errors.dropzone.upload'), 'danger');
     },
     sending: function(file, xhr, formData) {
         formData.append('_token', $('meta[name="csrf-token"]').attr('content'));

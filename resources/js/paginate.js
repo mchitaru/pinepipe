@@ -99,7 +99,7 @@ $(function() {
 
             }).fail(function () 
             {
-                toastrs('Data could not be loaded!', 'danger');            
+                // toastrs(lang.get('paginate.load'), 'danger');            
             });
 
             window.history.replaceState(null, null, newURL.href);        
@@ -146,7 +146,7 @@ $(function() {
 
             }).fail(function () 
             {
-                toastrs('Data could not be loaded!', 'danger');            
+                // toastrs(lang.get('paginate.load'), 'danger');            
             });
 
             window.history.replaceState(null, null, url.href);
@@ -198,7 +198,7 @@ $(function() {
 
             }).fail(function () 
             {
-                toastrs('Data could not be loaded!', 'danger');            
+                // toastrs(lang.get('paginate.load'), 'danger');            
             });
 
             window.history.replaceState(null, null, url.href);
@@ -253,7 +253,7 @@ $(function() {
 
             }).fail(function () 
             {
-                toastrs('Data could not be loaded!', 'danger');            
+                // toastrs(lang.get('paginate.load'), 'danger');            
             });
 
             window.history.replaceState(null, null, url.href);

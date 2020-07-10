@@ -14,6 +14,15 @@ require('easy-autocomplete');
 require('dropzone');
 require('./mrare');
 
+var Lang = require('lang.js');
+var messages = require('../lang/js.json');
+
+window.lang = new Lang({
+    messages: messages
+});
+
+window.lang.setFallback('en');
+
 // window.Vue = require('vue');
 
 // /**

@@ -1,0 +1,16 @@
+{
+    "en.messages": {
+        "dropzone.upload": "File uploaded"
+    },
+    "en.errors": {
+        "dropzone.upload": "You can only upload images, documents and archives, that are less than 10mb in size",
+        "paginate.load": "Data could not be loaded. Please try again!"
+    },
+    "ro.messages": {
+        "dropzone.upload": "Fișierul a fost încărcat"
+    },
+    "ro.errors": {
+        "dropzone.upload": "Poți încărca doar imagini, documente și arhive, cu dimensiune mai mică de 10mb",
+        "paginate.load": "A apărut o eroare la încărcarea datelor. Te rugăm să încerci din nou!"
+    }
+}
