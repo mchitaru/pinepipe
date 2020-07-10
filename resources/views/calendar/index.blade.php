@@ -166,6 +166,7 @@
 
 <div class="container">
     <div class="page-header">
+        <h3>{{__('Calendar')}}</h3>
     </div>
     <div class="tab-content">
         <div class="tab-pane fade show active" id="events" role="tabpanel">

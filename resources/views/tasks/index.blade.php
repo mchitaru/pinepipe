@@ -18,8 +18,6 @@
             <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item disabled" href="#">{{__('Rename')}}</a>
-            <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
             </div>
         </div>
         </div>

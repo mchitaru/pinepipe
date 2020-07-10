@@ -81,7 +81,6 @@ $label = Project::getProgressColor($task_percentage);
                     </a>
                 @endcan
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
                 @can('delete task')
                     <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                         {{__('Delete')}}
