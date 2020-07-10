@@ -73,6 +73,15 @@ $timesheet = $_user->timesheets->first();
                         <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text">
                             <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
                         </a>
+                        @if($task->project)
+                            @if(Gate::check('view project'))
+                            <a class title='{{__('Project')}}' href="{{ route('projects.show',$task->project->id) }}">
+                                <p><span data-filter-by="text" class="text-small">{{ $task->project->name }}</span></p>
+                            </a>
+                            @else
+                                <p><span data-filter-by="text" class="text-small">{{ $task->project->name }}</span></p>
+                            @endif
+                        @endif
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         {!! Helpers::getPriorityBadge($task->priority) !!}
