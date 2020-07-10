@@ -30,22 +30,8 @@
             timeZone: 'local',
             locale: '{{\Auth::user()->locale}}',
             themeSystem: 'bootstrap',
-            customButtons: {
-                new: {
-                    text: '\u271A',
-                    click: function() {
-
-                        $(".context-menu").finish().toggle().
-
-                        css({
-                            top: $(this).position().top + $(this).height() + "px",
-                            left: $(this).position().left + $(this).width() + "px"
-                        });
-                    }
-                },
-            },
             header: {
-                left: 'new prev,next today',
+                left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay listMonth'
             },
@@ -165,8 +151,17 @@
 </div>
 
 <div class="container">
-    <div class="page-header">
+    <div class="row page-header">
         <h3>{{__('Calendar')}}</h3>
+        <div class="dropdown ml-2">
+            <button class="btn btn-round btn-primary" role="button" data-toggle="dropdown" aria-expanded="false">
+                <i class="material-icons">add</i>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ route('events.create') }}" data-remote="true" data-type="text" >{{__('New Event')}}</a>
+                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text" >{{__('New Task')}}</a>
+            </div>
+        </div>
     </div>
     <div class="tab-content">
         <div class="tab-pane fade show active" id="events" role="tabpanel">

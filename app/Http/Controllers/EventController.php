@@ -35,8 +35,8 @@ class EventController extends Controller
     {
         $user = \Auth::user();
 
-        $start = $request->start?$request->start:Carbon::now();
-        $end = $request->end?$request->end:Carbon::now();
+        $start = $request->start?$request->start:Carbon::now()->roundUnit('minute', 15, 'ceil');
+        $end = $request->end?$request->end:Carbon::now()->roundUnit('minute', 15, 'ceil');
 
         $users  = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
