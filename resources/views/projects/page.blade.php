@@ -59,11 +59,15 @@
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
+                        </div>    
+                        <div class="filter-controls">
                             <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                             <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
                         </div>    
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
+                        </div>
+                        <div class="filter-tags">
                             <div class="tag filter" data-filter="active">{{__('Active')}}</div>
                             <div class="tag filter" data-filter="archived">{{__('Archived')}}</div>
                         </div>                                           
