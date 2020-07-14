@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="card-body p-1" data-filter-by="text">
-        {!! nl2br(e($note->text)) !!}
+        {{ $note->text }}
     </div>
 </div>
 @endforeach

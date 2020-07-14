@@ -123,7 +123,7 @@ modal-lg
 @endpush
 
 @section('title')
-<b>{{$task->title}}</b>
+<b>{{ $task->title }}</b>
 @endsection
 
 @section('content')
@@ -132,7 +132,7 @@ modal-lg
  <div class="row justify-content-center" data-remote="true">
     <div class="col">
         <div class="page-header pt-2">
-        <p class="lead">{!! nl2br(e($task->description)) !!}</p>
+        <p class="lead">{{ $task->description }}</p>
         <div class="d-flex align-items-center justify-content-between">
             <div>
                 <ul class="avatars">
