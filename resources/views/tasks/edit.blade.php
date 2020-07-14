@@ -9,84 +9,51 @@
 @endsection
 
 @section('content')
-
-<ul class="nav nav-tabs nav-fill" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="task-add-details-tab" data-toggle="tab" href="#task-add-details" role="tab" aria-controls="task-add-details" aria-selected="true">{{__('General Details')}}</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="task-timeline-tab" data-toggle="tab" href="#task-timeline" role="tab" aria-controls="task-timeline" aria-selected="false">{{__('Timeline')}}</a>
-    </li>
-    {{-- <li class="nav-item">
-        <a class="nav-link" id="task-visibility-tab" data-toggle="tab" href="#task-visibility" role="tab" aria-controls="task-visibility" aria-selected="false">{{__('Visibility')}}</a>
-    </li> --}}
-</ul>
-
 <div class="tab-content">
-    <div class="tab-pane fade show active" id="task-add-details" role="tabpanel">
-        <h6>{{__('General Details')}}</h6>
-        <div class="form-group row align-items-center required">
-            {{ Form::label('title', __('Title'), array('class'=>'col-3')) }}
-            {{ Form::text('title', null, array('class' => 'form-control col', 'placeholder'=>__('Task title'), 'required'=>'required')) }}
-        </div>
-        <div class="form-group row">
-            {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
-            {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>__('Task description')]) !!}
-        </div>
-        <div class="form-group row align-items-center">
-            {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}
-            {!! Form::select('priority', $priorities, null,array('class' => 'form-control col','required'=>'required')) !!}
-        </div>
-        <div class="form-group row">
-            {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
-            {{ Form::select('stage_id', $stages, null, array('class' => 'form-control col font-style selectric','required'=>'required', 'lang'=>\Auth::user()->locale)) }}
-        </div>    
-        <div class="form-group row align-items-center">
-            {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-            {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'...',
-                                        'data-refresh'=>route('tasks.refresh', $task->id), 'lang'=>\Auth::user()->locale)) !!}
-        </div>
-        @if(\Auth::user()->type == 'company')
-        <div class="form-group row align-items-center">
-            {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
-        </div>
-        @else
-        <div class="form-group row align-items-center required">
-            {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'required'=>'true', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
-        </div>
-        @endif
-        <div class="form-group row align-items-center">
-            {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
-            {!! Form::select('tags[]', $tags, $task_tags, array('class' => 'tags form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
-        </div>
+    <h6>{{__('General Details')}}</h6>
+    <div class="form-group row align-items-center required">
+        {{ Form::label('title', __('Title'), array('class'=>'col-3')) }}
+        {{ Form::text('title', null, array('class' => 'form-control col', 'placeholder'=>__('Task title'), 'required'=>'required')) }}
     </div>
-    <div class="tab-pane fade show" id="task-timeline" role="tabpanel">
-        <h6>{{__('Timeline')}}</h6>
-        <div class="form-group row align-items-center">
-            {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-            {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'...', 
-                                                'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
-        </div>
+    <div class="form-group row">
+        {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
+        {!!Form::textarea('description', null, ['class'=>'form-control col','rows'=>'5', 'placeholder'=>__('Task description')]) !!}
     </div>
-    {{-- <div class="tab-pane fade show" id="task-visibility" role="tabpanel">
-        <h6>{{__('Visibility')}}</h6>
-        <div class="row">
-        <div class="col">
-            <div class="custom-control custom-radio">
-            <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" checked>
-            <label class="custom-control-label" for="visibility-everyone">{{__('Everyone')}}</label>
-            </div>
-        </div>
-        <div class="col">
-            <div class="custom-control custom-radio">
-            <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true">
-            <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
-            </div>
-        </div>
-        </div>    
-    </div>     --}}
+    <div class="form-group row align-items-center">
+        {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}
+        {!! Form::select('priority', $priorities, null,array('class' => 'form-control col','required'=>'required')) !!}
+    </div>
+    <div class="form-group row">
+        {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
+        {{ Form::select('stage_id', $stages, null, array('class' => 'form-control col font-style selectric','required'=>'required', 'lang'=>\Auth::user()->locale)) }}
+    </div>    
+    <div class="form-group row align-items-center">
+        {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
+        {!! Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'...',
+                                    'data-refresh'=>route('tasks.refresh', $task->id), 'lang'=>\Auth::user()->locale)) !!}
+    </div>
+    @if(\Auth::user()->type == 'company')
+    <div class="form-group row align-items-center">
+        {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
+        {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
+    </div>
+    @else
+    <div class="form-group row align-items-center required">
+        {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
+        {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'required'=>'true', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
+    </div>
+    @endif
+    <div class="form-group row align-items-center">
+        {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
+        {!! Form::select('tags[]', $tags, $task_tags, array('class' => 'tags form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
+    </div>
+    <hr>
+    <h6>{{__('Timeline')}}</h6>
+    <div class="form-group row align-items-center">
+        {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
+        {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'...', 
+                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+    </div>
 </div>
 @include('partials.errors')
 @endsection

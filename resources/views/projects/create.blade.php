@@ -23,6 +23,8 @@
         {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
         {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
     </div>
+    <hr>
+    <h6>{{__('Attach')}}</h6>
     <div class="form-group row">
         {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
         {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col', 'placeholder' =>'...', 'lang'=>\Auth::user()->locale)) !!}
@@ -39,28 +41,6 @@
         {{ Form::date('due_date', null, array('class' => 'end form-control col', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    {{-- <hr>
-    <h6>{{__('Visibility')}}</h6>
-    <div class="row">
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" checked>
-        <label class="custom-control-label" for="visibility-everyone">{{__('Everyone')}}</label>
-        </div>
-    </div>
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-members" name="visibility" class="custom-control-input" disabled="true">
-        <label class="custom-control-label" for="visibility-members">{{__('Members')}}</label>
-        </div>
-    </div>
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true">
-        <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
-        </div>
-    </div>
-    </div> --}}
 </div>
 @include('partials.errors')
 @endsection
