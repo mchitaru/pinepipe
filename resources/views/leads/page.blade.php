@@ -110,13 +110,21 @@ function initLeadCards() {
             }
         });
     });
+
+    $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+        $('body').append($(this).children('.dropdown-menu').css({
+            position: 'absolute',
+            left: $('.dropdown-menu').offset().left,
+            top: $('.dropdown-menu').offset().top
+        }).detach());
+    });
 };
     $(function() {
     
         localStorage.setItem('sort', 'order');
         localStorage.setItem('dir', 'asc');
         localStorage.setItem('filter', '');
-        localStorage.setItem('tag', '');
+        localStorage.setItem('tag', 'active');
 
         updateFilters();
     });
@@ -128,6 +136,11 @@ function initLeadCards() {
     document.addEventListener("paginate-load", function(e) {
         initLeadCards();
     });
+
+    document.addEventListener("paginate-tag", function(e) {
+        initLeadCards();
+    });
+
 </script>
 
 @endpush
@@ -159,6 +172,13 @@ function initLeadCards() {
                             <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                             <a class="order" href="#" data-sort="price">{{__('Value')}}</a>
                         </div>
+                        <div class="filter-tags">
+                            <div>{{__('Tag')}}:</div>
+                        </div>
+                        <div class="filter-tags">
+                            <div class="tag filter" data-filter="active">{{__('Active')}}</div>
+                            <div class="tag filter" data-filter="archived">{{__('Archived')}}</div>
+                        </div>                                           
                     </div>
                     <form class="col-md-auto">
                         <div class="input-group input-group-round">

@@ -37,7 +37,7 @@ use Carbon\Carbon;
                 </div>
             </div>
         </div>
-        <div class="card-list-body" data-id={{$stage->id}}>
+        <div class="card-list-body" data-id={{$stage->id}} >
             @foreach($stage->leads as $lead)
             <div class="card card-kanban" data-id={{$lead->id}}>
                 <div class="card-body p-2">
@@ -51,7 +51,24 @@ use Carbon\Carbon;
                             <span>{{__('Edit')}}</span>
                         </a>
                         @endcan
+                        @can('create project')
+                        <a class="dropdown-item" href="{{ route('projects.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text">
+                            <span>{{__('Convert to project')}}</span>
+                        </a>
+                        @endcan
                         <div class="dropdown-divider"></div>
+                        @can('edit lead')
+                            @if(!$lead->archived)
+                                <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
+                                    {{__('Archive')}}
+                                </a>
+                            @else
+                                <a href="{{ route('leads.update', $lead->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                                    {{__('Restore')}}
+                                </a>
+
+                            @endif
+                        @endcan
                         @can('delete lead')
                             <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>

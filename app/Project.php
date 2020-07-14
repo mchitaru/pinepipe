@@ -100,6 +100,11 @@ class Project extends Model implements HasMedia
         return $this->hasOne('App\Client', 'id', 'client_id');
     }
 
+    public function lead()
+    {
+        return $this->belongsTo('App\Lead', 'id', 'lead_id');
+    }
+
     public function milestones()
     {
         return $this->hasMany('App\Milestone', 'project_id', 'id');

@@ -185,13 +185,20 @@ class Stage extends Model
         }
     }
 
-    public static function leadStagesByUserType($sort, $dir)
+    public static function leadStagesByUserType($sort, $dir, $tag)
     {
+        if($tag){
+            $status = array(array_search($tag, Lead::$status));
+        }else{
+            $status = array(array_search('active', Lead::$status));
+        }
+
         if(\Auth::user()->type == 'client')
         {
-            return Stage::with(['leads' => function ($query) use($sort, $dir){
+            return Stage::with(['leads' => function ($query) use($sort, $dir, $status){
 
-                        $query->where('leads.client_id', \Auth::user()->client_id)
+                        $query->whereIn('archived', $status)
+                                ->where('leads.client_id', \Auth::user()->client_id)
                                 ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                     },
                     'leads.client','leads.user'])
@@ -201,9 +208,10 @@ class Stage extends Model
         }
         elseif(\Auth::user()->type == 'company')
         {
-            return Stage::with(['leads' => function ($query) use($sort, $dir){
+            return Stage::with(['leads' => function ($query) use($sort, $dir, $status){
 
-                        $query->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                        $query->whereIn('archived', $status)
+                                ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
                     },'leads.client','leads.user'])
                     ->where('class', Lead::class)
@@ -212,9 +220,10 @@ class Stage extends Model
 
         }else
         {
-            return Stage::with(['leads' => function ($query) use($sort, $dir){
+            return Stage::with(['leads' => function ($query) use($sort, $dir, $status){
 
-                        $query->where('leads.user_id', \Auth::user()->id)
+                        $query->whereIn('archived', $status)
+                                ->where('leads.user_id', \Auth::user()->id)
                                 ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                     },
                     'leads.client','leads.user'])

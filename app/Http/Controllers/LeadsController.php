@@ -30,7 +30,7 @@ class LeadsController extends Controller
 
             clock()->startEvent('LeadsController', "Load leads");
 
-            $stages = Stage::leadStagesByUserType($request['sort'], $request['dir'])->get();
+            $stages = Stage::leadStagesByUserType($request['sort'], $request['dir'], $request['tag'])->get();
 
             clock()->endEvent('LeadsController');
 
@@ -165,6 +165,11 @@ class LeadsController extends Controller
 
     public function update(LeadUpdateRequest $request, Lead $lead)
     {
+        if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
+        {
+            return view('helpers.archive');
+        }
+
         $post = $request->validated();
 
         $lead->updateLead($post);

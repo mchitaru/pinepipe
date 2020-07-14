@@ -24,6 +24,7 @@ class CreateLeadsTable extends Migration
             $table->unsignedInteger('client_id')->nullable();
             $table->unsignedInteger('contact_id')->nullable();
             $table->unsignedInteger('category_id')->nullable();
+            $table->boolean('archived')->default(false);
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            

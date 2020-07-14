@@ -96,6 +96,14 @@ function initTaskCards() {
             }
         });
     });
+
+    $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+        $('body').append($(this).children('.dropdown-menu').css({
+            position: 'absolute',
+            left: $('.dropdown-menu').offset().left,
+            top: $('.dropdown-menu').offset().top
+        }).detach());
+    });
 };
 
 $(function() {

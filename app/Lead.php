@@ -29,7 +29,8 @@ class Lead extends Model implements HasMedia
         'source_id',
         'category_id',
         'user_id',
-        'created_by'
+        'created_by',
+        'archived',
     ];
 
     protected $nullable = [
@@ -87,6 +88,11 @@ class Lead extends Model implements HasMedia
         return $this->belongsTo('App\Contact');
     }
 
+    public function projects()
+    {
+        return $this->hasMany('App\Project', 'lead_id', 'id');
+    }
+    
     public function removeProjectLead()
     {
         return Project::where('lead_id','=', $this->id)->update(array('lead_id' => 0));
@@ -185,4 +191,17 @@ class Lead extends Model implements HasMedia
         return $updated;
     }
 
+    static function translateStatus($status)
+    {
+        switch($status)
+        {
+            case 1: return __('archived');
+            default: return __('active');
+        }
+    }
+
+    public static $status = [
+        'active',
+        'archived'
+    ];
 }

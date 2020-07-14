@@ -76,7 +76,9 @@ class ProjectsController extends Controller
 
     public function create(Request $request)
     {
+        $name = null;
         $client_id = $request['client_id'];
+        $lead_id = $request['lead_id'];
 
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
@@ -88,7 +90,14 @@ class ProjectsController extends Controller
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-        return view('projects.create', compact('clients', 'users', 'user_id', 'leads', 'client_id'));
+        if($lead_id){
+
+            $lead = Lead::find($lead_id);
+            $client_id = $lead->client->id;
+            $name = $lead->name;
+        }
+
+        return view('projects.create', compact('clients', 'users', 'user_id', 'leads', 'client_id', 'lead_id', 'name'));
     }
 
 
@@ -100,6 +109,11 @@ class ProjectsController extends Controller
         {
             if($project = Project::createProject($post))
             {
+                if($project->lead){
+
+                    $project->lead->archived = 1;
+                    $project->lead->save();
+                }
                 $request->session()->flash('success', __('Project successfully created.'));
     
                 $url = redirect()->route('projects.show', $project->id)->getTargetUrl();
