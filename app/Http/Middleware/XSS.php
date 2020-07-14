@@ -28,21 +28,6 @@ class XSS
             \App::setLocale(\Helpers::countryToLocale($locale->iso_code));
         }
 
-        if(!empty($input)) {
-
-            array_walk_recursive(
-                $input, function (&$input){
-
-                    if(!empty($input)) {
-
-                        // $input = strip_tags($input);
-                        $input = Purify::clean($input);
-                    }
-                }
-            );
-            $request->merge($input);
-        }
-
         return $next($request);
     }
 }
