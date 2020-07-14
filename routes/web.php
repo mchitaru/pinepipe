@@ -109,6 +109,8 @@ Route::group(
         // Route::resource('subscriptions', 'SubscriptionsController');
 
 
+        Route::get('projects/{project}/refresh', 'ProjectsController@refresh')->name('projects.refresh');
+
         Route::resource('projects', 'ProjectsController');
 
         Route::get('projects/{project}/milestone', 'ProjectMilestonesController@create')->name('projects.milestone.create');

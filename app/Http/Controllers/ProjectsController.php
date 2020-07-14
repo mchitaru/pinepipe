@@ -76,7 +76,6 @@ class ProjectsController extends Controller
 
     public function create(Request $request)
     {
-        $name = null;
         $client_id = $request['client_id'];
         $lead_id = $request['lead_id'];
 
@@ -88,16 +87,39 @@ class ProjectsController extends Controller
         $user_id = \Auth::user()->id;
 
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
         if($lead_id){
 
             $lead = Lead::find($lead_id);
-            $client_id = $lead->client->id;
-            $name = $lead->name;
+
+            if($lead){
+
+                $client_id = $lead->client->id;
+            }
         }
 
-        return view('projects.create', compact('clients', 'users', 'user_id', 'leads', 'client_id', 'lead_id', 'name'));
+        if($client_id)
+        {
+            if(is_numeric($client_id)) {
+
+                $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())
+                                ->where('client_id', '=', $client_id)
+                                ->get()
+                                ->pluck('name', 'id');
+            }else{
+
+                //new client
+                $leads = [];
+                $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+            }
+        }else
+        {
+                $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())
+                                ->get()
+                                ->pluck('name', 'id');
+        }
+
+        return view('projects.create', compact('clients', 'users', 'user_id', 'leads', 'client_id', 'lead_id'));
     }
 
 
@@ -109,11 +131,6 @@ class ProjectsController extends Controller
         {
             if($project = Project::createProject($post))
             {
-                if($project->lead){
-
-                    $project->lead->archived = 1;
-                    $project->lead->save();
-                }
                 $request->session()->flash('success', __('Project successfully created.'));
     
                 $url = redirect()->route('projects.show', $project->id)->getTargetUrl();
@@ -137,7 +154,7 @@ class ProjectsController extends Controller
     }
 
 
-    public function edit(Project $project)
+    public function edit(Request $request, Project $project)
     {
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())
@@ -146,8 +163,29 @@ class ProjectsController extends Controller
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
 
-        $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $client_id    = $project->client_id;
 
+        if($client_id)
+        {
+            if(is_numeric($client_id)) {
+
+                $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())
+                                ->where('client_id', '=', $client_id)
+                                ->get()
+                                ->pluck('name', 'id');
+            }else{
+
+                //new client
+                $leads = [];
+                $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+            }
+        }else
+        {
+                $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())
+                                ->get()
+                                ->pluck('name', 'id');
+        }
+                        
         $user_id = $project->users()->get()->pluck('id');
 
         $start_date = $project->start_date;
@@ -249,5 +287,20 @@ class ProjectsController extends Controller
         }
 
         return Redirect::to(URL::previous())->with('success', __('Project successfully deleted'));
+    }
+
+    public function refresh(Request $request, $project_id)
+    {
+        $request->flash();
+
+        if($project_id)
+        {
+            $project = Project::find($project_id);
+            $project->client_id = $request['client_id'];
+
+            return $this->edit($request, $project);
+        }
+
+        return $this->create($request);
     }
 }

@@ -100,6 +100,11 @@ $(function() {
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">{{__('Projects')}}
+                    <span class="badge badge-secondary">{{ $projects->count() }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
             </li>
             </ul>
@@ -205,6 +210,35 @@ $(function() {
                 </div>
                 <!--end of content list-->
             </div>
+            <div class="tab-pane fade show" id="projects" role="tabpanel" data-filter-list="content-list-body">
+                <div class="content-list">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                        <h3>{{__('Projects')}}</h3>
+                        @can('create project')
+                        <a href="{{ route('projects.create') }}" class="btn btn-primary btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text">
+                            <i class="material-icons">add</i>
+                        </a>
+                        @endcan
+                        </div>
+                        <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter projects")}}" aria-label="Filter Projects">
+                        </div>
+                        </form>
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body row">@include('projects.index')</div>
+                <!--end of content list body-->
+                </div>
+                <!--end of content list-->
+            </div>
+            <!--end of tab-->
             @if(\Auth::user()->type!='client')
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">

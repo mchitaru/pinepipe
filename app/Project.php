@@ -102,7 +102,7 @@ class Project extends Model implements HasMedia
 
     public function lead()
     {
-        return $this->belongsTo('App\Lead', 'id', 'lead_id');
+        return $this->hasOne('App\Lead', 'id', 'lead_id');
     }
 
     public function milestones()
@@ -244,6 +244,15 @@ class Project extends Model implements HasMedia
             $post['client_id'] = $client->id;
         }
 
+        if(isset($post['lead_id']) && !is_numeric($post['lead_id'])) {
+
+            //new lead
+            $lead = Lead::create(['name' => $post['lead_id'],
+                                    'stage_id' => \Auth::user()->getFirstLeadStage()->id,
+                                    'client_id' => $post['client_id']]);
+            $post['lead_id'] = $lead->id;
+        }
+
         $project              = Project::make($post);
         $project->save();
 
@@ -275,6 +284,15 @@ class Project extends Model implements HasMedia
             $client = Client::create(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
+
+        if(isset($post['lead_id']) && !is_numeric($post['lead_id'])) {
+
+            //new lead
+            $lead = Lead::create(['name' => $post['lead_id'],
+                                    'stage_id' => \Auth::user()->getFirstLeadStage()->id,
+                                    'client_id' => $post['client_id']]);
+            $post['lead_id'] = $lead->id;
+        }        
 
         $this->update($post);
 

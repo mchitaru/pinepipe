@@ -38,22 +38,6 @@
         {{ Form::label('contact_id', __('Contact'), array('class'=>'col-3')) }}
         {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
-    {{-- <hr>
-    <h6>{{__('Visibility')}}</h6>
-    <div class="row">
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-everyone" name="visibility" class="custom-control-input" disabled="true" >
-        <label class="custom-control-label" for="visibility-everyone">{{__('Everyone')}}</label>
-        </div>
-    </div>
-    <div class="col">
-        <div class="custom-control custom-radio">
-        <input type="radio" id="visibility-me" name="visibility" class="custom-control-input" disabled="true" checked>
-        <label class="custom-control-label" for="visibility-me">{{__('Just me')}}</label>
-        </div>
-    </div>
-    </div> --}}
 </div>
 @include('partials.errors')
 @endsection

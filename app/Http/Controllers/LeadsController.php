@@ -155,7 +155,7 @@ class LeadsController extends Controller
                                     ->get()->pluck('name', 'id');
             }
 
-            return view('leads.edit', compact('client_id', 'category_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));
+            return view('leads.edit', compact('category_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));
         }
         else
         {
@@ -205,6 +205,7 @@ class LeadsController extends Controller
             clock()->startEvent('LeadsController', "Load lead");
 
             $events = $lead->events;
+            $projects = $lead->projects;
             $activities = $lead->activities;
             $notes = $lead->notes;
 
@@ -233,7 +234,7 @@ class LeadsController extends Controller
 
             clock()->endEvent('LeadsController');
 
-            return view('leads.show', compact('lead', 'events', 'notes', 'files', 'activities', 'progress'));
+            return view('leads.show', compact('lead', 'events', 'projects', 'notes', 'files', 'activities', 'progress'));
         }
         else
         {
