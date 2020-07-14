@@ -65,13 +65,13 @@ class Helpers
         $color = '';
 
         if($progress<=15){
-            $color='bg-danger';
+            $color='danger';
         }else if ($progress > 15 && $progress <= 33) {
-            $color='bg-warning';
+            $color='warning';
         } else if ($progress > 33 && $progress <= 70) {
-            $color='bg-primary';
+            $color='primary';
         } else {
-            $color='bg-success';
+            $color='success';
         }
 
         return $color;

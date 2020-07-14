@@ -10,7 +10,7 @@ if($total_subtask!=0){
     $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
 }
 
-$label = Project::getProgressColor($task_percentage);
+$label = 'bg-'.Helpers::getProgressColor($task_percentage);
 
 @endphp
 

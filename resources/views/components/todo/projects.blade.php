@@ -29,7 +29,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
 
             <div class="card card-task">
                 <div class="progress">
-                    <div class="progress-bar {{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-{{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
                 <div class="card-body p-2">

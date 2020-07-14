@@ -96,11 +96,12 @@ class LeadsController extends Controller
     {
         $post = $request->validated();
 
-        if(Lead::createLead($post))
+        if($lead = Lead::createLead($post))
         {
             $request->session()->flash('success', __('Lead successfully created.'));
     
-            return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
+            $url = redirect()->route('leads.show', $lead->id)->getTargetUrl();
+            return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
         }
         else
         {

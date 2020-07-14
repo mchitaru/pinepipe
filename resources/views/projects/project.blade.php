@@ -5,7 +5,7 @@
 <div class="col-lg-6">
     <div class="card card-project">
         <div class="progress">
-            <div class="progress-bar {{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-{{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
 
         <div class="card-body">
@@ -62,9 +62,9 @@
                 @endif
 
                 @if(!$project->archived)
-                    <span class="badge badge-info">{{__('active')}}</span>
+                    <span class="badge badge-success">{{__('active')}}</span>
                 @else
-                    <span class="badge badge-success">{{__('archived')}}</span>
+                    <span class="badge badge-secondary">{{__('archived')}}</span>
                 @endif
             </div>
             <ul class="avatars">

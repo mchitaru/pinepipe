@@ -44,7 +44,7 @@ $timesheet = $_user->timesheets->first();
                 if($total_subtask!=0){
                     $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
                 }
-                $label = Project::getProgressColor($task_percentage);
+                $label = 'bg-'.Helpers::getProgressColor($task_percentage);
             @endphp
             <div class="card card-kanban task {{($timesheet&&($timesheet->task_id==$task->id)&&$timesheet->isStarted())?'glow-animation':''}}" data-id={{$task->id}}>
                 <div class="progress">

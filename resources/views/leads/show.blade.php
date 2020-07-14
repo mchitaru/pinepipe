@@ -57,25 +57,65 @@ $(function() {
                         </a>
                     </div>
                 </div>
-            <div class="d-flex align-items-center">
-                <ul class="avatars">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <ul class="avatars">
 
-                    <li>
-                        <a href="{{ route('users.index',$lead->user->id) }}"  title="{{$lead->user->name}}">
-                            {!!Helpers::buildUserAvatar($lead->user)!!}
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{{ route('users.index',$lead->user->id) }}"  title="{{$lead->user->name}}">
+                                {!!Helpers::buildUserAvatar($lead->user)!!}
+                            </a>
+                        </li>
 
-                </ul>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <i class="material-icons">expand_more</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @if(Gate::check('edit lead') || Gate::check('delete lead'))
+                            @can('edit lead')
+                                <a class="dropdown-item" href="{{ route('leads.edit', $lead->id) }}" data-remote="true" data-type="text">
+                                    {{__('Edit Lead')}}
+                                </a>
+                            @endcan
+                            <div class="dropdown-divider"></div>
+                            @can('edit lead')
+                                @if(!$lead->archived)
+                                    <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
+                                        {{__('Archive')}}
+                                    </a>
+                                @else
+                                    <a href="{{ route('leads.update', $lead->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                                        {{__('Restore')}}
+                                    </a>
+                                @endif
+                            @endcan
+                            @can('delete lead')
+                                <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                    {{__('Delete')}}
+                                </a>
+                            @endcan
+                        @endif
+                    </div>
+                </div>
             </div>
             <div>
-                <div class="progress">
-                        <div class="progress-bar {{Helpers::getProgressColor($progress)}}" style="width:{{$progress}}%;"></div>
+                <div class="d-flex align-items-center flex-row-reverse" title="{{__('Stage')}}">
+                    <small class="badge badge-{{Helpers::getProgressColor($progress)}}" style="float:right;">{{$lead->stage->name}}</small>
+                </div>
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-{{Helpers::getProgressColor($progress)}}" style="width:{{$progress}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
-                    <div class="d-flex align-items-center"  title="{{__('Stage')}}">
-                        <span class="badge badge-info">{{$lead->stage->name}}</span>
-                    </div>
+                    <div class="d-flex align-items-center"  title="{{__('Status')}}">
+                        @if(!$lead->archived)
+                            <span class="badge badge-success">{{__('active')}}</span>
+                        @else
+                            <span class="badge badge-secondary">{{__('archived')}}</span>
+                        @endif
+                    </div>    
                     <div class="d-flex align-items-center"  title="{{__('Value')}}">
                         <span>{{ \Auth::user()->priceFormat($lead->price) }}</span>
                     </div>

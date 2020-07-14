@@ -51,11 +51,6 @@ use Carbon\Carbon;
                             <span>{{__('Edit')}}</span>
                         </a>
                         @endcan
-                        @can('create project')
-                        <a class="dropdown-item" href="{{ route('projects.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text">
-                            <span>{{__('Convert to project')}}</span>
-                        </a>
-                        @endcan
                         <div class="dropdown-divider"></div>
                         @can('edit lead')
                             @if(!$lead->archived)

@@ -106,9 +106,7 @@ $(function() {
                                 {{__('Task Board')}}
                             </a>
                         @endcan
-                        <a class="dropdown-item disabled" href="#">{{__('Share')}}</a>
                         <div class="dropdown-divider"></div>
-
                         @can('edit project')
                             @if(!$project->archived)
                                 <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
@@ -136,14 +134,14 @@ $(function() {
                     <small class="card-text" style="float:right;">{{$project->progress}}%</small>
                 </div>
                 <div class="progress mt-0">
-                        <div class="progress-bar {{Helpers::getProgressColor($project->progress)}}" style="width:{{$project->progress}}%;"></div>
+                        <div class="progress-bar bg-{{Helpers::getProgressColor($project->progress)}}" style="width:{{$project->progress}}%;"></div>
                 </div>
                 <div class="d-flex justify-content-between text-small">
                 <div class="d-flex align-items-center"  title="{{__('Status')}}">
                     @if(!$project->archived)
-                        <span class="badge badge-info">{{__('active')}}</span>
+                        <span class="badge badge-success">{{__('active')}}</span>
                     @else
-                        <span class="badge badge-success">{{__('archived')}}</span>
+                        <span class="badge badge-secondary">{{__('archived')}}</span>
                     @endif
                 </div>
                 <div class="d-flex align-items-center"  title="{{__('Completed')}}">

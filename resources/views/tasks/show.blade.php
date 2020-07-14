@@ -19,7 +19,7 @@ if($total_task!=0){
     $percentage = intval(($completed_task / $total_task) * 100);
 }
 
-$label = $task->getProgressColor($percentage);
+$label = 'bg-'.Helpers::getProgressColor($percentage);
 $dz_id = 'task-files-dz';
 
 $stage_done = \Auth::user()->getLastTaskStage()->id;
