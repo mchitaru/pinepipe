@@ -30,7 +30,7 @@ trait Taskable
                 $files[] = $file;
             }
 
-            $timesheet = Timesheet::where('task_id', $task->id)->orderBy('updated_at', 'desc')->first();
+            $timesheet = \Auth::user()->timesheets()->where('task_id', $task->id)->orderBy('updated_at', 'desc')->first();
 
             clock()->endEvent('Taskable.show');
 
