@@ -69,7 +69,7 @@ $(function() {
                         </a>
                     </div>
                 </div>
-            <p class="lead">{!! nl2br(e($project->description)) !!}</p>
+            <p class="lead">{{ $project->description }}</p>
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
                     <ul class="avatars">
