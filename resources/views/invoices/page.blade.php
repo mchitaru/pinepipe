@@ -56,6 +56,8 @@
                     <div class="filter-container col-auto">
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
+                        </div>                                           
+                        <div class="filter-tags">
                             <div class="tag filter" data-filter="all">{{__('All')}}</div>
                             <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
                             <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>

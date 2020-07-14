@@ -123,7 +123,7 @@ modal-lg
 @endpush
 
 @section('title')
-<b>{{$task->title}}</b>
+<b>{{ $task->title }}</b>
 @endsection
 
 @section('content')
