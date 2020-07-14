@@ -172,30 +172,6 @@ $(function() {
                             <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter events")}}" aria-label="Filter Events">
                             </div>
                         </form>
-                        <div class="dropdown pl-2">
-                            <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-                            <i class="material-icons">expand_more</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                @if(Gate::check('edit lead') || Gate::check('delete lead'))
-
-                                @can('edit lead')
-                                    <a class="dropdown-item" href="{{ route('leads.edit', $lead->id) }}" data-remote="true" data-type="text">
-                                        {{__('Edit Lead')}}
-                                    </a>
-                                @endcan
-
-                                <div class="dropdown-divider"></div>
-
-                                @can('delete lead')
-                                    <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                        {{__('Delete')}}
-                                    </a>
-                                @endcan
-
-                                @endif
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!--end of content list head-->

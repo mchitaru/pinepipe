@@ -93,13 +93,11 @@ $(function() {
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         @if(Gate::check('edit project') || Gate::check('delete project'))
-
                         @can('edit project')
                             <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                                 {{__('Edit Project')}}
                             </a>
                         @endcan
-
                         <div class="dropdown-divider"></div>
                         @can('view task')
                             <a class="dropdown-item" href="{{ route('tasks.board', $project->id) }}" data-title="{{__('Task Board')}}">
@@ -118,13 +116,11 @@ $(function() {
                                 </a>
                             @endif
                         @endcan
-
                         @can('delete project')
                             <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 {{__('Delete')}}
                             </a>
                         @endcan
-
                         @endif
                     </div>
                 </div>
