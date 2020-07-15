@@ -46,6 +46,20 @@ use Carbon\Carbon;
                         <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
+                        {{-- @can('create event')
+                            <a class="dropdown-item" href="{{ route('events.create')  }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
+                                <span>{{__('Create Event')}}</span>
+                            </a>
+                        @endcan
+                        <a class="dropdown-item" href="{{ route('notes.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
+                            <span>{{__('Create Note')}}</span>
+                        </a>
+                        @can('create project')
+                            <a class="dropdown-item" href="{{ route('projects.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text">
+                                <span>{{__('Create Project')}}</span>
+                            </a>
+                        @endcan
+                        <div class="dropdown-divider"></div> --}}
                         @can('edit lead')
                         <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                             <span>{{__('Edit')}}</span>
