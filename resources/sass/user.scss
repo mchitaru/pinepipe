@@ -13,6 +13,11 @@ body{
   overflow-y:scroll;
 }
 
+.active-timer{
+  width: 80px;
+  letter-spacing: 0.2rem;
+}
+
 .context-menu {
     display: none;
     z-index: 1000;
