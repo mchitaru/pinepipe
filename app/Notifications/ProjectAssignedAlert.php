@@ -6,26 +6,26 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\SubscriberMailMessage;
 use App\Task;
 use Illuminate\Support\Facades\URL;
-use App\Mail\SubscriberMailMessage;
 
-class TaskOverdueAlert extends Notification implements ShouldQueue
+class ProjectAssignedAlert extends Notification implements ShouldQueue
 {
     use Queueable;
 
     public $user;
-    public $tasks;
+    public $project;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $tasks)
+    public function __construct($user, $project)
     {
         $this->user = $user;
-        $this->tasks = $tasks;
+        $this->project = $project;
     }
 
     /**
@@ -36,7 +36,6 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        // return ['mail', 'database'];
         return ['mail'];
     }
 
@@ -51,10 +50,10 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
         $unsubscribeUrl = URL::signedRoute('unsubscribe.edit', ['user' => $this->user]);
 
         return (new SubscriberMailMessage($unsubscribeUrl))
-                    ->greeting(__('Tasks reminder'))
-                    ->subject(__('You have :count overdue task(s)', ['count' => $this->tasks->count()]))
-                    ->line(__('You have <b>:count</b> overdue task(s).', ['count' => $this->tasks->count()]))
-                    ->action(__('View all'), route("home"))
+                    ->greeting(__('New project notification'))
+                    ->subject(__('You have been assigned to a new project'))
+                    ->line(__('You have been assigned to the <b>:project</b> project.', ['project' => $this->project->name]))
+                    ->action(__('View project'), route('projects.show', $this->project->id))
                     ->line(__('Thank you for using our application!'));
     }
 
@@ -66,6 +65,8 @@ class TaskOverdueAlert extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return $this->tasks->pluck('title', 'id')->toArray();
+        return [
+            //
+        ];
     }
 }

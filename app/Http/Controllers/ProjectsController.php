@@ -131,6 +131,21 @@ class ProjectsController extends Controller
         {
             if($project = Project::createProject($post))
             {
+                $users = [];
+
+                if(!empty($post['users'])){
+
+                    foreach($post['users'] as $user){
+        
+                        if($user != \Auth::user()->id){
+                            
+                            $users[] = $user;
+                        }
+                    }
+                }
+
+                $project->notifyAssignedUsers($users);
+
                 $request->session()->flash('success', __('Project successfully created.'));
     
                 $url = redirect()->route('projects.show', $project->id)->getTargetUrl();
@@ -203,7 +218,22 @@ class ProjectsController extends Controller
 
         $post = $request->validated();
 
+        $users = [];
+
+        if(!empty($post['users'])) {
+
+            foreach($post['users'] as $user){
+
+                if(($user != \Auth::user()->id) && !$project->users->contains($user)){
+                    
+                    $users[] = $user;
+                }
+            }
+        }
+
         $project->updateProject($post);
+
+        $project->notifyAssignedUsers($users);
 
         $request->session()->flash('success', __('Project successfully updated.'));
 

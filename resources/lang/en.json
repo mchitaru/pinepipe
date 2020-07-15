@@ -675,7 +675,7 @@
     "Verify Email Address": "",
     "Please click the button below to verify your email address.": "",
     "If you did not create an account, no further action is required.": "",
-    "Tasks Reminder": "",
+    "Tasks reminder": "",
     "You have :count overdue task(s)": "",
     "View all": "",
     "Thank you for using our application!": "",
@@ -802,5 +802,10 @@
     "Activate": "",
     "Convert to project": "",
     "Create Event": "",
-    "Create Project": ""
+    "Create Project": "",
+    "New project notification": "",
+    "You have been assigned to a new project": "",
+    "You have been assigned to the <b>:project<\/b> project.": "",
+    "View project": "",
+    "You have <b>:count<\/b> overdue task(s).": ""
 }

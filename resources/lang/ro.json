@@ -589,7 +589,7 @@
     "Verify Email Address": "Verifică adresa de email",
     "Please click the button below to verify your email address.": "Te rugăm să dai click pe butonul de mai jos pentru a-ți verifica adresa de email.",
     "If you did not create an account, no further action is required.": "Dacă nu ai creat tu contul, te rugăm să ignori acest mesaj.",
-    "Tasks Reminder": "Memento sarcini",
+    "Tasks reminder": "Memento sarcini",
     "You have :count overdue task(s)": "Ai :count sarcini întârziate",
     "View all": "Vezi tot",
     "Thank you for using our application!": "Îți mulțumim pentru că utilizezi aplicația noastră!",
@@ -694,5 +694,10 @@
     "Activate": "Activează",
     "Convert to project": "Transformă în proiect",
     "Create Event": "Adaugă eveniment",
-    "Create Project": "Adaugă proiect"
+    "Create Project": "Adaugă proiect",
+    "New project notification": "Notificare proiect nou",
+    "You have been assigned to a new project": "Ai primit un proiect nou",
+    "You have been assigned to the <b>:project<\/b> project.": "Ai fost atribuit la proiectul <b>:project<\/b>.",
+    "View project": "Vezi proiectul",
+    "You have <b>:count<\/b> overdue task(s).": "Ai <b>:count</b> sarcini întârziate"
 }

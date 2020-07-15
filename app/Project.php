@@ -8,6 +8,8 @@ use Iatstuti\Database\Support\NullableFields;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
+use App\Notifications\ProjectAssignedAlert;
+
 use App\Traits\Actionable;
 use App\Traits\Taggable;
 
@@ -321,6 +323,19 @@ class Project extends Model implements HasMedia
             case 2: return __('low');
             case 1: return __('medium');
             default: return __('high');
+        }
+    }
+
+    public function notifyAssignedUsers($users)
+    {
+        foreach($users as $user){
+
+            $user = User::find($user);
+
+            if($user && $user->notify_project_assign){
+
+                $user->notify(new ProjectAssignedAlert($user, $this));
+            }
         }
     }
 
