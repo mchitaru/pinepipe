@@ -87,7 +87,7 @@ use Carbon\Carbon;
                     </div>
                     <div class="card-title">
                         @if(Gate::check('view lead'))
-                        <a href="{{ route('leads.show',$lead->id) }}">
+                        <a href="{{ route('leads.show',$lead->id) }}" title="{{$lead->name}}">
                             <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
                         </a>
                         @else

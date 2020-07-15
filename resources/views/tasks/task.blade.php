@@ -20,13 +20,10 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
     </div>
     <div class="card-body">
     <div class="card-title col-xs-12 col-sm-4">
-
-        <a href="{{route('tasks.show',$task->id)}}#task" class="text-body" data-remote="true" data-type="text">
+        <a href="{{route('tasks.show',$task->id)}}#task" class="text-body" data-remote="true" data-type="text" title="{{$task->title}}">
             <h6 data-filter-by="text">{{$task->title}}</h6>
         </a>
-
         {!! Helpers::getPriorityBadge($task->priority) !!}
-
         <p>
             {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
         </p>
