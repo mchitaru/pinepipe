@@ -727,5 +727,9 @@
     "You have been assigned to a new project": "",
     "You have been assigned to the <b>:project<\/b> project.": "",
     "View project": "",
-    "You have <b>:count<\/b> overdue task(s).": ""
+    "You have <b>:count<\/b> overdue task(s).": "",
+    "New task notification": "",
+    "You have been assigned a new task": "",
+    "You have been assigned the <b>:task<\/b> task.": "",
+    "View tasks": ""
 }

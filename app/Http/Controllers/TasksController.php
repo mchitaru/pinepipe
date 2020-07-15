@@ -119,7 +119,23 @@ class TasksController extends Controller
     {
         $post = $request->validated();
 
-        Task::createTask($post);
+        if($task = Task::createTask($post)){
+
+            $users = [];
+
+            if(!empty($post['users'])){
+
+                foreach($post['users'] as $user){
+    
+                    if($user != \Auth::user()->id){
+                        
+                        $users[] = $user;
+                    }
+                }
+            }
+
+            $task->notifyAssignedUsers($users);
+        }
 
         $request->session()->flash('success', __('Task successfully created.'));
 
@@ -203,7 +219,22 @@ class TasksController extends Controller
     {
         $post = $request->validated();
 
+        $users = [];
+
+        if(!empty($post['users'])) {
+
+            foreach($post['users'] as $user){
+
+                if(($user != \Auth::user()->id) && !$task->users->contains($user)){
+                    
+                    $users[] = $user;
+                }
+            }
+        }
+
         $task->updateTask($post, $request->isMethod('patch'));
+
+        $task->notifyAssignedUsers($users);
 
         $request->session()->flash('success', __('Task successfully updated.'));
 

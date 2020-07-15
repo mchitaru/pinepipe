@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
+use App\Notifications\TaskAssignedAlert;
+
 use App\Traits\Invoiceable;
 use App\Traits\Checklistable;
 use App\Traits\Commentable;
@@ -188,5 +190,18 @@ class Task extends Model implements HasMedia
         }
 
         return $updated;
+    }
+
+    public function notifyAssignedUsers($users)
+    {
+        foreach($users as $user){
+
+            $user = User::find($user);
+
+            if($user && $user->notify_task_assign){
+
+                $user->notify(new TaskAssignedAlert($user, $this));
+            }
+        }
     }
 }

@@ -697,7 +697,11 @@
     "Create Project": "Adaugă proiect",
     "New project notification": "Notificare proiect nou",
     "You have been assigned to a new project": "Ai primit un proiect nou",
-    "You have been assigned to the <b>:project<\/b> project.": "Ai fost atribuit la proiectul <b>:project<\/b>.",
+    "You have been assigned to the <b>:project<\/b> project.": "Ti-a fost atribuit proiectul <b>:project<\/b>.",
     "View project": "Vezi proiectul",
-    "You have <b>:count<\/b> overdue task(s).": "Ai <b>:count</b> sarcini întârziate"
+    "You have <b>:count<\/b> overdue task(s).": "Ai <b>:count<\/b> sarcini întârziate",
+    "New task notification": "Notificare sarcină nouă",
+    "You have been assigned a new task": "Ai primit o sarcină nouă",
+    "You have been assigned the <b>:task<\/b> task.": "Ți-a fost atribuită sarcina <b>:task</b>.",
+    "View tasks": "Vezi sarcini"
 }
