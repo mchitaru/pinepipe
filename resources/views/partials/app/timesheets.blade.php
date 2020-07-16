@@ -22,17 +22,19 @@ $timesheet = $timesheets->first();
             @endcan
         </div>
         @foreach ($timesheets as $key => $timesheet)
-        <a class="dropdown-item timer-entry d-flex align-items-center {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}"  title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
-            @if($timesheet->isStarted())
-                <i class="material-icons">stop</i>
-            @else
-                <i class="item-options material-icons">play_arrow</i>
-            @endif
-            @if($timesheet->task)
-            {!!'<u>'.$timesheet->task->title.'</u>'.($timesheet->project?' - ['.$timesheet->project->name.']':'')!!}
-            @else
-            {!!'<u>'.Auth::user()->dateFormat($timesheet->date).' ['.$timesheet->formatTime().']</u>'!!}
-            @endif
+        <a class="dropdown-item timer-entry {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}"  title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
+            <div class="row align-items-center">
+                <div class="col-4">
+                    {!!Auth::user()->dateFormat($timesheet->date).'<br>['.$timesheet->formatTime().']<br>'!!}
+                </div>
+                <div class="col-8">
+                    @if($timesheet->task)
+                        {!!$timesheet->task->title.'<br>'.($timesheet->project?'<b>'.$timesheet->project->name.'</b>':'')!!}
+                    @else
+                        {!!__('No title').'<br>---</b>'!!}
+                    @endif
+                </div>
+            </div>
         </a>
         @endforeach
     </div>
