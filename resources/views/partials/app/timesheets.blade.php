@@ -12,7 +12,7 @@ $timesheet = $timesheets->first();
         <span class="d-none d-lg-block text-muted text-light pr-2"><b>{{$timesheet&&$timesheet->task?$timesheet->task->title:__('No title')}}</b></span>
         <span class="active-timer text-muted text-center text-light dropdown-toggle mr-3" data-timesheet="{{$timesheet?$timesheet->id:null}}">{{$timesheet?$timesheet->formatTime():'00:00:00'}}</span>
     </a>
-    <div class="dropdown-menu dropdown-menu-right pre-scrollable" id="timer-menu">
+    <div class="dropdown-menu dropdown-menu-right pre-scrollable" id="timer-menu" style="min-width: 350px">
         <div class="dropdown-header d-flex align-items-center justify-content-between">
             <h3>{{__('Timesheets')}}</h3>
             @can('create timesheet')
