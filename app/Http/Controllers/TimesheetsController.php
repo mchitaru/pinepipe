@@ -154,7 +154,15 @@ class TimesheetsController extends Controller
 
         if($task) {
 
-            $timesheet = \Auth::user()->timesheets()->where('task_id', $task->id)->orderBy('updated_at', 'desc')->first();
+            $timesheet = \Auth::user()->timesheets()->where('task_id', $task->id)
+                                                    ->where(function ($query)  {
+                                                        $query->where('started_at','!=', null)
+                                                                ->orWhereDate('date', '=', Carbon::now());
+                                                                
+                                                    })                                                    
+                                                    ->orderBy('updated_at', 'desc')
+                                                    ->first();
+
         }else{
 
             $timesheet = Timesheet::find($request['timesheet_id']);
