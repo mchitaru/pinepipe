@@ -51,11 +51,11 @@
                 </div>
             </div>
             @if(\Auth::user()->type!='super admin')
-            <div class="row content-list-head">
+            <div class="row content-list-filter">
                 <div class="filter-container col-auto">
                     <div class="filter-controls">
                         <div>{{__('Sort')}}:</div>
-                    </div>
+                    </div>                    
                     <div class="filter-controls">
                         <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                         <a class="order" href="#" data-sort="email">{{__('Email')}}</a>

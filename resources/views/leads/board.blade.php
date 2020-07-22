@@ -104,7 +104,7 @@ use Carbon\Carbon;
                             @endif
                         @endif
                     </div>
-                    <div class="card-title">
+                    <div class="card-title d-none d-xl-flex">
                         <span data-filter-by="text" class="text-small price" data-id={{$lead->price}}>
                             {{ \Auth::user()->priceFormat($lead->price) }}
                         </span>

@@ -37,7 +37,7 @@ $(function() {
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="clients" role="tabpanel">
                     <div class="row content-list-head">
-                        <div class="col-auto">
+                        <div class="col-12 col-md-auto">
                             <h3>{{__('Clients')}}</h3>
                             @can('create client')
                             <a href="{{ route('clients.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
@@ -56,7 +56,7 @@ $(function() {
                             </div>
                         </div>
                     </div>
-                    <div class="row content-list-head">
+                    <div class="row content-list-filter">
                         <div class="filter-container col-auto">
                             <div class="filter-controls">
                                 <div>{{__('Sort')}}:</div>

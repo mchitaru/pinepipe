@@ -83,8 +83,12 @@ $timesheet = $_user->timesheets->first();
                             @endif
                         @endif
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        {!! Helpers::getPriorityBadge($task->priority) !!}
+                    <div class="justify-content-between align-items-center d-none d-xl-flex">
+                        <div  title="{{__('Labels')}}">
+                            @foreach($task->tags as $tag)
+                                <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                            @endforeach
+                        </div>
                         <ul class="avatars">
                             @foreach($task->users as $user)
                             <li>
@@ -95,20 +99,8 @@ $timesheet = $_user->timesheets->first();
                             @endforeach
                         </ul>
                     </div>
-                    <div class="d-flex justify-content-end">
-                        <div  title="{{__('Labels')}}">
-                            @foreach($task->tags as $tag)
-                                <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="card-meta d-flex justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <i class="material-icons">playlist_add_check</i>
-                            <p class="small @if($total_subtask==0) text-muted @endif @if($completed_subtask==$total_subtask && $completed_subtask!=0) text-success @else text-danger @endif">
-                                <span>{{$completed_subtask}}/{{$total_subtask}}</span>
-                            </p>
-                        </div>
+                    <div class="card-meta justify-content-between align-items-center d-flex">
+                        {!! Helpers::getPriorityBadge($task->priority) !!}
                         {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
                     </div>
                 </div>

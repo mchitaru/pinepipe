@@ -152,19 +152,25 @@
 
 <div class="container">
     <div class="row page-header">
-        <h3>{{__('Calendar')}}</h3>
-        <div class="dropdown ml-2">
-            <button class="btn btn-round btn-primary" role="button" data-toggle="dropdown" aria-expanded="false">
-                <i class="material-icons">add</i>
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ route('events.create') }}" data-remote="true" data-type="text" >{{__('New Event')}}</a>
-                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text" >{{__('New Task')}}</a>
-            </div>
-        </div>
     </div>
     <div class="tab-content">
         <div class="tab-pane fade show active" id="events" role="tabpanel">
+            <div class="content-list">
+                <div class="row content-list-head">
+                    <div class="col-12 col-md-auto">
+                        <h3>{{__('Calendar')}}</h3>
+                        <div class="dropdown ml-2">
+                            <button class="btn btn-round btn-primary" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="material-icons">add</i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('events.create') }}" data-remote="true" data-type="text" >{{__('New Event')}}</a>
+                                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text" >{{__('New Task')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--end of content list head-->
             <div class="content-list-body">
                 <div class="pt-3" id="calendar"></div>

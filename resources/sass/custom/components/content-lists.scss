@@ -12,15 +12,21 @@
     align-items: center;
     justify-content: space-between;  
   }  
+  .content-list-filter{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;  
+  }  
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
   .content-list-head{
     > div:first-child{
       margin-bottom: $spacer/2;
     }
   }
 }
+
 .content-list-head{
   h3, h5{
     margin: 0;
@@ -31,6 +37,18 @@
     align-items: center;
   }
   margin-bottom: $spacer;
+}
+
+.content-list-filter{
+  h3, h5{
+    margin: 0;
+    display: inline-block;
+  }
+  > [class*='col']{
+    display: flex;
+    align-items: flex-end;
+  }
+  margin-bottom: $spacer/4;
 }
 
 .content-list{

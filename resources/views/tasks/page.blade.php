@@ -134,42 +134,44 @@ document.addEventListener("paginate-load", function(e) {
 
 @section('content')
     <div class="container-kanban" data-filter-list="card-list-body">
-        <div class="container-fluid page-header d-flex justify-content-between align-items-start">
-            <div class="col">
-                <div class="row content-list-head">
-                    <div class="col-auto">
-                        <h3>{{__('Tasks')}}</h3>
-                        <a href="{{ route('tasks.create') }}" class="btn btn-primary btn-round" data-params="project_id={{$project_id}}" data-remote="true" data-type="text">
-                            <i class="material-icons">add</i>
-                        </a>
+        <div class="container-fluid page-header justify-content-between mb-0">
+            <div class="row content-list-head">
+                <div class="col-12 col-md-auto">
+                    <h3>{{__('Tasks')}}</h3>
+                    <a href="{{ route('tasks.create') }}" class="btn btn-primary btn-round" data-params="project_id={{$project_id}}" data-remote="true" data-type="text">
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+                <div class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
                     </div>
-                    <div class="filter-container col-auto">
-                        <div class="filter-controls">
-                            <div>{{__('Sort')}}:</div>
-                        </div>
-                        <div class="filter-controls">
-                            <a class="order" href="#" data-sort="order">{{__('Order')}}</a>
-                            <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
-                            <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
-                        </div>
-                        <div class="filter-tags">
-                            <div>{{__('Tag')}}:</div>
-                        </div>
-                        <div class="filter-tags">
-                            <div class="tag filter" data-filter="mine">{{__('My Tasks')}}</div>
-                            <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
-                        </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="{{__("Filter tasks")}}">
                     </div>
-                    <form class="col-md-auto">
-                        <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                            </span>
-                        </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="{{__("Filter tasks")}}">
-                        </div>
-                    </form>
+                </div>
+            </div>
+            <div class="row content-list-filter">
+                <div class="filter-container col-auto">
+                    <div class="filter-controls">
+                        <div>{{__('Sort')}}:</div>
+                    </div>
+                    <div class="filter-controls">
+                        <a class="order" href="#" data-sort="order">{{__('Order')}}</a>
+                        <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
+                        <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
+                    </div>
+                </div>
+                <div class="filter-container col-auto">
+                    <div class="filter-tags">
+                        <div>{{__('Tag')}}:</div>
+                    </div>
+                    <div class="filter-tags">
+                        <div class="tag filter" data-filter="mine">{{__('My Tasks')}}</div>
+                        <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
+                    </div>
                 </div>
             </div>
         </div>

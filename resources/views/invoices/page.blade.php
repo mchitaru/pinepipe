@@ -33,7 +33,7 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="invoices" role="tabpanel">
                 <div class="row content-list-head">
-                    <div class="col-auto">
+                    <div class="col-12 col-md-auto">
                         <h3>{{__('Invoices')}}</h3>
                         @can('create invoice')
                         <a href="{{ route('invoices.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row content-list-head">
+                <div class="row content-list-filter">
                     <div class="filter-container col-auto">
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>

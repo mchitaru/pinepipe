@@ -36,7 +36,7 @@
         <div class="tab-pane fade show active" id="projects" role="tabpanel">
             <div class="content-list">
                 <div class="row content-list-head">
-                    <div class="col-auto">
+                    <div class="col-12 col-md-auto">
                         <h3>{{__('Projects')}}</h3>
                         @can('create project')
                             <a href="{{ route('projects.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
@@ -55,15 +55,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="row content-list-head">
+                <div class="row content-list-filter">
                     <div class="filter-container col-auto">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
-                        </div>    
+                        </div>                            
                         <div class="filter-controls">
                             <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                             <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
                         </div>    
+                    </div>    
+                    <div class="filter-container col-auto">
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
                         </div>

@@ -358,9 +358,19 @@ ol.timeline > li:before {
         text-decoration: none;
     }
 
-    padding: 0 0;
-    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    justify-content: center;
+    margin: 0 0;
+    margin-bottom: $spacer/4;
 }
+
+@include media-breakpoint-down(sm) {
+  .filter-container{
+    margin: 0 auto;
+  }
+}
+
 
 .filter-controls {
     display: flex;
@@ -386,7 +396,7 @@ ol.timeline > li:before {
         display: block;
         opacity: 0;
         content: '';
-        margin-left: .25rem;
+        margin-left: 0;
         font-family: 'Material Icons';
         font-weight: 400;
         font-style: normal;
