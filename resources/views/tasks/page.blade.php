@@ -142,7 +142,7 @@ document.addEventListener("paginate-load", function(e) {
                         <i class="material-icons">add</i>
                     </a>
                 </div>
-                <div class="col-md-auto">
+                <form class="col-md-auto">
                     <div class="input-group input-group-round">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -151,7 +151,7 @@ document.addEventListener("paginate-load", function(e) {
                     </div>
                     <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="{{__("Filter tasks")}}">
                     </div>
-                </div>
+                </form>
             </div>
             <div class="row content-list-filter">
                 <div class="filter-container col-auto">
