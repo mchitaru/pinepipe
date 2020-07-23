@@ -151,12 +151,12 @@ Route::group(
         Route::get('tasks/{task}/file/{file}', 'TaskFilesController@show')->name('tasks.file.download');
         Route::delete('tasks/{task}/file/{file}', 'TaskFilesController@destroy')->name('tasks.file.delete');
 
-        Route::get('tasks/{task}/subtask', 'TaskChecklistController@index')->name('tasks.subtask.index');
-        Route::post('tasks/{task}/subtask', 'TaskChecklistController@store')->name('tasks.subtask.store');
-        Route::put('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@update')->name('tasks.subtask.update');
-        Route::patch('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@update')->name('tasks.subtask.update');
-        Route::delete('tasks/{task}/subtask/{subtask}', 'TaskChecklistController@destroy')->name('tasks.subtask.destroy');
-        Route::post('tasks/{task}/subtask/order', 'TaskChecklistController@order')->name('tasks.subtask.order');
+        Route::get('tasks/{task}/subtasks', 'TaskChecklistController@index')->name('tasks.subtask.index');
+        Route::post('tasks/{task}/subtasks', 'TaskChecklistController@store')->name('tasks.subtask.store');
+        Route::put('tasks/{task}/subtasks/{subtask}', 'TaskChecklistController@update')->name('tasks.subtask.update');
+        Route::patch('tasks/{task}/subtasks/{subtask}', 'TaskChecklistController@update')->name('tasks.subtask.update');
+        Route::delete('tasks/{task}/subtasks/{subtask}', 'TaskChecklistController@destroy')->name('tasks.subtask.destroy');
+        Route::post('tasks/{task}/subtasks/order', 'TaskChecklistController@order')->name('tasks.subtask.order');
 
         //Invoices
         Route::get('invoices/{invoice}/pdf', 'InvoicesController@pdf')->name('invoices.pdf');

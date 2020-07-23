@@ -25,7 +25,8 @@ class TaskChecklistRequest extends FormRequest
     {
         return [
             'title' => 'nullable',
-            'status' => 'nullable'
+            'status' => 'nullable',
+            'order' => 'numeric|nullable'
         ];
     }
     

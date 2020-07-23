@@ -32,10 +32,19 @@ class TaskChecklistController extends Controller
     public function store(TaskChecklistRequest $request, Task $task)
     {
         $post = $request->validated();
-        
-        $subtask = $task->checklist()->create($post);
 
-        return redirect()->route('tasks.show', $task->id)->with('success', __('Subtask Created.'));
+        $subtask = $task->checklist()->create($post);
+        
+        foreach($task->checklist as $key => $check){
+
+            if($check->order != $key){
+
+                $check->order = $key;
+                $check->save();
+            }
+        }
+
+        return redirect()->route('tasks.show', $task->id)->with('subtask', $subtask->id)->with('success', __('Subtask Created.'));
     }
 
     /**

@@ -77,6 +77,27 @@ modal-lg
 
     });
 
+    $("input[name='title']").keypress(function(e) {
+
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+
+        if(keycode == '13'){
+            
+            e.preventDefault();
+
+            $(this).blur();
+
+            document.getElementById("btn-subtask").click();
+        }
+    });
+
+    $("input[name='title']" ).focus(function() {
+
+        var order = $(this).data('order');
+
+        $('#order').val(order);
+    });
+
     $(function() {
 
         const sortableChecklist = new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
@@ -119,6 +140,10 @@ modal-lg
         initDropzone('#{{$dz_id}}', '{{route('tasks.file.upload',[$task->id])}}', '{{$task->id}}', {!! json_encode($files) !!});
     });
 </script>
+
+@if ($subtask = Session::get('subtask'))
+    <script>$(function() { $("input[id='title-{!! $subtask !!}']:text:visible:last").focus(); });</script>
+@endif
 
 @endpush
 
@@ -198,6 +223,7 @@ modal-lg
                 @can('view task')
                 <div class="content-list">
                     <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
+                        <input type="hidden" id="order" name="order" value="{{$subtasks->isEmpty()?0:$subtasks->last()->order+1}}">
                         <div class="row content-list-head">
                             <div class ="col-auto">
                                 <h3>{{__('Subtasks')}}</h3>
@@ -239,7 +265,7 @@ modal-lg
                     <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
                         <div class="form-group row align-items-center">
                             <div class ="col-11">
-                                <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="example-textarea" rows="3" required></textarea>
+                                <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="comment" rows="3" required></textarea>
                             </div>
                             <div class ="col-1">
                                 <button type="submit" class="btn btn-primary btn-round" data-disable="true" data-title={{__('Add')}}>

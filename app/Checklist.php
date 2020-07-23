@@ -9,6 +9,7 @@ class Checklist extends Model
     protected $fillable = [
         'title', 
         'status',
+        'order',
         'user_id',
         'created_by'
     ];
