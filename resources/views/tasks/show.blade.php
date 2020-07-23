@@ -291,7 +291,7 @@ modal-lg
                 <div class="content-list">
                     <div class="row content-list-head">
                         <div class="col-auto">
-                            <h3>Files</h3>
+                            <h3>{{__('Files')}}</h3>
                         </div>
                     </div>
                     <!--end of content list head-->
