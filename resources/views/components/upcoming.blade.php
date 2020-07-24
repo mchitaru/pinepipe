@@ -8,7 +8,7 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
 <div class="scrollable-list col-lg-4 col-md-12" style="max-height:50vh">
     <div class="card-list">
         <div class="card-list-head">
-        <h6>{{__($title)}} <span class="badge badge-primary">{{count($tasks) + count($events)}}</span></h6>
+        <h5>{{__($title)}} <span class="badge badge-primary">{{count($tasks) + count($events)}}</span></h5>
         {{-- <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$title}}">
             <i class="material-icons">more_horiz</i>
         </button> --}}

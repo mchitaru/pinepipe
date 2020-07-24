@@ -4,6 +4,8 @@
 //
 // Place your own custom CSS or SCSS rules below this line, these rules will override any Bootstrap and theme variables.
 
+html { font-size: 90%; } 
+
 //background blur for modals
 body.modal-open .container-fluid, .modal-open  .container, .modal-open  .navbar  {
     -webkit-filter: blur(5px);  

@@ -1,6 +1,6 @@
 
 @foreach($users as $user)
-<div class="card card-task mb-1" style="min-height: 67px;">
+<div class="card card-task mb-1">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
             <a href="#"  title={{$user->name}}>

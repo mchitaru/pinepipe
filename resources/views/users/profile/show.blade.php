@@ -13,7 +13,7 @@
         <div class="container-fluid">
         <div class="col">
             <div class="card">
-            <div class="container row" style="min-height: 67px;">
+            <div class="container row">
                 <div class="pl-2 pt-3 position-absolute">
                     <a href="#"  title={{$user->name}}>
                         {!!Helpers::buildUserAvatar($user, 60, 'rounded')!!}

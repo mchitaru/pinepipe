@@ -2,7 +2,7 @@
 
 @foreach($clients as $client)
 <div class="card card-task">
-    <div class="container row align-items-center" style="min-height: 67px;">
+    <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
             <a href="#"  title={{$client->name}}>
                 {!!Helpers::buildClientAvatar($client)!!}
