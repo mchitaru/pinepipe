@@ -13,7 +13,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
                     <i class="material-icons">{{$icon}}</i>
                 </div>
                 <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
-                    {{__('You have')}} {{count($items)}} {{$text}}
+                    {{__('You have')}} <span class="badge badge-primary mx-1">{{count($items)}}</span> {{$text}}
                 </button>
             </div>
             <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
