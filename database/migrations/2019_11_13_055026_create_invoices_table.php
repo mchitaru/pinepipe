@@ -22,7 +22,9 @@ class CreateInvoicesTable extends Migration
             $table->date('due_date');
             $table->float('discount');
             $table->unsignedInteger('tax_id')->nullable();
-            $table->text('notes')->nullable();
+            $table->string('currency', 3)->nullable();
+            $table->float('rate')->nullable();
+            $table->string('locale', 10)->nullable();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by');
             $table->timestamps();

@@ -27,7 +27,10 @@ class InvoiceStoreRequest extends FormRequest
             'project_id' => 'required|integer',
             'issue_date' => 'required|date',
             'due_date' => 'required|date',
-            'notes' => 'nullable|string'
+            'currency' => 'nullable|string',
+            'rate' => 'nullable|numeric',
+            'locale' => 'required|string',
+            'tax_id' => 'nullable|integer',
         ];
     }
 

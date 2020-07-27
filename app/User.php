@@ -20,6 +20,9 @@ use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
+use Money\Converter;
+use Money\Exchange\FixedExchange;
+
 use App\Traits\Eventable;
 use Illuminate\Support\Str;
 
@@ -432,58 +435,63 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function getTodayTasks($lastStageId)
     {
-        return  \Auth::user()->tasks()
-                                ->where('stage_id', '<', $lastStageId)
-                                ->whereDate('tasks.due_date', '<=', Carbon::now())
-                                ->orderBy('tasks.due_date', 'ASC')
-                                ->get();
+        return  $this->tasks()
+                        ->where('stage_id', '<', $lastStageId)
+                        ->whereDate('tasks.due_date', '<=', Carbon::now())
+                        ->orderBy('tasks.due_date', 'ASC')
+                        ->get();
     }
 
     public function getThisWeekTasks($lastStageId)
     {
-        return  \Auth::user()->tasks()
-                                ->where('stage_id', '<', $lastStageId)
-                                ->whereDate('tasks.due_date', '>=', Carbon::parse('tomorrow'))
-                                ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday this week'))
-                                ->orderBy('tasks.due_date', 'ASC')
-                                ->get();
+        return  $this->tasks()
+                        ->where('stage_id', '<', $lastStageId)
+                        ->whereDate('tasks.due_date', '>=', Carbon::parse('tomorrow'))
+                        ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday this week'))
+                        ->orderBy('tasks.due_date', 'ASC')
+                        ->get();
     }
 
     public function getNextWeekTasks($lastStageId)
     {
-        return  \Auth::user()->tasks()
-                                ->where('stage_id', '<', $lastStageId)
-                                ->whereDate('tasks.due_date', '>=', Carbon::parse('monday next week'))
-                                ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday next week'))
-                                ->orderBy('tasks.due_date', 'ASC')
-                                ->get();
+        return  $this->tasks()
+                        ->where('stage_id', '<', $lastStageId)
+                        ->whereDate('tasks.due_date', '>=', Carbon::parse('monday next week'))
+                        ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday next week'))
+                        ->orderBy('tasks.due_date', 'ASC')
+                        ->get();
     }
 
     public function getTodayEvents()
     {
-        return  \Auth::user()->events()
-                                ->whereDate('events.start', '<=', Carbon::now())
-                                ->whereDate('events.end', '>=', Carbon::now())
-                                ->orderBy('events.end', 'ASC')
-                                ->get();
+        return  $this->events()
+                        ->whereDate('events.start', '<=', Carbon::now())
+                        ->whereDate('events.end', '>=', Carbon::now())
+                        ->orderBy('events.end', 'ASC')
+                        ->get();
     }
 
     public function getThisWeekEvents()
     {
-        return  \Auth::user()->events()
-                                ->whereDate('events.start', '>=', Carbon::parse('tomorrow'))
-                                ->whereDate('events.end', '<=', Carbon::parse('sunday this week'))
-                                ->orderBy('events.end', 'ASC')
-                                ->get();
+        return  $this->events()
+                        ->whereDate('events.start', '>=', Carbon::parse('tomorrow'))
+                        ->whereDate('events.end', '<=', Carbon::parse('sunday this week'))
+                        ->orderBy('events.end', 'ASC')
+                        ->get();
     }
 
     public function getNextWeekEvents()
     {
-        return  \Auth::user()->events()
-                                ->whereDate('events.start', '>=', Carbon::parse('monday next week'))
-                                ->whereDate('events.end', '<=', Carbon::parse('sunday next week'))
-                                ->orderBy('events.end', 'ASC')
-                                ->get();
+        return  $this->events()
+                        ->whereDate('events.start', '>=', Carbon::parse('monday next week'))
+                        ->whereDate('events.end', '<=', Carbon::parse('sunday next week'))
+                        ->orderBy('events.end', 'ASC')
+                        ->get();
+    }
+
+    public function getCurrency()
+    {
+        return $this->companySettings?$this->companySettings->currency:'EUR';
     }
 
     public function user_projects_count()
@@ -985,7 +993,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 'due_date' => Carbon::now()->addDays(30),
                 'discount' => '0',
                 'tax_id' => null,
-                'notes' => null,
                 'user_id' => $id,
                 'created_by'=> $id,
             ]

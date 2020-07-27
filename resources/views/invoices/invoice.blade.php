@@ -2,7 +2,7 @@
             <div class="align-items-center">
                 <div class="float-left">
                     <p><strong>{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}</strong>
-                        {{__('invoice')}}
+                        {{__('invoice', [], $invoice->locale)}}
                         <span class="d-print-none">{!! $invoice->getStatusBadge() !!}</span>
                     </p>
                 </div>
@@ -20,15 +20,12 @@
                         <a class="dropdown-item" href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                             <span>{{__('Add Item')}}</span>
                         </a>
-                        @endcan
-                        @can('edit invoice')
                         <a class="dropdown-item" href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
                             <span>{{__('Add Payment')}}</span>
                         </a>
-                        @endcan
-                        @can('edit invoice')
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
-                            <span>{{__('Edit')}}</span>
+                            <span>{{__('Edit Invoice')}}</span>
                         </a>
                         @endcan
                         <a class="dropdown-item disabled" href="#">
@@ -52,7 +49,7 @@
                             <img width=60 height=60 alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl('thumb'):""}}" data-filter-by="alt"/>
                         </span><br><br>
                         <span class="align-items-center justify-content-center" style="vertical-align: middle;">
-                            <img alt="{{__('Project')}}" width=24 src="{{ asset('assets/img/folder.svg') }}" />
+                            <img alt="{{__('Project', [], $invoice->locale)}}" width=24 src="{{ asset('assets/img/folder.svg') }}" />
                             {{$invoice->project->name }}
                         </span>
                     </address>
@@ -64,8 +61,8 @@
                     <table class="table">
                         <tfoot class="borderless gapless">
                             <tr>
-                                <td class="text-left"><strong>{{__('From')}} : </strong></td>
-                                <td class="text-right"><strong>{{__('To')}}:</strong></td>
+                                <td class="text-left"><strong>{{__('From', [], $invoice->locale)}} : </strong></td>
+                                <td class="text-right"><strong>{{__('To', [], $invoice->locale)}}:</strong></td>
                             </tr>
                             <tr>
                                 @if($companySettings && $companyName)
@@ -89,19 +86,19 @@
                                 <td class="text-right">{{$client->phone}}</td>
                             </tr>
                             <tr>
-                                <td class="text-left">{{($companySettings&&$companySettings->tax)?(__('TAX ID').': '.$companySettings->tax):''}}</td>
-                                <td class="text-right">{{$client->tax?(__('TAX ID').': '.$client->tax):''}}</td>
+                                <td class="text-left">{{($companySettings&&$companySettings->tax)?(__('TAX ID', [], $invoice->locale).': '.$companySettings->tax):''}}</td>
+                                <td class="text-right">{{$client->tax?(__('TAX ID', [], $invoice->locale).': '.$client->tax):''}}</td>
                             </tr>
                             <tr>
-                                <td class="text-left">{{($companySettings&&$companySettings->iban)?(__('IBAN').': '.$companySettings->iban):''}}</td>
+                                <td class="text-left">{{($companySettings&&$companySettings->iban)?(__('IBAN', [], $invoice->locale).': '.$companySettings->iban):''}}</td>
                             </tr>
                         </tfoot>
                     </table>
                     <table class="table">
                         <tfoot class="borderless gapless">
                             <tr>
-                                <td class="text-left"><strong>{{__('Issue Date')}}:</strong></td>
-                                <td class="text-right"><strong>{{__('Due Date')}}:</strong></td>
+                                <td class="text-left"><strong>{{__('Issue Date', [], $invoice->locale)}}:</strong></td>
+                                <td class="text-right"><strong>{{__('Due Date', [], $invoice->locale)}}:</strong></td>
                             </tr>
                             <tr>
                                 <td class="text-left">{{ AUth::user()->dateFormat($invoice->issue_date) }}</td>
@@ -113,7 +110,7 @@
             </div>
             <hr>
             <div class="pl-4 pr-4">
-                <div class="section-title"><b>{{__('Order Summary')}}</b>
+                <div class="section-title"><b>{{__('Order Summary', [], $invoice->locale)}}</b>
                     @can('edit invoice')
                     <div class="text-right d-print-none">
                         <a href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
@@ -127,10 +124,10 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>#</th>
-                                <th class="text-left">{{__('Item')}}</th>
-                                <th class="text-right">{{__('Quantity')}}</th>
-                                <th class="text-right">{{__('Price')}}</th>
-                                <th class="text-right">{{__('Total')}}</th>
+                                <th class="text-left">{{__('Item', [], $invoice->locale)}}</th>
+                                <th class="text-right">{{__('Quantity', [], $invoice->locale)}}</th>
+                                <th class="text-right">{{__('Price', [], $invoice->locale)}}</th>
+                                <th class="text-right">{{__('Total', [], $invoice->locale)}}</th>
                                 <th class="text-right d-print-none pl-0 pr-0"></th>
                             </tr>
                         </thead>
@@ -149,10 +146,10 @@
                                     {{number_format($item->quantity, 2)}}
                                 </td>
                                 <td class="text-right">
-                                    {!! htmlentities(Auth::user()->priceFormat($item->price), ENT_COMPAT, 'UTF-8') !!}
+                                    {!! htmlentities($invoice->priceFormat($item->price), ENT_COMPAT, 'UTF-8') !!}
                                 </td>
                                 <td class="text-right">
-                                    {!! htmlentities(Auth::user()->priceFormat($item->quantity * $item->price), ENT_COMPAT, 'UTF-8') !!}
+                                    {!! htmlentities($invoice->priceFormat($item->quantity * $item->price), ENT_COMPAT, 'UTF-8') !!}
                                 </td>
                                 @can('edit invoice')
                                 <td class="table-actions text-right d-print-none pl-0 pr-0">
@@ -185,8 +182,8 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th class="text-muted text-right"><span>{{__('Subtotal')}}</span></th>
-                                <th class="text-right"><span class="text-muted">{!! htmlentities(Auth::user()->priceFormat($subTotal), ENT_COMPAT, 'UTF-8') !!}</span></th>
+                                <th class="text-muted text-right"><span>{{__('Subtotal', [], $invoice->locale)}}</span></th>
+                                <th class="text-right"><span class="text-muted">{!! htmlentities($invoice->priceFormat($subTotal), ENT_COMPAT, 'UTF-8') !!}</span></th>
                                 <th class="d-print-none"></th>
                             </tr>
                             @if($invoice->discount > 0)
@@ -194,7 +191,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-small text-right"><span>{{__('Discount')}}</span></td>
+                                <td class="text-small text-right"><span>{{__('Discount', [], $invoice->locale)}}</span></td>
                                 <td class="text-small text-right"><span class="text-muted">{{$invoice->discount}}%</span></td>
                                 <td class="d-print-none"></td>
                             </tr>
@@ -203,16 +200,16 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:'Tax')}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span></td>
-                                <td class="text-small text-right"><span class="text-muted">{!! htmlentities(Auth::user()->priceFormat($tax), ENT_COMPAT, 'UTF-8') !!}</span></td>
+                                <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:__('Tax', [], $invoice->locale))}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span></td>
+                                <td class="text-small text-right"><span class="text-muted">{!! htmlentities($invoice->priceFormat($tax), ENT_COMPAT, 'UTF-8') !!}</span></td>
                                 <td class="d-print-none"></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <th class="text-right"><span><h5>{{__('Total')}}</h5></span></th>
-                                <th class="text-right"><h5>{!! htmlentities(Auth::user()->priceFormat($subTotal-$invoice->discount+$tax), ENT_COMPAT, 'UTF-8') !!}</h5></th>
+                                <th class="text-right"><span><h5>{{__('Total', [], $invoice->locale)}}</h5></span></th>
+                                <th class="text-right"><h5>{!! htmlentities($invoice->priceFormat($subTotal-$invoice->discount+$tax), ENT_COMPAT, 'UTF-8') !!}</h5></th>
                                 <th class="d-print-none"></th>
                             </tr>
                         </tfoot>
@@ -222,7 +219,7 @@
             <div class="d-print-none">
                 <hr>
                 <div class="pl-4 pr-4">
-                    <div class="section-title"><b>{{__('Payment History')}}</b>
+                    <div class="section-title"><b>{{__('Payment History', [], $invoice->locale)}}</b>
                         @can('edit invoice')
                         <div class="text-right d-print-none">
                             <a href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
@@ -236,10 +233,10 @@
                         <table class="table table-md table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>{{__('Transaction')}}</th>
-                                    <th class="text-left">{{__('Date')}}</th>
-                                    <th class="text-right">{{__('Method')}}</th>
-                                    <th class="text-right">{{__('Amount')}}</th>
+                                    <th>{{__('Transaction', [], $invoice->locale)}}</th>
+                                    <th class="text-left">{{__('Date', [], $invoice->locale)}}</th>
+                                    <th class="text-right">{{__('Method', [], $invoice->locale)}}</th>
+                                    <th class="text-right">{{__('Amount', [], $invoice->locale)}}</th>
                                     <th class="text-right d-print-none pl-0 pr-0"></th>
                                 </tr>
                             </thead>
@@ -257,7 +254,7 @@
                                         {{($payment->category?$payment->category->name:'')}}
                                     </td>
                                     <td class="text-right">
-                                        {!! htmlentities(Auth::user()->priceFormat($payment->amount), ENT_COMPAT, 'UTF-8') !!}
+                                        {!! htmlentities($invoice->priceFormat($payment->amount), ENT_COMPAT, 'UTF-8') !!}
                                     </td>
                                     @can('edit invoice')
                                     <td class="table-actions text-right pl-0 pr-0 d-print-none">
@@ -285,8 +282,8 @@
                                 <tr>
                                     <th></th>
                                     <th></th>
-                                    <th class="text-muted text-right"><span>{{__('Total Due')}}</span></th>
-                                    <th class="text-right"><span class="text-muted">{!! htmlentities(Auth::user()->priceFormat($invoice->getDue()), ENT_COMPAT, 'UTF-8') !!}</span></th>
+                                    <th class="text-muted text-right"><span>{{__('Total Due', [], $invoice->locale)}}</span></th>
+                                    <th class="text-right"><span class="text-muted">{!! htmlentities($invoice->priceFormat($invoice->getDue()), ENT_COMPAT, 'UTF-8') !!}</span></th>
                                     </tr>
                             </tfoot>
                         </table>

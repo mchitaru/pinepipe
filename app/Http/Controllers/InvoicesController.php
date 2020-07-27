@@ -23,6 +23,9 @@ use App\Http\Requests\InvoiceStoreRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
 use App\Http\Requests\InvoiceDestroyRequest;
 
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
+
 class InvoicesController extends Controller
 {
     public function index(Request $request)
@@ -100,7 +103,16 @@ class InvoicesController extends Controller
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-            return view('invoices.create', compact('projects', 'project_id', 'taxes'));
+            $locales = ['en' => 'English', 'ro' => 'Română'];
+
+            $currencies = [];
+            $isoCurrencies = new ISOCurrencies();
+
+            foreach ($isoCurrencies as $currency) {
+                $currencies[$currency->getCode()] = $currency->getCode();
+            }
+
+            return view('invoices.create', compact('projects', 'project_id', 'taxes', 'locales', 'currencies'));
         }
         else
         {
@@ -122,48 +134,16 @@ class InvoicesController extends Controller
 
     public function show(Invoice $invoice)
     {
-        if(\Auth::user()->can('view invoice') || \Auth::user()->type == 'client')
+        if((\Auth::user()->can('view invoice') || \Auth::user()->type == 'client') &&
+            ($invoice->created_by == \Auth::user()->creatorId()))
         {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $companySettings = \Auth::user()->companySettings;
-                $companyName = $companySettings ? $companySettings->name : null;
-                $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+            $companySettings = \Auth::user()->companySettings;
+            $companyName = $companySettings ? $companySettings->name : null;
+            $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
-                $client   = $invoice->project->client;
+            $client   = $invoice->project->client;
 
-                return view('invoices.show', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
-            }
-            else
-            {
-                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-            }
-        }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-        }
-    }
-
-    public function pdf(Invoice $invoice)
-    {
-        if(\Auth::user()->can('view invoice') || \Auth::user()->type == 'client')
-        {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $companySettings = \Auth::user()->companySettings;
-                $companyName = $companySettings ? $companySettings->name : null;
-                $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
-
-                $client   = $invoice->project->client;
-
-                $pdf = \PDF::loadView('invoices.pdf', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
-                return $pdf->download(Auth::user()->invoiceNumberFormat($invoice->invoice_id).'.pdf');
-            }
-            else
-            {
-                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
-            }
+            return view('invoices.show', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
         }
         else
         {
@@ -173,19 +153,23 @@ class InvoicesController extends Controller
 
     public function edit(Invoice $invoice)
     {
-        if(\Auth::user()->can('edit invoice'))
+        if(\Auth::user()->can('edit invoice') && 
+            ($invoice->created_by == \Auth::user()->creatorId()))
         {
-            if($invoice->created_by == \Auth::user()->creatorId())
-            {
-                $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
+            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-                return view('invoices.edit', compact('invoice', 'projects', 'taxes'));
+            $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
+            $locales = ['en' => 'English', 'ro' => 'Română'];
+
+            $currencies = [];
+            $isoCurrencies = new ISOCurrencies();
+
+            foreach ($isoCurrencies as $currency) {
+                $currencies[$currency->getCode()] = $currency->getCode();
             }
-            else
-            {
-                return response()->json(['error' => __('Permission denied.')], 401);
-            }
+
+            return view('invoices.edit', compact('invoice', 'projects', 'taxes', 'locales', 'currencies'));
         }
         else
         {
@@ -221,4 +205,29 @@ class InvoicesController extends Controller
         return Redirect::to(URL::previous())->with('success', __('Invoice successfully deleted.'));
     }
 
+    public function pdf(Invoice $invoice)
+    {
+        if(\Auth::user()->can('view invoice') || \Auth::user()->type == 'client')
+        {
+            if($invoice->created_by == \Auth::user()->creatorId())
+            {
+                $companySettings = \Auth::user()->companySettings;
+                $companyName = $companySettings ? $companySettings->name : null;
+                $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+
+                $client   = $invoice->project->client;
+
+                $pdf = \PDF::loadView('invoices.pdf', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
+                return $pdf->download(Auth::user()->invoiceNumberFormat($invoice->invoice_id).'.pdf');
+            }
+            else
+            {
+                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            }
+        }
+        else
+        {
+            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+        }
+    }
 }

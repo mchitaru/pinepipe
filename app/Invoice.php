@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
 
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
+use Money\Formatter\IntlMoneyFormatter;
+use Money\Money;
+
 class Invoice extends Model
 {
     use NullableFields, Taggable;
@@ -18,14 +23,15 @@ class Invoice extends Model
         'due_date',
         'discount',
         'tax_id',
-        'notes',
         'user_id',
+        'currency',
+        'rate',
+        'locale',
         'created_by'
     ];
 
     protected $nullable = [
         'tax_id',
-        'notes'
     ];
 
     public static $SEED = 10;
@@ -45,7 +51,7 @@ class Invoice extends Model
         'badge-success',
         'badge-light',
     ];
-
+    
     /**
      * Boot events
      * @return void
@@ -144,6 +150,16 @@ class Invoice extends Model
         return '<span class="badge '.Invoice::$badge[$this->status].'">'.__(Invoice::translateStatus($this->status)).'</span>';
     }
 
+    public function getCurrency()
+    {
+        return $this->currency?$this->currency:(\Auth::user()->companySettings?\Auth::user()->companySettings->currency:'EUR');
+    }
+
+    public function getLocale()
+    {
+        return $this->locale?$this->locale:\Auth::user()->locale;
+    }
+
     static function translateStatus($status)
     {
         switch($status)
@@ -200,4 +216,17 @@ class Invoice extends Model
         Activity::updateInvoice($this);
     }
 
+    public function priceFormat($price)
+    {
+        $currency = $this->getCurrency();
+
+        $money = new Money((int)\Helpers::ceil($price * 100), new Currency($currency));
+        $currencies = new ISOCurrencies();
+
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
+
+        return $moneyFormatter->format($money);
+
+    }
 }
