@@ -29,7 +29,7 @@
         {{ Form::number('discount',null, array('class' => 'form-control col', 'required'=>'required', 'min'=>"0")) }}
     </div>
     <div class="form-group row">
-        {{ Form::label('tax_id', __('Tax %'), array('class'=>'col-3')) }}
+        {{ Form::label('tax_id', __('Tax'), array('class'=>'col-3')) }}
         {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'placeholder'=>__('No Tax'), 'lang'=>\Auth::user()->locale)) }}
     </div>
     {{-- <div class="form-group row">

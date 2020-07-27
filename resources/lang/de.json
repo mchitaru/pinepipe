@@ -250,7 +250,6 @@
     "Create Invoice": "",
     "Issue Date": "",
     "Due Date": "",
-    "Tax %": "",
     "Edit Invoice": "",
     "Discount(%)": "",
     "Due": "",
@@ -731,5 +730,6 @@
     "New task notification": "",
     "You have been assigned a new task": "",
     "You have been assigned the <b>:task<\/b> task.": "",
-    "View tasks": ""
+    "View tasks": "",
+    "Tax": ""
 }

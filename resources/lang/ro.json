@@ -251,7 +251,6 @@
     "Create Invoice": "Adaugă factură",
     "Issue Date": "Data emiterii",
     "Due Date": "Data limită",
-    "Tax %": "Procent taxă",
     "Edit Invoice": "Modifică factura",
     "Discount(%)": "Reducere(%)",
     "Due": "Scadent",
@@ -631,7 +630,7 @@
     "Filter projects": "Filtrează proiectele",
     "Filter activity": "Filtrează activitatea",
     "Enter Contact Address": "Introdu adresa de contact",
-    "No Tax": "Nici o taxă",
+    "No Tax": "Fără taxă",
     "Lead name": "Denumire oportunitate",
     "Lead Value": "Valoare oportunitate",
     "Filter events": "Filtrează evenimentele",
@@ -702,6 +701,7 @@
     "You have <b>:count<\/b> overdue task(s).": "Ai <b>:count<\/b> sarcini întârziate",
     "New task notification": "Notificare sarcină nouă",
     "You have been assigned a new task": "Ai primit o sarcină nouă",
-    "You have been assigned the <b>:task<\/b> task.": "Ți-a fost atribuită sarcina <b>:task</b>.",
-    "View tasks": "Vezi sarcini"
+    "You have been assigned the <b>:task<\/b> task.": "Ți-a fost atribuită sarcina <b>:task<\/b>.",
+    "View tasks": "Vezi sarcini",
+    "Tax": "Taxă"
 }
