@@ -80,6 +80,7 @@ class DashboardController extends Controller
                                                 ->orWhereDate('due_date', '=', Carbon::now());
                                     })
                                     ->orderBy('priority', 'ASC')
+                                    ->orderBy('due_date', 'ASC')
                                     ->get();
 
             clock()->endEvent('DashboardController');
