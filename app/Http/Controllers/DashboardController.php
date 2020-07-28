@@ -108,6 +108,7 @@ class DashboardController extends Controller
                                     ->where('created_by', '=', \Auth::user()->creatorId())
                                     ->where('status', '<', '3')
                                     ->orderBy('due_date', 'ASC')
+                                    ->orderBy('due_date', 'ASC')
                                     ->get();
 
             $tasks = \Auth::user()->tasks()
@@ -146,6 +147,7 @@ class DashboardController extends Controller
                                             ->orWhereDate('due_date', '=', Carbon::now());
                                 })
                                 ->orderBy('priority', 'ASC')
+                                ->orderBy('due_date', 'ASC')
                                 ->get();
 
         clock()->endEvent('DashboardController');
