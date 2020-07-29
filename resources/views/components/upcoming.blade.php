@@ -23,9 +23,23 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
             @foreach($tasks as $key => $task)
             @php
                 $due = Carbon::parse($task->due_date);
+
+                $total_subtask = $task->getTotalChecklistCount();
+                $completed_subtask = $task->getCompleteChecklistCount();
+
+                $task_percentage=0;
+                if($total_subtask!=0){
+                    $task_percentage = intval(($completed_subtask / $total_subtask) * 100);
+                }
+
+                $label = 'bg-'.Helpers::getProgressColor($task_percentage);
+
             @endphp
             <div class="card card-task">
-                <div class="card-body p-2">
+                <div class="progress">
+                    <div class="progress-bar task-progress-{{$task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="card-body">
                     <div class="card-title">
                         <a href="{{ route('tasks.show', $task->id) }}" data-remote="true" data-type="text">
                             <h6 data-filter-by="text">{{$task->title}}</h6>
@@ -62,7 +76,7 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
             {{-- events --}}
             @foreach($events as $key => $event)
             <div class="card card-task">
-                <div class="card-body p-2">
+                <div class="card-body">
                     <div class="card-title">
                         <a href="{{ route('events.edit', $event->id) }}" data-remote="true" data-type="text">
                             <h6 data-filter-by="text">{{$event->name}}</h6>

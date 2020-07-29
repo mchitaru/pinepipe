@@ -8,7 +8,7 @@
                 {!!Helpers::buildClientAvatar($client)!!}
             </a>
         </div>
-        <div class="card-body p-2 pl-5">
+        <div class="card-body pl-5">
             <div class="card-title col-xs-12 col-sm-4">
                 @if(Gate::check('view client'))
                 <a href="{{ route('clients.show',$client->id) }}">

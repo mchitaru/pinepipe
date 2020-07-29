@@ -9,7 +9,7 @@ use Carbon\Carbon;
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
         </div>
-        <div class="card-body p-2">
+        <div class="card-body">
             <div class="card-title col-xs-12 col-sm-3">
                 @if(Gate::check('edit event'))
                 <a href="{{ route('events.edit', $event->id) }}" data-remote="true" data-type="text">

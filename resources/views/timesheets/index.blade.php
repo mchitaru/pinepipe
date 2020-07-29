@@ -2,8 +2,8 @@
 
 @foreach($timesheets as $timesheet)
 
-<div class="card card-task mb-1">
-    <div class="card-body p-2">
+<div class="card card-task">
+    <div class="card-body">
     <div class="card-title col-xs-12 col-sm-3">
         @if(Gate::check('edit timesheet'))
         <a href="{{ route('timesheets.edit',$timesheet->id) }}" data-remote="true" data-type="text">

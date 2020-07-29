@@ -5,11 +5,11 @@ use Carbon\Carbon;
 @endphp
 
 @foreach ($expenses as $expense)
-<div class="card card-task mb-1">
+<div class="card card-task">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
         </div>
-        <div class="card-body p-2">
+        <div class="card-body">
             <div class="card-title col-sm-3">
                 @if(Gate::check('edit expense'))
                     <a href="{{ route('expenses.edit',$expense->id) }}" data-remote="true" data-type="text">

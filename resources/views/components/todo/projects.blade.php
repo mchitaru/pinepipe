@@ -32,7 +32,7 @@ $last_stage = \Auth::user()->getLastTaskStage();
                     <div class="progress-bar bg-{{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
-                <div class="card-body p-2">
+                <div class="card-body">
                     <div class="card-title col-xs-12 col-sm-4">
 
                         @if(Gate::check('view project'))

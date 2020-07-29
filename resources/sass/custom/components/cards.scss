@@ -96,7 +96,7 @@
 
 .card-task{
   .card-body{
-    padding: 1.25rem;
+    padding: 0.75rem;
   }
   .card-meta{
     display: flex;
@@ -106,6 +106,8 @@
       margin-right: $spacer/6;
     }
   }
+
+  margin-bottom: .375rem!important;
 }
 
 @include media-breakpoint-up(xl) {
