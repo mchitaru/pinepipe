@@ -33,7 +33,7 @@
   > .kanban-col{
     user-select: none;
     flex: 1 0 auto;
-    width: calc(100vw - 24px);
+    width: calc(100vw - 1rem);
     max-height: 100%;
     padding-right: $spacer/2;
     padding-bottom: $spacer/2;
@@ -61,7 +61,7 @@
     .card-list-body{
       user-select: none;
       overflow-y: scroll;
-      @extend .no-scroll-bars;
+        // @extend .no-scroll-bars;
     }
     .card-list-footer{
       padding-top: $spacer/2;
