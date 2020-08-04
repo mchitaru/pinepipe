@@ -7,26 +7,6 @@
 
 // Colors
 
-$primary:       lighten($primary, 10%);
-$secondary:     $gray-600;
-$success:       $green;
-$info:          $cyan;
-$warning:       lighten($yellow, 20%);
-$danger:        lighten($red, 10%);
-$light:         $gray-100;
-$dark:          $gray-800;
-
-$theme-colors: (
-  "primary":    $primary,
-  "secondary":  $secondary,
-  "success":    $success,
-  "info":       $info,
-  "warning":    $warning,
-  "danger":     $danger,
-  "light":      $light,
-  "dark":       $dark
-);
-
 $user-link-color:                              darken($primary, 20%);
 $user-link-decoration:                         none;
 $user-link-hover-color:                        lighten($user-link-color, 10%);

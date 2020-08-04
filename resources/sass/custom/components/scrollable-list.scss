@@ -35,7 +35,7 @@
         min-height:25vh;
         user-select: none;
         overflow-y: scroll;
-        @extend .no-scroll-bars;
+        // @extend .no-scroll-bars;
     }
     .card-list-footer{
         padding-top: $spacer/2;

@@ -202,11 +202,14 @@
 .card-list{
   margin-bottom: $spacer/2;
   border-radius: $border-radius*2;
+  // border-width: $border-width;
+  // border-style: solid;
+  // border-color: $border-color;
   padding: 1rem;
   background: $gray-200;
-  .card{
-    border: none;
-  }
+  // .card{
+  //   border: none;
+  // }
   .card-list-head{
     display: flex;
     justify-content: space-between;
