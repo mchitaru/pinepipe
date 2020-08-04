@@ -3,13 +3,12 @@ use App\Project;
 use Carbon\Carbon;
 
 $stage_done = \Auth::user()->getLastTaskStage()->id;
-$count = count($tasks) + count($events);
 @endphp
 
 <div class="scrollable-list col-lg-4 col-md-12" style="max-height:50vh">
     <div class="card-list">
         <div class="card-list-head">
-        <h5>{{__($title)}} <span class="badge badge-{{$count ? 'warning':'light'}}">{{$count}}</span></h5>
+        <h6>{{__($title)}} <span class="badge badge-primary">{{count($tasks) + count($events)}}</span></h6>
         {{-- <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$title}}">
             <i class="material-icons">more_horiz</i>
         </button> --}}
