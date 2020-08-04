@@ -27,6 +27,7 @@
         }
     }
     &.card-list-body{
+        overflow-y: scroll;
         &:after{
             background: none;
         }

@@ -11,7 +11,7 @@ html { font-size: 93%; }
 }
 
 *::-webkit-scrollbar {
-  width: 1rem;
+  width: 0.5rem;
 }
 /* Track */
 
@@ -24,7 +24,7 @@ html { font-size: 93%; }
   background: $gray-300;
   -webkit-box-shadow: none;
   border-radius: 20px;
-  border: 0.25rem solid $gray-200;
+  border: 0.1rem solid $gray-200;
 }
 
 *::-webkit-scrollbar-thumb:window-inactive {
@@ -210,7 +210,8 @@ a.card{
 
 .card-list {
     padding: 0.5rem;
-}
+    padding-right: 0;
+  }
 
 .card-list-header {
     padding-left: 0.5rem;

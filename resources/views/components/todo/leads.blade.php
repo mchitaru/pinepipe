@@ -15,7 +15,7 @@ use Carbon\Carbon;
                 </button>
             </div>
             <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
-                <i class="material-icons">more_horiz</i>
+                <i class="material-icons">expand_more</i>
             </button>
         </div>
         <div class="card-list-body collapse" id="{{$type}}">

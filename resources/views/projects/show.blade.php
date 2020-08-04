@@ -89,7 +89,7 @@ $(function() {
                 </div>
                 <div class="dropdown">
                     <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
-                      <i class="material-icons">expand_more</i>
+                      <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         @can('view task')
