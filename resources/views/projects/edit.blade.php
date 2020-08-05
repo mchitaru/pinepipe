@@ -42,12 +42,12 @@
     <h6>{{__('Timeline')}}</h6>
     <div class="form-group row align-items-center">
         {{ Form::label('start_date', __('Start Date'), array('class'=>'col-3')) }}
-        {{ Form::date('start_date', '', array('class' => 'start form-control col', 'placeholder'=>'...',
+        {{ Form::date('start_date', null, array('class' => 'start form-control col', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $start_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-        {{ Form::date('due_date', '', array('class' => 'end form-control col', 'placeholder'=>'...',
+        {{ Form::date('due_date', null, array('class' => 'end form-control col', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
 </div>

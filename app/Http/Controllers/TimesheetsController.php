@@ -34,11 +34,13 @@ class TimesheetsController extends Controller
     {
         $project_id = $request['project_id'];
 
+        $date = $request->date ? $request->date : date('Y-m-d');
+
         $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
         $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
 
-        return view('timesheets.create', compact('projects', 'project_id', 'tasks'));
+        return view('timesheets.create', compact('projects', 'project_id', 'tasks', 'date'));
     }
 
     /**
@@ -75,8 +77,10 @@ class TimesheetsController extends Controller
      * @param  \App\Timesheet  $timesheet
      * @return \Illuminate\Http\Response
      */
-    public function edit(Timesheet $timesheet)
+    public function edit(Request $request, Timesheet $timesheet)
     {
+        $date = $request->date;
+
         $project    = $timesheet->project;
         $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
@@ -90,7 +94,7 @@ class TimesheetsController extends Controller
             $tasks   = [];
         }
 
-        return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id'));
+        return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id', 'date'));
     }
 
     /**
@@ -138,7 +142,7 @@ class TimesheetsController extends Controller
             $timesheet = Timesheet::find($timesheet_id);
             $timesheet->project_id = $request['project_id'];
 
-            return $this->edit($timesheet);
+            return $this->edit($request, $timesheet);
         }
 
         return $this->create($request);

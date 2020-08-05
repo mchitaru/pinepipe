@@ -79,6 +79,9 @@ class ProjectsController extends Controller
         $client_id = $request['client_id'];
         $lead_id = $request['lead_id'];
 
+        $start_date = $request->start_date;
+        $due_date = $request->due_date;
+
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
@@ -119,7 +122,7 @@ class ProjectsController extends Controller
                                 ->pluck('name', 'id');
         }
 
-        return view('projects.create', compact('clients', 'users', 'user_id', 'leads', 'client_id', 'lead_id'));
+        return view('projects.create', compact('clients', 'users', 'user_id', 'leads', 'client_id', 'lead_id', 'start_date', 'due_date'));
     }
 
 
@@ -171,6 +174,9 @@ class ProjectsController extends Controller
 
     public function edit(Request $request, Project $project)
     {
+        $start_date = $request->start_date?$request->start_date:$project->start_date;
+        $due_date = $request->due_date?$request->due_date:$project->due_date;
+
         $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
@@ -202,9 +208,6 @@ class ProjectsController extends Controller
         }
                         
         $user_id = $project->users()->get()->pluck('id');
-
-        $start_date = $project->start_date;
-        $due_date = $project->due_date;
 
         return view('projects.edit', compact('project', 'clients', 'user_id', 'users', 'leads', 'start_date', 'due_date'));
     }
