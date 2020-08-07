@@ -159,6 +159,7 @@ Route::group(
         Route::post('tasks/{task}/subtasks/order', 'TaskChecklistController@order')->name('tasks.subtask.order');
 
         //Invoices
+        Route::get('invoices/{invoice}/refresh', 'InvoicesController@refresh')->name('invoices.refresh');
         Route::get('invoices/{invoice}/pdf', 'InvoicesController@pdf')->name('invoices.pdf');
         Route::resource('invoices', 'InvoicesController');
 

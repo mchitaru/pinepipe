@@ -15,7 +15,7 @@
             {{ Form::label('name', __('Title'), array('class'=>'col-3')) }}
             {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>__('Call with Client'), 'required'=>'required')) }}
         </div>
-        <div class="form-group row required">
+        <div class="form-group row  align-items-center required">
             {{ Form::label('users', __('Atendees'), array('class'=>'col-3')) }}
             {!! Form::select('users[]', $users, \Auth::user()->id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required', 'lang'=>\Auth::user()->locale)) !!}
         </div>

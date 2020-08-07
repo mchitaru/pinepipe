@@ -6,10 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
 
+use App\CompanySettings;
+
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
+use Money\Converter;
+use Money\Exchange\FixedExchange;
+
+use App\Currency as CurrencyRate;
 
 class Invoice extends Model
 {
@@ -152,7 +158,7 @@ class Invoice extends Model
 
     public function getCurrency()
     {
-        return $this->currency?$this->currency:(\Auth::user()->companySettings?\Auth::user()->companySettings->currency:'EUR');
+        return $this->currency?$this->currency:(\Auth::user()->companySettings ? \Auth::user()->companySettings->currency : CompanySettings::$DEFAULT_CURRENCY);
     }
 
     public function getLocale()
@@ -217,16 +223,8 @@ class Invoice extends Model
     }
 
     public function priceFormat($price)
-    {
-        $currency = $this->getCurrency();
-
-        $money = new Money((int)\Helpers::ceil($price * 100), new Currency($currency));
-        $currencies = new ISOCurrencies();
-
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
-
-        return $moneyFormatter->format($money);
+    {        
+        return \Helpers::priceFormat($price, $this->getCurrency());
 
     }
 }

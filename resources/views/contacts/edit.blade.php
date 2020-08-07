@@ -15,11 +15,11 @@
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
         {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Enter Contact Name'),'required'=>'required'))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
         {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('Enter Contact Email')))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}
         {{Form::text('phone',null,array('class'=>'form-control col','placeholder'=>__('Enter Contact Phone Number')))}}
     </div>
@@ -27,15 +27,15 @@
         {{ Form::label('address', __('Address'), array('class'=>'col-3')) }}
         {!!Form::textarea('address', null, ['class'=>'form-control col','rows'=>'2', 'placeholder'=>__('Enter Contact Address')]) !!}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('website',__('Website'), array('class'=>'col-3'))}}
         {{Form::text('website',null,array('class'=>'form-control col','placeholder'=>__('Enter Contact Website')))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('job',__('Job Title'), array('class'=>'col-3'))}}
         {{Form::text('job',null,array('class'=>'form-control col','placeholder'=>__('Enter Contact Job Title')))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('birthday', __('Birthday'), array('class'=>'col-3')) }}
         {{ Form::date('birthday', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...', 
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
@@ -50,7 +50,7 @@
     </div>
     <hr>
     <h6>{{__('Attach')}}</h6>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, null,array('class' => 'form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>

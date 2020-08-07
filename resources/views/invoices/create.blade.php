@@ -14,19 +14,30 @@
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
         {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}
         {{ Form::date('issue_date', null, array('class' => 'start form-control col','required'=>'required', 'placeholder'=>'...',
-                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $issue_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
         {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...', 
-                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d', strtotime("+1 months", strtotime(date("Y-m-d")))), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
+                                            'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
+        {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
+        {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col', 
+                            'data-refresh'=>route('invoices.refresh', '0'), 'lang'=>\Auth::user()->locale)) !!}
+        @if($currency != \Auth::user()->getCurrency())
+        {{Form::label('rate',__('Exchange Rate'), array('class'=>'col-3')) }}
+        {!! Form::text('rate', $rate, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
+        @else
+        {!! Form::hidden('rate', 1.0) !!}
+        @endif
+    </div>
+    <div class="form-group row align-items-center">
         {{Form::label('locale',__('Language'), array('class'=>'col-3')) }}
-        {!! Form::select('locale', $locales, $_user->locale, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
+        {!! Form::select('locale', $locales, $locale, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
     </div>    
 </div>
 @include('partials.errors')

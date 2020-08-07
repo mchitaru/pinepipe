@@ -14,6 +14,8 @@ class CompanySettings extends Model implements HasMedia
 {
     use NullableFields, HasMediaTrait;
 
+    public static $DEFAULT_CURRENCY = 'EUR';
+
     protected $fillable = [
         'name',
         'email',

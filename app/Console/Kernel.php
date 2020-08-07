@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use App\Jobs\PeriodicSynchronizationsJob;
+use App\Jobs\CurrencyRatesJob;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,9 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('queue:work --queue=default --tries=1 --timeout=40 --stop-when-empty')->everyMinute();
+        $schedule->command('queue:work --queue=default --tries=1 --timeout=60 --stop-when-empty')->everyMinute();
         $schedule->job(new PeriodicSynchronizationsJob())->everyFifteenMinutes();
         // $schedule->command('event:reminders')->everyMinute()->withoutOverlapping(5);
+        $schedule->job(new CurrencyRatesJob())->daily();
         $schedule->command('app:dailyreminders')->daily();
 
         // $schedule->command('inspire')

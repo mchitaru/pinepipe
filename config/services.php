@@ -61,4 +61,9 @@ return [
         // Enables incremental scopes (useful if in the future we need access to another type of data).
         'include_granted_scopes' => true,
     ],    
+
+    'open_exchange' => [
+        'app_id' => env('OPEN_EXCHANGE_APP_ID'),
+    ],    
+
 ];

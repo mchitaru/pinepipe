@@ -185,8 +185,8 @@
     "Enter Contact Email": "Introdu adresa de email a contactului",
     "Enter Contact Phone Number": "Introdu numărul de telefon al contactului",
     "Enter Contact Website": "Introdu website-ul contactului",
-    "Job Title": "Denumirea funcției",
-    "Enter Contact Job Title": "Introdu denumirea funcției contactului",
+    "Job Title": "Funcția",
+    "Enter Contact Job Title": "Introdu funcția contactului",
     "Birthday": "Ziua de naștere",
     "Notes": "Notițe",
     "New Contact": "Contact nou",
@@ -408,7 +408,7 @@
     "Enter User Password": "Introdu parola utilizatorului",
     "Edit User": "Modifică utilizator",
     "Deleted": "Șters",
-    "Company Name *": "denumire companie",
+    "Company Name *": "Denumire companie",
     "Company Email *": "Adresă de email companie",
     "City": "Oraș",
     "State": "Stat",
@@ -703,5 +703,6 @@
     "You have been assigned a new task": "Ai primit o sarcină nouă",
     "You have been assigned the <b>:task<\/b> task.": "Ți-a fost atribuită sarcina <b>:task<\/b>.",
     "View tasks": "Vezi sarcini",
-    "Tax": "Taxă"
+    "Tax": "Taxă",
+    "Exchange Rate": "Schimb valutar"
 }

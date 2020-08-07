@@ -13,8 +13,7 @@ use App\Http\Requests\UserProfileDestroyRequest;
 use App\Http\Requests\UserUnsubscribeRequest;
 use Illuminate\Support\Facades\Hash;
 
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
+use App\Currency;
 
 class UserProfileController extends Controller
 {
@@ -43,12 +42,7 @@ class UserProfileController extends Controller
             $companyName = $companySettings ? $companySettings->name : null;
             $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
-            $currencies = [];
-            $isoCurrencies = new ISOCurrencies();
-
-            foreach ($isoCurrencies as $currency) {
-                $currencies[$currency->getCode()] = $currency->getCode();
-            }
+            $currencies = Currency::get()->pluck('code', 'code');
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
 

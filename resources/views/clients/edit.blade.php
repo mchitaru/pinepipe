@@ -41,11 +41,11 @@
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
         {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('Pinepipe'),'required'=>'required'))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
         {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('team@pinepipe.com')))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}
         {{Form::text('phone',null,array('class'=>'form-control col','placeholder'=>__('(800) 613-1303')))}}
     </div>
@@ -53,11 +53,11 @@
         {{ Form::label('address', __('Address'), array('class'=>'col-3')) }}
         {!!Form::textarea('address', null, ['class'=>'form-control col','rows'=>'2', 'placeholder'=>__('101 California Street')]) !!}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('website',__('Website'), array('class'=>'col-3'))}}
         {{Form::text('website',null,array('class'=>'form-control col','placeholder'=>__('https://pinepipe.com/')))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('tax',__('Tax ID'), array('class'=>'col-3'))}}
         {{Form::text('tax',null,array('class'=>'form-control col','placeholder'=>'#'))}}
     </div>

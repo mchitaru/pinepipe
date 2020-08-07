@@ -1,10 +1,11 @@
 @extends('layouts.modal')
 
 @php
-    $isTimesheet = (empty(session('type')) || session('type') == 'timesheet');
-    $isTask = (session('type') == 'task');
-    $isExpense = (session('type') == 'expense');
-    $isOther = (session('type') == 'other');
+    $isTask = ($type == 'task');
+    $isExpense = ($type == 'expense');
+    $isOther = ($type == 'other');
+
+    $isTimesheet = ($type == 'timesheet') || (!$isTask && !$isExpense && !$isOther);
 @endphp
 
 @section('form-start')
@@ -37,9 +38,9 @@
 
           <div id="collapseOne" class="collapse {{$isTimesheet?'show':''}}" aria-labelledby="headingOne" data-parent="#productAccordion">
             <div class="card-body">
-                <div class="form-group row">
+                <div class="form-group row align-items-center">
                     {{ Form::label('timesheet_id', __('Timesheet'), array('class'=>'col-3')) }}
-                    {!! Form::select('timesheet_id', $timesheets, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
+                    {!! Form::select('timesheet_id', $timesheets, $timesheet_id, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
                                         'data-refresh'=>route('invoices.items.refresh', $invoice->id), 'lang'=>\Auth::user()->locale)) !!}
                 </div>
             </div>
@@ -56,9 +57,9 @@
           </div>
           <div id="collapseTwo" class="collapse {{$isTask?'show':''}}" aria-labelledby="headingTwo" data-parent="#productAccordion">
             <div class="card-body">
-                <div class="form-group row">
+                <div class="form-group row align-items-center">
                     {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
-                    {!! Form::select('task_id', $tasks, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
+                    {!! Form::select('task_id', $tasks, $task_id, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
                                         'data-refresh'=>route('invoices.items.refresh', $invoice->id), 'lang'=>\Auth::user()->locale)) !!}
                 </div>
             </div>
@@ -75,9 +76,9 @@
             </div>
             <div id="collapseThree" class="collapse {{$isExpense?'show':''}}" aria-labelledby="headingThree" data-parent="#productAccordion">
               <div class="card-body">
-                  <div class="form-group row">
+                  <div class="form-group row align-items-center">
                       {{ Form::label('expense_id', __('Expense'), array('class'=>'col-3')) }}
-                      {!! Form::select('expense_id', $expenses, null, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
+                      {!! Form::select('expense_id', $expenses, $expense_id, array('class' => 'form-control col', 'placeholder'=>'...', 'style'=>'width: 310.5px',
                                           'data-refresh'=>route('invoices.items.refresh', $invoice->id), 'lang'=>\Auth::user()->locale)) !!}
                   </div>
               </div>
@@ -100,16 +101,21 @@
     <hr>
     <div class="form-group row">
         {{ Form::label('text', __('Description'), array('class'=>'col-3')) }}
-        {{ Form::textarea('text', null, array('class' => 'form-control col', 'rows' => 3,'placeholder'=>__('Website Redesign'))) }}
+        {{ Form::textarea('text', $text, array('class' => 'form-control col', 'rows' => 3,'placeholder'=>__('Website Redesign'))) }}
     </div>
     <hr>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('quantity', __('Quantity'), array('class'=>'col-3')) }}
-        {{ Form::number('quantity', number_format(1.00, 2), array('class' => 'form-control col','placeholder'=>\Auth::user()->priceFormat(500), 'min'=>'0', 'step'=>'0.1')) }}
+        {{ Form::number('quantity', 1, array('class' => 'form-control col' ,'placeholder'=>1, 'min'=>'0', 'step'=>'1')) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
-        {{ Form::number('price', number_format($price, 2), array('class' => 'form-control col','placeholder'=>\Auth::user()->priceFormat(500), 'min'=>'0', 'step'=>'0.01')) }}
+        <div class="input-group col p-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text">{{Helpers::getCurrencySymbol($invoice->getCurrency())}}</span>
+            </div>
+            {{ Form::number('price', number_format($price, 2, '.', ''), array('class' => 'form-control', 'placeholder' => 500, 'min'=>'0', 'step'=>'0.01')) }}
+        </div>        
     </div>
 </div>
 @include('partials.errors')

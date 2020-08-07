@@ -43,7 +43,7 @@
             </div>
             <div class="card-meta col">
                 <div class="container row align-items-center">
-                    <span data-filter-by="text" class="text-small">{{ Auth::user()->priceFormat($invoice->getTotal()) }}</span>
+                    <span data-filter-by="text" class="text-small">{{ $invoice->priceFormat($invoice->getTotal()) }}</span>
                 </div>
             </div>
             @if(Gate::check('edit invoice') || Gate::check('delete invoice'))

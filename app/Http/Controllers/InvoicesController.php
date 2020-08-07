@@ -14,6 +14,7 @@ use App\Task;
 use App\Tax;
 use App\Timesheet;
 use App\User;
+use App\Currency;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -22,9 +23,6 @@ use Illuminate\Support\Facades\URL;
 use App\Http\Requests\InvoiceStoreRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
 use App\Http\Requests\InvoiceDestroyRequest;
-
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
 
 class InvoicesController extends Controller
 {
@@ -98,21 +96,24 @@ class InvoicesController extends Controller
     {
         if(\Auth::user()->can('create invoice'))
         {
+            $currency = $request->old('currency') ? $request->old('currency') :
+                                                    (isset($request['currency']) ? $request['currency'] : \Auth::user()->getCurrency());
+            $rate = (isset($request['rate']) && !empty($request['rate'])) ? $request['rate'] : 1.0;
+
+            $issue_date = $request->issue_date?$request->issue_date:date('Y-m-d');
+            $due_date = $request->due_date?$request->due_date:date('Y-m-d', strtotime("+1 months", strtotime(date("Y-m-d"))));
+
             $project_id = $request['project_id'];
 
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
+            $locale = isset($request['locale'])?$request['locale']:\Auth::user()->locale;
 
-            $currencies = [];
-            $isoCurrencies = new ISOCurrencies();
+            $currencies = Currency::get()->pluck('code', 'code');    
 
-            foreach ($isoCurrencies as $currency) {
-                $currencies[$currency->getCode()] = $currency->getCode();
-            }
-
-            return view('invoices.create', compact('projects', 'project_id', 'taxes', 'locales', 'currencies'));
+            return view('invoices.create', compact('projects', 'project_id', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
         }
         else
         {
@@ -151,25 +152,29 @@ class InvoicesController extends Controller
         }
     }
 
-    public function edit(Invoice $invoice)
+    public function edit(Request $request, Invoice $invoice)
     {
         if(\Auth::user()->can('edit invoice') && 
             ($invoice->created_by == \Auth::user()->creatorId()))
         {
+            $currency = $request->old('currency') ? $request->old('currency') :
+                                                    (isset($request['currency']) ? $request['currency'] : $invoice->getCurrency());
+
+            $rate = (isset($request['rate']) && !empty($request['rate'])) ? $request['rate'] : ($invoice->rate ? $invoice->rate : 1.0);
+
+            $issue_date = $request->issue_date?$request->issue_date:$invoice->issue_date;
+            $due_date = $request->due_date?$request->due_date:$invoice->due_date;
+
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
+            $locale = isset($request['locale'])?$request['locale']:$invoice->getLocale();
 
-            $currencies = [];
-            $isoCurrencies = new ISOCurrencies();
+            $currencies = Currency::get()->pluck('code', 'code');
 
-            foreach ($isoCurrencies as $currency) {
-                $currencies[$currency->getCode()] = $currency->getCode();
-            }
-
-            return view('invoices.edit', compact('invoice', 'projects', 'taxes', 'locales', 'currencies'));
+            return view('invoices.edit', compact('invoice', 'projects', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
         }
         else
         {
@@ -229,5 +234,25 @@ class InvoicesController extends Controller
         {
             return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
         }
+    }
+
+    public function refresh(Request $request, $invoice_id)
+    {
+        $userCurrency = \Auth::user()->getCurrency();
+        $invoiceCurrency = $request['currency'];
+
+        $userRate = Currency::where('code', $userCurrency)->first()->rate;            
+        $invoiceRate = Currency::where('code', $invoiceCurrency)->first()->rate;
+
+        $request['rate'] = \Helpers::ceil((float)$userRate/(float)$invoiceRate);
+
+        if($invoice_id){    
+
+            $invoice = Invoice::find($invoice_id);
+
+            return $this->edit($request, $invoice);
+        }
+
+        return $this->create($request);
     }
 }

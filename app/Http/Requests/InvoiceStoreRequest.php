@@ -27,8 +27,8 @@ class InvoiceStoreRequest extends FormRequest
             'project_id' => 'required|integer',
             'issue_date' => 'required|date',
             'due_date' => 'required|date',
-            'currency' => 'nullable|string',
-            'rate' => 'nullable|numeric',
+            'currency' => 'required|string',
+            'rate' => 'required_unless:currency,'.\Auth::user()->getCurrency().'|numeric',
             'locale' => 'required|string',
             'tax_id' => 'nullable|integer',
         ];

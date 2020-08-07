@@ -16,7 +16,7 @@
         {{ Form::label('name', __('Title'), array('class'=>'col-3')) }}
         {{ Form::text('name', null, array('class' => 'form-control col', 'required'=>'required')) }}
     </div>
-    <div class="form-group row required">
+    <div class="form-group row align-items-center required">
         {{ Form::label('users', __('Atendees'), array('class'=>'col-3')) }}
         {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'required'=>'required', 'lang'=>\Auth::user()->locale)) !!}
     </div>

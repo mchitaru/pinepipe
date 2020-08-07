@@ -18,20 +18,20 @@
 
 @section('content')
 <div class="tab-content">
-    <div class="form-group row required">
+    <div class="form-group row align-items-center required">
         {{ Form::label('amount', __('Amount'), array('class'=>'col-3')) }}
         {{ Form::number('amount', null, array('class' => 'form-control col','required'=>'required')) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
         {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...',
                                         'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $expense->date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
         {{ Form::select('project_id', $projects, null, array('class' => 'form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}
         {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
@@ -40,7 +40,7 @@
         {!! Form::textarea('description', null, ['class'=>'form-control col','rows'=>'2']) !!}
     </div>
     @if(\Auth::user()->type=='company')
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
         {{ Form::select('user_id', $owners, null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) }}
     </div>

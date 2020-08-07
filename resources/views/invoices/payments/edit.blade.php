@@ -12,14 +12,19 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{ Form::label('amount', __('Amount'), array('class'=>'col-3')) }}
-        {{ Form::number('amount', null, array('class' => 'form-control col','required'=>'required',"step"=>"0.01")) }}
+        <div class="input-group col p-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text">{{Helpers::getCurrencySymbol($invoice->getCurrency())}}</span>
+            </div>
+            {{ Form::number('amount', null, array('class' => 'form-control col','required'=>'required',"step"=>"0.01")) }}
+        </div>
     </div>
-    <div class="form-group row required">
+    <div class="form-group row align-items-center required">
         {{ Form::label('date', __('Payment Date'), array('class'=>'col-3')) }}
         {{ Form::text('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...',
                                         'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('category_id', __('Payment Method'), array('class'=>'col-3')) }}
         {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>

@@ -143,7 +143,7 @@
                                     <i>{{$item->text}}</i>
                                 </td>
                                 <td class="text-right">
-                                    {{number_format($item->quantity, 2)}}
+                                    {{number_format($item->quantity, 2, '.', '')}}
                                 </td>
                                 <td class="text-right">
                                     {!! htmlentities($invoice->priceFormat($item->price), ENT_COMPAT, 'UTF-8') !!}
@@ -200,7 +200,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:__('Tax', [], $invoice->locale))}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}} %)</span></td>
+                                <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:__('Tax', [], $invoice->locale))}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}}%)</span></td>
                                 <td class="text-small text-right"><span class="text-muted">{!! htmlentities($invoice->priceFormat($tax), ENT_COMPAT, 'UTF-8') !!}</span></td>
                                 <td class="d-print-none"></td>
                             </tr>

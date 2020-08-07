@@ -23,7 +23,7 @@
         {{ Form::label('priority', __('Priority'), array('class'=>'col-3')) }}
         {!! Form::select('priority', $priorities, null,array('class' => 'form-control col','required'=>'required')) !!}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('stage_id', __('Stage'), array('class'=>'col-3')) }}
         {{ Form::select('stage_id', $stages, null, array('class' => 'form-control col font-style selectric','required'=>'required', 'lang'=>\Auth::user()->locale)) }}
     </div>    

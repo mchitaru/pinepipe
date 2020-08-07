@@ -44,27 +44,39 @@ class InvoiceItemsController extends Controller
             }
         }
 
-        $price = null;
-        if(isSet($request->timesheet_id))
-        {
+        $text = isset($request->text) ? $request->text : null;
+        $type = $request->type;
+        $price = 0.00;
+        $timesheet_id = $task_id = $expense_id = null;
+
+        if($request->type == 'timesheet')
+        {            
+            $timesheet_id = $request->timesheet_id;
             $timesheet = Timesheet::find($request->timesheet_id);
 
             if($timesheet) {
-
+                
                 $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
+                $price = \Helpers::ceil($price / $invoice->rate);
             }
 
-        }else if(isSet($request->expense_id))
+        }else if($request->type == 'task')
         {
+            $task_id = $request->task_id;
+            
+        }else if($request->type == 'expense')
+        {
+            $expense_id = $request->expense_id;
             $expense = Expense::find($request->expense_id);
 
             if($expense) {
 
                 $price = $expense->amount;
+                $price = \Helpers::ceil($price / $invoice->rate);
             }
         }
 
-        return view('invoices.items.create', compact('invoice', 'tasks', 'timesheets', 'expenses', 'price'));
+        return view('invoices.items.create', compact('invoice', 'tasks', 'timesheets', 'expenses', 'type', 'text', 'price', 'timesheet_id', 'task_id', 'expense_id'));
     }
 
     public function store(InvoiceItemStoreRequest $request, Invoice $invoice)
@@ -126,7 +138,6 @@ class InvoiceItemsController extends Controller
 
             $request->task_id = null;
             $request->expense_id = null;
-            $request->flashOnly(['timesheet_id', 'text']);
 
         }else if($request->type == 'task') {
 
@@ -143,8 +154,6 @@ class InvoiceItemsController extends Controller
             $request->timesheet_id = null;
             $request->expense_id = null;
 
-            $request->flashOnly(['task_id', 'text']);
-
         }else if($request->type == 'expense') {
 
             if($request->expense_id){
@@ -159,17 +168,13 @@ class InvoiceItemsController extends Controller
 
             $request->task_id = null;
             $request->timesheet_id = null;
-            $request->flashOnly(['expense_id', 'text']);
 
         }else {
 
             $request->task_id = null;
             $request->timesheet_id = null;
             $request->expense_id = null;
-            $request->flashOnly(['text']);
         }
-
-        $request->session()->flash('type', $request->type);
 
         return $this->create($request, $invoice);
     }

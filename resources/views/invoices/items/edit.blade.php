@@ -22,13 +22,18 @@
         {{ Form::textarea('text', null, array('class' => 'form-control col', 'rows' => 3,'placeholder'=>__('Website Redesign'))) }}
     </div>
     <hr>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('quantity', __('Quantity'), array('class'=>'col-3')) }}
-        {{ Form::number('quantity', number_format($item->quantity, 2), array('class' => 'form-control col', 'min'=>'0', 'step'=>'0.1')) }}
+        {{ Form::number('quantity', $item->quantity, array('class' => 'form-control col', 'min'=>'0', 'step'=>'1')) }}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}
-        {{ Form::number('price', number_format($item->price, 2), array('class' => 'form-control col','placeholder'=>\Auth::user()->priceFormat(500), 'min'=>'0', 'step'=>'0.01')) }}
+        <div class="input-group col p-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text">{{Helpers::getCurrencySymbol($invoice->getCurrency())}}</span>
+            </div>
+            {{ Form::number('price', number_format($item->price, 2, '.', ''), array('class' => 'form-control col','placeholder'=>500, 'min'=>'0', 'step'=>'0.01')) }}
+        </div>
     </div>
 </div>
 @include('partials.errors')

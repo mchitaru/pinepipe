@@ -28,7 +28,7 @@
         <div class="col-md-6">
             <div>
                 <div class="font-weight-bold lab-title">{{ __('Milestone Cost')}} :</div>
-                <p class="mt-1 lab-val">${{number_format($milestone->cost)}}</p>
+                <p class="mt-1 lab-val">${{number_format($milestone->cost, '.', '')}}</p>
             </div>
         </div>
     </div>

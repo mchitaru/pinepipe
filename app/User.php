@@ -23,6 +23,8 @@ use Money\Money;
 use Money\Converter;
 use Money\Exchange\FixedExchange;
 
+use App\CompanySettings;
+
 use App\Traits\Eventable;
 use Illuminate\Support\Str;
 
@@ -491,7 +493,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function getCurrency()
     {
-        return $this->companySettings?$this->companySettings->currency:'EUR';
+        return $this->companySettings ? $this->companySettings->currency : CompanySettings::$DEFAULT_CURRENCY;
     }
 
     public function user_projects_count()
@@ -533,7 +535,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function priceFormat($price)
     {
         $settings = $this->companySettings;
-        $currency = $settings?$settings->currency:'EUR';
+        $currency = $settings ? $settings->currency : CompanySettings::$DEFAULT_CURRENCY;
 
         $money = new Money((int)\Helpers::ceil($price * 100), new Currency($currency));
         $currencies = new ISOCurrencies();

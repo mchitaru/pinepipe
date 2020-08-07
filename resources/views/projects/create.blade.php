@@ -15,18 +15,18 @@
         {{ Form::label('name', __('Name'), array('class'=>'col-3')) }}
         {{ Form::text('name', null, array('class' => 'form-control col', 'placeholder'=>__('Website Redesign'), 'required'=>'required')) }}
     </div>
-    <div class="form-group row required">
+    <div class="form-group row align-items-center required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, $client_id, array('class' => (Gate::check('create client')?'tags':'').' form-control col', 'required'=>'required', 'placeholder'=>'...', 
                             'data-refresh'=>route('projects.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
         {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <hr>
     <h6>{{__('Attach')}}</h6>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
         {!! Form::select('lead_id', $leads, $lead_id, array('class' => (Gate::check('create lead')?'tags':'').' form-control col', 'placeholder' =>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>

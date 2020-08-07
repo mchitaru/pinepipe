@@ -1,3 +1,7 @@
+@php
+use App\CompanySettings;
+@endphp
+
 {{Form::model($user->companySettings, array('route'=>'settings.company','method'=>'post', 'enctype' => 'multipart/form-data'))}}
 <div class="card-body">
     <div class="media mb-4 avatar-container">
@@ -21,7 +25,7 @@
     </div>
     <!--end of logo-->
 
-    <div class="form-group row required">
+    <div class="form-group row align-items-center required">
         {{Form::label('name',__('Company Name'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('name',null,array('class'=>'form-control font-style', 'placeholder'=>__('Pinepipe')))}}
@@ -32,7 +36,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('email',__('Company Email'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('email',null,array('class'=>'form-control', 'placeholder'=>__('team@pinepipe.com')))}}
@@ -43,7 +47,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('address',__('Address'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('address',null,array('class'=>'form-control font-style', 'placeholder'=>__('101 California Street')))}}
@@ -54,7 +58,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('city',__('City'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('city',null,array('class'=>'form-control font-style', 'placeholder'=>__('San Francisco')))}}
@@ -65,7 +69,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('state',__('State'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('state',null,array('class'=>'form-control font-style', 'placeholder'=>__('California')))}}
@@ -76,7 +80,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('zipcode',__('Zip/Post Code'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('zipcode',null,array('class'=>'form-control', 'placeholder'=>__('CA 94111')))}}
@@ -87,7 +91,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('country',__('Country'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('country',null,array('class'=>'form-control font-style', 'placeholder'=>__('United States')))}}
@@ -98,7 +102,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('phone',__('Phone'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('phone',null,array('class'=>'form-control', 'placeholder'=>__('(800) 613-1303')))}}
@@ -109,7 +113,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('tax',__('TAX ID'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('tax',null, array('class'=>'form-control', 'placeholder'=>__('12345678')))}}
@@ -120,7 +124,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('iban',__('IBAN'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('iban',null, array('class'=>'form-control', 'placeholder'=>'XX123456789'))}}
@@ -131,7 +135,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('invoice',__('Invoice Prefix'), array('class'=>'col-3')) }}
         <div class="col">
             {{Form::text('invoice',null, array('class'=>'form-control', 'placeholder'=>__('#INV')))}}
@@ -142,10 +146,10 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         <div class="col">
-            {!! Form::select('currency', $currencies, ($user->companySettings == null)?'EUR':null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
+            {!! Form::select('currency', $currencies, ($user->companySettings == null) ? CompanySettings::$DEFAULT_CURRENCY : null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
             @error('currency')
             <span class="invalid-site_currency" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>

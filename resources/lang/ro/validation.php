@@ -96,7 +96,7 @@ return [
     'regex' => 'Formatul :attribute este invalid.',
     'required' => 'Câmpul :attribute este necesar.',
     'required_if' => 'Câmpul :attribute este necesar în cazul în care :other este :value.',
-    'required_unless' => 'Câmpul :attribute câmpul este obligatoriu doar dacă :other nu este :values.',
+    'required_unless' => 'Câmpul :attribute este obligatoriu dacă :other nu este :values.',
     'required_with' => 'Câmpul :attribute este necesar atunci când :values este prezentă.',
     'required_with_all' => 'Câmpul :attribute este necesar atunci când :values este prezent.',
     'required_without' => 'Câmpul :attribute este necesar atunci când :values este inexistentă.',

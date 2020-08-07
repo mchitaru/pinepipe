@@ -15,11 +15,11 @@
         {{Form::label('name',__('Name'), array('class'=>'col-3')) }}
         {{Form::text('name',null,array('class'=>'form-control col','placeholder'=>__('John Smith'),'required'=>'required'))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('email',__('Email'), array('class'=>'col-3'))}}
         {{Form::text('email',null,array('class'=>'form-control col','placeholder'=>__('john.smith@pinepipe.com')))}}
     </div>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{Form::label('phone',__('Phone Number'), array('class'=>'col-3'))}}
         {{Form::text('phone',null,array('class'=>'form-control col','placeholder'=>__('(800) 613-1303')))}}
     </div>
@@ -29,7 +29,7 @@
     </div>
     <hr>
     <h6>{{__('Attach')}}</h6>
-    <div class="form-group row">
+    <div class="form-group row align-items-center">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
