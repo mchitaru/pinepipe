@@ -57,7 +57,7 @@ class InvoiceItemsController extends Controller
             if($timesheet) {
                 
                 $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
-                $price = \Helpers::ceil($price / $invoice->rate);
+                $price = $invoice->priceConvert($price);
             }
 
         }else if($request->type == 'task')
@@ -72,7 +72,7 @@ class InvoiceItemsController extends Controller
             if($expense) {
 
                 $price = $expense->amount;
-                $price = \Helpers::ceil($price / $invoice->rate);
+                $price = $invoice->priceConvert($price);
             }
         }
 

@@ -198,6 +198,14 @@ class Helpers
         return $moneyFormatter->format($money);
     }
 
+    static function priceConvert($price, $rate)
+    {
+        if(empty($rate))
+            $rate = 1.0;
+
+        return \Helpers::ceil($price / $rate);
+    }
+
     // static function priceConvert($price, $sourceCurrency, $destCurrency, $rate)
     // {
     //     dump('Convert: '.$price.$sourceCurrency.' to '.$destCurrency.' at '.$rate);

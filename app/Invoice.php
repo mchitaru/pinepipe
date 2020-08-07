@@ -227,4 +227,9 @@ class Invoice extends Model
         return \Helpers::priceFormat($price, $this->getCurrency());
 
     }
+
+    public function priceConvert($price)
+    {
+        return \Helpers::priceConvert($price, $this->rate);
+    }
 }
