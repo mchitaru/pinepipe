@@ -32,7 +32,7 @@
         {{ Form::label('tax_id', __('Tax'), array('class'=>'col-3')) }}
         {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'placeholder'=>__('No Tax'), 'lang'=>\Auth::user()->locale)) }}
     </div>
-    <div class="form-group row align-items-center">
+    {{-- <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col', 
                             'data-refresh'=>route('invoices.refresh', $invoice), 'lang'=>\Auth::user()->locale)) !!}
@@ -42,7 +42,7 @@
         @else
         {!! Form::hidden('rate', 1.0) !!}
         @endif
-    </div>
+    </div> --}}
     <div class="form-group row align-items-center">
         {{Form::label('locale',__('Language'), array('class'=>'col-3')) }}
         {!! Form::select('locale', $locales, $locale, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
