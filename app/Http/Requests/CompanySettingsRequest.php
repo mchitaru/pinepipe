@@ -26,15 +26,15 @@ class CompanySettingsRequest extends FormRequest
         return [
             'name' => 'required|string|max:50',
             'email' => 'nullable|email|unique:company_settings,email,'.\Auth::user()->creatorId().',created_by',
-            'address' => 'string',
-            'city' => 'string',
-            'state' => 'string',
-            'zipcode' => 'string',
-            'country' => 'string',
-            'phone' => 'string',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'zipcode' => 'nullable|string',
+            'country' => 'nullable|string',
+            'phone' => 'nullable|string',
             'tax' => 'string|nullable',
             'iban' => 'string|nullable',
-            'invoice' => 'string',
+            'invoice' => 'nullable|string',
             'currency' => 'required',
             'logo' => 'nullable|mimetypes:image/*|max:2048'
         ];
