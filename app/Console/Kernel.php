@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work --queue=default --tries=1 --timeout=60 --stop-when-empty')->everyMinute();
         $schedule->job(new PeriodicSynchronizationsJob())->everyFifteenMinutes();
         // $schedule->command('event:reminders')->everyMinute()->withoutOverlapping(5);
-        $schedule->job(new CurrencyRatesJob())->twiceDaily(1, 13);
+        $schedule->job(new CurrencyRatesJob())->twiceDaily(9, 21);
         $schedule->command('app:dailyreminders')->daily();
 
         // $schedule->command('inspire')
