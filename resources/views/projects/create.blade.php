@@ -25,12 +25,6 @@
         {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <hr>
-    <h6>{{__('Attach')}}</h6>
-    <div class="form-group row align-items-center">
-        {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
-        {!! Form::select('lead_id', $leads, $lead_id, array('class' => (Gate::check('create lead')?'tags':'').' form-control col', 'placeholder' =>'...', 'lang'=>\Auth::user()->locale)) !!}
-    </div>
-    <hr>
     <h6>{{__('Timeline')}}</h6>
     <div class="form-group row align-items-center">
         {{ Form::label('start_date', __('Start Date'), array('class'=>'col-3')) }}

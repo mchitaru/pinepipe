@@ -4,7 +4,7 @@
 
 <div class="card card-task">
     <div class="card-body">
-    <div class="card-title col-xs-12 col-sm-3">
+    <div class="card-title col-xs-12 col-sm-4">
         @if(Gate::check('edit timesheet'))
         <a href="{{ route('timesheets.edit',$timesheet->id) }}" data-remote="true" data-type="text">
             <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timesheet->date) }}</h6>
@@ -23,10 +23,12 @@
         </div>
     </div>
     <div class="card-title col-xs-12 col-sm-3">
+        @if(!empty($timesheet->remark))
         <div class="container row align-items-center">
             <i class="material-icons">note</i>
             <span data-filter-by="text" title="{{ $timesheet->remark }}" class="text-small text-truncate" >{{ $timesheet->remark }}</span>
         </div>
+        @endif
     </div>
     <div class="card-meta">
         @if(!empty($timesheet->user))
