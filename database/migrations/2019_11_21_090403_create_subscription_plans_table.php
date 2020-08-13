@@ -18,6 +18,8 @@ class CreateSubscriptionPlansTable extends Migration
             $table->string('name', 100)->unique();
             $table->string('paddle_id', 100)->unique();
             $table->float('price')->default(0);
+            $table->boolean('active')->default(1);
+            $table->boolean('deal')->default(0);
             $table->unsignedInteger('duration')->nullable();
             $table->unsignedInteger('max_clients')->nullable();
             $table->unsignedInteger('max_projects')->nullable();

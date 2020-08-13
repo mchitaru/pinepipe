@@ -4,6 +4,7 @@
     @endif
     <div class="row pt-2">
         @foreach($plans as $key=>$plan)
+        @if($plan->active || $user_plan->id == $plan->id)
         <div class="col-lg-6">
             <div class="card {{$plan->deal?'bg-warning':''}} text-center" style="min-height: 300px;">
                 <div class="card-body">
@@ -56,6 +57,7 @@
                 </div>
             </div>
         </div>
+        @endif
         @endforeach
     </div>
 </div>

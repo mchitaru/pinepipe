@@ -11,6 +11,7 @@ class SubscriptionPlan extends Model
         'name',
         'paddle_id',
         'price',
+        'active',
         'deal',
         'duration', 
         'max_users',

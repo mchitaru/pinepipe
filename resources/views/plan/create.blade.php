@@ -31,6 +31,15 @@
         <div class="col-9">
         </div>
         <div class="form-group col custom-control custom-checkbox custom-checkbox-switch">
+            <input type="hidden" name="active" value="0">
+            {{Form::checkbox('active', 1, 1, ['class'=>'custom-control-input', 'id' =>'active'])}}
+            {{Form::label('active', __('Active'), ['class'=>'custom-control-label'])}}
+        </div>
+    </div>
+    <div class="row p-1 align-items-center">
+        <div class="col-9">
+        </div>
+        <div class="form-group col custom-control custom-checkbox custom-checkbox-switch">
             <input type="hidden" name="deal" value="0">
             {{Form::checkbox('deal', 1, 0, ['class'=>'custom-control-input', 'id' =>'deal'])}}
             {{Form::label('deal', __('Deal'), ['class'=>'custom-control-label'])}}
