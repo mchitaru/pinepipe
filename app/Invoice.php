@@ -8,13 +8,6 @@ use App\Traits\Taggable;
 
 use App\CompanySettings;
 
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
-use Money\Formatter\IntlMoneyFormatter;
-use Money\Money;
-use Money\Converter;
-use Money\Exchange\FixedExchange;
-
 use App\Currency as CurrencyRate;
 
 class Invoice extends Model
@@ -158,7 +151,7 @@ class Invoice extends Model
 
     public function getCurrency()
     {
-        return $this->currency?$this->currency:(\Auth::user()->companySettings ? \Auth::user()->companySettings->currency : CompanySettings::$DEFAULT_CURRENCY);
+        return $this->currency?$this->currency:(\Auth::user()->companySettings ? \Auth::user()->companySettings->currency : \Auth::user()->getCompany()->currency);
     }
 
     public function getLocale()

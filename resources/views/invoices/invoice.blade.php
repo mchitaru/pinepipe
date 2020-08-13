@@ -4,9 +4,9 @@
                     <p><strong>{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}</strong>
                         {{__('invoice', [], $invoice->locale)}}
                         <span class="d-print-none">{!! $invoice->getStatusBadge() !!}</span>
-                        {{-- @if($invoice->currency && ($invoice->currency != \Auth::user()->getCurrency()))
-                        <span class="pl-2 text-small d-print-none">({!! $invoice->priceFormat(1.0).' = '.\Auth::user()->priceFormat(\Helpers::priceConvert(1.0, 1.0/$invoice->rate)) !!})</span>
-                        @endif --}}
+                        @if($invoice->currency && ($invoice->currency != \Auth::user()->getCurrency()))
+                        <span class="pl-2 text-small d-print-none">({!! $invoice->priceFormat(1.0).' = '.\Auth::user()->priceFormat(\Helpers::priceConvert(1.0, 1.0/$invoice->rate, 4), 4) !!})</span>
+                        @endif
                     </p>
                 </div>
                 <div class="float-right dropdown card-options d-print-none">

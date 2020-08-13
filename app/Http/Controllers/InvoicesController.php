@@ -244,7 +244,7 @@ class InvoicesController extends Controller
         $userRate = Currency::where('code', $userCurrency)->first()->rate;            
         $invoiceRate = Currency::where('code', $invoiceCurrency)->first()->rate;
 
-        $request['rate'] = \Helpers::ceil((float)$userRate/(float)$invoiceRate);
+        $request['rate'] = \Helpers::ceil((float)$userRate/(float)$invoiceRate, 4);
 
         if($invoice_id){    
 

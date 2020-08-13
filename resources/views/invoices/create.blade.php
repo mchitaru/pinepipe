@@ -24,17 +24,22 @@
         {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...', 
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
-    {{-- <div class="form-group row align-items-center">
+    <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col', 
                             'data-refresh'=>route('invoices.refresh', '0'), 'lang'=>\Auth::user()->locale)) !!}
         @if($currency != \Auth::user()->getCurrency())
-        {{Form::label('rate',__('Exchange Rate'), array('class'=>'col-3')) }}
-        {!! Form::text('rate', $rate, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
+        {{Form::label('rate',__('Exchange Rate'), array('class'=>'col-2')) }}
+        <div class="input-group col p-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text">{{Helpers::getCurrencySymbol(\Auth::user()->getCurrency())}}</span>
+            </div>
+            {!! Form::text('rate', $rate, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
+        </div>
         @else
         {!! Form::hidden('rate', 1.0) !!}
         @endif
-    </div> --}}
+    </div>
     <div class="form-group row align-items-center">
         {{Form::label('locale',__('Language'), array('class'=>'col-3')) }}
         {!! Form::select('locale', $locales, $locale, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}

@@ -36,6 +36,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('trial_ends_at')->nullable();
             $table->string('locale', 10)->nullable();
             $table->string('timezone')->nullable();
+            $table->string('currency', '3')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

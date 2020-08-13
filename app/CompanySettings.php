@@ -14,8 +14,6 @@ class CompanySettings extends Model implements HasMedia
 {
     use NullableFields, HasMediaTrait;
 
-    public static $DEFAULT_CURRENCY = 'EUR';
-
     protected $fillable = [
         'name',
         'email',
@@ -74,4 +72,36 @@ class CompanySettings extends Model implements HasMedia
                 ->fit(Manipulations::FIT_FILL, 60, 60)
                 ->nonQueued();
     }
+
+    public static function updateSettings($post)
+    {
+        $settings = CompanySettings::where('created_by', \Auth::user()->creatorId())->first();
+
+        if($settings && $settings->currency != $post['currency'] ||
+            $settings == null && \Auth::user()->getCompany()->currency != $post['currency']){
+
+            //the user changed the main currency -> update currency rate of invoices
+            $invoices = Invoice::where('created_by', \Auth::user()->creatorId())->get();
+
+            foreach($invoices as $invoice){
+
+                if($invoice->rate){
+
+                    $userCurrency = $post['currency'];
+                    $invoiceCurrency = $invoice->currency;
+            
+                    $userRate = Currency::where('code', $userCurrency)->first()->rate;            
+                    $invoiceRate = Currency::where('code', $invoiceCurrency)->first()->rate;
+            
+                    $invoice->rate = \Helpers::ceil((float)$userRate/(float)$invoiceRate, 4);
+                    $invoice->save();
+                }
+            }
+        }
+
+        $settings = CompanySettings::updateOrCreate(['created_by' => \Auth::user()->creatorId()], $post);
+
+        return $settings;
+    }
+
 }

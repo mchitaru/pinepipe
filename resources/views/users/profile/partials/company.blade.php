@@ -149,7 +149,7 @@ use App\CompanySettings;
     <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         <div class="col">
-            {!! Form::select('currency', $currencies, ($user->companySettings == null) ? CompanySettings::$DEFAULT_CURRENCY : null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
+            {!! Form::select('currency', $currencies, ($user->companySettings == null) ? \Auth::user()->getCompany()->currency : null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
             @error('currency')
             <span class="invalid-site_currency" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>

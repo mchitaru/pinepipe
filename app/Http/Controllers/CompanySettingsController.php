@@ -23,7 +23,7 @@ class CompanySettingsController extends Controller
     {
         $post = $request->validated();
 
-        $settings = CompanySettings::updateOrCreate(['created_by' => \Auth::user()->creatorId()], $post);
+        $settings = CompanySettings::updateSettings($post);
 
         if($request->hasFile('logo')){
             

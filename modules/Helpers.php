@@ -9,13 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
-use Money\Formatter\IntlMoneyFormatter;
-use Money\Money;
-use Money\Converter;
-use Money\Exchange\FixedExchange;
-
 class Helpers
 {
     public static function localToUTC($timestamp)
@@ -186,51 +179,19 @@ class Helpers
         return $formatter->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
     }
 
-    static function priceFormat($price, $currency)
+    static function priceFormat($price, $currency, $precision = 2)
     {        
-        $currencies = new ISOCurrencies();
-
-        $money = new Money((int)\Helpers::ceil($price * 100), new Currency($currency));
-        
         $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
-
-        return $moneyFormatter->format($money);
+        $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS , $precision);
+        
+        return $numberFormatter->formatCurrency($price, $currency);
     }
 
-    static function priceConvert($price, $rate)
+    static function priceConvert($price, $rate, $precision = 2)
     {
         if(empty($rate))
             $rate = 1.0;
 
-        return \Helpers::ceil($price / $rate);
+        return \Helpers::ceil($price / $rate, $precision);
     }
-
-    // static function priceConvert($price, $sourceCurrency, $destCurrency, $rate)
-    // {
-    //     dump('Convert: '.$price.$sourceCurrency.' to '.$destCurrency.' at '.$rate);
-
-    //     $currencies = new ISOCurrencies();
-
-    //     $exchange = new FixedExchange([
-    //         $sourceCurrency => [
-    //             $destCurrency => 1.0/(float)$rate
-    //         ]
-    //     ]);
-        
-    //     $converter = new Converter($currencies, $exchange);
-        
-    //     $money = new Money((int)\Helpers::ceil($price * 100), new Currency($sourceCurrency));
-        
-    //     $money = $converter->convert($money, new Currency($destCurrency));
-
-    //     $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
-    //     $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
-
-    //     $res = $moneyFormatter->format($money);
-        
-    //     dump($res);
-
-    //     return $res;
-    // }
 }

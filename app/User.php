@@ -16,13 +16,6 @@ use App\Traits\Actionable;
 use App\Traits\Billable;
 use Illuminate\Support\Facades\Hash;
 
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
-use Money\Formatter\IntlMoneyFormatter;
-use Money\Money;
-use Money\Converter;
-use Money\Exchange\FixedExchange;
-
 use App\CompanySettings;
 
 use App\Traits\Eventable;
@@ -150,6 +143,28 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         else
         {
             return $this->created_by;
+        }
+    }
+
+    public function company()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
+    public function collaborators()
+    {
+        return $this->hasMany('App\User', 'created_by');
+    }
+
+    public function getCompany()
+    {
+        if($this->type == 'company' || $this->type == 'super admin')
+        {
+            return $this;
+        }
+        else
+        {
+            return $this->company;
         }
     }
 
@@ -493,7 +508,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function getCurrency()
     {
-        return $this->companySettings ? $this->companySettings->currency : CompanySettings::$DEFAULT_CURRENCY;
+        return $this->companySettings ? $this->companySettings->currency : \Auth::user()->getCompany()->currency;
     }
 
     public function user_projects_count()
@@ -518,6 +533,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             $this->locale = \Helpers::countryToLocale($locale->iso_code);
         }
+
+        if($this->currency == null) {
+
+            $this->currency = $locale->currency;
+        }
+
         $this->timezone = $locale->timezone;
         $this->save();
     }
@@ -532,19 +553,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $this->locale;
     }
 
-    public function priceFormat($price)
+    public function priceFormat($price, $precision = 2)
     {
         $settings = $this->companySettings;
-        $currency = $settings ? $settings->currency : CompanySettings::$DEFAULT_CURRENCY;
+        $currency = $settings ? $settings->currency : \Auth::user()->getCompany()->currency;
 
-        $money = new Money((int)\Helpers::ceil($price * 100), new Currency($currency));
-        $currencies = new ISOCurrencies();
-
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
-
-        return $moneyFormatter->format($money);
-
+        return \Helpers::priceFormat($price, $currency, $precision);
     }
 
     public function dateFormat($date)
