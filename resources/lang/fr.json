@@ -240,7 +240,6 @@
     "Share": "",
     "Delete": "",
     "Cancel": "",
-    "Drop files here or click here to upload": "",
     "Are you sure?": "",
     "You can always restore it in the future, but it will not appear in your dashboard by default. Do you want to continue?": "",
     "Yes": "",
@@ -732,5 +731,6 @@
     "You have been assigned the <b>:task<\/b> task.": "",
     "View tasks": "",
     "Tax": "",
-    "Exchange Rate": ""
-}
+    "Exchange Rate": "",
+    "Drop images, documents & archives here or click to upload.": ""
+ }

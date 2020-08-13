@@ -16,9 +16,9 @@ async function initDropzone(selector, url, model_id, files)
     previewTemplate: document.querySelector('.dz-template').innerHTML,
     createImageThumbnails: false,
     previewsContainer: selector + '-previews',
-    maxFiles: 20,
+    maxFiles: 100,
     maxFilesize: 10,
-    parallelUploads: 1,
+    parallelUploads: 10,
     acceptedFiles: '.jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar,.xls,.xlsx',
     url: url,
 

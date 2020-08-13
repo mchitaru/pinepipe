@@ -241,7 +241,6 @@
     "Share": "Partajează",
     "Delete": "Șterge",
     "Cancel": "Anulează",
-    "Drop files here or click here to upload": "Trage fișierele aici sau fă clic aici pentru a le încărca",
     "Are you sure?": "Ești sigur?",
     "You can always restore it in the future, but it will not appear in your dashboard by default. Do you want to continue?": "Poți restaura oricând, dar nu va apărea în tabloul de bord în mod implicit. Dorești să continui?",
     "Yes": "Da",
@@ -489,7 +488,7 @@
     "invoice": "factură",
     "Download PDF": "Descarcă PDF",
     "Save As Template": "Salvează ca șablon",
-    "Edit Company Info": "Modifică informațiile despre companie",
+    "Edit Company Info": "Completează informațiile despre companie",
     "TAX ID": "Cod fiscal",
     "Quantity": "Cantitate",
     "Transaction": "Tranzacție",
@@ -704,5 +703,6 @@
     "You have been assigned the <b>:task<\/b> task.": "Ți-a fost atribuită sarcina <b>:task<\/b>.",
     "View tasks": "Vezi sarcini",
     "Tax": "Taxă",
-    "Exchange Rate": "Schimb valutar"
+    "Exchange Rate": "Schimb valutar",
+    "Drop images, documents & archives here or click to upload.": "Trage imagini, documente și arhive aici, sau fă clic pentru a le încărca"
 }

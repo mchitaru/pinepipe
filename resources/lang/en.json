@@ -223,7 +223,6 @@
     "Share": "",
     "Delete": "",
     "Cancel": "",
-    "Drop files here or click here to upload": "",
     "Are you sure? ": "",
     "This action can not be undone. Do you want to continue?": "",
     "Yes": "",
@@ -812,5 +811,6 @@
     "You have been assigned the <b>:task<\/b> task.": "",
     "View tasks": "",
     "Tax": "",
-    "Exchange Rate": ""
+    "Exchange Rate": "",
+    "Drop images, documents & archives here or click to upload.": ""
 }

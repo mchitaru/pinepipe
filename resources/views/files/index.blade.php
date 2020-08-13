@@ -49,7 +49,7 @@
     </ul>
 
     <form class="dropzone" id="{{$dz_id}}">
-        <span class="dz-message">{{__('Drop files here or click here to upload')}}</span>
+        <span class="dz-message">{{__('Drop images, documents & archives here or click to upload.')}}</span>
     </form>
 
     <ul id="{{$dz_id}}-previews" class="list-group list-group-activity dropzone-previews flex-column-reverse">
