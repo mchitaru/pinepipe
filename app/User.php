@@ -168,6 +168,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         }
     }
 
+    public function getDefaultCurrency()
+    {
+        $currency = $this->getCompany()->currency;
+
+        return $currency ? $currency : 'EUR';
+    }
+
     public function languages()
     {
         $dir     = base_path() . '/resources/lang/';
@@ -508,7 +515,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function getCurrency()
     {
-        return $this->companySettings ? $this->companySettings->currency : \Auth::user()->getCompany()->currency;
+        return $this->companySettings ? $this->companySettings->currency : \Auth::user()->getDefaultCurrency();
     }
 
     public function user_projects_count()
@@ -536,7 +543,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         if($this->currency == null) {
 
-            $this->currency = $locale->currency;
+            if(Currency::where('code', $locale->currency)->first()){
+
+                $this->currency = $locale->currency;
+                
+            }else{
+
+                $this->currency = 'EUR';
+            }
         }
 
         $this->timezone = $locale->timezone;
@@ -556,7 +570,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function priceFormat($price, $precision = 2)
     {
         $settings = $this->companySettings;
-        $currency = $settings ? $settings->currency : \Auth::user()->getCompany()->currency;
+        $currency = $settings ? $settings->currency : \Auth::user()->getDefaultCurrency();
 
         return \Helpers::priceFormat($price, $currency, $precision);
     }

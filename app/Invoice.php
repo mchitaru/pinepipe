@@ -151,7 +151,7 @@ class Invoice extends Model
 
     public function getCurrency()
     {
-        return $this->currency?$this->currency:(\Auth::user()->companySettings ? \Auth::user()->companySettings->currency : \Auth::user()->getCompany()->currency);
+        return $this->currency?$this->currency:(\Auth::user()->companySettings ? \Auth::user()->companySettings->currency : \Auth::user()->getDefaultCurrency());
     }
 
     public function getLocale()

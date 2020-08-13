@@ -78,7 +78,7 @@ class CompanySettings extends Model implements HasMedia
         $settings = CompanySettings::where('created_by', \Auth::user()->creatorId())->first();
 
         if($settings && $settings->currency != $post['currency'] ||
-            $settings == null && \Auth::user()->getCompany()->currency != $post['currency']){
+            $settings == null && \Auth::user()->getDefaultCurrency() != $post['currency']){
 
             //the user changed the main currency -> update currency rate of invoices
             $invoices = Invoice::where('created_by', \Auth::user()->creatorId())->get();
