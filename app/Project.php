@@ -244,7 +244,7 @@ class Project extends Model implements HasMedia
 
         if(isset($post['users']))
         {
-            $users = $post['users'];
+            $users = collect($post['users']);
         }else{
 
             $users = collect();
@@ -284,7 +284,7 @@ class Project extends Model implements HasMedia
 
         if(isset($post['users']))
         {
-            $users = $post['users'];
+            $users = collect($post['users']);
         }else{
 
             $users = collect();
