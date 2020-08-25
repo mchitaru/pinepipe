@@ -33,7 +33,12 @@ class ContactsController extends Controller
                         ->where(function ($query) use ($request) {
                             $query->where('name','like','%'.$request['filter'].'%')
                             ->orWhere('email','like','%'.$request['filter'].'%')
-                            ->orWhere('phone','like','%'.$request['filter'].'%');
+                            ->orWhere('phone','like','%'.$request['filter'].'%')
+                            ->orWhereHas('tags', function ($query) use($request)
+                            {
+                                $query->where('tags.name','like','%'.$request['filter'].'%');
+        
+                            });
                         })
                         ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                         ->paginate(25, ['*'], 'contact-page');

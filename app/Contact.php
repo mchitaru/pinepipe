@@ -106,11 +106,11 @@ class Contact extends Model
     {
         if(\Auth::user()->type == 'company')
         {
-            return Contact::with('client')
+            return Contact::with(['client', 'tags'])
                    ->where('created_by','=',\Auth::user()->creatorId());
         }else
         {
-            return Contact::with('client')
+            return Contact::with(['client', 'tags'])
                     ->where(function ($query)  {
                         $query->where('user_id', \Auth::user()->id);
                     })
