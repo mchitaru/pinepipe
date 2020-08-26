@@ -704,5 +704,11 @@
     "View tasks": "Vezi sarcini",
     "Tax": "Taxă",
     "Exchange Rate": "Schimb valutar",
-    "Drop images, documents & archives here or click to upload.": "Trage imagini, documente și arhive aici, sau fă clic pentru a le încărca"
+    "Drop images, documents & archives here or click to upload.": "Trage imagini, documente și arhive aici, sau fă clic pentru a le încărca",
+    "created contact": "a adăugat date de contact pentru",
+    "updated contact": "a modificat datele de contact pentru",
+    "created client": "a adăugat clientul",
+    "updated client": "a modificat clientul",
+    "MONTHLY": "LUNAR",
+    "YEARLY": "ANUAL"
 }

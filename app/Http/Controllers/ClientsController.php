@@ -179,7 +179,16 @@ class ClientsController extends Controller
                         ->orderBy('order')
                         ->get();
 
-                $activities = Activity::whereHas('projects', function ($query) use ($client) {
+                $activities = Activity::whereHas('clients', function ($query) use ($client) {
+                    $query->where('id', $client->id);
+                })
+                ->orWhereHas('projects', function ($query) use ($client) {
+                    $query->where('client_id', $client->id);
+                })
+                ->orWhereHas('leads', function ($query) use ($client) {
+                    $query->where('client_id', $client->id);
+                })
+                ->orWhereHas('contacts', function ($query) use ($client) {
                     $query->where('client_id', $client->id);
                 })
                 ->limit(20)

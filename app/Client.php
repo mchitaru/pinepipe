@@ -12,11 +12,13 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Spatie\Image\Manipulations;
 
+use App\Traits\Actionable;
+
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Client extends Model implements HasMedia
 {
-    use NullableFields, Eventable, Taggable, HasMediaTrait;
+    use NullableFields, Eventable, Taggable, HasMediaTrait, Actionable;
 
     protected $fillable = [
         'name',
@@ -73,6 +75,8 @@ class Client extends Model implements HasMedia
             $client->events()->detach();
 
             Contact::where('client_id', '=', $client->id)->update(array('client_id' => null));
+
+            $client->activities()->delete();
         });
     }
 
@@ -127,6 +131,8 @@ class Client extends Model implements HasMedia
         // $role_r = Role::findByName('client');
         // $user->assignRole($role_r);
 
+        Activity::createClient($client);
+
         return $client;
     }
 
@@ -134,6 +140,8 @@ class Client extends Model implements HasMedia
     {
         $this->update($post);
         $this->save();
+
+        Activity::updateClient($this);
     }
 
 }

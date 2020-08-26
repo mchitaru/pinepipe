@@ -24,6 +24,18 @@ class Activity extends Model
             ->whereActionableType(Lead::class);
     }
 
+    public function contacts()
+    {
+        return $this->belongsTo(Contact::class, 'actionable_id')
+            ->whereActionableType(Contact::class);
+    }
+
+    public function clients()
+    {
+        return $this->belongsTo(Client::class, 'actionable_id')
+            ->whereActionableType(Client::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -57,6 +69,14 @@ class Activity extends Model
                 return __('created invoice');
             case 'activity_update_invoice': 
                 return __('updated invoice');
+            case 'activity_create_contact': 
+                return __('created contact');
+            case 'activity_update_contact': 
+                return __('updated contact');
+            case 'activity_create_client': 
+                return __('created client');
+            case 'activity_update_client': 
+                return __('updated client');
         }
     }
 
@@ -68,6 +88,8 @@ class Activity extends Model
             case 'activity_update_event': 
             case 'activity_create_task': 
             case 'activity_update_task': 
+            case 'activity_create_contact': 
+            case 'activity_update_contact': 
                 return true;
         }
 
@@ -265,4 +287,57 @@ class Activity extends Model
             ]
         );
     }
+
+    public static function createContact(Contact $contact)
+    {
+        $contact->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_create_contact',
+                'value' => $contact->name,
+                'url'    => route('contacts.edit', $contact->id),
+            ]
+        );
+    }
+
+    public static function updateContact(Contact $contact)
+    {
+        $contact->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_update_contact',
+                'value' => $contact->name,
+                'url'    => route('contacts.edit', $contact->id),
+            ]
+        );
+    }
+
+    public static function createClient(Client $client)
+    {
+        $client->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_create_client',
+                'value' => $client->name,
+                'url'    => route('clients.show', $client->id),
+            ]
+        );
+    }
+
+    public static function updateClient(Client $client)
+    {
+        $client->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->creatorId(),
+                'action' => 'activity_update_client',
+                'value' => $client->name,
+                'url'    => route('clients.show', $client->id),
+            ]
+        );
+    }
+
 }

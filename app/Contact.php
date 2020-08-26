@@ -7,9 +7,11 @@ use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Eventable;
 use App\Traits\Taggable;
 
+use App\Traits\Actionable;
+
 class Contact extends Model
 {
-    use NullableFields, Eventable, Taggable;
+    use NullableFields, Eventable, Taggable, Actionable;
 
     protected $fillable = [
         'name',
@@ -59,6 +61,8 @@ class Contact extends Model
 
             $contact->tags()->detach();
             $contact->events()->detach();
+
+            $contact->activities()->delete();
         });
     }
 
@@ -93,6 +97,8 @@ class Contact extends Model
 
         $contact->syncTags(isset($post['tags'])?$post['tags']:[]);
 
+        Activity::createContact($contact);
+
         return $contact;
     }
 
@@ -100,6 +106,8 @@ class Contact extends Model
     {
         $this->update($post);
         $this->syncTags(isset($post['tags'])?$post['tags']:[]);
+
+        Activity::updateContact($this);
     }
 
     public static function contactsByUserType()
