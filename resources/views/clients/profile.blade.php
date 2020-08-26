@@ -20,21 +20,22 @@
                             <h4 data-filter-by="text">{{$client->name}}</h4>
                         @endif
                     </div>
-                    @if(!empty($client->email))
-                        <div class="card-title m-0 col-xs-12 col-sm-5">
-                            <div class="container row align-items-center">
+                    <div class="card-title m-0 col-xs-12 col-sm-5">
+                        <div class="container row align-items-center">
+                            @if(!empty($client->email))
                                 <i class="material-icons">email</i>
-                                <a href="mailto:kenny.tran@example.com">
+                                <a href="mailto:{{$client->email}}">
                                     <span data-filter-by="text" class="text-small">
                                         {{$client->email}}
                                     </span>
                                 </a>
-                            </div>
+                            @else
+                                <span data-filter-by="text" class="text-small">
+                                    <br>
+                                </span>
+                            @endif
                         </div>
-                    @else
-                        <div class="card-title col-xs-12 col-sm-5">
-                        </div>
-                    @endif
+                    </div>
                     {{-- <div class="card-meta col-2">
                         <div class="d-flex align-items-center justify-content-end">
                             <span class="badge badge-secondary mr-2">
