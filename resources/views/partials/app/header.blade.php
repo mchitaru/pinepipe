@@ -2,7 +2,7 @@
     <div class="d-flex align-items-center">
         <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-sm align-items-center mx-1" title="{{__('Back')}}">
             <div class="icon">
-                <i class="material-icons align-middle">arrow_back_ios</i>
+                <i class="material-icons align-middle">arrow_back</i>
             </div>
         </a>
         @if(\Auth::user()->type !='super admin')
