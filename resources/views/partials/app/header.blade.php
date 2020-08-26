@@ -1,7 +1,12 @@
 <div class="navbar bg-white sticky-top align-items-center d-none d-lg-flex" style="z-index: 1019">
     <div class="d-flex align-items-center">
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-sm align-items-center mx-1" title="{{__('Back')}}">
+            <div class="icon">
+                <i class="material-icons align-middle">arrow_back_ios</i>
+            </div>
+        </a>
         @if(\Auth::user()->type !='super admin')
-        <div class="input-group input-group-light ">
+        <div class="input-group input-group-light">
             <input type="search" class="form-control form-control-light expandable search-element" placeholder="{{__('Search...')}}" aria-label="Search app">
         </div>
         @endif
