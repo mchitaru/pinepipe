@@ -21,7 +21,7 @@
                     {{ \Auth::user()->priceFormat($lead->price) }}
                 </span>
                 <div class="row">
-                    <span class="badge badge-secondary"> {{ $lead->stage->name }}</span>
+                    <span class="badge badge-{{Helpers::getProgressColor($lead->progress)}}"> {{ $lead->stage->name }}</span>
                 </div>
             </div>
             <div class="card-title col-xs-12 col-sm-3">

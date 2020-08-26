@@ -125,7 +125,7 @@ $(function() {
                         </form>
                         </div>
                         <!--end of content list head-->
-                        <div class="content-list-body">@include ('leads.index')</div>
+                        <div class="content-list-body">@include('leads.index')</div>
                     <!--end of content list body-->
                 </div>
                 <!--end of tab-->

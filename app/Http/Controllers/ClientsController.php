@@ -8,6 +8,7 @@ use App\User;
 use App\Contact;
 use App\Project;
 use App\Lead;
+use App\Stage;
 use App\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -241,6 +242,18 @@ class ClientsController extends Controller
                     ->get();
 
                 }
+            }
+
+            $stages = Stage::where('created_by', \Auth::user()->creatorId())
+                                ->where('class', Lead::class)
+                                ->get()
+                                ->pluck('id')
+                                ->toArray();
+
+            foreach($leads as $lead){
+
+                $index = array_search($lead->stage_id, $stages);
+                $lead->progress = ($index + 1) * 100 / (count($stages) - 1);    
             }
 
             clock()->endEvent('ClientsController');
