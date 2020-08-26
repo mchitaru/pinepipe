@@ -283,12 +283,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function companyClients()
     {
-        return Client::where('created_by', '=', $this->creatorId());
+        return Client::where('created_by', '=', $this->creatorId())->orderBy('name', 'asc');
     }
 
     public function companyContacts()
     {
-        return Contact::where('created_by', '=', $this->creatorId());
+        return Contact::where('created_by', '=', $this->creatorId())->orderBy('name', 'asc');
     }
 
     public function companyEvents()

@@ -55,14 +55,17 @@ class LeadsController extends Controller
                                     ->get()
                                     ->pluck('name', 'id');
 
-            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $clients = \Auth::user()->companyClients()
+                                ->get()
+                                ->pluck('name', 'id');
             if($client_id)
             {
                 if(is_numeric($client_id)) {
 
                     $contacts = Contact::contactsByUserType()
                                         ->where('client_id', '=', $client_id)
-                                        ->get()->pluck('name', 'id');
+                                        ->get()
+                                        ->pluck('name', 'id');
                 }else{
 
                     //new client
@@ -72,12 +75,14 @@ class LeadsController extends Controller
             }else
             {
                 $contacts = Contact::contactsByUserType()
-                                    ->get()->pluck('name', 'id');
+                                    ->get()
+                                    ->pluck('name', 'id');
             }
 
             $categories = Category::where('created_by', \Auth::user()->creatorId())
                                     ->where('class', Lead::class)
-                                    ->get()->pluck('name', 'id');
+                                    ->get()
+                                    ->pluck('name', 'id');
 
             if(isset($category_id) && !is_numeric($category_id)){
 
@@ -123,11 +128,14 @@ class LeadsController extends Controller
                             ->get()
                             ->pluck('name', 'id');
 
-            $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $clients = \Auth::user()->companyClients()
+                                ->get()
+                                ->pluck('name', 'id');
 
             $categories = Category::where('created_by', \Auth::user()->creatorId())
                                     ->where('class', Lead::class)
-                                    ->get()->pluck('name', 'id');
+                                    ->get()
+                                    ->pluck('name', 'id');
 
             if(isset($category_id) && !is_numeric($category_id)){
 
@@ -143,7 +151,8 @@ class LeadsController extends Controller
 
                     $contacts = Contact::contactsByUserType()
                                         ->where('client_id', '=', $client_id)
-                                        ->get()->pluck('name', 'id');
+                                        ->get()
+                                        ->pluck('name', 'id');
                 }else{
 
                     //new client
@@ -153,7 +162,8 @@ class LeadsController extends Controller
             }else
             {
                 $contacts = Contact::contactsByUserType()
-                                    ->get()->pluck('name', 'id');
+                                    ->get()
+                                    ->pluck('name', 'id');
             }
 
             return view('leads.edit', compact('category_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));

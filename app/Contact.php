@@ -115,14 +115,16 @@ class Contact extends Model
         if(\Auth::user()->type == 'company')
         {
             return Contact::with(['client', 'tags'])
-                   ->where('created_by','=',\Auth::user()->creatorId());
+                   ->where('created_by','=',\Auth::user()->creatorId())
+                   ->orderBy('name', 'asc');
         }else
         {
             return Contact::with(['client', 'tags'])
                     ->where(function ($query)  {
                         $query->where('user_id', \Auth::user()->id);
                     })
-                   ->where('created_by','=',\Auth::user()->creatorId());
+                   ->where('created_by','=',\Auth::user()->creatorId())
+                   ->orderBy('name', 'asc');
         }
     }
 

@@ -62,8 +62,8 @@ class ContactsController extends Controller
     {
         $client_id = $request['client_id'];
 
-        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
-                    ->get()
+        $clients = \Auth::user()->companyClients()
+                    ->get()                    
                     ->pluck('name', 'id');
 
         $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
@@ -108,7 +108,7 @@ class ContactsController extends Controller
      */
     public function edit(Contact $contact)
     {
-        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())
+        $clients = \Auth::user()->companyClients()
                         ->get()
                         ->pluck('name', 'id');
 

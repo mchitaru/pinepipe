@@ -88,7 +88,9 @@ class ProjectsController extends Controller
                         ->prepend(__('(myself)'), \Auth::user()->id);
         $user_id = \Auth::user()->id;
 
-        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $clients = \Auth::user()->companyClients()
+                            ->get()
+                            ->pluck('name', 'id');
 
         if($client_id && !is_numeric($client_id))
         {
@@ -151,7 +153,10 @@ class ProjectsController extends Controller
         $start_date = $request->start_date?$request->start_date:$project->start_date;
         $due_date = $request->due_date?$request->due_date:$project->due_date;
 
-        $clients = Client::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $clients = \Auth::user()->companyClients()
+                            ->get()
+                            ->pluck('name', 'id');
+
         $users   = User::where('created_by', '=', \Auth::user()->creatorId())
                         ->where('type', '!=', 'client')
                         ->get()
