@@ -158,6 +158,11 @@ class ClientsController extends Controller
 
         $client->delete();
 
+        if(URL::previous() == route('clients.show', $client)){
+
+            return Redirect::to(route('clients.index'))->with('success', __('Client successfully deleted'));
+        }
+
         return Redirect::to(URL::previous())->with('success', __('Client successfully deleted.'));
     }
 
