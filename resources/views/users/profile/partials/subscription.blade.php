@@ -4,9 +4,9 @@
 
 <div class="mb-4">
     @if(!$user->subscribed())
-        <span class="text-small">{{__('You have limited access on the Free plan. Choose your subscription and start a 14 day trial today!')}}</span>
+        <span class="text-small">{{__('You have limited access on the Free plan. Please choose a subscription and upgrade today!')}}</span>
     @endif
-    <div class="row">
+    <div class="row pt-3">
         <div class="col-lg-2">
         </div>
         <div class="col-lg-8 col-12 d-flex align-items-center justify-content-center">
@@ -56,11 +56,7 @@
                             @if($key != 0 )
                                 @if($user_plan->id != $plan->id)
                                     <a href="{{ route('subscriptions.create', $plan->id) }}" class="btn btn-primary {{($user->subscription() && $user->subscription()->active())?'disabled':''}}">
-                                        @if($plan->deal)
-                                            {{__('Activate')}}
-                                        @else
-                                            {{__('Start Trial')}}
-                                        @endif
+                                        {{__('Activate')}}
                                     </a>
                                 @elseif(!$plan->deal && $user_plan->id == $plan->id)
                                     <a href="{{ route('subscriptions.destroy', $user->subscription()->id) }}" class="btn btn-danger {{(!$user->subscription()->active() || Session::has('canceled'))?'disabled':''}}" data-method="delete" data-remote="true" data-type="text">
