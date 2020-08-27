@@ -1,27 +1,43 @@
+@php
+    $monthly = ($user_plan->duration == 1);
+@endphp
+
 <div class="mb-4">
     @if(!$user->subscribed())
         <span class="text-small">{{__('You have limited access on the Free plan. Choose your subscription and start a 14 day trial today!')}}</span>
     @endif
+    <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8 col-12 d-flex align-items-center justify-content-center">
+            <label for="toggle" class="switch-label px-3 {{$monthly ? 'font-weight-bold':'font-weight-light'}}">{{__('MONTHLY')}}</label>
+            <input type="checkbox" id="toggle" class="checkbox" {{$monthly ? '':'checked'}}/>  
+            <label for="toggle" class="switch"></label>
+            <label for="toggle" class="switch-label px-3 {{$monthly ? 'font-weight-light':'font-weight-bold'}}">{{__('YEARLY')}}</label>
+        </div>
+    </div>
     <div class="row pt-2">
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-8 col-12">
         @foreach($plans as $key=>$plan)
         @if($plan->active || $user_plan->id == $plan->id)
-        <div class="col-lg-6">
-            <div class="card {{$plan->deal?'bg-warning':''}} text-center" style="min-height: 300px;">
+        <div class="col-lg-12">
+            <div class="card {{$plan->deal?'bg-warning':''}} text-center {{ $plan->duration? "card-subscription":""}} {{ ($monthly && $plan->duration == 12) || (!$monthly && $plan->duration == 1) ? "d-none":""}}" style="min-height: 300px">
                 <div class="card-body">
                     <div class="row">
                         <div class="col mb-4">
-                            <h5 class="text-center">
+                            <h4 class="text-center">
                                 {{$plan->name}}
-
-                                @if($user_plan->id == $plan->id)
-                                    <span class="badge badge-primary">{{__('active')}}</span>
-                                @endif
-                                <br><br>
-                            </h5>
-                            <span class="text-small">{{$plan->description}}</span>
-                            <h4 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?$plan->price/$plan->duration:$plan->price)}}
-                                <span class="text-small">{{($plan->price && isset($plan->duration))?'/'.__('month'):''}}</span>
                             </h4>
+                            @if($user_plan->id == $plan->id)
+                                <span class="badge badge-primary">{{__('active')}}</span>
+                            @endif
+                            <br><br>
+                            <span class="text-small">{{$plan->description}}</span>
+                            <h1 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?$plan->price/$plan->duration:$plan->price)}}
+                                <span class="text-small">{{($plan->price && isset($plan->duration))?'/'.__('month'):''}}</span>
+                            </h1>
                             <ul class="list-unstyled">
                                 <li class="text-small">
                                     <b>{{!isset($plan->max_clients)?__('Unlimited'):$plan->max_clients}}</b> {{__('client(s)')}}
@@ -59,6 +75,7 @@
         </div>
         @endif
         @endforeach
+    </div>
     </div>
 </div>
 

@@ -38,6 +38,18 @@ use App\SubscriptionPlan;
       $(this).siblings(".file-label").addClass("selected").html(fileName);
     });
 
+
+    $('#toggle').change(function() {
+        
+        $('.switch-label').each(function() {
+            $(this).toggleClass('font-weight-bold font-weight-light');
+        });        
+
+        $('.card-subscription').each(function() {
+            $(this).toggleClass('d-none');
+        });        
+    });
+
 </script>
 @endpush
 
