@@ -10,10 +10,10 @@
         <div class="col-lg-2">
         </div>
         <div class="col-lg-8 col-12 d-flex align-items-center justify-content-center">
-            <label for="toggle" class="switch-label px-3 {{$monthly ? 'font-weight-bold':'font-weight-light'}}">{{__('MONTHLY')}}</label>
+            <label for="toggle" class="switch-label text-uppercase px-3 {{$monthly ? 'font-weight-bold':'font-weight-light'}}">{{__('MONTHLY')}}</label>
             <input type="checkbox" id="toggle" class="checkbox" {{$monthly ? '':'checked'}}/>  
             <label for="toggle" class="switch"></label>
-            <label for="toggle" class="switch-label px-3 {{$monthly ? 'font-weight-light':'font-weight-bold'}}">{{__('YEARLY')}}</label>
+            <label for="toggle" class="switch-label text-uppercase px-3 {{$monthly ? 'font-weight-light':'font-weight-bold'}}">{{__('YEARLY')}}</label>
         </div>
     </div>
     <div class="row pt-2">
