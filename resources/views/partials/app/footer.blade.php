@@ -62,20 +62,41 @@ $timesheet = $_user?$_user->timesheets->first():null;
         },
         categories: [
             {
-                listLocation: "Clients",
-                header: "<b>{{ __('CLIENTS') }}</b>"
-            },
-            {
                 listLocation: "Projects",
                 header: "<b>{{ __('PROJECTS') }}</b>"
             },
             {
                 listLocation: "Tasks",
                 header: "<b>{{ __('TASKS') }}</b>"
-            }
+            },
+            {
+                listLocation: "Events",
+                header: "<b>{{ __('EVENTS') }}</b>"
+            },
+            {
+                listLocation: "Clients",
+                header: "<b>{{ __('CLIENTS') }}</b>"
+            },
+            {
+                listLocation: "Contacts",
+                header: "<b>{{ __('CONTACTS') }}</b>"
+            },
+            {
+                listLocation: "Leads",
+                header: "<b>{{ __('LEADS') }}</b>"
+            },
+            {
+                listLocation: "Invoices",
+                header: "<b>{{ __('INVOICES') }}</b>"
+            },
+            // {
+            //     listLocation: "Expenses",
+            //     header: "<b>{{ __('EXPENSES') }}</b>"
+            // }
         ],
         getValue: "text",
         requestDelay: 200,
+        highlightPhrase: true,
         template: {
             type: "custom",
             method: function(value, item) {
@@ -83,7 +104,7 @@ $timesheet = $_user?$_user->timesheets->first():null;
             }
         },
         list: {
-            maxNumberOfElements: 10,
+            maxNumberOfElements: 100,
             match: {
                 enabled: true
             }

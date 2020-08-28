@@ -204,14 +204,44 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $this->hasMany('App\Contact', 'user_id', 'id');
     }
 
+    public function contactsByUserType()
+    {
+        if($this->type == 'company'){
+
+            return $this->companyContacts();
+        }
+
+        return $this->contacts();
+    }
+
     public function leads()
     {
         return $this->hasMany('App\Lead', 'user_id', 'id');
     }
 
+    public function leadsByUserType()
+    {
+        if($this->type == 'company'){
+
+            return $this->companyLeads();
+        }
+        
+        return $this->leads();
+    }
+
     public function expenses()
     {
         return $this->hasMany('App\Expense', 'user_id', 'id');
+    }
+
+    public function expensesByUserType()
+    {
+        if($this->type == 'company'){
+
+            return $this->companyExpenses();
+        }
+        
+        return $this->expenses();
     }
 
     public function timesheets()
@@ -233,6 +263,17 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return $this->hasMany('App\Event', 'user_id', 'id');
     }
+
+    public function eventsByUserType()
+    {
+        if($this->type == 'company'){
+
+            return $this->companyEvents();
+        }
+        
+        return $this->userEvents();
+    }
+
 
     public function client()
     {
@@ -309,6 +350,26 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function companyInvoices()
     {
         return Invoice::where('created_by', '=', $this->creatorId());
+    }
+
+    public function invoicesByUserType()
+    {
+        if($this->type == 'client'){
+            return Invoice::with('project')
+                            ->whereHas('project', function ($query)
+                            {
+                                $query->whereHas('client', function ($query)
+                                {
+                                    $query->where('id', \Auth::user()->client_id);
+                                });
+                            })
+                            ->where('created_by', '=', \Auth::user()->creatorId())
+                            ->orderBy('due_date', 'ASC');
+
+        }
+        
+        return $this->companyInvoices()
+                    ->orderBy('due_date', 'ASC');
     }
 
     public function companyExpenses()

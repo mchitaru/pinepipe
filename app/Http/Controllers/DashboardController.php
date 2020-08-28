@@ -108,7 +108,6 @@ class DashboardController extends Controller
                                     ->where('created_by', '=', \Auth::user()->creatorId())
                                     ->where('status', '<', '3')
                                     ->orderBy('due_date', 'ASC')
-                                    ->orderBy('due_date', 'ASC')
                                     ->get();
 
             $tasks = \Auth::user()->tasks()
@@ -185,6 +184,65 @@ class DashboardController extends Controller
 
     public function search($search)
     {
+        //projects                                    
+        $arrProject = [];
+        if(\Auth::user()->can('view project')){
+
+            $projects = \Auth::user()->projectsByUserType()
+            ->with(['tasks', 'users', 'client'])
+            ->where(function ($query) use ($search) {
+                $query->where('name','like', $search.'%');
+            })
+            ->get();
+
+            foreach($projects as $project)
+            {
+                $arrProject[] = [
+                    'text' => $project->name,
+                    'link' => route('projects.show', [$project->id]),
+                ];
+            }
+        }
+
+        //tasks
+        $arrTask = [];
+        if(\Auth::user()->can('view task')){
+
+            $tasks = \Auth::user()->tasksByUserType()
+                                    ->with(['users'])
+                                    ->where(function ($query) use ($search) {
+                                        $query->where('title','like', $search.'%');
+                                    })
+                                    ->get();
+
+            foreach($tasks as $task)
+            {
+                $arrTask[] = [
+                    'text' => $task->title,
+                    'link' => route('tasks.show', [$task->id]),
+                    'param' => 'data-remote="true" data-type="text"'
+                ];
+            }
+        }
+
+        //events
+        $arrEvent = [];
+        $events = \Auth::user()->eventsByUserType()
+                                ->where(function ($query) use ($search) {
+                                    $query->where('name','like', $search.'%');
+                                })
+                                ->get();
+
+        foreach($events as $event)
+        {
+            $arrEvent[] = [
+                'text' => $event->name,
+                'link' => route('events.edit', [$event->id]),
+                'param' => 'data-remote="true" data-type="text"'
+            ];
+        }
+
+        //clients
         $arrClient = [];
         if(\Auth::user()->can('view client')){
 
@@ -203,44 +261,94 @@ class DashboardController extends Controller
             }
         }
 
-        $projects = \Auth::user()->projectsByUserType()
-                                    ->with(['tasks', 'users', 'client'])
+        //contacts
+        $arrContact = [];
+        if(\Auth::user()->can('view contact')){
+
+            $contacts = \Auth::user()->contactsByUserType()
                                     ->where(function ($query) use ($search) {
                                         $query->where('name','like', $search.'%');
                                     })
                                     ->get();
 
-        $arrProject = [];
-        foreach($projects as $project)
-        {
-            $arrProject[] = [
-                'text' => $project->name,
-                'link' => route('projects.show', [$project->id]),
-            ];
+            foreach($contacts as $contact)
+            {
+                $arrContact[] = [
+                    'text' => $contact->name,
+                    'link' => route('contacts.edit', [$contact->id]),
+                    'param' => 'data-remote="true" data-type="text"'
+                ];
+            }
         }
 
-        $tasks = \Auth::user()->tasksByUserType()
-                                ->with(['users'])
-                                ->where(function ($query) use ($search) {
-                                    $query->where('title','like', $search.'%');
-                                })
-                                ->get();
+        //leads
+        $arrLead = [];
+        if(\Auth::user()->can('view lead')){
 
-        $arrTask = [];
-        foreach($tasks as $task)
-        {
-            $arrTask[] = [
-                'text' => $task->title,
-                'link' => route('tasks.show', [$task->id]),
-                'param' => 'data-remote="true" data-type="text"'
-            ];
+            $leads = \Auth::user()->leadsByUserType()
+                                    ->where(function ($query) use ($search) {
+                                        $query->where('name','like', $search.'%');
+                                    })
+                                    ->get();
+
+            foreach($leads as $lead)
+            {
+                $arrLead[] = [
+                    'text' => $lead->name,
+                    'link' => route('leads.show', [$lead->id])
+                ];
+            }
         }
 
+        //invoices
+        $arrInvoice = [];
+        if(\Auth::user()->can('view invoice')){
+
+            $invoices = \Auth::user()->invoicesByUserType()
+                                    ->where(function ($query) use ($search) {
+                                        $query->where('invoice_id','like', $search.'%');
+                                    })
+                                    ->get();
+
+            foreach($invoices as $invoice)
+            {
+                $arrInvoice[] = [
+                    'text' => Auth::user()->invoiceNumberFormat($invoice->invoice_id),
+                    'link' => route('invoices.show', [$invoice->id])
+                ];
+            }
+        }
+
+        // //expenses
+        // $arrExpense = [];
+        // if(\Auth::user()->can('view expense')){
+
+        //     $expenses = \Auth::user()->expensesByUserType()
+        //                             ->where(function ($query) use ($search) {
+        //                                 $query->where('name','like', $search.'%');
+        //                             })
+        //                             ->get();
+
+        //     foreach($expense as $expense)
+        //     {
+        //         $arrExpense[] = [
+        //             'text' => $expense->name,
+        //             'link' => route('expenses.edit', [$expense->id]),
+        //             'param' => 'data-remote="true" data-type="text"'
+        //         ];
+        //     }
+        // }
+        
         return json_encode(
             [
-                'Clients' => $arrClient,
                 'Projects' => $arrProject,
                 'Tasks' => $arrTask,
+                'Events' => $arrEvent,
+                'Clients' => $arrClient,
+                'Contacts' => $arrContact,
+                'Leads' => $arrLead,
+                'Invoices' => $arrInvoice,
+                // 'Expenses' => $arrExpense
             ]
         );
     }

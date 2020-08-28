@@ -176,6 +176,19 @@ table {
   }  
 }
 
+.easy-autocomplete-container ul {
+  background: none repeat scroll 0 0 none;
+  border-top: 1px dotted #ccc;
+  display: none;
+  margin-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  position: relative;
+  top: -1px;
+  max-height: 400px; /* Set your expected height */
+  overflow-y: scroll; /* Enable vertical scrollbar */
+}
+
 a {
     color: $user-link-color;
     text-decoration: $user-link-decoration;
