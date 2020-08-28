@@ -27,7 +27,7 @@
         "autosize": "^4.0.2",
         "dropzone": "^5.7.2",
         "easy-autocomplete": "^1.3.5",
-        "flatpickr": "^4.6.3",
+        "flatpickr": "4.6.3",
         "jquery-ujs": "^1.2.2",
         "lang.js": "^1.1.14",
         "list.js": "^1.5.0",
