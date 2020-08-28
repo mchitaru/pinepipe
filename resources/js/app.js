@@ -12,6 +12,7 @@ require('bootstrap');
 require('select2');
 require('easy-autocomplete');
 require('dropzone');
+require('flatpickr');
 require('./mrare');
 
 var Lang = require('lang.js');
