@@ -18,7 +18,9 @@
             <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
+                <a href="{{route('notes.edit', $note->id)}}" class="dropdown-item" data-remote="true">
+                    {{__('Edit')}}
+                </a>
                 <a href="{{route('notes.destroy', $note->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
                     {{__('Delete')}}
                 </a>

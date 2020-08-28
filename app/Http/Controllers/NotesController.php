@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
 use App\Http\Requests\NoteStoreRequest;
+use App\Http\Requests\NoteUpdateRequest;
 use App\Http\Requests\NoteDestroyRequest;
 
 class NotesController extends Controller
@@ -59,7 +60,7 @@ class NotesController extends Controller
      */
     public function edit(Note $note)
     {
-        //
+        return view('notes.edit', compact('note'));
     }
 
     /**
@@ -69,9 +70,15 @@ class NotesController extends Controller
      * @param  \App\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Note $note)
+    public function update(NoteUpdateRequest $request, Note $note)
     {
-        //
+        $post = $request->validated();
+
+        $note->updateNote($post);
+
+        $request->session()->flash('success', __('Note successfully updated.'));
+
+        return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
 
     /**
