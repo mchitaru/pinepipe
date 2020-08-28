@@ -15,7 +15,7 @@ use Illuminate\Support\Arr;
 
 class UserRolesController extends Controller
 {
-    private static $modules = [ 'contact', 'client', 'lead', 'project', 'task', 'timesheet', 'invoice', 'expense',
+    private static $modules = [ 'event', 'contact', 'client', 'lead', 'project', 'task', 'timesheet', 'invoice', 'expense',
                                 'lead stage', 'task stage', 'user', 'role'];
 
     public function index()
