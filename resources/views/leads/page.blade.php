@@ -51,11 +51,11 @@ function initLeadCards() {
 
                 if(response.is_success){
 
-                    toastrs('Stage order successfully updated.', 'success');
+                    toastrs('{{__('Stage order successfully updated.')}}', 'success');
                 }
             },
             error: function (data) {
-                toastrs('This operation is not allowed!', 'danger');
+                toastrs('{{__("You dont have the right to perform this operation!")}}', 'danger');
             }
         });
     });

@@ -712,5 +712,8 @@
     "MONTHLY": "LUNAR",
     "YEARLY": "ANUAL",
     "Back": "Înapoi",
-    "You have limited access on the Free plan. Please choose a subscription and upgrade today!": "Ai acces limitat cu abonamentul Free. Alege un abonament și fă upgrade astăzi!"
+    "You have limited access on the Free plan. Please choose a subscription and upgrade today!": "Ai acces limitat cu abonamentul Free. Alege un abonament și fă upgrade astăzi!",
+    "Note successfully updated.": "Nota a fost actualizată.",
+    "Stage order successfully updated.": "Ordinea stadiilor a fost actualizată.",
+    "You dont have the right to perform this operation!": "Nu aveți dreptul de a efectua această operațiune!"
 }
