@@ -99,7 +99,7 @@ $(document).on('ajax:success', function(e, data, status, xhr){
 
             if(!$('#modal').length)
             {
-                $('body').append($('<div class="modal show" id="modal" data-keyboard="true" tabindex="-1"></div>'))
+                $('body').append($('<div class="modal show" id="modal" data-backdrop="static" data-keyboard="true"></div>'))
             }
 
             $('#modal').html(xhr.responseText).modal('show');
