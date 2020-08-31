@@ -3,16 +3,6 @@ use Carbon\Carbon;
 $timesheet = $_user?$_user->timesheets->first():null;
 @endphp
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165597316-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-165597316-1');
-</script>
-
 <!-- WARNING!! DO NOT LEAVE LINE COMMENTS IN SCRIPTS!! -->
 
 <script type="text/javascript" src="{{ asset('js/manifest.js') }}"></script>
