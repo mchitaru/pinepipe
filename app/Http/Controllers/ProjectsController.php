@@ -77,6 +77,7 @@ class ProjectsController extends Controller
     public function create(Request $request)
     {
         $client_id = $request['client_id'];
+        $lead_id = $request['lead_id'];
 
         $start_date = $request->start_date;
         $due_date = $request->due_date;
@@ -92,13 +93,38 @@ class ProjectsController extends Controller
                             ->get()
                             ->pluck('name', 'id');
 
-        if($client_id && !is_numeric($client_id))
-        {
-            //new client
-            $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+        if($lead_id){
+
+            $lead = Lead::find($lead_id);
+
+            if($lead){
+
+                $client_id = $lead->client->id;
+            }
         }
 
-        return view('projects.create', compact('clients', 'users', 'user_id', 'client_id', 'start_date', 'due_date'));
+        if($client_id)
+        {
+            if(is_numeric($client_id)) {
+
+                $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())
+                                ->where('client_id', '=', $client_id)
+                                ->get()
+                                ->pluck('name', 'id');
+            }else{
+
+                //new client
+                $leads = [];
+                $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+            }
+        }else
+        {
+                $leads   = Lead::where('created_by', '=', \Auth::user()->creatorId())
+                                ->get()
+                                ->pluck('name', 'id');
+        }
+
+        return view('projects.create', compact('clients', 'users', 'user_id', 'client_id', 'start_date', 'due_date', 'leads', 'lead_id'));
     }
 
 
