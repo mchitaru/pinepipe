@@ -51,7 +51,7 @@ function initLeadCards() {
 
                 if(response.is_success){
 
-                    toastrs('{{__('Stage order successfully updated.')}}', 'success');
+                    toastrs("{{__('Stage order successfully updated.')}}", 'success');
                 }
             },
             error: function (data) {
