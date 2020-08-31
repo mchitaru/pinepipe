@@ -306,14 +306,14 @@ class DashboardController extends Controller
 
             $invoices = \Auth::user()->invoicesByUserType()
                                     ->where(function ($query) use ($search) {
-                                        $query->where('invoice_id','like', $search.'%');
+                                        $query->where('number','like', '%'.$search.'%');
                                     })
                                     ->get();
 
             foreach($invoices as $invoice)
             {
                 $arrInvoice[] = [
-                    'text' => Auth::user()->invoiceNumberFormat($invoice->invoice_id),
+                    'text' => $invoice->number ? $invoice->number : \Auth::user()->invoiceNumberFormat($invoice->increment),
                     'link' => route('invoices.show', [$invoice->id])
                 ];
             }

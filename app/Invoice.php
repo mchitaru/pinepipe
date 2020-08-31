@@ -15,7 +15,8 @@ class Invoice extends Model
     use NullableFields, Taggable;
 
     protected $fillable = [
-        'invoice_id',
+        'number',
+        'increment',
         'project_id',
         'status',
         'issue_date',
@@ -200,7 +201,8 @@ class Invoice extends Model
         $invoice              = Invoice::make($post);
         $invoice->status      = 0;
         $invoice->discount    = 0;
-        $invoice->invoice_id = $last_invoice?($last_invoice->id + 1):1;
+        $invoice->increment = $last_invoice ? ($last_invoice->increment + 1) : 1;
+        $invoice->number = \Auth::user()->invoiceNumberFormat($invoice->increment);
         $invoice->save();
 
         Activity::createInvoice($invoice);

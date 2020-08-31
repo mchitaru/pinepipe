@@ -1,7 +1,7 @@
         <div class="card-header">
             <div class="align-items-center">
                 <div class="float-left">
-                    <p><strong>{{ Auth::user()->invoiceNumberFormat($invoice->invoice_id) }}</strong>
+                    <p><strong>{{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }}</strong>
                         {{__('invoice', [], $invoice->locale)}}
                         <span class="d-print-none">{!! $invoice->getStatusBadge() !!}</span>
                         @if($invoice->currency && ($invoice->currency != \Auth::user()->getCurrency()))

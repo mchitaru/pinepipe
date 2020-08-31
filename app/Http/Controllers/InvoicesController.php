@@ -223,7 +223,7 @@ class InvoicesController extends Controller
                 $client   = $invoice->project->client;
 
                 $pdf = \PDF::loadView('invoices.pdf', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
-                return $pdf->download(Auth::user()->invoiceNumberFormat($invoice->invoice_id).'.pdf');
+                return $pdf->download($invoice->number ? $invoice->number.'.pdf' : Auth::user()->invoiceNumberFormat($invoice->increment).'.pdf');
             }
             else
             {

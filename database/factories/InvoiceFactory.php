@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Invoice::class, function (Faker $faker) {
     return [
-        'invoice_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Invoice::$SEED + 1,
+        'increment' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Invoice::$SEED + 1,
                                                 User::$SEED_COMPANY_IDX*Invoice::$SEED),
         'project_id' => $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Project::$SEED + 1,
                                                 User::$SEED_COMPANY_IDX*Project::$SEED),

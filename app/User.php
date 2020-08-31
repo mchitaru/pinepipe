@@ -649,7 +649,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function invoiceNumberFormat($number)
     {
         $settings = $this->companySettings;
-        $prefix = $settings?$settings->invoice:'#INV';
+        $prefix = $settings ? $settings->invoice : '#INV';
 
         return $prefix . sprintf("%05d", $number);
     }
@@ -1077,7 +1077,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         //Sample Invoice
         Invoice::create(
             [
-                'invoice_id' => 1,
+                'increment' => 1,
+                'number' => "#INV00001",
                 'project_id' => $project->id,
                 'status' => 0,
                 'issue_date' => Carbon::now(),
