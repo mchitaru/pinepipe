@@ -12,7 +12,7 @@
         <div class="col-xl-5 col-lg-6 col-md-7">
         <div class="text-center">
             <h1 class="display-1 text-primary">4&#x1f635;4</h1>
-            <p> {{__('The page you were looking for was not found.')}} </p>
+            <h5> {{__('The page you were looking for was not found.')}} </h5>
             <p>
                 <a href="{{route('home')}}">{{__('Click here to go home')}}</a>
              {{__('or ')}}

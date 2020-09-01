@@ -21,7 +21,7 @@ class PermissionsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
     }
@@ -36,7 +36,7 @@ class PermissionsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
 
@@ -76,7 +76,7 @@ class PermissionsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
 
@@ -93,7 +93,7 @@ class PermissionsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
 
@@ -119,7 +119,7 @@ class PermissionsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
 
@@ -138,7 +138,7 @@ class PermissionsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
 

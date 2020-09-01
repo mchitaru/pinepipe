@@ -6,7 +6,6 @@
     "uploaded file": "",
     "created invoice": "",
     "updated invoice": "",
-    "Permission denied.": "",
     "Client successfully created.": "",
     "Your have reached you client limit. Please upgrade your subscription to add more clients!": "",
     "Client successfully updated.": "",
@@ -21,7 +20,6 @@
     "Expense Category successfully created.": "",
     "Expense category successfully updated.": "",
     "Expense category successfully deleted.": "",
-    "Permission Denied.": "",
     "Expense successfully created.": "",
     "Expense successfully updated.": "",
     "Expense successfully deleted.": "",
@@ -743,5 +741,9 @@
     "You have limited access on the Free plan. Please choose a subscription and upgrade today!": "",
     "Note successfully updated.": "",
     "Stage order successfully updated.": "",
-    "You dont have the right to perform this operation!": ""
+    "You dont have the right to perform this operation!": "",
+    "EVENTS": "",
+    "CONTACTS": "",
+    "EXPENSES": "",
+    "You don't have the right to access this resource!": ""
 }

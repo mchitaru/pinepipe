@@ -88,7 +88,7 @@ class InvoicesController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission Denied.'));
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -117,7 +117,7 @@ class InvoicesController extends Controller
         }
         else
         {
-            return response()->json(['error' => __('Permission denied.')], 401);
+            return response()->json(['error' => __('You dont have the right to perform this operation!')], 401);
         }
     }
 
@@ -148,7 +148,7 @@ class InvoicesController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -178,7 +178,7 @@ class InvoicesController extends Controller
         }
         else
         {
-            return response()->json(['error' => __('Permission denied.')], 401);
+            return response()->json(['error' => __('You dont have the right to perform this operation!')], 401);
         }
     }
 
@@ -227,12 +227,12 @@ class InvoicesController extends Controller
             }
             else
             {
-                return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+                return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
             }
         }
         else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 

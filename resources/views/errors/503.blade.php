@@ -12,7 +12,7 @@
         <div class="col-xl-5 col-lg-6 col-md-7">
         <div class="text-center">
             <h1 class="display-1 text-primary">5&#x1f635;3</h1>
-            <p> {{__('We are performing some maintenance on the platform. Please come back later!')}} </p>
+            <h5> {{__('We are performing some maintenance on the platform. Please come back later!')}} </h5>
             <p>
                 <a href="{{route('home')}}">{{__('Click here to go home')}}</a>
              {{__('or ')}}

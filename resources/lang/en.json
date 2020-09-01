@@ -7,7 +7,6 @@
     "Client successfully created.": "",
     "Your have reached you client limit. Please upgrade your plan to add more clients!": "",
     "Client successfully updated.": "",
-    "Permission denied.": "",
     "Client successfully deleted.": "",
     "Profile successfully updated.": "",
     "Contact successfully created.": "",
@@ -19,7 +18,6 @@
     "Expense successfully created.": "",
     "Expense successfully updated.": "",
     "Expense successfully deleted.": "",
-    "Permission Denied.": "",
     "Payment successfully added.": "",
     "Please select milestone or task.": "",
     "title and price filed are required": "",
@@ -823,5 +821,9 @@
     "You have limited access on the Free plan. Please choose a subscription and upgrade today!": "",
     "Note successfully updated.": "",
     "Stage order successfully updated.": "",
-    "You dont have the right to perform this operation!": ""
+    "You dont have the right to perform this operation!": "",
+    "EVENTS": "",
+    "CONTACTS": "",
+    "EXPENSES": "",
+    "You don't have the right to access this resource!": ""
 }

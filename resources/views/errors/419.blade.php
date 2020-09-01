@@ -12,7 +12,7 @@
         <div class="col-xl-5 col-lg-6 col-md-7">
         <div class="text-center">
             <h1 class="display-1 text-primary">419</h1>
-            <p> {{__('Because you were idle for some time, the page expired for security reasons.')}} </p>
+            <h5> {{__('Because you were idle for some time, the page expired for security reasons.')}} </h5>
             <p>
                 <a href="{{route('login')}}">{{__('Click here to go to the login page')}}</a>
              {{__('or ')}}

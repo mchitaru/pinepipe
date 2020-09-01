@@ -77,7 +77,7 @@ class ClientsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -89,7 +89,7 @@ class ClientsController extends Controller
         }
         else
         {
-            Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -126,7 +126,7 @@ class ClientsController extends Controller
         }
         else
         {
-            Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -266,7 +266,7 @@ class ClientsController extends Controller
             return view('clients.show', compact('client', 'contacts', 'projects', 'leads', 'activities'));
         }else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 }

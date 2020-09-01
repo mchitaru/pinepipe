@@ -59,7 +59,7 @@ class TasksController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 

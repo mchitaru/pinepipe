@@ -73,7 +73,7 @@ class UserRolesController extends Controller
             return view('roles.create', compact('modules', 'permissions'));
         }else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
 
     }
@@ -105,7 +105,7 @@ class UserRolesController extends Controller
             return Redirect::to(URL::previous())->with('success', __('Role successfully created.'));
         }else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
 
 
@@ -136,7 +136,7 @@ class UserRolesController extends Controller
             return view('roles.edit', compact('modules', 'role', 'permissions'));
         }else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
 
 
@@ -206,7 +206,7 @@ class UserRolesController extends Controller
             return Redirect::to(URL::previous())->with('success', __('Role successfully updated.'));
         }else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
 
     }
@@ -241,7 +241,7 @@ class UserRolesController extends Controller
             return Redirect::to(URL::previous())->with('success', __('Role successfully deleted.'));
         }else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
 
     }

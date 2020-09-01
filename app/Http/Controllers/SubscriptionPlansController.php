@@ -19,7 +19,7 @@ class SubscriptionPlansController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -32,7 +32,7 @@ class SubscriptionPlansController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -61,7 +61,7 @@ class SubscriptionPlansController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
     }
@@ -77,7 +77,7 @@ class SubscriptionPlansController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -116,7 +116,7 @@ class SubscriptionPlansController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', __('Permission denied.'));
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
 
     }

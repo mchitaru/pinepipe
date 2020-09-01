@@ -11,12 +11,13 @@
     <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7">
         <div class="text-center">
-            <h1 class="display-1 text-primary">5&#x1f635;0</h1>
-            <h5> {{__('The aplication encountered an error. We are sorry for the inconvenience!')}} </h5>
+            <h1 class="display-1 text-primary">4&#x1f635;3</h1>
+            <h5> {{__("You don't have the right to access this resource!")}} </h5>
             <p>
                 <a href="{{route('home')}}">{{__('Click here to go home')}}</a>
              {{__('or ')}}
              <a href="{{ route('home')}}">{{__('Contact Us')}}</a>
+              {{__('if you think this might be an error.')}}
             </p>
         </div>
         </div>

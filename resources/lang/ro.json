@@ -7,7 +7,6 @@
     "uploaded file": "a încărcat fișierul",
     "created invoice": "a adăugat factura",
     "updated invoice": "a modificat factura",
-    "Permission denied.": "Acces refuzat",
     "Client successfully created.": "Client adăugat cu succes",
     "Your have reached you client limit. Please upgrade your subscription to add more clients!": "Limita de clienți ce pot fi adăugați a fost atinsă. Vă rog să faceți upgrade la un plan de beneficii superior pentru a putea adăuga mai mulți clienți",
     "Client successfully updated.": "Client modificat cu succes",
@@ -22,7 +21,6 @@
     "Expense Category successfully created.": "Categorie de cheltuieli adăugată cu succes",
     "Expense category successfully updated.": "Categorie de cheltuieli modificată cu succes",
     "Expense category successfully deleted.": "Categorie de cheltuieli ștearsă cu succes",
-    "Permission Denied.": "Acces refuzat",
     "Expense successfully created.": "Cheltuială adăugată cu succes",
     "Expense successfully updated.": "Cheltuială modificată cu succes",
     "Expense successfully deleted.": "Cheltuială ștearsă cu succes",
@@ -715,5 +713,9 @@
     "You have limited access on the Free plan. Please choose a subscription and upgrade today!": "Ai acces limitat cu abonamentul Free. Alege un abonament și fă upgrade astăzi!",
     "Note successfully updated.": "Nota a fost actualizată.",
     "Stage order successfully updated.": "Ordinea stadiilor a fost actualizată.",
-    "You dont have the right to perform this operation!": "Nu aveți dreptul de a efectua această operațiune!"
+    "You dont have the right to perform this operation!": "Nu ai dreptul de a efectua această operațiune!",
+    "EVENTS": "EVENIMENTE",
+    "CONTACTS": "CONTACTE",
+    "EXPENSES": "CHELTUIELI",
+    "You don't have the right to access this resource!": "Nu ai dreptul de a accesa această resursă!"
 }

@@ -70,7 +70,7 @@ class ProjectsController extends Controller
         }
         else
         {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
@@ -306,7 +306,7 @@ class ProjectsController extends Controller
         }
         else
         {
-            return Redirect::to(URL::previous())->with('error', __('Permission denied.'));
+            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
     }
 
