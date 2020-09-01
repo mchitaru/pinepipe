@@ -24,6 +24,7 @@ class InvoiceStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'client_id' => 'required|integer',
             'project_id' => 'required|integer',
             'issue_date' => 'required|date',
             'due_date' => 'required|date',

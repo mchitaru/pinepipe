@@ -10,6 +10,7 @@ use App\Payment;
 use App\InvoiceItem;
 use App\Milestone;
 use App\Products;
+use App\Project;
 use App\Task;
 use App\Tax;
 use App\Timesheet;
@@ -96,6 +97,8 @@ class InvoicesController extends Controller
     {
         if(\Auth::user()->can('create invoice'))
         {
+            $client_id = $request['client_id'];
+
             $currency = $request->old('currency') ? $request->old('currency') :
                                                     (isset($request['currency']) ? $request['currency'] : \Auth::user()->getCurrency());
             $rate = (isset($request['rate']) && !empty($request['rate'])) ? $request['rate'] : 1.0;
@@ -106,14 +109,28 @@ class InvoicesController extends Controller
             $project_id = $request['project_id'];
 
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
+
+            $clients = \Auth::user()->companyClients()
+                                    ->get()
+                                    ->pluck('name', 'id');
+
+            if($client_id){
+
+                $projects  = Project::where('created_by', '=', \Auth::user()->creatorId())
+                                        ->where('client_id', '=', $client_id)
+                                        ->get()
+                                        ->pluck('name', 'id');
+            }else{
+
+                $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
+            }
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
             $locale = isset($request['locale'])?$request['locale']:\Auth::user()->locale;
 
             $currencies = Currency::get()->pluck('code', 'code');    
 
-            return view('invoices.create', compact('projects', 'project_id', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
+            return view('invoices.create', compact('clients', 'client_id', 'projects', 'project_id', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
         }
         else
         {
@@ -165,8 +182,6 @@ class InvoicesController extends Controller
             $issue_date = $request->issue_date?$request->issue_date:$invoice->issue_date;
             $due_date = $request->due_date?$request->due_date:$invoice->due_date;
 
-            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
-
             $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
@@ -174,7 +189,7 @@ class InvoicesController extends Controller
 
             $currencies = Currency::get()->pluck('code', 'code');
 
-            return view('invoices.edit', compact('invoice', 'projects', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
+            return view('invoices.edit', compact('invoice', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
         }
         else
         {
