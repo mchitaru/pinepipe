@@ -19,7 +19,7 @@ async function initDropzone(selector, url, model_id, files)
     maxFiles: 100,
     maxFilesize: 10,
     parallelUploads: 10,
-    acceptedFiles: '.jpeg,.jpg,.png,.gif,.svg,.pdf,.txt,.doc,.docx,.zip,.rar,.xls,.xlsx',
+    acceptedFiles: 'image/*,text/*,font/*,application/*,.doc,.docx,.xls,.xlsx,.ppt,.pptx',
     url: url,
 
     success: function (file, response) {

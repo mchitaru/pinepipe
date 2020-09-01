@@ -56,7 +56,7 @@
         </div>
         <div class="media-body ml-3">
             <div class="custom-file custom-file-naked d-block mb-1">
-                <input type="file" class="custom-file-input avatar-input d-none" name="attachment" id="attachment" accept="image/*">
+                <input type="file" class="custom-file-input avatar-input d-none" name="attachment" id="attachment" accept="image/*,application/pdf">
                 <label class="custom-file-label position-relative" for="attachment">
                 <span class="btn btn-primary">
                     {{__('Upload receipt')}}

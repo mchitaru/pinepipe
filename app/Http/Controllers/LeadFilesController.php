@@ -21,7 +21,7 @@ class LeadFilesController extends Controller
      */
     public function store(Request $request, Lead $lead)
     {        
-        $request->validate(['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar,xls,xlsx|max:10240']);
+        $request->validate(['file' => 'required|mimetypes:image/*,text/*,font/*,application/*|max:10240']);
 
         if($request->hasFile('file'))
         {
