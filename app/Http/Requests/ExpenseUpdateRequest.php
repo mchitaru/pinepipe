@@ -37,6 +37,7 @@ class ExpenseUpdateRequest extends FormRequest
             'date' => 'required',
             'category_id' => 'nullable',
             'project_id' => 'integer|nullable',
+            'user_id' => 'integer|required',
             'attachment' => 'mimetypes:image/*,application/pdf|max:2048'
         ];
     }

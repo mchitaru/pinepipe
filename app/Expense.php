@@ -20,7 +20,6 @@ class Expense extends Model implements HasMedia
         'date',
         'category_id',
         'project_id',
-        'user_id',
         'description',
         'attachment',
         'user_id',
@@ -45,7 +44,6 @@ class Expense extends Model implements HasMedia
 
         static::creating(function ($expense) {
             if ($user = \Auth::user()) {
-                $expense->user_id = $user->id;
                 $expense->created_by = $user->creatorId();
             }
         });
