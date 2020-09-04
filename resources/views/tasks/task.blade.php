@@ -41,7 +41,7 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
         <div class="row align-items-center"  title="{{__('Labels')}}">
             <i class="material-icons">label</i>
             @foreach($task->tags as $tag)
-                <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                <span class="badge badge-light" data-filter-by="text"> {{ $tag->name }}</span>
             @endforeach
         </div>
         @endif

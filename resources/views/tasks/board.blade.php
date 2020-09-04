@@ -86,7 +86,7 @@ $timesheet = $_user->timesheets->first();
                     <div class="justify-content-between align-items-center d-none d-xl-flex">
                         <div  title="{{__('Labels')}}">
                             @foreach($task->tags as $tag)
-                                <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                                <span class="badge badge-light" data-filter-by="text"> {{ $tag->name }}</span>
                             @endforeach
                         </div>
                         <ul class="avatars">

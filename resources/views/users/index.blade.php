@@ -37,24 +37,24 @@
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
                     @if(\Auth::user()->type=='super admin')
-                    <span class="badge badge-secondary mr-2">
+                    <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Collaborators")}}>people</i>
                         {{$user->total_company_user($user->id)}}
                     </span>
-                    <span class="badge badge-secondary mr-2">
+                    <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Projects")}}>folder</i>
                         {{$user->total_company_project($user->id)}}
                     </span>
-                    <span class="badge badge-secondary mr-2">
+                    <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Clients")}}>storefront</i>
                         {{$user->total_company_client($user->id)}}
                     </span>
                     @else
-                    <span class="badge badge-secondary mr-2">
+                    <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Projects")}}>folder</i>
                         {{$user->user_projects_count()}}
                     </span>
-                    <span class="badge badge-secondary mr-2">
+                    <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Tasks")}}>playlist_add_check</i>
                         {{$user->user_tasks_count()}}
                     </span>

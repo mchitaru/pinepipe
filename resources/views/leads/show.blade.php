@@ -113,9 +113,9 @@ $(function() {
                         @if(!$lead->archived)
                             <span class="badge badge-success">{{__('active')}}</span>
                         @else
-                            <span class="badge badge-secondary">{{__('archived')}}</span>
+                            <span class="badge badge-light">{{__('archived')}}</span>
                         @endif
-                    </div>    
+                    </div>
                     <div class="d-flex align-items-center"  title="{{__('Value')}}">
                         <span>{{ \Auth::user()->priceFormat($lead->price) }}</span>
                     </div>

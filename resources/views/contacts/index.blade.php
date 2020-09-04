@@ -46,7 +46,7 @@
                     @if(!$contact->tags->isEmpty())
                         <i class="material-icons">label</i>
                         @foreach($contact->tags as $tag)
-                            <span class="badge badge-secondary" data-filter-by="text"> {{ $tag->name }}</span>
+                            <span class="badge badge-light" data-filter-by="text"> {{ $tag->name }}</span>
                         @endforeach
                     @endif
                 </div>

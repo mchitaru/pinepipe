@@ -11,7 +11,7 @@
                     <h6 data-filter-by="text">{{ $role->name }}</h6>
                 @endif
                 @if($role->created_by == 1)
-                    <span class="ml-3 badge badge-secondary">{{__('default')}}</span>
+                    <span class="ml-3 badge badge-warning">{{__('default')}}</span>
                 @endif
             </div>
             <div class="card-meta col-xl">
