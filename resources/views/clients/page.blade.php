@@ -56,8 +56,8 @@ $(function() {
                             </div>
                         </div>
                     </div>
-                    <div class="row content-list-filter">
-                        <div class="filter-container col-auto">
+                    <div class="row content-list-filter align-items-center">
+                        <div class="filter-container col-auto align-items-center">
                             <div class="filter-controls">
                                 <div>{{__('Sort')}}:</div>
                             </div>

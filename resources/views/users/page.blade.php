@@ -6,7 +6,7 @@
 @push('scripts')
 <script>
     $(function() {
-    
+
     localStorage.setItem('sort', 'name');
     localStorage.setItem('dir', 'asc');
     localStorage.setItem('filter', '');
@@ -52,10 +52,10 @@
             </div>
             @if(\Auth::user()->type!='super admin')
             <div class="row content-list-filter">
-                <div class="filter-container col-auto">
+                <div class="filter-container col-auto align-items-center">
                     <div class="filter-controls">
                         <div>{{__('Sort')}}:</div>
-                    </div>                    
+                    </div>
                     <div class="filter-controls">
                         <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                         <a class="order" href="#" data-sort="email">{{__('Email')}}</a>

@@ -7,7 +7,7 @@
         </a>
         @if(\Auth::user()->type !='super admin')
         <div class="d-flex align-items-center pl-2">
-            <i class="material-icons">search</i>
+            <i class="material-icons text-dark">search</i>
             <div class="input-group input-group-light">
                 <input type="search" class="expandable form-control form-control-light search-element pl-0" placeholder="{{__('Search...')}}" aria-label="Search app">
             </div>

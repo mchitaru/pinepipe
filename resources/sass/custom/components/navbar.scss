@@ -1,5 +1,5 @@
-// 
-// 
+//
+//
 // navbar.scss
 //
 //
@@ -25,6 +25,14 @@
     }
   }
 }
+
+.navbar-light{
+    .nav-small{
+      .nav-link{
+        padding-left: 1rem;
+      }
+    }
+  }
 
 .navbar-toggler-icon{
   background-image: none !important;

@@ -9,7 +9,7 @@
 <script>
 
     $(function() {
-    
+
         localStorage.setItem('sort', 'name');
         localStorage.setItem('dir', 'asc');
         localStorage.setItem('filter', '');
@@ -18,8 +18,8 @@
         updateFilters();
 
     });
-    
-</script>    
+
+</script>
 @endpush
 
 @section('page-title')
@@ -55,24 +55,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="row content-list-filter">
-                    <div class="filter-container col-auto">
+                <div class="row content-list-filter align-items-center">
+                    <div class="filter-container col-auto align-items-center">
                         <div class="filter-controls">
                             <div>{{__('Sort')}}:</div>
-                        </div>                            
+                        </div>
                         <div class="filter-controls">
                             <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                             <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
-                        </div>    
-                    </div>    
-                    <div class="filter-container col-auto">
+                        </div>
+                    </div>
+                    <div class="filter-container col-auto align-items-center">
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>
                         </div>
                         <div class="filter-tags">
                             <div class="tag filter" data-filter="active">{{__('Active')}}</div>
                             <div class="tag filter" data-filter="archived">{{__('Archived')}}</div>
-                        </div>                                           
+                        </div>
                     </div>
                 </div>
                 <!--end of content list head-->

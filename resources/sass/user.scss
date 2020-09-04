@@ -4,7 +4,7 @@
 //
 // Place your own custom CSS or SCSS rules below this line, these rules will override any Bootstrap and theme variables.
 
-html { font-size: 93%; } 
+html { font-size: 93%; }
 
 * {
   scrollbar-width: thin;
@@ -29,7 +29,7 @@ html { font-size: 93%; }
 
 *::-webkit-scrollbar-thumb:window-inactive {
   background: none;
-}  
+}
 
 * {
   scrollbar-width: thin;
@@ -54,18 +54,18 @@ html { font-size: 93%; }
 
 *::-webkit-scrollbar-thumb:window-inactive {
   background: none;
-}  
+}
 
 //background blur for modals
 body.modal-open .container-fluid, .modal-open  .container, .modal-open  .navbar  {
-    -webkit-filter: blur(5px);  
+    -webkit-filter: blur(5px);
 }
 
 .modal-content{
 
   -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);  
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 }
 
 body{
@@ -196,7 +196,7 @@ table {
 
   &:not(:placeholder-shown) {
     min-width: 400px;
-  }  
+  }
 }
 
 .easy-autocomplete-container ul {
@@ -450,11 +450,15 @@ ol.timeline > li:before {
       transition: all .2s ease;
     }
     a:hover {
-      color: $primary;
+      color: $black;
     }
     .order {
       display: flex;
       align-items: flex-end;
+      border-radius: 1rem;
+      border: 1px solid $border-color;
+      background: transparent;
+      padding: .2rem .6rem .2rem .6rem;
 
       &:after {
         display: block;
@@ -480,6 +484,8 @@ ol.timeline > li:before {
       &.asc, &.desc {
         color: $black;
         font-weight: 600;
+        border: 1px solid $secondary;
+        background: transparent;
       }
       &.asc:after {
         opacity: 1;
@@ -505,18 +511,19 @@ ol.timeline > li:before {
     .tag {
       display: flex;
       cursor: pointer;
-      color: white;
-      background: $secondary;
+      color: $secondary;
+      background: transparent;
       padding: .2rem .6rem .2rem .6rem;
-      font-weight: 600;
       font-size: .9rem;
       transition: all .2s ease;
       border-radius: 1rem;
+      border: 1px solid $border-color;
       overflow: hidden;
 
       &:after {
         content: 'x';
         cursor: pointer;
+        font-weight: 400;
         opacity: 0;
         visibility: hidden;
         max-width: 0;
@@ -532,7 +539,10 @@ ol.timeline > li:before {
 
       &:hover,
       &.active {
-        background: $primary;
+        color: $black;
+        border: 1px solid $secondary;
+        background: transparent;
+        font-weight: 600;
       }
     }
   }
@@ -558,7 +568,7 @@ ol.timeline > li:before {
     left: 1px;
     transition: all 0.3s;
   }
-  
+
   .checkbox:checked + .switch::after {
     left : 20px;
   }

@@ -23,7 +23,7 @@ if(Gate::check('view task')){
 
     function initProjectCards() {
 
-        $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+        $('.card-list .dropdown').on('show.bs.dropdown', function() {
             $('body').append($(this).children('.dropdown-menu').css({
                 position: 'absolute',
                 left: $('.dropdown-menu').offset().left,
@@ -221,7 +221,7 @@ if(Gate::check('view task')){
                         </a>
                     @endcan
                 </div>
-                <div class="filter-container col-auto">
+                <div class="filter-container col-auto align-items-center">
                     <div class="filter-controls">
                         <div>{{__('Sort')}}:</div>
                     </div>
@@ -243,7 +243,7 @@ if(Gate::check('view task')){
                 </div>
                 <!--end of content list head-->
                 @can('view task')
-                <div class="content-list-body filter-list paginate-container">                    
+                <div class="content-list-body filter-list paginate-container">
                     <div class="w-100 row justify-content-center pt-3">
                         @include('partials.spinner')
                     </div>

@@ -111,7 +111,7 @@ function initLeadCards() {
         });
     });
 
-    $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+    $('.card-list .dropdown').on('show.bs.dropdown', function() {
         $('body').append($(this).children('.dropdown-menu').css({
             position: 'absolute',
             left: $('.dropdown-menu').offset().left,
@@ -120,7 +120,7 @@ function initLeadCards() {
     });
 };
     $(function() {
-    
+
         localStorage.setItem('sort', 'order');
         localStorage.setItem('dir', 'asc');
         localStorage.setItem('filter', '');
@@ -173,25 +173,25 @@ function initLeadCards() {
                     </div>
                 </form>
             </div>
-            <div class="row content-list-filter">
-                <div class="filter-container col-auto">
+            <div class="row content-list-filter align-items-center">
+                <div class="filter-container col-auto align-items-center">
                     <div class="filter-controls">
                         <div>{{__('Sort')}}:</div>
-                    </div>                    
+                    </div>
                     <div class="filter-controls">
                         <a class="order" href="#" data-sort="order">{{__('Order')}}</a>
                         <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                         <a class="order" href="#" data-sort="price">{{__('Value')}}</a>
                     </div>
                 </div>
-                <div class="filter-container col-auto">
+                <div class="filter-container col-auto align-items-center">
                     <div class="filter-tags">
                         <div>{{__('Tag')}}:</div>
-                    </div>                    
+                    </div>
                     <div class="filter-tags">
                         <div class="tag filter" data-filter="active">{{__('Active')}}</div>
                         <div class="tag filter" data-filter="archived">{{__('Archived')}}</div>
-                    </div>                                           
+                    </div>
                 </div>
             </div>
         </div>

@@ -97,7 +97,7 @@ function initTaskCards() {
         });
     });
 
-    $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+    $('.card-list .dropdown').on('show.bs.dropdown', function() {
         $('body').append($(this).children('.dropdown-menu').css({
             position: 'absolute',
             left: $('.dropdown-menu').offset().left,
@@ -107,7 +107,7 @@ function initTaskCards() {
 };
 
 $(function() {
-    
+
     localStorage.setItem('sort', 'order');
     localStorage.setItem('dir', 'asc');
     localStorage.setItem('filter', '');
@@ -153,8 +153,8 @@ document.addEventListener("paginate-load", function(e) {
                     </div>
                 </form>
             </div>
-            <div class="row content-list-filter">
-                <div class="filter-container col-auto">
+            <div class="row content-list-filter align-items-center">
+                <div class="filter-container col-auto align-items-center">
                     <div class="filter-controls">
                         <div>{{__('Sort')}}:</div>
                     </div>
@@ -164,7 +164,7 @@ document.addEventListener("paginate-load", function(e) {
                         <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
                     </div>
                 </div>
-                <div class="filter-container col-auto">
+                <div class="filter-container col-auto align-items-center">
                     <div class="filter-tags">
                         <div>{{__('Tag')}}:</div>
                     </div>

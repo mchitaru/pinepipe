@@ -14,7 +14,7 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
                     <i class="material-icons">{{$icon}}</i>
                 </div>
                 <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
-                    {{__('You have')}} <span class="badge badge-{{count($items) ? 'warning' : 'light'}} mx-1">{{count($items)}}</span> {{$text}}
+                    {{__('You have')}} <span class="badge badge-{{count($items) ? 'warning' : 'light bg-white'}} mx-1">{{count($items)}}</span> {{$text}}
                 </button>
             </div>
             <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">

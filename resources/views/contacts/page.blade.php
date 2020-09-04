@@ -54,11 +54,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row content-list-filter">
-                        <div class="filter-container col-auto">
+                    <div class="row content-list-filter align-items-center">
+                        <div class="filter-container col-auto align-items-center">
                             <div class="filter-controls">
                                 <div>{{__('Sort')}}:</div>
-                            </div>                            
+                            </div>
                             <div class="filter-controls">
                                 <a class="order" href="#" data-sort="name">{{__('Name')}}</a>
                                 <a class="order" href="#" data-sort="email">{{__('Email')}}</a>
@@ -71,7 +71,7 @@
                     <div class="content-list-body filter-list paginate-container">
                         <div class="w-100 row justify-content-center pt-3">
                             @include('partials.spinner')
-                        </div>            
+                        </div>
                     </div>
                     <!--end of content list body-->
                 </div>
