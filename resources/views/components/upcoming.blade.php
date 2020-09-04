@@ -9,7 +9,7 @@ $count = count($tasks) + count($events);
 <div class="scrollable-list col-lg-4 col-md-12" style="max-height:50vh">
     <div class="card-list">
         <div class="card-list-head">
-        <h5>{{__($title)}} <span class="badge badge-{{$count ? 'primary':'light'}}">{{$count}}</span></h5>
+        <h5>{{__($title)}} <span class="badge badge-{{$count ? 'warning':'light'}}">{{$count}}</span></h5>
         {{-- <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$title}}">
             <i class="material-icons">more_horiz</i>
         </button> --}}

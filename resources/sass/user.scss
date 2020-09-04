@@ -4,7 +4,7 @@
 //
 // Place your own custom CSS or SCSS rules below this line, these rules will override any Bootstrap and theme variables.
 
-html { font-size: 95%; } 
+html { font-size: 93%; } 
 
 * {
   scrollbar-width: thin;
@@ -21,7 +21,32 @@ html { font-size: 95%; }
 /* Handle */
 
 *::-webkit-scrollbar-thumb {
-  background: $gray-400;
+  background: $gray-300;
+  -webkit-box-shadow: none;
+  border-radius: 20px;
+  border: 0.1rem solid $gray-200;
+}
+
+*::-webkit-scrollbar-thumb:window-inactive {
+  background: none;
+}  
+
+* {
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 0.5rem;
+}
+/* Track */
+
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}
+/* Handle */
+
+*::-webkit-scrollbar-thumb {
+  background: $gray-300;
   -webkit-box-shadow: none;
   border-radius: 20px;
   border: 0.1rem solid $gray-200;
@@ -34,6 +59,13 @@ html { font-size: 95%; }
 //background blur for modals
 body.modal-open .container-fluid, .modal-open  .container, .modal-open  .navbar  {
     -webkit-filter: blur(5px);  
+}
+
+.modal-content{
+
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);  
 }
 
 body{
@@ -154,15 +186,6 @@ table {
 
     box-shadow: none;
     border: none;
-
-    &:hover {
-      border: 1px solid #ccc;
-    }
-
-    &:focus {
-      box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
-      border: 1px solid #ccc;
-    }
 }
 
 .expandable {

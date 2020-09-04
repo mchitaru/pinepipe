@@ -7,7 +7,7 @@
 
 $white:    #fff;
 $gray-100: #f8f9fa;
-$gray-200: #e9ecef;
+$gray-200: #F5F5F5;
 $gray-300: #dee2e6;
 $gray-400: #ced4da;
 $gray-500: #adb5bd;
@@ -72,7 +72,7 @@ $success:       $green;
 $info:          $cyan;
 $warning:       lighten($yellow, 20%);
 $danger:        lighten($red, 10%);
-$light:         $gray-100;
+$light:         $gray-200;
 $dark:          $gray-800;
 
 $theme-colors: ();
@@ -161,7 +161,7 @@ $sizes: map-merge(
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   $gray-100;
+$body-bg:                   $white;
 $body-color:                $gray-600;
 
 
@@ -511,7 +511,7 @@ $form-grid-gutter-width:                10px;
 $form-group-margin-bottom:              1rem;
 
 $input-group-addon-color-dark:          $input-group-addon-color;
-$input-group-addon-bg-dark:             $input-group-addon-bg;
+$input-group-addon-bg-dark:             $gray-100;
 $input-group-addon-border-color-dark:   $input-group-addon-border-color;
 
 $input-group-addon-color:               $input-placeholder-color;
@@ -735,9 +735,9 @@ $navbar-dark-disabled-color:        rgba($white, .25);
 $navbar-dark-toggler-icon-bg:       str-replace(url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='#{$navbar-dark-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"), "#", "%23");
 $navbar-dark-toggler-border-color:  rgba($white, .1);
 
-$navbar-light-color:                rgba($black, .5);
-$navbar-light-hover-color:          rgba($black, .7);
-$navbar-light-active-color:         rgba($black, .9);
+$navbar-light-color:                $black;
+$navbar-light-hover-color:          $primary;
+$navbar-light-active-color:         $primary;
 $navbar-light-disabled-color:       rgba($black, .3);
 $navbar-light-toggler-icon-bg:      str-replace(url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='#{$navbar-light-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"), "#", "%23");
 $navbar-light-toggler-border-color: rgba($black, .1);
@@ -946,7 +946,7 @@ $modal-content-border-radius:       $border-radius-lg;
 $modal-content-box-shadow-xs:       0 .25rem .5rem rgba($black, .5);
 $modal-content-box-shadow-sm-up:    0 .5rem 1rem rgba($black, .5);
 
-$modal-backdrop-bg:                 $black;
+$modal-backdrop-bg:                 $gray-200;
 $modal-backdrop-opacity:            .5;
 $modal-header-border-color:         $gray-200;
 $modal-footer-border-color:         $modal-header-border-color;
