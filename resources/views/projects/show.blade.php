@@ -21,30 +21,53 @@ if(Gate::check('view task')){
 @push('scripts')
 <script>
 
-$(function() {
+    function initProjectCards() {
 
-    localStorage.setItem('sort', 'priority');
-    localStorage.setItem('dir', 'asc');
-    localStorage.setItem('tag', '');
+        $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+            $('body').append($(this).children('.dropdown-menu').css({
+                position: 'absolute',
+                left: $('.dropdown-menu').offset().left,
+                top: $('.dropdown-menu').offset().top
+            }).detach());
+        });
+    }
 
-    updateFilters();
+    $(function() {
 
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-        window.history.replaceState(null, null, $(e.target).attr('href'));
-        window.location.hash = $(e.target).attr('href');
+        localStorage.setItem('sort', 'priority');
+        localStorage.setItem('dir', 'asc');
+        localStorage.setItem('tag', '');
 
-        var id = $(e.target).attr("href");
-        sessionStorage.setItem('projects.tab', id);
+        updateFilters();
+
+        $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+            window.history.replaceState(null, null, $(e.target).attr('href'));
+            window.location.hash = $(e.target).attr('href');
+
+            var id = $(e.target).attr("href");
+            sessionStorage.setItem('projects.tab', id);
+        });
+
+        var hash = window.location.hash ? window.location.hash : sessionStorage.getItem('projects.tab');
+
+        if(hash == null) hash = '{{$default_tab}}';
+
+        $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
+
+        initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});
     });
 
-    var hash = window.location.hash ? window.location.hash : sessionStorage.getItem('projects.tab');
+    document.addEventListener("paginate-sort", function(e) {
+        initProjectCards();
+    });
 
-    if(hash == null) hash = '{{$default_tab}}';
+    document.addEventListener("paginate-load", function(e) {
+        initProjectCards();
+    });
 
-    $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
-
-    initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});
-});
+    document.addEventListener("paginate-tag", function(e) {
+        initProjectCards();
+    });
 
 </script>
 

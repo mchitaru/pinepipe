@@ -11,6 +11,15 @@ use Carbon\Carbon;
 @endpush
 
 @push('scripts')
+<script>
+    $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+        $('body').append($(this).children('.dropdown-menu').css({
+            position: 'absolute',
+            left: $('.dropdown-menu').offset().left,
+            top: $('.dropdown-menu').offset().top
+        }).detach());
+    });
+</script>
 @endpush
 
 @section('content')
