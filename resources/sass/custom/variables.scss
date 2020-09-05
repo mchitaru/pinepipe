@@ -6,7 +6,7 @@
 // Color system
 
 $white:    #fff;
-$gray-100: #f8f9fa;
+$gray-100: #fefefe;
 $gray-200: #F5F5F5;
 $gray-300: #dee2e6;
 $gray-400: #ced4da;
@@ -161,7 +161,7 @@ $sizes: map-merge(
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   $white;
+$body-bg:                   $gray-100;
 $body-color:                $gray-600;
 
 
