@@ -1,6 +1,6 @@
 <div class="navbar navbar-header sticky-top align-items-center d-none d-lg-flex pl-1" style="z-index: 1019">
     <div class="d-flex align-items-center">
-        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-sm align-items-center mr-2 title="{{__('Back')}}">
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-sm align-items-center mr-2" title="{{__('Back')}}">
             <div class="icon">
                 <i class="material-icons align-middle">arrow_back</i>
             </div>
