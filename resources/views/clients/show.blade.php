@@ -48,17 +48,23 @@ $(function() {
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">{{__('Contacts')}}
-                    <span class="badge badge-secondary">{{ $contacts->count() }}</span>
+                    @if(!$contacts->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $contacts->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#leads" role="tab" aria-controls="leads" aria-selected="false">{{__('Leads')}}
-                    <span class="badge badge-secondary">{{ $leads->count() }}</span>
+                    @if(!$leads->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $leads->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">{{__('Projects')}}
-                    <span class="badge badge-secondary">{{ $projects->count() }}</span>
+                    @if(!$projects->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $projects->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">

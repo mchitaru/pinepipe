@@ -126,22 +126,30 @@ $(function() {
             <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">{{__('Events')}}
-                    <span class="badge badge-secondary">{{ $events->count() }}</span>
+                    @if(!$events->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $events->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">{{__('Notes')}}
-                    <span class="badge badge-secondary">{{ $notes->count() }}</span>
+                    @if(!$notes->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $notes->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#lead-files" role="tab" aria-controls="lead-files" aria-selected="false">{{__('Files')}}
-                    <span class="badge badge-secondary">{{ count($files) }}</span>
+                    @if(!empty($files))
+                        <span class="badge badge-light bg-white">{{ count($files) }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">{{__('Projects')}}
-                    <span class="badge badge-secondary">{{ $projects->count() }}</span>
+                    @if(!$projects->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $projects->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">

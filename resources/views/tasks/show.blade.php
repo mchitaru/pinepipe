@@ -192,7 +192,7 @@ modal-lg
                 </div>
                 {{-- <div class="d-flex align-items-center"  title={{__('Completed')}}>
                     <i class="material-icons">playlist_add_check</i>
-                    <span class="badge badge-secondary">{{ $task_status }}</span>
+                    <span class="badge badge-light">{{ $task_status }}</span>
                 </div> --}}
                 {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
             </div>
@@ -202,17 +202,23 @@ modal-lg
         <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
                 <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}
-                    <span class="badge badge-secondary">{{ $subtasks->count() }}</span>
+                    @if(!$subtasks->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $subtasks->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}
-                    <span class="badge badge-secondary">{{ $task->comments->count() }}</span>
+                    @if(!$task->comments->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $task->comments->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{(request()->segment(3)=='file')?'active':''}}" data-toggle="tab" href="#taskfiles" role="tab" aria-controls="taskfiles" aria-selected="false">{{__('Files')}}
-                    <span class="badge badge-secondary">{{ count($files) }}</span>
+                    @if(!empty($files))
+                        <span class="badge badge-light bg-white">{{ count($files) }}</span>
+                    @endif
                 </a>
             </li>
         </ul>

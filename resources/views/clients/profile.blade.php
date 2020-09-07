@@ -38,11 +38,11 @@
                     </div>
                     {{-- <div class="card-meta col-2">
                         <div class="d-flex align-items-center justify-content-end">
-                            <span class="badge badge-secondary mr-2">
+                            <span class="badge badge-light mr-2">
                                 <i class="material-icons" title="Projects">folder</i>
                                 {{$client->projects->count()}}
                             </span>
-                            <span class="badge badge-secondary mr-2">
+                            <span class="badge badge-light mr-2">
                                 <i class="material-icons" title="Leads">phone</i>
                                 {{$client->leads()->count()}}
                             </span>

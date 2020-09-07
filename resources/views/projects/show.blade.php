@@ -160,7 +160,7 @@ if(Gate::check('view task')){
                     @if(!$project->archived)
                         <span class="badge badge-success">{{__('active')}}</span>
                     @else
-                        <span class="badge badge-secondary">{{__('archived')}}</span>
+                        <span class="badge badge-light">{{__('archived')}}</span>
                     @endif
                 </div>
                 <div class="d-flex align-items-center"  title="{{__('Completed')}}">
@@ -179,28 +179,38 @@ if(Gate::check('view task')){
             @can('view task')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">{{__('Tasks')}}
-                    <span class="badge badge-secondary">{{ $project->tasks->count() }}</span>
+                    @if(!$project->tasks->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $project->tasks->count() }}</span>
+                    @endif
                 </a>
             </li>
             @endcan
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#timesheets" role="tab" aria-controls="timesheets" aria-selected="false">{{__('Timesheets')}}
-                    <span class="badge badge-secondary">{{ $timesheets->count() }}</span>
+                    @if(!$timesheets->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $timesheets->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">{{__('Invoices')}}
-                    <span class="badge badge-secondary">{{ $invoices->count() }}</span>
+                    @if(!$invoices->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $invoices->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#expenses" role="tab" aria-controls="expenses" aria-selected="false">{{__('Expenses')}}
-                    <span class="badge badge-secondary">{{ $expenses->count() }}</span>
+                    @if(!$expenses->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $expenses->count() }}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#project-files" role="tab" aria-controls="project-files" aria-selected="false">{{__('Files')}}
-                    <span class="badge badge-secondary">{{ count($files) }}</span>
+                    @if(!empty($files))
+                        <span class="badge badge-light bg-white">{{ count($files) }}</span>
+                    @endif
                 </a>
             </li>
             @if(\Auth::user()->type!='client')
