@@ -88,8 +88,8 @@ const mrFilterList = (($) => {
     initList(element, listElement) {
       // Each individual list needs a unique ID to be added
       // as a class as List.js identifies lists by class
-      const listID = `${Selector.DATA_ATTR}-${new Date().getTime()}`;
-
+      const listID = `${Selector.DATA_ATTR}-${Date.now()}-${Math.floor(Math.random() * 100)}`;
+      
       // Use the first child of the list and parse all data-filter-by attributes inside.
       // Pass to parseFilters to construct an array of valueNames appropriate for List.js
       const filterables = listElement.querySelectorAll(`*:first-child [${Selector.DATA_FILTER_BY}]`);
@@ -169,7 +169,7 @@ const mrFilterList = (($) => {
       // Handle submit to disable page reload
       filterInput.closest('form').addEventListener('submit', (evt) => {
         if (evt.preventDefault) {
-          // evt.preventDefault();
+          evt.preventDefault();
         }
       });
     }
