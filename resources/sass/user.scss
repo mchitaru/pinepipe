@@ -463,6 +463,7 @@ ol.timeline > li:before {
       border: 1px solid $border-color;
       background: transparent;
       padding: .2rem .6rem .2rem .6rem;
+      font-size: .9rem;
 
       &:after {
         display: block;
@@ -505,7 +506,7 @@ ol.timeline > li:before {
   .filter-tags {
     display: flex;
     align-items: baseline;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     margin-right: .5rem;
 
     > * {
@@ -515,6 +516,7 @@ ol.timeline > li:before {
     }
     .tag {
       display: flex;
+      align-items: flex-end;
       cursor: pointer;
       color: $secondary;
       background: transparent;
@@ -526,9 +528,26 @@ ol.timeline > li:before {
       overflow: hidden;
 
       &:after {
-        content: 'x';
+        display: block;
+        content: '';
         cursor: pointer;
+        margin-left: 0;
+        font-family: 'Material Icons';
         font-weight: 400;
+        font-style: normal;
+        font-size: 1rem;
+        display: inline-block;
+        line-height: 1.5;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: 'liga';
+
         opacity: 0;
         visibility: hidden;
         max-width: 0;
@@ -537,6 +556,7 @@ ol.timeline > li:before {
 
       &.active:after {
         opacity: 1;
+        content: 'clear';
         visibility: visible;
         max-width: 2rem;
         margin-left: .4rem;
