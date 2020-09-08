@@ -67,7 +67,7 @@ $colors: map-merge(
 );
 
 $primary:       lighten($blue, 10%);
-$secondary:     $gray-600;
+$secondary:     $gray-300;
 $success:       $green;
 $info:          $cyan;
 $warning:       lighten($yellow, 20%);
@@ -511,7 +511,7 @@ $form-grid-gutter-width:                10px;
 $form-group-margin-bottom:              1rem;
 
 $input-group-addon-color-dark:          $input-group-addon-color;
-$input-group-addon-bg-dark:             $gray-100;
+$input-group-addon-bg-dark:             $gray-200;
 $input-group-addon-border-color-dark:   $input-group-addon-border-color;
 
 $input-group-addon-color:               $input-placeholder-color;

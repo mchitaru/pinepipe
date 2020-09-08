@@ -378,7 +378,7 @@ ol.timeline > li:before {
     top: 100%;
     border-width: 5px 10px;
     border-style: solid;
-    border-color:$gray-700 transparent transparent $gray-700
+    border-color:$gray-600 transparent transparent $gray-600
 }
 
 .colorinput {
@@ -454,7 +454,7 @@ ol.timeline > li:before {
       transition: all .2s ease;
     }
     a:hover {
-      color: $black;
+      color: $gray-600;
     }
     .order {
       display: flex;
@@ -487,9 +487,9 @@ ol.timeline > li:before {
         font-feature-settings: 'liga';
       }
       &.asc, &.desc {
-        color: $black;
+        color: $gray-600;
         font-weight: 600;
-        border: 1px solid $secondary;
+        border: 1px solid $gray-600;
         background: transparent;
       }
       &.asc:after {
@@ -502,8 +502,8 @@ ol.timeline > li:before {
       }
       &:hover
       {
-        color: $black;
-        border: 1px solid $secondary;
+        color: $gray-600;
+        border: 1px solid $gray-600;
         background: transparent;
         font-weight: 600;
       }
@@ -525,7 +525,6 @@ ol.timeline > li:before {
       display: flex;
       align-items: flex-end;
       cursor: pointer;
-      color: $secondary;
       background: transparent;
       padding: .2rem .6rem .2rem .6rem;
       font-size: .9rem;
@@ -571,8 +570,8 @@ ol.timeline > li:before {
 
       &:hover,
       &.active {
-        color: $black;
-        border: 1px solid $secondary;
+        color: $gray-600;
+        border: 1px solid $gray-600;
         background: transparent;
         font-weight: 600;
       }
