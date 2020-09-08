@@ -33,7 +33,7 @@
         <div class="custom-control custom-checkbox custom-checkbox-switch">
             <input type="hidden" name="notify_newsletter" value="0">
             {{Form::checkbox('notify_newsletter', 1, null, ['class'=>'custom-control-input', 'id' =>'notify_newsletter'])}}
-            {{Form::label('notify_newsletter', __('Monthly newsletter'), ['class'=>'custom-control-label'])}}
+            {{Form::label('notify_newsletter', __('Newsletter'), ['class'=>'custom-control-label'])}}
         </div>
     </div>
     <div class="form-group">

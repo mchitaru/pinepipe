@@ -104,7 +104,10 @@ class RegisterController extends Controller
 
         $role = Role::findByName('company');
 
+        $user->subscribeNewsletter();
+
         $user->initCompanyDefaults();
+
         return $user->assignRole($role);
     }
 }

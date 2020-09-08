@@ -26,6 +26,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Spatie\Image\Manipulations;
+use Newsletter;
 
 class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLocalePreference
 {
@@ -91,7 +92,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         static::deleting(function ($user) {
 
-            //TO DO:
             $user->events()->detach();
             $user->projects()->detach();
             $user->tasks()->detach();
@@ -110,9 +110,26 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
                 $user->deleteCompany();
             }
+
+            if(Newsletter::hasMember($user->email)){
+
+                Newsletter::delete($user->email);
+            }                
         });
 
-        static::updating(function ($user) {
+        static::updated(function ($user) {
+
+            // if(Newsletter::hasMember($user->email)){
+
+            //     if($user->notify_newsletter && !Newsletter::isSubscribed($user->email)){
+                
+            //         Newsletter::subscribeOrUpdate($user->email);
+
+            //     }elseif(!$user->notify_newsletter && Newsletter::isSubscribed($user->email)){
+                    
+            //         Newsletter::unsubscribe($user->email);
+            //     }
+            // }
 
         });
     }
@@ -1195,6 +1212,23 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     //     EmailVerificationJob::dispatch($this);
     // }
 
+    public function subscribeNewsletter()
+    {
+        //subscribe to newsletter
+        $name = explode(" ", $this->name);
+
+        Newsletter::subscribeOrUpdate($this->email, 
+                                        ['FNAME'=>$name[0], 'LNAME'=>(count($name) > 1 ? $name[1] : '')],
+                                        'subscribers',
+                                        ['tags' => [strtoupper($this->locale), 'Customer', 'Free account']]);
+
+        // if(!Newsletter::lastActionSucceeded()) {
+
+        //     $error = Newsletter::getLastError();
+        //     dump('Error: '.$error);
+        // }
+    }
+
     public static function createCompany($post)
     {
         $post['password']   = Hash::make($post['password']);
@@ -1204,6 +1238,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         $user = User::create($post);
 
         $role_r = Role::findByName('company');
+
         $user->initCompanyDefaults();
         $user->assignRole($role_r);
 
