@@ -26,14 +26,9 @@ class UserProfileController extends Controller
         return view('users.profile.show', compact('user', 'companySettings', 'companyName', 'companyLogo'));
     }
 
-    public function profile()
+    public function subscription()
     {
-        if(auth()->check()) {
-
-            return $this->edit(auth()->user());
-        }
-
-        return Redirect::to(URL::previous())->with('error', __('Access forbidden!'));
+        return Redirect::to(route('profile.edit', \Auth::user()->handle()).'/#subscription');
     }
 
     public function edit(User $user)

@@ -82,7 +82,8 @@ Route::group(
         Route::resource('contacts', 'ContactsController');
 
         //Profile
-        Route::get('profile', 'UserProfileController@profile');
+        Route::get('subscription', 'UserProfileController@subscription');
+
         Route::get('profile/{user:handle}/edit', 'UserProfileController@edit')->name('profile.edit');
         Route::put('profile/{user:handle}', 'UserProfileController@update')->name('profile.update');
         Route::patch('profile/{user:handle}', 'UserProfileController@password')->name('profile.password');
