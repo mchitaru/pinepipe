@@ -42,7 +42,7 @@ class GoogleAccountController extends Controller
                 
                 // Last but not least, save the access token for later use.
                 'token' => $google->getAccessToken(),
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
             ]
         );
         

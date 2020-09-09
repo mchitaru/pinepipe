@@ -25,7 +25,7 @@ class Checklist extends Model
         static::creating(function ($checklist) {
             if ($user = \Auth::user()) {
                 $checklist->user_id = $user->id;
-                $checklist->created_by = $user->creatorId();
+                $checklist->created_by = $user->created_by;
             }
         });
 

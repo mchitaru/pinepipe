@@ -38,7 +38,7 @@ class EventController extends Controller
         $start = $request->start?$request->start:Carbon::now()->roundUnit('minute', 15, 'ceil');
         $end = $request->end?$request->end:Carbon::now()->roundUnit('minute', 15, 'ceil');
 
-        $users  = User::where('created_by', '=', \Auth::user()->creatorId())
+        $users  = User::where('created_by', '=', \Auth::user()->created_by)
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
@@ -46,7 +46,7 @@ class EventController extends Controller
 
         if($user->type == 'company')
         {
-            $leads = Lead::where('created_by', '=', $user->creatorId())
+            $leads = Lead::where('created_by', '=', $user->created_by)
                     ->orderBy('order')
                     ->get()
                     ->pluck('name', 'id');
@@ -54,7 +54,7 @@ class EventController extends Controller
         }else
         {
             $leads = $user->leads()
-                        ->where('created_by', '=', $user->creatorId())
+                        ->where('created_by', '=', $user->created_by)
                         ->orderBy('order')
                         ->get()
                         ->pluck('name', 'id');
@@ -105,7 +105,7 @@ class EventController extends Controller
     {
         $user = \Auth::user();
 
-        $users  = User::where('created_by', '=', \Auth::user()->creatorId())
+        $users  = User::where('created_by', '=', \Auth::user()->created_by)
                         ->where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
@@ -113,7 +113,7 @@ class EventController extends Controller
 
         if($user->type == 'company')
         {
-            $leads = Lead::where('created_by', '=', $user->creatorId())
+            $leads = Lead::where('created_by', '=', $user->created_by)
                     ->orderBy('order')
                     ->get()
                     ->pluck('name', 'id');
@@ -121,7 +121,7 @@ class EventController extends Controller
         }else
         {
             $leads = $user->leads()
-                        ->where('created_by', '=', $user->creatorId())
+                        ->where('created_by', '=', $user->created_by)
                         ->orderBy('order')
                         ->get()
                         ->pluck('name', 'id');

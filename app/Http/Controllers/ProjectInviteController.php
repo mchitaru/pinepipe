@@ -12,7 +12,7 @@ class ProjectInviteController extends Controller
     public function create(Project $project)
     {
         $assign_user = UserProject::select('user_id')->where('project_id', $project->id)->get()->pluck('user_id');
-        $user    = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->whereNotIn('id', $assign_user)->get()->pluck('name', 'id');
+        $user    = User::where('created_by', '=', \Auth::user()->created_by)->where('type', '!=', 'client')->whereNotIn('id', $assign_user)->get()->pluck('name', 'id');
 
         return view('projects.invite', compact('user', 'project'));
     }

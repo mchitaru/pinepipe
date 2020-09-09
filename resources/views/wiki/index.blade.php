@@ -24,7 +24,7 @@
     @endif
 @else
     <div class="py-4">
-        @if(\Auth::user() && (\Auth::user()->creatorId() == $user->id))
+        @if(\Auth::user() && (\Auth::user()->created_by == $user->id))
         <div class="dropdown float-right">
             <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
             <i class="material-icons">more_vert</i>

@@ -44,7 +44,7 @@ class Event extends Model
         static::creating(function ($event) {
             if ($user = \Auth::user()) {
                 $event->user_id = $user->id;
-                $event->created_by = $user->creatorId();
+                $event->created_by = $user->created_by;
             }
         });
 

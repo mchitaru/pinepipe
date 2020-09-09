@@ -63,7 +63,7 @@ class Invoice extends Model
         static::creating(function ($invoice) {
             if ($user = \Auth::user()) {
                 $invoice->user_id = $user->id;
-                $invoice->created_by = $user->creatorId();
+                $invoice->created_by = $user->created_by;
             }
         });
 
@@ -196,7 +196,7 @@ class Invoice extends Model
 
     public static function createInvoice($post)
     {
-        $last_invoice = Invoice::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
+        $last_invoice = Invoice::where('created_by', '=', \Auth::user()->created_by)->latest()->first();
 
         $invoice              = Invoice::make($post);
         $invoice->status      = 0;

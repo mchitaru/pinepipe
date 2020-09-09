@@ -18,7 +18,7 @@ class Media extends BaseMedia
         static::creating(function ($media) {
             if ($user = \Auth::user()) {
                 $media->user_id = $user->id;
-                $media->created_by = $user->creatorId();
+                $media->created_by = $user->created_by;
             }
         });
 

@@ -19,7 +19,7 @@ class TaskUpdateRequest extends FormRequest
         {
             $task = $this->route()->parameter('task');
 
-            return $task->created_by == \Auth::user()->creatorId();
+            return $task->created_by == \Auth::user()->created_by;
         }
 
         return false;

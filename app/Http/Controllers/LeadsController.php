@@ -51,7 +51,7 @@ class LeadsController extends Controller
             $category_id = $request['category_id'];
 
             $stages = Stage::where('class', Lead::class)
-                                    ->where('created_by', \Auth::user()->creatorId())
+                                    ->where('created_by', \Auth::user()->created_by)
                                     ->get()
                                     ->pluck('name', 'id');
 
@@ -79,7 +79,7 @@ class LeadsController extends Controller
                                     ->pluck('name', 'id');
             }
 
-            $categories = Category::where('created_by', \Auth::user()->creatorId())
+            $categories = Category::where('created_by', \Auth::user()->created_by)
                                     ->where('class', Lead::class)
                                     ->get()
                                     ->pluck('name', 'id');
@@ -124,7 +124,7 @@ class LeadsController extends Controller
             $category_id = $request['category_id'];
 
             $stages  = Stage::where('class', Lead::class)
-                            ->where('created_by', \Auth::user()->creatorId())
+                            ->where('created_by', \Auth::user()->created_by)
                             ->get()
                             ->pluck('name', 'id');
 
@@ -132,7 +132,7 @@ class LeadsController extends Controller
                                 ->get()
                                 ->pluck('name', 'id');
 
-            $categories = Category::where('created_by', \Auth::user()->creatorId())
+            $categories = Category::where('created_by', \Auth::user()->created_by)
                                     ->where('class', Lead::class)
                                     ->get()
                                     ->pluck('name', 'id');
@@ -233,7 +233,7 @@ class LeadsController extends Controller
                 $files[] = $file;
             }
 
-            $stages = Stage::where('created_by', \Auth::user()->creatorId())
+            $stages = Stage::where('created_by', \Auth::user()->created_by)
                                 ->where('class', Lead::class)
                                 ->get()
                                 ->pluck('id');

@@ -35,7 +35,7 @@ class Stage extends Model
 
             if ($user = \Auth::user()) {
                 $stage->user_id = $user->id;
-                $stage->created_by = $user->creatorId();
+                $stage->created_by = $user->created_by;
             }
         });
 
@@ -125,7 +125,7 @@ class Stage extends Model
 
             },'tasks.users'])
             ->where('class', Task::class)
-            ->where('created_by', \Auth::user()->creatorId())
+            ->where('created_by', \Auth::user()->created_by)
             ->orderBy('order', 'ASC');
 
         }else if(\Auth::user()->type == 'company')
@@ -147,7 +147,7 @@ class Stage extends Model
 
             },'tasks.users'])
             ->where('class', Task::class)
-            ->where('created_by', \Auth::user()->creatorId())
+            ->where('created_by', \Auth::user()->created_by)
             ->orderBy('order', 'ASC');
         }else
         {
@@ -180,7 +180,7 @@ class Stage extends Model
                 }
             },'tasks.users'])
             ->where('class', Task::class)
-            ->where('created_by', \Auth::user()->creatorId())
+            ->where('created_by', \Auth::user()->created_by)
             ->orderBy('order', 'ASC');
         }
     }
@@ -203,7 +203,7 @@ class Stage extends Model
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)
-                    ->where('created_by', \Auth::user()->creatorId())
+                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
         }
         elseif(\Auth::user()->type == 'company')
@@ -215,7 +215,7 @@ class Stage extends Model
 
                     },'leads.client','leads.user'])
                     ->where('class', Lead::class)
-                    ->where('created_by', \Auth::user()->creatorId())
+                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
 
         }else
@@ -228,7 +228,7 @@ class Stage extends Model
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)
-                    ->where('created_by', \Auth::user()->creatorId())
+                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
         }
     }

@@ -41,7 +41,7 @@ class InvoiceItem extends Model
 
         static::creating(function ($item) {
             if ($user = \Auth::user()) {
-                $item->created_by = $user->creatorId();
+                $item->created_by = $user->created_by;
             }
         });
 

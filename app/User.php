@@ -28,6 +28,8 @@ use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Spatie\Image\Manipulations;
 use Newsletter;
 
+use App\Scopes\TenantScope;
+
 class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLocalePreference
 {
     use HasRoles, Notifiable, SoftDeletes, Actionable, Billable, Eventable, HasMediaTrait;
@@ -90,6 +92,15 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         });
 
+        static::saved(function ($user) {
+
+            if($user->created_by == null){
+
+                $user->created_by = $user->id;
+                $user->save();
+            }
+        });
+
         static::deleting(function ($user) {
 
             $user->events()->detach();
@@ -111,7 +122,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 $user->deleteCompany();
             }
 
-            if(Newsletter::hasMember($user->email)){
+            if(!app()->isLocal() && Newsletter::hasMember($user->email)){
 
                 Newsletter::delete($user->email);
             }                
@@ -119,7 +130,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         static::updated(function ($user) {
 
-            // if(Newsletter::hasMember($user->email)){
+            // if(!app()->isLocal() && Newsletter::hasMember($user->email)){
 
             //     if($user->notify_newsletter && !Newsletter::isSubscribed($user->email)){
                 
@@ -132,6 +143,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             // }
 
         });
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        // static::addGlobalScope(new TenantScope);
     }
 
     public function handle()
@@ -149,18 +170,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         }
 
         return $this->handle;
-    }
-
-    public function creatorId()
-    {
-        if($this->type == 'company' || $this->type == 'super admin')
-        {
-            return $this->id;
-        }
-        else
-        {
-            return $this->created_by;
-        }
     }
 
     public function company()
@@ -316,57 +325,57 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function companyLeads()
     {
-        return Lead::where('created_by', '=', $this->creatorId());
+        return Lead::where('created_by', '=', $this->created_by);
     }
 
     public function companyProjects()
     {
-        return Project::where('created_by', '=', $this->creatorId());
+        return Project::where('created_by', '=', $this->created_by);
     }
 
     public function companyTasks()
     {
-        return Task::with('project')->where('created_by', '=', $this->creatorId());
+        return Task::with('project')->where('created_by', '=', $this->created_by);
     }
 
     public function companyStaff()
     {
-        return User::where('created_by', '=', $this->creatorId())->where('type', '!=', 'client');
+        return User::where('created_by', '=', $this->created_by)->where('type', '!=', 'client');
     }
 
     public function companyRoles()
     {
-        return Role::where('created_by', '=', $this->creatorId());
+        return Role::where('created_by', '=', $this->created_by);
     }
 
     public function companyClients()
     {
-        return Client::where('created_by', '=', $this->creatorId())->orderBy('name', 'asc');
+        return Client::where('created_by', '=', $this->created_by)->orderBy('name', 'asc');
     }
 
     public function companyContacts()
     {
-        return Contact::where('created_by', '=', $this->creatorId())->orderBy('name', 'asc');
+        return Contact::where('created_by', '=', $this->created_by)->orderBy('name', 'asc');
     }
 
     public function companyEvents()
     {
-        return Event::where('created_by', '=', $this->creatorId());
+        return Event::where('created_by', '=', $this->created_by);
     }
 
     public function companyTimesheets()
     {
-        return Timesheet::where('created_by', '=', $this->creatorId());
+        return Timesheet::where('created_by', '=', $this->created_by);
     }
 
     public function companyStages()
     {
-        return Stage::where('created_by', '=', $this->creatorId());
+        return Stage::where('created_by', '=', $this->created_by);
     }
 
     public function companyInvoices()
     {
-        return Invoice::where('created_by', '=', $this->creatorId());
+        return Invoice::where('created_by', '=', $this->created_by);
     }
 
     public function invoicesByUserType()
@@ -380,7 +389,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                                     $query->where('id', \Auth::user()->client_id);
                                 });
                             })
-                            ->where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('created_by', '=', \Auth::user()->created_by)
                             ->orderBy('due_date', 'ASC');
 
         }
@@ -391,42 +400,42 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function companyExpenses()
     {
-        return Expense::where('created_by', '=', $this->creatorId());
+        return Expense::where('created_by', '=', $this->created_by);
     }
 
     public function companyArticles()
     {
-        return Article::where('created_by', '=', $this->creatorId());
+        return Article::where('created_by', '=', $this->created_by);
     }
 
     public function companyTags()
     {
-        return Tag::where('created_by', '=', $this->creatorId());
+        return Tag::where('created_by', '=', $this->created_by);
     }
 
     public function companyCategories()
     {
-        return Category::where('created_by', '=', $this->creatorId());
+        return Category::where('created_by', '=', $this->created_by);
     }
 
     public function companyTaxes()
     {
-        return Tax::where('created_by', '=', $this->creatorId());
+        return Tax::where('created_by', '=', $this->created_by);
     }
 
     public function companyActivities()
     {
-        return Activity::where('created_by', '=', $this->creatorId());
+        return Activity::where('created_by', '=', $this->created_by);
     }
 
     public function companyMedia()
     {
-        return Media::where('created_by', '=', $this->creatorId());
+        return Media::where('created_by', '=', $this->created_by);
     }
 
     public function companySubscriptions()
     {
-        return Subscription::where('user_id', '=', $this->creatorId());
+        return Subscription::where('user_id', '=', $this->created_by);
     }
 
     public function staffClients()
@@ -675,7 +684,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Task::class)
                     ->where('open', 1)
-                    ->where('created_by', $this->creatorId())
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -684,7 +693,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Task::class)
                     ->where('open', 0)
-                    ->where('created_by', $this->creatorId())
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'desc')
                     ->first();
     }
@@ -693,7 +702,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Lead::class)
                     ->where('open', 1)
-                    ->where('created_by', $this->creatorId())
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -702,7 +711,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Lead::class)
                     ->where('open', 0)
-                    ->where('created_by', $this->creatorId())
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -711,7 +720,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         if(\Auth::user()->type == 'company')
         {
-            return Lead::where('created_by', '=', $this->creatorId())->count();
+            return Lead::where('created_by', '=', $this->created_by)->count();
         }
         elseif(\Auth::user()->type == 'client')
         {
@@ -727,7 +736,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         if(\Auth::user()->type == 'company')
         {
-            return Lead::where('created_by', '=', $this->creatorId())->where('stage_id', '=', $last_leadstage)->count();
+            return Lead::where('created_by', '=', $this->created_by)->where('stage_id', '=', $last_leadstage)->count();
         }
         elseif(\Auth::user()->type == 'client')
         {
@@ -743,7 +752,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         if(\Auth::user()->type == 'company')
         {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->creatorId())->count();
+            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->created_by)->count();
         }
         elseif(\Auth::user()->type == 'client')
         {
@@ -762,7 +771,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         // if(\Auth::user()->type == 'company')
         // {
-        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'task_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
+        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'task_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('projects.created_by', '=', $this->created_by)->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
         // }
         // elseif(\Auth::user()->type == 'client')
         // {
@@ -777,7 +786,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function total_project()
     {
-        return Project::where('created_by', '=', $this->creatorId())->count();
+        return Project::where('created_by', '=', $this->created_by)->count();
     }
 
     public function project_complete_task($project_last_stage)
@@ -785,7 +794,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         if(\Auth::user()->type == 'company')
         {
-            // return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->creatorId())->where('tasks.stage_id', '=', $project_last_stage)->count();
+            // return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->created_by)->where('tasks.stage_id', '=', $project_last_stage)->count();
         }
         elseif(\Auth::user()->type == 'client')
         {
@@ -802,7 +811,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         if(\Auth::user()->type == 'company')
         {
-            return Invoice::where('created_by', '=', $this->creatorId())->limit(5)->get();
+            return Invoice::where('created_by', '=', $this->created_by)->limit(5)->get();
         }
         elseif(\Auth::user()->type == 'client')
         {
@@ -814,7 +823,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function checkProjectLimit()
     {
-        $company        = User::find($this->creatorId());
+        $company        = User::find($this->created_by);
 
         if(!$company->subscribed()){
             $max_projects = SubscriptionPlan::first()->max_projects;
@@ -831,7 +840,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function checkClientLimit()
     {
-        $company        = User::find($this->creatorId());
+        $company        = User::find($this->created_by);
 
         if(!$company->subscribed()){
             $max_clients = SubscriptionPlan::first()->max_clients;
@@ -848,7 +857,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function checkUserLimit()
     {
-        $company        = User::find($this->creatorId());
+        $company        = User::find($this->created_by);
 
         if(!$company->subscribed()){
             $max_users = SubscriptionPlan::first()->max_users;
@@ -1214,26 +1223,28 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function subscribeNewsletter()
     {
-        //subscribe to newsletter
-        $name = explode(" ", $this->name);
+        if(!app()->isLocal()){
 
-        Newsletter::subscribeOrUpdate($this->email, 
-                                        ['FNAME'=>$name[0], 'LNAME'=>(count($name) > 1 ? $name[1] : '')],
-                                        'subscribers',
-                                        ['tags' => [strtoupper($this->locale), 'Customer', 'Free account']]);
+            //subscribe to newsletter
+            $name = explode(" ", $this->name);
 
-        // if(!Newsletter::lastActionSucceeded()) {
+            Newsletter::subscribeOrUpdate($this->email, 
+                                            ['FNAME'=>$name[0], 'LNAME'=>(count($name) > 1 ? $name[1] : '')],
+                                            'subscribers',
+                                            ['tags' => [strtoupper($this->locale), 'Customer', 'Free account']]);
 
-        //     $error = Newsletter::getLastError();
-        //     dump('Error: '.$error);
-        // }
+            // if(!Newsletter::lastActionSucceeded()) {
+
+            //     $error = Newsletter::getLastError();
+            //     dump('Error: '.$error);
+            // }
+        }
     }
 
     public static function createCompany($post)
     {
         $post['password']   = Hash::make($post['password']);
         $user['type']       = 'company';
-        $user['created_by'] = \Auth::user()->creatorId();
 
         $user = User::create($post);
 
@@ -1251,7 +1262,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $post['password']   = Hash::make($post['password']);
         $post['type']       = $role_r->name;
-        $post['created_by'] = \Auth::user()->creatorId();
+        $post['created_by'] = \Auth::user()->created_by;
 
         $user = User::create($post);
 

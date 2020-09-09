@@ -55,7 +55,7 @@ class InvoicesController extends Controller
                                     $query->where('id', \Auth::user()->client_id);
                                 });
                             })
-                            ->where('created_by', '=', \Auth::user()->creatorId())
+                            ->where('created_by', '=', \Auth::user()->created_by)
                             ->whereIn('status', $status)
                             ->where(function ($query) use ($request) {
                                 $query->where('id', $request['filter'])
@@ -71,7 +71,7 @@ class InvoicesController extends Controller
                 if(\Auth::user()->can('view invoice'))
                 {
                     $invoices = Invoice::with('project')
-                                ->where('created_by', '=', \Auth::user()->creatorId())
+                                ->where('created_by', '=', \Auth::user()->created_by)
                                 ->whereIn('status', $status)
                                 ->where(function ($query) use ($request) {
                                     $query->where('id', $request['filter'])
@@ -108,7 +108,7 @@ class InvoicesController extends Controller
 
             $project_id = $request['project_id'];
 
-            $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $taxes    = Tax::where('created_by', '=', \Auth::user()->created_by)->get()->pluck('name', 'id');
 
             $clients = \Auth::user()->companyClients()
                                     ->get()
@@ -116,7 +116,7 @@ class InvoicesController extends Controller
 
             if($client_id){
 
-                $projects  = Project::where('created_by', '=', \Auth::user()->creatorId())
+                $projects  = Project::where('created_by', '=', \Auth::user()->created_by)
                                         ->where('client_id', '=', $client_id)
                                         ->get()
                                         ->pluck('name', 'id');
@@ -153,7 +153,7 @@ class InvoicesController extends Controller
     public function show(Invoice $invoice)
     {
         if((\Auth::user()->can('view invoice') || \Auth::user()->type == 'client') &&
-            ($invoice->created_by == \Auth::user()->creatorId()))
+            ($invoice->created_by == \Auth::user()->created_by))
         {
             $companySettings = \Auth::user()->companySettings;
             $companyName = $companySettings ? $companySettings->name : null;
@@ -172,7 +172,7 @@ class InvoicesController extends Controller
     public function edit(Request $request, Invoice $invoice)
     {
         if(\Auth::user()->can('edit invoice') && 
-            ($invoice->created_by == \Auth::user()->creatorId()))
+            ($invoice->created_by == \Auth::user()->created_by))
         {
             $currency = $request->old('currency') ? $request->old('currency') :
                                                     (isset($request['currency']) ? $request['currency'] : $invoice->getCurrency());
@@ -182,7 +182,7 @@ class InvoicesController extends Controller
             $issue_date = $request->issue_date?$request->issue_date:$invoice->issue_date;
             $due_date = $request->due_date?$request->due_date:$invoice->due_date;
 
-            $taxes    = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $taxes    = Tax::where('created_by', '=', \Auth::user()->created_by)->get()->pluck('name', 'id');
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
             $locale = isset($request['locale'])?$request['locale']:$invoice->getLocale();
@@ -229,7 +229,7 @@ class InvoicesController extends Controller
     {
         if(\Auth::user()->can('view invoice') || \Auth::user()->type == 'client')
         {
-            if($invoice->created_by == \Auth::user()->creatorId())
+            if($invoice->created_by == \Auth::user()->created_by)
             {
                 $companySettings = \Auth::user()->companySettings;
                 $companyName = $companySettings ? $companySettings->name : null;

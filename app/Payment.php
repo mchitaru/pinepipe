@@ -33,7 +33,7 @@ class Payment extends Model
         static::creating(function ($payment) {
             if ($user = \Auth::user()) {
                 $payment->user_id = $user->id;
-                $payment->created_by = $user->creatorId();
+                $payment->created_by = $user->created_by;
             }
         });
 
@@ -57,7 +57,7 @@ class Payment extends Model
             $post['category_id'] = $category->id;
         }
 
-        $latest_payment = Payment::select('payments.*')->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->latest()->first();
+        $latest_payment = Payment::select('payments.*')->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->created_by)->latest()->first();
 
         $payment = Payment::create(
             [

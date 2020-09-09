@@ -32,7 +32,7 @@ class TaskCommentsController extends Controller
         $post = $request->validated();
 
         $post['user_id']    = \Auth::user()->id;
-        $post['created_by'] = \Auth::user()->creatorId();
+        $post['created_by'] = \Auth::user()->created_by;
 
         $comment = $task->comments()->create($post);
 

@@ -102,7 +102,7 @@ class Activity extends Model
             $task->project->activities()->create(
                 [
                     'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->creatorId(),
+                    'created_by' => \Auth::user()->created_by,
                     'action' => 'activity_create_task',
                     'value' => $task->title,
                     'url'    => route('tasks.show', $task->id),
@@ -117,7 +117,7 @@ class Activity extends Model
             $task->project->activities()->create(
                 [
                     'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->creatorId(),
+                    'created_by' => \Auth::user()->created_by,
                     'action' => 'activity_update_task',
                     'value' => $task->title,
                     'url'    => route('tasks.show', $task->id),
@@ -131,7 +131,7 @@ class Activity extends Model
         $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_project',
                 'value' => $project->name,
                 'url'    => route('projects.show', $project->id),
@@ -144,7 +144,7 @@ class Activity extends Model
         $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_project',
                 'value' => $project->name,
                 'url'    => route('projects.show', $project->id),
@@ -157,7 +157,7 @@ class Activity extends Model
         $project->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_upload_file',
                 'value' => $file->file_name,
                 'url'    => route('projects.file.download', [$project->id, $file->id]),
@@ -171,7 +171,7 @@ class Activity extends Model
             $task->project->activities()->create(
                 [
                     'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->creatorId(),
+                    'created_by' => \Auth::user()->created_by,
                     'action' => 'activity_upload_file',
                     'value' => $file->file_name,
                     'url'    => route('tasks.file.download', [$task->id, $file->id]),
@@ -186,7 +186,7 @@ class Activity extends Model
             $invoice->project->activities()->create(
                 [
                     'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->creatorId(),
+                    'created_by' => \Auth::user()->created_by,
                     'action' => 'activity_create_invoice',
                     'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
                     'url'    => route('invoices.show', $invoice->id),
@@ -201,7 +201,7 @@ class Activity extends Model
             $invoice->project->activities()->create(
                 [
                     'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->creatorId(),
+                    'created_by' => \Auth::user()->created_by,
                     'action' => 'activity_update_invoice',
                     'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
                     'url'    => route('invoices.show', $invoice->id),
@@ -215,7 +215,7 @@ class Activity extends Model
         $lead->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_lead',
                 'value' => $lead->name,
                 'url'    => route('leads.show', $lead->id),
@@ -228,7 +228,7 @@ class Activity extends Model
         $lead->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_lead',
                 'value' => $lead->name,
                 'url'    => route('leads.show', $lead->id),
@@ -241,7 +241,7 @@ class Activity extends Model
         $lead->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_event',
                 'value' => $event->name,
                 'url'    => route('events.edit', $event->id),
@@ -254,7 +254,7 @@ class Activity extends Model
         $lead->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_event',
                 'value' => $event->name,
                 'url'    => route('events.edit', $event->id),
@@ -267,7 +267,7 @@ class Activity extends Model
         $lead->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_upload_file',
                 'value' => $file->file_name,
                 'url'    => route('leads.file.download', [$lead->id, $file->id]),
@@ -280,7 +280,7 @@ class Activity extends Model
         $lead->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_note',
                 'value' => $note->text,
                 'url'    => route('leads.show', $lead->id),
@@ -293,7 +293,7 @@ class Activity extends Model
         $contact->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_contact',
                 'value' => $contact->name,
                 'url'    => route('contacts.edit', $contact->id),
@@ -306,7 +306,7 @@ class Activity extends Model
         $contact->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_contact',
                 'value' => $contact->name,
                 'url'    => route('contacts.edit', $contact->id),
@@ -319,7 +319,7 @@ class Activity extends Model
         $client->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_client',
                 'value' => $client->name,
                 'url'    => route('clients.show', $client->id),
@@ -332,7 +332,7 @@ class Activity extends Model
         $client->activities()->create(
             [
                 'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->creatorId(),
+                'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_client',
                 'value' => $client->name,
                 'url'    => route('clients.show', $client->id),

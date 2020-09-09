@@ -57,7 +57,7 @@ class Task extends Model implements HasMedia
         static::creating(function ($task) {
             if ($user = \Auth::user()) {
                 $task->user_id = $user->id;
-                $task->created_by = $user->creatorId();
+                $task->created_by = $user->created_by;
             }
         });
 

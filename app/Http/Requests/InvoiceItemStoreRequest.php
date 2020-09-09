@@ -16,7 +16,7 @@ class InvoiceItemStoreRequest extends FormRequest
     {
         $invoice = $this->route()->parameter('invoice');
 
-        if($invoice->created_by != \Auth::user()->creatorId())
+        if($invoice->created_by != \Auth::user()->created_by)
             return false;
 
         return $this->user()->can('edit invoice');

@@ -53,7 +53,7 @@ class Client extends Model implements HasMedia
         static::creating(function ($client) {
             if ($user = \Auth::user()) {
                 $client->user_id = $user->id;
-                $client->created_by = $user->creatorId();
+                $client->created_by = $user->created_by;
             }
         });
 

@@ -23,7 +23,6 @@ class CompanySeeder extends Seeder
                 'password' => Hash::make('1234'),
                 'type' => 'company',
                 'avatar' => null,
-                'created_by' => 1,
                 'email_verified_at' => now(),
             ]
         );

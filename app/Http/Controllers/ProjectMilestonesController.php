@@ -57,7 +57,7 @@ class ProjectMilestonesController extends Controller
 
         // Activity::create(
         //     [
-        //         'user_id' => \Auth::user()->creatorId(),
+        //         'user_id' => \Auth::user()->created_by,
         //         'project_id' => $project->id,
         //         'log_type' => 'Create Milestone',
         //         'remark' => '<b>'. \Auth::user()->name . '</b> ' .

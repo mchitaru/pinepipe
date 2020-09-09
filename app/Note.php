@@ -24,7 +24,7 @@ class Note extends Model
         static::creating(function ($note) {
             if ($user = \Auth::user()) {
                 $note->user_id = $user->id;
-                $note->created_by = $user->creatorId();
+                $note->created_by = $user->created_by;
             }
         });
 
@@ -46,7 +46,7 @@ class Note extends Model
     public static function createNote($post)
     {
         $post['user_id']    = \Auth::user()->id;
-        $post['created_by'] = \Auth::user()->creatorId();
+        $post['created_by'] = \Auth::user()->created_by;
 
         if(isset($post['lead_id'])){
 

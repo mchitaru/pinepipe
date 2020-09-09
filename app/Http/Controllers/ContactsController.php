@@ -66,7 +66,7 @@ class ContactsController extends Controller
                     ->get()                    
                     ->pluck('name', 'id');
 
-        $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
+        $tags = Tag::where('created_by', '=', \Auth::user()->created_by)
                     ->whereHas('contacts')
                     ->get()
                     ->pluck('name', 'name');
@@ -112,7 +112,7 @@ class ContactsController extends Controller
                         ->get()
                         ->pluck('name', 'id');
 
-        $tags = Tag::where('created_by', '=', \Auth::user()->creatorId())
+        $tags = Tag::where('created_by', '=', \Auth::user()->created_by)
                     ->whereHas('contacts')
                     ->get()
                     ->pluck('name', 'name');

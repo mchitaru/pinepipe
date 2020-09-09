@@ -44,7 +44,7 @@ class Expense extends Model implements HasMedia
 
         static::creating(function ($expense) {
             if ($user = \Auth::user()) {
-                $expense->created_by = $user->creatorId();
+                $expense->created_by = $user->created_by;
             }
         });
 

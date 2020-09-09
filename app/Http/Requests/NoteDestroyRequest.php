@@ -17,7 +17,7 @@ class NoteDestroyRequest extends FormRequest
     {
         $note = $this->route()->parameter('note');
 
-        return $note->created_by == \Auth::user()->creatorId() &&
+        return $note->created_by == \Auth::user()->created_by &&
                 (\Auth::user()->type == 'company' ||
                 $note->user_id == \Auth::user()->id);
     }

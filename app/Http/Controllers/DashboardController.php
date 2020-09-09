@@ -56,13 +56,13 @@ class DashboardController extends Controller
 
         if(\Auth::user()->type == 'company'){
 
-            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())
+            $projects = Project::where('created_by', '=', \Auth::user()->created_by)
                                     ->where('archived', '0')
                                     ->orderBy('due_date', 'ASC')
                                     ->get();
 
             $invoices = Invoice::with('project')
-                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->where('created_by', '=', \Auth::user()->created_by)
                                     ->where('status', '<', '3')
                                     ->orderBy('due_date', 'ASC')
                                     ->get();
@@ -91,7 +91,7 @@ class DashboardController extends Controller
 
         }else if(\Auth::user()->type == 'client'){
 
-            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())
+            $projects = Project::where('created_by', '=', \Auth::user()->created_by)
                                     ->where('client_id', \Auth::user()->client_id)
                                     ->where('archived', '0')
                                     ->orderBy('due_date', 'ASC')
@@ -105,7 +105,7 @@ class DashboardController extends Controller
                                             $query->where('id', \Auth::user()->client_id);
                                         });
                                     })
-                                    ->where('created_by', '=', \Auth::user()->creatorId())
+                                    ->where('created_by', '=', \Auth::user()->created_by)
                                     ->where('status', '<', '3')
                                     ->orderBy('due_date', 'ASC')
                                     ->get();

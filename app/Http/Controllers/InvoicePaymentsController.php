@@ -17,14 +17,14 @@ class InvoicePaymentsController extends Controller
 {
     public function index()
     {
-        $payments = Payment::select(['payments.*'])->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->creatorId())->get();
+        $payments = Payment::select(['payments.*'])->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->created_by)->get();
 
         return view('invoices.all-payments', compact('payments'));
     }
 
     public function create(Invoice $invoice)
     {
-        $categories = Category::where('created_by', \Auth::user()->creatorId())
+        $categories = Category::where('created_by', \Auth::user()->created_by)
                                 ->where('class', Payment::class)
                                 ->get()->pluck('name', 'id');
 
@@ -44,7 +44,7 @@ class InvoicePaymentsController extends Controller
 
     public function edit(Request $request, Invoice $invoice, Payment $payment)
     {
-        $categories = Category::where('created_by', \Auth::user()->creatorId())
+        $categories = Category::where('created_by', \Auth::user()->created_by)
                                 ->where('class', Payment::class)
                                 ->get()->pluck('name', 'id');
 

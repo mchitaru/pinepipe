@@ -17,7 +17,7 @@ class InvoiceUpdateRequest extends FormRequest
         {
             $invoice = $this->route()->parameter('invoice');
 
-            return ($invoice->created_by == \Auth::user()->creatorId());
+            return ($invoice->created_by == \Auth::user()->created_by);
         }
 
         return false;

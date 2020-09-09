@@ -52,7 +52,7 @@ class CompanySettings extends Model implements HasMedia
 
         static::creating(function ($settings) {
             if ($user = \Auth::user()) {
-                $settings->created_by = $user->creatorId();
+                $settings->created_by = $user->created_by;
             }
         });
 
@@ -75,13 +75,13 @@ class CompanySettings extends Model implements HasMedia
 
     public static function updateSettings($post)
     {
-        $settings = CompanySettings::where('created_by', \Auth::user()->creatorId())->first();
+        $settings = CompanySettings::where('created_by', \Auth::user()->created_by)->first();
 
         if($settings && $settings->currency != $post['currency'] ||
             $settings == null && \Auth::user()->getDefaultCurrency() != $post['currency']){
 
             //the user changed the main currency -> update currency rate of invoices
-            $invoices = Invoice::where('created_by', \Auth::user()->creatorId())->get();
+            $invoices = Invoice::where('created_by', \Auth::user()->created_by)->get();
 
             foreach($invoices as $invoice){
 
@@ -99,7 +99,7 @@ class CompanySettings extends Model implements HasMedia
             }
         }
 
-        $settings = CompanySettings::updateOrCreate(['created_by' => \Auth::user()->creatorId()], $post);
+        $settings = CompanySettings::updateOrCreate(['created_by' => \Auth::user()->created_by], $post);
 
         return $settings;
     }

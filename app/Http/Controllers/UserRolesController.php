@@ -25,7 +25,7 @@ class UserRolesController extends Controller
         {
             $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
 
-            $roles = Role::where('created_by', \Auth::user()->creatorId())->get();
+            $roles = Role::where('created_by', \Auth::user()->created_by)->get();
 
             foreach($defaultRoles as $defaultRole){
 
@@ -84,7 +84,7 @@ class UserRolesController extends Controller
         if(\Auth::user()->can('create permission')){
             $this->validate(
                 $request, [
-                            'name' => 'required|not_in:super admin|max:100|unique:roles,name,NULL,id,created_by,'.\Auth::user()->creatorId(),
+                            'name' => 'required|not_in:super admin|max:100|unique:roles,name,NULL,id,created_by,'.\Auth::user()->created_by,
                             'permissions' => 'required',
                         ]
             );
@@ -92,7 +92,7 @@ class UserRolesController extends Controller
             $role               = new Role();
             $role->name         = $name;
             $role->user_id      = \Auth::user()->id;
-            $role->created_by   = \Auth::user()->creatorId();
+            $role->created_by   = \Auth::user()->created_by;
             $permissions = $request['permissions'];
             $role->save();
 
@@ -147,7 +147,7 @@ class UserRolesController extends Controller
         if(\Auth::user()->can('edit permission')){
             $this->validate(
                 $request, [
-                            'name' => 'required|not_in:super admin|max:100|unique:roles,name,'. $role['id'].',id,created_by,'.\Auth::user()->creatorId(),
+                            'name' => 'required|not_in:super admin|max:100|unique:roles,name,'. $role['id'].',id,created_by,'.\Auth::user()->created_by,
                             'permissions' => 'required',
                         ]
             );
@@ -164,15 +164,15 @@ class UserRolesController extends Controller
             $defaultRole = $role;
             $users = [];
 
-            if($role->created_by != \Auth::user()->creatorId()){
+            if($role->created_by != \Auth::user()->created_by){
 
                 $role               = $role->replicate();
 
                 $role->user_id      = \Auth::user()->id;
-                $role->created_by   = \Auth::user()->creatorId();
+                $role->created_by   = \Auth::user()->created_by;
 
                 $users = User::withTrashed()
-                            ->where('created_by', '=', \Auth::user()->creatorId())->get();
+                            ->where('created_by', '=', \Auth::user()->created_by)->get();
             }
 
             $role->fill($input);
@@ -226,7 +226,7 @@ class UserRolesController extends Controller
                                     ->first();
 
             $users = User::withTrashed()
-                ->where('created_by', '=', \Auth::user()->creatorId())->get();
+                ->where('created_by', '=', \Auth::user()->created_by)->get();
 
             foreach($users as $user){
 

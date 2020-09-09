@@ -305,7 +305,6 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('metallicarulz'),
                 'type' => 'super admin',
                 'avatar' => '',
-                'created_by' => 0,
                 'email_verified_at' => now(),
             ]
         );

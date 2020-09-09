@@ -29,7 +29,7 @@ class ExpensesController extends Controller
             clock()->startEvent('ExpensesController', "Load expenses");
 
             $expenses = Expense::expensesByUserType()
-                        ->where('created_by', '=', \Auth::user()->creatorId())
+                        ->where('created_by', '=', \Auth::user()->created_by)
                         ->where(function ($query) use ($request) {
                             $query->whereHas('user', function ($query) use($request) {
 
@@ -58,13 +58,13 @@ class ExpensesController extends Controller
         {
             $project_id = $request['project_id'];
 
-            $categories = Category::where('created_by', \Auth::user()->creatorId())
+            $categories = Category::where('created_by', \Auth::user()->created_by)
                                     ->where('class', Expense::class)
                                     ->get()->pluck('name', 'id');
 
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+            $owners  = User::where('created_by', '=', \Auth::user()->created_by)
                             ->where('type', '!=', 'client')
                             ->get()
                             ->pluck('name', 'id')
@@ -100,13 +100,13 @@ class ExpensesController extends Controller
     {
         if(\Auth::user()->can('edit expense'))
         {
-            $categories = Category::where('created_by', \Auth::user()->creatorId())
+            $categories = Category::where('created_by', \Auth::user()->created_by)
                                     ->where('class', Expense::class)
                                     ->get()->pluck('name', 'id');
 
             $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-            $owners  = User::where('created_by', '=', \Auth::user()->creatorId())
+            $owners  = User::where('created_by', '=', \Auth::user()->created_by)
                             ->where('type', '!=', 'client')
                             ->get()
                             ->pluck('name', 'id')

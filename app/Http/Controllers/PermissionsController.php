@@ -30,7 +30,7 @@ class PermissionsController extends Controller
     {
         if(\Auth::user()->can('create permission'))
         {
-            $roles = Role::where('created_by','=',\Auth::user()->creatorId())->get();
+            $roles = Role::where('created_by','=',\Auth::user()->created_by)->get();
 
             return view('permission.create')->with('roles', $roles);
         }
@@ -87,7 +87,7 @@ class PermissionsController extends Controller
     {
         if(\Auth::user()->can('edit permission'))
         {
-            $roles = Role::where('created_by','=',\Auth::user()->creatorId())->get();
+            $roles = Role::where('created_by','=',\Auth::user()->created_by)->get();
 
             return view('permission.edit', compact('roles', 'permission'));
         }

@@ -43,7 +43,8 @@ class UsersController extends Controller
             else
             {
                 $users = User::withTrashed()
-                                ->where('created_by', '=', $user->creatorId())
+                                ->where('type', '!=', 'company')
+                                ->where('created_by', '=', $user->created_by)
                                 ->where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
                                     ->orWhere('email','like','%'.$request['filter'].'%');
@@ -67,7 +68,7 @@ class UsersController extends Controller
 
         $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
 
-        $roles = Role::where('created_by', \Auth::user()->creatorId())->get();
+        $roles = Role::where('created_by', \Auth::user()->created_by)->get();
 
         foreach($defaultRoles as $defaultRole){
 
@@ -83,7 +84,7 @@ class UsersController extends Controller
 
         $roles = $roles->pluck('name', 'id');
 
-        $clients = Client::where('created_by', '=', $user->creatorId())
+        $clients = Client::where('created_by', '=', $user->created_by)
                         ->orderBy('id', 'DESC')
                         ->get()
                         ->pluck('name', 'id');
@@ -131,7 +132,7 @@ class UsersController extends Controller
     {
         $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
 
-        $roles = Role::where('created_by', \Auth::user()->creatorId())->get();
+        $roles = Role::where('created_by', \Auth::user()->created_by)->get();
 
         foreach($defaultRoles as $defaultRole){
 
@@ -147,7 +148,7 @@ class UsersController extends Controller
 
         $roles = $roles->pluck('name', 'id');
 
-        $clients = Client::where('created_by', '=', $user->creatorId())
+        $clients = Client::where('created_by', '=', $user->created_by)
                             ->orderBy('id', 'DESC')
                             ->get()
                             ->pluck('name', 'id');

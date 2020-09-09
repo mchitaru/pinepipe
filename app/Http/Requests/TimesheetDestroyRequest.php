@@ -18,7 +18,7 @@ class TimesheetDestroyRequest extends FormRequest
         {
             $timesheet = $this->route()->parameter('timesheet');
 
-            return $timesheet->created_by == \Auth::user()->creatorId() &&
+            return $timesheet->created_by == \Auth::user()->created_by &&
                     (\Auth::user()->type == 'company' ||
                     $timesheet->user_id == \Auth::user()->id);
         }

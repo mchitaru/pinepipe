@@ -22,7 +22,7 @@ class Tax extends Model
         static::creating(function ($tax) {
             if ($user = \Auth::user()) {
                 $tax->user_id = $user->id;
-                $tax->created_by = $user->creatorId();
+                $tax->created_by = $user->created_by;
             }
         });
 

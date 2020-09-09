@@ -53,7 +53,7 @@ class Contact extends Model
         static::creating(function ($contact) {
             if ($user = \Auth::user()) {
                 $contact->user_id = $user->id;
-                $contact->created_by = $user->creatorId();
+                $contact->created_by = $user->created_by;
             }
         });
 
@@ -115,7 +115,7 @@ class Contact extends Model
         if(\Auth::user()->type == 'company')
         {
             return Contact::with(['client', 'tags'])
-                   ->where('created_by','=',\Auth::user()->creatorId())
+                   ->where('created_by','=',\Auth::user()->created_by)
                    ->orderBy('name', 'asc');
         }else
         {
@@ -123,7 +123,7 @@ class Contact extends Model
                     ->where(function ($query)  {
                         $query->where('user_id', \Auth::user()->id);
                     })
-                   ->where('created_by','=',\Auth::user()->creatorId())
+                   ->where('created_by','=',\Auth::user()->created_by)
                    ->orderBy('name', 'asc');
         }
     }

@@ -39,7 +39,7 @@ class ClientsController extends Controller
             if($user->type == 'company')
             {
                 $clients = Client::with(['contacts', 'projects', 'leads'])
-                            ->where('created_by','=',$user->creatorId())
+                            ->where('created_by','=',$user->created_by)
                             ->where(function ($query) use ($request) {
                                 $query->where('name','like','%'.$request['filter'].'%')
                                 ->orWhere('email','like','%'.$request['filter'].'%');
@@ -62,7 +62,7 @@ class ClientsController extends Controller
                             'leads' => function ($query) {
                                 $query->where('user_id', \Auth::user()->id);
                             }])
-                            ->where('created_by','=',$user->creatorId())
+                            ->where('created_by','=',$user->created_by)
                             ->where(function ($query) use ($request) {
                                 $query->where('name','like','%'.$request['filter'].'%')
                                 ->orWhere('email','like','%'.$request['filter'].'%');
@@ -181,7 +181,7 @@ class ClientsController extends Controller
 
                 $leads = Lead::with(['client', 'user', 'stage'])
                         ->where('client_id', '=', $client->id)
-                        ->where('created_by', '=', $user->creatorId())
+                        ->where('created_by', '=', $user->created_by)
                         ->orderBy('order')
                         ->get();
 
@@ -206,19 +206,19 @@ class ClientsController extends Controller
                 $contacts = $user->contacts()
                             ->with(['client', 'user'])
                             ->where('client_id', '=', $client->id)
-                            ->where('created_by', '=', $user->creatorId())
+                            ->where('created_by', '=', $user->created_by)
                             ->get();
 
                 $projects = $user->projects()
                             ->with(['client', 'users'])
                             ->where('client_id', '=', $client->id)
-                            ->where('created_by', '=', $user->creatorId())
+                            ->where('created_by', '=', $user->created_by)
                             ->get();
 
                 $leads = $user->leads()
                             ->with(['client', 'user', 'stage'])
                             ->where('client_id', '=', $client->id)
-                            ->where('created_by', '=', $user->creatorId())
+                            ->where('created_by', '=', $user->created_by)
                             ->orderBy('order')
                             ->get();
 
@@ -249,7 +249,7 @@ class ClientsController extends Controller
                 }
             }
 
-            $stages = Stage::where('created_by', \Auth::user()->creatorId())
+            $stages = Stage::where('created_by', \Auth::user()->created_by)
                                 ->where('class', Lead::class)
                                 ->get()
                                 ->pluck('id')

@@ -43,7 +43,7 @@ class Article extends Model implements HasMedia
             if ($user = \Auth::user()) {
 
                 $article->user_id = $user->id;
-                $article->created_by = $user->creatorId();
+                $article->created_by = $user->created_by;
             }
         });
 

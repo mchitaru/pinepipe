@@ -22,7 +22,7 @@ class WikiController extends Controller
             return view('wiki.page');        
         }
 
-        if(\Auth::user() && (\Auth::user()->creatorId() == $user->id)){
+        if(\Auth::user() && (\Auth::user()->created_by == $user->id)){
 
             $published = [0, 1];
         }else{

@@ -47,7 +47,7 @@ class Timesheet extends Model
         static::creating(function ($timesheet) {
             if ($user = \Auth::user()) {
                 $timesheet->user_id = $user->id;
-                $timesheet->created_by = $user->creatorId();
+                $timesheet->created_by = $user->created_by;
             }
         });
 
@@ -98,7 +98,7 @@ class Timesheet extends Model
 
         $timeSheet             = Timesheet::make($post);
         $timeSheet->user_id    = \Auth::user()->id;
-        $timeSheet->created_by = \Auth::user()->creatorId();
+        $timeSheet->created_by = \Auth::user()->created_by;
         $timeSheet->save();
 
         return $timeSheet;

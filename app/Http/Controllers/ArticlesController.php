@@ -36,7 +36,7 @@ class ArticlesController extends Controller
         $categories = explode('/', $path);
         $slug = array_pop($categories);
 
-        $article = Article::where('created_by', \Auth::user()->creatorId())
+        $article = Article::where('created_by', \Auth::user()->created_by)
                                 ->where('slug', $slug)
                                 ->first();
 
@@ -46,7 +46,7 @@ class ArticlesController extends Controller
         }
 
 
-        $category = Category::where('created_by', \Auth::user()->creatorId())
+        $category = Category::where('created_by', \Auth::user()->created_by)
                                 ->where('slug', $slug)
                                 ->first();
 
@@ -130,7 +130,7 @@ class ArticlesController extends Controller
         $categories = explode('/', $path);
         $slug = array_pop($categories);
 
-        $article = Article::where('created_by', \Auth::user()->creatorId())
+        $article = Article::where('created_by', \Auth::user()->created_by)
                                 ->where('slug', $slug)
                                 ->first();
 
@@ -139,7 +139,7 @@ class ArticlesController extends Controller
             $slug = array_pop($categories);            
         }
 
-        $category = Category::where('created_by', \Auth::user()->creatorId())
+        $category = Category::where('created_by', \Auth::user()->created_by)
                                 ->where('slug', $slug)
                                 ->first();
 

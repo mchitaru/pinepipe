@@ -17,7 +17,7 @@ class ExpenseUpdateRequest extends FormRequest
         {
             $expense = $this->route()->parameter('expense');
 
-            return $expense->created_by == \Auth::user()->creatorId() &&
+            return $expense->created_by == \Auth::user()->created_by &&
                     (\Auth::user()->type == 'company' ||
                     $expense->user_id == \Auth::user()->id);
         }

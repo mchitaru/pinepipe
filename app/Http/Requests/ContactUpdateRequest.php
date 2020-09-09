@@ -17,7 +17,7 @@ class ContactUpdateRequest extends FormRequest
         {
             $contact = $this->route()->parameter('contact');
 
-            return $contact->created_by == \Auth::user()->creatorId() &&
+            return $contact->created_by == \Auth::user()->created_by &&
                     (\Auth::user()->type == 'company' ||
                     $contact->user_id == \Auth::user()->id);
         }

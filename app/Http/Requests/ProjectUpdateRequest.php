@@ -18,7 +18,7 @@ class ProjectUpdateRequest extends FormRequest
         {
             $project = $this->route()->parameter('project');
 
-            return ($project->created_by == \Auth::user()->creatorId());
+            return ($project->created_by == \Auth::user()->created_by);
         }
 
         return false;

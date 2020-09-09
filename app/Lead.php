@@ -54,7 +54,7 @@ class Lead extends Model implements HasMedia
         static::creating(function ($lead) {
             if ($user = \Auth::user()) {
                 $lead->user_id = $user->id;
-                $lead->created_by = $user->creatorId();
+                $lead->created_by = $user->created_by;
             }
         });
 
@@ -136,7 +136,7 @@ class Lead extends Model implements HasMedia
         }
 
         $lead                = Lead::make($post);
-        $lead->created_by    = \Auth::user()->creatorId();
+        $lead->created_by    = \Auth::user()->created_by;
         $lead->save();
 
         Activity::createLead($lead);

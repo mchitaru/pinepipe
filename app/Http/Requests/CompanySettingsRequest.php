@@ -25,7 +25,7 @@ class CompanySettingsRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:50',
-            'email' => 'nullable|email|unique:company_settings,email,'.\Auth::user()->creatorId().',created_by',
+            'email' => 'nullable|email|unique:company_settings,email,'.\Auth::user()->created_by.',created_by',
             'address' => 'nullable|string',
             'city' => 'nullable|string',
             'state' => 'nullable|string',

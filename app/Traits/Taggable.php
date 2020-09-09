@@ -19,7 +19,7 @@ trait Taggable
         foreach($names as $name)
         {
             $tags[] = Tag::firstOrCreate(['name' => $name,
-                                        'created_by' => \Auth::user()->creatorId()])->id;
+                                        'created_by' => \Auth::user()->created_by])->id;
         }
 
         $this->tags()->sync($tags);

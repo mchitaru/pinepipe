@@ -57,7 +57,7 @@ class Project extends Model implements HasMedia
         static::creating(function ($project) {
             if ($user = \Auth::user()) {
                 $project->user_id = $user->id;
-                $project->created_by = $user->creatorId();
+                $project->created_by = $user->created_by;
             }
         });
 
@@ -163,7 +163,7 @@ class Project extends Model implements HasMedia
 
         }], 'tasks.users')
         ->where('class', Task::class)
-        ->where('created_by', \Auth::user()->creatorId())
+        ->where('created_by', \Auth::user()->created_by)
         ->orderBy('order', 'ASC');
     }
 

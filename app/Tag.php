@@ -22,7 +22,7 @@ class Tag extends Model
         static::creating(function ($tag) {
             if ($user = \Auth::user()) {
                 $tag->user_id = $user->id;
-                $tag->created_by = $user->creatorId();
+                $tag->created_by = $user->created_by;
             }
         });
 
