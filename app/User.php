@@ -88,6 +88,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         parent::boot();
 
+        static::addGlobalScope(new TenantScope);
+
         static::creating(function ($user) {
 
         });
@@ -143,16 +145,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             // }
 
         });
-    }
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        // static::addGlobalScope(new TenantScope);
     }
 
     public function handle()
@@ -870,22 +862,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         $total_users = User::where('type', '!=', 'client')->where('created_by', '=', $company->id)->count();
 
         return $total_users < $max_users;
-    }
-
-    public function countCompany()
-    {
-        return User::where('type', '=', 'company')->count();
-    }
-
-    public function countPaidCompany()
-    {
-        return 0;
-        // return User::where('type', '=', 'company')->whereNotIn(
-        //     'plan_id', [
-        //               0,
-        //               1,
-        //           ]
-        // )->where('created_by', '=', \Auth::user()->id)->count();
     }
 
     public function initCompanyDefaults()

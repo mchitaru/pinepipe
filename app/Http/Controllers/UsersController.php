@@ -32,7 +32,8 @@ class UsersController extends Controller
 
             if(\Auth::user()->type == 'super admin')
             {
-                $users = User::withTrashed()
+                $users = User::withoutGlobalScopes()
+                                ->withTrashed()
                                 ->where('type', '=', 'company')
                                 ->where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
@@ -44,7 +45,6 @@ class UsersController extends Controller
             {
                 $users = User::withTrashed()
                                 ->where('type', '!=', 'company')
-                                ->where('created_by', '=', $user->created_by)
                                 ->where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
                                     ->orWhere('email','like','%'.$request['filter'].'%');

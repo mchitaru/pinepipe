@@ -27,8 +27,15 @@ class DashboardController extends Controller
             clock()->startEvent('DahsboardController', "Load dash");
 
             $user = \Auth::user();
-            $user['total_user']=$user->countCompany();
-            $user['total_paid_user']=$user->countPaidCompany();
+            $user['total_user'] = User::withoutGlobalScopes()
+                                        ->where('type', '=', 'company')
+                                        ->count();
+
+            $user['total_paid_user'] = User::withoutGlobalScopes()
+                                                ->whereHas('subscriptions')
+                                                ->where('type', '=', 'company')
+                                                ->count();
+
             $user['total_orders'] = Subscription::count();
             $user['total_orders_price'] = 0;
             $user['total_plan'] = SubscriptionPlan::total_plan();
