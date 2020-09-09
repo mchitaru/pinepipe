@@ -82,6 +82,8 @@ Route::group(
         Route::resource('contacts', 'ContactsController');
 
         //Profile
+        Route::get('subscription', 'UserProfileController@subscription');
+
         Route::get('profile/{user:handle}/edit', 'UserProfileController@edit')->name('profile.edit');
         Route::put('profile/{user:handle}', 'UserProfileController@update')->name('profile.update');
         Route::patch('profile/{user:handle}', 'UserProfileController@password')->name('profile.password');
@@ -193,7 +195,7 @@ Route::group(
 
         // Managing Google accounts.
         Route::get('google/oauth', 'GoogleAccountController@store')->name('google.store');
-        Route::delete('google/{googleAccount}', 'GoogleAccountController@destroy')->name('google.destroy');        
+        Route::delete('google/{googleAccount}', 'GoogleAccountController@destroy')->name('google.destroy');
 });
 
 Route::get('wiki/{user:handle}/{categories?}', 'WikiController@index')->where('categories','^[a-zA-Z0-9-_\/]+$')->name('wiki.index')->middleware('xss');

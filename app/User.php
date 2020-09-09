@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         'notify_major_updates',
         'notify_minor_updates',
         'last_login_at',
-        'last_login_ip',        
+        'last_login_ip',
     ];
 
     protected $hidden = [
@@ -125,7 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             if(!app()->isLocal() && Newsletter::hasMember($user->email)){
 
                 Newsletter::delete($user->email);
-            }                
+            }
         });
 
         static::updated(function ($user) {
@@ -133,11 +133,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             // if(!app()->isLocal() && Newsletter::hasMember($user->email)){
 
             //     if($user->notify_newsletter && !Newsletter::isSubscribed($user->email)){
-                
+
             //         Newsletter::subscribeOrUpdate($user->email);
 
             //     }elseif(!$user->notify_newsletter && Newsletter::isSubscribed($user->email)){
-                    
+
             //         Newsletter::unsubscribe($user->email);
             //     }
             // }
@@ -251,7 +251,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             return $this->companyLeads();
         }
-        
+
         return $this->leads();
     }
 
@@ -266,7 +266,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             return $this->companyExpenses();
         }
-        
+
         return $this->expenses();
     }
 
@@ -296,7 +296,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             return $this->companyEvents();
         }
-        
+
         return $this->userEvents();
     }
 
@@ -393,7 +393,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                             ->orderBy('due_date', 'ASC');
 
         }
-        
+
         return $this->companyInvoices()
                     ->orderBy('due_date', 'ASC');
     }
@@ -633,7 +633,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             if(Currency::where('code', $locale->currency)->first()){
 
                 $this->currency = $locale->currency;
-                
+
             }else{
 
                 $this->currency = 'EUR';
@@ -1228,10 +1228,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             //subscribe to newsletter
             $name = explode(" ", $this->name);
 
-            Newsletter::subscribeOrUpdate($this->email, 
+            Newsletter::subscribeOrUpdate($this->email,
                                             ['FNAME'=>$name[0], 'LNAME'=>(count($name) > 1 ? $name[1] : '')],
                                             'subscribers',
-                                            ['tags' => [strtoupper($this->locale), 'Customer', 'Free account']]);
+                                            ['tags' => [$this->locale, 'customer', 'free']]);
 
             // if(!Newsletter::lastActionSucceeded()) {
 

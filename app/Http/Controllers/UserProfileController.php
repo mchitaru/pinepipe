@@ -26,6 +26,11 @@ class UserProfileController extends Controller
         return view('users.profile.show', compact('user', 'companySettings', 'companyName', 'companyLogo'));
     }
 
+    public function subscription()
+    {
+        return Redirect::to(route('profile.edit', \Auth::user()->handle()).'/#subscription');
+    }
+
     public function edit(User $user)
     {
         if(\Auth::user()->id == $user->id) {

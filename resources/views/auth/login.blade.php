@@ -10,7 +10,7 @@
     onWidgetReady: function(widget) {
         $("#headway-spinner").hide();
     }
-  }      
+  }
 }
 </script>
 <script async src="https://cdn.headwayapp.co/widget.js"></script>
@@ -48,7 +48,7 @@
             <div class="form-group mb-3">
                 <div class="form-check">
                     <label class="rememberme check mt-checkbox mt-checkbox-outline" for="remember">
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" value="true" {{ (!old() || old('remember') == 'true') ?  'checked' : '' }}>
                         {{ __('Keep me logged in') }}
                         <span></span>
                     </label>
