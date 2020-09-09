@@ -13,6 +13,8 @@ use App\Notifications\ProjectAssignedAlert;
 use App\Traits\Actionable;
 use App\Traits\Taggable;
 
+use App\Scopes\TenantScope;
+
 class Project extends Model implements HasMedia
 {
     use NullableFields, HasMediaTrait, Actionable, Taggable;
@@ -53,6 +55,8 @@ class Project extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($project) {
             if ($user = \Auth::user()) {
@@ -163,7 +167,6 @@ class Project extends Model implements HasMedia
 
         }], 'tasks.users')
         ->where('class', Task::class)
-        ->where('created_by', \Auth::user()->created_by)
         ->orderBy('order', 'ASC');
     }
 
@@ -182,41 +185,6 @@ class Project extends Model implements HasMedia
 
             $this->progress = intval(($this->completed_tasks / $this->tasks->count()) * 100);
         }
-    }
-
-    public static function getProjectStatus()
-    {
-
-        $projectData = [];
-        if(\Auth::user()->type == 'company')
-        {
-            $active  = Project::where('archived', '=', false)->where('created_by', '=', \Auth::user()->id)->count();
-            $completed = Project::where('archived', '=', true)->where('created_by', '=', \Auth::user()->id)->count();
-            $total     = $active + $completed;
-
-            $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
-            $projectData['completed'] = ($total != 0 ? number_format(($completed / $total) * 100, 2) : 0);
-        }
-        else if(\Auth::user()->type == 'client')
-        {
-            $active  = Project::where('archived', '=', false)->where('client_id', '=', \Auth::user()->client_id)->count();
-            $completed = Project::where('archived', '=', true)->where('client_id', '=', \Auth::user()->client_id)->count();
-            $total     = $active + $completed;
-
-            $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
-            $projectData['completed'] = ($total != 0 ? number_format(($completed / $total) * 100, 2) : 0);
-        }
-        else
-        {
-            $active  = UserProject::join('projects', 'user_projects.project_id', '=', 'projects.id')->where('projects.archived', '=', false)->where('user_id', '=', \Auth::user()->id)->count();
-            $completed = UserProject::join('projects', 'user_projects.project_id', '=', 'projects.id')->where('projects.archived', '=', true)->where('user_id', '=', \Auth::user()->id)->count();
-            $total     = $active + $completed;
-
-            $projectData['active']  = ($total != 0 ? number_format(($active / $total) * 100, 2) : 0);
-            $projectData['completed'] = ($total != 0 ? number_format(($completed / $total) * 100, 2) : 0);
-        }
-
-        return $projectData;
     }
 
     public static function createProject($post)

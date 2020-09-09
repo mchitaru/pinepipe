@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\TenantScope;
+
 class Checklist extends Model
 {
     protected $fillable = [
@@ -21,6 +23,8 @@ class Checklist extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($checklist) {
             if ($user = \Auth::user()) {

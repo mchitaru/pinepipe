@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\TenantScope;
+
 class Note extends Model
 {
     protected $fillable = [
@@ -20,6 +22,8 @@ class Note extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($note) {
             if ($user = \Auth::user()) {

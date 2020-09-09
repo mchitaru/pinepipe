@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Categorizable;
 
+use App\Scopes\TenantScope;
+
 class Payment extends Model
 {
     use Categorizable;
@@ -29,6 +31,8 @@ class Payment extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($payment) {
             if ($user = \Auth::user()) {
@@ -57,11 +61,11 @@ class Payment extends Model
             $post['category_id'] = $category->id;
         }
 
-        $latest_payment = Payment::select('payments.*')->join('invoices', 'payments.invoice_id', '=', 'invoices.id')->where('invoices.created_by', '=', \Auth::user()->created_by)->latest()->first();
+        $latestPayment = Payment::latest()->first();
 
         $payment = Payment::create(
             [
-                'transaction_id' => $latest_payment?($latest_payment->transaction_id + 1):1,
+                'transaction_id' => $latestPayment ? ($latestPayment->transaction_id + 1) : 1,
                 'invoice_id' => $invoice->id,
                 'category_id' => $post['category_id'],
                 'amount' => $post['amount'],

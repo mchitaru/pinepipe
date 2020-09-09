@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Jobs\SynchronizeGoogleEvents;
 use App\Traits\Synchronizable;
 
+use App\Scopes\TenantScope;
+
 class Calendar extends Model
 {
     use Synchronizable;
@@ -15,6 +17,8 @@ class Calendar extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         // static::created(function ($calendar) {
         //     SynchronizeGoogleEvents::dispatch($calendar);

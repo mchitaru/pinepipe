@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
+use App\Scopes\TenantScope;
+
 class Article extends Model implements HasMedia
 {
     use HasMediaTrait, Categorizable;
@@ -38,6 +40,8 @@ class Article extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($article) {
             if ($user = \Auth::user()) {

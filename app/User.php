@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Permission;
+use App\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -317,57 +317,57 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function companyLeads()
     {
-        return Lead::where('created_by', '=', $this->created_by);
+        return Lead::query();
     }
 
     public function companyProjects()
     {
-        return Project::where('created_by', '=', $this->created_by);
+        return Project::query();
     }
 
     public function companyTasks()
     {
-        return Task::with('project')->where('created_by', '=', $this->created_by);
+        return Task::with('project');
     }
 
     public function companyStaff()
     {
-        return User::where('created_by', '=', $this->created_by)->where('type', '!=', 'client');
+        return User::where('type', '!=', 'client');
     }
 
     public function companyRoles()
     {
-        return Role::where('created_by', '=', $this->created_by);
+        return Role::query();
     }
 
     public function companyClients()
     {
-        return Client::where('created_by', '=', $this->created_by)->orderBy('name', 'asc');
+        return Client::orderBy('name', 'asc');
     }
 
     public function companyContacts()
     {
-        return Contact::where('created_by', '=', $this->created_by)->orderBy('name', 'asc');
+        return Contact::orderBy('name', 'asc');
     }
 
     public function companyEvents()
     {
-        return Event::where('created_by', '=', $this->created_by);
+        return Event::query();
     }
 
     public function companyTimesheets()
     {
-        return Timesheet::where('created_by', '=', $this->created_by);
+        return Timesheet::query();
     }
 
     public function companyStages()
     {
-        return Stage::where('created_by', '=', $this->created_by);
+        return Stage::query();
     }
 
     public function companyInvoices()
     {
-        return Invoice::where('created_by', '=', $this->created_by);
+        return Invoice::query();
     }
 
     public function invoicesByUserType()
@@ -381,7 +381,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                                     $query->where('id', \Auth::user()->client_id);
                                 });
                             })
-                            ->where('created_by', '=', \Auth::user()->created_by)
                             ->orderBy('due_date', 'ASC');
 
         }
@@ -392,37 +391,37 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function companyExpenses()
     {
-        return Expense::where('created_by', '=', $this->created_by);
+        return Expense::query();
     }
 
     public function companyArticles()
     {
-        return Article::where('created_by', '=', $this->created_by);
+        return Article::query();
     }
 
     public function companyTags()
     {
-        return Tag::where('created_by', '=', $this->created_by);
+        return Tag::query();
     }
 
     public function companyCategories()
     {
-        return Category::where('created_by', '=', $this->created_by);
+        return Category::query();
     }
 
     public function companyTaxes()
     {
-        return Tax::where('created_by', '=', $this->created_by);
+        return Tax::query();
     }
 
     public function companyActivities()
     {
-        return Activity::where('created_by', '=', $this->created_by);
+        return Activity::query();
     }
 
     public function companyMedia()
     {
-        return Media::where('created_by', '=', $this->created_by);
+        return Media::query();
     }
 
     public function companySubscriptions()
@@ -676,7 +675,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Task::class)
                     ->where('open', 1)
-                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -685,7 +683,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Task::class)
                     ->where('open', 0)
-                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'desc')
                     ->first();
     }
@@ -694,7 +691,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Lead::class)
                     ->where('open', 1)
-                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -703,119 +699,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Lead::class)
                     ->where('open', 0)
-                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
 
-    public function total_lead()
-    {
-        if(\Auth::user()->type == 'company')
-        {
-            return Lead::where('created_by', '=', $this->created_by)->count();
-        }
-        elseif(\Auth::user()->type == 'client')
-        {
-            return Lead::where('client_id', '=', $this->client_id)->count();
-        }
-        else
-        {
-            return Lead::where('user_id', '=', $this->client_id)->count();
-        }
-    }
-
-    public function total_complete_lead($last_leadstage)
-    {
-        if(\Auth::user()->type == 'company')
-        {
-            return Lead::where('created_by', '=', $this->created_by)->where('stage_id', '=', $last_leadstage)->count();
-        }
-        elseif(\Auth::user()->type == 'client')
-        {
-            return Lead::where('client_id', '=', $this->client_id)->where('stage_id', '=', $last_leadstage)->count();
-        }
-        else
-        {
-            return Lead::where('user_id', '=', $this->id)->where('stage_id', '=', $last_leadstage)->count();
-        }
-    }
-
-    public function created_total_project_task()
-    {
-        if(\Auth::user()->type == 'company')
-        {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->created_by)->count();
-        }
-        elseif(\Auth::user()->type == 'client')
-        {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->client_id)->count();
-        }
-        else
-        {
-            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->id)->count();
-        }
-
-    }
-
-    public function created_top_due_task()
-    {
-        return  \Auth::user()->tasksByUserType()->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('tasks.due_date', 'ASC')->get();
-
-        // if(\Auth::user()->type == 'company')
-        // {
-        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'task_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('projects.created_by', '=', $this->created_by)->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
-        // }
-        // elseif(\Auth::user()->type == 'client')
-        // {
-        //     return Task::select('projects.*', 'tasks.id as task_id', 'tasks.title', 'tasks.due_date as task_due_date', 'task_stages.name as stage_name')->join('projects', 'projects.id', '=', 'tasks.project_id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('projects.client_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy('task_due_date', 'ASC')->get();
-        // }
-        // else
-        // {
-        //     return Task::select('tasks.*', 'tasks.id as task_id', 'tasks.due_date as task_due_date', 'user_projects.id as up_id', 'projects.name as project_name', 'task_stages.name as stage_name')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->join('projects', 'user_projects.project_id', '=', 'projects.id')->join('task_stages', 'tasks.stage_id', '=', 'task_stages.id')->where('user_projects.user_id', '=', $this->authId())->where('tasks.due_date', '>', date('Y-m-d'))->limit(5)->orderBy(
-        //         'tasks.due_date', 'ASC')->get();
-        // }
-    }
-
-    public function total_project()
-    {
-        return Project::where('created_by', '=', $this->created_by)->count();
-    }
-
-    public function project_complete_task($project_last_stage)
-    {
-
-        if(\Auth::user()->type == 'company')
-        {
-            // return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.created_by', '=', $this->created_by)->where('tasks.stage_id', '=', $project_last_stage)->count();
-        }
-        elseif(\Auth::user()->type == 'client')
-        {
-            return Task::join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.client_id', '=', $this->client_id)->where('tasks.stage_id', '=', $project_last_stage)->count();
-        }
-        else
-        {
-            return Task::select('tasks.*', 'user_projects.id as up_id')->join('user_projects', 'user_projects.project_id', '=', 'tasks.project_id')->where('user_projects.user_id', '=', $this->id)->where('tasks.stage_id', '=', $project_last_stage)->count();
-        }
-    }
-
-
-    public function created_total_invoice()
-    {
-        if(\Auth::user()->type == 'company')
-        {
-            return Invoice::where('created_by', '=', $this->created_by)->limit(5)->get();
-        }
-        elseif(\Auth::user()->type == 'client')
-        {
-            return Invoice::select('invoices.*', 'projects.client_id')->join('projects', 'projects.id', '=', 'invoices.project_id')->where(
-                'projects.client_id', '=', $this->client_id
-            )->get();
-        }
-    }
-
     public function checkProjectLimit()
     {
-        $company        = User::find($this->created_by);
+        $company = User::find($this->created_by);
 
         if(!$company->subscribed()){
             $max_projects = SubscriptionPlan::first()->max_projects;
@@ -825,7 +715,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         if(!isset($max_projects)) return true;
 
-        $total_projects = Project::where('created_by', '=', $company->id)->count();
+        $total_projects = Project::count();
 
         return $total_projects < $max_projects;
     }
@@ -842,7 +732,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         if(!isset($max_clients)) return true;
 
-        $total_clients = Client::where('created_by', '=', $company->id)->count();
+        $total_clients = Client::count();
 
         return $total_clients < $max_clients;
     }
@@ -859,7 +749,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         if(!isset($max_users)) return true;
 
-        $total_users = User::where('type', '!=', 'client')->where('created_by', '=', $company->id)->count();
+        $total_users = User::where('type', '!=', 'client')->count();
 
         return $total_users < $max_users;
     }
@@ -1177,19 +1067,19 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         $this->companySubscriptions()->delete();
     }
 
-    public function total_company_user($company_id)
+    public function total_company_user()
     {
-        return User::where('type', '!=', 'client')->where('created_by', '=', $company_id)->count();
+        return User::where('type', '!=', 'client')->count();
     }
 
-    public function total_company_client($company_id)
+    public function total_company_client()
     {
-        return Client::where('created_by', '=', $company_id)->count();
+        return Client::count();
     }
 
-    public function total_company_project($company_id)
+    public function total_company_project()
     {
-        return Project::where('created_by', '=', $company_id)->count();
+        return Project::count();
     }
 
     // public function sendEmailVerificationNotification()

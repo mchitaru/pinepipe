@@ -3,9 +3,18 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\TenantScope;
+
 class Activity extends Model
 {
     protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new TenantScope);
+    }
 
     public function actionable()
     {

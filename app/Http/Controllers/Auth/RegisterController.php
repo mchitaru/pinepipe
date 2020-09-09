@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Spatie\Permission\Models\Role;
+use App\Role;
 use App\Providers\RouteServiceProvider;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;

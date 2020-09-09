@@ -174,7 +174,6 @@ Route::group(
         Route::delete('invoices/{invoice}/items/{item}', 'InvoiceItemsController@delete')->name('invoices.items.delete');
 
         //Invoice payments
-        Route::get('invoices/payments', 'InvoicePaymentsController@index')->name('invoices.payments.index');
         Route::get('invoices/{invoice}/payments', 'InvoicePaymentsController@create')->name('invoices.payments.create');
         Route::post('invoices/{invoice}/payments', 'InvoicePaymentsController@store')->name('invoices.payments.store');
         Route::get('invoices/{invoice}/payments/{payment}/edit', 'InvoicePaymentsController@edit')->name('invoices.payments.edit');

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
 
+use App\Scopes\TenantScope;
+
 class Event extends Model
 {
     use NullableFields, Taggable;
@@ -40,6 +42,8 @@ class Event extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($event) {
             if ($user = \Auth::user()) {

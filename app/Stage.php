@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\TenantScope;
+
 class Stage extends Model
 {
     protected $fillable = [
@@ -30,6 +32,8 @@ class Stage extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($stage) {
 
@@ -125,7 +129,6 @@ class Stage extends Model
 
             },'tasks.users'])
             ->where('class', Task::class)
-            ->where('created_by', \Auth::user()->created_by)
             ->orderBy('order', 'ASC');
 
         }else if(\Auth::user()->type == 'company')
@@ -147,7 +150,6 @@ class Stage extends Model
 
             },'tasks.users'])
             ->where('class', Task::class)
-            ->where('created_by', \Auth::user()->created_by)
             ->orderBy('order', 'ASC');
         }else
         {
@@ -180,7 +182,6 @@ class Stage extends Model
                 }
             },'tasks.users'])
             ->where('class', Task::class)
-            ->where('created_by', \Auth::user()->created_by)
             ->orderBy('order', 'ASC');
         }
     }
@@ -203,7 +204,6 @@ class Stage extends Model
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)
-                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
         }
         elseif(\Auth::user()->type == 'company')
@@ -215,7 +215,6 @@ class Stage extends Model
 
                     },'leads.client','leads.user'])
                     ->where('class', Lead::class)
-                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
 
         }else
@@ -228,7 +227,6 @@ class Stage extends Model
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)
-                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
         }
     }

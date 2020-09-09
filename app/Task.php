@@ -17,6 +17,8 @@ use App\Traits\Commentable;
 use App\Traits\Stageable;
 use App\Traits\Taggable;
 
+use App\Scopes\TenantScope;
+
 class Task extends Model implements HasMedia
 {
     use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable, Taggable, Stageable;
@@ -53,6 +55,8 @@ class Task extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($task) {
             if ($user = \Auth::user()) {

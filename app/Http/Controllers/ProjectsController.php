@@ -82,8 +82,7 @@ class ProjectsController extends Controller
         $start_date = $request->start_date;
         $due_date = $request->due_date;
 
-        $users   = User::where('created_by', '=', \Auth::user()->created_by)
-                        ->where('type', '!=', 'client')
+        $users   = User::where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
@@ -107,8 +106,7 @@ class ProjectsController extends Controller
         {
             if(is_numeric($client_id)) {
 
-                $leads   = Lead::where('created_by', '=', \Auth::user()->created_by)
-                                ->where('client_id', '=', $client_id)
+                $leads   = Lead::where('client_id', '=', $client_id)
                                 ->get()
                                 ->pluck('name', 'id');
             }else{
@@ -119,8 +117,7 @@ class ProjectsController extends Controller
             }
         }else
         {
-                $leads   = Lead::where('created_by', '=', \Auth::user()->created_by)
-                                ->get()
+                $leads   = Lead::get()
                                 ->pluck('name', 'id');
         }
 
@@ -183,8 +180,7 @@ class ProjectsController extends Controller
                             ->get()
                             ->pluck('name', 'id');
 
-        $users   = User::where('created_by', '=', \Auth::user()->created_by)
-                        ->where('type', '!=', 'client')
+        $users   = User::where('type', '!=', 'client')
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
@@ -195,8 +191,7 @@ class ProjectsController extends Controller
         {
             if(is_numeric($client_id)) {
 
-                $leads   = Lead::where('created_by', '=', \Auth::user()->created_by)
-                                ->where('client_id', '=', $client_id)
+                $leads   = Lead::where('client_id', '=', $client_id)
                                 ->get()
                                 ->pluck('name', 'id');
             }else{
@@ -207,8 +202,7 @@ class ProjectsController extends Controller
             }
         }else
         {
-                $leads   = Lead::where('created_by', '=', \Auth::user()->created_by)
-                                ->get()
+                $leads   = Lead::get()
                                 ->pluck('name', 'id');
         }
                         

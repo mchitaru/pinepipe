@@ -8,6 +8,8 @@ use Iatstuti\Database\Support\NullableFields;
 
 use App\Traits\Invoiceable;
 
+use App\Scopes\TenantScope;
+
 class Timesheet extends Model
 {
     use NullableFields;
@@ -43,6 +45,8 @@ class Timesheet extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($timesheet) {
             if ($user = \Auth::user()) {

@@ -33,7 +33,8 @@ class WikiController extends Controller
         $categories = explode('/', $categories);
         $slug = array_pop($categories);
 
-        $article = Article::where('created_by', $user->id)
+        $article = Article::withoutGlobalScopes()
+                                ->where('created_by', $user->id)
                                 ->where('slug', $slug)
                                 ->first();
 
@@ -41,11 +42,13 @@ class WikiController extends Controller
             $slug = array_pop($categories);
         }
 
-        $category = Category::where('created_by', $user->id)
+        $category = Category::withoutGlobalScopes()
+                                ->where('created_by', $user->id)
                                 ->where('slug', $slug)
                                 ->first();        
         
-        $articles = Article::where('created_by', $user->id)
+        $articles = Article::withoutGlobalScopes()
+                            ->where('created_by', $user->id)
                             ->where(function ($query) use ($request, $category) {
 
                                 if(isset($request['filter'])){
@@ -61,7 +64,8 @@ class WikiController extends Controller
 
         if(!isset($request['filter'])){
 
-            $categories = Category::where('created_by', $user->id)
+            $categories = Category::withoutGlobalScopes()
+                                    ->where('created_by', $user->id)
                                     ->where('class', Article::class)
                                     ->where('category_id', $category ? $category->id : null)
                                     ->get();

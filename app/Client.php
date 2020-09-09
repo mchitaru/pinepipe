@@ -16,6 +16,8 @@ use App\Traits\Actionable;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
+use App\Scopes\TenantScope;
+
 class Client extends Model implements HasMedia
 {
     use NullableFields, Eventable, Taggable, HasMediaTrait, Actionable;
@@ -49,6 +51,8 @@ class Client extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($client) {
             if ($user = \Auth::user()) {

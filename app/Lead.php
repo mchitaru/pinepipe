@@ -15,6 +15,8 @@ use App\Traits\Actionable;
 use App\Traits\Notable;
 use App\Traits\Stageable;
 
+use App\Scopes\TenantScope;
+
 class Lead extends Model implements HasMedia
 {
     use NullableFields, Eventable, HasMediaTrait, Actionable, Notable, Taggable, Categorizable, Stageable;
@@ -50,6 +52,8 @@ class Lead extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($lead) {
             if ($user = \Auth::user()) {
@@ -135,9 +139,7 @@ class Lead extends Model implements HasMedia
             $post['user_id'] = \Auth::user()->id;
         }
 
-        $lead                = Lead::make($post);
-        $lead->created_by    = \Auth::user()->created_by;
-        $lead->save();
+        $lead = Lead::create($post);
 
         Activity::createLead($lead);
 

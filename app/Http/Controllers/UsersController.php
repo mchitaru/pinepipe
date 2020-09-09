@@ -7,7 +7,7 @@ use App\Client;
 use File;
 use Illuminate\Http\Request;
 use Session;
-use Spatie\Permission\Models\Role;
+use App\Role;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
@@ -84,8 +84,7 @@ class UsersController extends Controller
 
         $roles = $roles->pluck('name', 'id');
 
-        $clients = Client::where('created_by', '=', $user->created_by)
-                        ->orderBy('id', 'DESC')
+        $clients = Client::orderBy('id', 'DESC')
                         ->get()
                         ->pluck('name', 'id');
 
@@ -148,8 +147,7 @@ class UsersController extends Controller
 
         $roles = $roles->pluck('name', 'id');
 
-        $clients = Client::where('created_by', '=', $user->created_by)
-                            ->orderBy('id', 'DESC')
+        $clients = Client::orderBy('id', 'DESC')
                             ->get()
                             ->pluck('name', 'id');
 

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Permission;
+use App\Role;
 use Auth;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
@@ -172,7 +172,7 @@ class UserRolesController extends Controller
                 $role->created_by   = \Auth::user()->created_by;
 
                 $users = User::withTrashed()
-                            ->where('created_by', '=', \Auth::user()->created_by)->get();
+                                ->get();
             }
 
             $role->fill($input);
@@ -226,7 +226,7 @@ class UserRolesController extends Controller
                                     ->first();
 
             $users = User::withTrashed()
-                ->where('created_by', '=', \Auth::user()->created_by)->get();
+                            ->get();
 
             foreach($users as $user){
 

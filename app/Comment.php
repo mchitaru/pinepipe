@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Taggable;
 
+use App\Scopes\TenantScope;
+
 class Comment extends Model
 {
     use Taggable;
@@ -15,6 +17,17 @@ class Comment extends Model
         'created_by',
     ];
 
+    /**
+     * Boot events
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new TenantScope);
+
+    }
     
     public function commentable()
     {

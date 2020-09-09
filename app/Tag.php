@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+use App\Scopes\TenantScope;
+
 class Tag extends Model
 {
     protected $fillable = [
@@ -18,6 +20,8 @@ class Tag extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($tag) {
             if ($user = \Auth::user()) {

@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Categorizable;
 
+use App\Scopes\TenantScope;
+
 class Category extends Model
 {
     use Categorizable;
@@ -33,6 +35,8 @@ class Category extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($category) {
             if ($user = \Auth::user()) {

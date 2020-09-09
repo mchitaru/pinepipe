@@ -9,6 +9,8 @@ use App\Traits\Taggable;
 
 use App\Traits\Actionable;
 
+use App\Scopes\TenantScope;
+
 class Contact extends Model
 {
     use NullableFields, Eventable, Taggable, Actionable;
@@ -49,6 +51,8 @@ class Contact extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($contact) {
             if ($user = \Auth::user()) {
@@ -115,7 +119,6 @@ class Contact extends Model
         if(\Auth::user()->type == 'company')
         {
             return Contact::with(['client', 'tags'])
-                   ->where('created_by','=',\Auth::user()->created_by)
                    ->orderBy('name', 'asc');
         }else
         {
@@ -123,7 +126,6 @@ class Contact extends Model
                     ->where(function ($query)  {
                         $query->where('user_id', \Auth::user()->id);
                     })
-                   ->where('created_by','=',\Auth::user()->created_by)
                    ->orderBy('name', 'asc');
         }
     }

@@ -39,15 +39,15 @@
                     @if(\Auth::user()->type=='super admin')
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Collaborators")}}>people</i>
-                        {{$user->total_company_user($user->id)}}
+                        {{$user->total_company_user()}}
                     </span>
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Projects")}}>folder</i>
-                        {{$user->total_company_project($user->id)}}
+                        {{$user->total_company_project()}}
                     </span>
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Clients")}}>storefront</i>
-                        {{$user->total_company_client($user->id)}}
+                        {{$user->total_company_client()}}
                     </span>
                     @else
                     <span class="badge badge-light mr-2">

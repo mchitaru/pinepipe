@@ -10,6 +10,8 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Spatie\Image\Manipulations;
 
+use App\Scopes\TenantScope;
+
 class CompanySettings extends Model implements HasMedia
 {
     use NullableFields, HasMediaTrait;
@@ -50,6 +52,8 @@ class CompanySettings extends Model implements HasMedia
     {
         parent::boot();
 
+        static::addGlobalScope(new TenantScope);
+
         static::creating(function ($settings) {
             if ($user = \Auth::user()) {
                 $settings->created_by = $user->created_by;
@@ -75,13 +79,13 @@ class CompanySettings extends Model implements HasMedia
 
     public static function updateSettings($post)
     {
-        $settings = CompanySettings::where('created_by', \Auth::user()->created_by)->first();
+        $settings = CompanySettings::first();
 
         if($settings && $settings->currency != $post['currency'] ||
             $settings == null && \Auth::user()->getDefaultCurrency() != $post['currency']){
 
             //the user changed the main currency -> update currency rate of invoices
-            $invoices = Invoice::where('created_by', \Auth::user()->created_by)->get();
+            $invoices = Invoice::get();
 
             foreach($invoices as $invoice){
 

@@ -2,7 +2,7 @@
 
 use App\User;
 use App\Client;
-use Spatie\Permission\Models\Role;
+use App\Role;
 use Illuminate\Database\Seeder;
 
 class CompanySeeder extends Seeder

@@ -10,6 +10,8 @@ use App\CompanySettings;
 
 use App\Currency as CurrencyRate;
 
+use App\Scopes\TenantScope;
+
 class Invoice extends Model
 {
     use NullableFields, Taggable;
@@ -59,6 +61,8 @@ class Invoice extends Model
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new TenantScope);
 
         static::creating(function ($invoice) {
             if ($user = \Auth::user()) {
@@ -196,7 +200,7 @@ class Invoice extends Model
 
     public static function createInvoice($post)
     {
-        $last_invoice = Invoice::where('created_by', '=', \Auth::user()->created_by)->latest()->first();
+        $last_invoice = Invoice::latest()->first();
 
         $invoice              = Invoice::make($post);
         $invoice->status      = 0;
