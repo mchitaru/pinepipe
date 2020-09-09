@@ -295,7 +295,7 @@ if(Gate::check('view task')){
                     <h3>{{__('Invoices')}}</h3>
 
                     @can('create invoice')
-                        <a href="{{ route('invoices.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
+                        <a href="{{ route('invoices.create')  }}" class="btn btn-primary btn-round" data-params="client_id={{$project->client_id}}&project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
                     @endcan
