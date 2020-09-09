@@ -26,6 +26,16 @@ class UserProfileController extends Controller
         return view('users.profile.show', compact('user', 'companySettings', 'companyName', 'companyLogo'));
     }
 
+    public function profile()
+    {
+        if(auth()->check()) {
+
+            return $this->edit(auth()->user());
+        }
+
+        return Redirect::to(URL::previous())->with('error', __('Access forbidden!'));
+    }
+
     public function edit(User $user)
     {
         if(\Auth::user()->id == $user->id) {
