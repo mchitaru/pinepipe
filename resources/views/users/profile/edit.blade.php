@@ -30,6 +30,8 @@ use App\SubscriptionPlan;
 
         $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
 
+        $(window).scrollTop(0);
+
         $('select').select2();
     });
 
