@@ -20,9 +20,13 @@
                     <span class="text-small">
                         <i class="material-icons">email</i>
                     </span>
-                    <a href="mailto:kenny.tran@example.com">
-                        <span data-filter-by="text" class="text-small">{{$contact->email?$contact->email:'---'}}</span>
-                    </a>
+                    @if($contact->email)
+                        <a href="mailto:{{$contact->email}}">
+                            <span data-filter-by="text" class="text-small">{{$contact->email}}</span>
+                        </a>
+                    @else
+                        <span data-filter-by="text" class="text-small">---</span>
+                    @endif
                 </div>
                 <div class="container row align-items-center">
                     <i class="material-icons">phone</i>

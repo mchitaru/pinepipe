@@ -88,6 +88,7 @@ class UserSeeder extends Seeder
             'create lead',
             'edit lead',
             'delete lead',
+            'view event',
             'create event',
             'edit event',
             'delete event',
@@ -133,6 +134,7 @@ class UserSeeder extends Seeder
     public function makeClientRole($owner_id)
     {
         $permissions = [
+            'view event',
             'create event',
             'edit event',
             'delete event',
@@ -171,6 +173,7 @@ class UserSeeder extends Seeder
             'view lead',
             'create lead',
             'edit lead',
+            'view event',
             'create event',
             'edit event',
             'delete event',
@@ -248,6 +251,7 @@ class UserSeeder extends Seeder
             'create lead',
             'edit lead',
             'delete lead',
+            'view event',
             'create event',
             'edit event',
             'delete event',

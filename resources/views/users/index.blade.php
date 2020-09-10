@@ -24,7 +24,7 @@
             <div class="card-title col-xs-12 col-sm-5">
                 <span class="d-flex align-items-center">
                     <i class="material-icons">email</i>
-                    <a href="mailto:kenny.tran@example.com">
+                    <a href="mailto:{{$user->email}}">
                         <span data-filter-by="text" class="text-small">
                             {{$user->email}}
                         </span>

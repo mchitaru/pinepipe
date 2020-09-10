@@ -26,7 +26,7 @@
                 @if(!empty($client->email))
                 <div class="container row align-items-center">
                     <i class="material-icons">email</i>
-                    <a href="mailto:kenny.tran@example.com">
+                    <a href="mailto:{{$client->email}}">
                         <span data-filter-by="text" class="text-small">
                             {{$client->email}}
                         </span>
