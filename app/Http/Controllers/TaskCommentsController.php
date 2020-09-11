@@ -46,9 +46,15 @@ class TaskCommentsController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task, Comment $comment)
+    public function update(TaskCommentRequest $request, Task $task, Comment $comment)
     {
-        //
+        $post = $request->validated();
+
+        $comment->update($post);
+
+        $text = $comment->comment;
+
+        return response()->json($comment->comment, 207);
     }
 
     /**

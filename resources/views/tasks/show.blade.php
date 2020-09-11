@@ -98,6 +98,10 @@ modal-lg
         $('#order').val(order);
     });
 
+    // $("#edit-comment").click(function(){
+    //     $('.editable').editable('open');
+    // });
+
     $(function() {
 
         const sortableChecklist = new Draggable.Sortable(document.querySelectorAll('form.checklist, .drop-to-delete'), {
@@ -301,7 +305,7 @@ modal-lg
                             <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item disabled" href="#">{{__('Edit')}}</a>
+                                {{-- <a id="edit-comment" class="dropdown-item" href="#">{{__('Edit')}}</a> --}}
                                 <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
                                     {{__('Delete')}}
                                 </a>
@@ -309,8 +313,9 @@ modal-lg
                         </div>
                         </div>
                     </div>
-                    <div class="card-body p-1" data-filter-by="text">
-                        {{$comment->comment}}
+                    {{-- <div class="card-body p-1 d-block editable" id="comment" data-url="{{route('tasks.comment.update', [$task->id, $comment->id])}}" data-type="textarea" data-method="PUT" data-ok-button="OK" data-cancel-button="Cancel" data-filter-by="text"> --}}
+                    <div class="card-body p-1 editable" id="comment" data-filter-by="text">
+                            {!! nl2br(e($comment->comment)) !!}
                     </div>
                     </div>
                     @endforeach
