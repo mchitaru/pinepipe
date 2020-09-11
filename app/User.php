@@ -1092,12 +1092,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         if(!app()->isLocal()){
 
             //subscribe to newsletter
-            $name = explode(" ", $this->name);
+            // $name = explode(" ", $this->name);
 
-            Newsletter::subscribeOrUpdate($this->email,
-                                            ['FNAME'=>$name[0], 'LNAME'=>(count($name) > 1 ? $name[1] : '')],
-                                            'subscribers',
-                                            ['tags' => [$this->locale, 'customer', 'free']]);
+            // Newsletter::subscribeOrUpdate($this->email,
+            //                                 ['FNAME'=>$name[0], 'LNAME'=>(count($name) > 1 ? $name[1] : '')],
+            //                                 'subscribers',
+            //                                 ['tags' => [$this->locale, 'customer', 'free']]);
 
             // if(!Newsletter::lastActionSucceeded()) {
 
