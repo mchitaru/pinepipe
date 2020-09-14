@@ -298,6 +298,10 @@ class ProjectsController extends Controller
                 switch($request['id']){
 
                     case 'tasks-container': return view('tasks.index', compact('stages'))->render();
+                    case 'timesheets-container': return view('timesheets.index', compact('timesheets'))->render();
+                    case 'invoices-container': return view('invoices.index', compact('invoices'))->render();
+                    case 'expenses-container': return view('expenses.index', compact('expenses'))->render();
+                    case 'activity-container': return view('activity.index', compact('activities'))->render();
                 }                
             }
 

@@ -293,7 +293,8 @@ if(Gate::check('view task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('view timesheet')@include('timesheets.index')@endcan</div>
+                <div class="content-list-body filter-list paginate-container" id="timesheets-container">
+                </div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="invoices" role="tabpanel" data-filter-list="content-list-body">
@@ -319,7 +320,8 @@ if(Gate::check('view task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('view invoice')@include('invoices.index')@endcan</div>
+                <div class="content-list-body filter-list paginate-container" id="invoices-container">
+                </div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="content-list-body">
@@ -345,7 +347,8 @@ if(Gate::check('view task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body">@can('view expense')@include('expenses.index')@endcan</div>
+                <div class="content-list-body filter-list paginate-container" id="expenses-container">
+                </div>
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">
@@ -389,7 +392,8 @@ if(Gate::check('view task')){
                         </form>
                     </div>
                     <!--end of content list head-->
-                    <div class="content-list-body">@include('activity.index')</div>
+                    <div class="content-list-body filter-list paginate-container" id="activity-container">
+                    </div>
                 </div>
                 <!--end of content list-->
             </div>
