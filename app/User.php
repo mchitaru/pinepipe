@@ -153,7 +153,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             $this->handle = Str::of($this->name)->slug('-');
 
-            if (User::where('handle', $this->handle)->exists()) {
+            if (User::withoutGlobalScopes()->where('handle', $this->handle)->exists()) {
 
                 $this->handle = Str::of($this->name.' '.$this->id)->slug('-');
              }
