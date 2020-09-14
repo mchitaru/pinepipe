@@ -250,6 +250,8 @@ class ProjectsController extends Controller
         {
             clock()->startEvent('ProjectsController', "Load project");
 
+            $dz_id = 'project-files-dz';
+
             $project_id = $project->id;
 
             $stages = $project->stages($request['filter'], $request['sort'], $request['dir'], [])->get();
@@ -293,10 +295,13 @@ class ProjectsController extends Controller
 
             if ($request->ajax())
             {
-                return view('tasks.index', compact('stages'))->render();
+                switch($request['id']){
+
+                    case 'tasks-container': return view('tasks.index', compact('stages'))->render();
+                }                
             }
 
-            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'activities'));
+            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'activities', 'dz_id'));
         }
         else
         {

@@ -4,7 +4,6 @@
 use Carbon\Carbon;
 use App\Lead;
 
-$current_user=\Auth::user();
 $dz_id = 'lead-files-dz';
 
 @endphp

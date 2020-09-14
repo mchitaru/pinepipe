@@ -8,8 +8,6 @@ use Carbon\Carbon;
 use App\Project;
 use App\Stage;
 
-$current_user=\Auth::user();
-
 $task_status = $task->stage->name;
 $total_task = $task->getTotalChecklistCount();
 $completed_task=$task->getCompleteChecklistCount();

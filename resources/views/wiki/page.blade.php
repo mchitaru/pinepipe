@@ -7,6 +7,12 @@
 @endpush
 
 @push('scripts')
+<script>
+    $(function() {
+        loadContent($('.paginate-container:visible'));        
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 @endpush
 
@@ -80,9 +86,6 @@
                         </div>
                     </div>                                        
                     <div class="content-list-body filter-list paginate-container">
-                        <div class="w-100 row justify-content-center pt-3">
-                            @include('partials.spinner')
-                        </div>
                     </div>
                     <!--end of content list body-->
                 </div>

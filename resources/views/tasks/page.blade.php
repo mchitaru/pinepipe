@@ -114,6 +114,8 @@ $(function() {
     localStorage.setItem('tag', 'mine');
 
     updateFilters();
+
+    loadContent($('.paginate-container:visible'));        
 });
 
 document.addEventListener("paginate-filter", function(e) {
@@ -180,9 +182,6 @@ document.addEventListener("paginate-load", function(e) {
             </div>
         </div>
         <div class="kanban-board container-fluid filter-list paginate-container">
-            <div class="w-100 row justify-content-center pt-3">
-                @include('partials.spinner')
-            </div>
         </div>
     </div>
 @endsection

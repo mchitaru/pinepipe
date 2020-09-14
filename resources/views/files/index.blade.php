@@ -12,7 +12,7 @@
             </li>
             <li>
                 {{-- <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> --}}
-                    {!!Helpers::buildUserAvatar($current_user)!!}
+                    {!!Helpers::buildUserAvatar(\Auth::user())!!}
                 {{-- </a> --}}
             </li>
             </ul>

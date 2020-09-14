@@ -2,7 +2,6 @@
 use App\Project;
 use Carbon\Carbon;
 
-$current_user=\Auth::user();
 $stage_done = \Auth::user()->getLastTaskStage()->id;
 @endphp
 

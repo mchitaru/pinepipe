@@ -15,6 +15,7 @@
 
         updateFilters();
 
+        loadContent($('.paginate-container:visible'));        
     });
 
 </script>
@@ -69,9 +70,6 @@
                     <!--end of content list head-->
                     @can('view invoice')
                     <div class="content-list-body filter-list paginate-container">
-                        <div class="w-100 row justify-content-center pt-3">
-                            @include('partials.spinner')
-                        </div>
                     </div>
                     @endcan
                     <!--end of content list body-->

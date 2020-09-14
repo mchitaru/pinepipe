@@ -4,9 +4,6 @@
 use Carbon\Carbon;
 use App\Project;
 
-$current_user=\Auth::user();
-$dz_id = 'project-files-dz';
-
 if(Gate::check('view task')){
     $default_tab = '#tasks';
 }else{
@@ -34,9 +31,9 @@ if(Gate::check('view task')){
 
     $(function() {
 
-        localStorage.setItem('filter', '');
         localStorage.setItem('sort', 'priority');
         localStorage.setItem('dir', 'asc');
+        localStorage.setItem('filter', '');
         localStorage.setItem('tag', '');
 
         updateFilters();
@@ -46,7 +43,15 @@ if(Gate::check('view task')){
             window.location.hash = $(e.target).attr('href');
 
             var id = $(e.target).attr("href");
+
+            if(id != sessionStorage.getItem('projects.tab')){
+
+                deleteFilters();
+            }
+
             sessionStorage.setItem('projects.tab', id);
+
+            loadContent($('.paginate-container:visible'));
         });
 
         var hash = window.location.hash ? window.location.hash : sessionStorage.getItem('projects.tab');
@@ -67,7 +72,7 @@ if(Gate::check('view task')){
     });
 
     document.addEventListener("paginate-load", function(e) {
-        initProjectCards();
+        initProjectCards();        
     });
 
     document.addEventListener("paginate-tag", function(e) {
@@ -258,10 +263,7 @@ if(Gate::check('view task')){
                 </div>
                 <!--end of content list head-->
                 @can('view task')
-                <div class="content-list-body filter-list paginate-container">
-                    <div class="w-100 row justify-content-center pt-3">
-                        @include('partials.spinner')
-                    </div>
+                <div class="content-list-body filter-list paginate-container" id="tasks-container">
                 </div>
                 @endcan
                 <!--end of content list-->
@@ -348,46 +350,46 @@ if(Gate::check('view task')){
             <!--end of tab-->
             <div class="tab-pane fade show" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">
                 <div class="content-list">
-                <div class="row content-list-head">
-                    <div class="col-auto">
-                    <h3>{{__('Files')}}</h3>
-                    </div>
-                    <form class="col-md-auto">
-                        <div class="input-group input-group-round">
-                            <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="material-icons">filter_list</i>
-                            </span>
-                            </div>
-                            <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter files")}}" aria-label="Filter Tasks">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                        <h3>{{__('Files')}}</h3>
                         </div>
-                    </form>
-                </div>
-                <!--end of content list head-->
-                <div class="content-list-body row">@include('files.index')</div>
+                        <form class="col-md-auto">
+                            <div class="input-group input-group-round">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">filter_list</i>
+                                </span>
+                                </div>
+                                <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter files")}}" aria-label="Filter Tasks">
+                            </div>
+                        </form>
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body row">@include('files.index')</div>
                 </div>
                 <!--end of content list-->
             </div>
             @if(\Auth::user()->type!='client')
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">
-                <div class="row content-list-head">
-                    <div class="col-auto">
-                    <h3>{{__('Activity')}}</h3>
-                    </div>
-                    <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                        </span>
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                        <h3>{{__('Activity')}}</h3>
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter activity")}}" aria-label="Filter activity">
+                        <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter activity")}}" aria-label="Filter activity">
+                        </div>
+                        </form>
                     </div>
-                    </form>
-                </div>
-                <!--end of content list head-->
-                <div class="content-list-body">@include('activity.index')</div>
+                    <!--end of content list head-->
+                    <div class="content-list-body">@include('activity.index')</div>
                 </div>
                 <!--end of content list-->
             </div>

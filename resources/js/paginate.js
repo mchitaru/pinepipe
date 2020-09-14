@@ -39,11 +39,58 @@ function updateFilters(sort, dir, filter, tag)
         }
     });
 
-    if(filter){
-        $('.filter-input').each(function(e){
+    $('.filter-input').each(function(e){
 
-            $(this).val(filter);
-        });
+        $(this).val(filter);
+    });
+}
+
+function deleteFilters() {
+
+    var url = new URL(window.location.href);
+                
+    url.searchParams.delete("sort");
+    url.searchParams.delete("dir");
+    url.searchParams.delete("filter");
+    url.searchParams.delete("tag");
+
+    window.history.replaceState(null, null, url.href);        
+
+    updateFilters();
+}
+
+function loadContent(container) {
+
+    if(container.length){
+
+        container.html(`<div class="h-100 w-100 row align-items-center justify-content-center">
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+            </div>`);
+
+        var url = new URL(window.location.href);
+
+        $.ajax({
+            url : url.href,
+            type: 'get',
+            dataType: 'text',
+            data: { id: container.attr("id") },
+            cache: false,
+        }).done(function (data) 
+        {
+            container.html(data);  
+            LetterAvatar.transform();
+    
+            // Create the event
+            var event = new CustomEvent("paginate-load");
+            // Dispatch/Trigger/Fire the event
+            document.dispatchEvent(event);            
+    
+        }).fail(function () 
+        {
+            // toastrs('Data could not be loaded!', 'danger');            
+        });    
     }
 }
 
@@ -54,159 +101,176 @@ $(function() {
     $('body').on('click', '.pagination a', function(e) {
         e.preventDefault();
 
-        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            </div>`);
+        var container = $('.paginate-container:visible');
 
-        clearTimeout(timeout);
-
-        btn = $(this);
-
-        // Make a new timeout set to go off in 1000ms (1 second)
-        timeout = setTimeout(function () {
-
-            var currentURL = new URL(window.location.href);
-            sort = currentURL.searchParams.get("sort");
-            dir = currentURL.searchParams.get("dir");
-            filter = currentURL.searchParams.get("filter");
-
-            var newURL = new URL(btn.attr('href'));        
+        if(container.length){
             
-            if(sort){
-                newURL.searchParams.set("sort", sort);
-                newURL.searchParams.set("dir", dir);
-            }
+            container.html(`<div class="h-100 w-100 row align-items-center justify-content-center pt-3">
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                </div>`);
 
-            if(filter){
-                newURL.searchParams.set("filter", filter);
-            }
-        
-            $.ajax({
-                url : newURL.href,
-                type: 'get',
-                dataType: 'text',
-            }).done(function (data) 
-            {
-                $('.paginate-container').html(data);  
-                LetterAvatar.transform();
+            clearTimeout(timeout);
 
-                // Create the event
-                var event = new CustomEvent("paginate-click");
-                // Dispatch/Trigger/Fire the event
-                document.dispatchEvent(event);                        
+            btn = $(this);
 
-            }).fail(function () 
-            {
-                // toastrs(lang.get('paginate.load'), 'danger');            
-            });
+            // Make a new timeout set to go off in 1000ms (1 second)
+            timeout = setTimeout(function () {
 
-            window.history.replaceState(null, null, newURL.href);        
+                var currentURL = new URL(window.location.href);
+                sort = currentURL.searchParams.get("sort");
+                dir = currentURL.searchParams.get("dir");
+                filter = currentURL.searchParams.get("filter");
 
-        }, 100);
+                var newURL = new URL(btn.attr('href'));        
+                
+                if(sort){
+                    newURL.searchParams.set("sort", sort);
+                    newURL.searchParams.set("dir", dir);
+                }
+
+                if(filter){
+                    newURL.searchParams.set("filter", filter);
+                }
+            
+                $.ajax({
+                    url : newURL.href,
+                    type: 'get',
+                    dataType: 'text',
+                    data: { id: container.attr("id") },
+                }).done(function (data) 
+                {
+                    container.html(data);  
+                    LetterAvatar.transform();
+
+                    // Create the event
+                    var event = new CustomEvent("paginate-click");
+                    // Dispatch/Trigger/Fire the event
+                    document.dispatchEvent(event);                        
+
+                }).fail(function () 
+                {
+                    // toastrs(lang.get('paginate.load'), 'danger');            
+                });
+
+                window.history.replaceState(null, null, newURL.href);        
+
+            }, 100);
+        }
     });
 
     $('.filter-controls a').on('click',function(e){
         e.preventDefault();
 
-        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            </div>`);
-        
-        clearTimeout(timeout);
+        var container = $('.paginate-container:visible');
 
-        btn = $(this);
+        if(container.length){
 
-        // Make a new timeout set to go off in 1000ms (1 second)
-        timeout = setTimeout(function () {
-
-            var sort = btn.data('sort');
-            var dir = btn.hasClass('asc')?'desc':'asc';
+            container.html(`<div class="h-100 w-100 row align-items-center justify-content-center pt-3">
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                </div>`);
             
-            var url = new URL(window.location.href);
-            url.searchParams.set("sort", sort);
-            url.searchParams.set("dir", dir);
+            clearTimeout(timeout);
 
-            $.ajax({
-                url : url.href,
-                type: 'get',
-                dataType: 'text',
-            }).done(function (data) 
-            {
-                $('.paginate-container').html(data);  
-                LetterAvatar.transform();
+            btn = $(this);
 
-                // Create the event
-                var event = new CustomEvent("paginate-sort");
-                // Dispatch/Trigger/Fire the event
-                document.dispatchEvent(event);            
+            // Make a new timeout set to go off in 1000ms (1 second)
+            timeout = setTimeout(function () {
 
-            }).fail(function () 
-            {
-                // toastrs(lang.get('paginate.load'), 'danger');            
-            });
+                var sort = btn.data('sort');
+                var dir = btn.hasClass('asc')?'desc':'asc';
+                
+                var url = new URL(window.location.href);
+                url.searchParams.set("sort", sort);
+                url.searchParams.set("dir", dir);
 
-            window.history.replaceState(null, null, url.href);
+                $.ajax({
+                    url : url.href,
+                    type: 'get',
+                    dataType: 'text',
+                    data: { id: container.attr("id") },
+                }).done(function (data) 
+                {
+                    container.html(data);  
+                    LetterAvatar.transform();
 
-            updateFilters();
+                    // Create the event
+                    var event = new CustomEvent("paginate-sort");
+                    // Dispatch/Trigger/Fire the event
+                    document.dispatchEvent(event);            
 
-        }, 100);
+                }).fail(function () 
+                {
+                    // toastrs(lang.get('paginate.load'), 'danger');            
+                });
+
+                window.history.replaceState(null, null, url.href);
+
+                updateFilters();
+
+            }, 100);
+        }
     });
 
     $('.filter-tags div').on('click',function(e){
         e.preventDefault();
 
-        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            </div>`);
-        
-        clearTimeout(timeout);
+        var container = $('.paginate-container:visible');
 
-        btn = $(this);
+        if(container.length){
 
-        // Make a new timeout set to go off in 1000ms (1 second)
-        timeout = setTimeout(function () {
-
-            var tag = btn.data('filter');
-
-            var url = new URL(window.location.href);
+            container.html(`<div class="h-100 w-100 row align-items-center justify-content-center pt-3">
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                </div>`);
             
-            if(url.searchParams.get("tag") == tag){
-                url.searchParams.delete("tag");
-            }else{
-                url.searchParams.set("tag", tag);
-            }
+            clearTimeout(timeout);
 
-            $.ajax({
-                url : url.href,
-                type: 'get',
-                dataType: 'text',
-            }).done(function (data) 
-            {
-                $('.paginate-container').html(data);
-                LetterAvatar.transform();
+            btn = $(this);
 
-                // Create the event
-                var event = new CustomEvent("paginate-tag");
-                // Dispatch/Trigger/Fire the event
-                document.dispatchEvent(event);            
+            // Make a new timeout set to go off in 1000ms (1 second)
+            timeout = setTimeout(function () {
 
-            }).fail(function () 
-            {
-                // toastrs(lang.get('paginate.load'), 'danger');            
-            });
+                var tag = btn.data('filter');
 
-            window.history.replaceState(null, null, url.href);
+                var url = new URL(window.location.href);
+                
+                if(url.searchParams.get("tag") == tag){
+                    url.searchParams.delete("tag");
+                }else{
+                    url.searchParams.set("tag", tag);
+                }
 
-            updateFilters();
+                $.ajax({
+                    url : url.href,
+                    type: 'get',
+                    dataType: 'text',
+                    data: { id: container.attr("id") },
+                }).done(function (data) 
+                {
+                    container.html(data);
+                    LetterAvatar.transform();
 
-        }, 100);
+                    // Create the event
+                    var event = new CustomEvent("paginate-tag");
+                    // Dispatch/Trigger/Fire the event
+                    document.dispatchEvent(event);            
 
+                }).fail(function () 
+                {
+                    // toastrs(lang.get('paginate.load'), 'danger');            
+                });
+
+                window.history.replaceState(null, null, url.href);
+
+                updateFilters();
+
+            }, 100);
+        }
     });
 
     $('.filter-input').on('input',function(e){
@@ -214,84 +278,56 @@ $(function() {
     // $('.filter-input').on('keyup',function(e){
             e.preventDefault();
 
-        $('.paginate-container').html(`<div class="h-100 w-100 row align-items-center justify-content-center">
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
-            </div>`);
+        var container = $('.paginate-container:visible');
 
-        clearTimeout(timeout);
+        if(container.length){
 
-        textInput = $(this);
+            container.html(`<div class="h-100 w-100 row align-items-center justify-content-center pt-3">
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                </div>`);
 
-        // Make a new timeout set to go off in 1000ms (1 second)
-        timeout = setTimeout(function () {
+            clearTimeout(timeout);
 
-            var filter = textInput.val();
+            textInput = $(this);
 
-            var url = new URL(window.location.href);
-            
-            if(filter){
-                url.searchParams.set("filter", filter);
-            }else{
-                url.searchParams.delete("filter");
-            }
+            // Make a new timeout set to go off in 1000ms (1 second)
+            timeout = setTimeout(function () {
 
-            $.ajax({
-                url : url.href,
-                type: 'get',
-                dataType: 'text',
-            }).done(function (data) 
-            {
-                $('.paginate-container').html(data);  
-                LetterAvatar.transform();
+                var filter = textInput.val();
 
-                // Create the event
-                var event = new CustomEvent("paginate-filter");
-                // Dispatch/Trigger/Fire the event
-                document.dispatchEvent(event);            
+                var url = new URL(window.location.href);
+                
+                if(filter){
+                    url.searchParams.set("filter", filter);
+                }else{
+                    url.searchParams.delete("filter");
+                }
 
-            }).fail(function () 
-            {
-                // toastrs(lang.get('paginate.load'), 'danger');            
-            });
+                $.ajax({
+                    url : url.href,
+                    type: 'get',
+                    dataType: 'text',
+                    data: { id: container.attr("id") },
+                }).done(function (data) 
+                {
+                    container.html(data);  
+                    LetterAvatar.transform();
 
-            window.history.replaceState(null, null, url.href);
+                    // Create the event
+                    var event = new CustomEvent("paginate-filter");
+                    // Dispatch/Trigger/Fire the event
+                    document.dispatchEvent(event);            
 
-        }, 500);
+                }).fail(function () 
+                {
+                    // toastrs(lang.get('paginate.load'), 'danger');            
+                });
+
+                window.history.replaceState(null, null, url.href);
+
+            }, 500);
+        }
     });
-
-    function loadContent(container) {
-
-        var url = new URL(window.location.href);
-
-        $.ajax({
-            url : url.href,
-            type: 'get',
-            dataType: 'text',
-            cache: false,
-        }).done(function (data) 
-        {
-            $('.paginate-container').html(data);  
-            LetterAvatar.transform();
-
-            // Create the event
-            var event = new CustomEvent("paginate-load");
-            // Dispatch/Trigger/Fire the event
-            document.dispatchEvent(event);            
-
-        }).fail(function () 
-        {
-            // toastrs('Data could not be loaded!', 'danger');            
-        });
-    }
-
-    $('.paginate-container').each(function(e){
-
-        loadContent($(this));
-
-        //stop at first, for now
-        return false;
-    });
-
 });

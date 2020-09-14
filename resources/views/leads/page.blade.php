@@ -126,6 +126,8 @@ function initLeadCards() {
         localStorage.setItem('tag', 'active');
 
         updateFilters();
+
+        loadContent($('.paginate-container:visible'));
     });
 
     document.addEventListener("paginate-filter", function(e) {
@@ -199,9 +201,6 @@ function initLeadCards() {
             </div>
         </div>
         <div class="kanban-board container-fluid filter-list paginate-container">
-            <div class="w-100 row justify-content-center">
-                @include('partials.spinner')
-            </div>
         </div>
     </div>
 @endsection

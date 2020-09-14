@@ -115,6 +115,11 @@ class Stage extends Model
                                 ->orWhereHas('project', function ($query) use($filter) {
 
                                     $query->where('name','like','%'.$filter.'%');
+                                })
+                                ->orWhereHas('tags', function ($query) use($filter)
+                                {
+                                    $query->where('tags.name','like','%'.$filter.'%');
+
                                 });
                             })
                             ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
@@ -135,6 +140,11 @@ class Stage extends Model
                                 ->orWhereHas('project', function ($query) use($filter) {
 
                                     $query->where('name','like','%'.$filter.'%');
+                                })
+                                ->orWhereHas('tags', function ($query) use($filter)
+                                {
+                                    $query->where('tags.name','like','%'.$filter.'%');
+
                                 });
                             })
                             ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
@@ -155,6 +165,11 @@ class Stage extends Model
                         ->orWhereHas('project', function ($query) use($filter) {
 
                             $query->where('name','like','%'.$filter.'%');
+                        })
+                        ->orWhereHas('tags', function ($query) use($filter)
+                        {
+                            $query->where('tags.name','like','%'.$filter.'%');
+
                         });
                     })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
@@ -170,6 +185,11 @@ class Stage extends Model
                                 ->orWhereHas('project', function ($query) use($filter) {
 
                                     $query->where('name','like','%'.$filter.'%');
+                                })
+                                ->orWhereHas('tags', function ($query) use($filter)
+                                {
+                                    $query->where('tags.name','like','%'.$filter.'%');
+
                                 });
                             })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }
@@ -201,6 +221,11 @@ class Stage extends Model
                         ->orWhereHas('project', function ($query) use($filter) {
 
                             $query->where('name','like','%'.$filter.'%');
+                        })
+                        ->orWhereHas('tags', function ($query) use($filter)
+                        {
+                            $query->where('tags.name','like','%'.$filter.'%');
+
                         });
                     })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }else {
@@ -215,6 +240,11 @@ class Stage extends Model
                         ->orWhereHas('project', function ($query) use($filter) {
 
                             $query->where('name','like','%'.$filter.'%');
+                        })
+                        ->orWhereHas('tags', function ($query) use($filter)
+                        {
+                            $query->where('tags.name','like','%'.$filter.'%');
+
                         });
                     })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }

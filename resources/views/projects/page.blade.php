@@ -17,6 +17,7 @@
 
         updateFilters();
 
+        loadContent($('.paginate-container:visible'));        
     });
 
 </script>
@@ -77,9 +78,6 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body filter-list row paginate-container">
-                    <div class="w-100 row justify-content-center pt-3">
-                        @include('partials.spinner')
-                    </div>
                 </div>
             <!--end of content list body-->
             </div>

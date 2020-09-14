@@ -114,19 +114,39 @@ class Contact extends Model
         Activity::updateContact($this);
     }
 
-    public static function contactsByUserType()
+    public static function contactsByUserType($order = 'name', $dir = 'asc', $filter = '')
     {
         if(\Auth::user()->type == 'company')
         {
             return Contact::with(['client', 'tags'])
-                   ->orderBy('name', 'asc');
+                            ->where(function ($query) use ($filter) {
+                                $query->where('name','like','%'.$filter.'%')
+                                        ->orWhere('email','like','%'.$filter.'%')
+                                        ->orWhere('phone','like','%'.$filter.'%')
+                                        ->orWhereHas('tags', function ($query) use($filter)
+                                        {
+                                            $query->where('tags.name','like','%'.$filter.'%');
+
+                                        });
+                            })
+                            ->orderBy($order?$order:'name', $dir?$dir:'asc');
         }else
         {
             return Contact::with(['client', 'tags'])
                     ->where(function ($query)  {
                         $query->where('user_id', \Auth::user()->id);
                     })
-                   ->orderBy('name', 'asc');
+                    ->where(function ($query) use ($filter) {
+                        $query->where('name','like','%'.$filter.'%')
+                                ->orWhere('email','like','%'.$filter.'%')
+                                ->orWhere('phone','like','%'.$filter.'%')
+                                ->orWhereHas('tags', function ($query) use($filter)
+                                {
+                                    $query->where('tags.name','like','%'.$filter.'%');
+
+                                });
+                    })
+                    ->orderBy($order?$order:'name', $dir?$dir:'asc');
         }
     }
 

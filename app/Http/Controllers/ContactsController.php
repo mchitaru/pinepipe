@@ -29,18 +29,7 @@ class ContactsController extends Controller
 
             clock()->startEvent('ContactsController', "Load contacts");
 
-            $contacts = Contact::contactsByUserType()
-                        ->where(function ($query) use ($request) {
-                            $query->where('name','like','%'.$request['filter'].'%')
-                            ->orWhere('email','like','%'.$request['filter'].'%')
-                            ->orWhere('phone','like','%'.$request['filter'].'%')
-                            ->orWhereHas('tags', function ($query) use($request)
-                            {
-                                $query->where('tags.name','like','%'.$request['filter'].'%');
-        
-                            });
-                        })
-                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
+            $contacts = Contact::contactsByUserType($request['order'], $request['dir'], $request['filter'])
                         ->paginate(25, ['*'], 'contact-page');
 
             clock()->endEvent('ContactsController');
