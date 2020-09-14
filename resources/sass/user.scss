@@ -251,10 +251,11 @@ a.card{
   margin: $spacer/4;
 }
 
-.card-list {
-    padding: 0.5rem;
-    padding-right: 0;
-  }
+.scrollable-list {
+  .card-list {
+      padding-right: 0;
+    }
+}
 
 .card-list-header {
     padding-left: 0.5rem;
