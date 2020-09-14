@@ -38,8 +38,7 @@ class EventController extends Controller
         $start = $request->start?$request->start:Carbon::now()->roundUnit('minute', 15, 'ceil');
         $end = $request->end?$request->end:Carbon::now()->roundUnit('minute', 15, 'ceil');
 
-        $users  = User::where('type', '!=', 'client')
-                        ->get()
+        $users  = User::get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
 
@@ -102,8 +101,7 @@ class EventController extends Controller
     {
         $user = \Auth::user();
 
-        $users  = User::where('type', '!=', 'client')
-                        ->get()
+        $users  = User::get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
 

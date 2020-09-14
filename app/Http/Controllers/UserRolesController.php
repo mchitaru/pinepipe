@@ -171,8 +171,7 @@ class UserRolesController extends Controller
                 $role->user_id      = \Auth::user()->id;
                 $role->created_by   = \Auth::user()->created_by;
 
-                $users = User::withTrashed()
-                                ->get();
+                $users = User::get();
             }
 
             $role->fill($input);
@@ -225,8 +224,7 @@ class UserRolesController extends Controller
                                     ->where('name', $role->name)
                                     ->first();
 
-            $users = User::withTrashed()
-                            ->get();
+            $users = User::get();
 
             foreach($users as $user){
 

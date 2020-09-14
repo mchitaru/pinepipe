@@ -17,7 +17,7 @@ class TenantScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        if(\Auth::hasUser()){
+        if(\Auth::hasUser() && \Auth::user()->id != 1){
 
             $builder->where('created_by', \Auth::user()->created_by);
         }        

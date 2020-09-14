@@ -33,7 +33,6 @@ class UsersController extends Controller
             if(\Auth::user()->type == 'super admin')
             {
                 $users = User::withoutGlobalScopes()
-                                ->withTrashed()
                                 ->where('type', '=', 'company')
                                 ->where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
@@ -43,8 +42,7 @@ class UsersController extends Controller
             }
             else
             {
-                $users = User::withTrashed()
-                                ->where('type', '!=', 'company')
+                $users = User::where('type', '!=', 'company')
                                 ->where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
                                     ->orWhere('email','like','%'.$request['filter'].'%');
@@ -163,47 +161,20 @@ class UsersController extends Controller
 
     public function update(UserUpdateRequest $request, $user_id)
     {
-        if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
-        {
-            return view('helpers.archive');
-        }
-
         $post = $request->validated();
 
-        if($request->isMethod('put'))
+        $user = User::find($user_id);
+
+        if(\Auth::user()->type == 'super admin')
         {
-            $user = User::find($user_id);
-
-            if(\Auth::user()->type == 'super admin')
-            {
-                $user->updateCompany($post);
-            }
-            else
-            {
-                $user->updateUser($post);
-            }
-
-            $request->session()->flash('success', __('User successfully updated.'));
+            $user->updateCompany($post);
         }
         else
         {
-            //soft delete
-            if(\Auth::user()->can('delete user'))
-            {
-                $user = User::withTrashed()->find($user_id);
-
-                if(!$user->trashed())
-                {
-                    $user->delete();
-                    $request->session()->flash('success', __('User successfully deleted.'));
-                }
-                else
-                {
-                    $user->restore();
-                    $request->session()->flash('success', __('User successfully restored.'));
-                }
-            }
+            $user->updateUser($post);
         }
+
+        $request->session()->flash('success', __('User successfully updated.'));
 
         return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
     }
@@ -216,7 +187,7 @@ class UsersController extends Controller
             return view('helpers.destroy');
         }
 
-        $user->forceDelete();
+        $user->delete();
 
         return Redirect::to(URL::previous())->with('success', __('User successfully deleted.'));
     }

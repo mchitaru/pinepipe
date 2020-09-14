@@ -106,17 +106,14 @@ class Client extends Model implements HasMedia
 
     public function tasks()
     {
-        return $this->hasManyThrough('App\Task', 'App\Project', 'client_id', 'project_id', 'id');
-    }
-
-    public function invoices()
-    {
-        return $this->hasManyThrough('App\Invoice', 'App\Project', 'client_id', 'project_id', 'id');
-    }
-
-    public function expenses()
-    {
-        return $this->hasManyThrough('App\Expense', 'App\Project', 'client_id', 'project_id', 'id');
+        return Task::with(['project'])
+                        ->whereHas('project', function ($query)
+                        {
+                            $query->whereHas('client', function ($query)
+                            {
+                                $query->where('id', $this->id);
+                            });
+                        });
     }
 
     public function registerMediaConversions(BaseMedia $media = null)

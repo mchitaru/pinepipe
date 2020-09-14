@@ -17,7 +17,7 @@ class ExtendedTenantScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        if(\Auth::hasUser()){
+        if(\Auth::hasUser() && \Auth::user()->id != 1){
 
             $builder->whereIn('created_by', [1, \Auth::user()->created_by]);
 

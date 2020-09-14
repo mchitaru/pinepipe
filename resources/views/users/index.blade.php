@@ -30,33 +30,30 @@
                         </span>
                     </a>
                 </span>
-                @if($user->trashed())
-                    <span class="badge badge-danger">{{__('Deleted')}}</span>
-                @endif
             </div>
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
                     @if(\Auth::user()->type=='super admin')
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Collaborators")}}>people</i>
-                        {{$user->total_company_user()}}
+                        {{$user->totalCompanyUsers()}}
                     </span>
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Projects")}}>folder</i>
-                        {{$user->total_company_project()}}
+                        {{$user->totalCompanyProjects()}}
                     </span>
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Clients")}}>storefront</i>
-                        {{$user->total_company_client()}}
+                        {{$user->totalCompanyClients()}}
                     </span>
                     @else
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Projects")}}>folder</i>
-                        {{$user->user_projects_count()}}
+                        {{$user->totalUserProjects()}}
                     </span>
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Tasks")}}>playlist_add_check</i>
-                        {{$user->user_tasks_count()}}
+                        {{$user->totalUserTasks()}}
                     </span>
                     @endif
                 </div>
@@ -69,32 +66,17 @@
 
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            {{-- Add items to menu only if user not deleted !!--}}
-                            @if(!$user->trashed())
-                                @can('edit user')
+                            @can('edit user')
                                 <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                @endcan
-                            @endif
+                            @endcan
 
                             @can('delete user')
-                                @if(!$user->trashed())
-                                    @if(\Auth::user()->type=='super admin')
-                                        <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                            <span>{{__('Delete')}}</span>
-                                        </a>
-                                    @else
-                                        <a class="dropdown-item text-danger" href="{{ route('users.update', $user->id) }}" data-method="patch" data-remote="true" data-type="text">
-                                            <span>{{__('Delete')}}</span>
-                                        </a>
-                                    @endif
-                                @else
-                                    <a href="{{ route('users.update', $user->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
-                                        {{__('Restore')}}
-                                    </a>
-                                @endif
+                                <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                    <span>{{__('Delete')}}</span>
+                                </a>
                             @endcan
                         </div>
                     @else
