@@ -98,33 +98,46 @@ class Stage extends Model
         }
     }
 
-    public static function taskStagesByUserType($sort, $dir, $users)
+    public static function taskStagesByUserType($filter, $sort, $dir, $users)
     {
         if(\Auth::user()->type == 'client')
         {
-            return Stage::with(['tasks' => function ($query) use($sort, $dir, $users)
+            return Stage::with(['tasks' => function ($query) use($filter, $sort, $dir, $users)
             {
                 if(empty($users)) {
 
-                    $query->WhereHas('project', function ($query) {
+                    $query->whereHas('project', function ($query) {
 
-                        $query->where('client_id', '=', \Auth::user()->client_id);
+                                $query->where('client_id', '=', \Auth::user()->client_id);
+                            })
+                            ->where(function ($query) use ($filter) {
+                                $query->where('title','like','%'.$filter.'%')
+                                ->orWhereHas('project', function ($query) use($filter) {
 
-                    })
-                    ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                                    $query->where('name','like','%'.$filter.'%');
+                                });
+                            })
+                            ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
                 }else{
 
-                    $query->WhereHas('project', function ($query) {
+                    $query->whereHas('project', function ($query) {
 
-                        $query->where('client_id', '=', \Auth::user()->client_id);
+                                $query->where('client_id', '=', \Auth::user()->client_id);
+                            })
+                            ->whereHas('users', function ($query) use($users)
+                            {
+                                $query->whereIn('users.id', $users);
 
-                    })
-                    ->whereHas('users', function ($query) use($users)
-                    {
-                        $query->whereIn('users.id', $users);
+                            })
+                            ->where(function ($query) use ($filter) {
+                                $query->where('title','like','%'.$filter.'%')
+                                ->orWhereHas('project', function ($query) use($filter) {
 
-                    })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                                    $query->where('name','like','%'.$filter.'%');
+                                });
+                            })
+                            ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }
 
             },'tasks.users'])
@@ -133,19 +146,32 @@ class Stage extends Model
 
         }else if(\Auth::user()->type == 'company')
         {
-            return Stage::with(['tasks' => function ($query) use($sort, $dir, $users)
+            return Stage::with(['tasks' => function ($query) use($filter, $sort, $dir, $users)
             {
                 if(empty($users)) {
+                    
+                    $query->where(function ($query) use ($filter) {
+                        $query->where('title','like','%'.$filter.'%')
+                        ->orWhereHas('project', function ($query) use($filter) {
 
-                    $query->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                            $query->where('name','like','%'.$filter.'%');
+                        });
+                    })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
                 }else{
-
+                    
                     $query->whereHas('users', function ($query) use($users)
-                    {
-                        $query->whereIn('users.id', $users);
+                            {
+                                $query->whereIn('users.id', $users);
 
-                    })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
+                            })
+                            ->where(function ($query) use ($filter) {
+                                $query->where('title','like','%'.$filter.'%')
+                                ->orWhereHas('project', function ($query) use($filter) {
+
+                                    $query->where('name','like','%'.$filter.'%');
+                                });
+                            })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }
 
             },'tasks.users'])
@@ -153,7 +179,7 @@ class Stage extends Model
             ->orderBy('order', 'ASC');
         }else
         {
-            return Stage::with(['tasks' => function ($query) use($sort, $dir, $users)
+            return Stage::with(['tasks' => function ($query) use($filter, $sort, $dir, $users)
             {
                 if(empty($users)) {
 
@@ -170,6 +196,12 @@ class Stage extends Model
                             // ...the current user is assigned.
                             $query->where('users.id', \Auth::user()->id);
                         });
+                    })->where(function ($query) use ($filter) {
+                        $query->where('title','like','%'.$filter.'%')
+                        ->orWhereHas('project', function ($query) use($filter) {
+
+                            $query->where('name','like','%'.$filter.'%');
+                        });
                     })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }else {
 
@@ -178,6 +210,12 @@ class Stage extends Model
                         // tasks with the current user assigned.
                         $query->whereIn('users.id', $users);
 
+                    })->where(function ($query) use ($filter) {
+                        $query->where('title','like','%'.$filter.'%')
+                        ->orWhereHas('project', function ($query) use($filter) {
+
+                            $query->where('name','like','%'.$filter.'%');
+                        });
                     })->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                 }
             },'tasks.users'])
@@ -186,7 +224,7 @@ class Stage extends Model
         }
     }
 
-    public static function leadStagesByUserType($sort, $dir, $tag)
+    public static function leadStagesByUserType($filter, $sort, $dir, $tag)
     {
         if($tag){
             $status = array(array_search($tag, Lead::$status));
@@ -196,10 +234,17 @@ class Stage extends Model
 
         if(\Auth::user()->type == 'client')
         {
-            return Stage::with(['leads' => function ($query) use($sort, $dir, $status){
+            return Stage::with(['leads' => function ($query) use($filter, $sort, $dir, $status){
 
                         $query->whereIn('archived', $status)
                                 ->where('leads.client_id', \Auth::user()->client_id)
+                                ->where(function ($query) use ($filter) {
+                                    $query->where('name','like','%'.$filter.'%')
+                                    ->orWhereHas('client', function ($query) use($filter) {
+            
+                                        $query->where('name','like','%'.$filter.'%');
+                                    });
+                                })            
                                 ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                     },
                     'leads.client','leads.user'])
@@ -208,9 +253,16 @@ class Stage extends Model
         }
         elseif(\Auth::user()->type == 'company')
         {
-            return Stage::with(['leads' => function ($query) use($sort, $dir, $status){
+            return Stage::with(['leads' => function ($query) use($filter, $sort, $dir, $status){
 
                         $query->whereIn('archived', $status)
+                                ->where(function ($query) use ($filter) {
+                                    $query->where('name','like','%'.$filter.'%')
+                                    ->orWhereHas('client', function ($query) use($filter) {
+            
+                                        $query->where('name','like','%'.$filter.'%');
+                                    });
+                                })    
                                 ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
 
                     },'leads.client','leads.user'])
@@ -219,10 +271,17 @@ class Stage extends Model
 
         }else
         {
-            return Stage::with(['leads' => function ($query) use($sort, $dir, $status){
+            return Stage::with(['leads' => function ($query) use($filter, $sort, $dir, $status){
 
                         $query->whereIn('archived', $status)
                                 ->where('leads.user_id', \Auth::user()->id)
+                                ->where(function ($query) use ($filter) {
+                                    $query->where('name','like','%'.$filter.'%')
+                                    ->orWhereHas('client', function ($query) use($filter) {
+            
+                                        $query->where('name','like','%'.$filter.'%');
+                                    });
+                                })            
                                 ->orderBy($sort?$sort:'order', $dir?$dir:'asc');
                     },
                     'leads.client','leads.user'])

@@ -252,7 +252,7 @@ class ProjectsController extends Controller
 
             $project_id = $project->id;
 
-            $stages = $project->stages($request['sort'], $request['dir'], [])->get();
+            $stages = $project->stages($request['filter'], $request['sort'], $request['dir'], [])->get();
 
             $task_count = 0;
             foreach($stages as $stage)

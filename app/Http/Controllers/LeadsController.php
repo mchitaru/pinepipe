@@ -30,7 +30,7 @@ class LeadsController extends Controller
 
             clock()->startEvent('LeadsController', "Load leads");
 
-            $stages = Stage::leadStagesByUserType($request['sort'], $request['dir'], $request['tag'])->get();
+            $stages = Stage::leadStagesByUserType($request['filter'], $request['sort'], $request['dir'], $request['tag'])->get();
 
             clock()->endEvent('LeadsController');
 

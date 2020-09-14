@@ -50,7 +50,6 @@ function initLeadCards() {
             success: function (response) {
 
                 if(response.is_success){
-
                     toastrs("{{__('Stage order successfully updated.')}}", 'success');
                 }
             },
@@ -129,6 +128,10 @@ function initLeadCards() {
         updateFilters();
     });
 
+    document.addEventListener("paginate-filter", function(e) {
+        initLeadCards();
+    });
+
     document.addEventListener("paginate-sort", function(e) {
         initLeadCards();
     });
@@ -151,7 +154,7 @@ function initLeadCards() {
 
 @section('content')
 
-    <div class="container-kanban" data-filter-list="card-list-body">
+    <div class="container-kanban">
         <div class="container-fluid page-header justify-content-between mb-0">
             <div class="row content-list-head">
                 <div class="col-12 col-md-auto">
@@ -169,7 +172,7 @@ function initLeadCards() {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="{{__('Filter Leads')}}" aria-label="{{__('Filter Leads')}}">
+                    <input type="search" class="form-control filter-input" placeholder="{{__('Filter Leads')}}" aria-label="{{__('Filter Leads')}}">
                     </div>
                 </form>
             </div>

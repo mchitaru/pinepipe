@@ -147,17 +147,31 @@ class Project extends Model implements HasMedia
     }
 
 
-    public function stages($sort, $dir, $users)
+    public function stages($filter, $sort, $dir, $users)
     {
-        return Stage::with(['tasks' => function ($query) use ($sort, $dir, $users)
+        return Stage::with(['tasks' => function ($query) use ($filter, $sort, $dir, $users)
         {
             if(empty($users)) {
 
                 $query->where('project_id', '=', $this->id)
+                        ->where(function ($query) use ($filter) {
+                            $query->where('title','like','%'.$filter.'%')
+                            ->orWhereHas('project', function ($query) use($filter) {
+
+                                $query->where('name','like','%'.$filter.'%');
+                            });
+                        })
                         ->orderBy($sort?$sort:'priority', $dir?$dir:'asc');
             }else {
 
                 $query->where('project_id', '=', $this->id)
+                        ->where(function ($query) use ($filter) {
+                            $query->where('title','like','%'.$filter.'%')
+                            ->orWhereHas('project', function ($query) use($filter) {
+
+                                $query->where('name','like','%'.$filter.'%');
+                            });
+                        })
                         ->whereHas('users', function ($query) use($users)
                         {
                             $query->whereIn('users.id', $users);

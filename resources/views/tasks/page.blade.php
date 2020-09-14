@@ -52,7 +52,7 @@ function initTaskCards() {
             data: {order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
             success: function (response) {
 
-                if(response.is_success){
+                if(response.is_success){                    
                     toastrs("{{__('Stage order successfully updated.')}}", 'success');
                 }
             },
@@ -116,6 +116,10 @@ $(function() {
     updateFilters();
 });
 
+document.addEventListener("paginate-filter", function(e) {
+    initTaskCards();
+});
+
 document.addEventListener("paginate-sort", function(e) {
     initTaskCards();
 });
@@ -133,7 +137,7 @@ document.addEventListener("paginate-load", function(e) {
 @endsection
 
 @section('content')
-    <div class="container-kanban" data-filter-list="card-list-body">
+    <div class="container-kanban">
         <div class="container-fluid page-header justify-content-between mb-0">
             <div class="row content-list-head">
                 <div class="col-12 col-md-auto">
@@ -149,7 +153,7 @@ document.addEventListener("paginate-load", function(e) {
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="{{__("Filter tasks")}}">
+                    <input type="search" class="form-control filter-input" placeholder="{{__("Filter tasks")}}" aria-label="{{__("Filter tasks")}}">
                     </div>
                 </form>
             </div>

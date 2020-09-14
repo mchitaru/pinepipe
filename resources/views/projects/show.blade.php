@@ -34,6 +34,7 @@ if(Gate::check('view task')){
 
     $(function() {
 
+        localStorage.setItem('filter', '');
         localStorage.setItem('sort', 'priority');
         localStorage.setItem('dir', 'asc');
         localStorage.setItem('tag', '');
@@ -55,6 +56,10 @@ if(Gate::check('view task')){
         $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
 
         initDropzone('#{{$dz_id}}', '{{route('projects.file.upload',[$project->id])}}', '{{$project->id}}', {!! json_encode($files) !!});
+    });
+
+    document.addEventListener("paginate-filter", function(e) {
+        initProjectCards();
     });
 
     document.addEventListener("paginate-sort", function(e) {
@@ -220,7 +225,7 @@ if(Gate::check('view task')){
             @endif
             </ul>
             <div class="tab-content">
-            <div class="tab-pane fade show" id="tasks" role="tabpanel" data-filter-list="card-list-body">
+            <div class="tab-pane fade show" id="tasks" role="tabpanel">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
@@ -247,7 +252,7 @@ if(Gate::check('view task')){
                         <i class="material-icons">filter_list</i>
                         </span>
                     </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter tasks")}}" aria-label="Filter Tasks">
+                    <input type="search" class="form-control filter-input" placeholder="{{__("Filter tasks")}}" aria-label="Filter Tasks">
                     </div>
                 </form>
                 </div>
