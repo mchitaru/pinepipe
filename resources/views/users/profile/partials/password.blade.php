@@ -1,4 +1,4 @@
-{{Form::model($user,array('route' => array('profile.password',$user->handle()), 'method' => 'patch'))}}
+{{Form::model($user,array('route' => array('profile.password'), 'method' => 'patch'))}}
 <div class="form-group row align-items-center">
     {{Form::label('current_password',__('Current Password'), array('class'=>'col-3'))}}
     <div class="col">

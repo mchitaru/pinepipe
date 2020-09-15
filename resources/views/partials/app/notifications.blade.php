@@ -25,7 +25,7 @@
             @elseif($notification->type == 'App\Notifications\PaymentPlanExpiredAlert')
                 @foreach ($notification->data as $key=>$message)
                 <li>
-                    <a class="dropdown-item" href="{{route('profile.edit', \Auth::user()->handle())}}/#subscription">
+                    <a class="dropdown-item" href="{{route('subscription')}}">
                             {!! $message !!}
                             <small class="badge badge-info">{{ $notification->created_at->diffForHumans() }}</small>
                     </a>

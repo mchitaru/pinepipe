@@ -13,6 +13,25 @@
 Route::group(
     [
         'middleware' => [
+            'auth',
+            'xss',
+            'verified'
+        ],
+    ], function (){
+
+    //Profile
+    Route::get('subscription', 'UserProfileController@subscription')->name('subscription');;
+
+    Route::get('profile/edit', 'UserProfileController@editAuth')->name('profile.edit');
+    Route::put('profile', 'UserProfileController@updateAuth')->name('profile.update');
+    Route::patch('profile', 'UserProfileController@passwordAuth')->name('profile.password');
+    Route::delete('profile', 'UserProfileController@destroyAuth')->name('profile.destroy');
+});
+
+
+Route::group(
+    [
+        'middleware' => [
             'xss'
         ],
     ], function (){
@@ -80,14 +99,6 @@ Route::group(
 
         //Contacts
         Route::resource('contacts', 'ContactsController');
-
-        //Profile
-        Route::get('subscription', 'UserProfileController@subscription');
-
-        Route::get('profile/{user:handle}/edit', 'UserProfileController@edit')->name('profile.edit');
-        Route::put('profile/{user:handle}', 'UserProfileController@update')->name('profile.update');
-        Route::patch('profile/{user:handle}', 'UserProfileController@password')->name('profile.password');
-        Route::delete('profile/{user:handle}', 'UserProfileController@destroy')->name('profile.destroy');
 
         //Settings
         Route::post('settings/company', 'CompanySettingsController@update')->name('settings.company');

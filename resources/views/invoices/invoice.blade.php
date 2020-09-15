@@ -71,7 +71,7 @@
                                 @if($companySettings && $companyName)
                                     <td class="text-left">{{$companyName}}</td>
                                 @else
-                                    <td class="text-left"><a href="{{ route('profile.edit', \Auth::user()->handle()) }}#company"><u>{{__('Edit Company Info')}}</u></a></td>
+                                    <td class="text-left"><a href="{{ route('profile.edit') }}#company"><u>{{__('Edit Company Info')}}</u></a></td>
                                 @endif
 
                                 <td class="text-right">{{$client->name}}</td>

@@ -1,5 +1,5 @@
 
-{{Form::model($user, array('route' => array('profile.update', \Auth::user()->handle()), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
+{{Form::model($user, array('route' => array('profile.update'), 'method' => 'put', 'enctype' => "multipart/form-data"))}}
 <div class="media mb-4 avatar-container">
     <div class="d-flex flex-column avatar-preview">
         {!!Helpers::buildUserAvatar($user, 60, 'rounded')!!}

@@ -28,7 +28,7 @@ class UserProfileController extends Controller
 
     public function subscription()
     {
-        return Redirect::to(route('profile.edit', \Auth::user()->handle()).'/#subscription');
+        return Redirect::to(route('profile.edit').'/#subscription');
     }
 
     public function edit(User $user)
@@ -51,7 +51,7 @@ class UserProfileController extends Controller
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
 
-            $url = route('profile.update', \Auth::user()->handle());
+            $url = route('profile.update');
 
             return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url'));
 
@@ -74,7 +74,7 @@ class UserProfileController extends Controller
             $file = $user->addMedia($request->file('avatar'))->toMediaCollection('logos');
         }
 
-        return redirect(route('profile.edit', $user->handle()))->with('success', __('Profile updated successfully.'));
+        return redirect()->back()->with('success', __('Profile updated successfully.'));
     }
 
     public function destroy(UserProfileDestroyRequest $request, User $user)
@@ -91,8 +91,24 @@ class UserProfileController extends Controller
         return Redirect::route('login')->with('success', __('Account successfully deleted.'));
     }
 
-    public function password(UserProfileRequest $request, User $user)
+    public function editAuth()
     {
+        return $this->edit(\Auth::user());
+    }
+
+    public function updateAuth(UserProfileRequest $request)
+    {
+        return $this->update($request, \Auth::user());
+    }
+
+    public function destroyAuth(UserProfileDestroyRequest $request)
+    {
+        return $this->destroy($request, \Auth::user());
+    }
+
+    public function passwordAuth(UserProfileRequest $request)
+    {
+        $user = \Auth::user();
         $post = $request->validated();
 
         if(Hash::check($post['current_password'], $user->password))

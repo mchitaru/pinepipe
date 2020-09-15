@@ -51,7 +51,7 @@ class SubscriptionsController extends Controller
         else
         {
             $request->session()->flash('error', __('There was an error processing your payment request! If this continues, please contact our support team'));
-            return redirect()->route('profile.edit', \Auth::user()->handle())->getTargetUrl().'/#subscription';
+            return redirect()->route('subscription')->getTargetUrl();
         }
     }
 

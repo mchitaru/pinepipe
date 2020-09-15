@@ -13,9 +13,7 @@ class UserProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->route()->parameter('user');
-
-        return \Auth::check() && \Auth::user()->id == $user->id;
+        return \Auth::check();
     }
 
     /**
@@ -54,6 +52,6 @@ class UserProfileRequest extends FormRequest
 
     protected function getRedirectUrl()
     {
-        return route('profile.edit', \Auth::user()->handle());
+        return route('profile.edit');
     }
 }

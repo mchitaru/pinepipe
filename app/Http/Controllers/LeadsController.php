@@ -111,7 +111,7 @@ class LeadsController extends Controller
             $request->session()->flash('error', __('Your have reached you client limit. Please upgrade your subscription to add more clients!'));
         }
 
-        $url = redirect()->route('profile.edit', \Auth::user()->handle())->getTargetUrl().'/#subscription';
+        $url = redirect()->route('subscription')->getTargetUrl();
         return $request->ajax() ? response()->json(['success', 'url'=>$url], 207) : redirect()->to($url);
     }
 

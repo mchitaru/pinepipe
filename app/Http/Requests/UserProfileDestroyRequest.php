@@ -13,9 +13,7 @@ class UserProfileDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->route()->parameter('user');
-
-        return \Auth::check() && \Auth::user()->id == $user->id;
+        return \Auth::check();
     }
 
     /**
