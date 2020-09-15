@@ -36,7 +36,7 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row align-items-center required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => (Gate::check('create client')?'tags':'').' form-control col font-style selectric', 'required'=>'true', 'placeholder'=>'...',
+        {!! Form::select('client_id', $clients, $client_id, array('class' => (Gate::check('create client')?'tags':'').' form-control col font-style selectric', empty($client_id)?'':'disabled', 'required'=>'true', 'placeholder'=>'...',
                             'data-refresh'=>route('leads.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <div class="form-group row align-items-center">
