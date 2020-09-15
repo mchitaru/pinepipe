@@ -12,7 +12,7 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...', 
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...',
                             'data-refresh'=>route('invoices.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <div class="form-group row align-items-center required">
@@ -26,12 +26,12 @@
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-        {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...', 
+        {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
-        {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col', 
+        {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col',
                             'data-refresh'=>route('invoices.refresh', '0'), 'lang'=>\Auth::user()->locale)) !!}
         @if($currency != \Auth::user()->getCurrency())
         {{Form::label('rate',__('Exchange Rate'), array('class'=>'col-2')) }}
@@ -48,7 +48,7 @@
     <div class="form-group row align-items-center">
         {{Form::label('locale',__('Language'), array('class'=>'col-3')) }}
         {!! Form::select('locale', $locales, $locale, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
-    </div>    
+    </div>
 </div>
 @include('partials.errors')
 @endsection
