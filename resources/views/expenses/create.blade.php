@@ -34,7 +34,8 @@
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
+        {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col',
+                        'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('category_id', __('Category'), array('class'=>'col-3')) }}

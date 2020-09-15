@@ -31,7 +31,8 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row align-items-center">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
+        {!! Form::select('client_id', $clients, $client_id, array('class' => 'tags form-control col',
+                        'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
     {{-- <hr>
     <h6>{{__('Visibility')}}</h6>

@@ -46,7 +46,8 @@
         <h6>{{__('Attach')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
-            {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
+            {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric',
+                            'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
         </div>
         {{-- <hr>
         <h6>{{__('Visibility')}}</h6>
