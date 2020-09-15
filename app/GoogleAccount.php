@@ -13,7 +13,7 @@ class GoogleAccount extends Model
 {
     use Synchronizable;
 
-    protected $fillable = ['google_id', 'name', 'token'];
+    protected $fillable = ['google_id', 'name', 'token', 'created_by'];
     protected $casts = ['token' => 'json'];
 
     public static function boot()

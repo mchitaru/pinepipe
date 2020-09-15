@@ -70,7 +70,7 @@
 @endsection
 
 @section('footer')
-{{Form::submit(__('Update'), array('class'=>'btn btn-primary', 'data-disable' => 'true'))}}
+{{Form::submit(__('Update'), array('class'=>'btn btn-primary ', ($event->google_id?'disabled':''), 'data-disable' => 'true'))}}
 @endsection
 
 @section('form-end')
