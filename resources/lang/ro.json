@@ -718,5 +718,7 @@
     "CONTACTS": "CONTACTE",
     "EXPENSES": "CHELTUIELI",
     "You don't have the right to access this resource!": "Nu ai dreptul de a accesa această resursă!",
-    "Newsletter": "Buletin informativ"
+    "Newsletter": "Buletin informativ",
+    "Your subscription is now activated. Thank you for your payment!": "Abonamentul tău este acum activ. Îți multumim pentru plată!",
+    "There was a problem processing your payment. Please try again or contact us!": "Am întămpinat o problemă la procesarea plății. Te rugăm să încerci din nou sau să ne contactezi!"
 }

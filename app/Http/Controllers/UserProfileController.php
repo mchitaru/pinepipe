@@ -31,6 +31,19 @@ class UserProfileController extends Controller
         return Redirect::to(route('profile.edit').'/#subscription');
     }
 
+    public function checkout(Request $request)
+    {
+        if(!empty($request['checkout'])){
+
+            return redirect()->route('home')
+                    ->with('success', __('Your subscription is now activated. Thank you for your payment!'))
+                    ->with('checkout', $request['checkout']);
+        }
+
+        return redirect()->route('profile.edit')
+                    ->with('error', __('There was a problem processing your payment. Please try again or contact us!'));
+    }
+
     public function edit(User $user)
     {
         if(\Auth::user()->id == $user->id) {

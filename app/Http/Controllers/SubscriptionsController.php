@@ -40,6 +40,7 @@ class SubscriptionsController extends Controller
                 'customer_email' => \Auth::user()->email,
                 'passthrough' => ['user_id' => \Auth::user()->id,
                                     'plan_id' => $plan->id],
+                'return_url' => route('checkout').'?checkout={checkout_hash}'
             ];
 
             $paddleResponse = Paddle::product()

@@ -20,7 +20,8 @@ Route::group(
     ], function (){
 
     //Profile
-    Route::get('subscription', 'UserProfileController@subscription')->name('subscription');;
+    Route::get('subscription', 'UserProfileController@subscription')->name('subscription');
+    Route::get('checkout', 'UserProfileController@checkout')->name('checkout');
 
     Route::get('profile/edit', 'UserProfileController@editAuth')->name('profile.edit');
     Route::put('profile', 'UserProfileController@updateAuth')->name('profile.update');
@@ -118,6 +119,7 @@ Route::group(
         Route::resource('plans', 'SubscriptionPlansController');
 
         Route::get('plans/{plan}/subscription', 'SubscriptionsController@create')->name('subscriptions.create');
+
         Route::delete('subscriptions/{subscription}', 'SubscriptionsController@destroy')->name('subscriptions.destroy');
         // Route::resource('subscriptions', 'SubscriptionsController');
 
