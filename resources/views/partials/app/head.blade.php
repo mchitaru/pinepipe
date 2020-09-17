@@ -49,7 +49,7 @@
         <!-- End Facebook Pixel Code -->
 
         <!-- Event snippet for Purchase conversion page --> 
-        <script>fbq('trackCustom', 'Purchase', {subscription: 'subscription'});</script>
+        <script>fbq('trackCustom', 'Purchase', {subscription: 'purchase'});</script>
         <script>gtag('event', 'conversion', { 'send_to': 'AW-591630102/_DB-CMTt794BEJaejpoC', 'transaction_id':'{{Session::get("checkout")}}' });</script>
     @endif
 
