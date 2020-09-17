@@ -10,6 +10,11 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
+    @if ($message = Session::get('checkout'))
+        <!-- Event snippet for Purchase conversion page --> 
+        <script>fbq('trackCustom', 'Purchase', {subscription: 'purchase'});</script>
+    @endif
+
     <div class="layout layout-nav-side">
 
     {{-- <div class="layout layout-nav-top"> --}}

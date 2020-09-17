@@ -30,6 +30,8 @@
     <!-- End Google Tag Manager -->
 
     @if ($message = Session::get('checkout'))
+        <!-- Event snippet for Purchase conversion page --> 
+        <script>gtag('event', 'conversion', { 'send_to': 'AW-591630102/_DB-CMTt794BEJaejpoC', 'transaction_id':'' });</script>
         <!-- Facebook Pixel Code -->
         <script>
             !function(f,b,e,v,n,t,s)
@@ -43,14 +45,9 @@
             fbq('init', '384281792741509');
             fbq('track', 'PageView');
         </script>
-        <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?
-        id=384281792741509&ev=PageView&noscript=1"/></noscript>
+        <noscript><img height="1" width="1" style="display:none" 
+            src="https://www.facebook.com/tr?id=384281792741509&ev=PageView&noscript=1"/></noscript>
         <!-- End Facebook Pixel Code -->
-
-        <!-- Event snippet for Purchase conversion page --> 
-        <script>fbq('trackCustom', 'Purchase', {subscription: 'purchase'});</script>
-        <script>gtag('event', 'conversion', { 'send_to': 'AW-591630102/_DB-CMTt794BEJaejpoC', 'transaction_id':'{{Session::get("checkout")}}' });</script>
     @endif
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
