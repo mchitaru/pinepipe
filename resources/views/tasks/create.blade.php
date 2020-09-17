@@ -48,7 +48,7 @@
         <h6>{{__('Timeline')}}</h6>
         <div class="form-group row align-items-center">
             {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-            {{ Form::date('due_date', null, array('class' => 'form-control col', 'placeholder'=>'...',
+            {{ Form::date('due_date', null, array('class' => 'form-control col bg-white', 'placeholder'=>'...',
                                                 'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $end, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
         </div>
     </div>

@@ -44,7 +44,7 @@
     </div>
     <div class="form-group row align-items-center required">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}
-        {{ Form::date('date', null, array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...',
+        {{ Form::date('date', null, array('class' => 'form-control col bg-white','required'=>'required', 'placeholder'=>'...',
                                         'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">

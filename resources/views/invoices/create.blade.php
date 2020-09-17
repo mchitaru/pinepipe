@@ -22,12 +22,12 @@
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}
-        {{ Form::date('issue_date', null, array('class' => 'start form-control col','required'=>'required', 'placeholder'=>'...',
+        {{ Form::date('issue_date', null, array('class' => 'start form-control col bg-white','required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $issue_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('due_date', __('Due Date'), array('class'=>'col-3')) }}
-        {{ Form::date('due_date', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...',
+        {{ Form::date('due_date', null, array('class' => 'end form-control col bg-white','required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">

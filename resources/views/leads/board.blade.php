@@ -26,8 +26,8 @@ use Carbon\Carbon;
                             <a class="dropdown-item" href="{{ route('stages.edit',$stage->id) }}" data-remote="true" data-type="text">
                                 <span>{{__('Edit')}}</span>
                             </a>
+                            <div class="dropdown-divider"></div>
                         @endcan
-                        <div class="dropdown-divider"></div>
                         @can('delete lead stage')
                             <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>

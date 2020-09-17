@@ -12,6 +12,48 @@ html { font-size: 93%; }
   border-bottom: 1px solid $border-color;
 }
 
+select.select2-hidden-accessible + .select2-container {
+
+  .select2-selection {
+
+    &[aria-expanded="false"]{
+      border-color: $border-color !important;
+      border-radius: .5rem  !important;
+    }
+    &[aria-expanded="true"]{
+      border-radius: .5rem .5rem 0px 0px !important;
+    }  
+  }
+}
+
+.select2-dropdown{
+  border-radius: 0px 0px .5rem .5rem !important;
+}
+
+.select2-search__field {
+  border-radius: .5rem  !important;
+}
+
+.select2-selection__choice {
+  border-color: $border-color !important;
+  border-radius: .5rem  !important;
+}
+
+
+select[readonly].select2-hidden-accessible + .select2-container {
+  pointer-events: none;
+  touch-action: none;
+
+  .select2-selection {
+
+      background: $custom-select-disabled-bg;
+      box-shadow: none;
+  }
+
+  .select2-selection__arrow, select[readonly].select2-hidden-accessible + .select2-container .select2-selection__clear {
+      display: none;
+  }
+}
 
 * {
   scrollbar-width: thin;

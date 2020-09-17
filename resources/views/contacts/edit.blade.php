@@ -37,7 +37,7 @@
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('birthday', __('Birthday'), array('class'=>'col-3')) }}
-        {{ Form::date('birthday', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>'...', 
+        {{ Form::date('birthday', '', array('class' => 'form-control col bg-white','required'=>'required', 'placeholder'=>'...', 
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> date('Y-m-d'), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row">

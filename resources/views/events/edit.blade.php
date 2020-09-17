@@ -28,12 +28,12 @@
     <h6>{{__('Timeline')}}</h6>
     <div class="form-group row align-items-center">
         {{ Form::label('start', __('Start'), array('class'=>'col-3')) }}
-        {{ Form::date('start', null, array('class' => 'start form-control col', 'required'=>'required', 'placeholder'=>'...',
+        {{ Form::date('start', null, array('class' => 'start form-control col bg-white', 'required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($event->start), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('end', __('End'), array('class'=>'col-3')) }}
-        {{ Form::date('end', null, array('class' => 'end form-control col','required'=>'required', 'placeholder'=>'...',
+        {{ Form::date('end', null, array('class' => 'end form-control col bg-white','required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-enable-time'=>'true', 'data-default-date'=> \Helpers::utcToLocal($event->end), 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
     <div class="row p-1 align-items-center">
