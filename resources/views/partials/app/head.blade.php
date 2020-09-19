@@ -50,6 +50,8 @@
         <!-- End Facebook Pixel Code -->
     @endif
 
+    @livewireStyles
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
     <!-- App css (keep last) -->

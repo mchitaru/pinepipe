@@ -13,6 +13,7 @@ $timesheet = $_user?$_user->timesheets->first():null;
 <script type="text/javascript" src="{{ asset('js/avatar.js') }}"></script> --}}
 
 <!-- Required vendor scripts (Do not remove) -->
+@livewireScripts
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>

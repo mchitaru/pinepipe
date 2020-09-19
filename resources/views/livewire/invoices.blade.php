@@ -1,8 +1,7 @@
 @php
 use App\Project;
 use Carbon\Carbon;
-
-$stage_done = \Auth::user()->getLastTaskStage()->id;
+$can_show_invoice = Gate::check('view invoice');
 @endphp
 
 <div class="scrollable-list col" style="max-height:90vh">
@@ -12,17 +11,17 @@ $stage_done = \Auth::user()->getLastTaskStage()->id;
                 <div class="icon pr-2">
                     <i class="material-icons">{{$icon}}</i>
                 </div>
-                <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
+                <button class="btn-options" type="button" data-toggle="collapse" data-target="#invoices">
                     {{__('You have')}} <span class="badge badge-{{count($items) ? 'warning' : 'light bg-white'}} mx-1">{{count($items)}}</span> {{$text}}
                 </button>
             </div>
-            <button class="btn-options" type="button" data-toggle="collapse" data-target="#{{$type}}">
+            <button class="btn-options" type="button" data-toggle="collapse" data-target="#invoices">
                 <i class="material-icons">expand_more</i>
             </button>
         </div>
-        <div class="card-list-body collapse" id="{{$type}}">
-            @foreach($items as $task)
-                @include('tasks.task')
+        <div class="card-list-body collapse" id="invoices">
+            @foreach($items as $invoice)
+                @include('invoices.item')
             @endforeach
         </div>
     </div>

@@ -35,16 +35,16 @@ use Carbon\Carbon;
                     </div>
                     <h3> {{__('Hey')}} {{\Auth::user()->name}}! {{__('After')}} &#x2615;, {{__("here is what's coming up")}}:</h3>
                     <div class="row pt-1 pb-3">
-                        <x-upcoming title="{{__('Today')}}" :tasks='$todayTasks' :events='$todayEvents'></x-upcoming>
-                        <x-upcoming title="{{__('This week')}}" :tasks='$thisWeekTasks' :events='$thisWeekEvents'></x-upcoming>
-                        <x-upcoming title="{{__('Next week')}}" :tasks='$nextWeekTasks' :events='$nextWeekEvents'></x-upcoming>
+                        @livewire('upcoming', ['title'=>__('Today'), 'tasks' => $todayTasks, 'events' => $todayEvents])
+                        @livewire('upcoming', ['title'=>__('This week'), 'tasks' => $thisWeekTasks, 'events' => $thisWeekEvents])
+                        @livewire('upcoming', ['title'=>__('Next week'), 'tasks' => $nextWeekTasks, 'events' => $nextWeekEvents])
                     </div>
                     <h3> {{__("Let's take on the day!")}} </h3>
                     <div class="row pt-1 pb-3">
-                        <x-todo type="projects" icon="folder" :text="__('project(s) in progress.')" :items='$projects'></x-todo>
-                        <x-todo type="tasks" icon="playlist_add_check" :text="__('important thing(s) to do.')" :items='$tasks'></x-todo>
-                        <x-todo type="invoices" icon="description" :text="__('unpaid invoice(s).')" :items='$invoices'></x-todo>
-                        <x-todo type="leads" icon="phone" :text="__('lead(s) rotting.')" :items='$leads'></x-todo>
+                        @livewire('projects', ['icon'=>'folder', 'text' => __('project(s) in progress.'), 'items' => $projects])
+                        @livewire('tasks', ['icon'=>'playlist_add_check', 'text' => __('important thing(s) to do.'), 'items' => $tasks])
+                        @livewire('invoices', ['icon'=>'description', 'text' => __('unpaid invoice(s).'), 'items' => $invoices])
+                        @livewire('leads', ['icon'=>'phone', 'text' => __('lead(s) rotting.'), 'items' => $leads])
                     </div>
                 </div>
             </div>
