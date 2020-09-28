@@ -32,7 +32,7 @@
         <div class="form-group col custom-control custom-checkbox custom-checkbox-switch d-flex justify-content-end">
             <input type="hidden" name="receipt" value="0">
             {{Form::checkbox('receipt', 1, 0, ['class'=>'custom-control-input', 'id' =>'receipt'])}}
-            {{Form::label('receipt', __('Receipt'), ['class'=>'custom-control-label'])}}
+            {{Form::label('receipt', __('Issue Receipt'), ['class'=>'custom-control-label'])}}
         </div>
     </div>
     <div class="form-group row">
