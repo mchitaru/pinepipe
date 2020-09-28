@@ -223,12 +223,17 @@ class Invoice extends Model
 
     public function priceFormat($price)
     {        
-        return \Helpers::priceFormat($price, $this->getCurrency());
-
+        return \Helpers::priceFormat($price, $this->getCurrency(), $this->getLocale());
     }
 
     public function priceConvert($price)
     {
         return \Helpers::priceConvert($price, $this->rate);
+    }
+
+    public function priceSpellout($price)
+    {        
+        return \Helpers::priceSpellout($price, $this->getCurrency(), $this->getLocale());
+
     }
 }

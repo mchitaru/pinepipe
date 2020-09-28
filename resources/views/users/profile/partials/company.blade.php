@@ -147,6 +147,17 @@ use App\CompanySettings;
         </div>
     </div>
     <div class="form-group row align-items-center">
+        {{Form::label('receipt',__('Receipt Prefix'), array('class'=>'col-3')) }}
+        <div class="col">
+            {{Form::text('receipt',null, array('class'=>'form-control', 'placeholder'=>__('#RPT')))}}
+            @error('receipt')
+            <span class="invalid-receipt_prefix" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         <div class="col">
             {!! Form::select('currency', $currencies, ($user->companySettings == null) ? \Auth::user()->getDefaultCurrency() : null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}

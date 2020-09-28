@@ -27,7 +27,7 @@ class InvoicePaymentsController extends Controller
     {
         $post = $request->validated();
 
-        Payment::createPayment($post, $invoice);
+        Payment::createPayment($post, $invoice, $post['receipt']);
 
         $request->session()->flash('success', __('Payment successfully created.'));
 

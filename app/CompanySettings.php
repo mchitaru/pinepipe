@@ -28,6 +28,7 @@ class CompanySettings extends Model implements HasMedia
         'tax',
         'iban',
         'invoice',
+        'receipt',
         'currency',
         'created_by',
     ];
@@ -41,6 +42,7 @@ class CompanySettings extends Model implements HasMedia
         'country',
         'phone',
         'invoice',
+        'receipt',
         'iban',
     ];
 

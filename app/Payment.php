@@ -13,6 +13,7 @@ class Payment extends Model
 
     protected $fillable = [
         'transaction_id',
+        'receipt',
         'invoice_id',
         'amount',
         'date',
@@ -51,7 +52,7 @@ class Payment extends Model
         return $this->hasOne('App\Invoice','id','invoice_id');
     }
 
-    public static function createPayment($post, Invoice $invoice)
+    public static function createPayment($post, Invoice $invoice, $receipt)
     {
         if(isset($post['category_id']) && !is_numeric($post['category_id'])) {
 
@@ -62,10 +63,12 @@ class Payment extends Model
         }
 
         $latestPayment = Payment::latest()->first();
+        $transaction_id = $latestPayment ? ($latestPayment->transaction_id + 1) : 1;
 
         $payment = Payment::create(
             [
-                'transaction_id' => $latestPayment ? ($latestPayment->transaction_id + 1) : 1,
+                'transaction_id' => $transaction_id,
+                'receipt' => $receipt ? \Auth::user()->receiptNumberFormat($transaction_id) : null,
                 'invoice_id' => $invoice->id,
                 'category_id' => $post['category_id'],
                 'amount' => $post['amount'],

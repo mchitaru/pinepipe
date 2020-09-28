@@ -28,6 +28,13 @@
         {{ Form::label('category_id', __('Payment Method'), array('class'=>'col-3')) }}
         {{ Form::select('category_id', $categories, null, array('class' => 'tags form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
+    <div class="row p-1 align-items-center">
+        <div class="form-group col custom-control custom-checkbox custom-checkbox-switch d-flex justify-content-end">
+            <input type="hidden" name="receipt" value="0">
+            {{Form::checkbox('receipt', 1, 0, ['class'=>'custom-control-input', 'id' =>'receipt'])}}
+            {{Form::label('receipt', __('Receipt'), ['class'=>'custom-control-label'])}}
+        </div>
+    </div>
     <div class="form-group row">
         {{ Form::label('notes', __('Notes'), array('class'=>'col-3')) }}
         {{ Form::textarea('notes', null, array('class' => 'form-control col','rows'=>'3')) }}

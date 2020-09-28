@@ -647,7 +647,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         $settings = $this->companySettings;
         $currency = $settings ? $settings->currency : $this->getDefaultCurrency();
 
-        return \Helpers::priceFormat($price, $currency, $precision);
+        return \Helpers::priceFormat($price, $currency, $precision, $this->locale);
     }
 
     public function dateFormat($date)
@@ -664,6 +664,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         $settings = $this->companySettings;
         $prefix = $settings ? $settings->invoice : '#INV';
+
+        return $prefix . sprintf("%05d", $number);
+    }
+
+    public function receiptNumberFormat($number)
+    {
+        $settings = $this->companySettings;
+        $prefix = $settings ? $settings->receipt : '#RPT';
 
         return $prefix . sprintf("%05d", $number);
     }

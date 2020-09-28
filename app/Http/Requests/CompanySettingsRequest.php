@@ -35,6 +35,7 @@ class CompanySettingsRequest extends FormRequest
             'tax' => 'string|nullable',
             'iban' => 'string|nullable',
             'invoice' => 'nullable|string',
+            'receipt' => 'nullable|string',
             'currency' => 'required',
             'logo' => 'nullable|mimetypes:image/*|max:2048'
         ];

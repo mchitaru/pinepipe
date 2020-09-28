@@ -173,15 +173,15 @@ class Helpers
         }
     }
 
-    static function getCurrencySymbol($currency)
+    static function getCurrencySymbol($currency, $lang = 'en')
     {
-        $formatter = new \NumberFormatter('en-US' . '@currency=' . $currency, \NumberFormatter::CURRENCY);
+        $formatter = new \NumberFormatter($lang . '@currency=' . $currency, \NumberFormatter::CURRENCY);
         return $formatter->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
     }
 
-    static function priceFormat($price, $currency, $precision = 2)
+    static function priceFormat($price, $currency, $precision = 2, $lang = 'en')
     {        
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $numberFormatter = new \NumberFormatter($lang, \NumberFormatter::CURRENCY);
         $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS , $precision);
         
         return $numberFormatter->formatCurrency($price, $currency);
@@ -193,5 +193,14 @@ class Helpers
             $rate = 1.0;
 
         return \Helpers::ceil($price / $rate, $precision);
+    }
+
+    static function priceSpellout($price, $currency, $lang = 'en')
+    {   
+        $spellout = new NumberFormatter($lang, NumberFormatter::SPELLOUT);
+
+        $formatter = new \NumberFormatter($lang . '@currency=' . $currency, \NumberFormatter::CURRENCY);
+
+        return str_replace(" ","", $spellout->formatCurrency($price, $currency)).' '.$formatter->getSymbol(\NumberFormatter::INTL_CURRENCY_SYMBOL);
     }
 }

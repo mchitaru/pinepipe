@@ -32,7 +32,8 @@ class InvoicePaymentStoreRequest extends FormRequest
             'amount' => 'required|numeric',
             'date' => 'required|date',
             'notes' => 'nullable|string',
-            'category_id' => 'nullable'
+            'category_id' => 'nullable',
+            'receipt' => 'boolean'
         ];
     }
 
