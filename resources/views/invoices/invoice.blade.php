@@ -330,20 +330,20 @@
                 <table class="table">
                     <tfoot class="borderless gapless">
                         <tr>
-                            <td class="text-left">{{__('I received from:')}} {{$client->name}}{{$client->tax?(', '.__('TAX ID', [], $invoice->locale).': '.$client->tax):''}}</td>
+                            <td class="text-left">{{__('I received from:', [], $invoice->locale)}} {{$client->name}}{{$client->tax?(', '.__('TAX ID', [], $invoice->locale).': '.$client->tax):''}}</td>
                         </tr>
                         <tr>
-                            <td class="text-left">{{__('Address:')}} {{$client->address}}</td>
+                            <td class="text-left">{{__('Address:', [], $invoice->locale)}} {{$client->address}}</td>
                         </tr>
                         <tr>
-                            <td class="text-left">{{__('The amount of')}} {!! htmlentities($invoice->priceFormat($payment->amount), ENT_COMPAT, 'UTF-8') !!}, {{__('meaning')}} {{$invoice->priceSpellout($payment->amount)}}, </td>
+                            <td class="text-left">{{__('The amount of', [], $invoice->locale)}} {!! htmlentities($invoice->priceFormat($payment->amount), ENT_COMPAT, 'UTF-8') !!}, {{__('meaning', [], $invoice->locale)}} {{$invoice->priceSpellout($payment->amount)}}, </td>
                         </tr>
                         <tr>
-                            <td class="text-left">{{__('representing the value of the invoice')}} {{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }} {{__('from date')}} {{ AUth::user()->dateFormat($invoice->issue_date) }}</td>
+                            <td class="text-left">{{__('representing the value of the invoice', [], $invoice->locale)}} {{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }} {{__('from date', [], $invoice->locale)}} {{ AUth::user()->dateFormat($invoice->issue_date) }}</td>
                         </tr>
                         <tr>
                             <td class="text-left"></td>
-                            <td class="text-right">{{__('Signature')}},</td>
+                            <td class="text-right">{{__('Signature', [], $invoice->locale)}},</td>
                         </tr>
                     </tfoot>
                 </table>
