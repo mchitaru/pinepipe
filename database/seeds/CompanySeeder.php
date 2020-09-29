@@ -24,6 +24,7 @@ class CompanySeeder extends Seeder
                 'type' => 'company',
                 'avatar' => null,
                 'email_verified_at' => now(),
+                'locale' => 'en'
             ]
         );
 

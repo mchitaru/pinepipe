@@ -652,12 +652,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function dateFormat($date)
     {
-        return date('M j, Y', strtotime($date));
-    }
-
-    public function timeFormat($time)
-    {
-        return date('g:i A', strtotime($time));
+        return Carbon::parse($date)->locale(\Auth::user()->locale)->isoFormat('LL');
     }
 
     public function invoiceNumberFormat($number)

@@ -13,12 +13,12 @@ class Helpers
 {
     public static function localToUTC($timestamp)
     {
-        return Carbon::parse($timestamp, \Auth::user()->timezone)->tz('UTC');
+        return Carbon::parse($timestamp, \Auth::user()->timezone)->tz('UTC')->locale(\Auth::user()->locale);
     }
 
     public static function utcToLocal($timestamp)
     {
-        return Carbon::parse($timestamp, 'UTC')->tz(\Auth::user()->timezone);
+        return Carbon::parse($timestamp, 'UTC')->tz(\Auth::user()->timezone)->locale(\Auth::user()->locale);
     }
 
     public static function ceil($value, $precision = 2)
@@ -133,19 +133,19 @@ class Helpers
 
         if($time->isYesterday()){
 
-            $text = __('yesterday') . $time->format(', H:i');
+            $text = __('yesterday') . $time->isoFormat(' hh:mm');
 
         }else if($time->isToday()){
 
-            $text = __('today') . $time->format(', H:i');
+            $text = __('today') . $time->isoFormat(' hh:mm');
 
         }else if($time->isTomorrow()){
 
-            $text = __('tomorrow') . $time->format(', H:i');
+            $text = __('tomorrow') . $time->isoFormat(' hh:mm');
 
         }else{
 
-            $text = $time->format('M d, H:i');
+            $text = $time->isoFormat('LLL');
         }
 
         return '<span class="text-small '.$color.'">'.$text.'</span>';

@@ -728,12 +728,12 @@
     "I received from:": "Am primit de la:",
     "Address:": "Adresa:",
     "meaning": "adică",
-    "representing the value of the invoice": "reprezentând valoarea facturii",
-    "from date": "din data de",
     "Signature": "Semnătura",
     "Receipt Prefix": "Prefixul chitanțelor",
     "#RPT": "",
     "The amount of": "Suma de",
     "Invoice": "Factura",
-    "Issue Receipt": "Emite chitanță"
+    "Issue Receipt": "Emite chitanță",
+    "representing a payment according to the invoice": "reprezentând o plată conform facturii",
+    "from": "din"
 }

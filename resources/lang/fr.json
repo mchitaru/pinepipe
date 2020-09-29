@@ -756,12 +756,12 @@
     "I received from:": "",
     "Address:": "",
     "meaning": "",
-    "representing the value of the invoice": "",
-    "from date": "",
     "Signature": "",
     "Receipt Prefix": "",
     "#RPT": "",
     "The amount of": "",
     "Invoice": "",
-    "Issue Receipt": ""
+    "Issue Receipt": "",
+    "representing a payment according to the invoice": "",
+    "from": ""
 }

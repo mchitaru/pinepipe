@@ -103,8 +103,8 @@
                         <td class="text-right"><strong>{{__('Due Date', [], $invoice->locale)}}:</strong></td>
                     </tr>
                     <tr>
-                        <td class="text-left">{{ AUth::user()->dateFormat($invoice->issue_date) }}</td>
-                        <td class="text-right">{{ AUth::user()->dateFormat($invoice->due_date) }}</td>
+                        <td class="text-left">{{ $invoice->dateFormat($invoice->issue_date) }}</td>
+                        <td class="text-right">{{ $invoice->dateFormat($invoice->due_date) }}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -250,7 +250,7 @@
                                 {{sprintf("%05d", $payment->transaction_id)}}
                             </td>
                             <td class="text-left">
-                                <i>{{ Auth::user()->dateFormat($payment->date) }}</i>
+                                <i>{{ $invoice->dateFormat($payment->date) }}</i>
                             </td>
                             <td class="text-right">
                                 {{($payment->category?$payment->category->name:'')}}
@@ -315,7 +315,7 @@
                         </tr>
                         <tr>
                             <td class="text-left">{{($companySettings&&$companySettings->city)?($companySettings->city.', '.$companySettings->state.' - '.$companySettings->zipcode):''}}</td>                                    
-                            <td class="text-right">{{ AUth::user()->dateFormat($invoice->issue_date) }}</td>
+                            <td class="text-right">{{ $invoice->dateFormat($payment->date) }}</td>
                         </tr>
                         <tr>
                             <td class="text-left">{{$companySettings?$companySettings->country:''}}</td>
@@ -339,7 +339,7 @@
                             <td class="text-left">{{__('The amount of', [], $invoice->locale)}} {!! htmlentities($invoice->priceFormat($payment->amount), ENT_COMPAT, 'UTF-8') !!}, {{__('meaning', [], $invoice->locale)}} {{$invoice->priceSpellout($payment->amount)}}, </td>
                         </tr>
                         <tr>
-                            <td class="text-left">{{__('representing the value of the invoice', [], $invoice->locale)}} {{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }} {{__('from date', [], $invoice->locale)}} {{ AUth::user()->dateFormat($invoice->issue_date) }}</td>
+                            <td class="text-left">{{__('representing a payment according to the invoice', [], $invoice->locale)}} {{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }} {{__('from', [], $invoice->locale)}} {{ $invoice->dateFormat($invoice->issue_date) }}</td>
                         </tr>
                         <tr>
                             <td class="text-left"></td>

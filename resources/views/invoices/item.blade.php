@@ -7,7 +7,7 @@
                 @if($can_show_invoice)
                 <a href="{{ route('invoices.show', $invoice->id) }}">
                 @endif
-                    <h6 data-filter-by="text">{{ Auth::user()->dateFormat($invoice->issue_date) }}
+                    <h6 data-filter-by="text">{{ $invoice->dateFormat($invoice->issue_date) }}
                         {!! $invoice->getStatusBadge() !!}
                     </h6>
                 @if($can_show_invoice)

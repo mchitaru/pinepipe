@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
@@ -235,5 +236,10 @@ class Invoice extends Model
     {        
         return \Helpers::priceSpellout($price, $this->getCurrency(), $this->getLocale());
 
+    }
+
+    public function dateFormat($date)
+    {
+        return Carbon::parse($date)->locale($this->getLocale())->isoFormat('LL');
     }
 }
