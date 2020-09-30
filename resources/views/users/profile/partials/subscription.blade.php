@@ -4,7 +4,7 @@
 
 <div class="mb-4">
     @if(!$user->subscribed())
-        <span class="text-small">{{__('You have limited access on the Free plan. Please choose a subscription and upgrade today!')}}</span>
+        <span class="text-small">{{__('You have limited functionality on the Free plan. Please choose a subscription and upgrade today!')}}</span>
     @endif
     <div class="row pt-3">
         <div class="col-lg-2">
