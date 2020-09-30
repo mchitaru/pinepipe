@@ -8,7 +8,7 @@
     "created invoice": "a adăugat factura",
     "updated invoice": "a modificat factura",
     "Client successfully created.": "Client adăugat cu succes",
-    "Your have reached you client limit. Please upgrade your subscription to add more clients!": "Limita de clienți ce pot fi adăugați a fost atinsă. Vă rog să faceți upgrade la un plan de beneficii superior pentru a putea adăuga mai mulți clienți",
+    "Your have reached you client limit. Please upgrade your subscription to add more clients!": "Limita de clienți ce pot fi adăugați a fost atinsă. Te rugăm să alegi un abonament pentru a putea adăuga mai mulți clienți",
     "Client successfully updated.": "Client modificat cu succes",
     "Client successfully deleted.": "Clientul a fost șters cu succes",
     "Profile successfully updated.": "Profil modificat cu succes",
@@ -73,7 +73,7 @@
     "Project stage successfully deleted.": "Stadiu proiect șters cu succes",
     "Project task already assign this stage , so please remove or move task to other project stage": "Sarcină proiect atribuită deja acestui stadiu, așa că te rugăm să renunți sau să muți sarcina în alt stadiu",
     "Project successfully created.": "Proiect adăugat cu succes",
-    "Your have reached your project limit. Please upgrade your subscription to add more projects!": "",
+    "Your have reached your project limit. Please upgrade your subscription to add more projects!": "Limita de poiecte ce pot fi adăugate a fost atinsă. Te rugăm să alegi un abonament pentru a putea adăuga mai multe proiecte",
     "Project successfully updated.": "Proiect modificat cu succes",
     "Project successfully deleted": "Proiect șters cu succes",
     "Subscription cancelled.": "Abonament anulat",
@@ -98,7 +98,7 @@
     "Role successfully created.": "Rol adăugat cu succes",
     "Role successfully updated.": "Rol modificat cu succes",
     "Role successfully deleted.": "Rol șters cu succes",
-    "Your have reached your user limit. Please upgrade your subscription to add more users!": "",
+    "Your have reached your user limit. Please upgrade your subscription to add more users!": "Limita de utilizatori ce pot fi adăugați a fost atinsă. Te rugăm să alegi un abonament pentru a putea adăuga mai mulți utilizatori",
     "User successfully created.": "Utilizator adăugat cu succes",
     "User successfully updated.": "Utilizator modificat cu succes",
     "User successfully deleted.": "Utilizator șters cu succes",
@@ -735,5 +735,6 @@
     "Invoice": "Factura",
     "Issue Receipt": "Emite chitanță",
     "representing a payment according to the invoice": "reprezentând o plată conform facturii",
-    "from": "din"
+    "from": "din",
+    "Activate subscription": "Activează abonament"
 }
