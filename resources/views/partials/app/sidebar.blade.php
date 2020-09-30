@@ -249,11 +249,23 @@ $languages = $_user->languages();
                 @can('create lead')
                     <a class="dropdown-item" href="{{ route('leads.create') }}" data-remote="true" data-type="text">{{__('Lead')}}</a>
                 @endcan
+                @can('create invoice')
+                    <a class="dropdown-item" href="{{ route('invoices.create') }}" data-remote="true" data-type="text">{{__('Invoice')}}</a>
+                @endcan
             </div>
         </div>
         @endif
     </div>
     </div>
+    @if(!$_user->subscribed())
+    <hr>
+    <div class="d-none d-lg-block w-100">
+        <a href="{{route('subscription')}}" class="nav-link d-flex p-0">
+            <i class="material-icons pr-2">card_membership</i>
+            {{__('Activate subscription')}}
+        </a>
+    </div>
+    @endif
     <div class="d-none d-lg-block {{! Cookie::get('laravel_cookie_consent')?'pb-5':''}}">
     </div>
 </div>
