@@ -257,7 +257,7 @@ $languages = $_user->languages();
         @endif
     </div>
     </div>
-    @if(!$_user->subscribed())
+    @if($_user->type == 'company' && !$_user->subscribed())
     <hr>
     <div class="d-none d-lg-block w-100">
         <a href="{{route('subscription')}}" class="nav-link d-flex p-0">
