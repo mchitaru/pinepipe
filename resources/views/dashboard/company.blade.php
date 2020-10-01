@@ -43,7 +43,7 @@ use Carbon\Carbon;
                     <div class="row pt-1 pb-3">
                         @livewire('projects', ['icon'=>'folder', 'text' => __('project(s) in progress.'), 'items' => $projects])
                         @livewire('tasks', ['icon'=>'playlist_add_check', 'text' => __('important thing(s) to do.'), 'items' => $tasks])
-                        @livewire('invoices', ['icon'=>'description', 'text' => __('unpaid invoice(s).'), 'items' => $invoices])
+                        @livewire('invoices', ['icon'=>'description', 'text' => __('uncollected invoice(s).'), 'items' => $invoices])
                         @livewire('leads', ['icon'=>'phone', 'text' => __('lead(s) rotting.'), 'items' => $leads])
                     </div>
                 </div>

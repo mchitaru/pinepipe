@@ -736,5 +736,6 @@
     "Issue Receipt": "Emite chitanță",
     "representing a payment according to the invoice": "reprezentând o plată conform facturii",
     "from": "din",
-    "Activate subscription": "Activează abonament"
+    "Activate subscription": "Activează abonament",
+    "uncollected invoice(s).": "facturi neîncasate"
 }
