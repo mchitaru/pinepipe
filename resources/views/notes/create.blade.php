@@ -13,7 +13,7 @@
     {!! Form::hidden('lead_id', $lead_id) !!}
     {!! Form::hidden('project_id', $project_id) !!}
     <div class="form-group required">
-        {!! Form::textarea('text', null,array('class' => 'form-control','rows'=>'3', 'required'=>'required')) !!}
+        {!! Form::textarea('text', null,array('class' => 'form-control','rows'=>'6', 'required'=>'required')) !!}
     </div>
 </div>
 @include('partials.errors')

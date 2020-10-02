@@ -11,7 +11,7 @@
 @section('content')
 <div class="tab-content">
     <div class="form-group required">
-        {!! Form::textarea('text', null,array('class' => 'form-control','rows'=>'3', 'required'=>'required')) !!}
+        {!! Form::textarea('text', null,array('class' => 'form-control','rows'=>'6', 'required'=>'required')) !!}
     </div>
 </div>
 @include('partials.errors')
