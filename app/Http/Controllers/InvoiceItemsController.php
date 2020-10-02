@@ -47,6 +47,7 @@ class InvoiceItemsController extends Controller
         $text = isset($request->text) ? $request->text : null;
         $type = $request->type;
         $price = 0.00;
+        $qty = 1.000;
         $timesheet_id = $task_id = $expense_id = null;
 
         if($request->type == 'timesheet')
@@ -56,7 +57,8 @@ class InvoiceItemsController extends Controller
 
             if($timesheet) {
                 
-                $price = ($timesheet->rate * $timesheet->computeTime())/3600.0;
+                $qty = $timesheet->computeTime()/3600.0;
+                $price = $timesheet->rate;
                 $price = $invoice->priceConvert($price);
             }
 
@@ -76,7 +78,7 @@ class InvoiceItemsController extends Controller
             }
         }
 
-        return view('invoices.items.create', compact('invoice', 'tasks', 'timesheets', 'expenses', 'type', 'text', 'price', 'timesheet_id', 'task_id', 'expense_id'));
+        return view('invoices.items.create', compact('invoice', 'tasks', 'timesheets', 'expenses', 'type', 'text', 'price', 'qty', 'timesheet_id', 'task_id', 'expense_id'));
     }
 
     public function store(InvoiceItemStoreRequest $request, Invoice $invoice)

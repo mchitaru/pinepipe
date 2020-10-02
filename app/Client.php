@@ -29,6 +29,7 @@ class Client extends Model implements HasMedia
         'address',
         'website',
         'tax',
+        'registration',
         'user_id',
         'created_by'
     ];
@@ -39,6 +40,7 @@ class Client extends Model implements HasMedia
         'address',
         'website',
         'tax',
+        'registration'
     ];
 
     public static $SEED = 2;

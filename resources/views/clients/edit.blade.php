@@ -59,7 +59,11 @@
     </div>
     <div class="form-group row align-items-center">
         {{Form::label('tax',__('Tax ID'), array('class'=>'col-3'))}}
-        {{Form::text('tax',null,array('class'=>'form-control col','placeholder'=>'#'))}}
+        {{Form::text('tax',null,array('class'=>'form-control col','placeholder'=>'########'))}}
+    </div>
+    <div class="form-group row align-items-center">
+        {{Form::label('registration',__('Registration ID'), array('class'=>'col-3'))}}
+        {{Form::text('registration',null,array('class'=>'form-control col','placeholder'=>'J##/####/##.##.####'))}}
     </div>
 </div>
 @include('partials.errors')

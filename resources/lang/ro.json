@@ -686,7 +686,7 @@
     "Send an invite link via email to add members to the project": "Trimite o invitație pe email pentru a adăuga membri la proiect",
     "Add another recipient": "Adaugă un alt destinatar",
     "No title": "Fără titlu",
-    "IBAN": "",
+    "IBAN": "Cont",
     "Activate": "Activează",
     "Convert to project": "Transformă în proiect",
     "Create Event": "Adaugă eveniment",
@@ -737,5 +737,9 @@
     "representing a payment according to the invoice": "reprezentând o plată conform facturii",
     "from": "din",
     "Activate subscription": "Activează abonament",
-    "uncollected invoice(s).": "facturi neîncasate"
+    "uncollected invoice(s).": "facturi neîncasate",
+    "Registration ID": "Reg. Com.",
+    "########": "",
+    "J##\/####\/##.##.####": "",
+    "US##INGB################": "RO##INGB################"
 }

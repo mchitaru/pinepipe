@@ -222,9 +222,9 @@ class Invoice extends Model
         Activity::updateInvoice($this);
     }
 
-    public function priceFormat($price)
+    public function priceFormat($price, $precision = 2)
     {        
-        return \Helpers::priceFormat($price, $this->getCurrency(), $this->getLocale());
+        return \Helpers::priceFormat($price, $this->getCurrency(), $precision, $this->getLocale());
     }
 
     public function priceConvert($price)

@@ -24,6 +24,8 @@ class CreateCompanySettingsTable extends Migration
             $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('tax')->nullable();
+            $table->string('registration')->nullable();
+            $table->string('bank')->nullable();
             $table->string('iban')->nullable();
             $table->string('invoice')->nullable();
             $table->string('receipt')->nullable();

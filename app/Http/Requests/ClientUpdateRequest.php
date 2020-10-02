@@ -32,6 +32,7 @@ class ClientUpdateRequest extends FormRequest
             'address'=>'nullable|string',
             'website'=>'nullable|string',
             'tax'=>'nullable|string',
+            'registration'=>'nullable|string',
             'avatar' => 'mimetypes:image/*|max:2048'
         ];
     }

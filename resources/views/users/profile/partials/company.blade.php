@@ -116,7 +116,7 @@ use App\CompanySettings;
     <div class="form-group row align-items-center">
         {{Form::label('tax',__('TAX ID'), array('class'=>'col-3')) }}
         <div class="col">
-            {{Form::text('tax',null, array('class'=>'form-control', 'placeholder'=>__('12345678')))}}
+            {{Form::text('tax',null, array('class'=>'form-control', 'placeholder'=>__('########')))}}
             @error('tax')
             <span class="invalid-tax" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
@@ -125,9 +125,31 @@ use App\CompanySettings;
         </div>
     </div>
     <div class="form-group row align-items-center">
+        {{Form::label('registration',__('Registration ID'), array('class'=>'col-3')) }}
+        <div class="col">
+            {{Form::text('registration',null, array('class'=>'form-control', 'placeholder'=>__('J##/####/##.##.####')))}}
+            @error('registration')
+            <span class="invalid-registration" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
+        {{Form::label('bank',__('Bank'), array('class'=>'col-3')) }}
+        <div class="col">
+            {{Form::text('bank',null, array('class'=>'form-control', 'placeholder'=>'ING'))}}
+            @error('bank')
+            <span class="invalid-bank" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
         {{Form::label('iban',__('IBAN'), array('class'=>'col-3')) }}
         <div class="col">
-            {{Form::text('iban',null, array('class'=>'form-control', 'placeholder'=>'XX123456789'))}}
+            {{Form::text('iban',null, array('class'=>'form-control', 'placeholder'=>__('US##INGB################')))}}
             @error('iban')
             <span class="invalid-iban" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>

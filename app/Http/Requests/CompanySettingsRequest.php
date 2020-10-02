@@ -33,6 +33,8 @@ class CompanySettingsRequest extends FormRequest
             'country' => 'nullable|string',
             'phone' => 'nullable|string',
             'tax' => 'string|nullable',
+            'registration' => 'string|nullable',
+            'bank' => 'string|nullable',
             'iban' => 'string|nullable',
             'invoice' => 'nullable|string',
             'receipt' => 'nullable|string',

@@ -92,6 +92,13 @@
                         <td class="text-right">{{$client->tax?(__('TAX ID', [], $invoice->locale).': '.$client->tax):''}}</td>
                     </tr>
                     <tr>
+                        <td class="text-left">{{($companySettings&&$companySettings->registration)?(__('Registration ID', [], $invoice->locale).': '.$companySettings->registration):''}}</td>
+                        <td class="text-right">{{$client->registration?(__('Registration ID', [], $invoice->locale).': '.$client->registration):''}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">{{($companySettings&&$companySettings->bank)?(__('Bank', [], $invoice->locale).': '.$companySettings->bank):''}}</td>
+                    </tr>
+                    <tr>
                         <td class="text-left">{{($companySettings&&$companySettings->iban)?(__('IBAN', [], $invoice->locale).': '.$companySettings->iban):''}}</td>
                     </tr>
                 </tfoot>
@@ -145,7 +152,7 @@
                             <i>{{$item->text}}</i>
                         </td>
                         <td class="text-right">
-                            {{number_format($item->quantity, 2, '.', '')}}
+                            {{number_format($item->quantity, 3, '.', '')}}
                         </td>
                         <td class="text-right">
                             {!! htmlentities($invoice->priceFormat($item->price), ENT_COMPAT, 'UTF-8') !!}

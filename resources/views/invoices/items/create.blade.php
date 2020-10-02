@@ -106,7 +106,7 @@
     <hr>
     <div class="form-group row align-items-center">
         {{ Form::label('quantity', __('Quantity'), array('class'=>'col-3')) }}
-        {{ Form::number('quantity', 1, array('class' => 'form-control col' ,'placeholder'=>1, 'min'=>'0', 'step'=>'1')) }}
+        {{ Form::number('quantity', number_format($qty, 3, '.', ''), array('class' => 'form-control col' ,'placeholder'=>'1.000', 'min'=>'0.001', 'step'=>'0.001')) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('price', __('Price'), array('class'=>'col-3')) }}

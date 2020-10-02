@@ -22,6 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('address')->nullable();
             $table->string('website')->nullable();
             $table->string('tax')->nullable();
+            $table->string('registration')->nullable();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
