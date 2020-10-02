@@ -99,6 +99,7 @@ class Activity extends Model
             case 'activity_update_task': 
             case 'activity_create_contact': 
             case 'activity_update_contact': 
+            case 'activity_create_note': 
                 return true;
         }
 
@@ -292,7 +293,20 @@ class Activity extends Model
                 'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_note',
                 'value' => $note->text,
-                'url'    => route('leads.show', $lead->id),
+                'url'    => route('notes.edit', $note->id),
+            ]
+        );
+    }
+
+    public static function createProjectNote(Project $project, Note $note)
+    {
+        $project->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_create_note',
+                'value' => $note->text,
+                'url'    => route('notes.edit', $note->id),
             ]
         );
     }

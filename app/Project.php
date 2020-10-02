@@ -11,13 +11,14 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use App\Notifications\ProjectAssignedAlert;
 
 use App\Traits\Actionable;
+use App\Traits\Notable;
 use App\Traits\Taggable;
 
 use App\Scopes\TenantScope;
 
 class Project extends Model implements HasMedia
 {
-    use NullableFields, HasMediaTrait, Actionable, Taggable;
+    use NullableFields, HasMediaTrait, Actionable, Taggable, Notable;
 
     protected $fillable = [
         'name',

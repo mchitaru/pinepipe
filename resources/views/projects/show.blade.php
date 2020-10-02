@@ -223,6 +223,13 @@ if(Gate::check('view task')){
                     @endif
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">{{__('Notes')}}
+                    @if(!$notes->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $notes->count() }}</span>
+                    @endif
+                </a>
+            </li>
             @if(\Auth::user()->type!='client')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">{{__('Activity')}}</a>
@@ -373,6 +380,30 @@ if(Gate::check('view task')){
                 </div>
                 <!--end of content list-->
             </div>
+            <div class="tab-pane fade show" id="notes" role="tabpanel" data-filter-list="content-list-body">
+                <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>{{__('Notes')}}</h3>
+                    <a href="{{ route('notes.create') }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+                <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter notes")}}" aria-label="Filter notes">
+                    </div>
+                </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body filter-list paginate-container" id="notes-container">
+                </div>
+            </div>
+            <!--end of tab-->
             @if(\Auth::user()->type!='client')
             <div class="tab-pane fade" id="activity" role="tabpanel" data-filter-list="list-group-activity">
                 <div class="content-list">

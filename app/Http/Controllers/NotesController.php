@@ -31,8 +31,9 @@ class NotesController extends Controller
     public function create(Request $request)
     {
         $lead_id = $request['lead_id'];
+        $project_id = $request['project_id'];
 
-        return view('notes.create', compact('lead_id'));
+        return view('notes.create', compact('lead_id', 'project_id'));
     }
 
     /**

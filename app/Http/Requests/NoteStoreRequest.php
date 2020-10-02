@@ -26,7 +26,8 @@ class NoteStoreRequest extends FormRequest
         return [
             'title'=>'nullable|string|min:3',
             'text'=>'required|string|min:3',
-            'lead_id' => 'required|integer',
+            'lead_id' => 'nullable|integer',
+            'project_id' => 'nullable|integer',
         ];
     }
 

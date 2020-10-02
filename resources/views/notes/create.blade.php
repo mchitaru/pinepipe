@@ -11,6 +11,7 @@
 @section('content')
 <div class="tab-content">
     {!! Form::hidden('lead_id', $lead_id) !!}
+    {!! Form::hidden('project_id', $project_id) !!}
     <div class="form-group row align-items-center">
         {{Form::label('title',__('Title'), array('class'=>'col-3')) }}
         {{Form::text('title',null,array('class'=>'form-control col', 'placeholder'=>__('Followup Preparation')))}}

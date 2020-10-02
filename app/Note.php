@@ -59,7 +59,15 @@ class Note extends Model
             
             Activity::createLeadNote($lead, $note);
 
+        }elseif(isset($post['project_id'])){
+
+            $project = Project::find($post['project_id']);
+            $note = $project->notes()->create($post);
+            
+            Activity::createProjectNote($project, $note);
+    
         }else {
+    
             $note = Note::create($post);
         }
 

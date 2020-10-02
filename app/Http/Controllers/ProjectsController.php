@@ -289,6 +289,8 @@ class ProjectsController extends Controller
                 $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id)->get();
             }
 
+            $notes = $project->notes;
+
             $project->computeStatistics($user->getLastTaskStage()->id);
 
             clock()->endEvent('ProjectsController');
@@ -301,11 +303,12 @@ class ProjectsController extends Controller
                     case 'timesheets-container': return view('timesheets.index', compact('timesheets'))->render();
                     case 'invoices-container': return view('invoices.index', compact('invoices'))->render();
                     case 'expenses-container': return view('expenses.index', compact('expenses'))->render();
+                    case 'notes-container': return view('notes.index', compact('notes'))->render();
                     case 'activity-container': return view('activity.index', compact('activities'))->render();
                 }                
             }
 
-            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'activities', 'dz_id'));
+            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'notes', 'activities', 'dz_id'));
         }
         else
         {
