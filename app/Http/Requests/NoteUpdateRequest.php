@@ -30,7 +30,6 @@ class NoteUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=>'nullable|string|min:3',
             'text'=>'required|string|min:3'
         ];
     }

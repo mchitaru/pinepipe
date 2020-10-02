@@ -24,7 +24,6 @@ class NoteStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=>'nullable|string|min:3',
             'text'=>'required|string|min:3',
             'lead_id' => 'nullable|integer',
             'project_id' => 'nullable|integer',

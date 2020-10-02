@@ -8,7 +8,6 @@
                 {!!Helpers::buildUserAvatar($note->user)!!}
             </a>
             <div class="media-body">
-                <h6 class="mb-0" data-filter-by="text">{{$note->title}}</h6>
             </div>
         </div>
         <div class="d-flex align-items-center">

@@ -10,13 +10,8 @@
 
 @section('content')
 <div class="tab-content">
-    <div class="form-group row align-items-center">
-        {{Form::label('title',__('Title'), array('class'=>'col-3')) }}
-        {{Form::text('title',null,array('class'=>'form-control col', 'placeholder'=>__('My First Note')))}}
-    </div>
-    <div class="form-group row required">
-        {{ Form::label('text', __('Text'), array('class'=>'col-3')) }}
-        {!! Form::textarea('text', null,array('class' => 'form-control col','rows'=>'3', 'required'=>'required')) !!}
+    <div class="form-group required">
+        {!! Form::textarea('text', null,array('class' => 'form-control','rows'=>'3', 'required'=>'required')) !!}
     </div>
 </div>
 @include('partials.errors')
