@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\TenantScope;
+use App\Scopes\ExtendedTenantScope;
 
 class Tax extends Model
 {
@@ -21,7 +21,7 @@ class Tax extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new ExtendedTenantScope);
 
         static::creating(function ($tax) {
             if ($user = \Auth::user()) {

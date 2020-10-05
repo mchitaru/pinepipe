@@ -593,6 +593,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $this->companySettings ? $this->companySettings->currency : $this->getDefaultCurrency();
     }
 
+    public function isTaxPayer()
+    {
+        return $this->companySettings  ? $this->companySettings->tax_payer : false;
+    }
+
     public function totalUserProjects()
     {
         return $this->projectsByUserType()->count();

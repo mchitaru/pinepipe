@@ -232,7 +232,7 @@ return array(
         /**
          * A ratio applied to the fonts height to be more like browsers' line height
          */
-        "font_height_ratio" => 0.8,
+        "font_height_ratio" => 0.7,
 
         /**
          * Use the more-than-experimental HTML5 Lib parser

@@ -30,6 +30,12 @@
         {{ Form::date('due_date', null, array('class' => 'end form-control col bg-white','required'=>'required', 'placeholder'=>'...',
                                             'data-flatpickr', 'data-locale'=> \Auth::user()->locale, 'data-default-date'=> $due_date, 'data-week-numbers'=>'true', 'data-alt-input'=>'true')) }}
     </div>
+    @if($_user->isTaxPayer())
+    <div class="form-group row align-items-center">
+        {{ Form::label('tax_id', __('Tax'), array('class'=>'col-3')) }}
+        {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) }}
+    </div>
+    @endif
     <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col',

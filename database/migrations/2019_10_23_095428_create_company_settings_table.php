@@ -24,6 +24,7 @@ class CreateCompanySettingsTable extends Migration
             $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('tax')->nullable();
+            $table->boolean('tax_payer')->default(0);
             $table->string('registration')->nullable();
             $table->string('bank')->nullable();
             $table->string('iban')->nullable();

@@ -205,14 +205,16 @@
                         <td class="d-print-none"></td>
                     </tr>
                     @endif
+                    @if(!empty($invoice->tax))
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-small text-right"><span>{{(!empty($invoice->tax)?$invoice->tax->name:__('Tax', [], $invoice->locale))}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}}%)</span></td>
+                        <td class="text-small text-right"><span>{{__('Tax', [], $invoice->locale)}} ({{(!empty($invoice->tax->rate)?$invoice->tax->rate:'0')}}%)</span></td>
                         <td class="text-small text-right"><span class="text-muted">{!! htmlentities($invoice->priceFormat($tax), ENT_COMPAT, 'UTF-8') !!}</span></td>
                         <td class="d-print-none"></td>
                     </tr>
+                    @endif
                     <tr>
                         <td></td>
                         <td></td>

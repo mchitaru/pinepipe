@@ -32,10 +32,12 @@
         {{ Form::label('discount', __('Discount(%)'), array('class'=>'col-3')) }}
         {{ Form::number('discount',null, array('class' => 'form-control col', 'required'=>'required', 'min'=>"0")) }}
     </div>
+    @if($_user->isTaxPayer() || !empty($invoice->tax_id))
     <div class="form-group row align-items-center">
         {{ Form::label('tax_id', __('Tax'), array('class'=>'col-3')) }}
-        {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'placeholder'=>__('No Tax'), 'lang'=>\Auth::user()->locale)) }}
+        {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) }}
     </div>
+    @endif
     <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
         {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col', 

@@ -86,9 +86,9 @@
     "Task successfully created.": "Sarcină adăugată cu succes",
     "Task successfully updated.": "Sarcină modificată cu succes",
     "Task successfully deleted": "Sarcină ștearsă cu succes",
-    "Tax rate successfully created.": "Procent taxă adăugat cu succes",
-    "Tax rate successfully updated.": "Procent taxă modificat cu succes",
-    "Tax rate successfully deleted.": "Procent taxă șters cu succes",
+    "Tax rate successfully created.": "Procent TVA adăugat cu succes",
+    "Tax rate successfully updated.": "Procent TVA modificat cu succes",
+    "Tax rate successfully deleted.": "Procent TVA șters cu succes",
     "Timesheet successfully created.": "Fișă pontaj adăugată cu succes",
     "Timesheet successfully updated.": "Fișă pontaj modificată cu succes",
     "Timesheet successfully deleted.": "Fișă pontaj ștearsă cu succes",
@@ -627,7 +627,7 @@
     "Filter projects": "Filtrează proiectele",
     "Filter activity": "Filtrează activitatea",
     "Enter Contact Address": "Introdu adresa de contact",
-    "No Tax": "Fără taxă",
+    "No Tax": "Fără TVA",
     "Lead name": "Denumire oportunitate",
     "Lead Value": "Valoare oportunitate",
     "Filter events": "Filtrează evenimentele",
@@ -700,7 +700,7 @@
     "You have been assigned a new task": "Ai primit o sarcină nouă",
     "You have been assigned the <b>:task<\/b> task.": "Ți-a fost atribuită sarcina <b>:task<\/b>.",
     "View tasks": "Vezi sarcini",
-    "Tax": "Taxă",
+    "Tax": "TVA",
     "Exchange Rate": "Schimb valutar",
     "Drop images, documents & archives here or click to upload.": "Trage imagini, documente și arhive aici, sau fă clic pentru a le încărca",
     "created contact": "a adăugat date de contact pentru",
@@ -741,5 +741,6 @@
     "Registration ID": "Reg. Com.",
     "########": "",
     "J##\/####\/##.##.####": "",
-    "US##INGB################": "RO##INGB################"
+    "US##INGB################": "RO##INGB################",
+    "VAT payer": "Plătitor de TVA"
 }

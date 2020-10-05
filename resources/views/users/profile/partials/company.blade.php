@@ -115,13 +115,18 @@ use App\CompanySettings;
     </div>
     <div class="form-group row align-items-center">
         {{Form::label('tax',__('TAX ID'), array('class'=>'col-3')) }}
-        <div class="col">
+        <div class="col-5">
             {{Form::text('tax',null, array('class'=>'form-control', 'placeholder'=>__('########')))}}
             @error('tax')
             <span class="invalid-tax" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
                 </span>
             @enderror
+        </div>
+        <div class="form-group col custom-control custom-checkbox custom-checkbox-switch d-flex justify-content-center mb-0">
+            <input type="hidden" name="tax_payer" value="0">
+            {{Form::checkbox('tax_payer', 1, null, ['class'=>'custom-control-input', 'id' =>'tax_payer'])}}
+            {{Form::label('tax_payer', __('VAT payer'), ['class'=>'custom-control-label'])}}
         </div>
     </div>
     <div class="form-group row align-items-center">

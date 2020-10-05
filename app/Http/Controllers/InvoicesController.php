@@ -108,6 +108,9 @@ class InvoicesController extends Controller
 
             $taxes    = Tax::get()
                             ->pluck('name', 'id');
+            
+            $taxPayer = \Auth::user()->isTaxPayer();
+            $tax_id = $taxPayer ? 1 : null;
 
             $clients = \Auth::user()->companyClients()
                                     ->get()
@@ -128,7 +131,7 @@ class InvoicesController extends Controller
 
             $currencies = Currency::get()->pluck('code', 'code');    
 
-            return view('invoices.create', compact('clients', 'client_id', 'projects', 'project_id', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
+            return view('invoices.create', compact('clients', 'client_id', 'projects', 'project_id', 'taxes', 'tax_id', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
         }
         else
         {

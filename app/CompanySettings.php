@@ -26,6 +26,7 @@ class CompanySettings extends Model implements HasMedia
         'country',
         'phone',
         'tax',
+        'tax_payer',
         'registration',
         'bank',
         'iban',
