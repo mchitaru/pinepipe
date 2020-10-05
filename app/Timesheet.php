@@ -80,7 +80,7 @@ class Timesheet extends Model
 
     public function getTitleAttribute()
     {
-        return ((!empty($this->task)?$this->task->title:__('Timesheet')).' ('.\Auth::user()->dateFormat($this->date).' | '.$this->formatTime().')');
+        return ((!empty($this->task)?$this->task->title:__('Timesheet').' ('.\Auth::user()->dateFormat($this->date).' | '.$this->formatTime().')'));
     }
 
     public function getShortTitleAttribute()

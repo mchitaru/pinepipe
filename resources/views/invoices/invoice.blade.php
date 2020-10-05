@@ -57,7 +57,7 @@
             </address>
         </div>
     </div>
-    <hr>
+    <hr style="border-width:1px;border-style:dotted;">
     <div class="pl-4 pr-4">
         <div class="table-responsive">
             <table class="table">
@@ -117,7 +117,7 @@
             </table>
         </div>
     </div>
-    <hr>
+    <hr style="border-width:1px;border-style:dotted;">
     <div class="pl-4 pr-4">
         <div class="section-title"><b>{{__('Order Summary', [], $invoice->locale)}}</b>
             @can('edit invoice')
@@ -135,7 +135,7 @@
                         <th>#</th>
                         <th class="text-left">{{__('Item', [], $invoice->locale)}}</th>
                         <th class="text-right">{{__('Quantity', [], $invoice->locale)}}</th>
-                        <th class="text-right">{{__('Price', [], $invoice->locale)}}</th>
+                        <th class="text-right">{{__('Unit price', [], $invoice->locale)}}</th>
                         <th class="text-right">{{__('Total', [], $invoice->locale)}}</th>
                         <th class="text-right d-print-none pl-0 pr-0"></th>
                     </tr>
@@ -149,7 +149,7 @@
                             {{++$i}}
                         </td>
                         <td class="text-left">
-                            <i>{{$item->text}}</i>
+                            {{$item->text}}
                         </td>
                         <td class="text-right">
                             {{number_format($item->quantity, 3, '.', '')}}
@@ -228,7 +228,7 @@
         </div>
     </div>
     <div class="d-print-none" style="color:#C1C1C1">
-        <hr style="border-style: dashed">
+        <hr style="border-width:1px;border-style:dotted;">
         <div class="pl-4 pr-4">
             <div class="section-title"><b>{{__('Payment History', [], $invoice->locale)}}</b>
                 @can('edit invoice')
@@ -259,7 +259,7 @@
                                 {{sprintf("%05d", $payment->transaction_id)}}
                             </td>
                             <td class="text-left">
-                                <i>{{ $invoice->dateFormat($payment->date) }}</i>
+                                {{ $invoice->dateFormat($payment->date) }}
                             </td>
                             <td class="text-right">
                                 {{($payment->category?$payment->category->name:'')}}
@@ -304,7 +304,7 @@
     </div>
     @foreach($invoice->payments as $payment)
         @if($payment->receipt)
-        <hr style="border-style: dashed">
+        <hr style="border-width:1px;border-style:dotted;">
         <div class="pl-4 pr-4" style="page-break-inside: avoid">
             <div class="table-responsive">
                 <table class="table">
