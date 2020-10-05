@@ -117,9 +117,9 @@
             </table>
         </div>
     </div>
-    <hr style="border-width:1px;border-style:dotted;">
+    <hr class="d-print-none" style="border-width:1px;border-style:dotted;">
     <div class="pl-4 pr-4">
-        <div class="section-title"><b>{{__('Order Summary', [], $invoice->locale)}}</b>
+        <div class="section-title d-print-none"><b>{{__('Order Summary', [], $invoice->locale)}}</b>
             @can('edit invoice')
             <div class="text-right d-print-none">
                 <a href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
@@ -133,7 +133,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th>#</th>
-                        <th class="text-left">{{__('Item', [], $invoice->locale)}}</th>
+                        <th class="text-left">{{__('Item name', [], $invoice->locale)}}</th>
                         <th class="text-right">{{__('Quantity', [], $invoice->locale)}}</th>
                         <th class="text-right">{{__('Unit price', [], $invoice->locale)}}</th>
                         <th class="text-right">{{__('Total', [], $invoice->locale)}}</th>

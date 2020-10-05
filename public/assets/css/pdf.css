@@ -24,7 +24,7 @@ hr{margin-bottom:1rem;}
 .badge{font-weight:700;}
 .badge-info{color:#000000;background-color:#6cb2eb;}
 .badge-warning{background-color:#ffed4a;}
-.p-4{padding:0!important;}
+.p-4{padding:1rem!important;}
 .text-danger{color:#e3342f!important;}
 a.text-danger:focus,a.text-danger:hover{color:#ae1c17!important;}
 *,:after,:before{box-sizing:border-box;}

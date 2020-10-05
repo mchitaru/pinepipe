@@ -278,7 +278,7 @@
     "Add Payment": "Adaugă încasare",
     "From": "De la",
     "To": "Către",
-    "Order Summary": "Produse și servicii",
+    "Order Summary": "Sumar comandă",
     "Item": "Articol",
     "Action": "Acțiune",
     "Subtotal": "Subtotal",
@@ -743,5 +743,6 @@
     "J##\/####\/##.##.####": "",
     "US##INGB################": "RO##INGB################",
     "VAT payer": "Plătitor de TVA",
-    "Unit price": "Preț unitar"
+    "Unit price": "Preț unitar",
+    "Item name": "Denumire articol"
 }
