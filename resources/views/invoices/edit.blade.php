@@ -34,7 +34,7 @@
     </div>
     @if($_user->isTaxPayer() || !empty($invoice->tax_id))
     <div class="form-group row align-items-center">
-        {{ Form::label('tax_id', __('Tax'), array('class'=>'col-3')) }}
+        {{ Form::label('tax_id', __('VAT'), array('class'=>'col-3')) }}
         {{ Form::select('tax_id', $taxes, null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) }}
     </div>
     @endif
