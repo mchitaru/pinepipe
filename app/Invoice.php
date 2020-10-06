@@ -11,7 +11,7 @@ use App\CompanySettings;
 
 use App\Currency as CurrencyRate;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Invoice extends Model
 {
@@ -63,7 +63,7 @@ class Invoice extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($invoice) {
             if ($user = \Auth::user()) {

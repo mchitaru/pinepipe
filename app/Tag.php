@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Tag extends Model
 {
@@ -21,7 +21,7 @@ class Tag extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($tag) {
             if ($user = \Auth::user()) {

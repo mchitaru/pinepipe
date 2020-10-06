@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Stage extends Model
 {
@@ -33,7 +33,7 @@ class Stage extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($stage) {
 

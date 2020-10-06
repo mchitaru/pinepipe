@@ -42,8 +42,7 @@ class UsersController extends Controller
             }
             else
             {
-                $users = User::where('type', '!=', 'company')
-                                ->where(function ($query) use ($request) {
+                $users = User::where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
                                     ->orWhere('email','like','%'.$request['filter'].'%');
                                 })
@@ -159,11 +158,9 @@ class UsersController extends Controller
     }
 
 
-    public function update(UserUpdateRequest $request, $user_id)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $post = $request->validated();
-
-        $user = User::find($user_id);
 
         if(\Auth::user()->type == 'super admin')
         {

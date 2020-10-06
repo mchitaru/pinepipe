@@ -9,7 +9,7 @@ use App\Traits\Taggable;
 
 use App\Traits\Actionable;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Contact extends Model
 {
@@ -52,7 +52,7 @@ class Contact extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($contact) {
             if ($user = \Auth::user()) {

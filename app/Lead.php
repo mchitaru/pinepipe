@@ -15,7 +15,7 @@ use App\Traits\Actionable;
 use App\Traits\Notable;
 use App\Traits\Stageable;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Lead extends Model implements HasMedia
 {
@@ -53,7 +53,7 @@ class Lead extends Model implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($lead) {
             if ($user = \Auth::user()) {

@@ -7,7 +7,7 @@ use App\Jobs\SynchronizeGoogleCalendars;
 
 use App\Traits\Synchronizable;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class GoogleAccount extends Model
 {
@@ -20,7 +20,7 @@ class GoogleAccount extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         // static::created(function ($googleAccount) {
         //     SynchronizeGoogleCalendars::dispatch($googleAccount);

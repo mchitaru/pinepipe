@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class InvoiceItem extends Model
 {
@@ -41,7 +41,7 @@ class InvoiceItem extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($item) {
             if ($user = \Auth::user()) {

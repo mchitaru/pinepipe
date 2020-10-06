@@ -11,7 +11,7 @@ use App\Traits\Invoiceable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Expense extends Model implements HasMedia
 {
@@ -44,7 +44,7 @@ class Expense extends Model implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($expense) {
             if ($user = \Auth::user()) {

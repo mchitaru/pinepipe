@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 
-class TenantScope implements Scope
+class CollaboratorTenantScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -19,7 +19,8 @@ class TenantScope implements Scope
     {
         if(\Auth::hasUser() && \Auth::user()->id != 1){
 
-            $builder->where('created_by', \Auth::user()->created_by);
+            $builder->where('created_by', \Auth::user()->created_by)
+                    ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'));            
         }        
     }
 }

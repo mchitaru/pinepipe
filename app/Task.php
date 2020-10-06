@@ -17,7 +17,7 @@ use App\Traits\Commentable;
 use App\Traits\Stageable;
 use App\Traits\Taggable;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Task extends Model implements HasMedia
 {
@@ -56,7 +56,7 @@ class Task extends Model implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($task) {
             if ($user = \Auth::user()) {

@@ -9,13 +9,7 @@
         </div>
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-3">
-                @if(Gate::check('edit user'))
-                    <a href="{{ $user->enabled?route('users.edit',$user->id):'#' }}" data-remote="true" data-type="text">
-                        <h6 data-filter-by="text">{{$user->name}}</h6>
-                    </a>
-                @else
-                    <h6 data-filter-by="text">{{$user->name}}</h6>
-                @endif
+                <h6 data-filter-by="text">{{$user->name}}</h6>
                 <p class="text-small">{{$user->type}}</p>
                 @if(\Auth::user()->type=='super admin')
                     <p class="text-small">{{$user->created_at}}</p>
@@ -59,28 +53,24 @@
                 </div>
             </div>
             <div class="dropdown card-options">
-                    @if($user->enabled)
+                    @if($user->enabled && $user->type != 'super admin' && $user->type != 'company')
                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_vert</i>
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right">
-
-                            @can('edit user')
-                                <a class="dropdown-item" href="{{ route('users.edit',$user->id) }}" data-remote="true" data-type="text">
+                            {{-- @can('edit user')
+                                <a class="dropdown-item" href="{{ route('users.edit', $user) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                            @endcan
-
+                            @endcan --}}
                             @can('delete user')
                                 <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
                                     <span>{{__('Delete')}}</span>
                                 </a>
                             @endcan
                         </div>
-                    @else
-                        <i class="material-icons">lock</i>
                     @endif
                 </div>
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\URL;
+use App\User;
 
 class UserDestroyRequest extends FormRequest
 {
@@ -14,7 +15,17 @@ class UserDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->can('delete user');
+        $user = $this->route()->parameter('user');
+
+        if($user == null ||
+            $user->type == 'super admin' ||
+            $user->type == 'company'){
+
+            return false;
+        }
+
+        return ($user->created_by == $this->user()->id) &&
+                $this->user()->can('delete user');
     }
 
     /**

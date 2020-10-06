@@ -23,21 +23,21 @@ class UserRolesController extends Controller
         $user = \Auth::user();
         if(\Auth::user()->can('view permission'))
         {
-            $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
+            // $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
 
             $roles = Role::where('created_by', \Auth::user()->created_by)->get();
 
-            foreach($defaultRoles as $defaultRole){
+            // foreach($defaultRoles as $defaultRole){
 
-                $role = Arr::first($roles, function ($value, $key) use($defaultRole) {
+            //     $role = Arr::first($roles, function ($value, $key) use($defaultRole) {
 
-                    return $value->name == $defaultRole->name;
-                });
+            //         return $value->name == $defaultRole->name;
+            //     });
 
-                if(!$role) {
-                    $roles->prepend($defaultRole);
-                }
-            }
+            //     if(!$role) {
+            //         $roles->prepend($defaultRole);
+            //     }
+            // }
 
             return view('roles.page', compact('roles'));
         }

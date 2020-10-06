@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\User;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -13,12 +14,23 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->isMethod('put'))
-        {
-            return $this->user()->can('edit user');
+        $user = $this->route()->parameter('user');
+
+        if($user == null ||
+            $user->type == 'super admin' ||
+            $user->type == 'company'){
+
+            return false;
         }
 
-        return $this->user()->can('delete user');
+        if($this->isMethod('put'))
+        {
+            return ($user->created_by == $this->user()->id) &&
+                    $this->user()->can('edit user');
+        }
+
+        return ($user->created_by == $this->user()->id) &&
+                $this->user()->can('delete user');
     }
 
     /**
@@ -30,19 +42,19 @@ class UserUpdateRequest extends FormRequest
     {
         if($this->isMethod('put'))
         {
-            $user_id = $this->route()->parameter('user');
+            $user = $this->route()->parameter('user');
 
-            if(\Auth::user()->type == 'super admin')
+            if($this->user()->type == 'super admin')
             {
                 return [
                     'name' => 'required|max:120',
-                    'email' => 'required|email|unique:users,email,' . $user_id,
+                    'email' => 'required|email|unique:users,email,' . $user->id,
                 ];
             }else{
 
                 return [
                     'name' => 'required|max:120',
-                    'email' => 'required|email|unique:users,email,' . $user_id,
+                    'email' => 'required|email|unique:users,email,' . $user->id,
                     'role' => 'required|string',
                     'client_id' => 'nullable|numeric'
                 ];                        

@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Categorizable;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Category extends Model
 {
@@ -36,7 +36,7 @@ class Category extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($category) {
             if ($user = \Auth::user()) {

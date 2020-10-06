@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Spatie\Image\Manipulations;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class CompanySettings extends Model implements HasMedia
 {
@@ -59,7 +59,7 @@ class CompanySettings extends Model implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($settings) {
             if ($user = \Auth::user()) {

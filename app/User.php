@@ -27,7 +27,7 @@ use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Spatie\Image\Manipulations;
 use Newsletter;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CollaboratorTenantScope;
 
 class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLocalePreference
 {
@@ -87,7 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CollaboratorTenantScope);
 
         static::creating(function ($user) {
 
@@ -168,9 +168,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $this->belongsTo('App\User', 'created_by');
     }
 
+    public function companies()
+    {
+        return $this->belongsToMany('App\User', 'user_companies', 'user_id', 'company_id')->withoutGlobalScopes();
+    }
+
     public function collaborators()
     {
-        return $this->hasMany('App\User', 'created_by');
+        return $this->belongsToMany('App\User', 'user_companies', 'company_id', 'user_id')->withoutGlobalScopes();
     }
 
     public function getCompany()

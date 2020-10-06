@@ -14,7 +14,7 @@ use App\Traits\Actionable;
 use App\Traits\Notable;
 use App\Traits\Taggable;
 
-use App\Scopes\TenantScope;
+use App\Scopes\CompanyTenantScope;
 
 class Project extends Model implements HasMedia
 {
@@ -57,7 +57,7 @@ class Project extends Model implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new TenantScope);
+        static::addGlobalScope(new CompanyTenantScope);
 
         static::creating(function ($project) {
             if ($user = \Auth::user()) {
