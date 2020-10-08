@@ -93,7 +93,7 @@ class InvoicesController extends Controller
 
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create invoice'))
+        if(\Auth::user()->can('create', 'App\Invoice'))
         {
             $client_id = $request['client_id'];
 
@@ -106,9 +106,8 @@ class InvoicesController extends Controller
 
             $project_id = $request['project_id'];
 
-            $taxes    = \Auth::user()->companyTaxes()
-                                        ->get()
-                                        ->pluck('name', 'id');
+            $taxes    = Tax::get()
+                             ->pluck('name', 'id');
             
             $taxPayer = \Auth::user()->isTaxPayer();
             $tax_id = $taxPayer ? 1 : null;
@@ -182,9 +181,8 @@ class InvoicesController extends Controller
             $issue_date = $request->issue_date?$request->issue_date:$invoice->issue_date;
             $due_date = $request->due_date?$request->due_date:$invoice->due_date;
 
-            $taxes    = \Auth::user()->companyTaxes()
-                                        ->get()
-                                        ->pluck('name', 'id');
+            $taxes    = Tax::get()
+                             ->pluck('name', 'id');
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
             $locale = isset($request['locale'])?$request['locale']:$invoice->getLocale();

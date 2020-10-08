@@ -238,7 +238,7 @@ $languages = $_user->languages();
                 @can('create', 'App\Lead')
                     <a class="dropdown-item" href="{{ route('leads.create') }}" data-remote="true" data-type="text">{{__('Lead')}}</a>
                 @endcan
-                @can('create invoice')
+                @can('create', 'App\Invoice')
                     <a class="dropdown-item" href="{{ route('invoices.create') }}" data-remote="true" data-type="text">{{__('Invoice')}}</a>
                 @endcan
             </div>

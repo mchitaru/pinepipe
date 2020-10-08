@@ -14,12 +14,7 @@ class StageStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        switch($this->class) {
-            case Lead::class:
-                return \Auth::user()->can('create', 'App\Stage');
-            default:
-                return \Auth::user()->can('create', 'App\Stage');
-        }
+        return \Auth::user()->can('create', 'App\Stage');
     }
 
     /**

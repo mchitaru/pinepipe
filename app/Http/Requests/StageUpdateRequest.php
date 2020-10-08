@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Lead;
+use App\Stage;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\URL;
@@ -16,12 +17,12 @@ class StageUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        switch($this->class) {
-            case Lead::class:
-                return \Auth::user()->can('update', $this->stage);
-            default:
-                return \Auth::user()->can('update', $this->stage);
+        if($this->stage){
+
+            return \Auth::user()->can('update', $this->stage);
         }
+
+        return \Auth::user()->can('create', 'App\Stage');
     }
 
     /**

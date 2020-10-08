@@ -14,10 +14,10 @@ class ExpenseDestroyRequest extends FormRequest
      */
     public function authorize()
     {
+        $expense = $this->expense;
+
         if($this->user()->can('delete', $expense))
         {
-            $expense = $this->route()->parameter('expense');
-
             return $expense->created_by == \Auth::user()->created_by &&
                     (\Auth::user()->type == 'company' ||
                     $expense->user_id == \Auth::user()->id);

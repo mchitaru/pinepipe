@@ -15,19 +15,14 @@ class StageDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        $stage = $this->route()->parameter('stage');
+        $stage = $this->stage;
 
         if(!$stage->leads->isEmpty() || !$stage->tasks->isEmpty()) {
 
             return false;
         }
 
-        switch($this->class) {
-            case Lead::class:
-                return \Auth::user()->can('delete', $this->stage);
-            default:
-                return \Auth::user()->can('delete', $this->stage);
-        }
+        return \Auth::user()->can('delete', $this->stage);
     }
 
     /**

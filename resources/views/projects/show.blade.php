@@ -311,7 +311,7 @@ if(Gate::check('viewAny', 'App\Task')){
                 <div class="col-auto">
                     <h3>{{__('Invoices')}}</h3>
 
-                    @can('create invoice')
+                    @can('create', 'App\Invoice')
                         <a href="{{ route('invoices.create')  }}" class="btn btn-primary btn-round" data-params="client_id={{$project->client_id}}&project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>

@@ -36,7 +36,7 @@
                 <div class="row content-list-head">
                     <div class="col-12 col-md-auto">
                         <h3>{{__('Invoices')}}</h3>
-                        @can('create invoice')
+                        @can('create', 'App\Invoice')
                         <a href="{{ route('invoices.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
