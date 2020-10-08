@@ -25,11 +25,21 @@ class TasksController extends Controller
 
     public function board(Request $request, $project_id = null)
     {
-        if(\Auth::user()->can('view task'))
+        $user = \Auth::user();
+
+        if($user->can('viewAny', 'App\Task'))
         {
+            $companies = null;
+
+            if($project_id == null && !$user->companies->isEmpty()){
+
+                $companies = $user->companies->pluck('name', 'id');
+                $companies->prepend($user->company->name, $user->created_by);
+            }
+
             if (!$request->ajax())
             {
-                return view('tasks.page', compact('project_id'));
+                return view('tasks.page', compact('project_id', 'companies'));
             }
 
             clock()->startEvent('TasksController', "Load tasks");
@@ -50,7 +60,9 @@ class TasksController extends Controller
             {
                 $project = null;
                 $project_name = null;
-                $stages = Stage::taskStagesByUserType($request['filter'], $request['sort'], $request['dir'], $users)->get();
+                $company = !empty($request['select']) ? $request['select'] : $user->created_by;
+                
+                $stages = Stage::taskStagesByUserType($request['filter'], $request['sort'], $request['dir'], $users, $company)->get();
             }
 
             clock()->endEvent('TasksController');
@@ -74,7 +86,9 @@ class TasksController extends Controller
 
         $end = $request->end;
 
-        $projects   = Project::get()->pluck('name', 'id');
+        $projects   = \Auth::user()->projectsByUserType()
+                                    ->pluck('name', 'id');
+
         $priorities = [Project::translatePriority(0), Project::translatePriority(1), Project::translatePriority(2)];
 
         $user_id = null;
@@ -116,6 +130,15 @@ class TasksController extends Controller
     public function store(TaskStoreRequest $request)
     {
         $post = $request->validated();
+
+        //find the company for the project to retrieve the stages
+        $project = Project::find($post['project_id']);
+        $company = $project ? $project->company : \Auth::user()->company;
+
+        $stage = $company->getFirstTaskStage();
+
+        $post['stage_id']   = $stage->id;
+        $post['order']      = $stage->tasks->count();
 
         if($task = Task::createTask($post)){
 
@@ -159,13 +182,15 @@ class TasksController extends Controller
      */
     public function edit(Task $task)
     {
-        $project    = Project::where('projects.id', '=', $task->project_id)
-                                ->first();
+        $project    = Project::find($task->project_id);
 
-        $projects   = Project::get()
-                                ->pluck('name', 'id');
-                                
+        $projects   = \Auth::user()->projectsByUserType()
+                                    ->pluck('name', 'id');
+     
+        $company = $task->project ? $task->project->company : \Auth::user()->company;
+                                    
         $stages     = Stage::where('class', Task::class)
+                            ->where('created_by', $company->created_by)
                             ->get()
                             ->pluck('name', 'id');
 
@@ -218,6 +243,14 @@ class TasksController extends Controller
     {
         $post = $request->validated();
 
+        if(!empty($post['closed'])){
+
+            $company = $task->project ? $task->project->company : \Auth::user()->company;
+            $stage_done = $company->getLastTaskStage()->id;
+
+            $post['stage_id'] = $stage_done;
+        }
+        
         $users = [];
 
         if(!empty($post['users'])) {

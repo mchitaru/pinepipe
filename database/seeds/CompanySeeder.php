@@ -2,7 +2,6 @@
 
 use App\User;
 use App\Client;
-use App\Role;
 use Illuminate\Database\Seeder;
 
 class CompanySeeder extends Seeder
@@ -31,28 +30,22 @@ class CompanySeeder extends Seeder
         User::$SEED_COMPANY_IDX++;
         User::$SEED_COMPANY_ID = $company->id;
 
-        $role = Role::findByName('company');
         $company->initCompanyDefaults();
-        $company->assignRole($role);
 
         factory(App\User::class, App\Client::$SEED)->create()->each(function ($user) use($company, $faker) {
 
-            $role = Role::findByName('client');
             $user->type = 'client';
             $user->created_by = $company->id;
             $user->client_id = $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Client::$SEED + 1,
                                                         User::$SEED_COMPANY_IDX*Client::$SEED);
             $user->save();
-            $user->assignRole($role);
         });
 
         factory(App\User::class, App\User::$SEED_STAFF_COUNT)->create()->each(function ($user) use($company) {
 
-            $role = Role::findByName('collaborator');
             $user->type = 'collaborator';
             $user->created_by = $company->id;
             $user->save();
-            $user->assignRole($role);
         });
     }
 }

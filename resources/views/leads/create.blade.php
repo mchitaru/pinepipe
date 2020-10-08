@@ -36,13 +36,13 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row align-items-center required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => (Gate::check('create client')?'tags':'').' form-control col font-style selectric',
+        {!! Form::select('client_id', $clients, $client_id, array('class' => (Gate::check('create', 'App\Client')?'tags':'').' form-control col font-style selectric',
                             'required'=>'true', 'placeholder'=>'...',
                             'data-refresh'=>route('leads.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('contact_id', __('Contact'), array('class'=>'col-3')) }}
-        {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
+        {!! Form::select('contact_id', $contacts, null, array('class' => (Gate::check('create', 'App\Contact')?'tags':'').' form-control col font-style selectric', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
 </div>
 @include('partials.errors')

@@ -41,18 +41,18 @@ $languages=$_user->languages();
         </li>
     @endif
 
-    @if(\Auth::user()->type!='super admin' && Gate::check('view client'))
+    @if(\Auth::user()->type!='super admin' && Gate::check('viewAny', 'App\Client'))
     <li class="nav-item">
 
         <div class="dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Clients')}}</a>
             <div class="dropdown-menu">
 
-                @can('view contact')
+                @can('viewAny', 'App\Contact')
                     <a class="dropdown-item" href="{{ route('contacts.index') }}">{{__('Contacts')}}</a>
                 @endif
 
-                @can('view lead')
+                @can('viewAny', 'App\Lead')
                     <a class="dropdown-item" href="{{ route('leads.board') }}">{{__('Leads')}}</a>
                 @endif
 
@@ -66,17 +66,17 @@ $languages=$_user->languages();
     </li>
     @endif
 
-    @if(Gate::check('view project') || Gate::check('view task'))
+    @if(Gate::check('viewAny', 'App\Project') || Gate::check('viewAny', 'App\Task'))
     <li class="nav-item">
         <div class="dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Projects')}}</a>
         <div class="dropdown-menu">
 
-            @can('view project')
+            @can('viewAny', 'App\Project')
                 <a class="dropdown-item" href="{{ route('projects.index') }}">{{__('Projects')}}</a>
             @endcan
 
-            @can('view task')
+            @can('viewAny', 'App\Task')
                 <a class="dropdown-item" href="{{ route('tasks.board') }}">{{__('Tasks')}}</a>
             @endcan
 
@@ -85,17 +85,17 @@ $languages=$_user->languages();
     </li>
     @endif
 
-    @if((Gate::check('view invoice') || Gate::check('view expense') || Gate::check('edit invoice') || Gate::check('view invoice')) || \Auth::user()->type=='client')
+    @if((Gate::check('viewAny', 'App\Invoice') || Gate::check('viewAny', 'App\Expense') || Gate::check('viewAny', 'App\Invoice') || Gate::check('viewAny', 'App\Invoice')) || \Auth::user()->type=='client')
     <li class="nav-item">
 
         <div class="dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">{{__('Finance')}}</a>
             <div class="dropdown-menu">
-                @if(Gate::check('view invoice') || \Auth::user()->type=='client')
+                @if(Gate::check('viewAny', 'App\Invoice') || \Auth::user()->type=='client')
                     <a class="dropdown-item" href="{{ route('invoices.index') }}">{{__('Invoices')}}</a>
                 @endcan
 
-                @if(Gate::check('view expense') || \Auth::user()->type=='client')
+                @if(Gate::check('viewAny', 'App\Expense') || \Auth::user()->type=='client')
                     <a class="dropdown-item" href="{{ route('expenses.index') }}">{{__('Expenses')}}</a>
                 @endif
             </div>
@@ -103,7 +103,7 @@ $languages=$_user->languages();
     </li>
     @endif
 
-    @if(Gate::check('view project') || \Auth::user()->type!='super admin')
+    @if(Gate::check('viewAny', 'App\Project') || \Auth::user()->type!='super admin')
     <li class="nav-item">
 
         <div class="dropdown">
@@ -131,21 +131,21 @@ $languages=$_user->languages();
         </div>
         @endif
 
-        @if(Gate::check('create contact') ||
-            Gate::check('create project') ||
+        @if(Gate::check('create', 'App\Contact') ||
+            Gate::check('create', 'App\Project') ||
             Gate::check('create tasks'))
         <div class="dropdown mx-lg-2">
             <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{__('Add New')}}
             </button>
             <div class="dropdown-menu">
-                @can('create contact')
+                @can('create', 'App\Contact')
                     <a class="dropdown-item" href="{{ route('contacts.create') }}" data-remote="true" data-type="text">{{__('Contact')}}</a>
                 @endcan
-                @can('create project')
+                @can('create', 'App\Project')
                     <a class="dropdown-item" href="{{ route('projects.create') }}" data-remote="true" data-type="text">{{__('Project')}}</a>
                 @endcan
-                @can('create task')
+                @can('create', 'App\Task')
                     <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text">{{__('Task')}}</a>
                 @endcan
             </div>
@@ -163,15 +163,6 @@ $languages=$_user->languages();
                     {{__('My Profile')}}
                 </a>
                 <div class="dropdown-divider"></div>
-                @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view permission')))
-                @if(Gate::check('view user'))
-                    <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-                @endif
-                @if(Gate::check('view permission'))
-                    <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
-                @endif
-                <div class="dropdown-divider"></div>
-                @endif
                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                     {{__('Logout')}}
                 </a>

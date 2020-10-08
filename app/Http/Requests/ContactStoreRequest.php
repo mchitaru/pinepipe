@@ -13,7 +13,7 @@ class ContactStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create contact');
+        return $this->user()->can('create', 'App\Contact');
     }
 
     /**

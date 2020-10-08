@@ -18,7 +18,7 @@
                     <span>{{__('Download PDF')}}</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                @can('edit invoice')
+                @can('update', $invoice)
                 <a class="dropdown-item" href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                     <span>{{__('Add Item')}}</span>
                 </a>
@@ -34,7 +34,7 @@
                     <span>{{__('Save As Template')}}</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                @can('delete invoice')
+                @can('delete', $invoice)
                     <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
                         <span>{{__('Delete')}}</span>
                     </a>
@@ -120,7 +120,7 @@
     <hr class="d-print-none" style="border-width:1px;border-style:dotted;">
     <div class="pl-4 pr-4">
         <div class="section-title d-print-none"><b>{{__('Order Summary', [], $invoice->locale)}}</b>
-            @can('edit invoice')
+            @can('update', $invoice)
             <div class="text-right d-print-none">
                 <a href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                     <u>{{__('Add Item')}}</u>
@@ -160,7 +160,7 @@
                         <td class="text-right">
                             {!! htmlentities($invoice->priceFormat($item->quantity * $item->price), ENT_COMPAT, 'UTF-8') !!}
                         </td>
-                        @can('edit invoice')
+                        @can('update', $invoice)
                         <td class="table-actions text-right d-print-none pl-0 pr-0">
                             <div class="dropdown float-right">
                                 <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -231,7 +231,7 @@
         <hr style="border-width:1px;border-style:dotted;">
         <div class="pl-4 pr-4">
             <div class="section-title"><b>{{__('Payment History', [], $invoice->locale)}}</b>
-                @can('edit invoice')
+                @can('update', $invoice)
                 <div class="text-right d-print-none">
                     <a href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
                         <span><i class="fas fa-plus"></i></span>
@@ -267,7 +267,7 @@
                             <td class="text-right">
                                 {!! htmlentities($invoice->priceFormat($payment->amount), ENT_COMPAT, 'UTF-8') !!}
                             </td>
-                            @can('edit invoice')
+                            @can('update', $invoice)
                             <td class="table-actions text-right pl-0 pr-0 d-print-none">
                                 <div class="dropdown float-right">
                                     <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

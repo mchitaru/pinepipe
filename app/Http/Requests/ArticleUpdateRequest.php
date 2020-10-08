@@ -13,10 +13,10 @@ class ArticleUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('edit article'))
-        {
-            $article = $this->route()->parameter('article');
+        $article = $this->article;
 
+        if($this->user()->can('update', $article))
+        {
             return $article->created_by == \Auth::user()->created_by &&
                     (\Auth::user()->type == 'company' ||
                         $article->user_id == \Auth::user()->id);

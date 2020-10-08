@@ -7,8 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use App\Permission;
-use App\Role;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Jobs\EmailVerificationJob;
 use App\Traits\Actionable;
@@ -31,7 +29,7 @@ use App\Scopes\CollaboratorTenantScope;
 
 class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLocalePreference
 {
-    use HasRoles, Notifiable, Actionable, Billable, Eventable, HasMediaTrait;
+    use Notifiable, Actionable, Billable, Eventable, HasMediaTrait;
 
     public static $SEED_COMPANY_COUNT = 2;
     public static $SEED_STAFF_COUNT = 2;
@@ -197,6 +195,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $currency ? $currency : 'EUR';
     }
 
+    public function isCollaborator()
+    {
+        return $this->companies->contains(\Auth::user()->created_by);
+    }
+
     public function languages()
     {
         $dir     = base_path() . '/resources/lang/';
@@ -335,11 +338,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                     ->where('created_by', $this->created_by);
     }
 
-    public function companyRoles()
-    {
-        return Role::where('created_by', $this->created_by);
-    }
-
     public function companyClients()
     {
         return Client::where('created_by', $this->created_by)
@@ -447,7 +445,41 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         });
     }
 
-    public function staffTasks()
+    public function companyUserProjects()
+    {
+        return Project::where(function ($query)
+        {
+            $query->whereHas('users', function ($query) {
+
+                // projects with the current user assigned.
+                $query->where('users.id', $this->id);
+
+            })->orWhere('created_by', \Auth::user()->created_by);
+        });
+    }
+
+    public function companyUserTasks()
+    {
+        return Task::where(function ($query)
+        {
+            $query->whereHas('users', function ($query) {
+
+                // tasks with the current user assigned.
+                $query->where('users.id', $this->id);
+
+            })->orWhereHas('project', function ($query) {
+
+                // only include tasks with projects where...
+                $query->whereHas('users', function ($query) {
+
+                    // ...the current user is assigned.
+                    $query->where('users.id', $this->id);
+                });
+            })->orWhere('created_by', $this->created_by);
+        });
+    }
+
+    public function userTasks()
     {
         return Task::where(function ($query)
         {
@@ -492,7 +524,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         }
         else if($this->type == 'company'){
 
-            return $this->companyProjects();
+            return $this->companyUserProjects();                      
         }else{
 
             return $this->projects();
@@ -508,10 +540,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         }
         else if($this->type == 'company'){
 
-            return $this->companyTasks();
+            return $this->companyUserTasks();                        
         }else{
 
-            return $this->staffTasks();
+            return $this->userTasks();
         }
     }
 
@@ -537,29 +569,38 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                                     ->first();
     }
 
-    public function getTodayTasks($lastStageId)
+    public function getTodayTasks()
     {
         return  $this->tasks()
-                        ->where('stage_id', '<', $lastStageId)
+                        ->whereHas('stage', function ($query)
+                        {
+                            $query->where('open', 1);
+                        })
                         ->whereDate('tasks.due_date', '<=', Carbon::now())
                         ->orderBy('tasks.due_date', 'ASC')
                         ->get();
     }
 
-    public function getThisWeekTasks($lastStageId)
+    public function getThisWeekTasks()
     {
         return  $this->tasks()
-                        ->where('stage_id', '<', $lastStageId)
+                        ->whereHas('stage', function ($query)
+                        {
+                            $query->where('open', 1);
+                        })
                         ->whereDate('tasks.due_date', '>=', Carbon::parse('tomorrow'))
                         ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday this week'))
                         ->orderBy('tasks.due_date', 'ASC')
                         ->get();
     }
 
-    public function getNextWeekTasks($lastStageId)
+    public function getNextWeekTasks()
     {
         return  $this->tasks()
-                        ->where('stage_id', '<', $lastStageId)
+                        ->whereHas('stage', function ($query)
+                        {
+                            $query->where('open', 1);
+                        })
                         ->whereDate('tasks.due_date', '>=', Carbon::parse('monday next week'))
                         ->whereDate('tasks.due_date', '<=', Carbon::parse('sunday next week'))
                         ->orderBy('tasks.due_date', 'ASC')
@@ -685,6 +726,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Task::class)
                     ->where('open', 1)
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -693,6 +735,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Task::class)
                     ->where('open', 0)
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'desc')
                     ->first();
     }
@@ -701,6 +744,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Lead::class)
                     ->where('open', 1)
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -709,6 +753,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     {
         return Stage::where('class', Lead::class)
                     ->where('open', 0)
+                    ->where('created_by', $this->created_by)
                     ->orderBy('order', 'asc')
                     ->first();
     }
@@ -759,7 +804,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         if(!isset($max_users)) return true;
 
-        $total_users = $this->companyStaff()->count();
+        $total_users = $this->companyStaff()->count() + $this->collaborators->count();
 
         return $total_users < $max_users;
     }
@@ -772,61 +817,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             "#92dacb", "#e7afa9",  "#acd6f1", "#e4c695", "#728191", "#a3e4d7", "#93d6af", "#7fb2d4", "#dab7e9", "#7c9cbd",
             "#dfce8c", "#dfb999", "#9fdfb9", "#ecf0f1", "#95a5a6", "#dcb5eb", "#e0b699", "#e4a9a1", "#bdc3c7", "#90a0a1"
         ];
-
-        // // LeadSource
-        // $leads = [
-        //     __('Facebook'),
-        //     __('Email'),
-        //     __('Phone'),
-        // ];
-        // foreach($leads as $key => $lead)
-        // {
-        //     Category::create(
-        //         [
-        //             'name' => $lead,
-        //             'class' => Lead::class,
-        //             'order' => $key,
-        //             'user_id' => $id,
-        //             'created_by' => $id,
-        //         ]
-        //     );
-        // }
-
-        // // Expense Category
-        // $expenses = [
-        //     __('Gas'),
-        //     __('Travel'),
-        // ];
-        // foreach($expenses as $key => $expense)
-        // {
-        //     Category::create(
-        //         [
-        //             'name' => $expense,
-        //             'class' => Expense::class,
-        //             'order' => $key,
-        //             'user_id' => $id,
-        //             'created_by' => $id,
-        //         ]
-        //     );
-        // }
-
-        // // Payments
-        // $payments = [
-        //     __('Cash'),
-        //     __('Bank'),
-        // ];
-        // foreach($payments as $key => $payment)
-        // {
-        //     Category::create(
-        //         [
-        //             'name' => $payment,
-        //             'class' => Payment::class,
-        //             'order' => $key,
-        //             'user_id' => $id,
-        //             'created_by' => $id,
-        //         ]
-        //     );
-        // }
 
         // LeadStage
         $leadStages = [
@@ -847,9 +837,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                     'order' => $key,
                     'open' => ($key < count($leadStages) - 2) ? 1 : 0,
                     'user_id' => $id,
-                    'created_by' => $id,
+                    'created_by' => $id
                 ]
             );
+
+            $s->created_by = $id;
+            $s->save();
 
             if($leadStage == null){
 
@@ -875,9 +868,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                     'order' => $key,
                     'open' => ($key < count($taskStages) - 1) ? 1 : 0,
                     'user_id' => $id,
-                    'created_by' => $id,
+                    'created_by' => $id
                 ]
             );
+
+            $s->created_by = $id;
+            $s->save();
 
             if($taskStage == null){
 
@@ -898,6 +894,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $client->created_by = $id;
+        $client->save();
+
         //Sample Contact
         $contact = Contact::create(
             [
@@ -916,6 +915,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $contact->created_by = $id;
+        $contact->save();
+
         //Sample Lead
         $lead = Lead::create(
             [
@@ -929,6 +931,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $lead->created_by = $id;
+        $lead->save();    
+
         //Sample Project
         $project = Project::create(
             [
@@ -940,14 +945,17 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 'description' => __("Learn about Pinepipe's cool features."),
                 'archived' => false,
                 'user_id' => $id,
-                'created_by' => $id,
+                'created_by' => $id
             ]
         );
+
+        $project->created_by = $id;
+        $project->save();
 
         $project->users()->sync(array($id));
 
         //Sample Timesheet
-        Timesheet::create(
+        $t = Timesheet::create(
             [
                 'project_id' => $project->id,
                 'user_id' => $id,
@@ -962,22 +970,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
-        //Sample Expense
-        Expense::create(
-            [
-                'amount' => 500,
-                'date' => Carbon::now(),
-                'project_id' => $project->id,
-                'category_id' => null,
-                'user_id' => $id,
-                'description' => null,
-                'attachment' => null,
-                'created_by' => $id,
-            ]
-        );
+        $t->created_by = $id;
+        $t->save();
 
         //Sample Invoice
-        Invoice::create(
+        $i = Invoice::create(
             [
                 'increment' => 1,
                 'number' => "#INV00001",
@@ -988,9 +985,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 'discount' => '0',
                 'tax_id' => null,
                 'user_id' => $id,
-                'created_by'=> $id,
+                'created_by' => $id
             ]
         );
+
+        $i->created_by = $id;
+        $i->save();
     }
 
     public function registerMediaConversions(BaseMedia $media = null)
@@ -1052,9 +1052,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         $this->companyStaff()->each(function($staff) {
             $staff->forceDelete();
         });
-        $this->companyRoles()->each(function($role) {
-            $role->delete();
-        });
 
         $this->companySettings()->each(function($setting) {
             $setting->delete();
@@ -1115,30 +1112,25 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public static function createCompany($post)
     {
-        $post['password']   = Hash::make($post['password']);
-        $user['type']       = 'company';
+        if(!empty($post['password'])){
+
+            $post['password']   = Hash::make($post['password']);
+        }
+        
+        $post['type'] = 'company';
 
         $user = User::create($post);
-
-        $role_r = Role::findByName('company');
-
-        $user->initCompanyDefaults();
-        $user->assignRole($role_r);
 
         return $user;
     }
 
     public static function createUser($post)
     {
-        $role_r                = Role::findById($post['role']);
-
         $post['password']   = Hash::make($post['password']);
-        $post['type']       = $role_r->name;
+        $post['type']       = $post['type'];
         $post['created_by'] = \Auth::user()->created_by;
 
         $user = User::create($post);
-
-        $user->assignRole($role_r);
 
         return $user;
     }
@@ -1150,18 +1142,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function updateUser($post)
     {
-        $role          = Role::findById($post['role']);
-
-        if($role->name != 'client')
-            $post['client_id'] = null;
-
-        $post['type'] = $role->name;
-
         $this->update($post);
-
-        $roles[] = $post['role'];
-
-        $this->roles()->sync($roles);
     }
 
 }

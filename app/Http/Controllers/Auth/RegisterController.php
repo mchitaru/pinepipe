@@ -8,7 +8,6 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Role;
 use App\Providers\RouteServiceProvider;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
@@ -102,12 +101,8 @@ class RegisterController extends Controller
         $location = geoip(\Request::ip());
         $user->setLocale($location);
 
-        $role = Role::findByName('company');
-
         $user->subscribeNewsletter();
 
-        $user->initCompanyDefaults();
-
-        return $user->assignRole($role);
+        return $user;
     }
 }

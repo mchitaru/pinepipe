@@ -2,7 +2,6 @@
 use App\Project;
 use Carbon\Carbon;
 
-$stage_done = \Auth::user()->getLastTaskStage()->id;
 $count = count($tasks) + count($events);
 @endphp
 
@@ -53,8 +52,8 @@ $count = count($tasks) + count($events);
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                @can('edit task')
-                                    <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="stage_id={{$stage_done}}" data-method="PATCH" data-remote="true" data-type="text">
+                                @can('update', $task)
+                                    <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="closed=1" data-method="PATCH" data-remote="true" data-type="text">
                                         {{__('Mark as done')}}
                                     </a>
 
@@ -63,7 +62,7 @@ $count = count($tasks) + count($events);
                                     </a>
                                 @endcan
                                 <div class="dropdown-divider"></div>
-                                @can('delete task')
+                                @can('delete', $task)
                                     <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                                         {{__('Delete')}}
                                     </a>
@@ -91,13 +90,13 @@ $count = count($tasks) + count($events);
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                @can('edit event')
+                                @can('update', $event)
                                 <a class="dropdown-item" href="{{ route('events.edit', $event->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 @endcan
                                 <div class="dropdown-divider"></div>
-                                @can('delete event')
+                                @can('delete', $event)
                                     <a class="dropdown-item text-danger" href="{{ route('events.destroy', $event->id) }}" data-method="delete" data-remote="true" data-type="text">
                                         <span>{{__('Delete')}}</span>
                                     </a>

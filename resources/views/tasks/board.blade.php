@@ -20,13 +20,13 @@ $timesheet = $_user->timesheets->first();
                         <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @can('edit task stage')
+                        @can('update', $stage)
                             <a class="dropdown-item" href="{{ route('stages.edit',$stage->id) }}" data-remote="true" data-type="text">
                                 <span>{{__('Edit')}}</span>
                             </a>
                         @endcan
                         <div class="dropdown-divider"></div>
-                        @can('delete task stage')
+                        @can('delete', $stage)
                             <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a>
@@ -56,13 +56,13 @@ $timesheet = $_user->timesheets->first();
                             <i class="material-icons">more_vert</i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            @can('edit task')
+                            @can('update', $task)
                                 <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                                     {{__('Edit')}}
                                 </a>
                             @endcan
                             <div class="dropdown-divider"></div>
-                            @can('delete task')
+                            @can('delete', $task)
                                 <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}
                                 </a>
@@ -74,7 +74,7 @@ $timesheet = $_user->timesheets->first();
                             <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
                         </a>
                         @if($task->project)
-                            @if(Gate::check('view project'))
+                            @if(Gate::check('view', $task->project))
                             <a class title='{{__('Project')}}' href="{{ route('projects.show',$task->project->id) }}">
                                 <p><span data-filter-by="text" class="text-small">{{ $task->project->name }}</span></p>
                             </a>
@@ -111,7 +111,7 @@ $timesheet = $_user->timesheets->first();
 </div>
 @endforeach
 
-@can('create task stage')
+@can('create', 'App\Stage')
 <div class="kanban-col">
     <div class="card-list">
         <a href="{{ route('stages.create') }}" class="btn btn-link btn-sm text-small" data-params="class=App\Task&order={{$stages->last()?($stages->last()->order + 1):0}}" data-remote="true" data-type="text">

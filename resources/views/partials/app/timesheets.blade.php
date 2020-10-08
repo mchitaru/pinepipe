@@ -15,7 +15,7 @@ $timesheet = $timesheets->first();
     <div class="dropdown-menu dropdown-menu-right pre-scrollable" id="timer-menu" style="min-width: 350px">
         <div class="dropdown-header d-flex align-items-center justify-content-between">
             <h3>{{__('Timesheets')}}</h3>
-            @can('create timesheet')
+            @can('create', 'App\Timesheet')
                 <a role="button" href="{{route('timesheets.timer')}}" class="btn btn-primary btn-round timer-entry mb-2" title="{{__('Start new timesheet')}}" >
                     <i class="material-icons">add</i>
                 </a>

@@ -15,7 +15,7 @@ class LeadDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete lead'))
+        if($this->user()->can('delete', $this->lead))
         {
             $lead = $this->route()->parameter('lead');
 

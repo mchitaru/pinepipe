@@ -13,7 +13,7 @@ class EventUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('edit event');
+        return $this->user()->can('update', $this->event);
     }
 
     /**

@@ -13,7 +13,7 @@ class EventStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create event');
+        return $this->user()->can('create', 'App\Event');
     }
 
     /**

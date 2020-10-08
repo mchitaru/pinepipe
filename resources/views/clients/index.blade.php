@@ -10,7 +10,7 @@
         </div>
         <div class="card-body pl-5">
             <div class="card-title col-xs-12 col-sm-4">
-                @if(Gate::check('view client'))
+                @if(Gate::check('viewAny', 'App\Client'))
                 <a href="{{ route('clients.show',$client->id) }}">
                     <h6 data-filter-by="text">{{$client->name}}</h6>
                 </a>
@@ -52,14 +52,14 @@
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit client')
+                    @can('update', $client)
                         <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
                             <span>{{__('Edit')}}</span>
                         </a>
                     @endcan
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
-                    @can('delete client')
+                    @can('delete', $client)
                         <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>
                         </a>

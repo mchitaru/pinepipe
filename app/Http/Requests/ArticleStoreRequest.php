@@ -13,7 +13,7 @@ class ArticleStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create article');
+        return $this->user()->can('create', 'App\Article');
     }
 
     /**

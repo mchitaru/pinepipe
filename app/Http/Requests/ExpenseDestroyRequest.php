@@ -14,7 +14,7 @@ class ExpenseDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete expense'))
+        if($this->user()->can('delete', $expense))
         {
             $expense = $this->route()->parameter('expense');
 

@@ -38,7 +38,7 @@
                     <div class="row content-list-head">
                         <div class="col-12 col-md-auto">
                             <h3>{{__('Contacts')}}</h3>
-                            @can('create contact')
+                            @can('create', 'App\Contact')
                             <a href="{{ route('contacts.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
                             </a>

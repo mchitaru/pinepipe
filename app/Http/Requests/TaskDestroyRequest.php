@@ -16,11 +16,13 @@ class TaskDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete task'))
-        {
-            $task = $this->route()->parameter('task');
+        $task = $this->task;
 
-            return $task->created_by == \Auth::user()->created_by;
+        if($this->user()->can('delete', $task))
+        {
+            //the task or project was created by this company
+            return $task->created_by == \Auth::user()->created_by ||
+                    $task->project && $task->project->created_by == \Auth::user()->created_by;
         }
 
         return false;

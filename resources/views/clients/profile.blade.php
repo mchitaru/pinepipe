@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-body pl-5">
                     <div class="card-title m-0 col-xs-12 col-sm-3">
-                        @if(Gate::check('edit client'))
+                        @if(Gate::check('update', $client))
                         <a href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
                             <h4 data-filter-by="text">{{$client->name}}</h4>
                         </a>
@@ -54,14 +54,14 @@
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            @can('edit client')
+                            @can('update', $client)
                                 <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                             @endcan
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger disabled" href="#">{{__('Archive')}}</a>
-                            @can('delete client')
+                            @can('delete', $client)
                                 <a class="dropdown-item text-danger" href="{{ route('clients.destroy', $client->id) }}" data-method="delete" data-remote="true" data-type="text">
                                     <span>{{__('Delete')}}</span>
                                 </a>

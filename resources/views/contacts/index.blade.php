@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <div class="card-title col-xs-12 col-sm-3">
-                @if(Gate::check('edit contact'))
+                @if(Gate::check('update', $contact))
                 <a href="{{ route('contacts.edit', $contact->id) }}" data-remote="true" data-type="text">
                     <h6 data-filter-by="text">{{$contact->name}}</h6>
                 </a>
@@ -37,7 +37,7 @@
                 <div class="row align-items-center">
                     @if($contact->client)
                         <i class="material-icons mr-1">business</i>
-                        @if(Gate::check('view client'))
+                        @if(Gate::check('viewAny', 'App\Client'))
                         <a class  title='{{__('Client')}}' href="{{ route('clients.show',$contact->client->id) }}">
                             {{$contact->client->name}}
                         </a>
@@ -61,13 +61,13 @@
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit contact')
+                    @can('update', $contact)
                     <a class="dropdown-item" href="{{ route('contacts.edit', $contact->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
-                    @can('delete contact')
+                    @can('delete', $contact)
                         <a class="dropdown-item text-danger" href="{{ route('contacts.destroy', $contact->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>
                         </a>

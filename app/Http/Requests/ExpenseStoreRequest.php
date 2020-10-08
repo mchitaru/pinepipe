@@ -13,7 +13,7 @@ class ExpenseStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create expense');
+        return $this->user()->can('create', 'App\Expense');
     }
 
     /**

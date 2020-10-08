@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Models\Media as BaseMedia;
 
-use App\Scopes\CompanyTenantScope;
+use App\Scopes\CollaboratorTenantScope;
 
 class Media extends BaseMedia
 {
@@ -17,7 +17,7 @@ class Media extends BaseMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new CompanyTenantScope);
+        static::addGlobalScope(new CollaboratorTenantScope);
 
         static::creating(function ($media) {
             if ($user = \Auth::user()) {

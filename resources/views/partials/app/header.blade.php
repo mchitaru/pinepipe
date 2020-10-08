@@ -29,16 +29,6 @@
                     {{__('My Profile')}}
                 </a>
                 <div class="dropdown-divider"></div>
-                @if(\Auth::user()->type!='client' && (Gate::check('view user') || Gate::check('view permission')))
-                    @if(Gate::check('view user'))
-                        <a class="dropdown-item" href="{{ route('users.index') }}">{{__('Users')}}</a>
-                    @endif
-                    @if(Gate::check('view permission'))
-                        <a class="dropdown-item" href="{{ route('roles.index') }}">{{__('Roles')}}</a>
-                    @endif
-                    <div class="dropdown-divider"></div>
-                @endif
-
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                     {{__('Logout')}}
                 </a>

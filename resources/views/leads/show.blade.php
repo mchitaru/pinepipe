@@ -73,14 +73,14 @@ $(function() {
                     <i class="material-icons">expand_more</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @if(Gate::check('edit lead') || Gate::check('delete lead'))
-                            @can('edit lead')
+                        @if(Gate::check('update', $lead) || Gate::check('delete', $lead))
+                            @can('update', $lead)
                                 <a class="dropdown-item" href="{{ route('leads.edit', $lead->id) }}" data-remote="true" data-type="text">
                                     {{__('Edit Lead')}}
                                 </a>
                             @endcan
                             <div class="dropdown-divider"></div>
-                            @can('edit lead')
+                            @can('update', $lead)
                                 @if(!$lead->archived)
                                     <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
                                         {{__('Archive')}}
@@ -91,7 +91,7 @@ $(function() {
                                     </a>
                                 @endif
                             @endcan
-                            @can('delete lead')
+                            @can('delete', $lead)
                                 <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}
                                 </a>
@@ -161,7 +161,7 @@ $(function() {
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Events')}}</h3>
-                        @can('create event')
+                        @can('create', 'App\Event')
                             <a href="{{ route('events.create')  }}" class="btn btn-primary btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
                                 <i class="material-icons">add</i>
                             </a>
@@ -235,7 +235,7 @@ $(function() {
                     <div class="row content-list-head">
                         <div class="col-auto">
                         <h3>{{__('Projects')}}</h3>
-                        @can('create project')
+                        @can('create', 'App\Project')
                         <a href="{{ route('projects.create') }}" class="btn btn-primary btn-round" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>

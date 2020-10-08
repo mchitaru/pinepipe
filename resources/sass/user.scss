@@ -652,3 +652,15 @@ ol.timeline > li:before {
   .checkbox {
     display : none;
   }
+
+  ul.good, ul.bad {
+    list-style: none;
+  }
+  
+  ul.good li:before {
+    content: '\2714';
+  }
+  
+  ul.bad li:before {
+    content: '\274C';
+  }

@@ -18,9 +18,9 @@ class StageUpdateRequest extends FormRequest
     {
         switch($this->class) {
             case Lead::class:
-                return \Auth::user()->can('edit lead stage');
+                return \Auth::user()->can('update', $this->stage);
             default:
-                return \Auth::user()->can('edit task stage');
+                return \Auth::user()->can('update', $this->stage);
         }
     }
 

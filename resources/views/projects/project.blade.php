@@ -1,5 +1,5 @@
 @php
-    $project->computeStatistics($last_stage->id);
+    $project->computeStatistics();
 @endphp
 
 <div class="col-lg-6">
@@ -9,14 +9,14 @@
         </div>
 
         <div class="card-body">
-            @if(Gate::check('edit project') || Gate::check('delete project') || Gate::check('create user'))
+            @if(Gate::check('update', $project) || Gate::check('delete', $project) || Gate::check('create', 'App\User'))
                     <div class="dropdown card-options">
                         @if($project->enabled)
                             <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                            @can('edit project')
+                            @can('update', $project)
                                 <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                                     {{__('Edit')}}
                                 </a>
@@ -28,7 +28,7 @@
                             @endcan --}}
                             <div class="dropdown-divider"></div>
 
-                            @can('edit project')
+                            @can('update', $project)
                                 @if(!$project->archived)
                                     <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
                                         {{__('Archive')}}
@@ -41,7 +41,7 @@
                                 @endif
                             @endcan
 
-                            @can('delete project')
+                            @can('delete', $project)
                                 <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}
                                 </a>
@@ -53,7 +53,7 @@
                     </div>
             @endif
             <div class="card-title d-flex justify-content-between align-items-center">
-                @if(Gate::check('view project'))
+                @if(Gate::check('view', $project))
                     <a href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">
                         <h5 data-filter-by="text">{{ $project->name }}</h5>
                     </a>
@@ -86,7 +86,7 @@
                 </div> --}}
                 <div class="d-flex align-items-center"  title="{{__('Client')}}">
                     <i class="material-icons mr-1">business</i>
-                    @if(Gate::check('view client') && !empty($project->client))
+                    @if(Gate::check('viewAny', 'App\Client') && !empty($project->client))
                         <a href="{{ $project->enabled?route('clients.show', $project->client->id):'#' }}" data-filter-by="text">
                             {{$project->client->name}}
                         </a>

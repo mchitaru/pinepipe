@@ -3,8 +3,6 @@
 @php
     use Carbon\Carbon;
     use App\Project;
-
-    $stage_done = \Auth::user()->getLastTaskStage()->id;
 @endphp
 
 @foreach($stages as $key=>$stage)

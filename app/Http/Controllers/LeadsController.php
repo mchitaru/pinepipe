@@ -21,7 +21,7 @@ class LeadsController extends Controller
 {
     public function board(Request $request)
     {
-        if(\Auth::user()->can('view lead'))
+        if(\Auth::user()->can('viewAny', 'App\Lead'))
         {
             if (!$request->ajax())
             {
@@ -44,13 +44,14 @@ class LeadsController extends Controller
 
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create lead'))
+        if(\Auth::user()->can('create', 'App\Lead'))
         {
             $stage_id = $request['stage_id'];
             $client_id = $request['client_id'];
             $category_id = $request['category_id'];
 
             $stages = Stage::where('class', Lead::class)
+                                    ->where('created_by', \Auth::user()->created_by)
                                     ->get()
                                     ->pluck('name', 'id');
 
@@ -117,11 +118,12 @@ class LeadsController extends Controller
 
     public function edit(Request $request, Lead $lead)
     {
-        if(\Auth::user()->can('edit lead'))
+        if(\Auth::user()->can('update', $lead))
         {
             $category_id = $request['category_id'];
 
             $stages  = Stage::where('class', Lead::class)
+                            ->where('created_by', \Auth::user()->created_by)
                             ->get()
                             ->pluck('name', 'id');
 
@@ -207,7 +209,7 @@ class LeadsController extends Controller
     {
         $user = \Auth::user();
 
-        if(\Auth::user()->can('view lead'))
+        if(\Auth::user()->can('viewAny', 'App\Lead'))
         {
             clock()->startEvent('LeadsController', "Load lead");
 
@@ -230,6 +232,7 @@ class LeadsController extends Controller
             }
 
             $stages = Stage::where('class', Lead::class)
+                                ->where('created_by', \Auth::user()->created_by)
                                 ->get()
                                 ->pluck('id');
 

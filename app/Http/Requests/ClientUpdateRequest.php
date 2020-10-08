@@ -13,7 +13,7 @@ class ClientUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('edit client');
+        return $this->user()->can('update', $this->client);
     }
 
     /**

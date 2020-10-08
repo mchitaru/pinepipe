@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\CompanyTenantScope;
+use App\Scopes\CollaboratorTenantScope;
 
 class Checklist extends Model
 {
@@ -24,7 +24,7 @@ class Checklist extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new CompanyTenantScope);
+        static::addGlobalScope(new CollaboratorTenantScope);
 
         static::creating(function ($checklist) {
             if ($user = \Auth::user()) {

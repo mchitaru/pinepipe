@@ -5,7 +5,7 @@
 <div class="card card-task">
     <div class="card-body">
     <div class="card-title col-xs-12 col-sm-4">
-        @if(Gate::check('edit timesheet'))
+        @if(Gate::check('update', $timesheet))
         <a href="{{ route('timesheets.edit',$timesheet->id) }}" data-remote="true" data-type="text">
             <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timesheet->date) }}</h6>
         </a>
@@ -43,14 +43,14 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right">
 
-                @can('edit timesheet')
+                @can('update', $timesheet)
                 <a href="{{ route('timesheets.edit', $timesheet->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                     {{__('Edit')}}
                 </a>
                 @endcan
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-danger" href="#">Archive</a>
-                @can('delete timesheet')
+                @can('delete', $timesheet)
                 <a class="dropdown-item text-danger" href="{{ route('timesheets.destroy', $timesheet->id) }}" data-method="delete" data-remote="true" data-type="text">
                     {{__('Delete')}}
                 </a>

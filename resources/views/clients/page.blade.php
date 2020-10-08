@@ -40,7 +40,7 @@ $(function() {
                     <div class="row content-list-head">
                         <div class="col-12 col-md-auto">
                             <h3>{{__('Clients')}}</h3>
-                            @can('create client')
+                            @can('create', 'App\Client')
                             <a href="{{ route('clients.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
                             </a>

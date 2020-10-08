@@ -19,7 +19,7 @@ class TaskStoreRequest extends FormRequest
         if($project && !$project->enabled)
             return false;
 
-        return $this->user()->can('create task');
+        return $this->user()->can('create', 'App\Task');
     }
 
     /**

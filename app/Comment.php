@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Taggable;
 
-use App\Scopes\CompanyTenantScope;
+use App\Scopes\CollaboratorTenantScope;
 
 class Comment extends Model
 {
@@ -25,7 +25,7 @@ class Comment extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new CompanyTenantScope);
+        static::addGlobalScope(new CollaboratorTenantScope);
 
     }
     

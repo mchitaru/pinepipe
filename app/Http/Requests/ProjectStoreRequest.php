@@ -13,7 +13,7 @@ class ProjectStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->can('create project');
+        return \Auth::user()->can('create', 'App\Project');
     }
 
     /**

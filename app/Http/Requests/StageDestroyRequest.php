@@ -24,9 +24,9 @@ class StageDestroyRequest extends FormRequest
 
         switch($this->class) {
             case Lead::class:
-                return \Auth::user()->can('delete lead stage');
+                return \Auth::user()->can('delete', $this->stage);
             default:
-                return \Auth::user()->can('delete task stage');
+                return \Auth::user()->can('delete', $this->stage);
         }
     }
 

@@ -34,7 +34,7 @@
             <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Users')}}</h3>
-                    {{-- @can('create user')
+                    {{-- @can('create', 'App\User')
                         <a href="{{ route('users.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>

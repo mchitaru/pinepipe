@@ -14,7 +14,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->route()->parameter('user');
+        $user = $this->user;
 
         if($user == null ||
             $user->type == 'super admin' ||
@@ -26,11 +26,11 @@ class UserUpdateRequest extends FormRequest
         if($this->isMethod('put'))
         {
             return ($user->created_by == $this->user()->id) &&
-                    $this->user()->can('edit user');
+                    $this->user()->can('update', $user);
         }
 
         return ($user->created_by == $this->user()->id) &&
-                $this->user()->can('delete user');
+                $this->user()->can('delete', $user);
     }
 
     /**

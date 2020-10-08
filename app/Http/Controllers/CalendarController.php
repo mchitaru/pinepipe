@@ -22,9 +22,11 @@ class CalendarController extends Controller
         }
 
         //add tasks
-        $lastTaskStageId = \Auth::user()->getLastTaskStage()->id;
         $tasks = \Auth::user()->tasksByUserType()
-                                ->where('stage_id', '<', $lastTaskStageId)
+                                ->whereHas('stage', function ($query)
+                                {
+                                    $query->where('open', 1);
+                                })
                                 ->get();
         foreach($tasks as $t)
         {

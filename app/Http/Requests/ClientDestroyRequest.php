@@ -15,7 +15,7 @@ class ClientDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('delete client');
+        return $this->user()->can('delete', $this->client);
     }
 
     /**

@@ -17,7 +17,7 @@
     </div>
     <div class="form-group row align-items-center required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
-        {!! Form::select('client_id', $clients, $client_id, array('class' => (Gate::check('create client')?'tags':'').' form-control col', 'required'=>'required', 'placeholder'=>'...',
+        {!! Form::select('client_id', $clients, $client_id, array('class' => (Gate::check('create', 'App\Client')?'tags':'').' form-control col', 'required'=>'required', 'placeholder'=>'...',
                             'data-refresh'=>route('projects.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
     </div>
     <div class="form-group row align-items-center">
@@ -29,7 +29,7 @@
     <h6>{{__('Attach')}}</h6>
     <div class="form-group row">
         {{ Form::label('lead_id', __('Lead'), array('class'=>'col-3')) }}
-        {!! Form::select('lead_id', $leads, $lead_id, array('class' => (Gate::check('create lead')?'tags':'').' form-control col',
+        {!! Form::select('lead_id', $leads, $lead_id, array('class' => (Gate::check('create', 'App\Lead')?'tags':'').' form-control col',
                             'placeholder' =>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
     @endif

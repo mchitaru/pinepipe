@@ -212,7 +212,7 @@ const mrFilterList = (($) => {
     }
   });
 
-  $(document).on("paginate-sort paginate-tag paginate-click paginate-filter paginate-load", function(e) {
+  $(document).on("paginate-sort paginate-tag paginate-click paginate-filter paginate-select paginate-load", function(e) {
     const filterLists = $.makeArray($(Selector.FILTER));
 
     /* eslint-disable no-plusplus */

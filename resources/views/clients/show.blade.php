@@ -87,7 +87,7 @@ $(function() {
                     <div class="row content-list-head">
                         <div class="col-auto">
                             <h3>{{__('Contacts')}}</h3>
-                            @can('create contact')
+                            @can('create', 'App\Contact')
                             <a href="{{ route('contacts.create') }}" class="btn btn-primary btn-round" data-params="client_id={{$client->id}}" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
                             </a>
@@ -113,7 +113,7 @@ $(function() {
                     <div class="row content-list-head">
                         <div class="col-auto">
                             <h3>{{__('Leads')}}</h3>
-                            @can('create lead')
+                            @can('create', 'App\Lead')
                             <a href="{{ route('leads.create') }}" class="btn btn-primary btn-round" data-params="client_id={{$client->id}}" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
                             </a>
@@ -140,7 +140,7 @@ $(function() {
                         <div class="row content-list-head">
                             <div class="col-auto">
                             <h3>{{__('Projects')}}</h3>
-                            @can('create project')
+                            @can('create', 'App\Project')
                             <a href="{{ route('projects.create') }}" class="btn btn-primary btn-round" data-params="client_id={{$client->id}}" data-remote="true" data-type="text">
                                 <i class="material-icons">add</i>
                             </a>

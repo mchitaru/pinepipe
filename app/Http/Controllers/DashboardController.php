@@ -50,12 +50,9 @@ class DashboardController extends Controller
 
         clock()->startEvent('DahsboardController', "Load dash");
 
-        $lastTaskStageId = \Auth::user()->getLastTaskStage()->id;
-        $lastLeadStageId = \Auth::user()->getLastLeadStage()->id;
-
-        $todayTasks = \Auth::user()->getTodayTasks($lastTaskStageId);
-        $thisWeekTasks = \Auth::user()->getThisWeekTasks($lastTaskStageId);
-        $nextWeekTasks = \Auth::user()->getNextWeekTasks($lastTaskStageId);
+        $todayTasks = \Auth::user()->getTodayTasks();
+        $thisWeekTasks = \Auth::user()->getThisWeekTasks();
+        $nextWeekTasks = \Auth::user()->getNextWeekTasks();
 
         $todayEvents = \Auth::user()->getTodayEvents();
         $thisWeekEvents = \Auth::user()->getThisWeekEvents();
@@ -63,7 +60,8 @@ class DashboardController extends Controller
 
         if(\Auth::user()->type == 'company'){
 
-            $projects = Project::where('archived', '0')
+            $projects = \Auth::user()->companyUserProjects()                                    
+                                    ->where('archived', '0')
                                     ->orderBy('due_date', 'ASC')
                                     ->get();
 
@@ -73,13 +71,19 @@ class DashboardController extends Controller
                                     ->get();
 
             $leads = \Auth::user()->leads()
-                                    ->where('stage_id', '<', $lastLeadStageId)
+                                    ->whereHas('stage', function ($query)
+                                    {
+                                        $query->where('open', 1);
+                                    })
                                     ->whereDate('updated_at', '<', Carbon::now()->subDays(7))
                                     ->orderBy('order', 'ASC')
                                     ->get();
 
             $tasks = \Auth::user()->tasks()
-                                    ->where('stage_id', '<', $lastTaskStageId)
+                                    ->whereHas('stage', function ($query)
+                                    {
+                                        $query->where('open', 1);
+                                    })
                                     ->where(function ($query){
                                         $query->where('priority', 'high')
                                                 ->orWhereDate('due_date', '=', Carbon::now());
@@ -114,7 +118,10 @@ class DashboardController extends Controller
                                     ->get();
 
             $tasks = \Auth::user()->tasks()
-                                    ->where('stage_id', '<', $lastTaskStageId)
+                                    ->whereHas('stage', function ($query)
+                                    {
+                                        $query->where('open', 1);
+                                    })
                                     ->where(function ($query){
                                         $query->where('priority', 'high')
                                                 ->orWhereDate('due_date', '=', Carbon::now());
@@ -137,13 +144,19 @@ class DashboardController extends Controller
                                 ->get();
 
         $leads = \Auth::user()->leads()
-                                ->where('stage_id', '<', $lastLeadStageId)
+                                ->whereHas('stage', function ($query)
+                                {
+                                    $query->where('open', 1);
+                                })
                                 ->whereDate('updated_at', '<', Carbon::now()->subDays(7))
                                 ->orderBy('order', 'ASC')
                                 ->get();
                                 
         $tasks = \Auth::user()->tasks()
-                                ->where('stage_id', '<', $lastTaskStageId)
+                                ->whereHas('stage', function ($query)
+                                {
+                                    $query->where('open', 1);
+                                })
                                 ->where(function ($query){
                                     $query->where('priority', 'high')
                                             ->orWhereDate('due_date', '=', Carbon::now());
@@ -189,14 +202,14 @@ class DashboardController extends Controller
     {
         //projects                                    
         $arrProject = [];
-        if(\Auth::user()->can('view project')){
+        if(\Auth::user()->can('viewAny', 'App\Project')){
 
             $projects = \Auth::user()->projectsByUserType()
-            ->with(['tasks', 'users', 'client'])
-            ->where(function ($query) use ($search) {
-                $query->where('name','like', $search.'%');
-            })
-            ->get();
+                                    ->with(['tasks', 'users', 'client'])
+                                    ->where(function ($query) use ($search) {
+                                        $query->where('name','like', $search.'%');
+                                    })
+                                    ->get();
 
             foreach($projects as $project)
             {
@@ -209,7 +222,7 @@ class DashboardController extends Controller
 
         //tasks
         $arrTask = [];
-        if(\Auth::user()->can('view task')){
+        if(\Auth::user()->can('viewAny', 'App\Task')){
 
             $tasks = \Auth::user()->tasksByUserType()
                                     ->with(['users'])
@@ -247,7 +260,7 @@ class DashboardController extends Controller
 
         //clients
         $arrClient = [];
-        if(\Auth::user()->can('view client')){
+        if(\Auth::user()->can('viewAny', 'App\Client')){
 
             $clients = \Auth::user()->clientsByUserType()
                                         ->where(function ($query) use ($search) {
@@ -266,7 +279,7 @@ class DashboardController extends Controller
 
         //contacts
         $arrContact = [];
-        if(\Auth::user()->can('view contact')){
+        if(\Auth::user()->can('viewAny', 'App\Contact')){
 
             $contacts = \Auth::user()->contactsByUserType()
                                     ->where(function ($query) use ($search) {
@@ -286,7 +299,7 @@ class DashboardController extends Controller
 
         //leads
         $arrLead = [];
-        if(\Auth::user()->can('view lead')){
+        if(\Auth::user()->can('viewAny', 'App\Lead')){
 
             $leads = \Auth::user()->leadsByUserType()
                                     ->where(function ($query) use ($search) {
@@ -305,7 +318,7 @@ class DashboardController extends Controller
 
         //invoices
         $arrInvoice = [];
-        if(\Auth::user()->can('view invoice')){
+        if(\Auth::user()->can('viewAny', 'App\Invoice')){
 
             $invoices = \Auth::user()->invoicesByUserType()
                                     ->where(function ($query) use ($search) {
@@ -324,7 +337,7 @@ class DashboardController extends Controller
 
         // //expenses
         // $arrExpense = [];
-        // if(\Auth::user()->can('view expense')){
+        // if(\Auth::user()->can('viewAny', 'App\Expense')){
 
         //     $expenses = \Auth::user()->expensesByUserType()
         //                             ->where(function ($query) use ($search) {

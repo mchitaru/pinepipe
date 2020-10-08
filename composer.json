@@ -31,7 +31,6 @@
         "spatie/laravel-cookie-consent": "^2.12",
         "spatie/laravel-medialibrary": "^7.19",
         "spatie/laravel-newsletter": "^4.8",
-        "spatie/laravel-permission": "^3.4",
         "stevebauman/purify": "^3.0",
         "torann/geoip": "^1.2"
     },

@@ -36,7 +36,7 @@
                 <div class="row content-list-head">
                     <div class="col-auto">
                         <h3>{{__('Expenses')}}</h3>
-                        @can('create expense')
+                        @can('create', 'App\Expense')
                         <a href="{{ route('expenses.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                             <i class="material-icons">add</i>
                         </a>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <!--end of content list head-->
-                @can('view expense')
+                @can('viewAny', 'App\Expense')
                 <div class="content-list-body filter-list paginate-container">
                 </div>
                 @endcan

@@ -22,13 +22,13 @@ use Carbon\Carbon;
                         <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @can('edit lead stage')
+                        @can('update', $stage)
                             <a class="dropdown-item" href="{{ route('stages.edit',$stage->id) }}" data-remote="true" data-type="text">
                                 <span>{{__('Edit')}}</span>
                             </a>
                             <div class="dropdown-divider"></div>
                         @endcan
-                        @can('delete lead stage')
+                        @can('delete', $stage)
                             <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a>
@@ -46,7 +46,7 @@ use Carbon\Carbon;
                         <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        {{-- @can('create event')
+                        {{-- @can('create', 'App\Event')
                             <a class="dropdown-item" href="{{ route('events.create')  }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
                                 <span>{{__('Create Event')}}</span>
                             </a>
@@ -54,19 +54,19 @@ use Carbon\Carbon;
                         <a class="dropdown-item" href="{{ route('notes.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
                             <span>{{__('Create Note')}}</span>
                         </a>
-                        @can('create project')
+                        @can('create', 'App\Project')
                             <a class="dropdown-item" href="{{ route('projects.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text">
                                 <span>{{__('Create Project')}}</span>
                             </a>
                         @endcan
                         <div class="dropdown-divider"></div> --}}
-                        @can('edit lead')
+                        @can('update', $lead)
                         <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                             <span>{{__('Edit')}}</span>
                         </a>
                         @endcan
                         <div class="dropdown-divider"></div>
-                        @can('edit lead')
+                        @can('update', $lead)
                             @if(!$lead->archived)
                                 <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
                                     {{__('Archive')}}
@@ -78,7 +78,7 @@ use Carbon\Carbon;
 
                             @endif
                         @endcan
-                        @can('delete lead')
+                        @can('delete', $lead)
                             <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a>
@@ -86,7 +86,7 @@ use Carbon\Carbon;
                     </div>
                     </div>
                     <div class="card-title">
-                        @if(Gate::check('view lead'))
+                        @if(Gate::check('viewAny', 'App\Lead'))
                         <a href="{{ route('leads.show',$lead->id) }}" title="{{$lead->name}}">
                             <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
                         </a>
@@ -95,7 +95,7 @@ use Carbon\Carbon;
                         @endif
 
                         @if($lead->client)
-                            @if(Gate::check('view client'))
+                            @if(Gate::check('viewAny', 'App\Client'))
                             <a class title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                                 <p><span data-filter-by="text" class="text-small">{{ $lead->client->name }}</span></p>
                             </a>
@@ -130,7 +130,7 @@ use Carbon\Carbon;
 
 @endforeach
 
-@can('create lead stage')
+@can('create', 'App\Stage')
 <div class="kanban-col">
     <div class="card-list">
         <a href="{{ route('stages.create') }}" class="btn btn-link btn-sm text-small" data-params="class=App\Lead&order={{$stages->last()?($stages->last()->order + 1):0}}" data-remote="true" data-type="text">

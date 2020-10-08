@@ -20,8 +20,6 @@ if($total_task!=0){
 $label = 'bg-'.Helpers::getProgressColor($percentage);
 $dz_id = 'task-files-dz';
 
-$stage_done = \Auth::user()->getLastTaskStage()->id;
-
 @endphp
 
 @section('size')
@@ -228,7 +226,7 @@ modal-lg
         <div class="tab-content">
             <div class="tab-pane fade show {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" id="task" role="tabpanel">
 
-                @can('view task')
+                @can('viewAny', 'App\Task')
                 <div class="content-list">
                     <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
                         <input type="hidden" id="order" name="order" value="{{$subtasks->isEmpty()?0:$subtasks->last()->order+1}}">
@@ -343,7 +341,7 @@ modal-lg
 @section('footer')
     @include('partials.app.timesheetctrl')
 
-    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-outline-success" data-params="stage_id={{$stage_done}}&archived=1" data-method="PATCH" data-remote="true" data-type="text">
+    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-outline-success" data-params="closed=1&archived=1" data-method="PATCH" data-remote="true" data-type="text">
         {{__('Mark as Done')}}
     </a>
 

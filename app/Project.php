@@ -14,7 +14,7 @@ use App\Traits\Actionable;
 use App\Traits\Notable;
 use App\Traits\Taggable;
 
-use App\Scopes\CompanyTenantScope;
+use App\Scopes\CollaboratorTenantScope;
 
 class Project extends Model implements HasMedia
 {
@@ -57,7 +57,7 @@ class Project extends Model implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new CompanyTenantScope);
+        static::addGlobalScope(new CollaboratorTenantScope);
 
         static::creating(function ($project) {
             if ($user = \Auth::user()) {
@@ -96,6 +96,10 @@ class Project extends Model implements HasMedia
         });
     }
 
+    public function company()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
 
     public function tasks()
     {
@@ -182,10 +186,11 @@ class Project extends Model implements HasMedia
 
         }], 'tasks.users')
         ->where('class', Task::class)
+        ->where('created_by', $this->created_by)
         ->orderBy('order', 'ASC');
     }
 
-    public function computeStatistics($last_stage_id)
+    public function computeStatistics()
     {
         $this->progress = 0;
         $this->completed_tasks = 0;
@@ -194,7 +199,7 @@ class Project extends Model implements HasMedia
         {
             foreach($this->tasks as $task)
             {
-                if($task->stage_id == $last_stage_id)
+                if($task->stage && $task->stage->isClosed())
                     $this->completed_tasks++;
             }
 

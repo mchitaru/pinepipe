@@ -20,7 +20,7 @@ class ContactsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('view contact'))
+        if($user->can('viewAny', 'App\Contact'))
         {
             if (!$request->ajax())
             {

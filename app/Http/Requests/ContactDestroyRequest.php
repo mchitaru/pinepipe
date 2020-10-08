@@ -15,7 +15,7 @@ class ContactDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete contact'))
+        if($this->user()->can('delete', $this->contact))
         {
             $contact = $this->route()->parameter('contact');
 

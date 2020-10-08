@@ -36,7 +36,7 @@ class ProjectsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('view project'))
+        if($user->can('viewAny', 'App\Project'))
         {
             if (!$request->ajax())
             {
@@ -117,8 +117,9 @@ class ProjectsController extends Controller
             }
         }else
         {
-                $leads   = Lead::get()
-                                ->pluck('name', 'id');
+                $leads   = \Auth::user()->companyLeads()
+                                        ->get()
+                                        ->pluck('name', 'id');
         }
 
         return view('projects.create', compact('clients', 'users', 'user_id', 'client_id', 'start_date', 'due_date', 'leads', 'lead_id'));
@@ -202,8 +203,9 @@ class ProjectsController extends Controller
             }
         }else
         {
-                $leads   = Lead::get()
-                                ->pluck('name', 'id');
+                $leads   = \Auth::user()->companyLeads()
+                                        ->get()
+                                        ->pluck('name', 'id');
         }
                         
         $user_id = $project->users()->get()->pluck('id');
@@ -246,7 +248,7 @@ class ProjectsController extends Controller
     {
         $user = \Auth::user();
 
-        if(\Auth::user()->can('view project'))
+        if(\Auth::user()->can('view', $project))
         {
             clock()->startEvent('ProjectsController', "Load project");
 
@@ -276,7 +278,12 @@ class ProjectsController extends Controller
             }
 
             $invoices = $project->invoices;
-            $activities = $project->activities;
+
+            //only activities for company or from collaborators
+            $activities = $project->activities()
+                                    ->where('created_by', \Auth::user()->created_by)
+                                    ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
+                                    ->get();
 
             if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
             {
@@ -291,7 +298,7 @@ class ProjectsController extends Controller
 
             $notes = $project->notes;
 
-            $project->computeStatistics($user->getLastTaskStage()->id);
+            $project->computeStatistics();
 
             clock()->endEvent('ProjectsController');
 

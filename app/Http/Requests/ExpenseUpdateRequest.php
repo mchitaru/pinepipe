@@ -13,7 +13,7 @@ class ExpenseUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('edit expense'))
+        if($this->user()->can('update', $this->expense))
         {
             $expense = $this->route()->parameter('expense');
 

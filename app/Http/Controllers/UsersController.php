@@ -7,7 +7,6 @@ use App\Client;
 use File;
 use Illuminate\Http\Request;
 use Session;
-use App\Role;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
@@ -23,7 +22,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $user = \Auth::user();
-        if(\Auth::user()->can('view user'))
+        if(\Auth::user()->can('viewAny', 'App\User'))
         {
             if (!$request->ajax())
             {
@@ -42,10 +41,13 @@ class UsersController extends Controller
             }
             else
             {
-                $users = User::where(function ($query) use ($request) {
+                $users = User::withoutGlobalScopes()
+                                ->where(function ($query) use ($request) {
                                     $query->where('name','like','%'.$request['filter'].'%')
                                     ->orWhere('email','like','%'.$request['filter'].'%');
                                 })
+                                ->where('created_by', \Auth::user()->created_by)
+                                ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
                                 ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
                                 ->paginate(25, ['*'], 'user-page');
             }
@@ -63,35 +65,7 @@ class UsersController extends Controller
     {
         $user  = \Auth::user();
 
-        $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
-
-        $roles = Role::where('created_by', \Auth::user()->created_by)->get();
-
-        foreach($defaultRoles as $defaultRole){
-
-            $role = Arr::first($roles, function ($value, $key) use($defaultRole) {
-
-                return $value->name == $defaultRole->name;
-            });
-
-            if(!$role) {
-                $roles->prepend($defaultRole);
-            }
-        }
-
-        $roles = $roles->pluck('name', 'id');
-
-        $clients = Client::orderBy('id', 'DESC')
-                        ->get()
-                        ->pluck('name', 'id');
-
-        $role = null;
-
-        if(isSet($request['role'])){
-            $role = Role::find($request['role']);
-        }
-
-        return view('users.create', compact('role', 'roles', 'clients'));
+        return view('users.create', compact(''));
     }
 
     public function store(UserStoreRequest $request)
@@ -126,35 +100,7 @@ class UsersController extends Controller
 
     public function edit(Request $request, User $user)
     {
-        $defaultRoles = Role::where('created_by', 1)->orderBy('id', 'desc')->get();
-
-        $roles = Role::where('created_by', \Auth::user()->created_by)->get();
-
-        foreach($defaultRoles as $defaultRole){
-
-            $role = Arr::first($roles, function ($value, $key) use($defaultRole) {
-
-                return $value->name == $defaultRole->name;
-            });
-
-            if(!$role) {
-                $roles->prepend($defaultRole);
-            }
-        }
-
-        $roles = $roles->pluck('name', 'id');
-
-        $clients = Client::orderBy('id', 'DESC')
-                            ->get()
-                            ->pluck('name', 'id');
-
-        if(isset($request['role'])){
-            $role = Role::findById($request['role']);
-        }else{
-            $role = $user->roles()->first();
-        }
-
-        return view('users.edit', compact('user', 'roles', 'role', 'clients'));
+        return view('users.edit', compact(''));
     }
 
 

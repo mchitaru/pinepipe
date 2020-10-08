@@ -12,7 +12,6 @@ use App\Stage;
 use App\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Role;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -27,7 +26,7 @@ class ClientsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('view client'))
+        if($user->can('viewAny', 'App\Client'))
         {
             if (!$request->ajax())
             {
@@ -81,7 +80,7 @@ class ClientsController extends Controller
 
     public function create()
     {
-        if(\Auth::user()->can('create client'))
+        if(\Auth::user()->can('create', 'App\Client'))
         {
             return view('clients.create');
         }
@@ -118,7 +117,7 @@ class ClientsController extends Controller
 
     public function edit(Client $client)
     {
-        if(\Auth::user()->can('edit client'))
+        if(\Auth::user()->can('update', $client))
         {
             return view('clients.edit', compact('client'));
         }
@@ -168,7 +167,7 @@ class ClientsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('view client'))
+        if($user->can('viewAny', 'App\Client'))
         {
             clock()->startEvent('ClientsController', "Load contacts, leads, projects");
 
@@ -244,6 +243,7 @@ class ClientsController extends Controller
             }
 
             $stages = Stage::where('class', Lead::class)
+                                ->where('created_by', \Auth::user()->created_by)
                                 ->get()
                                 ->pluck('id')
                                 ->toArray();

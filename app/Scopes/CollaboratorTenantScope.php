@@ -20,7 +20,8 @@ class CollaboratorTenantScope implements Scope
         if(\Auth::hasUser() && \Auth::user()->id != 1){
 
             $builder->where('created_by', \Auth::user()->created_by)
-                    ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'));            
+                    ->orWhereIn('created_by', \Auth::user()->companies->pluck('id'))
+                    ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'));
         }        
     }
 }

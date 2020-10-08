@@ -16,9 +16,9 @@ class StageStoreRequest extends FormRequest
     {
         switch($this->class) {
             case Lead::class:
-                return \Auth::user()->can('create lead stage');
+                return \Auth::user()->can('create', 'App\Stage');
             default:
-                return \Auth::user()->can('create task stage');
+                return \Auth::user()->can('create', 'App\Stage');
         }
     }
 

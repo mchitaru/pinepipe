@@ -19,7 +19,7 @@ class ExpensesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('view expense'))
+        if(\Auth::user()->can('viewAny', 'App\Expense'))
         {
             if (!$request->ajax())
             {
@@ -53,7 +53,7 @@ class ExpensesController extends Controller
 
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create expense'))
+        if(\Auth::user()->can('create', 'App\Expense'))
         {
             $project_id = $request['project_id'];
 
@@ -95,7 +95,7 @@ class ExpensesController extends Controller
 
     public function edit(Expense $expense)
     {
-        if(\Auth::user()->can('edit expense'))
+        if(\Auth::user()->can('update', $expense))
         {
             $categories = Category::where('class', Expense::class)
                                     ->get()->pluck('name', 'id');

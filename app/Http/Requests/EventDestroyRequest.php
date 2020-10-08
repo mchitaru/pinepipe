@@ -13,7 +13,7 @@ class EventDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete event'))
+        if($this->user()->can('delete', $this->event))
         {
             $event = $this->route()->parameter('event');
 

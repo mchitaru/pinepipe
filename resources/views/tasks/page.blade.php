@@ -112,10 +112,15 @@ $(function() {
     localStorage.setItem('dir', 'asc');
     localStorage.setItem('filter', '');
     localStorage.setItem('tag', 'mine');
+    localStorage.setItem('select', '{{\Auth::user()->created_by}}');
 
     updateFilters();
 
     loadContent($('.paginate-container:visible'));        
+});
+
+document.addEventListener("paginate-select", function(e) {
+    initTaskCards();
 });
 
 document.addEventListener("paginate-filter", function(e) {
@@ -159,24 +164,35 @@ document.addEventListener("paginate-load", function(e) {
                     </div>
                 </form>
             </div>
-            <div class="row content-list-filter align-items-center">
-                <div class="filter-container col-auto align-items-center">
-                    <div class="filter-controls">
-                        <div>{{__('Sort')}}:</div>
-                    </div>
-                    <div class="filter-controls">
-                        <a class="order" href="#" data-sort="order">{{__('Order')}}</a>
-                        <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
-                        <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
-                    </div>
+            <div class="row align-items-center">
+                @if($companies)
+                <div class="filter-container col-auto pl-2">
+                    <select class="filter-select custom-select custom-select mb-1" id="company">
+                        @foreach($companies as $idx => $company)
+                            <option value="{{$idx}}">{{$company}}</option>
+                        @endforeach
+                    </select>                    
                 </div>
-                <div class="filter-container col-auto align-items-center">
-                    <div class="filter-tags">
-                        <div>{{__('Tag')}}:</div>
+                @endif
+                <div class="col content-list-filter align-items-center">
+                    <div class="filter-container col-auto align-items-center">
+                        <div class="filter-controls">
+                            <div>{{__('Sort')}}:</div>
+                        </div>
+                        <div class="filter-controls">
+                            <a class="order" href="#" data-sort="order">{{__('Order')}}</a>
+                            <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
+                            <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
+                        </div>
                     </div>
-                    <div class="filter-tags">
-                        <div class="tag filter" data-filter="mine">{{__('My Tasks')}}</div>
-                        <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
+                    <div class="filter-container col-auto align-items-center">
+                        <div class="filter-tags">
+                            <div>{{__('Tag')}}:</div>
+                        </div>
+                        <div class="filter-tags">
+                            <div class="tag filter" data-filter="mine">{{__('My Tasks')}}</div>
+                            <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
+                        </div>
                     </div>
                 </div>
             </div>

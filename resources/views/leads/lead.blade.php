@@ -4,7 +4,7 @@
         </div>
         <div class="card-body">
             <div class="card-title col-xs-12 col-sm-3">
-                @if(Gate::check('view lead'))
+                @if(Gate::check('viewAny', 'App\Lead'))
                 <a href="{{ route('leads.show',$lead->id) }}">
                     <h6 data-filter-by="text">{{$lead->name}}</h6>
                 </a>
@@ -28,7 +28,7 @@
                 <div class="d-flex align-items-center">
                     @if($lead->client)
                         <i class="material-icons mr-1">business</i>
-                        @if(Gate::check('view client'))
+                        @if(Gate::check('viewAny', 'App\Client'))
                         <a class title='{{__('Client')}}' href="{{ route('clients.show',$lead->client->id) }}">
                             {{$lead->client->name}}
                         </a>
@@ -50,15 +50,15 @@
                     <i class="material-icons">more_vert</i>
                 </button>
 
-                @if(Gate::check('edit lead') || Gate::check('delete lead'))
+                @if(Gate::check('update', $lead) || Gate::check('delete', $lead))
                 <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit lead')
+                    @can('update', $lead)
                     <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
-                    @can('delete lead')
+                    @can('delete', $lead)
                         <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>
                         </a>

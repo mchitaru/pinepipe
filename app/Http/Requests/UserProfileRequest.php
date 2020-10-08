@@ -44,7 +44,7 @@ class UserProfileRequest extends FormRequest
         }else{
 
             return [
-                'current_password' => 'required',
+                'current_password' => 'nullable',
                 'new_password' => 'required|confirmed|min:6',
             ];
         }

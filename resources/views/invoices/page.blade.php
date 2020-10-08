@@ -68,7 +68,7 @@
                     </div>
                     </div>
                     <!--end of content list head-->
-                    @can('view invoice')
+                    @can('viewAny', 'App\Invoice')
                     <div class="content-list-body filter-list paginate-container">
                     </div>
                     @endcan

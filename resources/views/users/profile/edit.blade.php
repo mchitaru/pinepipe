@@ -74,6 +74,9 @@ use App\SubscriptionPlan;
         <li class="nav-item">
             <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="company" aria-selected="false">{{__('Company')}}</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">{{__('Users')}}</a>
+        </li>
         @endif
         <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">{{__('Email Notifications')}}</a>
@@ -90,20 +93,21 @@ use App\SubscriptionPlan;
     </div>
     <div class="col-xl-8 col-lg-10">
         <div class="card">
-        <div class="card-body">
-            <div class="tab-content">
-                <div class="tab-pane fade show" role="tabpanel" id="profile">@include('users.profile.partials.profile')</div>
-                <div class="tab-pane fade" role="tabpanel" id="password">@include('users.profile.partials.password')</div>
-                @if(\Auth::user()->type=='company')
-                <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.profile.partials.company')</div>
-                @endif
-                <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.profile.partials.notifications')</div>
-                @if(\Auth::user()->type=='company')
-                <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.profile.partials.subscription')</div>
-                @endif
-                <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.profile.partials.integrations')</div>
-            </div>            
-        </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade show" role="tabpanel" id="profile">@include('users.profile.partials.profile')</div>
+                    <div class="tab-pane fade" role="tabpanel" id="password">@include('users.profile.partials.password')</div>
+                    @if(\Auth::user()->type=='company')
+                    <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.profile.partials.company')</div>
+                    <div class="tab-pane fade show" role="tabpanel" id="users">@include('users.profile.partials.users')</div>
+                    @endif
+                    <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.profile.partials.notifications')</div>
+                    @if(\Auth::user()->type=='company')
+                    <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.profile.partials.subscription')</div>
+                    @endif
+                    <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.profile.partials.integrations')</div>
+                </div>            
+            </div>
         </div>
     </div>
     </div>    

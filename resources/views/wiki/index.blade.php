@@ -30,13 +30,13 @@
             <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                @can('edit article')
+                @can('update', $article)
                 <a href="{{ route('articles.edit', $article->id) }}" class="dropdown-item" data-params="path={{Request::url()}}" data-remote="true" data-type="text" >
                     {{__('Edit')}}
                 </a>
                 @endcan
                 <div class="dropdown-divider"></div>
-                @can('delete article')
+                @can('delete', $article)
                 <a href="{{ route('articles.destroy', $article->id) }}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                     {{__('Delete')}}
                 </a>

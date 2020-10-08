@@ -19,7 +19,7 @@ class TimesheetStoreRequest extends FormRequest
         if($project && !$project->enabled)
             return false;            
         
-        return $this->user()->can('create timesheet');
+        return $this->user()->can('create', 'App\Timesheet');
     }
 
     /**

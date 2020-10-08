@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\CompanyTenantScope;
+use App\Scopes\CollaboratorTenantScope;
 
 class Stage extends Model
 {
@@ -33,7 +33,7 @@ class Stage extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new CompanyTenantScope);
+        static::addGlobalScope(new CollaboratorTenantScope);
 
         static::creating(function ($stage) {
 
@@ -53,6 +53,16 @@ class Stage extends Model
                 $lead->delete();
             });
         });
+    }
+
+    public function isOpen(){
+
+        return $this->open == 1;
+    }
+
+    public function isClosed(){
+
+        return $this->open == 0;
     }
 
     public function tasks()
@@ -93,12 +103,12 @@ class Stage extends Model
 
             }else
             {
-                return \Auth::user()->staffTasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order');
+                return \Auth::user()->userTasks()->where('tasks.stage_id', '=', $this->id)->orderBy('order');
             }
         }
     }
 
-    public static function taskStagesByUserType($filter, $sort, $dir, $users)
+    public static function taskStagesByUserType($filter, $sort, $dir, $users, $select)
     {
         if(\Auth::user()->type == 'client')
         {
@@ -152,6 +162,7 @@ class Stage extends Model
 
             },'tasks.users'])
             ->where('class', Task::class)
+            ->where('created_by', $select)
             ->orderBy('order', 'ASC');
 
         }else if(\Auth::user()->type == 'company')
@@ -196,6 +207,7 @@ class Stage extends Model
 
             },'tasks.users'])
             ->where('class', Task::class)
+            ->where('created_by', $select)
             ->orderBy('order', 'ASC');
         }else
         {
@@ -250,6 +262,7 @@ class Stage extends Model
                 }
             },'tasks.users'])
             ->where('class', Task::class)
+            ->where('created_by', $select)
             ->orderBy('order', 'ASC');
         }
     }
@@ -279,6 +292,7 @@ class Stage extends Model
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)
+                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
         }
         elseif(\Auth::user()->type == 'company')
@@ -297,6 +311,7 @@ class Stage extends Model
 
                     },'leads.client','leads.user'])
                     ->where('class', Lead::class)
+                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
 
         }else
@@ -316,6 +331,7 @@ class Stage extends Model
                     },
                     'leads.client','leads.user'])
                     ->where('class', Lead::class)
+                    ->where('created_by', \Auth::user()->created_by)
                     ->orderBy('order');
         }
     }

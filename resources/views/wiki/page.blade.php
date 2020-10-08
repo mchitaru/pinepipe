@@ -31,7 +31,7 @@
                     <div class="row content-list-head">
                         <div class="col-auto">
                             <h3>{{__('Articles')}}</h3>
-                            @if(\Auth::user() && (\Auth::user()->created_by == $user->id) && Gate::check('create article'))
+                            @if(\Auth::user() && (\Auth::user()->created_by == $user->id) && Gate::check('create', 'App\Article'))
                             <a href="{{ route('articles.create') }}" class="btn btn-primary btn-round" data-params="path={{Request::url()}}" data-remote="true" data-type="text" >
                                 <i class="material-icons">add</i>
                             </a>
@@ -53,7 +53,7 @@
                                 <i class="material-icons">expand_more</i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    @can('create article'  && (\Auth::user()->created_by == $user->id))
+                                    @can('create', 'App\Article'  && (\Auth::user()->created_by == $user->id))
                                     <a href="{{ route('articles.create') }}" class="dropdown-item" data-params="category_id={{$category?$category->id:0}}" data-remote="true" data-type="text" >
                                         {{__('New article')}}
                                     </a>

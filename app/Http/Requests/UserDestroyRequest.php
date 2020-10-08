@@ -25,7 +25,7 @@ class UserDestroyRequest extends FormRequest
         }
 
         return ($user->created_by == $this->user()->id) &&
-                $this->user()->can('delete user');
+                $this->user()->can('delete', $user);
     }
 
     /**

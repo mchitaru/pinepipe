@@ -1,9 +1,10 @@
-function updateFilters(sort, dir, filter, tag)
+function updateFilters(sort, dir, filter, tag, select)
 {
     sort = localStorage.getItem('sort');
     dir = localStorage.getItem('dir');
     filter = localStorage.getItem('filter');
     tag = localStorage.getItem('tag');
+    select = localStorage.getItem('select');
 
     var currentURL = new URL(window.location.href);
 
@@ -18,6 +19,9 @@ function updateFilters(sort, dir, filter, tag)
 
     if(currentURL.searchParams.has("tag"))
         tag = currentURL.searchParams.get("tag");
+
+    if(currentURL.searchParams.has("select"))
+        select = currentURL.searchParams.get("select");
 
     $('.filter-controls a').each(function(e){
 
@@ -43,6 +47,11 @@ function updateFilters(sort, dir, filter, tag)
 
         $(this).val(filter);
     });
+
+    $('.filter-select').each(function(e){
+
+        $(this).val(select);
+    });
 }
 
 function deleteFilters() {
@@ -53,6 +62,7 @@ function deleteFilters() {
     url.searchParams.delete("dir");
     url.searchParams.delete("filter");
     url.searchParams.delete("tag");
+    url.searchParams.delete("select");
 
     window.history.replaceState(null, null, url.href);        
 
@@ -330,4 +340,61 @@ $(function() {
             }, 500);
         }
     });
+
+    $('.filter-select').on('change',function(e){
+            e.preventDefault();
+
+        var container = $('.paginate-container:visible');
+
+        if(container.length){
+
+            container.html(`<div class="h-100 w-100 row align-items-center justify-content-center pt-3">
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                <div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div>
+                </div>`);
+
+            clearTimeout(timeout);
+
+            combo = $(this);
+
+            // Make a new timeout set to go off in 1000ms (1 second)
+            timeout = setTimeout(function () {
+
+                var select = combo.val();
+
+                var url = new URL(window.location.href);
+                
+                if(select){
+                    url.searchParams.set("select", select);
+                }else{
+                    url.searchParams.delete("select");
+                }
+
+                $.ajax({
+                    url : url.href,
+                    type: 'get',
+                    dataType: 'text',
+                    data: { id: container.attr("id") },
+                }).done(function (data) 
+                {
+                    container.html(data);  
+                    LetterAvatar.transform();
+
+                    // Create the event
+                    var event = new CustomEvent("paginate-select");
+                    // Dispatch/Trigger/Fire the event
+                    document.dispatchEvent(event);            
+
+                }).fail(function () 
+                {
+                    // toastrs(lang.get('paginate.load'), 'danger');            
+                });
+
+                window.history.replaceState(null, null, url.href);
+
+            }, 100);
+        }
+    });
+
 });

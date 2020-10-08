@@ -11,7 +11,7 @@ use Carbon\Carbon;
         </div>
         <div class="card-body">
             <div class="card-title col-xs-12 col-sm-3">
-                @if(Gate::check('edit event'))
+                @if(Gate::check('update', $event))
                 <a href="{{ route('events.edit', $event->id) }}" data-remote="true" data-type="text">
                     <h6 data-filter-by="text">{{$event->name}}</h6>
                 </a>
@@ -31,13 +31,13 @@ use Carbon\Carbon;
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit event')
+                    @can('update', $event)
                     <a class="dropdown-item" href="{{ route('events.edit', $event->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
-                    @can('delete event')
+                    @can('delete', $event)
                         <a class="dropdown-item text-danger" href="{{ route('events.destroy', $event->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>
                         </a>

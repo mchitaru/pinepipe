@@ -9,7 +9,7 @@ trait Taskable
 {
     public function taskShow(Task $task)
     {
-        if(\Auth::user()->can('view task'))
+        if(\Auth::user()->can('viewAny', 'App\Task'))
         {
             clock()->startEvent('Taskable.show', "Load task");
 

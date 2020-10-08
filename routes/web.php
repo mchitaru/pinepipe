@@ -53,6 +53,10 @@ Route::group(
         ],
     ], function (){
 
+    //User invite accept
+    Route::get('users/invite/{user}/edit', 'UserInviteController@edit')->name('users.invite.edit');
+    Route::put('users/invite/{user}', 'UserInviteController@update')->name('users.invite.update');
+        
     Route::get('unsubscribe/{user}', 'UserProfileController@editUnsubscribe')->name('unsubscribe.edit');
     Route::put('unsubscribe/{user}', 'UserProfileController@updateUnsubscribe')->name('unsubscribe.update');
 
@@ -86,6 +90,10 @@ Route::group(
 
         //Sharepoint
         Route::get('sharepoint', 'SharepointController@index')->name('sharepoint');
+
+        //User invite
+        Route::get('users/invite', 'UserInviteController@create')->name('users.invite.create');
+        Route::post('users/invite', 'UserInviteController@store')->name('users.invite.store');
 
         //Users
         Route::post('users/notifications', 'UsersController@readNotifications')->name('users.notifications');
@@ -192,8 +200,6 @@ Route::group(
         Route::get('invoices/{invoice}/payments/{payment}/edit', 'InvoicePaymentsController@edit')->name('invoices.payments.edit');
         Route::put('invoices/{invoice}/payments/{payment}', 'InvoicePaymentsController@update')->name('invoices.payments.update');
         Route::delete('invoices/{invoice}/payments/{payment}', 'InvoicePaymentsController@delete')->name('invoices.payments.delete');
-
-        Route::resource('taxes', 'TaxesController');
 
         Route::post('stages/order', 'StagesController@order')->name('stages.order');
         Route::resource('stages', 'StagesController');

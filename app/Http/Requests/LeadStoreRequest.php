@@ -13,7 +13,7 @@ class LeadStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create lead');
+        return $this->user()->can('create', 'App\Lead');
     }
 
     /**

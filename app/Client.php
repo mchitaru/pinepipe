@@ -130,10 +130,6 @@ class Client extends Model implements HasMedia
         $client = Client::make($post);
         $client->save();
 
-        // $user = User::create($request->all());
-        // $role_r = Role::findByName('client');
-        // $user->assignRole($role_r);
-
         Activity::createClient($client);
 
         return $client;

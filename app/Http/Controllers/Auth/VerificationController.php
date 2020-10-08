@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use App\Providers\RouteServiceProvider;
 
+use App\User;
+use Carbon\Carbon;
+
+use Illuminate\Http\Request;
+
 class VerificationController extends Controller
 {
     /*
@@ -39,4 +44,24 @@ class VerificationController extends Controller
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
+
+    protected function verified(Request $request)
+    {
+        $user = \Auth::user();
+
+        if($user->handle == null){
+
+            $user->initCompanyDefaults();
+            $user->handle = $user->handle();
+        }
+
+        $location = geoip($request->ip());
+        
+        $user->setLocale($location);
+
+        $user->update([
+            'last_login_at' => Carbon::now()->toDateTimeString(),
+            'last_login_ip' => $request->getClientIp()
+        ]);
+    }    
 }

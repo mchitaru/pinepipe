@@ -13,7 +13,7 @@ class ContactUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('edit contact'))
+        if($this->user()->can('update', $this->contact))
         {
             $contact = $this->route()->parameter('contact');
 

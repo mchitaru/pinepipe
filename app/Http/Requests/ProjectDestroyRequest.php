@@ -13,7 +13,7 @@ class ProjectDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete project'))
+        if($this->user()->can('delete', $project))
         {
             $project = $this->route()->parameter('project');
 

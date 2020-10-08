@@ -8,9 +8,9 @@
             </a>
         </div>
         <div class="card-body p-2 pl-5">
-            <div class="card-title col-xs-12 col-sm-3">
+            <div class="card-title col-xs-12 col-sm-5">
                 <h6 data-filter-by="text">{{$user->name}}</h6>
-                <p class="text-small">{{$user->type}}</p>
+                <p class="text-small">{{$user->isCollaborator()?__("collaborator"):''}}</p>
                 @if(\Auth::user()->type=='super admin')
                     <p class="text-small">{{$user->created_at}}</p>
                 @endif
@@ -25,9 +25,9 @@
                     </a>
                 </span>
             </div>
-            <div class="card-meta col-2">
+            @if(\Auth::user()->type=='super admin')
+            <div class="card-meta col">
                 <div class="d-flex align-items-center justify-content-end">
-                    @if(\Auth::user()->type=='super admin')
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Collaborators")}}>people</i>
                         {{$user->totalCompanyUsers()}}
@@ -40,38 +40,33 @@
                         <i class="material-icons" title={{__("Clients")}}>storefront</i>
                         {{$user->totalCompanyClients()}}
                     </span>
-                    @else
-                    <span class="badge badge-light mr-2">
-                        <i class="material-icons" title={{__("Projects")}}>folder</i>
-                        {{$user->totalUserProjects()}}
-                    </span>
-                    <span class="badge badge-light mr-2">
-                        <i class="material-icons" title={{__("Tasks")}}>playlist_add_check</i>
-                        {{$user->totalUserTasks()}}
-                    </span>
-                    @endif
                 </div>
             </div>
+            @endif
             <div class="dropdown card-options">
-                    @if($user->enabled && $user->type != 'super admin' && $user->type != 'company')
-                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                        </button>
+                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                    </button>
 
-                        <div class="dropdown-menu dropdown-menu-right">
-                            {{-- @can('edit user')
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @if($user->type != 'company' && ($_user->type == 'super admin' || $_user->type == 'company'))
+                            {{-- @can('update', $user)
                                 <a class="dropdown-item" href="{{ route('users.edit', $user) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
                             @endcan --}}
-                            @can('delete user')
+                            @can('delete', $user)
                                 <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
                                     <span>{{__('Delete')}}</span>
                                 </a>
                             @endcan
-                        </div>
-                    @endif
+                        @elseif($user->isCollaborator())
+                            <a class="dropdown-item" href="{{ route('users.invite.store') }}" data-params="email={{$user->email}}" data-method="post" data-remote="true" data-type="text">
+                                    <span>{{__('Resend invitation')}}</span>
+                                </a>
+                        @endif
+                    </div>
                 </div>
             </div>
     </div>

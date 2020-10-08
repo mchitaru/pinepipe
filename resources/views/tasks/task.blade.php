@@ -35,7 +35,7 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
         </div>
         <div class="row align-items-center"  title="{{__('Client')}}">
             <i class="material-icons">business</i>
-            <span data-filter-by="text" class="text-small">{{ !empty($task->project) ? $task->project->client->name : '---' }}</span>
+            <span data-filter-by="text" class="text-small">{{ $task->project && $task->project->client ? $task->project->client->name : '---' }}</span>
         </div>
         @if(!$task->tags->isEmpty())
         <div class="row align-items-center"  title="{{__('Labels')}}">
@@ -61,15 +61,15 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
     </div>
     <div class="card-meta float-right">
 
-        @if(Gate::check('edit task') || Gate::check('delete task'))
+        @if(Gate::check('update', $task) || Gate::check('delete', $task))
             <div class="dropdown card-options">
             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
 
-                @can('edit task')
-                    <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="stage_id={{$stage_done}}" data-method="PATCH" data-remote="true" data-type="text">
+                @can('update', $task)
+                    <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="closed=1" data-method="PATCH" data-remote="true" data-type="text">
                         {{__('Mark as done')}}
                     </a>
 
@@ -78,7 +78,7 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
                     </a>
                 @endcan
                 <div class="dropdown-divider"></div>
-                @can('delete task')
+                @can('delete', $task)
                     <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                         {{__('Delete')}}
                     </a>

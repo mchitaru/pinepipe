@@ -1,4 +1,5 @@
 {{Form::model($user,array('route' => array('profile.password'), 'method' => 'patch'))}}
+@if($user->password != null)
 <div class="form-group row align-items-center">
     {{Form::label('current_password',__('Current Password'), array('class'=>'col-3'))}}
     <div class="col">
@@ -10,6 +11,7 @@
         @enderror
     </div>
 </div>
+@endif
 <div class="form-group row align-items-center">
     {{Form::label('new_password',__('New Password'), array('class'=>'col-3'))}}
     <div class="col">

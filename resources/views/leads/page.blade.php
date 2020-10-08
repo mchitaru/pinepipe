@@ -161,7 +161,7 @@ function initLeadCards() {
             <div class="row content-list-head">
                 <div class="col-12 col-md-auto">
                     <h3>{{__('Leads')}}</h3>
-                    @can('create lead')
+                    @can('create', 'App\Lead')
                     <a href="{{ route('leads.create') }}" class="btn btn-primary btn-round" data-remote="true" data-type="text">
                         <i class="material-icons">add</i>
                     </a>

@@ -29,7 +29,7 @@ class InvoicesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('view invoice') ||
+        if(\Auth::user()->can('viewAny', 'App\Invoice') ||
            \Auth::user()->type == 'client')
         {
             if (!$request->ajax())
@@ -67,7 +67,7 @@ class InvoicesController extends Controller
             else
             {
 
-                if(\Auth::user()->can('view invoice'))
+                if(\Auth::user()->can('viewAny', 'App\Invoice'))
                 {
                     $invoices = Invoice::with('project')
                                 ->whereIn('status', $status)
@@ -106,8 +106,9 @@ class InvoicesController extends Controller
 
             $project_id = $request['project_id'];
 
-            $taxes    = Tax::get()
-                            ->pluck('name', 'id');
+            $taxes    = \Auth::user()->companyTaxes()
+                                        ->get()
+                                        ->pluck('name', 'id');
             
             $taxPayer = \Auth::user()->isTaxPayer();
             $tax_id = $taxPayer ? 1 : null;
@@ -153,7 +154,7 @@ class InvoicesController extends Controller
 
     public function show(Invoice $invoice)
     {
-        if((\Auth::user()->can('view invoice') || \Auth::user()->type == 'client'))
+        if((\Auth::user()->can('viewAny', 'App\Invoice') || \Auth::user()->type == 'client'))
         {
             $companySettings = \Auth::user()->companySettings;
             $companyName = $companySettings ? $companySettings->name : null;
@@ -171,7 +172,7 @@ class InvoicesController extends Controller
 
     public function edit(Request $request, Invoice $invoice)
     {
-        if(\Auth::user()->can('edit invoice'))
+        if(\Auth::user()->can('update', $invoice))
         {
             $currency = $request->old('currency') ? $request->old('currency') :
                                                     (isset($request['currency']) ? $request['currency'] : $invoice->getCurrency());
@@ -181,8 +182,9 @@ class InvoicesController extends Controller
             $issue_date = $request->issue_date?$request->issue_date:$invoice->issue_date;
             $due_date = $request->due_date?$request->due_date:$invoice->due_date;
 
-            $taxes    = Tax::get()
-                            ->pluck('name', 'id');
+            $taxes    = \Auth::user()->companyTaxes()
+                                        ->get()
+                                        ->pluck('name', 'id');
 
             $locales = ['en' => 'English', 'ro' => 'Română'];
             $locale = isset($request['locale'])?$request['locale']:$invoice->getLocale();
@@ -227,7 +229,7 @@ class InvoicesController extends Controller
 
     public function pdf(Invoice $invoice)
     {
-        if(\Auth::user()->can('view invoice') || \Auth::user()->type == 'client')
+        if(\Auth::user()->can('viewAny', 'App\Invoice') || \Auth::user()->type == 'client')
         {
             $companySettings = \Auth::user()->companySettings;
             $companyName = $companySettings ? $companySettings->name : null;

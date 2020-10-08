@@ -20,7 +20,7 @@ class InvoiceItemDestroyRequest extends FormRequest
         if(!$invoice->created_by == \Auth::user()->created_by)
             return false;            
 
-        return $this->user()->can('edit invoice');
+        return $this->user()->can('update', $invoice);
     }
 
     /**

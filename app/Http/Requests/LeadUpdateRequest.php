@@ -13,7 +13,7 @@ class LeadUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('edit lead'))
+        if($this->user()->can('update', $this->lead))
         {
             $lead = $this->route()->parameter('lead');
 

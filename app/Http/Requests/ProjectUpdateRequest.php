@@ -14,7 +14,7 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if(\Auth::user()->can('edit project'))
+        if(\Auth::user()->can('update', $this->project))
         {
             $project = $this->route()->parameter('project');
 

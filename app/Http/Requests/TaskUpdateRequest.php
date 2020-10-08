@@ -15,11 +15,23 @@ class TaskUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('edit task'))
+        if($this->user()->can('update', $this->task))
         {
-            $task = $this->route()->parameter('task');
+            $task = $this->task;
 
-            return $task->created_by == \Auth::user()->created_by;
+            if ($this->isMethod('put'))
+            {    
+                //the task or project was created by this company
+                return $task->created_by == \Auth::user()->created_by ||
+                        $task->project && $task->project->created_by == \Auth::user()->created_by;
+
+            }else{
+
+                //if he tries to change status, the task or project was created by this company or is assigned to the user
+                return $task->created_by == \Auth::user()->created_by ||
+                        $task->project && $task->project->created_by == \Auth::user()->created_by ||
+                        $task->users->contains(\Auth::user()->id);
+            }
         }
 
         return false;
@@ -48,6 +60,7 @@ class TaskUpdateRequest extends FormRequest
 
             return [
                 'stage_id' => 'nullable|integer',
+                'closed' => 'nullable|integer',
                 'order' => 'nullable|integer',
             ];
         }

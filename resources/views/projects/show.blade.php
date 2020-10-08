@@ -4,7 +4,7 @@
 use Carbon\Carbon;
 use App\Project;
 
-if(Gate::check('view task')){
+if(Gate::check('viewAny', 'App\Task')){
     $default_tab = '#tasks';
 }else{
     $default_tab = '#timesheets';
@@ -97,9 +97,11 @@ if(Gate::check('view task')){
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
                         <i class="material-icons mr-1">business</i>
+                        @if($project->client)
                         <a href="{{ route('clients.show',$project->client->id) }}"  data-title="{{__('Client')}}">
                             {{ (!empty($project->client)?$project->client->name:'') }}
                         </a>
+                        @endif
                     </div>
                 </div>
             <p class="lead">{!! nl2br(e($project->description)) !!}</p>
@@ -114,7 +116,7 @@ if(Gate::check('view task')){
                         </li>
                         @endforeach
                     </ul>
-                    {{-- @can('view project')
+                    {{-- @can('view', $project)
                     <a href="{{ route('projects.invite.create', $project->id)  }}" class="btn btn-primary btn-round" data-remote="true" data-type="text"  title="{{__('Invite Users')}}">
                         <i class="material-icons">add</i>
                     </a>
@@ -125,20 +127,20 @@ if(Gate::check('view task')){
                       <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @can('view task')
+                        @can('viewAny', 'App\Task')
                             <a class="dropdown-item" href="{{ route('tasks.board', $project->id) }}" data-title="{{__('Task Board')}}">
                                 {{__('Task Board')}}
                             </a>
                         @endcan
-                        @if(Gate::check('edit project') || Gate::check('delete project'))
+                        @if(Gate::check('update', $project) || Gate::check('delete', $project))
                         <div class="dropdown-divider"></div>
-                        @can('edit project')
+                        @can('update', $project)
                             <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                                 {{__('Edit Project')}}
                             </a>
                         @endcan
                         <div class="dropdown-divider"></div>
-                        @can('edit project')
+                        @can('update', $project)
                             @if(!$project->archived)
                                 <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
                                     {{__('Archive')}}
@@ -149,7 +151,7 @@ if(Gate::check('view task')){
                                 </a>
                             @endif
                         @endcan
-                        @can('delete project')
+                        @can('delete', $project)
                             <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 {{__('Delete')}}
                             </a>
@@ -186,7 +188,7 @@ if(Gate::check('view task')){
             </div>
             </div>
             <ul class="nav nav-tabs nav-fill" role="tablist">
-            @can('view task')
+            @can('viewAny', 'App\Task')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">{{__('Tasks')}}
                     @if(!$project->tasks->isEmpty())
@@ -242,7 +244,7 @@ if(Gate::check('view task')){
                 <div class="col-auto">
                     <h3>{{__('Tasks')}}</h3>
 
-                    @can('create task')
+                    @can('create', 'App\Task')
                         <a href="{{ route('tasks.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
@@ -269,7 +271,7 @@ if(Gate::check('view task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                @can('view task')
+                @can('viewAny', 'App\Task')
                 <div class="content-list-body filter-list paginate-container" id="tasks-container">
                 </div>
                 @endcan
@@ -281,7 +283,7 @@ if(Gate::check('view task')){
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
 
-                    @can('create timesheet')
+                    @can('create', 'App\Timesheet')
                         <a href="{{ route('timesheets.create') }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
@@ -336,7 +338,7 @@ if(Gate::check('view task')){
                 <div class="col-auto">
                     <h3>{{__('Expenses')}}</h3>
 
-                    @can('create expense')
+                    @can('create', 'App\Expense')
                         <a href="{{ route('expenses.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>

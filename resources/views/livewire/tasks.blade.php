@@ -1,8 +1,6 @@
 @php
 use App\Project;
 use Carbon\Carbon;
-
-$stage_done = \Auth::user()->getLastTaskStage()->id;
 @endphp
 
 <div class="scrollable-list col" style="max-height:90vh">

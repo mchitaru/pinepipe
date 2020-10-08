@@ -11,7 +11,7 @@ use Carbon\Carbon;
         </div>
         <div class="card-body">
             <div class="card-title col-sm-3">
-                @if(Gate::check('edit expense'))
+                @if(Gate::check('update', $expense))
                     <a href="{{ route('expenses.edit',$expense->id) }}" data-remote="true" data-type="text">
                         <h6 data-filter-by="text">{{  ($expense->category?$expense->category->name:'---')}}</h6>
                     </a>
@@ -48,20 +48,20 @@ use Carbon\Carbon;
                 </a>
             </div>
             @endif
-            @if(Gate::check('edit expense') || Gate::check('delete expense'))
+            @if(Gate::check('update', $expense) || Gate::check('delete', $expense))
             <div class="dropdown card-options">
                 <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons">more_vert</i>
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    @can('edit expense')
+                    @can('update', $expense)
                     <a href="{{ route('expenses.edit',$expense->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
                     <div class="dropdown-divider"></div>
-                    @can('delete expense')
+                    @can('delete', $expense)
                         <a href="{{route('expenses.destroy',$expense->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>
                         </a>

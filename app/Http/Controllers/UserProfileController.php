@@ -66,7 +66,12 @@ class UserProfileController extends Controller
 
             $url = route('profile.update');
 
-            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url'));
+            $users = User::withoutGlobalScopes()
+                            ->where('created_by', \Auth::user()->created_by)
+                            ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
+                            ->paginate(25, ['*'], 'user-page');
+
+            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url', 'users'));
 
         }else{
 
@@ -124,7 +129,7 @@ class UserProfileController extends Controller
         $user = \Auth::user();
         $post = $request->validated();
 
-        if(Hash::check($post['current_password'], $user->password))
+        if($user->password == null || Hash::check($post['current_password'], $user->password))
         {
             $user->password = Hash::make($post['new_password']);
             $user->save();
