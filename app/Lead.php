@@ -193,15 +193,7 @@ class Lead extends Model implements HasMedia
         return $updated;
     }
 
-    static function translateStatus($status)
-    {
-        switch($status)
-        {
-            case 1: return __('archived');
-            default: return __('active');
-        }
-    }
-
+    //used for filters
     public static $status = [
         'active',
         'archived'

@@ -295,15 +295,6 @@ class Project extends Model implements HasMedia
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 
-    static function translateStatus($status)
-    {
-        switch($status)
-        {
-            case 1: return __('archived');
-            default: return __('active');
-        }
-    }
-
     static function translatePriority($priority)
     {
         switch($priority)
@@ -326,29 +317,11 @@ class Project extends Model implements HasMedia
             }
         }
     }
-
+    
+    //used for filters
     public static $status = [
         'active',
         'archived'
     ];
-
-    public static $permission = [
-        // '',
-        'show activity',
-        'show milestone',
-        'create milestone',
-        'edit milestone',
-        'delete milestone',
-        'create task',
-        'edit task',
-        'delete task',
-        'show uploading',
-        'view timesheet',
-        'create timesheet',
-        'edit timesheet',
-        'delete timesheet'
-    ];
-
-
 
 }

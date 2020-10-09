@@ -168,12 +168,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function companies()
     {
-        return $this->belongsToMany('App\User', 'user_companies', 'user_id', 'company_id')->withoutGlobalScopes();
+        return $this->belongsToMany('App\User', 'user_companies', 'user_id', 'company_id')->withoutGlobalScopes()->withTimestamps()->withPivot('type');
     }
 
     public function collaborators()
     {
-        return $this->belongsToMany('App\User', 'user_companies', 'company_id', 'user_id')->withoutGlobalScopes();
+        return $this->belongsToMany('App\User', 'user_companies', 'company_id', 'user_id')->withoutGlobalScopes()->withTimestamps()->withPivot('type');
     }
 
     public function getCompany()
@@ -195,9 +195,33 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $currency ? $currency : 'EUR';
     }
 
+    public function getCollaboratorType()
+    {
+        $user = $this->companies->find(\Auth::user()->created_by);
+
+        if($user){
+
+            return $user->pivot->type;
+        }
+
+        return '';
+    }
+
     public function isCollaborator()
     {
         return $this->companies->contains(\Auth::user()->created_by);
+    }
+
+    static function translateCollaboration($collab)
+    {
+        switch($collab)
+        {
+            case 'collaborator': return __('collaborator');
+            case 'partner': return __('partner');
+            case 'client': return __('client');
+        }
+
+        return '';
     }
 
     public function languages()

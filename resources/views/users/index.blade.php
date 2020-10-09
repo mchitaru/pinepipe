@@ -10,7 +10,7 @@
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-5">
                 <h6 data-filter-by="text">{{$user->name}}</h6>
-                <p class="text-small">{{$user->isCollaborator()?__("collaborator"):''}}</p>
+                <p class="text-small">{{__($user->getCollaboratorType())}}</p>
                 @if(\Auth::user()->type=='super admin')
                     <p class="text-small">{{$user->created_at}}</p>
                 @endif

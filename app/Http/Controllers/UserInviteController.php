@@ -57,14 +57,14 @@ class UserInviteController extends Controller
             
             if($user != \Auth::user() && $user->type == 'company'){
 
-                \Auth::user()->collaborators()->attach($user->id);
+                \Auth::user()->collaborators()->attach($user->id, ['type' => 'collaborator']);
 
-                $request->session()->flash('success', __('Collaborator successfully invited. You can now assign them to a project.'));
+                $request->session()->flash('success', __('Invite succesfully sent. You can now assign the collaborator to a project.'));
 
                 return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
             }
 
-            $request->session()->flash('error', __('This account cannot be invited as a collaborator!'));
+            $request->session()->flash('error', __('This email address cannot be invited as a collaborator!'));
 
             return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
         }

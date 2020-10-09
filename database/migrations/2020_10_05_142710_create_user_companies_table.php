@@ -17,6 +17,7 @@ class CreateUserCompaniesTable extends Migration
             $table->id();
             $table->unsignedInteger('user_id')->default(0);
             $table->unsignedInteger('company_id')->default(0);
+            $table->string('type');
             $table->timestamps();
         });
     }
