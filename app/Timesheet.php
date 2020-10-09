@@ -85,7 +85,7 @@ class Timesheet extends Model
 
     public function getShortTitleAttribute()
     {
-        return (!empty($this->task) ? $this->task->title : (\Auth::user()->dateFormat($this->date).' | '.$this->formatTime()));
+        return (!empty($this->task) ? $this->task->title : (\Auth::user()->dateFormat($this->date, false).' | '.$this->formatTime()));
     }
 
     public static function createTimesheet($post)

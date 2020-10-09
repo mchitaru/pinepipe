@@ -731,9 +731,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return \Helpers::priceFormat($price, $currency, $precision, $this->locale);
     }
 
-    public function dateFormat($date)
+    public function dateFormat($date, $long = true)
     {
-        return Carbon::parse($date)->locale(\Auth::user()->locale)->isoFormat('LL');
+        return Carbon::parse($date)->locale(\Auth::user()->locale)->isoFormat($long?'LL':'ll');
     }
 
     public function invoiceNumberFormat($number)

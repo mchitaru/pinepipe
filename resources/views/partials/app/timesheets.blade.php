@@ -26,7 +26,7 @@ $timesheet = $timesheets->first();
         <a class="dropdown-item timer-entry {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}"  title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
             <div class="row align-items-center">
                 <div class="col-4">
-                    {!!Auth::user()->dateFormat($timesheet->date).'<br>['.$timesheet->formatTime().']<br>'!!}
+                    {!!Auth::user()->dateFormat($timesheet->date, false).'<br>['.$timesheet->formatTime().']<br>'!!}
                 </div>
                 <div class="col-8">
                     @if($timesheet->task)
