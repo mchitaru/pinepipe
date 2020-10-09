@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Client;
+use App\Note;
 use App\User;
 
-class ClientPolicy
+class NotePolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,13 @@ class ClientPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Note  $note
      * @return mixed
      */
-    public function view(User $user, Client $client)
+    public function view(User $user, Note $note)
     {
-        return $client->created_by == $user->id;
+        return $note->created_by == $user->id ||
+                $note->notable && $note->notable->created_by == $user->id;
     }
 
     /**
@@ -48,34 +49,36 @@ class ClientPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Note  $note
      * @return mixed
      */
-    public function update(User $user, Client $client)
+    public function update(User $user, Note $note)
     {
-        return $client->created_by == $user->id;
+        return $note->created_by == $user->id ||
+                $note->notable && $note->notable->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Note  $note
      * @return mixed
      */
-    public function delete(User $user, Client $client)
+    public function delete(User $user, Note $note)
     {
-        return $client->created_by == $user->id;
+        return $note->created_by == $user->id ||
+                $note->notable && $note->notable->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Note  $note
      * @return mixed
      */
-    public function restore(User $user, Client $client)
+    public function restore(User $user, Note $note)
     {
         //
     }
@@ -84,10 +87,10 @@ class ClientPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Note  $note
      * @return mixed
      */
-    public function forceDelete(User $user, Client $client)
+    public function forceDelete(User $user, Note $note)
     {
         //
     }

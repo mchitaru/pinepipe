@@ -37,6 +37,7 @@ $timesheet = $_user->timesheets->first();
         </div>
         <div class="card-list-body" data-id={{$stage->id}}>
             @foreach($stage->tasks as $task)
+            @can('view', $task)
             @php
                 $total_subtask = $task->getTotalChecklistCount();
                 $completed_subtask = $task->getCompleteChecklistCount();
@@ -105,6 +106,7 @@ $timesheet = $_user->timesheets->first();
                     </div>
                 </div>
             </div>
+            @endcan
             @endforeach
         </div>
     </div>

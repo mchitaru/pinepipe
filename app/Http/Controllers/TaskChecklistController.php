@@ -9,6 +9,8 @@ use App\Http\Requests\TaskChecklistRequest;
 use Illuminate\Http\Request;
 use App\Traits\Taskable;
 
+use Illuminate\Support\Facades\Gate;
+
 class TaskChecklistController extends Controller
 {
     use Taskable;
@@ -20,6 +22,8 @@ class TaskChecklistController extends Controller
      */
     public function index(Task $task)
     {
+        Gate::authorize('view', $task);
+
         return $this->taskShow($task);
     }
 
@@ -31,6 +35,8 @@ class TaskChecklistController extends Controller
      */
     public function store(TaskChecklistRequest $request, Task $task)
     {
+        Gate::authorize('update', $task);
+
         $post = $request->validated();
 
         $subtask = $task->checklist()->create($post);
@@ -56,6 +62,8 @@ class TaskChecklistController extends Controller
      */
     public function update(TaskChecklistRequest $request, Task $task, Checklist $subtask)
     {        
+        Gate::authorize('update', $task);
+
         $post = $request->validated();
 
         if (isset($post['title'])){
@@ -81,6 +89,8 @@ class TaskChecklistController extends Controller
      */
     public function destroy(Task $task, Checklist $subtask)
     {
+        Gate::authorize('update', $task);
+
         $subtask->delete();
 
         return response('');

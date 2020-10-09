@@ -13,7 +13,12 @@ class CompanySettingsRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->type == 'company';
+        if($this->companySettings){
+
+            return $this->user()->can('update', $this->companySettings);
+        }
+
+        return $this->user()->can('create', 'App\CompanySettings');
     }
 
     /**

@@ -30,7 +30,7 @@ class InvoicePolicy
      */
     public function view(User $user, Invoice $invoice)
     {
-        return true;
+        return $invoice->created_by == $user->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoice)
     {
-        return true;
+        return $invoice->created_by == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoice)
     {
-        return true;
+        return $invoice->created_by == $user->id;
     }
 
     /**

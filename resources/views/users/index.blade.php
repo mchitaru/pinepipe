@@ -1,5 +1,6 @@
 
 @foreach($users as $user)
+@can('view', $user)
 <div class="card card-task mb-1">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
@@ -49,7 +50,7 @@
                     </button>
 
                     <div class="dropdown-menu dropdown-menu-right">
-                        @if($user->type != 'company' && ($_user->type == 'super admin' || $_user->type == 'company'))
+                        @if($user->type != 'company' && ($_user->isSuperAdmin() || $_user->type == 'company'))
                             {{-- @can('update', $user)
                                 <a class="dropdown-item" href="{{ route('users.edit', $user) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>
@@ -71,6 +72,7 @@
             </div>
     </div>
 </div>
+@endcan
 @endforeach
 
 @if(method_exists($users,'links'))

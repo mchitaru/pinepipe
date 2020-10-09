@@ -9,10 +9,12 @@
             </a>
         @endforeach
         @foreach($articles as $article)
+        @can('view', $article)
             <a href="{{ Request::url().'/'.$article->slug  }}" class="list-group-item list-group-item-action d-flex">
                 <i class="material-icons pr-1">article</i>
                 {{$article->title}}
             </a>
+        @endcan
         @endforeach
         @if($categories->isEmpty() && $articles->isEmpty())
             <p>{{__('No articles published yet.')}}</p>

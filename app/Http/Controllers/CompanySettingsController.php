@@ -11,6 +11,8 @@ use App\Http\Requests\CompanySettingsRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
+use Illuminate\Support\Facades\Gate;
+
 class CompanySettingsController extends Controller
 {
     /**
@@ -21,9 +23,19 @@ class CompanySettingsController extends Controller
      */
     public function update(CompanySettingsRequest $request)
     {
+        $settings = CompanySettings::first();
+
+        if($settings) {
+
+            Gate::authorize('update', $settings);
+        }else{
+
+            Gate::authorize('create', 'App\CompanySettings');
+        }     
+
         $post = $request->validated();
 
-        $settings = CompanySettings::updateSettings($post);
+        $settings = CompanySettings::updateSettings($settings, $post);
 
         if($request->hasFile('logo')){
             
@@ -42,6 +54,6 @@ class CompanySettingsController extends Controller
      */
     public function destroy(CompanySettings $companySettings)
     {
-        //
+        Gate::authorize('delete', $companySettings);
     }
 }

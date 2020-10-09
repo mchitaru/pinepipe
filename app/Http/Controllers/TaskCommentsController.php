@@ -8,6 +8,8 @@ use App\Http\Requests\TaskCommentRequest;
 use Illuminate\Http\Request;
 use App\Traits\Taskable;
 
+use Illuminate\Support\Facades\Gate;
+
 class TaskCommentsController extends Controller
 {
     use Taskable;
@@ -18,6 +20,8 @@ class TaskCommentsController extends Controller
      */
     public function index(Task $task)
     {
+        Gate::authorize('view', $task);
+
         return $this->taskShow($task);
     }
 
@@ -29,6 +33,8 @@ class TaskCommentsController extends Controller
      */
     public function store(TaskCommentRequest $request, Task $task)
     {
+        Gate::authorize('update', $task);
+
         $post = $request->validated();
 
         $post['user_id']    = \Auth::user()->id;
@@ -48,6 +54,8 @@ class TaskCommentsController extends Controller
      */
     public function update(TaskCommentRequest $request, Task $task, Comment $comment)
     {
+        Gate::authorize('update', $task);
+
         $post = $request->validated();
 
         $comment->update($post);
@@ -65,6 +73,8 @@ class TaskCommentsController extends Controller
      */
     public function destroy(Task $task, Comment $comment)
     {
+        Gate::authorize('delete', $task);
+
         $comment->delete();
 
         return $this->taskShow($task);

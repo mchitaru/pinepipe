@@ -20,16 +20,14 @@ use Carbon\Carbon;
         </div>
         <div class="card-list-body collapse" id="projects">
             @foreach($items as $project)
-
+            @can('view', $project)
             @php
                 $project->computeStatistics();
             @endphp
-
             <div class="card card-task">
                 <div class="progress">
                     <div class="progress-bar bg-{{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-
                 <div class="card-body">
                     <div class="card-title col-xs-12 col-sm-4">
 
@@ -43,7 +41,6 @@ use Carbon\Carbon;
 
                         {!!\Helpers::showDateForHumans($project->due_date)!!}
                     </div>
-
                     <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">
                         <div class="row align-items-center"  title="{{__('Client')}}">
                             <i class="material-icons mr-1">business</i>
@@ -68,7 +65,6 @@ use Carbon\Carbon;
                             @endforeach
                         </ul>
                     </div>
-
                     <div class="card-meta d-flex justify-content-between">
                         @if(Gate::check('update', $project) || Gate::check('delete', $project) || Gate::check('create', 'App\User'))
                         <div class="dropdown card-options">
@@ -88,7 +84,6 @@ use Carbon\Carbon;
                                     </a>
                                 @endcan
                                 <div class="dropdown-divider"></div>
-
                                 @can('update', $project)
                                     @if(!$project->archived)
                                         <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
@@ -101,7 +96,6 @@ use Carbon\Carbon;
 
                                     @endif
                                 @endcan
-
                                 @can('delete', $project)
                                     <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                         {{__('Delete')}}
@@ -138,6 +132,7 @@ use Carbon\Carbon;
                     </div>
                 </div>
             </div> --}}
+            @endcan
             @endforeach
         </div>
     </div>

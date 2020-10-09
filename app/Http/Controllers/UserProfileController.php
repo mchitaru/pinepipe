@@ -12,6 +12,7 @@ use App\Http\Requests\UserProfileRequest;
 use App\Http\Requests\UserProfileDestroyRequest;
 use App\Http\Requests\UserUnsubscribeRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 use App\Currency;
 
@@ -19,6 +20,8 @@ class UserProfileController extends Controller
 {
     public function show(User $user)
     {
+        Gate::authorize('view', $user);
+
         $companySettings = $user->companySettings;
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
@@ -48,41 +51,38 @@ class UserProfileController extends Controller
 
     public function edit(User $user)
     {
-        if(\Auth::user()->id == $user->id) {
+        Gate::authorize('update', $user);
 
-            if(!$user->subscribed()){
-                $user_plan = SubscriptionPlan::first();
-            }else{
-                $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
-            }
-
-            $plans = SubscriptionPlan::orderBy('duration','asc')->get();
-
-            $companySettings = $user->companySettings;
-            $companyName = $companySettings ? $companySettings->name : null;
-            $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
-
-            $currencies = Currency::get()->pluck('code', 'code');
-
-            $locales = ['en' => 'English', 'ro' => 'Română'];
-
-            $url = route('profile.update');
-
-            $users = User::withoutGlobalScopes()
-                            ->where('created_by', \Auth::user()->created_by)
-                            ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
-                            ->paginate(25, ['*'], 'user-page');
-
-            return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url', 'users'));
-
+        if(!$user->subscribed()){
+            $user_plan = SubscriptionPlan::first();
         }else{
-
-            return Redirect::to(URL::previous())->with('error', __('Access forbidden!'));
+            $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
         }
+
+        $plans = SubscriptionPlan::orderBy('duration','asc')->get();
+
+        $companySettings = $user->companySettings;
+        $companyName = $companySettings ? $companySettings->name : null;
+        $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+
+        $currencies = Currency::get()->pluck('code', 'code');
+
+        $locales = ['en' => 'English', 'ro' => 'Română'];
+
+        $url = route('profile.update');
+
+        $users = User::withoutGlobalScopes()
+                        ->where('created_by', \Auth::user()->created_by)
+                        ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
+                        ->paginate(25, ['*'], 'user-page');
+
+        return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url', 'users'));
     }
 
     public function update(UserProfileRequest $request, User $user)
     {
+        Gate::authorize('update', $user);
+
         $post = $request->validated();
 
         $user->fill($post);
@@ -99,6 +99,8 @@ class UserProfileController extends Controller
 
     public function destroy(UserProfileDestroyRequest $request, User $user)
     {
+        Gate::authorize('delete', $user);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

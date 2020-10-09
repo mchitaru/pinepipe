@@ -1,6 +1,7 @@
 @php clock()->startEvent('notes.index', "Display notes"); @endphp
 
 @foreach($notes as $note)
+@can('view', $note)
 <div class="card card-note">
     <div class="card-header p-1">
         <div class="media align-items-center">
@@ -31,6 +32,7 @@
         {!! nl2br(e($note->text)) !!}
     </div>
 </div>
+@endcan
 @endforeach
 
 @if(method_exists($notes,'links'))

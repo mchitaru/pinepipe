@@ -254,7 +254,7 @@ class Activity extends Model
                 'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_event',
                 'value' => $event->name,
-                'url'    => route('events.edit', $event->id),
+                'url'    => route('events.show', $event->id),
             ]
         );
     }
@@ -267,7 +267,7 @@ class Activity extends Model
                 'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_event',
                 'value' => $event->name,
-                'url'    => route('events.edit', $event->id),
+                'url'    => route('events.show', $event->id),
             ]
         );
     }

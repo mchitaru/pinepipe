@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Client;
 use App\Mail\InviteUserMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
@@ -58,6 +59,29 @@ class UserInviteController extends Controller
             if($user != \Auth::user() && $user->type == 'company'){
 
                 \Auth::user()->collaborators()->attach($user->id, ['type' => 'collaborator']);
+
+                if(\Auth::user()->companySettings &&
+                    $user->companyClients()
+                            ->where('name', \Auth::user()->companySettings->name)
+                            ->orWhere('email', \Auth::user()->companySettings->email)
+                            ->first() == null) {
+
+                    //add a client for current company
+                    $client = Client::create(
+                        [
+                            'name' => \Auth::user()->companySettings->name,
+                            'email' => \Auth::user()->companySettings->email,
+                            'phone' => \Auth::user()->companySettings->phone,
+                            'address' => \Auth::user()->companySettings->address,
+                            'website' => \Auth::user()->companySettings->website,
+                            'user_id' => $user->id,
+                            'created_by' => $user->id
+                        ]
+                    );
+
+                    $client->created_by = $user->id;
+                    $client->save();
+                }                
 
                 $request->session()->flash('success', __('Invite succesfully sent. You can now assign the collaborator to a project.'));
 

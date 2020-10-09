@@ -5,6 +5,7 @@ use Carbon\Carbon;
 @endphp
 
 @foreach ($expenses as $expense)
+@can('view', $expense)
 <div class="card card-task">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
@@ -72,6 +73,7 @@ use Carbon\Carbon;
         </div>
     </div>
 </div>
+@endcan
 @endforeach
 
 @if(method_exists($expenses,'links'))

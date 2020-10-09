@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Client;
+use App\SubscriptionPlan;
 use App\User;
 
-class ClientPolicy
+class SubscriptionPlanPolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +18,19 @@ class ClientPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->isSuperAdmin();
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\SubscriptionPlan  $subscriptionPlan
      * @return mixed
      */
-    public function view(User $user, Client $client)
+    public function view(User $user, SubscriptionPlan $subscriptionPlan)
     {
-        return $client->created_by == $user->id;
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -41,41 +41,41 @@ class ClientPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->isSuperAdmin();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\SubscriptionPlan  $subscriptionPlan
      * @return mixed
      */
-    public function update(User $user, Client $client)
+    public function update(User $user, SubscriptionPlan $subscriptionPlan)
     {
-        return $client->created_by == $user->id;
+        return $user->isSuperAdmin();
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\SubscriptionPlan  $subscriptionPlan
      * @return mixed
      */
-    public function delete(User $user, Client $client)
+    public function delete(User $user, SubscriptionPlan $subscriptionPlan)
     {
-        return $client->created_by == $user->id;
+        return $user->isSuperAdmin();
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\SubscriptionPlan  $subscriptionPlan
      * @return mixed
      */
-    public function restore(User $user, Client $client)
+    public function restore(User $user, SubscriptionPlan $subscriptionPlan)
     {
         //
     }
@@ -84,10 +84,10 @@ class ClientPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\SubscriptionPlan  $subscriptionPlan
      * @return mixed
      */
-    public function forceDelete(User $user, Client $client)
+    public function forceDelete(User $user, SubscriptionPlan $subscriptionPlan)
     {
         //
     }

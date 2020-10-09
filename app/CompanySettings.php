@@ -84,10 +84,8 @@ class CompanySettings extends Model implements HasMedia
                 ->nonQueued();
     }
 
-    public static function updateSettings($post)
+    public static function updateSettings($settings, $post)
     {
-        $settings = CompanySettings::first();
-
         if($settings && $settings->currency != $post['currency'] ||
             $settings == null && \Auth::user()->getDefaultCurrency() != $post['currency']){
 

@@ -13,16 +13,7 @@ class LeadUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('update', $this->lead))
-        {
-            $lead = $this->route()->parameter('lead');
-
-            return $lead->created_by == \Auth::user()->created_by &&
-                    (\Auth::user()->type == 'company' ||
-                    $lead->user_id == \Auth::user()->id);
-        }
-
-        return false;
+        return $this->user()->can('update', $this->lead);
     }
 
     /**

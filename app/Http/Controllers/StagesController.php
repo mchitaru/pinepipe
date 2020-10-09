@@ -12,6 +12,7 @@ use App\Http\Requests\StageDestroyRequest;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 
 class StagesController extends Controller
 {
@@ -22,6 +23,8 @@ class StagesController extends Controller
      */
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Stage');
+
         $class = $request->class;
         $order = $request->order;
 
@@ -36,6 +39,8 @@ class StagesController extends Controller
      */
     public function store(StageStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Stage');
+
         $post = $request->validated();
 
         Stage::create($post);
@@ -53,6 +58,8 @@ class StagesController extends Controller
      */
     public function edit(Request $request, Stage $stage)
     {
+        Gate::authorize('update', $stage);
+
         $class = $request->class;
 
         return view('stages.edit', compact('stage', 'class'));
@@ -67,6 +74,8 @@ class StagesController extends Controller
      */
     public function update(StageUpdateRequest $request, Stage $stage)
     {
+        Gate::authorize('update', $stage);
+
         $post = $request->validated();
 
         $stage->update($post);
@@ -84,6 +93,8 @@ class StagesController extends Controller
      */
     public function destroy(StageDestroyRequest $request, Stage $stage)
     {
+        Gate::authorize('delete', $stage);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

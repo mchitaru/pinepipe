@@ -42,6 +42,7 @@
             <!--end of content list head-->
             <div class="content-list-body row">
                 @foreach($plans as $plan)
+                    @can('view', $plan)
                     <div class="col-lg-3">
                         <div class="card text-center" style="max-width: 250px;">
                             <div class="card-body">
@@ -82,6 +83,7 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
                 @endforeach
             </div>
         </div>

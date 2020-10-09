@@ -5,6 +5,7 @@ use Carbon\Carbon;
 @php clock()->startEvent('events.index', "Display events"); @endphp
 
 @foreach($events as $event)
+@can('view', $event)
 <div class="card card-task">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
@@ -16,7 +17,9 @@ use Carbon\Carbon;
                     <h6 data-filter-by="text">{{$event->name}}</h6>
                 </a>
                 @else
+                <a href="{{ route('events.show', $event->id) }}" data-remote="true" data-type="text">
                     <h6 data-filter-by="text">{{$event->name}}</h6>
+                </a>
                 @endif
                 {!!\Helpers::showTimeForHumans($event->start)!!}
                 {!!\Helpers::showTimespan($event->start, $event->end)!!}
@@ -47,6 +50,7 @@ use Carbon\Carbon;
         </div>
     </div>
 </div>
+@endcan
 @endforeach
 
 @if(method_exists($events,'links'))

@@ -13,7 +13,7 @@ class NoteStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return \Auth::user()->can('create', 'App\Note');
     }
 
     /**

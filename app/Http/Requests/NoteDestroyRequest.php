@@ -15,11 +15,7 @@ class NoteDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        $note = $this->route()->parameter('note');
-
-        return $note->created_by == \Auth::user()->created_by &&
-                (\Auth::user()->type == 'company' ||
-                $note->user_id == \Auth::user()->id);
+        return \Auth::user()->can('delete', $this->note);
     }
 
     /**

@@ -1,6 +1,7 @@
 @php clock()->startEvent('contacts.index', "Display contacts"); @endphp
 
 @foreach($contacts as $contact)
+@can('view', $contact)
 <div class="card card-task">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
@@ -77,6 +78,7 @@
         </div>
     </div>
 </div>
+@endcan
 @endforeach
 
 @if(method_exists($contacts,'links'))

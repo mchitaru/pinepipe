@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CalendarController extends Controller
 {
@@ -16,7 +17,13 @@ class CalendarController extends Controller
             $event['start']  = \Helpers::utcToLocal($ev->start);
             $event['end']  = \Helpers::utcToLocal($ev->end);
             $event['allDay']  = $ev->allDay;
-            $event['url'] = route('events.edit', $ev->id);
+            if(Gate::check('update', $ev)){
+
+                $event['url'] = route('events.edit', $ev->id);
+            }else{
+
+                $event['url'] = route('events.show', $ev->id);
+            }
             $event['color'] = $ev->calendar?$ev->calendar->color:'#6fb1f7';
             $events[]     = $event;
         }
@@ -42,6 +49,7 @@ class CalendarController extends Controller
 
         return view('calendar.index', compact('events'));
     }
+    
     public function store(Request $request){
     }
 }

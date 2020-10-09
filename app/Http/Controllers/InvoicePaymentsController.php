@@ -12,11 +12,14 @@ use App\Http\Requests\InvoicePaymentUpdateRequest;
 use App\Http\Requests\InvoicePaymentDestroyRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 
 class InvoicePaymentsController extends Controller
 {
     public function create(Invoice $invoice)
     {
+        Gate::authorize('update', $invoice);
+
         $categories = Category::where('class', Payment::class)
                                 ->get()->pluck('name', 'id');
 
@@ -25,6 +28,8 @@ class InvoicePaymentsController extends Controller
 
     public function store(InvoicePaymentStoreRequest $request, Invoice $invoice)
     {
+        Gate::authorize('update', $invoice);
+
         $post = $request->validated();
 
         Payment::createPayment($post, $invoice, $post['receipt']);
@@ -36,6 +41,8 @@ class InvoicePaymentsController extends Controller
 
     public function edit(Request $request, Invoice $invoice, Payment $payment)
     {
+        Gate::authorize('update', $invoice);
+
         $categories = Category::where('class', Payment::class)
                                 ->get()->pluck('name', 'id');
 
@@ -44,6 +51,8 @@ class InvoicePaymentsController extends Controller
 
     public function update(InvoicePaymentUpdateRequest $request, Invoice $invoice, Payment $payment)
     {
+        Gate::authorize('update', $invoice);
+
         $post = $request->validated();
 
         $payment->updatePayment($post);
@@ -55,6 +64,8 @@ class InvoicePaymentsController extends Controller
 
     public function delete(InvoicePaymentDestroyRequest $request, Invoice $invoice, Payment $payment)
     {
+        Gate::authorize('update', $invoice);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

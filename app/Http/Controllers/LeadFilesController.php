@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 
 class LeadFilesController extends Controller
 {
@@ -21,6 +22,8 @@ class LeadFilesController extends Controller
      */
     public function store(Request $request, Lead $lead)
     {        
+        Gate::authorize('update', $lead);
+
         $request->validate(['file' => 'required|mimetypes:image/*,text/*,font/*,application/*|max:10240']);
 
         if($request->hasFile('file'))
@@ -56,6 +59,8 @@ class LeadFilesController extends Controller
      */
     public function show(Lead $lead, Media $file)
     {
+        Gate::authorize('view', $lead);
+
         return Storage::disk('s3')->download($file->getPath());
     }
 
@@ -67,6 +72,8 @@ class LeadFilesController extends Controller
      */
     public function destroy(Request $request, Lead $lead, Media $file)
     {
+        Gate::authorize('update', $lead);
+
         if($request->ajax()){
             
             return view('helpers.destroy');

@@ -12,6 +12,7 @@ use App\Http\Requests\ContactUpdateRequest;
 use App\Http\Requests\ContactDestroyRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 
 class ContactsController extends Controller
 {
@@ -20,26 +21,21 @@ class ContactsController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->can('viewAny', 'App\Contact'))
+        Gate::authorize('viewAny', 'App\Contact');
+
+        if (!$request->ajax())
         {
-            if (!$request->ajax())
-            {
-                return view('contacts.page');
-            }
-
-            clock()->startEvent('ContactsController', "Load contacts");
-
-            $contacts = Contact::contactsByUserType($request['order'], $request['dir'], $request['filter'])
-                        ->paginate(25, ['*'], 'contact-page');
-
-            clock()->endEvent('ContactsController');
-
-            return view('contacts.index', ['contacts' => $contacts])->render();
+            return view('contacts.page');
         }
-        else
-        {
-            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
-        }
+
+        clock()->startEvent('ContactsController', "Load contacts");
+
+        $contacts = Contact::contactsByUserType($request['order'], $request['dir'], $request['filter'])
+                    ->paginate(25, ['*'], 'contact-page');
+
+        clock()->endEvent('ContactsController');
+
+        return view('contacts.index', ['contacts' => $contacts])->render();
     }
 
     /**
@@ -49,6 +45,8 @@ class ContactsController extends Controller
      */
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Contact');
+
         $client_id = $request['client_id'];
 
         $clients = \Auth::user()->companyClients()
@@ -71,6 +69,8 @@ class ContactsController extends Controller
      */
     public function store(ContactStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Contact');
+
         $post = $request->validated();
 
         if(Contact::createContact($post))
@@ -96,6 +96,8 @@ class ContactsController extends Controller
      */
     public function edit(Contact $contact)
     {
+        Gate::authorize('update', $contact);
+
         $clients = \Auth::user()->companyClients()
                         ->get()
                         ->pluck('name', 'id');
@@ -122,6 +124,8 @@ class ContactsController extends Controller
      */
     public function update(ContactUpdateRequest $request, Contact $contact)
     {
+        Gate::authorize('update', $contact);
+
         $post = $request->validated();
 
         $contact->updateContact($post);
@@ -139,6 +143,8 @@ class ContactsController extends Controller
      */
     public function destroy(ContactDestroyRequest $request, Contact $contact)
     {
+        Gate::authorize('delete', $contact);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

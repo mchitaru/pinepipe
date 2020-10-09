@@ -13,13 +13,7 @@ class NoteUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        $note = $this->route()->parameter('note');
-
-        return $note->created_by == \Auth::user()->created_by &&
-                (\Auth::user()->type == 'company' ||
-                $note->user_id == \Auth::user()->id);
-
-        return false;
+        return \Auth::user()->can('update', $this->note);
     }
 
     /**

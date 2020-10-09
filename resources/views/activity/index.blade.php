@@ -1,8 +1,8 @@
 @php clock()->startEvent('activities.index', "Display activities"); @endphp
 
 <ol class="list-group list-group-activity">
-
     @foreach($activities as $activity)
+    @can('view', $activity)
     <li class="list-group-item">
         <div class="media align-items-center">
         <ul class="avatars">
@@ -21,8 +21,8 @@
         </div>
         </div>
     </li>
+    @endcan
     @endforeach
-
 </ol>
 
 @php clock()->endEvent('activities.index'); @endphp

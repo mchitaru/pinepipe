@@ -21,6 +21,7 @@ $count = count($tasks) + count($events);
             @endif
             {{-- tasks --}}
             @foreach($tasks as $key => $task)
+            @can('view', $task)
             @php
                 $due = Carbon::parse($task->due_date);
 
@@ -33,7 +34,6 @@ $count = count($tasks) + count($events);
                 }
 
                 $label = 'bg-'.Helpers::getProgressColor($task_percentage);
-
             @endphp
             <div class="card card-task">
                 <div class="progress">
@@ -72,15 +72,23 @@ $count = count($tasks) + count($events);
                     </div>
                 </div>
             </div>
+            @endcan
             @endforeach
             {{-- events --}}
             @foreach($events as $key => $event)
+            @can('view', $event)
             <div class="card card-task">
                 <div class="card-body">
                     <div class="card-title">
+                        @if(Gate::check('update', $event))
                         <a href="{{ route('events.edit', $event->id) }}" data-remote="true" data-type="text">
                             <h6 data-filter-by="text">{{$event->name}}</h6>
                         </a>
+                        @else
+                        <a href="{{ route('events.show', $event->id) }}" data-remote="true" data-type="text">
+                            <h6 data-filter-by="text">{{$event->name}}</h6>
+                        </a>
+                        @endif
                         {!!\Helpers::showTimeForHumans($event->start)!!}
                         {!!\Helpers::showTimespan($event->start, $event->end)!!}
                     </div>
@@ -106,6 +114,7 @@ $count = count($tasks) + count($events);
                     </div>
                 </div>
             </div>
+            @endcan
             @endforeach
         </div>
     </div>

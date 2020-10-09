@@ -14,14 +14,7 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if(\Auth::user()->can('update', $this->project))
-        {
-            $project = $this->route()->parameter('project');
-
-            return ($project->created_by == \Auth::user()->created_by);
-        }
-
-        return false;
+        return \Auth::user()->can('update', $this->project);
     }
 
     /**

@@ -20,6 +20,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 
 use App\Http\Requests\InvoiceStoreRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
@@ -29,32 +30,46 @@ class InvoicesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('viewAny', 'App\Invoice') ||
-           \Auth::user()->type == 'client')
+        Gate::authorize('viewAny', 'App\Invoice');
+
+        if (!$request->ajax())
         {
-            if (!$request->ajax())
-            {
-                return view('invoices.page');
-            }
+            return view('invoices.page');
+        }
 
-            clock()->startEvent('InvoicesController', "Load invoices");
+        clock()->startEvent('InvoicesController', "Load invoices");
 
-            if(empty($request['tag']) || $request['tag'] == 'all'){
-                $status = array_keys(Invoice::$status);
-            }else{
-                $status = array(array_search($request['tag'], Invoice::$status));
-            }
+        if(empty($request['tag']) || $request['tag'] == 'all'){
+            $status = array_keys(Invoice::$status);
+        }else{
+            $status = array(array_search($request['tag'], Invoice::$status));
+        }
 
-            if(\Auth::user()->type == 'client')
+        if(\Auth::user()->type == 'client')
+        {
+            $invoices = Invoice::with('project')
+                        ->whereHas('project', function ($query)
+                        {
+                            $query->whereHas('client', function ($query)
+                            {
+                                $query->where('id', \Auth::user()->client_id);
+                            });
+                        })
+                        ->whereIn('status', $status)
+                        ->where(function ($query) use ($request) {
+                            $query->where('id', $request['filter'])
+                                ->orWhereHas('project', function ($query) use($request) {
+                                    $query->where('name','like','%'.$request['filter'].'%');
+                                });
+                        })
+                        ->paginate(25, ['*'], 'invoice-page');
+        }
+        else
+        {
+
+            if(\Auth::user()->can('viewAny', 'App\Invoice'))
             {
                 $invoices = Invoice::with('project')
-                            ->whereHas('project', function ($query)
-                            {
-                                $query->whereHas('client', function ($query)
-                                {
-                                    $query->where('id', \Auth::user()->client_id);
-                                });
-                            })
                             ->whereIn('status', $status)
                             ->where(function ($query) use ($request) {
                                 $query->where('id', $request['filter'])
@@ -64,83 +79,60 @@ class InvoicesController extends Controller
                             })
                             ->paginate(25, ['*'], 'invoice-page');
             }
-            else
-            {
-
-                if(\Auth::user()->can('viewAny', 'App\Invoice'))
-                {
-                    $invoices = Invoice::with('project')
-                                ->whereIn('status', $status)
-                                ->where(function ($query) use ($request) {
-                                    $query->where('id', $request['filter'])
-                                        ->orWhereHas('project', function ($query) use($request) {
-                                            $query->where('name','like','%'.$request['filter'].'%');
-                                        });
-                                })
-                                ->paginate(25, ['*'], 'invoice-page');
-                }
-            }
-
-            clock()->endEvent('InvoicesController');
-
-            return view('invoices.index', ['invoices' => $invoices])->render();
         }
-        else
-        {
-            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
-        }
+
+        clock()->endEvent('InvoicesController');
+
+        return view('invoices.index', ['invoices' => $invoices])->render();
     }
 
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create', 'App\Invoice'))
-        {
-            $client_id = $request['client_id'];
+        Gate::authorize('create', 'App\Invoice');
 
-            $currency = $request->old('currency') ? $request->old('currency') :
-                                                    (isset($request['currency']) ? $request['currency'] : \Auth::user()->getCurrency());
-            $rate = (isset($request['rate']) && !empty($request['rate'])) ? $request['rate'] : 1.0;
+        $client_id = $request['client_id'];
 
-            $issue_date = $request->issue_date?$request->issue_date:date('Y-m-d');
-            $due_date = $request->due_date?$request->due_date:date('Y-m-d', strtotime("+1 months", strtotime(date("Y-m-d"))));
+        $currency = $request->old('currency') ? $request->old('currency') :
+                                                (isset($request['currency']) ? $request['currency'] : \Auth::user()->getCurrency());
+        $rate = (isset($request['rate']) && !empty($request['rate'])) ? $request['rate'] : 1.0;
 
-            $project_id = $request['project_id'];
+        $issue_date = $request->issue_date?$request->issue_date:date('Y-m-d');
+        $due_date = $request->due_date?$request->due_date:date('Y-m-d', strtotime("+1 months", strtotime(date("Y-m-d"))));
 
-            $taxes    = Tax::get()
-                             ->pluck('name', 'id');
-            
-            $taxPayer = \Auth::user()->isTaxPayer();
-            $tax_id = $taxPayer ? 1 : null;
+        $project_id = $request['project_id'];
 
-            $clients = \Auth::user()->companyClients()
+        $taxes    = Tax::get()
+                            ->pluck('name', 'id');
+        
+        $taxPayer = \Auth::user()->isTaxPayer();
+        $tax_id = $taxPayer ? 1 : null;
+
+        $clients = \Auth::user()->companyClients()
+                                ->get()
+                                ->pluck('name', 'id');
+
+        if($client_id){
+
+            $projects  = Project::where('client_id', '=', $client_id)
                                     ->get()
                                     ->pluck('name', 'id');
+        }else{
 
-            if($client_id){
-
-                $projects  = Project::where('client_id', '=', $client_id)
-                                        ->get()
-                                        ->pluck('name', 'id');
-            }else{
-
-                $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
-            }
-
-            $locales = ['en' => 'English', 'ro' => 'Română'];
-            $locale = isset($request['locale'])?$request['locale']:\Auth::user()->locale;
-
-            $currencies = Currency::get()->pluck('code', 'code');    
-
-            return view('invoices.create', compact('clients', 'client_id', 'projects', 'project_id', 'taxes', 'tax_id', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
+            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
         }
-        else
-        {
-            return response()->json(['error' => __('You dont have the right to perform this operation!')], 401);
-        }
+
+        $locales = ['en' => 'English', 'ro' => 'Română'];
+        $locale = isset($request['locale'])?$request['locale']:\Auth::user()->locale;
+
+        $currencies = Currency::get()->pluck('code', 'code');    
+
+        return view('invoices.create', compact('clients', 'client_id', 'projects', 'project_id', 'taxes', 'tax_id', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
     }
 
     public function store(InvoiceStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Invoice');
+
         $post = $request->validated();
 
         $invoice = Invoice::createInvoice($post);
@@ -153,52 +145,44 @@ class InvoicesController extends Controller
 
     public function show(Invoice $invoice)
     {
-        if((\Auth::user()->can('viewAny', 'App\Invoice') || \Auth::user()->type == 'client'))
-        {
-            $companySettings = \Auth::user()->companySettings;
-            $companyName = $companySettings ? $companySettings->name : null;
-            $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+        Gate::authorize('view', $invoice);
 
-            $client   = $invoice->project->client;
+        $companySettings = \Auth::user()->companySettings;
+        $companyName = $companySettings ? $companySettings->name : null;
+        $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
-            return view('invoices.show', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
-        }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
-        }
+        $client   = $invoice->project->client;
+
+        return view('invoices.show', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
     }
 
     public function edit(Request $request, Invoice $invoice)
     {
-        if(\Auth::user()->can('update', $invoice))
-        {
-            $currency = $request->old('currency') ? $request->old('currency') :
-                                                    (isset($request['currency']) ? $request['currency'] : $invoice->getCurrency());
+        Gate::authorize('update', $invoice);
 
-            $rate = (isset($request['rate']) && !empty($request['rate'])) ? $request['rate'] : ($invoice->rate ? $invoice->rate : 1.0);
+        $currency = $request->old('currency') ? $request->old('currency') :
+                                                (isset($request['currency']) ? $request['currency'] : $invoice->getCurrency());
 
-            $issue_date = $request->issue_date?$request->issue_date:$invoice->issue_date;
-            $due_date = $request->due_date?$request->due_date:$invoice->due_date;
+        $rate = (isset($request['rate']) && !empty($request['rate'])) ? $request['rate'] : ($invoice->rate ? $invoice->rate : 1.0);
 
-            $taxes    = Tax::get()
-                             ->pluck('name', 'id');
+        $issue_date = $request->issue_date?$request->issue_date:$invoice->issue_date;
+        $due_date = $request->due_date?$request->due_date:$invoice->due_date;
 
-            $locales = ['en' => 'English', 'ro' => 'Română'];
-            $locale = isset($request['locale'])?$request['locale']:$invoice->getLocale();
+        $taxes    = Tax::get()
+                            ->pluck('name', 'id');
 
-            $currencies = Currency::get()->pluck('code', 'code');
+        $locales = ['en' => 'English', 'ro' => 'Română'];
+        $locale = isset($request['locale'])?$request['locale']:$invoice->getLocale();
 
-            return view('invoices.edit', compact('invoice', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
-        }
-        else
-        {
-            return response()->json(['error' => __('You dont have the right to perform this operation!')], 401);
-        }
+        $currencies = Currency::get()->pluck('code', 'code');
+
+        return view('invoices.edit', compact('invoice', 'taxes', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
     }
 
     public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
+        Gate::authorize('update', $invoice);
+
         $post = $request->validated();
 
         $invoice->updateInvoice($post);
@@ -210,6 +194,8 @@ class InvoicesController extends Controller
 
     public function destroy(InvoiceDestroyRequest $request, Invoice $invoice)
     {
+        Gate::authorize('delete', $invoice);
+
         if($request->ajax()){
 
             return view('helpers.destroy');
@@ -227,21 +213,16 @@ class InvoicesController extends Controller
 
     public function pdf(Invoice $invoice)
     {
-        if(\Auth::user()->can('viewAny', 'App\Invoice') || \Auth::user()->type == 'client')
-        {
-            $companySettings = \Auth::user()->companySettings;
-            $companyName = $companySettings ? $companySettings->name : null;
-            $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
+        Gate::authorize('view', $invoice);
 
-            $client   = $invoice->project->client;
+        $companySettings = \Auth::user()->companySettings;
+        $companyName = $companySettings ? $companySettings->name : null;
+        $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
-            $pdf = \PDF::loadView('invoices.pdf', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
-            return $pdf->download($invoice->number ? $invoice->number.'.pdf' : Auth::user()->invoiceNumberFormat($invoice->increment).'.pdf');
-        }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
-        }
+        $client   = $invoice->project->client;
+
+        $pdf = \PDF::loadView('invoices.pdf', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
+        return $pdf->download($invoice->number ? $invoice->number.'.pdf' : Auth::user()->invoiceNumberFormat($invoice->increment).'.pdf');
     }
 
     public function refresh(Request $request, $invoice_id)

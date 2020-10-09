@@ -53,7 +53,7 @@ class StagePolicy
      */
     public function update(User $user, Stage $stage)
     {
-        return true;
+        return $stage->created_by == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class StagePolicy
      */
     public function delete(User $user, Stage $stage)
     {
-        return true;
+        return $stage->created_by == $user->id;
     }
 
     /**

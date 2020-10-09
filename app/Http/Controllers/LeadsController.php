@@ -16,88 +16,81 @@ use App\Http\Requests\LeadStoreRequest;
 use App\Http\Requests\LeadUpdateRequest;
 use App\Http\Requests\LeadDestroyRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 
 class LeadsController extends Controller
 {
     public function board(Request $request)
     {
-        if(\Auth::user()->can('viewAny', 'App\Lead'))
+        Gate::authorize('viewAny', 'App\Lead');
+
+        if (!$request->ajax())
         {
-            if (!$request->ajax())
-            {
-                return view('leads.page');
-            }
-
-            clock()->startEvent('LeadsController', "Load leads");
-
-            $stages = Stage::leadStagesByUserType($request['filter'], $request['sort'], $request['dir'], $request['tag'])->get();
-
-            clock()->endEvent('LeadsController');
-
-            return view('leads.board', compact('stages'))->render();
+            return view('leads.page');
         }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
-        }
+
+        clock()->startEvent('LeadsController', "Load leads");
+
+        $stages = Stage::leadStagesByUserType($request['filter'], $request['sort'], $request['dir'], $request['tag'])->get();
+
+        clock()->endEvent('LeadsController');
+
+        return view('leads.board', compact('stages'))->render();
     }
 
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create', 'App\Lead'))
-        {
-            $stage_id = $request['stage_id'];
-            $client_id = $request['client_id'];
-            $category_id = $request['category_id'];
+        Gate::authorize('create', 'App\Lead');
 
-            $stages = Stage::where('class', Lead::class)
-                                    ->where('created_by', \Auth::user()->created_by)
-                                    ->get()
-                                    ->pluck('name', 'id');
+        $stage_id = $request['stage_id'];
+        $client_id = $request['client_id'];
+        $category_id = $request['category_id'];
 
-            $clients = \Auth::user()->companyClients()
+        $stages = Stage::where('class', Lead::class)
+                                ->where('created_by', \Auth::user()->created_by)
                                 ->get()
                                 ->pluck('name', 'id');
-            if($client_id)
-            {
-                if(is_numeric($client_id)) {
 
-                    $contacts = Contact::contactsByUserType()
-                                        ->where('client_id', '=', $client_id)
-                                        ->get()
-                                        ->pluck('name', 'id');
-                }else{
-
-                    //new client
-                    $contacts = [];
-                    $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
-                }
-            }else
-            {
-                $contacts = Contact::contactsByUserType()
-                                    ->get()
-                                    ->pluck('name', 'id');
-            }
-
-            $categories = Category::where('class', Lead::class)
-                                    ->get()
-                                    ->pluck('name', 'id');
-
-            if(isset($category_id) && !is_numeric($category_id)){
-
-                $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
-            }
-
-            return view('leads.create', compact('client_id', 'stage_id', 'category_id', 'stages', 'clients', 'contacts', 'categories'));
-        }
-        else
+        $clients = \Auth::user()->companyClients()
+                            ->get()
+                            ->pluck('name', 'id');
+        if($client_id)
         {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
+            if(is_numeric($client_id)) {
+
+                $contacts = Contact::contactsByUserType()
+                                    ->where('client_id', '=', $client_id)
+                                    ->get()
+                                    ->pluck('name', 'id');
+            }else{
+
+                //new client
+                $contacts = [];
+                $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+            }
+        }else
+        {
+            $contacts = Contact::contactsByUserType()
+                                ->get()
+                                ->pluck('name', 'id');
         }
+
+        $categories = Category::where('class', Lead::class)
+                                ->get()
+                                ->pluck('name', 'id');
+
+        if(isset($category_id) && !is_numeric($category_id)){
+
+            $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
+        }
+
+        return view('leads.create', compact('client_id', 'stage_id', 'category_id', 'stages', 'clients', 'contacts', 'categories'));
     }
 
     public function store(LeadStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Lead');
+
         $post = $request->validated();
 
         if($lead = Lead::createLead($post))
@@ -118,62 +111,59 @@ class LeadsController extends Controller
 
     public function edit(Request $request, Lead $lead)
     {
-        if(\Auth::user()->can('update', $lead))
-        {
-            $category_id = $request['category_id'];
+        Gate::authorize('update', $lead);
 
-            $stages  = Stage::where('class', Lead::class)
-                            ->where('created_by', \Auth::user()->created_by)
+        $category_id = $request['category_id'];
+
+        $stages  = Stage::where('class', Lead::class)
+                        ->where('created_by', \Auth::user()->created_by)
+                        ->get()
+                        ->pluck('name', 'id');
+
+        $clients = \Auth::user()->companyClients()
                             ->get()
                             ->pluck('name', 'id');
 
-            $clients = \Auth::user()->companyClients()
+        $categories = Category::where('class', Lead::class)
                                 ->get()
                                 ->pluck('name', 'id');
 
-            $categories = Category::where('class', Lead::class)
-                                    ->get()
-                                    ->pluck('name', 'id');
+        if(isset($category_id) && !is_numeric($category_id)){
 
-            if(isset($category_id) && !is_numeric($category_id)){
-
-                $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
-            }
-
-
-            $client_id    = $lead->client_id;
-
-            if($client_id)
-            {
-                if(is_numeric($client_id)) {
-
-                    $contacts = Contact::contactsByUserType()
-                                        ->where('client_id', '=', $client_id)
-                                        ->get()
-                                        ->pluck('name', 'id');
-                }else{
-
-                    //new client
-                    $contacts = [];
-                    $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
-                }
-            }else
-            {
-                $contacts = Contact::contactsByUserType()
-                                    ->get()
-                                    ->pluck('name', 'id');
-            }
-
-            return view('leads.edit', compact('category_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));
+            $categories->prepend(json_decode('"\u271A '.$category_id.'"'), $category_id);
         }
-        else
+
+
+        $client_id    = $lead->client_id;
+
+        if($client_id)
         {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
+            if(is_numeric($client_id)) {
+
+                $contacts = Contact::contactsByUserType()
+                                    ->where('client_id', '=', $client_id)
+                                    ->get()
+                                    ->pluck('name', 'id');
+            }else{
+
+                //new client
+                $contacts = [];
+                $clients[$client_id] = json_decode('"\u271A '.$client_id.'"');
+            }
+        }else
+        {
+            $contacts = Contact::contactsByUserType()
+                                ->get()
+                                ->pluck('name', 'id');
         }
+
+        return view('leads.edit', compact('category_id', 'stages', 'categories', 'lead', 'clients', 'contacts'));
     }
 
     public function update(LeadUpdateRequest $request, Lead $lead)
     {
+        Gate::authorize('update', $lead);
+
         if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
         {
             return view('helpers.archive');
@@ -190,6 +180,8 @@ class LeadsController extends Controller
 
     public function destroy(LeadDestroyRequest $request, Lead $lead)
     {
+        Gate::authorize('delete', $lead);
+
         if($request->ajax()){
 
             return view('helpers.destroy');
@@ -207,48 +199,43 @@ class LeadsController extends Controller
 
     public function show(Lead $lead)
     {
+        Gate::authorize('view', $lead);
+
         $user = \Auth::user();
 
-        if(\Auth::user()->can('viewAny', 'App\Lead'))
+        clock()->startEvent('LeadsController', "Load lead");
+
+        $events = $lead->events;
+        $projects = $lead->projects;
+        $activities = $lead->activities;
+        $notes = $lead->notes;
+
+        $files = [];
+        foreach($lead->getMedia('leads') as $media)
         {
-            clock()->startEvent('LeadsController', "Load lead");
+            $file = [];
 
-            $events = $lead->events;
-            $projects = $lead->projects;
-            $activities = $lead->activities;
-            $notes = $lead->notes;
+            $file['file_name'] = $media->file_name;
+            $file['size'] = $media->size;
+            $file['download'] = route('leads.file.download',[$lead->id, $media->id]);
+            $file['delete'] = route('leads.file.delete',[$lead->id, $media->id]);
 
-            $files = [];
-            foreach($lead->getMedia('leads') as $media)
-            {
-                $file = [];
-
-                $file['file_name'] = $media->file_name;
-                $file['size'] = $media->size;
-                $file['download'] = route('leads.file.download',[$lead->id, $media->id]);
-                $file['delete'] = route('leads.file.delete',[$lead->id, $media->id]);
-
-                $files[] = $file;
-            }
-
-            $stages = Stage::where('class', Lead::class)
-                                ->where('created_by', \Auth::user()->created_by)
-                                ->get()
-                                ->pluck('id');
-
-
-            $index = array_search($lead->stage_id, $stages->toArray());
-
-            $progress = ($index + 1) * 100 / ($stages->count() - 1);
-
-            clock()->endEvent('LeadsController');
-
-            return view('leads.show', compact('lead', 'events', 'projects', 'notes', 'files', 'activities', 'progress'));
+            $files[] = $file;
         }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
-        }
+
+        $stages = Stage::where('class', Lead::class)
+                            ->where('created_by', \Auth::user()->created_by)
+                            ->get()
+                            ->pluck('id');
+
+
+        $index = array_search($lead->stage_id, $stages->toArray());
+
+        $progress = ($index + 1) * 100 / ($stages->count() - 1);
+
+        clock()->endEvent('LeadsController');
+
+        return view('leads.show', compact('lead', 'events', 'projects', 'notes', 'files', 'activities', 'progress'));
     }
 
     public function order(Request $request)

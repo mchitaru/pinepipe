@@ -11,6 +11,8 @@ use App\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
+use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
@@ -22,6 +24,7 @@ class ArticlesController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', 'App\Article');
     }
 
     /**
@@ -31,6 +34,8 @@ class ArticlesController extends Controller
      */
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Article');
+
         $path = $request['path'];
 
         $categories = explode('/', $path);
@@ -59,6 +64,8 @@ class ArticlesController extends Controller
      */
     public function store(ArticleStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Article');
+
         $post = $request->validated();
 
         // $content = $post['content'];
@@ -113,6 +120,7 @@ class ArticlesController extends Controller
      */
     public function show(Article $article)
     {
+        Gate::authorize('view', $article);
     }
 
     /**
@@ -123,6 +131,8 @@ class ArticlesController extends Controller
      */
     public function edit(Request $request, Article $article)
     {
+        Gate::authorize('update', $article);
+
         $path = $request['path'];
 
         $categories = explode('/', $path);
@@ -151,6 +161,8 @@ class ArticlesController extends Controller
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
+        Gate::authorize('update', $article);
+
         $post = $request->validated();
 
         $article->updateArticle($post);
@@ -169,6 +181,8 @@ class ArticlesController extends Controller
      */
     public function destroy(ArticleDestroyRequest $request, Article $article)
     {
+        Gate::authorize('delete', $article);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

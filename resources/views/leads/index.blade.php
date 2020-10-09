@@ -5,7 +5,9 @@ use Carbon\Carbon;
 @php clock()->startEvent('leads.index', "Display leads"); @endphp
 
 @foreach($leads as $lead)
-    @include('leads.lead')
+@can('view', $lead)
+@include('leads.lead')
+@endcan
 @endforeach
 
 @if(method_exists($leads,'links'))

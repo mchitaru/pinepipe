@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\User;
 use App\Subscription;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 use ProtoneMedia\LaravelPaddle\Paddle;
 
@@ -31,29 +32,23 @@ class SubscriptionsController extends Controller
      */
     public function create(Request $request, $plan_id)
     {
-        if(\Auth::user()->type == 'company')
-        {
-            $plan = SubscriptionPlan::find($plan_id);
+        Gate::authorize('create', 'App\Subscription');
 
-            $payload = [
-                'product_id' => $plan->paddle_id,
-                'customer_email' => \Auth::user()->email,
-                'passthrough' => ['user_id' => \Auth::user()->id,
-                                    'plan_id' => $plan->id],
-                'return_url' => route('checkout').'?checkout={checkout_hash}'
-            ];
+        $plan = SubscriptionPlan::find($plan_id);
 
-            $paddleResponse = Paddle::product()
-                ->generatePayLink($payload)
-                ->send();
+        $payload = [
+            'product_id' => $plan->paddle_id,
+            'customer_email' => \Auth::user()->email,
+            'passthrough' => ['user_id' => \Auth::user()->id,
+                                'plan_id' => $plan->id],
+            'return_url' => route('checkout').'?checkout={checkout_hash}'
+        ];
 
-            return Redirect::to($paddleResponse['url']);
-        }
-        else
-        {
-            $request->session()->flash('error', __('There was an error processing your payment request! If this continues, please contact our support team'));
-            return redirect()->route('subscription')->getTargetUrl();
-        }
+        $paddleResponse = Paddle::product()
+            ->generatePayLink($payload)
+            ->send();
+
+        return Redirect::to($paddleResponse['url']);
     }
 
     /**
@@ -75,6 +70,8 @@ class SubscriptionsController extends Controller
      */
     public function destroy(Request $request, Subscription $subscription)
     {
+        Gate::authorize('delete', $subscription);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

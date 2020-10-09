@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Client;
+use App\Activity;
 use App\User;
 
-class ClientPolicy
+class ActivityPolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,13 @@ class ClientPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Activity  $activity
      * @return mixed
      */
-    public function view(User $user, Client $client)
+    public function view(User $user, Activity $activity)
     {
-        return $client->created_by == $user->id;
+        return $activity->created_by == $user->id || 
+                $activity->actionable && $activity->actionable->created_by == $user->id;
     }
 
     /**
@@ -48,34 +49,36 @@ class ClientPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Activity  $activity
      * @return mixed
      */
-    public function update(User $user, Client $client)
+    public function update(User $user, Activity $activity)
     {
-        return $client->created_by == $user->id;
+        return $activity->created_by == $user->id || 
+                $activity->actionable && $activity->actionable->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Activity  $activity
      * @return mixed
      */
-    public function delete(User $user, Client $client)
+    public function delete(User $user, Activity $activity)
     {
-        return $client->created_by == $user->id;
+        return $activity->created_by == $user->id || 
+                $activity->actionable && $activity->actionable->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Activity  $activity
      * @return mixed
      */
-    public function restore(User $user, Client $client)
+    public function restore(User $user, Activity $activity)
     {
         //
     }
@@ -84,10 +87,10 @@ class ClientPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Activity  $activity
      * @return mixed
      */
-    public function forceDelete(User $user, Client $client)
+    public function forceDelete(User $user, Activity $activity)
     {
         //
     }

@@ -178,7 +178,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function getCompany()
     {
-        if($this->type == 'company' || $this->type == 'super admin')
+        if($this->type == 'company' || $this->isSuperAdmin())
         {
             return $this;
         }
@@ -210,6 +210,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function isCollaborator()
     {
         return $this->companies->contains(\Auth::user()->created_by);
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->type == 'super admin';
     }
 
     static function translateCollaboration($collab)
@@ -455,18 +460,19 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function staffClients()
     {
-        return Client::where(function ($query)
-        {
-            $query->whereHas('projects', function ($query) {
+        return $this->companyClients()
+                    ->where(function ($query)
+                    {
+                        $query->whereHas('projects', function ($query) {
 
-                // only include tasks with projects where...
-                $query->whereHas('users', function ($query) {
+                            // only include tasks with projects where...
+                            $query->whereHas('users', function ($query) {
 
-                    // ...the current user is assigned.
-                    $query->where('users.id', $this->id);
-                });
-            });
-        });
+                                // ...the current user is assigned.
+                                $query->where('users.id', $this->id);
+                            });
+                        });
+                    });
     }
 
     public function companyUserProjects()

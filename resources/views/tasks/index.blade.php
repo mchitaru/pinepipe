@@ -21,7 +21,9 @@
         <div class="card-list-body">
 
         @foreach($stage->tasks as $key=>$task)
+        @can('view', $task)
             @include('tasks.task')
+        @endcan
         @endforeach
 
         </div>

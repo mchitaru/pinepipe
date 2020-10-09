@@ -30,7 +30,10 @@ class TaskPolicy
      */
     public function view(User $user, Task $task)
     {
-        return true;
+        return $task->created_by == $user->id  ||
+                $task->project && $task->project->created_by == $user->id ||
+                $task->users->contains($user->id) ||
+                $task->project && $task->project->users->contains($user->id);
     }
 
     /**
@@ -53,7 +56,9 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        return true;
+        //the task or project was created by this company
+        return $task->created_by == $user->id ||                
+                $task->project && $task->project->created_by == $user->id;
     }
 
     /**
@@ -65,7 +70,8 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-        return true;
+            return $task->created_by == $user->id ||
+                    $task->project && $task->project->created_by == $user->id;
     }
 
     /**

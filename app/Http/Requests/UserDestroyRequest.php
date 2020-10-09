@@ -18,7 +18,7 @@ class UserDestroyRequest extends FormRequest
         $user = $this->route()->parameter('user');
 
         if($user == null ||
-            $user->type == 'super admin' ||
+            $user->isSuperAdmin() ||
             $user->type == 'company'){
 
             return false;

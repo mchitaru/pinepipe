@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Activity;
 use App\Http\Requests\TaskFileRequest;
 use App\Traits\Taskable;
+use Illuminate\Support\Facades\Gate;
 
 class TaskFilesController extends Controller
 {
@@ -17,6 +18,8 @@ class TaskFilesController extends Controller
 
     public function index(Task $task)
     {
+        Gate::authorize('view', $task);
+
         return $this->taskShow($task);
     }
 
@@ -28,6 +31,8 @@ class TaskFilesController extends Controller
      */
     public function store(TaskFileRequest $request, Task $task)
     {
+        Gate::authorize('update', $task);
+
         $post = $request->validated();
 
 
@@ -64,6 +69,8 @@ class TaskFilesController extends Controller
      */
     public function show(Task $task, Media $file)
     {
+        Gate::authorize('view', $task);
+
         return Storage::disk('s3')->download($file->getPath());
     }
 
@@ -75,6 +82,8 @@ class TaskFilesController extends Controller
      */
     public function destroy(Request $request, Task $task, Media $file)
     {
+        Gate::authorize('update', $task);
+
         $path = $file->getPath();
         if(file_exists($path))
         {

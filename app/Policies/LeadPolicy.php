@@ -30,7 +30,7 @@ class LeadPolicy
      */
     public function view(User $user, Lead $lead)
     {
-        return true;
+        return $lead->created_by == $user->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class LeadPolicy
      */
     public function update(User $user, Lead $lead)
     {
-        return true;
+        return $lead->created_by == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class LeadPolicy
      */
     public function delete(User $user, Lead $lead)
     {
-        return true;
+        return $lead->created_by == $user->id;
     }
 
     /**

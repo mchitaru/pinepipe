@@ -15,26 +15,18 @@ class TaskUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('update', $this->task))
-        {
-            $task = $this->task;
+        $task = $this->task;
 
-            if ($this->isMethod('put'))
-            {    
-                //the task or project was created by this company
-                return $task->created_by == \Auth::user()->created_by ||
-                        $task->project && $task->project->created_by == \Auth::user()->created_by;
+        if ($this->isMethod('put'))
+        {    
+            //the task or project was created by this company
+            return $this->user()->can('update', $this->task);
 
-            }else{
-
-                //if he tries to change status, the task or project was created by this company or is assigned to the user
-                return $task->created_by == \Auth::user()->created_by ||
-                        $task->project && $task->project->created_by == \Auth::user()->created_by ||
-                        $task->users->contains(\Auth::user()->id);
-            }
         }
 
-        return false;
+        //if he tries to change status, the task or project was created by this company or is assigned to the user
+        return $this->user()->can('update', $this->task) ||
+                $task->users->contains(\Auth::user()->id);
     }
 
     /**

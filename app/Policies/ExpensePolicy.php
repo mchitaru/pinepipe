@@ -30,7 +30,7 @@ class ExpensePolicy
      */
     public function view(User $user, Expense $expense)
     {
-        return true;
+        return $expense->created_by == $user->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class ExpensePolicy
      */
     public function update(User $user, Expense $expense)
     {
-        return true;
+        return $expense->created_by == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class ExpensePolicy
      */
     public function delete(User $user, Expense $expense)
     {
-        return true;
+        return $expense->created_by == $user->id;
     }
 
     /**

@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Client;
+use App\GoogleAccount;
 use App\User;
 
-class ClientPolicy
+class GoogleAccountPolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,12 @@ class ClientPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\GoogleAccount  $googleAccount
      * @return mixed
      */
-    public function view(User $user, Client $client)
+    public function view(User $user, GoogleAccount $googleAccount)
     {
-        return $client->created_by == $user->id;
+        return $googleAccount->created_by == $user->id;
     }
 
     /**
@@ -48,34 +48,34 @@ class ClientPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\GoogleAccount  $googleAccount
      * @return mixed
      */
-    public function update(User $user, Client $client)
+    public function update(User $user, GoogleAccount $googleAccount)
     {
-        return $client->created_by == $user->id;
+        return $googleAccount->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\GoogleAccount  $googleAccount
      * @return mixed
      */
-    public function delete(User $user, Client $client)
+    public function delete(User $user, GoogleAccount $googleAccount)
     {
-        return $client->created_by == $user->id;
+        return $googleAccount->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\GoogleAccount  $googleAccount
      * @return mixed
      */
-    public function restore(User $user, Client $client)
+    public function restore(User $user, GoogleAccount $googleAccount)
     {
         //
     }
@@ -84,10 +84,10 @@ class ClientPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\GoogleAccount  $googleAccount
      * @return mixed
      */
-    public function forceDelete(User $user, Client $client)
+    public function forceDelete(User $user, GoogleAccount $googleAccount)
     {
         //
     }

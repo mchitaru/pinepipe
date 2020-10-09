@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 
 class TasksController extends Controller
 {
@@ -25,54 +26,49 @@ class TasksController extends Controller
 
     public function board(Request $request, $project_id = null)
     {
+        Gate::authorize('viewAny', 'App\Task');
+
         $user = \Auth::user();
 
-        if($user->can('viewAny', 'App\Task'))
+        $companies = null;
+
+        if($project_id == null && !$user->companies->isEmpty()){
+
+            $companies = $user->companies->pluck('name', 'id');
+            $companies->prepend($user->company->name, $user->created_by);
+        }
+
+        if (!$request->ajax())
         {
-            $companies = null;
+            return view('tasks.page', compact('project_id', 'companies'));
+        }
 
-            if($project_id == null && !$user->companies->isEmpty()){
+        clock()->startEvent('TasksController', "Load tasks");
 
-                $companies = $user->companies->pluck('name', 'id');
-                $companies->prepend($user->company->name, $user->created_by);
-            }
+        if($request['tag'] == 'all'){
+            $users = [];
+        }else{
+            $users = [\Auth::user()->id];
+        }
 
-            if (!$request->ajax())
-            {
-                return view('tasks.page', compact('project_id', 'companies'));
-            }
-
-            clock()->startEvent('TasksController', "Load tasks");
-
-            if($request['tag'] == 'all'){
-                $users = [];
-            }else{
-                $users = [\Auth::user()->id];
-            }
-
-            if($project_id)
-            {
-                $project = Project::find($project_id);
-                $stages = $project->stages($request['filter'], $request['sort']?$request['sort']:'order', $request['dir'], $users)->get();
-                $project_name = $project->name;
-            }
-            else
-            {
-                $project = null;
-                $project_name = null;
-                $company = !empty($request['select']) ? $request['select'] : $user->created_by;
-                
-                $stages = Stage::taskStagesByUserType($request['filter'], $request['sort'], $request['dir'], $users, $company)->get();
-            }
-
-            clock()->endEvent('TasksController');
-
-            return view('tasks.board', compact('stages', 'project_id', 'project_name'))->render();
+        if($project_id)
+        {
+            $project = Project::find($project_id);
+            $stages = $project->stages($request['filter'], $request['sort']?$request['sort']:'order', $request['dir'], $users)->get();
+            $project_name = $project->name;
         }
         else
         {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
+            $project = null;
+            $project_name = null;
+            $company = !empty($request['select']) ? $request['select'] : $user->created_by;
+            
+            $stages = Stage::taskStagesByUserType($request['filter'], $request['sort'], $request['dir'], $users, $company)->get();
         }
+
+        clock()->endEvent('TasksController');
+
+        return view('tasks.board', compact('stages', 'project_id', 'project_name'))->render();
     }
 
     /**
@@ -82,6 +78,8 @@ class TasksController extends Controller
      */
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Task');
+
         $project_id = $request['project_id'];
 
         $end = $request->end;
@@ -129,6 +127,8 @@ class TasksController extends Controller
      */
     public function store(TaskStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Task');
+
         $post = $request->validated();
 
         //find the company for the project to retrieve the stages
@@ -171,6 +171,8 @@ class TasksController extends Controller
      */
     public function show(Task $task)
     {
+        Gate::authorize('view', $task);
+
         return $this->taskShow($task);
     }
 
@@ -182,6 +184,8 @@ class TasksController extends Controller
      */
     public function edit(Task $task)
     {
+        Gate::authorize('update', $task);
+
         $project    = Project::find($task->project_id);
 
         $projects   = \Auth::user()->projectsByUserType()
@@ -241,6 +245,8 @@ class TasksController extends Controller
      */
     public function update(TaskUpdateRequest $request, Task $task)
     {
+        Gate::authorize('update', $task);
+
         $post = $request->validated();
 
         if(!empty($post['closed'])){
@@ -281,6 +287,8 @@ class TasksController extends Controller
      */
     public function destroy(TaskDestroyRequest $request, Task $task)
     {
+        Gate::authorize('delete', $task);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

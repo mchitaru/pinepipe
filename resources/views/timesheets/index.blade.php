@@ -1,7 +1,7 @@
 @php clock()->startEvent('timesheets.index', "Display timesheets"); @endphp
 
 @foreach($timesheets as $timesheet)
-
+@can('view', $timesheet)
 <div class="card card-task">
     <div class="card-body">
     <div class="card-title col-xs-12 col-sm-4">
@@ -61,7 +61,7 @@
     </div>
 </div>
 </div>
-
+@endcan
 @endforeach
 
 @php clock()->endEvent('timesheets.index'); @endphp

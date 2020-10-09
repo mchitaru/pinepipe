@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Client;
+use App\CompanySettings;
 use App\User;
 
-class ClientPolicy
+class CompanySettingsPolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,12 @@ class ClientPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\CompanySettings  $companySettings
      * @return mixed
      */
-    public function view(User $user, Client $client)
+    public function view(User $user, CompanySettings $companySettings)
     {
-        return $client->created_by == $user->id;
+        return $companySettings->created_by == $user->id;
     }
 
     /**
@@ -48,34 +48,34 @@ class ClientPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\CompanySettings  $companySettings
      * @return mixed
      */
-    public function update(User $user, Client $client)
+    public function update(User $user, CompanySettings $companySettings)
     {
-        return $client->created_by == $user->id;
+        return $companySettings->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\CompanySettings  $companySettings
      * @return mixed
      */
-    public function delete(User $user, Client $client)
+    public function delete(User $user, CompanySettings $companySettings)
     {
-        return $client->created_by == $user->id;
+        return $companySettings->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\CompanySettings  $companySettings
      * @return mixed
      */
-    public function restore(User $user, Client $client)
+    public function restore(User $user, CompanySettings $companySettings)
     {
         //
     }
@@ -84,10 +84,10 @@ class ClientPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\CompanySettings  $companySettings
      * @return mixed
      */
-    public function forceDelete(User $user, Client $client)
+    public function forceDelete(User $user, CompanySettings $companySettings)
     {
         //
     }

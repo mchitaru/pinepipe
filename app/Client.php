@@ -16,7 +16,7 @@ use App\Traits\Actionable;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-use App\Scopes\CompanyTenantScope;
+use App\Scopes\CollaboratorTenantScope;
 
 class Client extends Model implements HasMedia
 {
@@ -54,7 +54,7 @@ class Client extends Model implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope(new CompanyTenantScope);
+        static::addGlobalScope(new CollaboratorTenantScope);
 
         static::creating(function ($client) {
             if ($user = \Auth::user()) {

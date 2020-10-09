@@ -14,14 +14,7 @@ class InvoiceDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->can('delete', $this->invoice))
-        {
-            $invoice = $this->route()->parameter('invoice');
-
-            return $invoice->created_by == \Auth::user()->created_by;
-        }
-
-        return false;
+        return $this->user()->can('delete', $this->invoice);
     }
 
     /**

@@ -30,7 +30,8 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return true;
+        return $project->created_by == $user->id ||
+                $project->users->contains($user->id);
     }
 
     /**
@@ -53,7 +54,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return true;
+        return $project->created_by == $user->id;
     }
 
     /**
@@ -65,7 +66,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return true;
+        return $project->created_by == $user->id;
     }
 
     /**

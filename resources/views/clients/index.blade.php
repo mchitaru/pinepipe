@@ -1,6 +1,7 @@
 @php clock()->startEvent('clients.index', "Display clients"); @endphp
 
 @foreach($clients as $client)
+@can('view', $client)
 <div class="card card-task">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
@@ -69,6 +70,7 @@
         </div>
     </div>
 </div>
+@endcan
 @endforeach
 
 @if(method_exists($clients,'links'))

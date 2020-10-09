@@ -13,11 +13,14 @@ use App\Http\Requests\InvoiceItemUpdateRequest;
 use App\Http\Requests\InvoiceItemDestroyRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 
 class InvoiceItemsController extends Controller
 {
     public function create(Request $request, Invoice $invoice)
     {
+        Gate::authorize('update', $invoice);
+
         $tasks      = Task::doesntHave('invoiceables')
                                 ->where('project_id', $invoice->project_id)
                                 ->get()
@@ -83,6 +86,8 @@ class InvoiceItemsController extends Controller
 
     public function store(InvoiceItemStoreRequest $request, Invoice $invoice)
     {
+        Gate::authorize('update', $invoice);
+
         $post = $request->validated();
         $post['type'] = $request->type;
 
@@ -111,6 +116,8 @@ class InvoiceItemsController extends Controller
 
     public function delete(InvoiceItemDestroyRequest $request, Invoice $invoice, InvoiceItem $item)
     {
+        Gate::authorize('update', $invoice);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

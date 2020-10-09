@@ -21,7 +21,9 @@ $can_show_invoice = Gate::check('viewAny', 'App\Invoice');
         </div>
         <div class="card-list-body collapse" id="invoices">
             @foreach($items as $invoice)
+            @can('view', $invoice)
                 @include('invoices.item')
+            @endcan
             @endforeach
         </div>
     </div>

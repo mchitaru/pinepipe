@@ -16,21 +16,12 @@ class UserUpdateRequest extends FormRequest
     {
         $user = $this->user;
 
-        if($user == null ||
-            $user->type == 'super admin' ||
-            $user->type == 'company'){
+        if($user == null){
 
             return false;
         }
 
-        if($this->isMethod('put'))
-        {
-            return ($user->created_by == $this->user()->id) &&
-                    $this->user()->can('update', $user);
-        }
-
-        return ($user->created_by == $this->user()->id) &&
-                $this->user()->can('delete', $user);
+        return $this->user()->can('update', $user);
     }
 
     /**
@@ -44,7 +35,7 @@ class UserUpdateRequest extends FormRequest
         {
             $user = $this->route()->parameter('user');
 
-            if($this->user()->type == 'super admin')
+            if($this->user()->isSuperAdmin())
             {
                 return [
                     'name' => 'required|max:120',

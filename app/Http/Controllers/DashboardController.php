@@ -11,6 +11,7 @@ use App\User;
 use App\Client;
 use App\Subscription;
 use App\Task;
+use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
 {
@@ -22,7 +23,7 @@ class DashboardController extends Controller
     public function index()
     {
         //admin dash
-        if(\Auth::user()->type == 'super admin'){
+        if(\Auth::user()->isSuperAdmin()){
 
             clock()->startEvent('DahsboardController', "Load dash");
 
@@ -253,7 +254,7 @@ class DashboardController extends Controller
         {
             $arrEvent[] = [
                 'text' => $event->name,
-                'link' => route('events.edit', [$event->id]),
+                'link' => (Gate::check('update', $event)?route('events.edit', [$event->id]):route('events.show', [$event->id])),
                 'param' => 'data-remote="true" data-type="text"'
             ];
         }

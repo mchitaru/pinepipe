@@ -10,6 +10,8 @@ use App\Services\Google;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
+use Illuminate\Support\Facades\Gate;
+
 class GoogleAccountController extends Controller
 {
     /**
@@ -20,6 +22,8 @@ class GoogleAccountController extends Controller
      */
     public function store(Request $request, Google $google)
     {
+        Gate::authorize('create', 'App\GoogleAccount');
+
         if (!$request->has('code')) {
             // Send the user to the OAuth consent screen.
             return redirect($google->createAuthUrl());
@@ -58,6 +62,8 @@ class GoogleAccountController extends Controller
      */
     public function destroy(Request $request, GoogleAccount $googleAccount, Google $google)
     {
+        Gate::authorize('delete', $googleAccount);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

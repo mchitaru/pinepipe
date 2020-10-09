@@ -282,13 +282,11 @@ if(Gate::check('viewAny', 'App\Task')){
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Timesheets')}}</h3>
-
                     @can('create', 'App\Timesheet')
                         <a href="{{ route('timesheets.create') }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
                     @endcan
-
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -310,12 +308,11 @@ if(Gate::check('viewAny', 'App\Task')){
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Invoices')}}</h3>
-
-                    @can('create', 'App\Invoice')
+                    @if(Gate::check('create', 'App\Invoice') && Gate::check('update', $project))
                         <a href="{{ route('invoices.create')  }}" class="btn btn-primary btn-round" data-params="client_id={{$project->client_id}}&project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
-                    @endcan
+                    @endif
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -329,20 +326,21 @@ if(Gate::check('viewAny', 'App\Task')){
                 </form>
                 </div>
                 <!--end of content list head-->
-                <div class="content-list-body filter-list paginate-container" id="invoices-container">
-                </div>
+                @can('update', $project)
+                    <div class="content-list-body filter-list paginate-container" id="invoices-container">
+                    </div>
+                @endcan
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="expenses" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Expenses')}}</h3>
-
-                    @can('create', 'App\Expense')
+                    @if(Gate::check('create', 'App\Expense') && Gate::check('update', $project))
                         <a href="{{ route('expenses.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
-                    @endcan
+                    @endif
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -356,8 +354,10 @@ if(Gate::check('viewAny', 'App\Task')){
                 </form>
                 </div>
                 <!--end of content list head-->
+                @can('update', $project)
                 <div class="content-list-body filter-list paginate-container" id="expenses-container">
                 </div>
+                @endcan
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show" id="project-files" role="tabpanel" data-filter-list="dropzone-previews">

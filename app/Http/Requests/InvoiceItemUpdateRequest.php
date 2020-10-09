@@ -13,12 +13,7 @@ class InvoiceItemUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        $invoice = $this->route()->parameter('invoice');
-
-        if($invoice->created_by != \Auth::user()->created_by)
-            return false;
-
-        return $this->user()->can('update', $invoice);
+        return $this->user()->can('update', $this->invoice);
     }
 
     /**

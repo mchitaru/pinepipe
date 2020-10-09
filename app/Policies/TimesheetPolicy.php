@@ -30,7 +30,8 @@ class TimesheetPolicy
      */
     public function view(User $user, Timesheet $timesheet)
     {
-        return true;
+        return $timesheet->created_by == $user->id||
+                $timesheet->project && $timesheet->project->created_by == $user->id;
     }
 
     /**
@@ -53,7 +54,9 @@ class TimesheetPolicy
      */
     public function update(User $user, Timesheet $timesheet)
     {
-        return true;
+        //is the owner of the timesheet or the project
+        return $timesheet->created_by == $user->id ||
+                $timesheet->project && $timesheet->project->created_by == $user->id;
     }
 
     /**
@@ -65,7 +68,9 @@ class TimesheetPolicy
      */
     public function delete(User $user, Timesheet $timesheet)
     {
-        return true;
+        //is the owner of the timesheet or the project
+        return $timesheet->created_by == $user->id ||
+                $timesheet->project && $timesheet->project->created_by == $user->id;
     }
 
     /**

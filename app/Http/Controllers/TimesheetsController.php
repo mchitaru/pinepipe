@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\URL;
 use App\Http\Requests\TimesheetStoreRequest;
 use App\Http\Requests\TimesheetUpdateRequest;
 use App\Http\Requests\TimesheetDestroyRequest;
+use Illuminate\Support\Facades\Gate;
 
 class TimesheetsController extends Controller
 {
@@ -32,6 +33,8 @@ class TimesheetsController extends Controller
      */
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Timesheet');
+
         $project_id = $request['project_id'];
 
         $date = $request->date ? $request->date : date('Y-m-d');
@@ -51,6 +54,8 @@ class TimesheetsController extends Controller
      */
     public function store(TimesheetStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Timesheet');
+
         $post = $request->validated();
 
         Timesheet::createTimesheet($post);
@@ -68,6 +73,8 @@ class TimesheetsController extends Controller
      */
     public function show(Timesheet $timesheet)
     {
+        Gate::authorize('view', $timesheet);
+
         //
     }
 
@@ -79,6 +86,8 @@ class TimesheetsController extends Controller
      */
     public function edit(Request $request, Timesheet $timesheet)
     {
+        Gate::authorize('update', $timesheet);
+
         $date = $request->date;
 
         $project    = $timesheet->project;
@@ -106,6 +115,8 @@ class TimesheetsController extends Controller
      */
     public function update(TimesheetUpdateRequest $request, Timesheet $timesheet)
     {
+        Gate::authorize('update', $timesheet);
+
         $post = $request->validated();
 
         $timesheet->updateTimesheet($post);
@@ -123,6 +134,8 @@ class TimesheetsController extends Controller
      */
     public function destroy(TimesheetDestroyRequest $request, Timesheet $timesheet)
     {
+        Gate::authorize('delete', $timesheet);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

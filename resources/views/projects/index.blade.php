@@ -5,7 +5,9 @@ use Carbon\Carbon;
 @php clock()->startEvent('projects.index', "Display projects"); @endphp
 
 @foreach ($projects as $key=>$project)
+@can('view', $project)
     @include('projects.project')
+@endcan
 @endforeach
 
 @if(!$projects->isEmpty() && method_exists($projects,'links'))

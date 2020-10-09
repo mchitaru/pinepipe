@@ -20,7 +20,9 @@ use Carbon\Carbon;
         </div>
         <div class="card-list-body collapse" id="tasks">
             @foreach($items as $task)
+            @can('view', $task)
                 @include('tasks.task')
+            @endcan
             @endforeach
         </div>
     </div>

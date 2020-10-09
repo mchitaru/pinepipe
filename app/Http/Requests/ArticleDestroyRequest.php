@@ -13,11 +13,7 @@ class ArticleDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        $article = $this->route()->parameter('article');
-
-        return $article->created_by == \Auth::user()->created_by &&
-                (\Auth::user()->type == 'company' ||
-                $article->user_id == \Auth::user()->id);
+        return $this->user()->can('delete', $this->article);
     }
 
     /**

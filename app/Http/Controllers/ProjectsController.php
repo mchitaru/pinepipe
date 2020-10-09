@@ -28,54 +28,52 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectsController extends Controller
 {
 
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', 'App\Project');
+
         $user = \Auth::user();
 
-        if($user->can('viewAny', 'App\Project'))
+        if (!$request->ajax())
         {
-            if (!$request->ajax())
-            {
-                return view('projects.page');
-            }
-
-            clock()->startEvent('ProjectsController.index', "Load projects");
-
-            if($request['tag']){
-                $status = array(array_search($request['tag'], Project::$status));
-            }else{
-                $status = array(array_search('active', Project::$status));
-            }
-
-            $projects = $user->projectsByUserType()
-                            ->with(['tasks', 'users', 'client'])
-                            ->whereIn('archived', $status)
-                            ->where(function ($query) use ($request) {
-                                $query->where('name','like','%'.$request['filter'].'%')
-                                ->orWhereHas('client', function ($query) use($request) {
-
-                                    $query->where('name','like','%'.$request['filter'].'%');
-                                });
-                            })
-                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
-                            ->paginate(25, ['*'], 'project-page');
-
-            clock()->endEvent('ProjectsController.index');
-
-            return view('projects.index', ['projects' => $projects])->render();
+            return view('projects.page');
         }
-        else
-        {
-            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
+
+        clock()->startEvent('ProjectsController.index', "Load projects");
+
+        if($request['tag']){
+            $status = array(array_search($request['tag'], Project::$status));
+        }else{
+            $status = array(array_search('active', Project::$status));
         }
+
+        $projects = $user->projectsByUserType()
+                        ->with(['tasks', 'users', 'client'])
+                        ->whereIn('archived', $status)
+                        ->where(function ($query) use ($request) {
+                            $query->where('name','like','%'.$request['filter'].'%')
+                            ->orWhereHas('client', function ($query) use($request) {
+
+                                $query->where('name','like','%'.$request['filter'].'%');
+                            });
+                        })
+                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
+                        ->paginate(25, ['*'], 'project-page');
+
+        clock()->endEvent('ProjectsController.index');
+
+        return view('projects.index', ['projects' => $projects])->render();
     }
 
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Project');
+
         $client_id = $request['client_id'];
         $lead_id = $request['lead_id'];
 
@@ -128,6 +126,8 @@ class ProjectsController extends Controller
 
     public function store(ProjectStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Project');
+
         $post = $request->validated();
 
         if(\Auth::user()->checkProjectLimit())
@@ -174,6 +174,8 @@ class ProjectsController extends Controller
 
     public function edit(Request $request, Project $project)
     {
+        Gate::authorize('update', $project);
+
         $start_date = $request->start_date?$request->start_date:$project->start_date;
         $due_date = $request->due_date?$request->due_date:$project->due_date;
 
@@ -215,6 +217,8 @@ class ProjectsController extends Controller
 
     public function update(ProjectUpdateRequest $request, Project $project)
     {
+        Gate::authorize('update', $project);
+
         if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
         {
             return view('helpers.archive');
@@ -246,85 +250,82 @@ class ProjectsController extends Controller
 
     public function show(Request $request, Project $project)
     {
+        Gate::authorize('view', $project);
+
         $user = \Auth::user();
 
-        if(\Auth::user()->can('view', $project))
+        clock()->startEvent('ProjectsController', "Load project");
+
+        $dz_id = 'project-files-dz';
+
+        $project_id = $project->id;
+
+        $stages = $project->stages($request['filter'], $request['sort'], $request['dir'], [])->get();
+
+        $task_count = 0;
+        foreach($stages as $stage)
         {
-            clock()->startEvent('ProjectsController', "Load project");
+            $task_count += $stage->tasks->count();
+        }
 
-            $dz_id = 'project-files-dz';
+        $files = [];
+        foreach($project->getMedia('projects') as $media)
+        {
+            $file = [];
 
-            $project_id = $project->id;
+            $file['file_name'] = $media->file_name;
+            $file['size'] = $media->size;
+            $file['download'] = route('projects.file.download',[$project->id, $media->id]);
+            $file['delete'] = route('projects.file.delete',[$project->id, $media->id]);
 
-            $stages = $project->stages($request['filter'], $request['sort'], $request['dir'], [])->get();
+            $files[] = $file;
+        }
 
-            $task_count = 0;
-            foreach($stages as $stage)
-            {
-                $task_count += $stage->tasks->count();
-            }
+        $invoices = $project->invoices;
 
-            $files = [];
-            foreach($project->getMedia('projects') as $media)
-            {
-                $file = [];
+        //only activities for company or from collaborators
+        $activities = $project->activities()
+                                ->where('created_by', \Auth::user()->created_by)
+                                ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
+                                ->get();
 
-                $file['file_name'] = $media->file_name;
-                $file['size'] = $media->size;
-                $file['download'] = route('projects.file.download',[$project->id, $media->id]);
-                $file['delete'] = route('projects.file.delete',[$project->id, $media->id]);
-
-                $files[] = $file;
-            }
-
-            $invoices = $project->invoices;
-
-            //only activities for company or from collaborators
-            $activities = $project->activities()
-                                    ->where('created_by', \Auth::user()->created_by)
-                                    ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
-                                    ->get();
-
-            if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
-            {
-                $timesheets = $project->timesheets;
-                $expenses = $project->expenses;
-            }
-            else
-            {
-                $timesheets = $project->timesheets()->where('user_id', '=', \Auth::user()->id)->get();
-                $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id)->get();
-            }
-
-            $notes = $project->notes;
-
-            $project->computeStatistics();
-
-            clock()->endEvent('ProjectsController');
-
-            if ($request->ajax())
-            {
-                switch($request['id']){
-
-                    case 'tasks-container': return view('tasks.index', compact('stages'))->render();
-                    case 'timesheets-container': return view('timesheets.index', compact('timesheets'))->render();
-                    case 'invoices-container': return view('invoices.index', compact('invoices'))->render();
-                    case 'expenses-container': return view('expenses.index', compact('expenses'))->render();
-                    case 'notes-container': return view('notes.index', compact('notes'))->render();
-                    case 'activity-container': return view('activity.index', compact('activities'))->render();
-                }                
-            }
-
-            return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'notes', 'activities', 'dz_id'));
+        if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
+        {
+            $timesheets = $project->timesheets;
+            $expenses = $project->expenses;
         }
         else
         {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
+            $timesheets = $project->timesheets()->where('user_id', '=', \Auth::user()->id)->get();
+            $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id)->get();
         }
+
+        $notes = $project->notes;
+
+        $project->computeStatistics();
+
+        clock()->endEvent('ProjectsController');
+
+        if ($request->ajax())
+        {
+            switch($request['id']){
+
+                case 'tasks-container': return view('tasks.index', compact('stages'))->render();
+                case 'timesheets-container': return view('timesheets.index', compact('timesheets'))->render();
+                case 'invoices-container': return view('invoices.index', compact('invoices'))->render();
+                case 'expenses-container': return view('expenses.index', compact('expenses'))->render();
+                case 'notes-container': return view('notes.index', compact('notes'))->render();
+                case 'activity-container': return view('activity.index', compact('activities'))->render();
+            }                
+        }
+
+        return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'notes', 'activities', 'dz_id'));
     }
 
     public function destroy(ProjectDestroyRequest $request, Project $project)
     {
+        Gate::authorize('delete', $project);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

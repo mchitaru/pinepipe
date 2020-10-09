@@ -12,7 +12,7 @@ use App\Stage;
 use App\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\ClientStoreRequest;
@@ -24,75 +24,69 @@ class ClientsController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', 'App\Client');
+
         $user = \Auth::user();
 
-        if($user->can('viewAny', 'App\Client'))
+        if (!$request->ajax())
         {
-            if (!$request->ajax())
-            {
-                return view('clients.page');
-            }
-
-            clock()->startEvent('ClientsController', "Load clients");
-
-            if($user->type == 'company')
-            {
-                $clients = Client::with(['contacts', 'projects', 'leads'])
-                            ->where(function ($query) use ($request) {
-                                $query->where('name','like','%'.$request['filter'].'%')
-                                ->orWhere('email','like','%'.$request['filter'].'%');
-                            })
-                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
-                            ->paginate(25, ['*'], 'client-page');
-            }else{
-
-                $clients = Client::with(['contacts' => function ($query) {
-                                $query->where('user_id', \Auth::user()->id);
-                            },
-                            'projects' => function ($query) {
-                                // only include tasks with projects where...
-                                $query->whereHas('users', function ($query) {
-
-                                    // ...the current user is assigned.
-                                    $query->where('users.id', \Auth::user()->id);
-                                });
-                            },
-                            'leads' => function ($query) {
-                                $query->where('user_id', \Auth::user()->id);
-                            }])
-                            ->where(function ($query) use ($request) {
-                                $query->where('name','like','%'.$request['filter'].'%')
-                                ->orWhere('email','like','%'.$request['filter'].'%');
-                            })
-                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
-                            ->paginate(25, ['*'], 'client-page');
-            }
-
-            clock()->endEvent('ClientsController');
-
-            return view('clients.index', ['clients' => $clients])->render();
+            return view('clients.page');
         }
-        else
+
+        clock()->startEvent('ClientsController', "Load clients");
+
+        if($user->type == 'company')
         {
-            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
+            $clients = $user->companyClients()
+                        ->with(['contacts', 'projects', 'leads'])
+                        ->where(function ($query) use ($request) {
+                            $query->where('name','like','%'.$request['filter'].'%')
+                            ->orWhere('email','like','%'.$request['filter'].'%');
+                        })
+                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
+                        ->paginate(25, ['*'], 'client-page');
+        }else{
+
+            $clients = $user->companyClients()
+                        ->with(['contacts' => function ($query) {
+                            $query->where('user_id', \Auth::user()->id);
+                        },
+                        'projects' => function ($query) {
+                            // only include tasks with projects where...
+                            $query->whereHas('users', function ($query) {
+
+                                // ...the current user is assigned.
+                                $query->where('users.id', \Auth::user()->id);
+                            });
+                        },
+                        'leads' => function ($query) {
+                            $query->where('user_id', \Auth::user()->id);
+                        }])
+                        ->where(function ($query) use ($request) {
+                            $query->where('name','like','%'.$request['filter'].'%')
+                            ->orWhere('email','like','%'.$request['filter'].'%');
+                        })
+                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
+                        ->paginate(25, ['*'], 'client-page');
         }
+
+        clock()->endEvent('ClientsController');
+
+        return view('clients.index', ['clients' => $clients])->render();
     }
 
     public function create()
     {
-        if(\Auth::user()->can('create', 'App\Client'))
-        {
-            return view('clients.create');
-        }
-        else
-        {
-            Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
-        }
+        Gate::authorize('create', 'App\Client');
+
+        return view('clients.create');
     }
 
 
     public function store(ClientStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Client');
+
         $post = $request->validated();
 
         if(\Auth::user()->checkClientLimit())
@@ -117,19 +111,16 @@ class ClientsController extends Controller
 
     public function edit(Client $client)
     {
-        if(\Auth::user()->can('update', $client))
-        {
-            return view('clients.edit', compact('client'));
-        }
-        else
-        {
-            Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
-        }
+        Gate::authorize('update', $client);
+        
+        return view('clients.edit', compact('client'));
     }
 
 
     public function update(ClientUpdateRequest $request, Client $client)
     {
+        Gate::authorize('update', $client);
+
         $post = $request->validated();
 
         $client->updateClient($post);
@@ -148,6 +139,8 @@ class ClientsController extends Controller
 
     public function destroy(Request $request, Client $client)
     {
+        Gate::authorize('delete', $client);
+
         if($request->ajax()){
 
             return view('helpers.destroy');
@@ -165,101 +158,97 @@ class ClientsController extends Controller
 
     public function show(Client $client)
     {
+        Gate::authorize('view', $client);
+
         $user = \Auth::user();
 
-        if($user->can('viewAny', 'App\Client'))
+        clock()->startEvent('ClientsController', "Load contacts, leads, projects");
+
+        if($user->type == 'company')
         {
-            clock()->startEvent('ClientsController', "Load contacts, leads, projects");
+            $contacts = $client->contacts;
+            $projects = $client->projects;
 
-            if($user->type == 'company')
-            {
-                $contacts = $client->contacts;
-                $projects = $client->projects;
+            $leads = Lead::with(['client', 'user', 'stage'])
+                    ->where('client_id', '=', $client->id)
+                    ->orderBy('order')
+                    ->get();
 
-                $leads = Lead::with(['client', 'user', 'stage'])
+            $activities = Activity::whereHas('clients', function ($query) use ($client) {
+                $query->where('id', $client->id);
+            })
+            ->orWhereHas('projects', function ($query) use ($client) {
+                $query->where('client_id', $client->id);
+            })
+            ->orWhereHas('leads', function ($query) use ($client) {
+                $query->where('client_id', $client->id);
+            })
+            ->orWhereHas('contacts', function ($query) use ($client) {
+                $query->where('client_id', $client->id);
+            })
+            ->limit(20)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        }else
+        {
+            $contacts = $user->contacts()
+                        ->with(['client', 'user'])
+                        ->where('client_id', '=', $client->id)
+                        ->get();
+
+            $projects = $user->projects()
+                        ->with(['client', 'users'])
+                        ->where('client_id', '=', $client->id)
+                        ->get();
+
+            $leads = $user->leads()
+                        ->with(['client', 'user', 'stage'])
                         ->where('client_id', '=', $client->id)
                         ->orderBy('order')
                         ->get();
 
-                $activities = Activity::whereHas('clients', function ($query) use ($client) {
-                    $query->where('id', $client->id);
-                })
-                ->orWhereHas('projects', function ($query) use ($client) {
-                    $query->where('client_id', $client->id);
-                })
-                ->orWhereHas('leads', function ($query) use ($client) {
-                    $query->where('client_id', $client->id);
-                })
-                ->orWhereHas('contacts', function ($query) use ($client) {
+            if($user->type == 'client'){
+
+                $activities = Activity::whereHas('projects', function ($query) use ($client) {
                     $query->where('client_id', $client->id);
                 })
                 ->limit(20)
                 ->orderBy('id', 'desc')
                 ->get();
 
-            }else
-            {
-                $contacts = $user->contacts()
-                            ->with(['client', 'user'])
-                            ->where('client_id', '=', $client->id)
-                            ->get();
+            }else{
 
-                $projects = $user->projects()
-                            ->with(['client', 'users'])
-                            ->where('client_id', '=', $client->id)
-                            ->get();
+                $activities = Activity::whereHas('projects', function ($query) use ($client) {
+                    $query->where('client_id', $client->id)
+                            ->whereHas('users', function ($query) {
 
-                $leads = $user->leads()
-                            ->with(['client', 'user', 'stage'])
-                            ->where('client_id', '=', $client->id)
-                            ->orderBy('order')
-                            ->get();
+                                // tasks with the current user assigned.
+                                $query->where('users.id', \Auth::user()->id);
 
-                if($user->type == 'client'){
+                            });
+                })
+                ->limit(20)
+                ->orderBy('id', 'desc')
+                ->get();
 
-                    $activities = Activity::whereHas('projects', function ($query) use ($client) {
-                        $query->where('client_id', $client->id);
-                    })
-                    ->limit(20)
-                    ->orderBy('id', 'desc')
-                    ->get();
-
-                }else{
-
-                    $activities = Activity::whereHas('projects', function ($query) use ($client) {
-                        $query->where('client_id', $client->id)
-                                ->whereHas('users', function ($query) {
-
-                                    // tasks with the current user assigned.
-                                    $query->where('users.id', \Auth::user()->id);
-
-                                });
-                    })
-                    ->limit(20)
-                    ->orderBy('id', 'desc')
-                    ->get();
-
-                }
             }
-
-            $stages = Stage::where('class', Lead::class)
-                                ->where('created_by', \Auth::user()->created_by)
-                                ->get()
-                                ->pluck('id')
-                                ->toArray();
-
-            foreach($leads as $lead){
-
-                $index = array_search($lead->stage_id, $stages);
-                $lead->progress = ($index + 1) * 100 / (count($stages) - 1);    
-            }
-
-            clock()->endEvent('ClientsController');
-
-            return view('clients.show', compact('client', 'contacts', 'projects', 'leads', 'activities'));
-        }else
-        {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
         }
+
+        $stages = Stage::where('class', Lead::class)
+                            ->where('created_by', \Auth::user()->created_by)
+                            ->get()
+                            ->pluck('id')
+                            ->toArray();
+
+        foreach($leads as $lead){
+
+            $index = array_search($lead->stage_id, $stages);
+            $lead->progress = ($index + 1) * 100 / (count($stages) - 1);    
+        }
+
+        clock()->endEvent('ClientsController');
+
+        return view('clients.show', compact('client', 'contacts', 'projects', 'leads', 'activities'));
     }
 }

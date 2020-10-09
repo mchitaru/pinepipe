@@ -13,6 +13,7 @@ use App\Http\Requests\EventDestroyRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -33,6 +34,8 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Event');
+
         $user = \Auth::user();
 
         $start = $request->start?$request->start:Carbon::now()->roundUnit('minute', 15, 'ceil');
@@ -72,6 +75,8 @@ class EventController extends Controller
      */
     public function store(EventStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Event');
+
         $post = $request->validated();
 
         Event::createEvent($post);
@@ -89,7 +94,35 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        Gate::authorize('view', $event);
+
+        $user = \Auth::user();
+
+        $users  = User::where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id')
+                        ->prepend(__('(me)'), \Auth::user()->id);
+
+        if($user->type == 'company')
+        {
+            $leads = Lead::orderBy('order')
+                            ->get()
+                            ->pluck('name', 'id');
+
+        }else
+        {
+            $leads = $user->leads()
+                        ->orderBy('order')
+                        ->get()
+                        ->pluck('name', 'id');
+        }
+
+        $lead = $event->leads->first();
+        $lead_id = $lead?$lead->id:null;
+
+        $user_id = $event->users()->get()->pluck('id');
+
+        return view('events.show', compact('event', 'users', 'user_id', 'leads', 'lead_id'));
     }
 
     /**
@@ -100,6 +133,8 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        Gate::authorize('update', $event);
+
         $user = \Auth::user();
 
         $users  = User::where('type', '!=', 'client')
@@ -138,6 +173,8 @@ class EventController extends Controller
      */
     public function update(EventUpdateRequest $request, Event $event)
     {
+        Gate::authorize('update', $event);
+
         $post = $request->validated();
 
         $event->updateEvent($post);
@@ -155,6 +192,8 @@ class EventController extends Controller
      */
     public function destroy(EventDestroyRequest $request, Event $event)
     {
+        Gate::authorize('delete', $event);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

@@ -23,7 +23,7 @@ class UserStoreRequest extends FormRequest
      */
     public function rules()
     {        
-        if(\Auth::user()->type == 'super admin') {
+        if(\Auth::user()->isSuperAdmin()) {
 
             return [
                 'name' => 'required|max:120',

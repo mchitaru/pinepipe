@@ -14,18 +14,7 @@ class TimesheetDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        $timesheet = $this->timesheet;
-
-        if($this->user()->can('delete', $timesheet))
-        {
-            //the timesheet or project was created by this company
-            return ($timesheet->created_by == \Auth::user()->created_by ||
-                    $timesheet->project && $timesheet->project->created_by == \Auth::user()->created_by) &&
-                    (\Auth::user()->type == 'company' ||
-                    $timesheet->user_id == \Auth::user()->id);
-        }
-
-        return false;
+        return $this->user()->can('delete', $this->timesheet);
     }
 
     /**

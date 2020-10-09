@@ -30,7 +30,7 @@ class ContactPolicy
      */
     public function view(User $user, Contact $contact)
     {
-        return true;
+        return $contact->created_by == $user->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class ContactPolicy
      */
     public function update(User $user, Contact $contact)
     {
-        return true;
+        return $contact->created_by == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class ContactPolicy
      */
     public function delete(User $user, Contact $contact)
     {
-        return true;
+        return $contact->created_by == $user->id;
     }
 
     /**

@@ -39,6 +39,7 @@ use Carbon\Carbon;
         </div>
         <div class="card-list-body" data-id={{$stage->id}} >
             @foreach($stage->leads as $lead)
+            @can('view', $lead)
             <div class="card card-kanban" data-id={{$lead->id}}>
                 <div class="card-body p-2">
                     <div class="dropdown card-options">
@@ -118,6 +119,7 @@ use Carbon\Carbon;
                     </div>
                 </div>
             </div>
+            @endcan
             @endforeach
         </div>
         <div class="card-list-footer">

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\URL;
 use App\Http\Requests\NoteStoreRequest;
 use App\Http\Requests\NoteUpdateRequest;
 use App\Http\Requests\NoteDestroyRequest;
+use Illuminate\Support\Facades\Gate;
 
 class NotesController extends Controller
 {
@@ -30,6 +31,8 @@ class NotesController extends Controller
      */
     public function create(Request $request)
     {
+        Gate::authorize('create', 'App\Note');
+
         $lead_id = $request['lead_id'];
         $project_id = $request['project_id'];
 
@@ -44,6 +47,8 @@ class NotesController extends Controller
      */
     public function store(NoteStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Note');
+
         $post = $request->validated();
 
         Note::createNote($post);
@@ -61,6 +66,8 @@ class NotesController extends Controller
      */
     public function edit(Note $note)
     {
+        Gate::authorize('update', $note);
+
         return view('notes.edit', compact('note'));
     }
 
@@ -73,6 +80,8 @@ class NotesController extends Controller
      */
     public function update(NoteUpdateRequest $request, Note $note)
     {
+        Gate::authorize('update', $note);
+
         $post = $request->validated();
 
         $note->updateNote($post);
@@ -90,6 +99,8 @@ class NotesController extends Controller
      */
     public function destroy(NoteDestroyRequest $request, Note $note)
     {
+        Gate::authorize('delete', $note);
+
         if($request->ajax()){
 
             return view('helpers.destroy');

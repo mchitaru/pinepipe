@@ -22,6 +22,7 @@ $timesheet = $timesheets->first();
             @endcan
         </div>
         @foreach ($timesheets as $key => $timesheet)
+        @can('view', $timesheet)
         <a class="dropdown-item timer-entry {{$timesheet->isStarted()?'active':($key==0?'border border-primary':'')}}" href="{{route('timesheets.timer')}}" data-timesheet="{{$timesheet->id}}"  title="{{$timesheet->isStarted()?__('Stop this timesheet.'):__('Continue this timesheet.')}}">
             <div class="row align-items-center">
                 <div class="col-4">
@@ -36,6 +37,7 @@ $timesheet = $timesheets->first();
                 </div>
             </div>
         </a>
+        @endcan
         @endforeach
     </div>
 </div>

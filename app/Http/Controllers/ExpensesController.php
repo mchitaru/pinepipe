@@ -14,69 +14,62 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 class ExpensesController extends Controller
 {
     public function index(Request $request)
     {
-        if(\Auth::user()->can('viewAny', 'App\Expense'))
+        Gate::authorize('viewAny', 'App\Expense');
+
+        if (!$request->ajax())
         {
-            if (!$request->ajax())
-            {
-                return view('expenses.page');
-            }
+            return view('expenses.page');
+        }
 
-            clock()->startEvent('ExpensesController', "Load expenses");
+        clock()->startEvent('ExpensesController', "Load expenses");
 
-            $expenses = Expense::expensesByUserType()
-                        ->where(function ($query) use ($request) {
-                            $query->whereHas('user', function ($query) use($request) {
+        $expenses = Expense::expensesByUserType()
+                    ->where(function ($query) use ($request) {
+                        $query->whereHas('user', function ($query) use($request) {
 
-                                $query->where('name','like','%'.$request['filter'].'%');
-                            })
-                            ->orWhereHas('project', function ($query) use($request) {
-
-                                $query->where('name','like','%'.$request['filter'].'%');
-                            });
+                            $query->where('name','like','%'.$request['filter'].'%');
                         })
-                        ->paginate(25, ['*'], 'invoice-page');
+                        ->orWhereHas('project', function ($query) use($request) {
 
-            clock()->endEvent('ExpensesController');
+                            $query->where('name','like','%'.$request['filter'].'%');
+                        });
+                    })
+                    ->paginate(25, ['*'], 'invoice-page');
 
-            return view('expenses.index', ['expenses' => $expenses])->render();
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('You dont have the right to perform this operation!'));
-        }
+        clock()->endEvent('ExpensesController');
+
+        return view('expenses.index', ['expenses' => $expenses])->render();
     }
 
     public function create(Request $request)
     {
-        if(\Auth::user()->can('create', 'App\Expense'))
-        {
-            $project_id = $request['project_id'];
+        Gate::authorize('create', 'App\Expense');
 
-            $categories = Category::where('class', Expense::class)
-                                    ->get()->pluck('name', 'id');
+        $project_id = $request['project_id'];
 
-            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
+        $categories = Category::where('class', Expense::class)
+                                ->get()->pluck('name', 'id');
 
-            $owners  = User::where('type', '!=', 'client')
-                            ->get()
-                            ->pluck('name', 'id')
-                            ->prepend(__('(myself)'), \Auth::user()->id);
+        $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-            return view('expenses.create', compact('categories', 'project_id', 'projects', 'owners'));
-        }
-        else
-        {
-            return response()->json(['error' => __('You dont have the right to perform this operation!')], 401);
-        }
+        $owners  = User::where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id')
+                        ->prepend(__('(myself)'), \Auth::user()->id);
+
+        return view('expenses.create', compact('categories', 'project_id', 'projects', 'owners'));
     }
 
     public function store(ExpenseStoreRequest $request)
     {
+        Gate::authorize('create', 'App\Expense');
+
         $post = $request->validated();
 
         $expense = Expense::createExpense($post);
@@ -95,29 +88,26 @@ class ExpensesController extends Controller
 
     public function edit(Expense $expense)
     {
-        if(\Auth::user()->can('update', $expense))
-        {
-            $categories = Category::where('class', Expense::class)
-                                    ->get()->pluck('name', 'id');
+        Gate::authorize('update', $expense);
 
-            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
+        $categories = Category::where('class', Expense::class)
+                                ->get()->pluck('name', 'id');
 
-            $owners  = User::where('type', '!=', 'client')
-                            ->get()
-                            ->pluck('name', 'id')
-                            ->prepend(__('(myself)'), \Auth::user()->id);
+        $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
 
-            return view('expenses.edit', compact('expense', 'categories', 'projects', 'owners'));
-        }
-        else
-        {
-            return Redirect::to(URL::previous())->with('error', __('You dont have the right to perform this operation!'));
-        }
+        $owners  = User::where('type', '!=', 'client')
+                        ->get()
+                        ->pluck('name', 'id')
+                        ->prepend(__('(myself)'), \Auth::user()->id);
+
+        return view('expenses.edit', compact('expense', 'categories', 'projects', 'owners'));
     }
 
 
     public function update(ExpenseUpdateRequest $request, Expense $expense)
     {
+        Gate::authorize('update', $expense);
+
         $post = $request->validated();
 
         $expense->updateExpense($post);
@@ -136,6 +126,8 @@ class ExpensesController extends Controller
 
     public function destroy(ExpenseDestroyRequest $request, Expense $expense)
     {
+        Gate::authorize('delete', $expense);
+
         if($request->ajax()){
 
             return view('helpers.destroy');
