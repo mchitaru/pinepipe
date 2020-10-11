@@ -20,8 +20,6 @@ class UserProfileController extends Controller
 {
     public function show(User $user)
     {
-        Gate::authorize('view', $user);
-
         $companySettings = $user->companySettings;
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
