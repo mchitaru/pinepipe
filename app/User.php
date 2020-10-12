@@ -204,7 +204,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             return $user->pivot->type;
         }
 
-        return '';
+        return 'founder';
     }
 
     public function isCollaborator()

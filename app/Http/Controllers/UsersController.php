@@ -34,7 +34,6 @@ class UsersController extends Controller
         if(\Auth::user()->isSuperAdmin())
         {
             $users = User::withoutGlobalScopes()
-                            ->where('type', '=', 'company')
                             ->where(function ($query) use ($request) {
                                 $query->where('name','like','%'.$request['filter'].'%')
                                 ->orWhere('email','like','%'.$request['filter'].'%');
