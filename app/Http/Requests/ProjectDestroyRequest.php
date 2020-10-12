@@ -13,7 +13,7 @@ class ProjectDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('delete', $project);
+        return $this->user()->can('delete', $this->project);
     }
 
     /**

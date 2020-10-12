@@ -31,7 +31,6 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropzone-file dropdown-item" href="#">{{__('Download')}}</a>
-                <a class="dropzone-file dropdown-item disabled" href="#">{{__('Share')}}</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropzone-delete dropdown-item text-danger disabled" href="#" data-method="delete" data-remote="true" data-type="text">{{__('Delete')}}</a>
 
