@@ -37,6 +37,7 @@ class CompanySettingsRequest extends FormRequest
             'zipcode' => 'nullable|string',
             'country' => 'nullable|string',
             'phone' => 'nullable|string',
+            'website' => 'nullable|string',
             'tax' => 'nullable|string',
             'tax_payer' => 'required|boolean',
             'registration' => 'string|nullable',

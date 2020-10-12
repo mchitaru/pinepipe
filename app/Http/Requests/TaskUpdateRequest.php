@@ -17,16 +17,7 @@ class TaskUpdateRequest extends FormRequest
     {
         $task = $this->task;
 
-        if ($this->isMethod('put'))
-        {    
-            //the task or project was created by this company
-            return $this->user()->can('update', $this->task);
-
-        }
-
-        //if he tries to change status, the task or project was created by this company or is assigned to the user
-        return $this->user()->can('update', $this->task) ||
-                $task->users->contains(\Auth::user()->id);
+        return $this->user()->can('update', [$this->task, $this->isMethod('patch')]);
     }
 
     /**

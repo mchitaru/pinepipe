@@ -245,7 +245,7 @@ class TasksController extends Controller
      */
     public function update(TaskUpdateRequest $request, Task $task)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('update', [$task, $request->isMethod('patch')]);
 
         $post = $request->validated();
 

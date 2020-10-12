@@ -35,7 +35,7 @@ class TaskChecklistController extends Controller
      */
     public function store(TaskChecklistRequest $request, Task $task)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('create', ['App\Checklist', $task]);
 
         $post = $request->validated();
 
@@ -62,7 +62,7 @@ class TaskChecklistController extends Controller
      */
     public function update(TaskChecklistRequest $request, Task $task, Checklist $subtask)
     {        
-        Gate::authorize('update', $task);
+        Gate::authorize('update', $subtask);
 
         $post = $request->validated();
 
@@ -89,7 +89,7 @@ class TaskChecklistController extends Controller
      */
     public function destroy(Task $task, Checklist $subtask)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('delete', $subtask);
 
         $subtask->delete();
 

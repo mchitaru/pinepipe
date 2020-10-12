@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Task;
+use App\Media;
 use App\User;
 
-class TaskPolicy
+class MediaPolicy
 {
     use HandlesAuthorization;
 
@@ -25,15 +25,12 @@ class TaskPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Media  $media
      * @return mixed
      */
-    public function view(User $user, Task $task)
+    public function view(User $user, Media $media)
     {
-        return $task->created_by == $user->id  ||
-                $task->project && $task->project->created_by == $user->id ||
-                $task->users->contains($user->id) ||
-                $task->project && $task->project->users->contains($user->id);
+        return $user->can('view', $media->model);
     }
 
     /**
@@ -42,47 +39,45 @@ class TaskPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, $model)
     {
-        return true;
+        return $user->can('update', [$model, true]);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Media  $media
      * @return mixed
      */
-    public function update(User $user, Task $task, $patch = false)
+    public function update(User $user, Media $media)
     {
-        //the task or project was created by this company
-        return $task->created_by == $user->id ||                
-                $task->project && $task->project->created_by == $user->id ||
-                $patch && $task->users->contains($user->id);
+        return $media->created_by == $user->id  ||
+                $user->can('update', [$media->model, false]);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Media  $media
      * @return mixed
      */
-    public function delete(User $user, Task $task)
+    public function delete(User $user, Media $media)
     {
-            return $task->created_by == $user->id ||
-                    $task->project && $task->project->created_by == $user->id;
+        return $media->created_by == $user->id  ||
+                $user->can('update', [$media->model, false]);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Media  $media
      * @return mixed
      */
-    public function restore(User $user, Task $task)
+    public function restore(User $user, Media $media)
     {
         //
     }
@@ -91,10 +86,10 @@ class TaskPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Media  $media
      * @return mixed
      */
-    public function forceDelete(User $user, Task $task)
+    public function forceDelete(User $user, Media $media)
     {
         //
     }

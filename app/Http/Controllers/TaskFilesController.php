@@ -31,7 +31,7 @@ class TaskFilesController extends Controller
      */
     public function store(TaskFileRequest $request, Task $task)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('create', ['App\Media', $task]);
 
         $post = $request->validated();
 
@@ -69,7 +69,7 @@ class TaskFilesController extends Controller
      */
     public function show(Task $task, Media $file)
     {
-        Gate::authorize('view', $task);
+        Gate::authorize('update', $file);
 
         return Storage::disk('s3')->download($file->getPath());
     }
@@ -82,7 +82,7 @@ class TaskFilesController extends Controller
      */
     public function destroy(Request $request, Task $task, Media $file)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('delete', $file);
 
         $path = $file->getPath();
         if(file_exists($path))

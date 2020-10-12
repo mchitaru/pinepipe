@@ -33,7 +33,7 @@ class TaskCommentsController extends Controller
      */
     public function store(TaskCommentRequest $request, Task $task)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('create', ['App\Comment', $task]);
 
         $post = $request->validated();
 
@@ -54,7 +54,7 @@ class TaskCommentsController extends Controller
      */
     public function update(TaskCommentRequest $request, Task $task, Comment $comment)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('update', $comment);
 
         $post = $request->validated();
 
@@ -73,7 +73,7 @@ class TaskCommentsController extends Controller
      */
     public function destroy(Task $task, Comment $comment)
     {
-        Gate::authorize('delete', $task);
+        Gate::authorize('delete', $comment);
 
         $comment->delete();
 

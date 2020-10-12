@@ -25,6 +25,7 @@ class CompanySettings extends Model implements HasMedia
         'zipcode',
         'country',
         'phone',
+        'website',
         'tax',
         'tax_payer',
         'registration',
@@ -44,6 +45,7 @@ class CompanySettings extends Model implements HasMedia
         'zipcode',
         'country',
         'phone',
+        'website',
         'invoice',
         'receipt',
         'iban',
@@ -75,6 +77,11 @@ class CompanySettings extends Model implements HasMedia
     public function company()
     {
         return $this->belongsTo('App\User', 'id', 'created_by');
+    }
+
+    public function getFullAddress()
+    {
+        return $this->address.', '.$this->city.', '.$this->state.' - '.$this->zipcode.', '.$this->country;
     }
 
     public function registerMediaConversions(BaseMedia $media = null)

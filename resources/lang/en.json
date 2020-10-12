@@ -875,6 +875,8 @@
     "Send Invite": "",
     "Please fill in the required information below, to finish setting up your account.": "",
     "Invite collaborators": "",
-    "Invite succesfully sent. You can now assign the collaborator to a project.": "",
-    "This email address cannot be invited as a collaborator!": ""
+    "Invite successfully sent. You can now assign the collaborator to a project.": "",
+    "This email address cannot be invited as a collaborator!": "",
+    "Collaborator successfully invited. You can now assign him to a project.": "",
+    "View Event": ""
 }

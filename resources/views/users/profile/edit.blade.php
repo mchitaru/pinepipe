@@ -75,7 +75,7 @@ use App\SubscriptionPlan;
             <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="company" aria-selected="false">{{__('Company')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">{{__('Users')}}</a>
+            <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">{{__('Collaborators')}}</a>
         </li>
         @endif
         <li class="nav-item">

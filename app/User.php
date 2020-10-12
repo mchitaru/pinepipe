@@ -790,7 +790,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function checkProjectLimit()
     {
-        $company = User::find($this->created_by);
+        $company = $this;
 
         if(!$company->subscribed()){
             $max_projects = SubscriptionPlan::first()->max_projects;
@@ -807,7 +807,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function checkClientLimit()
     {
-        $company        = User::find($this->created_by);
+        $company = $this;
 
         if(!$company->subscribed()){
             $max_clients = SubscriptionPlan::first()->max_clients;
@@ -824,7 +824,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function checkUserLimit()
     {
-        $company        = User::find($this->created_by);
+        $company = $this;
 
         if(!$company->subscribed()){
             $max_users = SubscriptionPlan::first()->max_users;

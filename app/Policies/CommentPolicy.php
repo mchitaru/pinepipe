@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Task;
+use App\Comment;
 use App\User;
 
-class TaskPolicy
+class CommentPolicy
 {
     use HandlesAuthorization;
 
@@ -25,15 +25,12 @@ class TaskPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return mixed
      */
-    public function view(User $user, Task $task)
+    public function view(User $user, Comment $comment)
     {
-        return $task->created_by == $user->id  ||
-                $task->project && $task->project->created_by == $user->id ||
-                $task->users->contains($user->id) ||
-                $task->project && $task->project->users->contains($user->id);
+        return $user->can('view', $comment->commentable);
     }
 
     /**
@@ -42,47 +39,46 @@ class TaskPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, $checklistable)
     {
-        return true;
+        return $user->can('update', [$checklistable, true]);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return mixed
      */
-    public function update(User $user, Task $task, $patch = false)
+    public function update(User $user, Comment $comment)
     {
-        //the task or project was created by this company
-        return $task->created_by == $user->id ||                
-                $task->project && $task->project->created_by == $user->id ||
-                $patch && $task->users->contains($user->id);
+        return $comment->created_by == $user->id  ||
+                $user->can('update', [$comment->commentable, false]);
+
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return mixed
      */
-    public function delete(User $user, Task $task)
+    public function delete(User $user, Comment $comment)
     {
-            return $task->created_by == $user->id ||
-                    $task->project && $task->project->created_by == $user->id;
+        return $comment->created_by == $user->id  ||
+                $user->can('update', [$comment->commentable, false]);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return mixed
      */
-    public function restore(User $user, Task $task)
+    public function restore(User $user, Comment $comment)
     {
         //
     }
@@ -91,10 +87,10 @@ class TaskPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return mixed
      */
-    public function forceDelete(User $user, Task $task)
+    public function forceDelete(User $user, Comment $comment)
     {
         //
     }

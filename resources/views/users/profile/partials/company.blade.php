@@ -114,6 +114,17 @@ use App\CompanySettings;
         </div>
     </div>
     <div class="form-group row align-items-center">
+        {{Form::label('website',__('Website'), array('class'=>'col-3')) }}
+        <div class="col">
+            {{Form::text('website',null,array('class'=>'form-control', 'placeholder'=>__('https://pinepipe.com/')))}}
+            @error('website')
+            <span class="invalid-company_website" role="alert">
+                <strong class="text-danger">{{ $message }}</strong>
+            </span>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
         {{Form::label('tax',__('TAX ID'), array('class'=>'col-3')) }}
         <div class="col-5">
             {{Form::text('tax',null, array('class'=>'form-control', 'placeholder'=>__('########')))}}

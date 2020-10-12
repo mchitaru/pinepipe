@@ -54,6 +54,12 @@ class UserInviteController extends Controller
                 );
         
                 Mail::to($user->email)->queue(new InviteUserMail($user, \Auth::user()));
+
+                $request->session()->flash('success', __('Invite successfully sent. You can now assign the collaborator to a project.'));
+
+            }else{
+
+                $request->session()->flash('success', __('Collaborator successfully invited. You can now assign him to a project.'));
             }
             
             if($user != \Auth::user() && $user->type == 'company'){
@@ -62,28 +68,32 @@ class UserInviteController extends Controller
 
                 if(\Auth::user()->companySettings &&
                     $user->companyClients()
-                            ->where('name', \Auth::user()->companySettings->name)
-                            ->orWhere('email', \Auth::user()->companySettings->email)
-                            ->first() == null) {
+                            ->where(function ($query) {
+                                $query->where('name', \Auth::user()->companySettings->name)
+                                        ->orWhere('email', \Auth::user()->companySettings->email);
+                            })->first() == null) {
 
-                    //add a client for current company
-                    $client = Client::create(
-                        [
-                            'name' => \Auth::user()->companySettings->name,
-                            'email' => \Auth::user()->companySettings->email,
-                            'phone' => \Auth::user()->companySettings->phone,
-                            'address' => \Auth::user()->companySettings->address,
-                            'website' => \Auth::user()->companySettings->website,
-                            'user_id' => $user->id,
-                            'created_by' => $user->id
-                        ]
-                    );
+                    if($user->checkClientLimit()){
 
-                    $client->created_by = $user->id;
-                    $client->save();
+                        //add a client for current company
+                        $client = Client::create(
+                            [
+                                'name' => \Auth::user()->companySettings->name,
+                                'email' => \Auth::user()->companySettings->email,
+                                'phone' => \Auth::user()->companySettings->phone,
+                                'address' => \Auth::user()->companySettings->getFullAddress(),
+                                'website' => \Auth::user()->companySettings->website,
+                                'tax' => \Auth::user()->companySettings->tax,
+                                'registration' =>\Auth::user()->companySettings->registration,
+                                'user_id' => $user->id,
+                                'created_by' => $user->id
+                            ]
+                        );
+
+                        $client->created_by = $user->id;
+                        $client->save();                        
+                    }
                 }                
-
-                $request->session()->flash('success', __('Invite succesfully sent. You can now assign the collaborator to a project.'));
 
                 return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
             }

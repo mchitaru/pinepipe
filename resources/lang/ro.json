@@ -771,6 +771,8 @@
     "Send Invite": "Trimite invitație",
     "Please fill in the required information below, to finish setting up your account.": "Te rugăm să completezi datele de mai jos, pentru a-ți activa contul.",
     "Invite collaborators": "Invită colaboratori",
-    "Invite succesfully sent. You can now assign the collaborator to a project.": "Invitația a fost trimisă cu succes. Acum poți atribui un proiect colaboratorului.",
-    "This email address cannot be invited as a collaborator!": "Această adresă de email nu poate fi invitată ca și colaborator."
+    "Invite successfully sent. You can now assign the collaborator to a project.": "Invitația a fost trimisă cu succes. Acum poți atribui un proiect colaboratorului.",
+    "This email address cannot be invited as a collaborator!": "Această adresă de email nu poate fi invitată ca și colaborator.",
+    "Collaborator successfully invited. You can now assign him to a project.": "Colaboratorul a fost invitat cu succes. Acum ii poți atribui un proiect.",
+    "View Event": "Vezi eveniment"
 }

@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            @if(Gate::check('update', $project) || Gate::check('delete', $project) || Gate::check('create', 'App\User'))
+            @if(Gate::check('update', $project) || Gate::check('delete', $project))
                     <div class="dropdown card-options">
                         @if($project->enabled)
                             <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -21,13 +21,7 @@
                                     {{__('Edit')}}
                                 </a>
                             @endcan
-                            {{-- @can('view invite user')
-                                <a class="dropdown-item" href="{{ route('projects.invite.create', $project->id) }}" data-remote="true" data-type="text">
-                                    {{__('Add User')}}
-                                </a>
-                            @endcan --}}
                             <div class="dropdown-divider"></div>
-
                             @can('update', $project)
                                 @if(!$project->archived)
                                     <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
@@ -40,7 +34,6 @@
 
                                 @endif
                             @endcan
-
                             @can('delete', $project)
                                 <a class="dropdown-item text-danger" href="{{ route('projects.destroy', $project->id) }}" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}
