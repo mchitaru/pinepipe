@@ -15,17 +15,14 @@ class UserDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->route()->parameter('user');
+        $user = $this->user;
 
-        if($user == null ||
-            $user->isSuperAdmin() ||
-            $user->type == 'company'){
+        if($user && !$user->isSuperAdmin()){
 
-            return false;
+            return $this->user()->can('delete', $user);
         }
 
-        return ($user->created_by == $this->user()->id) &&
-                $this->user()->can('delete', $user);
+        return false;        
     }
 
     /**

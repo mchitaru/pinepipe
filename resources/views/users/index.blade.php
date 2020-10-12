@@ -48,9 +48,8 @@
                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
                     </button>
-
                     <div class="dropdown-menu dropdown-menu-right">
-                        @if($user->type != 'company' && ($_user->isSuperAdmin() || $_user->type == 'company'))
+                        @if($_user->isSuperAdmin())
                             {{-- @can('update', $user)
                                 <a class="dropdown-item" href="{{ route('users.edit', $user) }}" data-remote="true" data-type="text">
                                     <span>{{__('Edit')}}</span>

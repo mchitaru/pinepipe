@@ -1033,6 +1033,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $this->companyActivities()->delete();
         $this->companySubscriptions()->delete();
+
+        $this->companies()->detach();
+        $this->collaborators()->detach();
     }
 
     public function totalCompanyUsers()
