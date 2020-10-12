@@ -13,5 +13,4 @@
 <p>{{__('If you have any questions about Pinepipe, send us an')}} <a href="mailto:team@pinepipe.com">email</a> 
     {{__('or learn more on our website')}} <a href="https://pinepipe.com">pinepipe.com</a>.</p>
 
-{{ config('app.name') }}
 @endcomponent

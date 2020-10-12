@@ -6,7 +6,5 @@
 <p><b>Name:</b>   {{$name}}</p>
 <p><b>Email:</b>  {{$email}}</p><br>
 
-<p>You should send them a welcome email!</p><br>
-
 {{ config('app.name') }}
 @endcomponent
