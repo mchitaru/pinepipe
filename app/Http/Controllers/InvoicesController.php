@@ -108,6 +108,7 @@ class InvoicesController extends Controller
         $tax_id = $taxPayer ? 1 : null;
 
         $clients = \Auth::user()->companyClients()
+                                ->orderBy('name', 'asc')
                                 ->get()
                                 ->pluck('name', 'id');
 

@@ -52,6 +52,7 @@ class LeadsController extends Controller
                                 ->pluck('name', 'id');
 
         $clients = \Auth::user()->companyClients()
+                            ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
         if($client_id)
@@ -60,6 +61,7 @@ class LeadsController extends Controller
 
                 $contacts = Contact::contactsByUserType()
                                     ->where('client_id', '=', $client_id)
+                                    ->orderBy('name', 'asc')
                                     ->get()
                                     ->pluck('name', 'id');
             }else{
@@ -71,6 +73,7 @@ class LeadsController extends Controller
         }else
         {
             $contacts = Contact::contactsByUserType()
+                                ->orderBy('name', 'asc')
                                 ->get()
                                 ->pluck('name', 'id');
         }
@@ -121,6 +124,7 @@ class LeadsController extends Controller
                         ->pluck('name', 'id');
 
         $clients = \Auth::user()->companyClients()
+                            ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
 
@@ -142,6 +146,7 @@ class LeadsController extends Controller
 
                 $contacts = Contact::contactsByUserType()
                                     ->where('client_id', '=', $client_id)
+                                    ->orderBy('name', 'asc')
                                     ->get()
                                     ->pluck('name', 'id');
             }else{
@@ -153,6 +158,7 @@ class LeadsController extends Controller
         }else
         {
             $contacts = Contact::contactsByUserType()
+                                ->orderBy('name', 'asc')
                                 ->get()
                                 ->pluck('name', 'id');
         }

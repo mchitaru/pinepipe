@@ -286,6 +286,7 @@ class DashboardController extends Controller
                                     ->where(function ($query) use ($search) {
                                         $query->where('name','like', $search.'%');
                                     })
+                                    ->orderBy('name', 'asc')
                                     ->get();
 
             foreach($contacts as $contact)

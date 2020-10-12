@@ -87,6 +87,7 @@ class ProjectsController extends Controller
         $user_id = \Auth::user()->id;
 
         $clients = \Auth::user()->companyClients()
+                            ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
 
@@ -180,6 +181,7 @@ class ProjectsController extends Controller
         $due_date = $request->due_date?$request->due_date:$project->due_date;
 
         $clients = \Auth::user()->companyClients()
+                            ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
 

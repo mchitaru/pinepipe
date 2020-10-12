@@ -50,6 +50,7 @@ class ContactsController extends Controller
         $client_id = $request['client_id'];
 
         $clients = \Auth::user()->companyClients()
+                    ->orderBy('name', 'asc')
                     ->get()                    
                     ->pluck('name', 'id');
 
@@ -99,6 +100,7 @@ class ContactsController extends Controller
         Gate::authorize('update', $contact);
 
         $clients = \Auth::user()->companyClients()
+                        ->orderBy('name', 'asc')
                         ->get()
                         ->pluck('name', 'id');
 
