@@ -774,5 +774,7 @@
     "Invite successfully sent. You can now assign the collaborator to a project.": "Invitația a fost trimisă cu succes. Acum poți atribui un proiect colaboratorului.",
     "This email address cannot be invited as a collaborator!": "Această adresă de email nu poate fi invitată ca și colaborator.",
     "Collaborator successfully invited. You can now assign him to a project.": "Colaboratorul a fost invitat cu succes. Acum ii poți atribui un proiect.",
-    "View Event": "Vezi eveniment"
+    "View Event": "Vezi eveniment",
+    "Active (m)": "Activi",
+    "Archived (m)": "Arhivați"
 }

@@ -800,5 +800,7 @@
     "Invite successfully sent. You can now assign the collaborator to a project.": "",
     "This email address cannot be invited as a collaborator!": "",
     "Collaborator successfully invited. You can now assign him to a project.": "",
-    "View Event": ""
+    "View Event": "",
+    "Active (m)": "",
+    "Archived (m)": ""
 }

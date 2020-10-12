@@ -35,40 +35,21 @@ class ClientsController extends Controller
 
         clock()->startEvent('ClientsController', "Load clients");
 
-        if($user->type == 'company')
-        {
-            $clients = $user->companyClients()
-                        ->with(['contacts', 'projects', 'leads'])
-                        ->where(function ($query) use ($request) {
-                            $query->where('name','like','%'.$request['filter'].'%')
-                            ->orWhere('email','like','%'.$request['filter'].'%');
-                        })
-                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
-                        ->paginate(25, ['*'], 'client-page');
+        if(!empty($request['tag'])){
+            $status = array(array_search($request['tag'], Client::$status));
         }else{
-
-            $clients = $user->companyClients()
-                        ->with(['contacts' => function ($query) {
-                            $query->where('user_id', \Auth::user()->id);
-                        },
-                        'projects' => function ($query) {
-                            // only include tasks with projects where...
-                            $query->whereHas('users', function ($query) {
-
-                                // ...the current user is assigned.
-                                $query->where('users.id', \Auth::user()->id);
-                            });
-                        },
-                        'leads' => function ($query) {
-                            $query->where('user_id', \Auth::user()->id);
-                        }])
-                        ->where(function ($query) use ($request) {
-                            $query->where('name','like','%'.$request['filter'].'%')
-                            ->orWhere('email','like','%'.$request['filter'].'%');
-                        })
-                        ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
-                        ->paginate(25, ['*'], 'client-page');
+            $status = array(array_search('active', Client::$status));
         }
+
+        $clients = $user->companyClients()
+                    ->with(['contacts', 'projects', 'leads'])
+                    ->whereIn('archived', $status)
+                    ->where(function ($query) use ($request) {
+                        $query->where('name','like','%'.$request['filter'].'%')
+                        ->orWhere('email','like','%'.$request['filter'].'%');
+                    })
+                    ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
+                    ->paginate(25, ['*'], 'client-page');
 
         clock()->endEvent('ClientsController');
 
@@ -120,6 +101,11 @@ class ClientsController extends Controller
     public function update(ClientUpdateRequest $request, Client $client)
     {
         Gate::authorize('update', $client);
+
+        if($request->ajax() && $request->isMethod('patch') && !isset($request['archived']))
+        {
+            return view('helpers.archive');
+        }
 
         $post = $request->validated();
 

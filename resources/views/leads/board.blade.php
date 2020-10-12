@@ -76,7 +76,6 @@ use Carbon\Carbon;
                                 <a href="{{ route('leads.update', $lead->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
                                     {{__('Restore')}}
                                 </a>
-
                             @endif
                         @endcan
                         @can('delete', $lead)

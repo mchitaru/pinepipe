@@ -23,23 +23,39 @@ class ClientUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $client = $this->route()->parameter('client');
+        if ($this->isMethod('put'))
+        {
+            $client = $this->route()->parameter('client');
 
-        return [
-            'name'=>'required|max:120',
-            'email'=>'nullable|email',
-            'phone'=>'nullable|string',
-            'address'=>'nullable|string',
-            'website'=>'nullable|string',
-            'tax'=>'nullable|string',
-            'registration'=>'nullable|string',
-            'avatar' => 'mimetypes:image/*|max:2048'
-        ];
+            return [
+                'name'=>'required|max:120',
+                'email'=>'nullable|email',
+                'phone'=>'nullable|string',
+                'address'=>'nullable|string',
+                'website'=>'nullable|string',
+                'tax'=>'nullable|string',
+                'registration'=>'nullable|string',
+                'avatar' => 'mimetypes:image/*|max:2048'
+            ];
+
+        }else{
+
+            return [
+                'archived' => 'nullable|boolean'
+            ];
+        }
     }
 
     protected function getRedirectUrl()
     {
-        $client = $this->route()->parameter('client');
-        return route('clients.edit', $client);
+        if ($this->isMethod('put'))
+        {
+            $client = $this->route()->parameter('client');
+            return route('clients.edit', $client);
+
+        }else{
+
+            return URL::previous();
+        }
     }
 }

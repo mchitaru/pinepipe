@@ -31,7 +31,8 @@ class Client extends Model implements HasMedia
         'tax',
         'registration',
         'user_id',
-        'created_by'
+        'created_by',
+        'archived'
     ];
 
     protected $nullable = [
@@ -143,4 +144,9 @@ class Client extends Model implements HasMedia
         Activity::updateClient($this);
     }
 
+    //used for filters
+    public static $status = [
+        'active',
+        'archived'
+    ];
 }

@@ -14,7 +14,7 @@ $(function() {
     localStorage.setItem('sort', 'name');
     localStorage.setItem('dir', 'asc');
     localStorage.setItem('filter', '');
-    localStorage.setItem('tag', '');
+    localStorage.setItem('tag', 'active');
 
     updateFilters();
 
@@ -67,6 +67,15 @@ $(function() {
                                 <a class="order" href="#" data-sort="email">{{__('Email')}}</a>
                             </div>
                         </div>
+                        <div class="filter-container col-auto align-items-center">
+                            <div class="filter-tags">
+                                <div>{{__('Tag')}}:</div>
+                            </div>
+                            <div class="filter-tags">
+                                <div class="tag filter" data-filter="active">{{__('Active (m)')}}</div>
+                                <div class="tag filter" data-filter="archived">{{__('Archived (m)')}}</div>
+                            </div>
+                        </div>        
                     </div>
                     <!--end of content list head-->
                     <div class="content-list-body filter-list paginate-container">
