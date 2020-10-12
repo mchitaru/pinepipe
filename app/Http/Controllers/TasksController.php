@@ -84,7 +84,8 @@ class TasksController extends Controller
 
         $end = $request->end;
 
-        $projects   = \Auth::user()->projectsByUserType()
+        $projects   = \Auth::user()->companyUserProjects()
+                                    ->where('archived', '0')
                                     ->pluck('name', 'id');
 
         $priorities = [Project::translatePriority(0), Project::translatePriority(1), Project::translatePriority(2)];
@@ -188,7 +189,8 @@ class TasksController extends Controller
 
         $project    = Project::find($task->project_id);
 
-        $projects   = \Auth::user()->projectsByUserType()
+        $projects   = \Auth::user()->companyUserProjects()
+                                    ->where('archived', '0')
                                     ->pluck('name', 'id');
      
         $company = $task->project ? $task->project->company : \Auth::user()->company;

@@ -205,7 +205,7 @@ class DashboardController extends Controller
         $arrProject = [];
         if(\Auth::user()->can('viewAny', 'App\Project')){
 
-            $projects = \Auth::user()->projectsByUserType()
+            $projects = \Auth::user()->companyUserProjects()
                                     ->with(['tasks', 'users', 'client'])
                                     ->where(function ($query) use ($search) {
                                         $query->where('name','like', $search.'%');
@@ -225,7 +225,7 @@ class DashboardController extends Controller
         $arrTask = [];
         if(\Auth::user()->can('viewAny', 'App\Task')){
 
-            $tasks = \Auth::user()->tasksByUserType()
+            $tasks = \Auth::user()->companyUserTasks()
                                     ->with(['users'])
                                     ->where(function ($query) use ($search) {
                                         $query->where('title','like', $search.'%');
@@ -263,7 +263,7 @@ class DashboardController extends Controller
         $arrClient = [];
         if(\Auth::user()->can('viewAny', 'App\Client')){
 
-            $clients = \Auth::user()->clientsByUserType()
+            $clients = \Auth::user()->companyClients()
                                         ->where(function ($query) use ($search) {
                                             $query->where('name','like', $search.'%');
                                         })
@@ -303,7 +303,7 @@ class DashboardController extends Controller
         $arrLead = [];
         if(\Auth::user()->can('viewAny', 'App\Lead')){
 
-            $leads = \Auth::user()->leadsByUserType()
+            $leads = \Auth::user()->companyLeads()
                                     ->where(function ($query) use ($search) {
                                         $query->where('name','like', $search.'%');
                                     })

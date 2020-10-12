@@ -56,8 +56,17 @@
                     <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
-                    @endcan
                     <div class="dropdown-divider"></div>
+                    @if(!$lead->archived)
+                        <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
+                            {{__('Archive')}}
+                        </a>
+                    @else
+                        <a href="{{ route('leads.update', $lead->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                            {{__('Restore')}}
+                        </a>
+                    @endif
+                    @endcan
                     @can('delete', $lead)
                         <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>

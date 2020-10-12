@@ -137,7 +137,23 @@ class Client extends Model implements HasMedia
     }
 
     public function updateClient($post)
-    {
+    {        
+        if(isset($post['archived'])){
+
+            foreach($this->projects as $project){
+                
+                $project->archived = 1;
+                $project->save();
+            }
+
+            foreach($this->leads as $lead){
+                
+                $lead->archived = 1;
+                $lead->save();
+            }
+
+        }
+
         $this->update($post);
         $this->save();
 

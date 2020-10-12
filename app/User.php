@@ -273,16 +273,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $this->hasMany('App\Lead', 'user_id', 'id');
     }
 
-    public function leadsByUserType()
-    {
-        if($this->type == 'company'){
-
-            return $this->companyLeads();
-        }
-
-        return $this->leads();
-    }
-
     public function expenses()
     {
         return $this->hasMany('App\Expense', 'user_id', 'id');
@@ -528,53 +518,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         });
     }
 
-    public function clientsByUserType()
-    {
-        if($this->type == 'client'){
-
-            return collect();
-        }
-        else if($this->type == 'company'){
-
-            return $this->companyclients();
-        }else{
-
-            return $this->staffClients();
-
-        }
-    }
-
-    public function projectsByUserType()
-    {
-        if($this->type == 'client'){
-
-            return $this->client->projects();
-        }
-        else if($this->type == 'company'){
-
-            return $this->companyUserProjects();                      
-        }else{
-
-            return $this->projects();
-
-        }
-    }
-
-    public function tasksByUserType()
-    {
-        if($this->type == 'client'){
-
-            return $this->client->tasks();
-        }
-        else if($this->type == 'company'){
-
-            return $this->companyUserTasks();                        
-        }else{
-
-            return $this->userTasks();
-        }
-    }
-
     public function getProfileAttribute()
     {
         return null;
@@ -674,7 +617,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
     public function totalUserProjects()
     {
-        return $this->projectsByUserType()->count();
+        return $this->companyUserProjects()->count();
     }
 
 

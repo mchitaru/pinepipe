@@ -153,9 +153,12 @@ class ClientsController extends Controller
         if($user->type == 'company')
         {
             $contacts = $client->contacts;
-            $projects = $client->projects;
+            $projects = $client->projects()
+                                ->where('archived', 0)
+                                ->get();
 
             $leads = Lead::with(['client', 'user', 'stage'])
+                    ->where('archived', 0)
                     ->where('client_id', '=', $client->id)
                     ->orderBy('order')
                     ->get();

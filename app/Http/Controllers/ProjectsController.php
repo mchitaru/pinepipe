@@ -52,7 +52,7 @@ class ProjectsController extends Controller
             $status = array(array_search('active', Project::$status));
         }
 
-        $projects = $user->projectsByUserType()
+        $projects = $user->companyUserProjects()
                         ->with(['tasks', 'users', 'client'])
                         ->whereIn('archived', $status)
                         ->where(function ($query) use ($request) {
@@ -87,6 +87,7 @@ class ProjectsController extends Controller
         $user_id = \Auth::user()->id;
 
         $clients = \Auth::user()->companyClients()
+                            ->where('archived', 0)
                             ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
@@ -106,6 +107,7 @@ class ProjectsController extends Controller
             if(is_numeric($client_id)) {
 
                 $leads   = Lead::where('client_id', '=', $client_id)
+                                ->where('archived', 0)
                                 ->get()
                                 ->pluck('name', 'id');
             }else{
@@ -117,6 +119,7 @@ class ProjectsController extends Controller
         }else
         {
                 $leads   = \Auth::user()->companyLeads()
+                                        ->where('archived', 0)
                                         ->get()
                                         ->pluck('name', 'id');
         }
@@ -181,6 +184,7 @@ class ProjectsController extends Controller
         $due_date = $request->due_date?$request->due_date:$project->due_date;
 
         $clients = \Auth::user()->companyClients()
+                            ->where('archived', 0)
                             ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
@@ -197,6 +201,7 @@ class ProjectsController extends Controller
             if(is_numeric($client_id)) {
 
                 $leads   = Lead::where('client_id', '=', $client_id)
+                                ->where('archived', 0)
                                 ->get()
                                 ->pluck('name', 'id');
             }else{
@@ -208,6 +213,7 @@ class ProjectsController extends Controller
         }else
         {
                 $leads   = \Auth::user()->companyLeads()
+                                        ->where('archived', 0)
                                         ->get()
                                         ->pluck('name', 'id');
         }

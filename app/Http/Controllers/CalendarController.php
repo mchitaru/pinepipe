@@ -29,7 +29,7 @@ class CalendarController extends Controller
         }
 
         //add tasks
-        $tasks = \Auth::user()->tasksByUserType()
+        $tasks = \Auth::user()->companyUserTasks()
                                 ->whereHas('stage', function ($query)
                                 {
                                     $query->where('open', 1);

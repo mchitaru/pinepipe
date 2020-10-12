@@ -108,6 +108,7 @@ class InvoicesController extends Controller
         $tax_id = $taxPayer ? 1 : null;
 
         $clients = \Auth::user()->companyClients()
+                                ->where('archived', 0)
                                 ->orderBy('name', 'asc')
                                 ->get()
                                 ->pluck('name', 'id');
@@ -119,7 +120,9 @@ class InvoicesController extends Controller
                                     ->pluck('name', 'id');
         }else{
 
-            $projects = \Auth::user()->projectsByUserType()->pluck('projects.name', 'projects.id');
+            $projects = \Auth::user()->companyUserProjects()
+                            ->where('archived', '0')
+                            ->pluck('projects.name', 'projects.id');
         }
 
         $locales = ['en' => 'English', 'ro' => 'Română'];

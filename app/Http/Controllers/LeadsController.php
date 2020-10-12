@@ -52,6 +52,7 @@ class LeadsController extends Controller
                                 ->pluck('name', 'id');
 
         $clients = \Auth::user()->companyClients()
+                            ->where('archived', 0)
                             ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
@@ -124,6 +125,7 @@ class LeadsController extends Controller
                         ->pluck('name', 'id');
 
         $clients = \Auth::user()->companyClients()
+                            ->where('archived', 0)
                             ->orderBy('name', 'asc')
                             ->get()
                             ->pluck('name', 'id');
