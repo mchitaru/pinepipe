@@ -18,7 +18,7 @@ class TaskDestroyRequest extends FormRequest
     {
         $task = $this->task;
 
-        return $this->user->can('delete', $task);
+        return $this->user()->can('delete', $task);
     }
 
     /**
