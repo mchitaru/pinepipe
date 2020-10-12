@@ -24,6 +24,7 @@ class CreateClientsTable extends Migration
             $table->string('tax')->nullable();
             $table->string('registration')->nullable();
             $table->unsignedInteger('user_id');
+            $table->boolean('archived')->default(0);
             $table->unsignedInteger('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes();            
