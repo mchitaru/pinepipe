@@ -123,6 +123,10 @@ class Contact extends Model
                                 $query->where('name','like','%'.$filter.'%')
                                         ->orWhere('email','like','%'.$filter.'%')
                                         ->orWhere('phone','like','%'.$filter.'%')
+                                        ->orWhereHas('client', function ($query) use($filter) {
+            
+                                            $query->where('name','like','%'.$filter.'%');
+                                        })    
                                         ->orWhereHas('tags', function ($query) use($filter)
                                         {
                                             $query->where('tags.name','like','%'.$filter.'%');
@@ -140,6 +144,10 @@ class Contact extends Model
                         $query->where('name','like','%'.$filter.'%')
                                 ->orWhere('email','like','%'.$filter.'%')
                                 ->orWhere('phone','like','%'.$filter.'%')
+                                ->orWhereHas('client', function ($query) use($filter) {
+    
+                                    $query->where('name','like','%'.$filter.'%');
+                                })    
                                 ->orWhereHas('tags', function ($query) use($filter)
                                 {
                                     $query->where('tags.name','like','%'.$filter.'%');
