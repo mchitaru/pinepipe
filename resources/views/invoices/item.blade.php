@@ -14,7 +14,7 @@
                 </a>
                 @endif
                 <p>
-                    {!!\Helpers::showDateForHumans($invoice->due_date, __('Due'))!!}
+                    {!!\Helpers::showDateForHumans($invoice->due_date)!!}
                 </p>
 
             </div>

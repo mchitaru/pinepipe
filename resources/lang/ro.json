@@ -256,8 +256,8 @@
     "Filter Invoices": "Filtrează facturile",
     "Tag": "Filtru",
     "Pending": "În așteptare",
-    "Outstanding": "Neîncasat",
-    "Paid": "Plătit",
+    "Outstanding": "Neîncasată",
+    "Paid": "Plătită",
     "Create Payment": "Adaugă încasare",
     "Payment Date": "Data încasării",
     "Payment Method": "Metoda de plată",
@@ -776,5 +776,6 @@
     "Collaborator successfully invited. You can now assign him to a project.": "Colaboratorul a fost invitat cu succes. Acum ii poți atribui un proiect.",
     "View Event": "Vezi eveniment",
     "Active (m)": "Activi",
-    "Archived (m)": "Arhivați"
+    "Archived (m)": "Arhivați",
+    "Due Date (inv)": "Data scadentă"
 }

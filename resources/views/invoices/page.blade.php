@@ -8,8 +8,8 @@
 
     $(function() {
 
-        localStorage.setItem('sort', '');
-        localStorage.setItem('dir', '');
+        localStorage.setItem('sort', 'due_date');
+        localStorage.setItem('dir', 'asc');
         localStorage.setItem('filter', '');
         localStorage.setItem('tag', 'all');
 
@@ -54,6 +54,14 @@
                     </div>
                 </div>
                 <div class="row content-list-filter align-items-center">
+                    <div class="filter-container col-auto align-items-center">
+                        <div class="filter-controls">
+                            <div>{{__('Sort')}}:</div>
+                        </div>
+                        <div class="filter-controls">
+                            <a class="order" href="#" data-sort="due_date">{{__('Due Date (inv)')}}</a>
+                        </div>
+                    </div>
                     <div class="filter-container col-auto align-items-center">
                         <div class="filter-tags">
                             <div>{{__('Tag')}}:</div>

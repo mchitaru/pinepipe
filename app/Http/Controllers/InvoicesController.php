@@ -59,9 +59,14 @@ class InvoicesController extends Controller
                         ->where(function ($query) use ($request) {
                             $query->where('id', $request['filter'])
                                 ->orWhereHas('project', function ($query) use($request) {
-                                    $query->where('name','like','%'.$request['filter'].'%');
+                                    $query->where('name','like','%'.$request['filter'].'%')
+                                            ->orWhereHas('client', function ($query) use($request) {
+                        
+                                                $query->where('name','like','%'.$request['filter'].'%');
+                                            });
                                 });
                         })
+                        ->orderBy($request['sort']?$request['sort']:'due_date', $request['dir']?$request['dir']:'asc')
                         ->paginate(25, ['*'], 'invoice-page');
         }
         else
@@ -74,9 +79,14 @@ class InvoicesController extends Controller
                             ->where(function ($query) use ($request) {
                                 $query->where('id', $request['filter'])
                                     ->orWhereHas('project', function ($query) use($request) {
-                                        $query->where('name','like','%'.$request['filter'].'%');
+                                        $query->where('name','like','%'.$request['filter'].'%')
+                                                ->orWhereHas('client', function ($query) use($request) {
+                
+                                                    $query->where('name','like','%'.$request['filter'].'%');
+                                                });
                                     });
                             })
+                            ->orderBy($request['sort']?$request['sort']:'due_date', $request['dir']?$request['dir']:'asc')
                             ->paginate(25, ['*'], 'invoice-page');
             }
         }

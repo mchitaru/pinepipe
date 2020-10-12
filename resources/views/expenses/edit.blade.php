@@ -20,7 +20,7 @@
 <div class="tab-content">
     <div class="form-group row align-items-center required">
         {{ Form::label('amount', __('Amount'), array('class'=>'col-3')) }}
-        {{ Form::number('amount', null, array('class' => 'form-control col','required'=>'required')) }}
+        {{ Form::number('amount', null, array('class' => 'form-control col','required'=>'required',"step"=>"0.01")) }}
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('date', __('Date'), array('class'=>'col-3')) }}

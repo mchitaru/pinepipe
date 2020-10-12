@@ -102,7 +102,7 @@ $timesheet = $_user->timesheets->first();
                     </div>
                     <div class="card-meta justify-content-between align-items-center d-flex">
                         {!! Helpers::getPriorityBadge($task->priority) !!}
-                        {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
+                        {!!\Helpers::showDateForHumans($task->due_date)!!}
                     </div>
                 </div>
             </div>

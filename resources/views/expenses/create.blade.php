@@ -24,7 +24,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">{{Helpers::getCurrencySymbol(\Auth::user()->getCurrency())}}</span>
             </div>
-            {{ Form::number('amount', '', array('class' => 'form-control col','required'=>'required', 'placeholder'=>500)) }}
+            {{ Form::number('amount', '', array('class' => 'form-control col','required'=>'required', 'step'=>'0.01', 'placeholder'=>500)) }}
         </div>
     </div>
     <div class="form-group row align-items-center">

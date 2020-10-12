@@ -107,7 +107,7 @@
                 <tfoot class="borderless gapless">
                     <tr>
                         <td class="text-left"><strong>{{__('Issue Date', [], $invoice->locale)}}:</strong></td>
-                        <td class="text-right"><strong>{{__('Due Date', [], $invoice->locale)}}:</strong></td>
+                        <td class="text-right"><strong>{{__('Due Date (inv)', [], $invoice->locale)}}:</strong></td>
                     </tr>
                     <tr>
                         <td class="text-left">{{ $invoice->dateFormat($invoice->issue_date) }}</td>
@@ -220,7 +220,7 @@
                         <td></td>
                         <td></td>
                         <th class="text-right"><span><h5>{{__('Total', [], $invoice->locale)}}</h5></span></th>
-                        <th class="text-right"><h5>{!! htmlentities($invoice->priceFormat($subTotal-$invoice->discount+$tax), ENT_COMPAT, 'UTF-8') !!}</h5></th>
+                        <th class="text-right"><h5>{!! htmlentities($invoice->priceFormat($invoice->getTotal()), ENT_COMPAT, 'UTF-8') !!}</h5></th>
                         <th class="d-print-none"></th>
                     </tr>
                 </tfoot>

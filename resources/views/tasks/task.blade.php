@@ -25,7 +25,7 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
         </a>
         {!! Helpers::getPriorityBadge($task->priority) !!}
         <p>
-            {!!\Helpers::showDateForHumans($task->due_date, __('Due'))!!}
+            {!!\Helpers::showDateForHumans($task->due_date)!!}
         </p>
     </div>
     <div class="card-title d-none d-xl-block col-xs-12 col-sm-4">

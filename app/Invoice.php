@@ -114,7 +114,7 @@ class Invoice extends Model
             $subTotal += $item->quantity * $item->price;
         }
 
-        return $subTotal;
+        return \Helpers::ceil($subTotal);
     }
 
 
@@ -122,16 +122,14 @@ class Invoice extends Model
     {
         $discount_factor = 1 - $this->discount/100.0;
 
-        $tax = ($this->getSubTotal() * $discount_factor * (!empty($this->tax)?$this->tax->rate:0)) / 100.00;
-
-        return $tax;
+        return \Helpers::ceil(($this->getSubTotal() * $discount_factor * (!empty($this->tax)?$this->tax->rate:0)) / 100.00);
     }
 
     public function getTotal()
     {
         $discount_factor = 1 - $this->discount/100.0;
 
-        return ($this->getSubTotal() * $discount_factor) + $this->getTax();
+        return \Helpers::ceil(($this->getSubTotal() * $discount_factor) + $this->getTax());
     }
 
     public function getPaid()
