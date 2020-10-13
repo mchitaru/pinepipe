@@ -197,11 +197,11 @@ $languages = $_user->languages();
                         {{__('Reports')}}
                     </div>
                 </a>
-                <div id="submenu-5" class="collapse">
+                <div id="submenu-5" class="{{(Request::segment(1) == 'timesheets')?'':'collapse'}}">
                     <ul class="nav nav-small flex-column">
 
                     <li class="nav-item pl-3">
-                        <a class="nav-link" href="{{route('timesheets.index')}}">{{__('Timesheets')}}</a>
+                        <a class="nav-link {{(Request::segment(1) == 'timesheets')?' active':''}}" href="{{route('timesheets.index')}}">{{__('Timesheets')}}</a>
                     </li>
                     </ul>
                 </div>
