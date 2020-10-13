@@ -935,6 +935,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             [
                 'increment' => 1,
                 'number' => "#INV00001",
+                'client_id' => $client->id,
                 'project_id' => $project->id,
                 'status' => 0,
                 'issue_date' => Carbon::now(),

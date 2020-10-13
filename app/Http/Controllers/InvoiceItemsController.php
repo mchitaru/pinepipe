@@ -22,19 +22,49 @@ class InvoiceItemsController extends Controller
         Gate::authorize('update', $invoice);
 
         $tasks      = Task::doesntHave('invoiceables')
-                                ->where('project_id', $invoice->project_id)
+                                ->where(function ($query) use ($invoice) {
+
+                                    if($invoice->project_id){
+
+                                        $query->where('project_id', $invoice->project_id);
+
+                                    }else{
+
+                                        $query->get();
+                                    }
+                                })                                
                                 ->get()
                                 ->pluck('title', 'id');
 
         $timesheets = Timesheet::with('task')
                                     ->doesntHave('invoiceables')
-                                    ->where('project_id', $invoice->project_id)
+                                    ->where(function ($query) use ($invoice) {
+                                    
+                                        if($invoice->project_id){
+    
+                                            $query->where('project_id', $invoice->project_id);
+    
+                                        }else{
+    
+                                            $query->get();
+                                        }
+                                    })                                
                                     ->get()
                                     ->pluck('short_title', 'id');
 
         $expenses      = Expense::with('category')
                                 ->doesntHave('invoiceables')
-                                ->where('project_id', $invoice->project_id)
+                                ->where(function ($query) use ($invoice) {
+                                    
+                                    if($invoice->project_id){
+
+                                        $query->where('project_id', $invoice->project_id);
+
+                                    }else{
+
+                                        $query->get();
+                                    }
+                                })                                
                                 ->get()
                                 ->pluck('category.name', 'id');
 
