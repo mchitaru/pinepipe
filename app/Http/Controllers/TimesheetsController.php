@@ -70,7 +70,10 @@ class TimesheetsController extends Controller
 
         $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
-        $tasks = Task::where('project_id', '=', $project_id)->get()->pluck('title', 'id');
+        $tasks = \Auth::user()->userTasks()
+                                ->where('project_id', '=', $project_id)
+                                ->get()
+                                ->pluck('title', 'id');
 
         return view('timesheets.create', compact('projects', 'project_id', 'tasks', 'date'));
     }
@@ -122,15 +125,13 @@ class TimesheetsController extends Controller
         $project    = $timesheet->project;
         $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
-        if($project)
-        {
-            $project_id = $project->id;
-            $tasks     = Task::where('project_id', '=', $project->id)->get()->pluck('title', 'id');
-        }else
-        {
-            $project_id = null;
-            $tasks   = [];
-        }
+        $project_id = $project?$project->id:null;
+
+        $tasks = \Auth::user()->userTasks()
+                                ->where('project_id', '=', $project_id)
+                                ->get()
+                                ->pluck('title', 'id');
+
 
         return view('timesheets.edit', compact('projects', 'tasks', 'timesheet', 'project_id', 'date'));
     }

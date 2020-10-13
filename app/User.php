@@ -798,6 +798,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 ]
             );
 
+            $s->user_id = $id;
             $s->created_by = $id;
             $s->save();
 
@@ -829,6 +830,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                 ]
             );
 
+            $s->user_id = $id;
             $s->created_by = $id;
             $s->save();
 
@@ -851,6 +853,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $client->user_id = $id;
         $client->created_by = $id;
         $client->save();
 
@@ -872,6 +875,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $contact->user_id = $id;
         $contact->created_by = $id;
         $contact->save();
 
@@ -888,6 +892,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $lead->user_id = $id;
         $lead->created_by = $id;
         $lead->save();    
 
@@ -906,6 +911,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $project->user_id = $id;
         $project->created_by = $id;
         $project->save();
 
@@ -927,6 +933,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $t->user_id = $id;
         $t->created_by = $id;
         $t->save();
 
@@ -947,6 +954,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             ]
         );
 
+        $i->user_id = $id;
         $i->created_by = $id;
         $i->save();
     }

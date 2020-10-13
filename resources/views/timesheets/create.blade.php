@@ -64,7 +64,7 @@
     </div>
     <div class="form-group row align-items-center">
         {{ Form::label('task_id', __('Task'), array('class'=>'col-3')) }}
-        {!! Form::select('task_id', $tasks, null,array('class' => array('class' => (Gate::check('create', 'App\Task')?'tags':'').' form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale))) !!}
+        {!! Form::select('task_id', $tasks, null,array('class' => (Gate::check('create', 'App\Task')?'tags':'').' form-control col', 'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
     </div>
 
     <div class="form-group row">
