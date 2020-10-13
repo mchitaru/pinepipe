@@ -61,7 +61,7 @@ $(function() {
                     <ul class="avatars">
 
                         <li>
-                            <a href="{{ route('users.index',$lead->user->id) }}"  title="{{$lead->user->name}}">
+                            <a href="{{route('collaborators')}}"  title="{{$lead->user->name}}">
                                 {!!Helpers::buildUserAvatar($lead->user)!!}
                             </a>
                         </li>

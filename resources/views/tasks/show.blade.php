@@ -164,7 +164,7 @@ modal-lg
 
                     @foreach($task->users as $user)
                     <li>
-                        <a href="{{ route('users.index',$user->id) }}"  title="{{$user->name}}">
+                        <a href="{{route('collaborators')}}"  title="{{$user->name}}">
                             {!!Helpers::buildUserAvatar($user)!!}
                         </a>
                     </li>

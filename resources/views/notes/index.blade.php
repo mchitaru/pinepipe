@@ -5,7 +5,7 @@
 <div class="card card-note">
     <div class="card-header p-1">
         <div class="media align-items-center">
-            <a href="{{route('users.index',$note->user->id)}}"  title={{$note->user->name}}>
+            <a href="{{route('collaborators')}}"  title={{$note->user->name}}>
                 {!!Helpers::buildUserAvatar($note->user)!!}
             </a>
             <div class="media-body">

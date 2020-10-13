@@ -34,6 +34,13 @@ class UserProfileController extends Controller
         return Redirect::to(route('profile.edit').'/#subscription');
     }
 
+    public function collaborators(Request $request)
+    {
+        $request->session()->reflash();
+
+        return Redirect::to(route('profile.edit').'/#users');
+    }
+
     public function checkout(Request $request)
     {
         if(!empty($request['checkout'])){

@@ -21,9 +21,38 @@ class TimesheetsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        Gate::authorize('viewAny', 'App\Timesheet');
+
+        if (!$request->ajax())
+        {
+            return view('timesheets.page');
+        }
+
+        clock()->startEvent('TimesheetsController', "Load expenses");
+
+        $timesheets = \Auth::user()->companyTimesheets()
+                                    ->where(function ($query) use ($request) {
+                                        $query->whereHas('user', function ($query) use($request) {
+
+                                            $query->where('name','like','%'.$request['filter'].'%');
+                                        })
+                                        ->orWhereHas('project', function ($query) use($request) {
+
+                                            $query->where('name','like','%'.$request['filter'].'%');
+                                        })
+                                        ->orWhereHas('task', function ($query) use($request) {
+
+                                            $query->where('title','like','%'.$request['filter'].'%');
+                                        });
+                                    })
+                                    ->orderBy($request['sort']?$request['sort']:'date', $request['dir']?$request['dir']:'desc')
+                                    ->paginate(25, ['*'], 'invoice-page');
+
+        clock()->endEvent('TimesheetsController');
+
+        return view('timesheets.index', compact('timesheets'))->render();
     }
 
     /**

@@ -64,7 +64,7 @@
 
                 @foreach($project->users as $user)
                 <li>
-                        <a href="{{ $project->enabled?route('users.index', $user->id):'#' }}"  title="{{(!empty($user)?$user->name:'')}}">
+                        <a href='{{route('collaborators')}}'  title="{{(!empty($user)?$user->name:'')}}">
                             {!!Helpers::buildUserAvatar($user)!!}
                         </a>
                 </li>

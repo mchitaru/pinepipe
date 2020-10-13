@@ -74,13 +74,13 @@
                             <div class="tag filter" data-filter="paid">{{__('Paid')}}</div>
                         </div>
                     </div>
-                    </div>
-                    <!--end of content list head-->
-                    @can('viewAny', 'App\Invoice')
-                    <div class="content-list-body filter-list paginate-container">
-                    </div>
-                    @endcan
-                    <!--end of content list body-->
+                </div>
+                <!--end of content list head-->
+                @can('viewAny', 'App\Invoice')
+                <div class="content-list-body filter-list paginate-container">
+                </div>
+                @endcan
+                <!--end of content list body-->
                 </div>
             <!--end of tab-->
         </div>

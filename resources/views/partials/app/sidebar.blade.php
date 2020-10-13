@@ -201,7 +201,7 @@ $languages = $_user->languages();
                     <ul class="nav nav-small flex-column">
 
                     <li class="nav-item pl-3">
-                        <a class="nav-link disabled" href="#">{{__('Timesheets')}}</a>
+                        <a class="nav-link" href="{{route('timesheets.index')}}">{{__('Timesheets')}}</a>
                     </li>
                     </ul>
                 </div>

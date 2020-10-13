@@ -52,7 +52,7 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
 
             @foreach($task->users as $user)
             <li>
-                <a href="{{ route('users.index',$user->id) }}"  title="{{$user->name}}">
+                <a href="{{route('collaborators')}}"  title="{{$user->name}}">
                     {!!Helpers::buildUserAvatar($user)!!}
                 </a>
             </li>

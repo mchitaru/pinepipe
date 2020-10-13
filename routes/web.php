@@ -20,6 +20,7 @@ Route::group(
     ], function (){
 
     //Profile
+    Route::get('collaborators', 'UserProfileController@collaborators')->name('collaborators');
     Route::get('subscription', 'UserProfileController@subscription')->name('subscription');
     Route::get('checkout', 'UserProfileController@checkout')->name('checkout');
 

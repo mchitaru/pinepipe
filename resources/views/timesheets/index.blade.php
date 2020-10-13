@@ -23,19 +23,13 @@
         </div>
     </div>
     <div class="card-title col-xs-12 col-sm-3">
-        @if(!empty($timesheet->remark))
-        <div class="container row align-items-center">
-            <i class="material-icons">note</i>
-            <span data-filter-by="text" title="{{ $timesheet->remark }}" class="text-small text-truncate" >{{ $timesheet->remark }}</span>
-        </div>
-        @endif
-    </div>
-    <div class="card-meta">
         @if(!empty($timesheet->user))
-        <a href="#"  title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
+        <a href="{{route('collaborators')}}" class="float-right" title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
             {!!Helpers::buildUserAvatar($timesheet->user)!!}
         </a>
         @endif
+    </div>
+    <div class="card-meta">
         @if(\Auth::user()->type!='client')
             <div class="dropdown card-options">
             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
