@@ -75,7 +75,7 @@ use App\SubscriptionPlan;
             <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="company" aria-selected="false">{{__('Company')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">{{__('Collaborators')}}</a>
+            <a class="nav-link" id="collaborators-tab" data-toggle="tab" href="#collaborators" role="tab" aria-controls="collaborators" aria-selected="false">{{__('Collaborators')}}</a>
         </li>
         @endif
         <li class="nav-item">
@@ -99,7 +99,7 @@ use App\SubscriptionPlan;
                     <div class="tab-pane fade" role="tabpanel" id="password">@include('users.profile.partials.password')</div>
                     @if(\Auth::user()->type=='company')
                     <div class="tab-pane fade show" role="tabpanel" id="company">@include('users.profile.partials.company')</div>
-                    <div class="tab-pane fade show" role="tabpanel" id="users">@include('users.profile.partials.users')</div>
+                    <div class="tab-pane fade show" role="tabpanel" id="collaborators">@include('users.profile.partials.users')</div>
                     @endif
                     <div class="tab-pane fade" role="tabpanel" id="notifications">@include('users.profile.partials.notifications')</div>
                     @if(\Auth::user()->type=='company')

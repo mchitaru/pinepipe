@@ -38,7 +38,7 @@ class UserProfileController extends Controller
     {
         $request->session()->reflash();
 
-        return Redirect::to(route('profile.edit').'/#users');
+        return Redirect::to(route('profile.edit').'/#collaborators');
     }
 
     public function checkout(Request $request)
