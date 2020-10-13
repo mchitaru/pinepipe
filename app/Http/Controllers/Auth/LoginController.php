@@ -45,6 +45,11 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        if($user->handle == null){
+            
+            $user->handle = $user->handle();
+        }
+
         $location = geoip($request->ip());
         
         $user->setLocale($location);
