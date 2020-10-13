@@ -710,7 +710,7 @@
     "Subscription Plans": "",
     "Collaborators": "",
     "You have limited access on the free plan. Start a 14 day trial to recieve more!": "",
-    "Send an invite link via email to add members to the project": "",
+    "Send an invite link by email to add members to the project": "",
     "Add another recipient": "",
     "You have limited access on the Free plan. Choose your subscription and start a 14 day trial today!": "",
     "No title": "",
@@ -785,7 +785,7 @@
     "If you have any questions about Pinepipe, send us an": "",
     "or learn more on our website": "",
     "Resend invitation": "",
-    "Invite a collaborator via email": "",
+    "Invite a collaborator by email": "",
     "Invite collaborators with limited access.": "",
     "They can:": "",
     "Work on assigned projects & tasks.": "",
@@ -804,5 +804,6 @@
     "View Event": "",
     "Active (m)": "",
     "Archived (m)": "",
-    "Due Date (inv)": ""
+    "Due Date (inv)": "",
+    "Invite Collaborators": ""
 }

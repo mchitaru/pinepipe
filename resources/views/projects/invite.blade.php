@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="tab-content">
-    <p>{{__('Send an invite link via email to add members to the project')}}</p>
+    <p>{{__('Send an invite link by email to add members to the project')}}</p>
     <div>
       <div class="input-group">
         <div class="input-group-prepend">

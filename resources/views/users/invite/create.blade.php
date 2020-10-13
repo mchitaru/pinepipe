@@ -5,12 +5,12 @@
 @endsection
 
 @section('title')
-    {{__('Invite Users')}}
+    {{__('Invite Collaborators')}}
 @endsection
 
 @section('content')
 <div class="tab-content">
-    <p>{{__('Invite a collaborator via email')}}</p>
+    <p>{{__('Invite a collaborator by email')}}</p>
     <div class="form-group align-items-center">
       <div class="input-group">
         <div class="input-group-prepend">

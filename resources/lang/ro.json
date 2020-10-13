@@ -683,7 +683,7 @@
     "Delete my account": "Șterge-mi contul",
     "Collaborators": "Colaboratori",
     "You have limited access on the Free plan. Choose your subscription and start a 14 day trial today!": "Ai acces limitat cu abonamentul Free. Alege un alt abonament și începe perioada de probă de 14 zile astăzi!",
-    "Send an invite link via email to add members to the project": "Trimite o invitație pe email pentru a adăuga membri la proiect",
+    "Send an invite link by email to add members to the project": "Trimite o invitație pe email pentru a adăuga membri la proiect",
     "Add another recipient": "Adaugă un alt destinatar",
     "No title": "Fără titlu",
     "IBAN": "Cont",
@@ -759,7 +759,7 @@
     "If you have any questions about Pinepipe, send us an": "Dacă ai intrebări despre Pinepipe, trimite-ne un",
     "or learn more on our website": "sau află mai multe pe website-ul nostru",
     "Resend invitation": "Retrimite invitația",
-    "Invite a collaborator via email": "Invită un colaborator via email",
+    "Invite a collaborator by email": "Invită un colaborator pe email",
     "Invite collaborators with limited access.": "Invită colaboratori cu acces limitat.",
     "They can:": "Vor putea:",
     "Work on assigned projects & tasks.": "Lucra pe proiectele și sarcinile atribuite.",
@@ -778,5 +778,6 @@
     "View Event": "Vezi eveniment",
     "Active (m)": "Activi",
     "Archived (m)": "Arhivați",
-    "Due Date (inv)": "Data scadentă"
+    "Due Date (inv)": "Data scadentă",
+    "Invite Collaborators": "Invită colaboratori"
 }
