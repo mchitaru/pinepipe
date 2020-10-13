@@ -20,6 +20,7 @@ class Invoice extends Model
     protected $fillable = [
         'number',
         'increment',
+        'client_id',
         'project_id',
         'status',
         'issue_date',
@@ -34,6 +35,7 @@ class Invoice extends Model
     ];
 
     protected $nullable = [
+        'project_id',
         'tax_id',
     ];
 
@@ -84,6 +86,11 @@ class Invoice extends Model
 
             $invoice->tags()->detach();
         });
+    }
+
+    public function client()
+    {
+        return $this->hasOne('App\Client', 'id', 'client_id');
     }
 
     public function project()

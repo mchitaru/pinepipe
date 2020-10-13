@@ -25,7 +25,7 @@ class InvoiceStoreRequest extends FormRequest
     {
         return [
             'client_id' => 'required|integer',
-            'project_id' => 'required|integer',
+            'project_id' => 'nullable|integer',
             'issue_date' => 'required|date',
             'due_date' => 'required|date',
             'currency' => 'required|string',

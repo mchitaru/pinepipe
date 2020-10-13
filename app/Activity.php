@@ -203,12 +203,36 @@ class Activity extends Model
                 ]
             );
         }
+
+        if($invoice->client) {
+            $invoice->client->activities()->create(
+                [
+                    'user_id' => \Auth::user()->id,
+                    'created_by' => \Auth::user()->created_by,
+                    'action' => 'activity_create_invoice',
+                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                    'url'    => route('invoices.show', $invoice->id),
+                ]
+            );
+        }
     }
 
     public static function updateInvoice(Invoice $invoice)
     {
         if($invoice->project) {
             $invoice->project->activities()->create(
+                [
+                    'user_id' => \Auth::user()->id,
+                    'created_by' => \Auth::user()->created_by,
+                    'action' => 'activity_update_invoice',
+                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                    'url'    => route('invoices.show', $invoice->id),
+                ]
+            );
+        }
+
+        if($invoice->client) {
+            $invoice->client->activities()->create(
                 [
                     'user_id' => \Auth::user()->id,
                     'created_by' => \Auth::user()->created_by,

@@ -50,10 +50,12 @@
                 <span class="align-items-center justify-content-center">
                     <img width=60 height=60 alt="{{$companyName}}" {!! !$companyLogo ? "avatar='".$companyName."'" : "" !!} class="rounded" src="{{$companyLogo?$companyLogo->getFullUrl('thumb'):""}}" data-filter-by="alt"/>
                 </span><br><br>
+                @if($invoice->project)
                 <span class="align-items-center justify-content-center" style="vertical-align: middle;">
                     <img alt="{{__('Project', [], $invoice->locale)}}" width=24 src="{{ asset('assets/img/folder.svg') }}" />
                     {{$invoice->project->name }}
                 </span>
+                @endif
             </address>
         </div>
     </div>

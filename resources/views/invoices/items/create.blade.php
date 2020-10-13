@@ -18,11 +18,13 @@
 
 @section('content')
 <div class="tab-content">
+    @if($invoice->project)
     <h6>{{__('Project Name')}}</h6>
     <div class="form-group row align-items-center">
         <input type="text" class="form-control col" value="{{$invoice->project->name}}" readonly>
     </div>
     <hr>
+    @endif
     <h6>{{__('What is Invoiced?')}}</h6>
 
     <div class="accordion" id="productAccordion">

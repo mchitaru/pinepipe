@@ -12,12 +12,14 @@
 <div class="tab-content">
     <div class="form-group row align-items-center">
         {{ Form::label('client', __('Client'), array('class'=>'col-3')) }}
-        {{ Form::text('client', $invoice->project->client->name, array('class' => 'form-control col', 'required'=>'required', 'disabled')) }}
+        {{ Form::text('client', $invoice->client->name, array('class' => 'form-control col', 'required'=>'required', 'disabled')) }}
     </div>
+    @if($invoice->project)
     <div class="form-group row align-items-center">
         {{ Form::label('project', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::text('project', $invoice->project->name, array('class' => 'form-control col', 'required'=>'required', 'disabled')) }}
+        {{ Form::text('project', $invoice->project->name, array('class' => 'form-control col', 'disabled')) }}
     </div>
+    @endif
     <div class="form-group row align-items-center">
         {{ Form::label('issue_date', __('Issue Date'), array('class'=>'col-3')) }}
         {{ Form::date('issue_date', null, array('class' => 'start form-control col bg-white','required'=>'required', 'placeholder'=>'...',

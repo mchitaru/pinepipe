@@ -59,88 +59,13 @@ class DashboardController extends Controller
         $thisWeekEvents = \Auth::user()->getThisWeekEvents();
         $nextWeekEvents = \Auth::user()->getNextWeekEvents();
 
-        if(\Auth::user()->type == 'company'){
-
-            $projects = \Auth::user()->companyUserProjects()                                    
-                                    ->where('archived', '0')
-                                    ->orderBy('due_date', 'ASC')
-                                    ->get();
-
-            $invoices = Invoice::with('project')
-                                    ->where('status', '<', '3')
-                                    ->orderBy('due_date', 'ASC')
-                                    ->get();
-
-            $leads = \Auth::user()->leads()
-                                    ->whereHas('stage', function ($query)
-                                    {
-                                        $query->where('open', 1);
-                                    })
-                                    ->whereDate('updated_at', '<', Carbon::now()->subDays(7))
-                                    ->orderBy('order', 'ASC')
-                                    ->get();
-
-            $tasks = \Auth::user()->tasks()
-                                    ->whereHas('stage', function ($query)
-                                    {
-                                        $query->where('open', 1);
-                                    })
-                                    ->where(function ($query){
-                                        $query->where('priority', 'high')
-                                                ->orWhereDate('due_date', '=', Carbon::now());
-                                    })
-                                    ->orderBy('priority', 'ASC')
-                                    ->orderBy('due_date', 'ASC')
-                                    ->get();
-
-            clock()->endEvent('DashboardController');
-
-            return view('dashboard.company', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
-                                                    'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
-                                                    'projects', 'tasks', 'invoices', 'leads'));
-
-        }else if(\Auth::user()->type == 'client'){
-
-            $projects = Project::where('client_id', \Auth::user()->client_id)
-                                    ->where('archived', '0')
-                                    ->orderBy('due_date', 'ASC')
-                                    ->get();
-
-            $invoices = Invoice::with('project')
-                                    ->whereHas('project', function ($query)
-                                    {
-                                        $query->whereHas('client', function ($query)
-                                        {
-                                            $query->where('id', \Auth::user()->client_id);
-                                        });
-                                    })
-                                    ->where('status', '<', '3')
-                                    ->orderBy('due_date', 'ASC')
-                                    ->get();
-
-            $tasks = \Auth::user()->tasks()
-                                    ->whereHas('stage', function ($query)
-                                    {
-                                        $query->where('open', 1);
-                                    })
-                                    ->where(function ($query){
-                                        $query->where('priority', 'high')
-                                                ->orWhereDate('due_date', '=', Carbon::now());
-                                    })
-                                    ->orderBy('priority', 'ASC')
-                                    ->get();
-
-            clock()->endEvent('DashboardController');
-
-            return view('dashboard.client', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
-                                                    'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
-                                                    'projects', 'tasks', 'invoices'));
-
-        }
-
-        //collaborator dash
-        $projects = \Auth::user()->projects()
+        $projects = \Auth::user()->companyUserProjects()                                    
                                 ->where('archived', '0')
+                                ->orderBy('due_date', 'ASC')
+                                ->get();
+
+        $invoices = \Auth::user()->companyInvoices()
+                                ->where('status', '<', '3')
                                 ->orderBy('due_date', 'ASC')
                                 ->get();
 
@@ -152,7 +77,7 @@ class DashboardController extends Controller
                                 ->whereDate('updated_at', '<', Carbon::now()->subDays(7))
                                 ->orderBy('order', 'ASC')
                                 ->get();
-                                
+
         $tasks = \Auth::user()->tasks()
                                 ->whereHas('stage', function ($query)
                                 {
@@ -168,9 +93,9 @@ class DashboardController extends Controller
 
         clock()->endEvent('DashboardController');
 
-        return view('dashboard.collaborator', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
-                                                        'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
-                                                        'projects', 'tasks', 'leads'));
+        return view('dashboard.company', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
+                                                'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
+                                                'projects', 'tasks', 'invoices', 'leads'));
     }
 
     public function getOrderChart($arrParam){
@@ -322,10 +247,11 @@ class DashboardController extends Controller
         $arrInvoice = [];
         if(\Auth::user()->can('viewAny', 'App\Invoice')){
 
-            $invoices = \Auth::user()->invoicesByUserType()
+            $invoices = \Auth::user()->companyInvoices()
                                     ->where(function ($query) use ($search) {
                                         $query->where('number','like', '%'.$search.'%');
                                     })
+                                    ->orderBy('due_date', 'ASC')
                                     ->get();
 
             foreach($invoices as $invoice)

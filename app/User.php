@@ -387,25 +387,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return Invoice::where('created_by', $this->created_by);
     }
 
-    public function invoicesByUserType()
-    {
-        if($this->type == 'client'){
-            return Invoice::with('project')
-                            ->whereHas('project', function ($query)
-                            {
-                                $query->whereHas('client', function ($query)
-                                {
-                                    $query->where('id', $this->client_id);
-                                });
-                            })
-                            ->orderBy('due_date', 'ASC');
-
-        }
-
-        return $this->companyInvoices()
-                    ->orderBy('due_date', 'ASC');
-    }
-
     public function companyExpenses()
     {
         return Expense::where('created_by', $this->created_by);

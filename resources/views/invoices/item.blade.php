@@ -24,19 +24,21 @@
                 </div>
             </div>
             <div class="card-title col-sm-4">
+                @if($invoice->project)
                 <div class="container row align-items-center"  title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
                     <span data-filter-by="text" class="text-truncate text-small">{{ $invoice->project->name }}</span>
                 </div>
+                @endif
                 <div class="container row align-items-center"  title="{{__('Client')}}">
                     <i class="material-icons">business</i>
                     <span data-filter-by="text" class="text-small text-truncate ">
-                        @if(Gate::check('viewAny', 'App\Client') && !empty($invoice->project->client))
-                        <a href="{{ route('clients.show', $invoice->project->client->id) }}" data-filter-by="text">
-                            {{$invoice->project->client->name}}
+                        @if(Gate::check('viewAny', 'App\Client') && !empty($invoice->client))
+                        <a href="{{ route('clients.show', $invoice->client->id) }}" data-filter-by="text">
+                            {{$invoice->client->name}}
                         </a>
                         @else
-                            {{(!empty($invoice->project->client)?$invoice->project->client->name:'---')}}
+                            {{(!empty($invoice->client)?$invoice->client->name:'---')}}
                         @endif
                     </span>
                 </div>

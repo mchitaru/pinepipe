@@ -15,9 +15,9 @@
         {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...',
                             'data-refresh'=>route('invoices.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
     </div>
-    <div class="form-group row align-items-center required">
+    <div class="form-group row align-items-center">
         {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
-        {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col', 'required'=>'required',
+        {{ Form::select('project_id', $projects, $project_id, array('class' => 'form-control col',
                         'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) }}
     </div>
     <div class="form-group row align-items-center">

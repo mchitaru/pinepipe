@@ -45,50 +45,23 @@ class InvoicesController extends Controller
             $status = array(array_search($request['tag'], Invoice::$status));
         }
 
-        if(\Auth::user()->type == 'client')
+        if(\Auth::user()->can('viewAny', 'App\Invoice'))
         {
-            $invoices = Invoice::with('project')
-                        ->whereHas('project', function ($query)
-                        {
-                            $query->whereHas('client', function ($query)
-                            {
-                                $query->where('id', \Auth::user()->client_id);
-                            });
-                        })
+            $invoices = \Auth::user()->companyInvoices()
+                        ->with('client', 'project')
                         ->whereIn('status', $status)
                         ->where(function ($query) use ($request) {
-                            $query->where('id', $request['filter'])
-                                ->orWhereHas('project', function ($query) use($request) {
-                                    $query->where('name','like','%'.$request['filter'].'%')
-                                            ->orWhereHas('client', function ($query) use($request) {
-                        
-                                                $query->where('name','like','%'.$request['filter'].'%');
-                                            });
-                                });
+
+                            $query->where('number', 'like', '%'.$request['filter'].'%')
+                            ->orWhereHas('project', function ($query) use($request) {
+                                $query->where('name','like','%'.$request['filter'].'%');
+                            })
+                            ->orWhereHas('client', function ($query) use($request) {
+                                $query->where('name','like','%'.$request['filter'].'%');
+                            });                                
                         })
                         ->orderBy($request['sort']?$request['sort']:'due_date', $request['dir']?$request['dir']:'asc')
                         ->paginate(25, ['*'], 'invoice-page');
-        }
-        else
-        {
-
-            if(\Auth::user()->can('viewAny', 'App\Invoice'))
-            {
-                $invoices = Invoice::with('project')
-                            ->whereIn('status', $status)
-                            ->where(function ($query) use ($request) {
-                                $query->where('id', $request['filter'])
-                                    ->orWhereHas('project', function ($query) use($request) {
-                                        $query->where('name','like','%'.$request['filter'].'%')
-                                                ->orWhereHas('client', function ($query) use($request) {
-                
-                                                    $query->where('name','like','%'.$request['filter'].'%');
-                                                });
-                                    });
-                            })
-                            ->orderBy($request['sort']?$request['sort']:'due_date', $request['dir']?$request['dir']:'asc')
-                            ->paginate(25, ['*'], 'invoice-page');
-            }
         }
 
         clock()->endEvent('InvoicesController');
@@ -165,7 +138,7 @@ class InvoicesController extends Controller
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
-        $client   = $invoice->project->client;
+        $client = $invoice->client;
 
         return view('invoices.show', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
     }
@@ -233,7 +206,7 @@ class InvoicesController extends Controller
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 
-        $client   = $invoice->project->client;
+        $client   = $invoice->client;
 
         $pdf = \PDF::loadView('invoices.pdf', compact('invoice', 'companySettings', 'companyName', 'companyLogo', 'client'));
         return $pdf->download($invoice->number ? $invoice->number.'.pdf' : Auth::user()->invoiceNumberFormat($invoice->increment).'.pdf');
