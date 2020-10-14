@@ -70,20 +70,27 @@
 
                 if (info.event.url) {
 
-                    $.ajax({
-                        url: info.event.url,
-                        type: 'get',
-                        dataType: 'text',
-                            success: function(data, status, xhr) {
-                                $(document).trigger('ajax:success', [data, status, xhr]);
-                            },
-                            complete: function(xhr, status) {
-                                $(document).trigger('ajax:complete', [xhr, status]);
-                            },
-                            error: function(xhr, status, error) {
-                                $(document).trigger('ajax:error', [xhr, status, error]);
-                            }
-                    });
+                    if(info.event.url.includes('projects')){
+
+                        location.href = info.event.url;
+
+                    }else{
+
+                        $.ajax({
+                            url: info.event.url,
+                            type: 'get',
+                            dataType: 'text',
+                                success: function(data, status, xhr) {
+                                    $(document).trigger('ajax:success', [data, status, xhr]);
+                                },
+                                complete: function(xhr, status) {
+                                    $(document).trigger('ajax:complete', [xhr, status]);
+                                },
+                                error: function(xhr, status, error) {
+                                    $(document).trigger('ajax:error', [xhr, status, error]);
+                                }
+                        });
+                    }                    
                 }
             },
             datesRender: function (info)

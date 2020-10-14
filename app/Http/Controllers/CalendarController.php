@@ -28,6 +28,22 @@ class CalendarController extends Controller
             $events[]     = $event;
         }
 
+        //add projects
+        $projects = \Auth::user()->companyUserProjects()
+                                ->where('archived', 0)
+                                ->get();
+
+        foreach($projects as $project)
+        {
+            $project['title']  = $project->name;
+            $project['start']  = $project->start_date;
+            $project['end']  = $project->due_date;
+            $project['allDay']  = true;
+            $project['url'] = route('projects.show', $project->id);
+            $project['color'] = '#e2d1bd';
+            $events[]     = $project;
+        }
+
         //add tasks
         $tasks = \Auth::user()->companyUserTasks()
                                 ->whereHas('stage', function ($query)
