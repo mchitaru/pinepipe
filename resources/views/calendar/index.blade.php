@@ -19,7 +19,13 @@
     <script src="{{asset('assets/module/fullcalendar/locales-all.min.js')}}"></script>
 
     <script>
+        function get_height() {
+            return $(window).height()*0.85;
+        }
+
         $(function() {
+
+            $('.main-container').css('max-height', '100vh');
 
             var events = {!! ($events) !!};
 
@@ -30,6 +36,7 @@
             timeZone: 'local',
             locale: '{{\Auth::user()->locale}}',
             themeSystem: 'bootstrap',
+            titleFormat: { year: 'numeric', month: 'short' },
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -49,7 +56,10 @@
                     meridiem: 'narrow'
                 },
             events: events,
-
+            height: get_height(),
+            windowResize:  function(view) {
+                calendar.setOption('height', get_height());
+            },
             select: function(info)
             {
                 $(".context-menu > a").each(function() {
@@ -157,34 +167,29 @@
     <a class="dropdown-item" href="{{ route('tasks.create') }}" >{{__('New Task')}}</a>
 </div>
 
-<div class="container">
-    <div class="row page-header">
-    </div>
-    <div class="tab-content">
-        <div class="tab-pane fade show active" id="events" role="tabpanel">
-            <div class="content-list">
-                <div class="row content-list-head">
-                    <div class="col-12 col-md-auto">
-                        <h3>{{__('Calendar')}}</h3>
-                        <div class="dropdown ml-2">
-                            <button class="btn btn-round btn-primary" role="button" data-toggle="dropdown" aria-expanded="false">
-                                <i class="material-icons">add</i>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('events.create') }}" data-remote="true" data-type="text" >{{__('New Event')}}</a>
-                                <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text" >{{__('New Task')}}</a>
-                            </div>
+<div class="container-kanban">
+    <div class="container-fluid page-header justify-content-between mb-0">
+        <div class="content-list">
+            <div class="row content-list-head">
+                <div class="col-12 col-md-auto">
+                    <h3>{{__('Calendar')}}</h3>
+                    <div class="dropdown ml-2">
+                        <button class="btn btn-round btn-primary" role="button" data-toggle="dropdown" aria-expanded="false">
+                            <i class="material-icons">add</i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('events.create') }}" data-remote="true" data-type="text" >{{__('New Event')}}</a>
+                            <a class="dropdown-item" href="{{ route('tasks.create') }}" data-remote="true" data-type="text" >{{__('New Task')}}</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--end of content list head-->
-            <div class="content-list-body">
-                <div class="pt-3" id="calendar"></div>
-            </div>
-            <!--end of content list body-->
         </div>
-        <!--end of tab-->
+        <!--end of content list head-->
+        <div class="content-list-body">
+            <div id="calendar"></div>
+        </div>
+        <!--end of content list body-->
     </div>
 </div>
 @endsection
