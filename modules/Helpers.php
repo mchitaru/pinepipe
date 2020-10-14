@@ -92,7 +92,7 @@ class Helpers
     public static function showDateForHumans($date, $caption = '')
     {
         if($date == null){
-            return '---';
+            return '';
         }
 
         $date = \Helpers::utcToLocal($date);
