@@ -281,10 +281,17 @@ a {
     }
  }
 
- .text-truncate {
+.text-truncate {
     display: inline-block;
     max-width: 200px;
  }
+
+.card-task {
+    .text-truncate {
+      display: inline-block;
+      max-width: 400px;
+  }
+}
 
 a.card{
   &:hover {

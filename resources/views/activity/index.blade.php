@@ -14,7 +14,7 @@
         </ul>
         <div class="media-body">
             <div>
-                <span data-filter-by="text"> <strong>{{$activity->user->name}}</strong> {!! $activity->getAction() !!} </span>
+                <span data-filter-by="text"> <strong>{{$activity->user?$activity->user->name:__('Unknown')}}</strong> {!! $activity->getAction() !!} </span>
                 <a href="{!! $activity->url !!}" {!! $activity->isModal()?'data-remote="true" data-type="text"':''!!}>{{$activity->value}}</a>
             </div>
             <span class="text-small" data-filter-by="text">{{$activity->created_at->diffforhumans()}}</span>
