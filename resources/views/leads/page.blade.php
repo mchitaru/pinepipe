@@ -158,7 +158,7 @@ function initLeadCards() {
 
     <div class="container-kanban">
         <div class="container-fluid page-header justify-content-between mb-0">
-            <div class="row content-list-head">
+            <div class="row content-list-head mb-1">
                 <div class="col-12 col-md-auto">
                     <h3>{{__('Leads')}}</h3>
                     @can('create', 'App\Lead')

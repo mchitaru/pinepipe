@@ -70,10 +70,12 @@ $timesheet = $_user->timesheets->first();
                             @endcan
                         </div>
                     </div>
-                    <div class="card-title">
+                    <div class="card-title m-xl-0">
                         <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text" title="{{$task->title}}">
                             <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>
                         </a>
+                    </div>
+                    <div class="justify-content-between align-items-start d-none d-xl-flex">
                         @if($task->project)
                             @if(Gate::check('view', $task->project))
                             <a class title='{{__('Project')}}' href="{{ route('projects.show',$task->project->id) }}">
@@ -83,8 +85,6 @@ $timesheet = $_user->timesheets->first();
                                 <p><span data-filter-by="text" class="text-small">{{ $task->project->name }}</span></p>
                             @endif
                         @endif
-                    </div>
-                    <div class="justify-content-between align-items-center d-none d-xl-flex">
                         <div  title="{{__('Labels')}}">
                             @foreach($task->tags as $tag)
                                 <span class="badge badge-light" data-filter-by="text"> {{ $tag->name }}</span>

@@ -13,7 +13,7 @@ use Carbon\Carbon;
         <div class="card-list-header">
             <div class="col">
                 <div class="row">
-                    <h6>{{$stage->name}}</h6>
+                    <h6 class="mb-1">{{$stage->name}}</h6>
                     <span class="small count">({{ $stage->leads->count() }})</span>
                 </div>
                 <span class="total" data-id={{$stage->total_amount}}>{{ \Auth::user()->priceFormat($stage->total_amount) }}</span>
@@ -85,7 +85,7 @@ use Carbon\Carbon;
                         @endcan
                     </div>
                     </div>
-                    <div class="card-title">
+                    <div class="card-title m-xl-0">
                         @if(Gate::check('viewAny', 'App\Lead'))
                         <a href="{{ route('leads.show',$lead->id) }}" title="{{$lead->name}}">
                             <h6 data-filter-by="text" class="text-truncate">{{$lead->name}}</h6>
