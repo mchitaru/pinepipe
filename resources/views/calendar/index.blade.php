@@ -20,7 +20,7 @@
 
     <script>
         function get_height() {
-            return $(window).height()*0.85;
+            return $(window).height()*0.8;
         }
 
         $(function() {
