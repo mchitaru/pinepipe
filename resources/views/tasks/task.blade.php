@@ -65,24 +65,25 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
         </ul>
     </div>
     <div class="card-meta float-right">
-        @if(Gate::check('update', $task) || Gate::check('delete', $task))
+        @if(Gate::check('update', [$task, true]))
             <div class="dropdown card-options">
             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
 
-                @can('update', $task)
+                @can('update', [$task, true])
                     <a href="{{ route('tasks.update', $task->id) }}" class="dropdown-item" data-params="closed=1" data-method="PATCH" data-remote="true" data-type="text">
                         {{__('Mark as done')}}
                     </a>
-
+                @endcan
+                @can('update', $task)
                     <a href="{{ route('tasks.edit',$task->id) }}" class="dropdown-item" data-remote="true" data-type="text">
                         {{__('Edit')}}
                     </a>
                 @endcan
-                <div class="dropdown-divider"></div>
                 @can('delete', $task)
+                    <div class="dropdown-divider"></div>
                     <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                         {{__('Delete')}}
                     </a>
