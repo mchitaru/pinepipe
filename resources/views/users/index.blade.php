@@ -17,7 +17,7 @@
                 @endif
             </div>
             <div class="card-title col-xs-12 col-sm-5">
-                <span class="d-flex align-items-center">
+                <span class="d-flex align-items-center mb-1">
                     <i class="material-icons">email</i>
                     <a href="mailto:{{$user->email}}">
                         <span data-filter-by="text" class="text-small">
@@ -25,10 +25,8 @@
                         </span>
                     </a>
                 </span>
-            </div>
-            @if(\Auth::user()->type=='super admin')
-            <div class="card-meta col">
-                <div class="d-flex align-items-center justify-content-end">
+                @if(\Auth::user()->type=='super admin')
+                <div class="d-flex align-items-center">
                     <span class="badge badge-light mr-2">
                         <i class="material-icons" title={{__("Collaborators")}}>people</i>
                         {{$user->totalCompanyUsers()}}
@@ -42,8 +40,8 @@
                         {{$user->totalCompanyClients()}}
                     </span>
                 </div>
+                @endif
             </div>
-            @endif
             <div class="dropdown card-options">
                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
