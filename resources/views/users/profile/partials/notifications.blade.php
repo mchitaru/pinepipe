@@ -29,13 +29,13 @@
         </div>
     </div>
     <h6>{{__('Service Notifications')}}</h6>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <div class="custom-control custom-checkbox custom-checkbox-switch">
             <input type="hidden" name="notify_newsletter" value="0">
             {{Form::checkbox('notify_newsletter', 1, null, ['class'=>'custom-control-input', 'id' =>'notify_newsletter'])}}
             {{Form::label('notify_newsletter', __('Newsletter'), ['class'=>'custom-control-label'])}}
         </div>
-    </div>
+    </div> --}}
     <div class="form-group">
         <div class="custom-control custom-checkbox custom-checkbox-switch">
             <input type="hidden" name="notify_major_updates" value="0">
