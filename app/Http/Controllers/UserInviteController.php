@@ -135,6 +135,8 @@ class UserInviteController extends Controller
             $location = geoip($request->ip());        
             $user->setLocale($location);
     
+            $user->subscribeNewsletter();
+
             $user->update([
                 'last_login_at' => Carbon::now()->toDateTimeString(),
                 'last_login_ip' => $request->getClientIp()
