@@ -883,5 +883,8 @@
     "Active (m)": "Active",
     "Archived (m)": "Archived",
     "Due Date (inv)": "Due Date",
-    "Invite Collaborators": ""
+    "Invite Collaborators": "",
+    "Activate your account to continue...": "",
+    "To activate your account, please check your email (:address) and click on the activation link.": "",
+    "If you did not receive the email with the activation link": ""
 }

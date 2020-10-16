@@ -5,17 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
-
+                <div class="card-header">{{ __('Activate your account to continue...') }}</div>
                 <div class="card-body">
                     @if (session('resent'))
                         <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
+                            {{ __('A fresh verification link has been sent to your email address.') }} ({{\Auth::user()->email}})
                         </div>
                     @endif
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
+                    {{ __('To activate your account, please check your email (:address) and click on the activation link.', ['address' => \Auth::user()->email]) }}<br><br>
+                    {{ __('If you did not receive the email with the activation link') }},
                     @include('partials.errors')
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf

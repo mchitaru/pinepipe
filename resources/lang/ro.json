@@ -134,7 +134,7 @@
     "A fresh verification link has been sent to your email address.": "Un nou link de verificare a fost trimis pe adresa ta de email",
     "Before proceeding, please check your email for a verification link.": "Înainte de a continua, te rugăm să dai click pe linkul pe care ți l-am trimis pe adresa ta de email.",
     "If you did not receive the email": "Dacă nu ai primit email-ul",
-    "click here to request another": "Click aici pentru a solicita unul nou",
+    "click here to request another": "click aici pentru a solicita unul nou",
     "Calendar": "Calendar",
     "Home": "Acasă",
     "New Event": "Eveniment nou",
@@ -779,5 +779,10 @@
     "Active (m)": "Activi",
     "Archived (m)": "Arhivați",
     "Due Date (inv)": "Data scadentă",
-    "Invite Collaborators": "Invită colaboratori"
+    "Invite Collaborators": "Invită colaboratori",
+    "Unknown": "Necunoscut",
+    "Activate your account to continue...": "Activează-ți contul pentru a continua...",
+    "To activate your account, please check your email (:address) and click on the activation link.": "Pentru a-ți activa contul, te rugăm să îți verifici adresa de email (:address) și să faci click pe link-ul de activare.",
+    "Filter Timesheets": "Filtrează fișe de pontaj",
+    "If you did not receive the email with the activation link": "Dacă nu ai primit email-ul cu link-ul de activare"
 }
