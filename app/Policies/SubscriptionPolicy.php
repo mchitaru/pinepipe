@@ -31,7 +31,7 @@ class SubscriptionPolicy
     public function view(User $user, Subscription $subscription)
     {
         return $user->isSuperAdmin() ||
-            $subscription->created_by == $user->id;
+            $subscription->user_id == $user->id;
     }
 
     /**
@@ -55,7 +55,7 @@ class SubscriptionPolicy
     public function update(User $user, Subscription $subscription)
     {
         return $user->isSuperAdmin() ||
-            $subscription->created_by == $user->id;
+            $subscription->user_id == $user->id;
     }
 
     /**
@@ -68,7 +68,7 @@ class SubscriptionPolicy
     public function delete(User $user, Subscription $subscription)
     {
         return $user->isSuperAdmin() ||
-            $subscription->created_by == $user->id;
+            $subscription->user_id == $user->id;
     }
 
     /**
