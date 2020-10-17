@@ -12,9 +12,20 @@
         <h6>{{$stage->name}} ({{ $stage->tasks->count() }})</h6>
         <div class="dropdown">
             <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="material-icons">more_vert</i>
+                <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
+                @can('update', $stage)
+                    <a class="dropdown-item" href="{{ route('stages.edit',$stage->id) }}" data-remote="true" data-type="text">
+                        <span>{{__('Edit')}}</span>
+                    </a>
+                @endcan
+                <div class="dropdown-divider"></div>
+                @can('delete', $stage)
+                    <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
+                        <span>{{__('Delete')}}</span>
+                    </a>
+                @endcan
             </div>
         </div>
         </div>
