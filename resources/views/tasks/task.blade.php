@@ -64,7 +64,7 @@ $label = 'bg-'.Helpers::getProgressColor($task_percentage);
             @endforeach
         </ul>
     </div>
-    <div class="card-meta float-right">
+    <div class="card-meta col-1 float-right">
         @if(Gate::check('update', [$task, true]))
             <div class="dropdown card-options">
             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
