@@ -264,8 +264,6 @@ class ProjectsController extends Controller
 
         clock()->startEvent('ProjectsController', "Load project");
 
-        $dz_id = 'project-files-dz';
-
         $project_id = $project->id;
 
         $stages = $project->stages($request['filter'], $request['sort'], $request['dir'], [])->get();
@@ -327,7 +325,7 @@ class ProjectsController extends Controller
             }                
         }
 
-        return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'notes', 'activities', 'dz_id'));
+        return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'notes', 'activities'));
     }
 
     public function destroy(ProjectDestroyRequest $request, Project $project)

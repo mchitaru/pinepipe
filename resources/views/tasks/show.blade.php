@@ -19,7 +19,7 @@ if($total_task!=0){
 
 $label = 'bg-'.Helpers::getProgressColor($percentage);
 $dz_id = 'task-files-dz';
-
+$model = $task;
 @endphp
 
 @section('size')
@@ -233,9 +233,11 @@ modal-lg
                         <div class="row content-list-head">
                             <div class ="col-auto">
                                 <h3>{{__('Subtasks')}}</h3>
+                                @can('create', ['App\Checklist', $task])
                                 <button id="btn-subtask" type="submit" class="btn btn-primary btn-round" data-disable="true" data-title={{__('Add')}} >
                                     <i class="material-icons">add</i>
                                 </button>
+                                @endcan
                             </div>
                         </div>
                     </form>
@@ -267,9 +269,9 @@ modal-lg
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body">
-
                     <form method="POST" id="form-comment" data-remote="true" action="{{route('tasks.comment.store', $task->id)}}">
                         <div class="form-group row align-items-center">
+                            @can('create', ['App\Comment', $task])
                             <div class ="col-11">
                                 <textarea class="form-control" name="comment" placeholder="{{ __('Type your comment...')}}" id="comment" rows="3" required></textarea>
                             </div>
@@ -278,9 +280,9 @@ modal-lg
                                     <i class="material-icons">add</i>
                                 </button>
                             </div>
+                            @endcan
                         </div>
                     </form>
-
                     <div id="comments">
                     @foreach($task->comments as $comment)
                     <div class="card card-note">
@@ -296,17 +298,21 @@ modal-lg
                         </div>
                         <div class="d-flex align-items-center">
                         <span data-filter-by="text">{{$comment->created_at->diffForHumans()}}</span>
-                        <div class="ml-1 dropdown card-options">
-                            <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                {{-- <a id="edit-comment" class="dropdown-item" href="#">{{__('Edit')}}</a> --}}
-                                <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
-                                    {{__('Delete')}}
-                                </a>
+                        @can('delete', $comment)
+                            <div class="ml-1 dropdown card-options">
+                                <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    {{-- <a id="edit-comment" class="dropdown-item" href="#">{{__('Edit')}}</a> --}}
+                                    @can('delete', $comment)
+                                    <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
+                                        {{__('Delete')}}
+                                    </a>
+                                    @endcan
+                                </div>
                             </div>
-                        </div>
+                        @endcan
                         </div>
                     </div>
                     {{-- <div class="card-body p-1 d-block editable" id="comment" data-url="{{route('tasks.comment.update', [$task->id, $comment->id])}}" data-type="textarea" data-method="PUT" data-ok-button="OK" data-cancel-button="Cancel" data-filter-by="text"> --}}
@@ -339,12 +345,12 @@ modal-lg
 @endsection
 
 @section('footer')
-    @include('partials.app.timesheetctrl')
-
-    <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-outline-success" data-params="closed=1&archived=1" data-method="PATCH" data-remote="true" data-type="text">
-        {{__('Mark as Done')}}
-    </a>
-
+    @can('update', [$task, true])
+        @include('partials.app.timesheetctrl')
+        <a href="{{ route('tasks.update', $task->id) }}" class="btn btn-outline-success" data-params="closed=1&archived=1" data-method="PATCH" data-remote="true" data-type="text">
+            {{__('Mark as Done')}}
+        </a>
+    @endcan
     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 @endsection
 

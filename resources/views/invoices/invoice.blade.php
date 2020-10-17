@@ -12,7 +12,6 @@
             <button class="btn-options float-right" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="material-icons">more_vert</i>
             </button>
-
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{ route('invoices.pdf', $invoice->id) }}">
                     <span>{{__('Download PDF')}}</span>
@@ -33,8 +32,8 @@
                 <a class="dropdown-item disabled" href="#">
                     <span>{{__('Save As Template')}}</span>
                 </a>
-                <div class="dropdown-divider"></div>
                 @can('delete', $invoice)
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
                         <span>{{__('Delete')}}</span>
                     </a>
@@ -168,7 +167,6 @@
                                 <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">more_vert</i>
                                 </button>
-
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="{{ route('invoices.items.edit', [$invoice->id, $item->id]) }}" data-remote="true" data-type="text">
                                         <span>{{__('Edit')}}</span>
@@ -275,7 +273,6 @@
                                     <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="material-icons" style="color:#C1C1C1">more_vert</i>
                                     </button>
-
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" href="{{ route('invoices.payments.edit', [$invoice->id, $payment->id]) }}" data-remote="true" data-type="text">
                                             <span>{{__('Edit')}}</span>

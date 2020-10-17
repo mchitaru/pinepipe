@@ -17,6 +17,7 @@ use Carbon\Carbon;
                     <span class="small count">({{ $stage->leads->count() }})</span>
                 </div>
                 <span class="total" data-id={{$stage->total_amount}}>{{ \Auth::user()->priceFormat($stage->total_amount) }}</span>
+                @can('update', $stage)
                 <div class="dropdown">
                     <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
@@ -26,15 +27,16 @@ use Carbon\Carbon;
                             <a class="dropdown-item" href="{{ route('stages.edit',$stage->id) }}" data-remote="true" data-type="text">
                                 <span>{{__('Edit')}}</span>
                             </a>
-                            <div class="dropdown-divider"></div>
                         @endcan
                         @can('delete', $stage)
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a>
                         @endcan
                     </div>
                 </div>
+                @endcan
             </div>
         </div>
         <div class="card-list-body" data-id={{$stage->id}} >
@@ -42,49 +44,37 @@ use Carbon\Carbon;
             @can('view', $lead)
             <div class="card card-kanban" data-id={{$lead->id}}>
                 <div class="card-body p-2">
-                    <div class="dropdown card-options">
-                    <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">more_vert</i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        {{-- @can('create', 'App\Event')
-                            <a class="dropdown-item" href="{{ route('events.create')  }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
-                                <span>{{__('Create Event')}}</span>
-                            </a>
-                        @endcan
-                        <a class="dropdown-item" href="{{ route('notes.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text" >
-                            <span>{{__('Create Note')}}</span>
-                        </a>
-                        @can('create', 'App\Project')
-                            <a class="dropdown-item" href="{{ route('projects.create') }}" data-params="lead_id={{$lead->id}}" data-remote="true" data-type="text">
-                                <span>{{__('Create Project')}}</span>
-                            </a>
-                        @endcan
-                        <div class="dropdown-divider"></div> --}}
-                        @can('update', $lead)
-                        <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
-                            <span>{{__('Edit')}}</span>
-                        </a>
-                        @endcan
-                        <div class="dropdown-divider"></div>
-                        @can('update', $lead)
-                            @if(!$lead->archived)
-                                <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
-                                    {{__('Archive')}}
+                    @can('update', $lead)
+                        <div class="dropdown card-options">
+                            <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                @can('update', $lead)
+                                <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
+                                    <span>{{__('Edit')}}</span>
                                 </a>
-                            @else
-                                <a href="{{ route('leads.update', $lead->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
-                                    {{__('Restore')}}
-                                </a>
-                            @endif
-                        @endcan
-                        @can('delete', $lead)
-                            <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                <span>{{__('Delete')}}</span>
-                            </a>
-                        @endcan
-                    </div>
-                    </div>
+                                @endcan
+                                @can('update', $lead)
+                                    <div class="dropdown-divider"></div>
+                                    @if(!$lead->archived)
+                                        <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
+                                            {{__('Archive')}}
+                                        </a>
+                                    @else
+                                        <a href="{{ route('leads.update', $lead->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
+                                            {{__('Restore')}}
+                                        </a>
+                                    @endif
+                                @endcan
+                                @can('delete', $lead)
+                                    <a class="dropdown-item text-danger" href="{{ route('leads.destroy', $lead->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                        <span>{{__('Delete')}}</span>
+                                    </a>
+                                @endcan
+                            </div>
+                        </div>
+                    @endcan
                     <div class="card-title m-xl-0">
                         @if(Gate::check('viewAny', 'App\Lead'))
                         <a href="{{ route('leads.show',$lead->id) }}" title="{{$lead->name}}">

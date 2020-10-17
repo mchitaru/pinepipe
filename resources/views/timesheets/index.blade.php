@@ -30,28 +30,26 @@
         @endif
     </div>
     <div class="card-meta">
-        @if(\Auth::user()->type!='client')
+        @can('update', $timesheet)
             <div class="dropdown card-options">
             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="material-icons">more_vert</i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-
                 @can('update', $timesheet)
-                <a href="{{ route('timesheets.edit', $timesheet->id) }}" class="dropdown-item" data-remote="true" data-type="text">
-                    {{__('Edit')}}
-                </a>
+                    <a href="{{ route('timesheets.edit', $timesheet->id) }}" class="dropdown-item" data-remote="true" data-type="text">
+                        {{__('Edit')}}
+                    </a>
                 @endcan
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#">Archive</a>
                 @can('delete', $timesheet)
-                <a class="dropdown-item text-danger" href="{{ route('timesheets.destroy', $timesheet->id) }}" data-method="delete" data-remote="true" data-type="text">
-                    {{__('Delete')}}
-                </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger" href="{{ route('timesheets.destroy', $timesheet->id) }}" data-method="delete" data-remote="true" data-type="text">
+                        {{__('Delete')}}
+                    </a>
                 @endcan
             </div>
             </div>
-        @endif
+        @endcan
     </div>
 </div>
 </div>

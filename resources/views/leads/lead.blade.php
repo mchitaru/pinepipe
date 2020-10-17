@@ -45,23 +45,23 @@
                     </a>
                 </div>
             </div>
+            @can('update', $lead)
             <div class="dropdown card-options float-right">
                 <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons">more_vert</i>
                 </button>
-
-                @if(Gate::check('update', $lead) || Gate::check('delete', $lead))
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('update', $lead)
                     <a class="dropdown-item" href="{{ route('leads.edit',$lead->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
-                    <div class="dropdown-divider"></div>
                     @if(!$lead->archived)
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ route('leads.update', $lead->id) }}" data-method="PATCH" data-remote="true" data-type="text">
                             {{__('Archive')}}
                         </a>
                     @else
+                        <div class="dropdown-divider"></div>
                         <a href="{{ route('leads.update', $lead->id) }}" class="dropdown-item text-danger" data-params="archived=0" data-method="PATCH" data-remote="true" data-type="text">
                             {{__('Restore')}}
                         </a>
@@ -73,8 +73,8 @@
                         </a>
                     @endcan
                 </div>
-                @endif
             </div>
+            @endcan
         </div>
     </div>
 </div>

@@ -70,7 +70,7 @@ class TimesheetsController extends Controller
 
         $projects   = \Auth::user()->projects()->get()->pluck('name', 'id');
 
-        $tasks = \Auth::user()->userTasks()
+        $tasks = \Auth::user()->tasks()
                                 ->where('project_id', '=', $project_id)
                                 ->get()
                                 ->pluck('title', 'id');
@@ -127,7 +127,7 @@ class TimesheetsController extends Controller
 
         $project_id = $project?$project->id:null;
 
-        $tasks = \Auth::user()->userTasks()
+        $tasks = \Auth::user()->tasks()
                                 ->where('project_id', '=', $project_id)
                                 ->get()
                                 ->pluck('title', 'id');

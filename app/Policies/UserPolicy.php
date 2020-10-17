@@ -65,8 +65,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->isSuperAdmin() || 
-                $model->created_by == $user->id;
+        return $user->isSuperAdmin();
     }
 
     /**

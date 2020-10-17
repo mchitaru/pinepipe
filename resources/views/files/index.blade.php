@@ -33,7 +33,6 @@
                 <a class="dropzone-file dropdown-item" href="#">{{__('Download')}}</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropzone-delete dropdown-item text-danger disabled" href="#" data-method="delete" data-remote="true" data-type="text">{{__('Delete')}}</a>
-
                 </div>
             </div>
             <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
@@ -46,11 +45,11 @@
         </div>
         </li>
     </ul>
-
+    @can('create', ['App\Media', $model])
     <form class="dropzone" id="{{$dz_id}}">
         <span class="dz-message">{{__('Drop images, documents & archives here or click to upload.')}}</span>
     </form>
-
+    @endcan
     <ul id="{{$dz_id}}-previews" class="list-group list-group-activity dropzone-previews flex-column-reverse">
     </ul>
 </div>

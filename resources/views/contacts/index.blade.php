@@ -56,25 +56,26 @@
                     @endif
                 </div>
             </div>
+            @can('update', $contact)
             <div class="dropdown card-options">
                 <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons">more_vert</i>
                 </button>
-
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('update', $contact)
                     <a class="dropdown-item" href="{{ route('contacts.edit', $contact->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
-                    <div class="dropdown-divider"></div>
                     @can('delete', $contact)
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ route('contacts.destroy', $contact->id) }}" data-method="delete" data-remote="true" data-type="text">
                             <span>{{__('Delete')}}</span>
                         </a>
                     @endcan
                 </div>
             </div>
+            @endcan
         </div>
     </div>
 </div>

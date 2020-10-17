@@ -7,9 +7,8 @@
         <div class="progress">
             <div class="progress-bar bg-{{Helpers::getProgressColor($project->progress)}}" role="progressbar" style="width: {{$project->progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-
         <div class="card-body">
-            @if(Gate::check('update', $project) || Gate::check('delete', $project))
+                @can('update', $project)
                     <div class="dropdown card-options">
                         @if($project->enabled)
                             <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -21,8 +20,8 @@
                                     {{__('Edit')}}
                                 </a>
                             @endcan
-                            <div class="dropdown-divider"></div>
                             @can('update', $project)
+                                <div class="dropdown-divider"></div>
                                 @if(!$project->archived)
                                     <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
                                         {{__('Archive')}}
@@ -44,7 +43,7 @@
                             <i class="material-icons">lock</i>
                         @endif
                     </div>
-            @endif
+                @endcan
             <div class="card-title d-flex justify-content-between align-items-center">
                 @if(Gate::check('view', $project))
                     <a href="{{ $project->enabled?route('projects.show', $project->id):'#' }}">

@@ -42,31 +42,28 @@
                 </div>
                 @endif
             </div>
-            <div class="dropdown card-options">
+            <div class="card-meta col-1 float-right">
+            @if(Gate::check('delete', $user) || $user->isCollaborator())
+                <div class="dropdown card-options">
                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @if($_user->isSuperAdmin())
-                            {{-- @can('update', $user)
-                                <a class="dropdown-item" href="{{ route('users.edit', $user) }}" data-remote="true" data-type="text">
-                                    <span>{{__('Edit')}}</span>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                            @endcan --}}
-                            @can('delete', $user)
-                                <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
-                                    <span>{{__('Delete')}}</span>
-                                </a>
-                            @endcan
-                        @elseif($user->isCollaborator())
+                        @if($user->isCollaborator())
                             <a class="dropdown-item" href="{{ route('users.invite.store') }}" data-params="email={{$user->email}}" data-method="post" data-remote="true" data-type="text">
                                     <span>{{__('Resend invitation')}}</span>
                                 </a>
                         @endif
+                        @can('delete', $user)
+                            <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                <span>{{__('Delete')}}</span>
+                            </a>
+                        @endcan
                     </div>
                 </div>
+            @endif
             </div>
+        </div>
     </div>
 </div>
 @endcan

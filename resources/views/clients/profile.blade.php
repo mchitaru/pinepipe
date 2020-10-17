@@ -48,11 +48,11 @@
                             </span>
                         </div>
                     </div> --}}
+                    @can('update', $client)
                     <div class="dropdown card-options">
                         <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_vert</i>
                         </button>
-
                         <div class="dropdown-menu dropdown-menu-right">
                             @can('update', $client)
                                 <a class="dropdown-item" href="{{ route('clients.edit',$client->id) }}" data-remote="true" data-type="text">
@@ -76,6 +76,7 @@
                             @endcan
                         </div>
                     </div>
+                    @endcan
                 </div>
             </div>
         </div>

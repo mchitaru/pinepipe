@@ -67,19 +67,20 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="dropdown card-options">
-                                <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </button>
-
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    @if(\Auth::user()->type=='super admin')
-                                    <a class="dropdown-item" href="{{ route('plans.edit',$plan->id)  }}" data-remote="true" data-type="text">
-                                        <span>{{__('Edit')}}</span>
-                                    </a>
-                                    @endif
+                            @can('update', $plan)
+                                <div class="dropdown card-options">
+                                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        @can('update', $plan)
+                                        <a class="dropdown-item" href="{{ route('plans.edit',$plan->id)  }}" data-remote="true" data-type="text">
+                                            <span>{{__('Edit')}}</span>
+                                        </a>
+                                        @endcan
+                                    </div>
                                 </div>
-                            </div>
+                            @endcan
                             </div>
                         </div>
                     </div>

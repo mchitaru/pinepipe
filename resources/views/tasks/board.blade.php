@@ -15,6 +15,7 @@ $timesheet = $_user->timesheets->first();
                     <h6>{{$stage->name}}</h6>
                     <span class="small count">({{ $stage->tasks->count() }})</span>
                 </div>
+                @can('update', $stage)
                 <div class="dropdown">
                     <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
@@ -25,14 +26,15 @@ $timesheet = $_user->timesheets->first();
                                 <span>{{__('Edit')}}</span>
                             </a>
                         @endcan
-                        <div class="dropdown-divider"></div>
                         @can('delete', $stage)
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('stages.destroy',$stage->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a>
                         @endcan
                     </div>
                 </div>
+                @endcan
             </div>
         </div>
         <div class="card-list-body" data-id={{$stage->id}}>
@@ -52,6 +54,7 @@ $timesheet = $_user->timesheets->first();
                     <div class="progress-bar task-progress-{{$task->id}} {{$label}}" role="progressbar" style="width: {{$task_percentage}}%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="card-body p-2">
+                    @can('update', $task)
                     <div class="dropdown card-options">
                         <button class="btn-options" type="button" id="kanban-dropdown-button-14" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">more_vert</i>
@@ -62,14 +65,15 @@ $timesheet = $_user->timesheets->first();
                                     {{__('Edit')}}
                                 </a>
                             @endcan
-                            <div class="dropdown-divider"></div>
                             @can('delete', $task)
+                                <div class="dropdown-divider"></div>
                                 <a href="{{route('tasks.destroy',$task->id)}}" class="dropdown-item text-danger" data-method="delete" data-remote="true" data-type="text">
                                     {{__('Delete')}}
                                 </a>
                             @endcan
                         </div>
                     </div>
+                    @endcan
                     <div class="card-title mb-xl-0">
                         <a href="{{route('tasks.show', $task->id)}}#task" class="text-body" data-remote="true" data-type="text" title="{{$task->title}}">
                             <h6 data-filter-by="text" class="text-truncate">{{$task->title}}</h6>

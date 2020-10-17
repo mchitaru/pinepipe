@@ -66,7 +66,7 @@ use Carbon\Carbon;
                         </ul>
                     </div>
                     <div class="card-meta d-flex justify-content-between">
-                        @if(Gate::check('update', $project) || Gate::check('delete', $project) || Gate::check('create', 'App\User'))
+                        @can('update', $project)
                         <div class="dropdown card-options">
                             @if($project->enabled)
                                 <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,14 +77,7 @@ use Carbon\Carbon;
                                     <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}" data-remote="true" data-type="text">
                                         {{__('Edit')}}
                                     </a>
-                                @endcan
-                                @can('view invite user')
-                                    <a class="dropdown-item" href="{{ route('projects.invite.create', $project->id) }}" data-remote="true" data-type="text">
-                                        {{__('Add User')}}
-                                    </a>
-                                @endcan
-                                <div class="dropdown-divider"></div>
-                                @can('update', $project)
+                                    <div class="dropdown-divider"></div>
                                     @if(!$project->archived)
                                         <a class="dropdown-item text-danger" href="{{ route('projects.update', $project->id) }}" data-method="PATCH" data-remote="true" data-type="text">
                                             {{__('Archive')}}
@@ -106,7 +99,7 @@ use Carbon\Carbon;
                                 <i class="material-icons">lock</i>
                             @endif
                         </div>
-                        @endif
+                        @endcan
                     </div>
                 </div>
             </div>

@@ -47,6 +47,7 @@ $count = count($tasks) + count($events);
                         {!!\Helpers::showDateForHumans($task->due_date)!!}
                     </div>
                     <div class="card-meta float-right">
+                        @can('update', [$task, true])
                         <div class="dropdown card-options">
                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
@@ -70,6 +71,7 @@ $count = count($tasks) + count($events);
                                 @endcan
                             </div>
                         </div>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -94,6 +96,7 @@ $count = count($tasks) + count($events);
                         {!!\Helpers::showTimespan($event->start, $event->end)!!}
                     </div>
                     <div class="card-meta float-right">
+                        @can('update', $event)
                         <div class="dropdown card-options">
                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
@@ -104,14 +107,15 @@ $count = count($tasks) + count($events);
                                     <span>{{__('Edit')}}</span>
                                 </a>
                                 @endcan
-                                <div class="dropdown-divider"></div>
                                 @can('delete', $event)
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item text-danger" href="{{ route('events.destroy', $event->id) }}" data-method="delete" data-remote="true" data-type="text">
                                         <span>{{__('Delete')}}</span>
                                     </a>
                                 @endcan
                             </div>
                         </div>
+                        @endcan
                     </div>
                 </div>
             </div>

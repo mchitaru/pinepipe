@@ -9,7 +9,8 @@ if(Gate::check('viewAny', 'App\Task')){
 }else{
     $default_tab = '#timesheets';
 }
-
+$dz_id = 'project-files-dz';
+$model = $project;
 @endphp
 
 @push('stylesheets')
