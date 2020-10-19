@@ -309,7 +309,7 @@ $model = $project;
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Invoices')}}</h3>
-                    @if(Gate::check('create', 'App\Invoice') && Gate::check('update', $project))
+                    @if(Gate::check('create', ['App\Invoice', $project]))
                         <a href="{{ route('invoices.create')  }}" class="btn btn-primary btn-round" data-params="client_id={{$project->client_id}}&project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
@@ -337,7 +337,7 @@ $model = $project;
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Expenses')}}</h3>
-                    @if(Gate::check('create', 'App\Expense') && Gate::check('update', $project))
+                    @if(Gate::check('create', ['App\Expense', $project]) && Gate::check('update', $project))
                         <a href="{{ route('expenses.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>

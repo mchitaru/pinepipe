@@ -56,7 +56,7 @@ class ExpensesController extends Controller
         $categories = Category::where('class', Expense::class)
                                 ->get()->pluck('name', 'id');
 
-        $projects = \Auth::user()->companyUserProjects()
+        $projects = \Auth::user()->companyProjects()
                         ->where('archived', '0')
                         ->pluck('projects.name', 'projects.id');
 
@@ -95,7 +95,7 @@ class ExpensesController extends Controller
         $categories = Category::where('class', Expense::class)
                                 ->get()->pluck('name', 'id');
 
-        $projects = \Auth::user()->companyUserProjects()
+        $projects = \Auth::user()->companyProjects()
                         ->where('archived', '0')
                         ->pluck('projects.name', 'projects.id');
 
