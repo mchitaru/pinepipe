@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\Lead;
 
 $dz_id = 'lead-files-dz';
+$model = $lead;
 
 @endphp
 
