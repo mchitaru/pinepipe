@@ -267,7 +267,7 @@ class DashboardController extends Controller
         // $arrExpense = [];
         // if(\Auth::user()->can('viewAny', 'App\Expense')){
 
-        //     $expenses = \Auth::user()->expensesByUserType()
+        //     $expenses = \Auth::user()->companyExpenses()
         //                             ->where(function ($query) use ($search) {
         //                                 $query->where('name','like', $search.'%');
         //                             })

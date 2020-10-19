@@ -278,16 +278,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return $this->hasMany('App\Expense', 'user_id', 'id');
     }
 
-    public function expensesByUserType()
-    {
-        if($this->type == 'company'){
-
-            return $this->companyExpenses();
-        }
-
-        return $this->expenses();
-    }
-
     public function timesheets()
     {
         return $this->hasMany('App\Timesheet', 'user_id', 'id')->orderBy('started_at', 'desc')->orderBy('updated_at', 'desc');

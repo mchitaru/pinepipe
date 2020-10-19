@@ -13,7 +13,7 @@ class InvoiceStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->can('create', 'App\Invoice');
+        return \Auth::user()->can('create', ['App\Invoice', $this->project]);
     }
 
     /**

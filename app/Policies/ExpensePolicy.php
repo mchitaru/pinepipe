@@ -53,7 +53,8 @@ class ExpensePolicy
      */
     public function update(User $user, Expense $expense)
     {
-        return $expense->created_by == $user->id;
+        return $expense->created_by == $user->id &&
+            $expense->project == null || $user->can('update', $expense->project);
     }
 
     /**

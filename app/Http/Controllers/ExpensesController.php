@@ -29,7 +29,7 @@ class ExpensesController extends Controller
 
         clock()->startEvent('ExpensesController', "Load expenses");
 
-        $expenses = Expense::expensesByUserType()
+        $expenses = \Auth::user()->companyExpenses()
                     ->where(function ($query) use ($request) {
                         $query->whereHas('user', function ($query) use($request) {
 

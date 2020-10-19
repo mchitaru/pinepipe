@@ -13,7 +13,7 @@ class ExpenseStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create', 'App\Expense');
+        return $this->user()->can('create', ['App\Expense', $this->project]);
     }
 
     /**
@@ -24,7 +24,7 @@ class ExpenseStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required',
+            'amount' => 'required|numeric',
             'date' => 'required',
             'category_id' => 'nullable',
             'project_id' => 'integer|nullable',
