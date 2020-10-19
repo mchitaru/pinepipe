@@ -311,7 +311,10 @@ class TasksController extends Controller
         {
             $task = Task::find($item);
 
-            $updated = $task->updateOrder($post['stage_id'], $key) || $updated;
+            if($task && \Auth::user()->can('update', [$task, true])){
+
+                $updated = $task->updateOrder($post['stage_id'], $key) || $updated;
+            }
         }
 
         $return               = [];

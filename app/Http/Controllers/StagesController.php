@@ -115,7 +115,10 @@ class StagesController extends Controller
         {
             $stage = Stage::find($item);
 
-            $updated = $stage->updateOrder($key) || $updated;
+            if($stage && \Auth::user()->can('update', $stage)){
+
+                $updated = $stage->updateOrder($key) || $updated;
+            }
         }
 
         $return               = [];

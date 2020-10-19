@@ -255,7 +255,10 @@ class LeadsController extends Controller
         {
             $lead = Lead::find($item);
 
-            $updated = $lead->updateOrder($post['stage_id'], $key) || $updated;
+            if($lead && \Auth::user()->can('update', $lead)){
+
+                $updated = $lead->updateOrder($post['stage_id'], $key) || $updated;
+            }
         }
 
         $return               = [];
