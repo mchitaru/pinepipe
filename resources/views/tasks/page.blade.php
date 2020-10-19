@@ -135,6 +135,10 @@ document.addEventListener("paginate-load", function(e) {
     initTaskCards();
 });
 
+document.addEventListener("paginate-tag", function(e) {
+    initTaskCards();
+});
+
 </script>
 
 @endpush
