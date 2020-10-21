@@ -38,6 +38,11 @@ class Subscription extends Model
         return $this->belongsTo(get_class($model), $model->getForeignKey());
     }
 
+    public function plan()
+    {
+        return $this->belongsTo('App\SubscriptionPlan', 'paddle_plan', 'paddle_id');
+    }
+    
     /**
      * Determine if the subscription is active, on trial, or within its grace period.
      *

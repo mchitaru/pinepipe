@@ -11,9 +11,15 @@
         <div class="card-body p-2 pl-5">
             <div class="card-title col-xs-12 col-sm-5">
                 <h6 data-filter-by="text">{{$user->name}}</h6>
-                <p class="text-small">{{__($user->getCollaboratorType())}}</p>
-                @if(\Auth::user()->type=='super admin')
+                @if(\Auth::user()->isSuperAdmin())
+                    <span class="badge badge-light mr-2">
+                        {{($user->subscribed()&&$user->subscription()->plan)?$user->subscription()->plan->name:''}}
+                    </span>
                     <p class="text-small">{{$user->created_at}}</p>
+                @else
+                <span class="badge badge-light mr-2">
+                    {{__($user->getCollaboratorType())}}
+                </span>
                 @endif
             </div>
             <div class="card-title col-xs-12 col-sm-5">

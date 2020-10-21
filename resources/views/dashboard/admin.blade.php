@@ -39,7 +39,7 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a class="card card-info" href="#">
+                    <a class="card card-info" href="{{ route('subscribers') }}">
                         <div class="card-body">
                             <div class="number">
                                 <h3 class="card-title">{{$user['total_orders']}}</h3>

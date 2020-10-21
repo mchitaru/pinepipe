@@ -31,28 +31,57 @@ class UsersController extends Controller
             return view('users.page');
         }
 
-        if(\Auth::user()->isSuperAdmin())
+        $users = User::withoutGlobalScopes()
+                        ->where(function ($query) use ($request) {
+                            $query->where('name','like','%'.$request['filter'].'%')
+                            ->orWhere('email','like','%'.$request['filter'].'%');
+                        })
+                        ->orWhereHas('subscriptions', function ($query) use ($request)
+                        {
+                            $query->where(function ($query) {
+                                $query->where('ends_at', null)
+                                ->orWhere('ends_at', '>=', now());
+                            })    
+                            ->whereHas('plan', function ($query) use ($request)
+                            {
+                                $query->where('name','like','%'.$request['filter'].'%');
+                            });    
+                        })    
+                        ->paginate(25, ['*'], 'user-page');
+
+        return view('users.index', ['users' => $users])->render();
+    }
+
+    public function subscribers(Request $request)
+    {
+        Gate::authorize('viewAny', 'App\User');
+
+        $user = \Auth::user();
+
+        if (!$request->ajax())
         {
-            $users = User::withoutGlobalScopes()
-                            ->where(function ($query) use ($request) {
-                                $query->where('name','like','%'.$request['filter'].'%')
-                                ->orWhere('email','like','%'.$request['filter'].'%');
-                            })
-                            ->paginate(25, ['*'], 'user-page');
-        }
-        else
-        {
-            $users = User::withoutGlobalScopes()
-                            ->where(function ($query) use ($request) {
-                                $query->where('name','like','%'.$request['filter'].'%')
-                                ->orWhere('email','like','%'.$request['filter'].'%');
-                            })
-                            ->where('created_by', \Auth::user()->created_by)
-                            ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
-                            ->orderBy($request['sort']?$request['sort']:'name', $request['dir']?$request['dir']:'asc')
-                            ->paginate(25, ['*'], 'user-page');
+            return view('users.page');
         }
 
+        $users = User::withoutGlobalScopes()
+                        ->whereHas('subscriptions')
+                        ->where(function ($query) use ($request) {
+                            $query->where('name','like','%'.$request['filter'].'%')
+                            ->orWhere('email','like','%'.$request['filter'].'%');
+                        })
+                        ->orWhereHas('subscriptions', function ($query) use ($request)
+                        {
+                            $query->where(function ($query) {
+                                $query->where('ends_at', null)
+                                ->orWhere('ends_at', '>=', now());
+                            })    
+                            ->whereHas('plan', function ($query) use ($request)
+                            {
+                                $query->where('name','like','%'.$request['filter'].'%');
+                            });    
+                        })    
+                        ->paginate(25, ['*'], 'user-page');
+                        
         return view('users.index', ['users' => $users])->render();
     }
 

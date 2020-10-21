@@ -28,6 +28,8 @@ Route::group(
     Route::put('profile', 'UserProfileController@updateAuth')->name('profile.update');
     Route::patch('profile', 'UserProfileController@passwordAuth')->name('profile.password');
     Route::delete('profile', 'UserProfileController@destroyAuth')->name('profile.destroy');
+
+    Route::get('subscribers', 'UsersController@subscribers')->name('subscribers');
 });
 
 
