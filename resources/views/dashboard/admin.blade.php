@@ -42,7 +42,7 @@
                     <a class="card card-info" href="{{ route('subscribers') }}">
                         <div class="card-body">
                             <div class="number">
-                                <h3 class="card-title">{{$user['total_orders']}}</h3>
+                                <h3 class="card-title">{{$user['total_paid_user']}}</h3>
                                 <small class="card-text">{{__('TOTAL SUBSCRIPTIONS')}}</small>
                             </div>
                             <div class="icon">

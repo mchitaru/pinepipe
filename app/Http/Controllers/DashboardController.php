@@ -34,12 +34,14 @@ class DashboardController extends Controller
                                         ->count();
 
             $user['total_paid_user'] = User::withoutGlobalScopes()
-                                                ->whereHas('subscriptions')
+                                                ->whereHas('subscriptions', function ($query)
+                                                {
+                                                    $query->where('ends_at', null)
+                                                            ->orWhere('ends_at', '>=', now());
+                                                })
                                                 ->where('type', '=', 'company')
                                                 ->count();
 
-            $user['total_orders'] = Subscription::count();
-            $user['total_orders_price'] = 0;
             $user['total_plan'] = SubscriptionPlan::total_plan();
             $user['most_purchese_plan'] = 0;
 

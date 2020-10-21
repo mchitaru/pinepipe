@@ -64,12 +64,15 @@ class UsersController extends Controller
         }
 
         $users = User::withoutGlobalScopes()
-                        ->whereHas('subscriptions')
-                        ->where(function ($query) use ($request) {
+                        ->whereHas('subscriptions', function ($query)
+                        {
+                            $query->where('ends_at', null)
+                                ->orWhere('ends_at', '>=', now());
+                                
+                        })->where(function ($query) use ($request) {
                             $query->where('name','like','%'.$request['filter'].'%')
                             ->orWhere('email','like','%'.$request['filter'].'%');
-                        })
-                        ->orWhereHas('subscriptions', function ($query) use ($request)
+                        })->orWhereHas('subscriptions', function ($query) use ($request)
                         {
                             $query->where(function ($query) {
                                 $query->where('ends_at', null)
