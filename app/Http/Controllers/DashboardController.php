@@ -55,7 +55,7 @@ class DashboardController extends Controller
 
                 'chart_type' => 'bar',
                 'withoutGlobalScopes',
-                // 'where_raw' => 'handle IS NOT NULL'
+                'where_raw' => 'email_verified_at IS NOT NULL'
             ];
 
             $charts[] = new Chart($chart_options);
