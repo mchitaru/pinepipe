@@ -46,7 +46,7 @@ class DashboardController extends Controller
             $charts = [];
 
             $chart_options = [
-                'chart_title' => 'Users by month',
+                'chart_title' => 'New active users',
                 'report_type' => 'group_by_date',
                 'model' => 'App\User',
 
