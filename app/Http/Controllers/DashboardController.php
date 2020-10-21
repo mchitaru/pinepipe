@@ -12,6 +12,7 @@ use App\Client;
 use App\Subscription;
 use App\Task;
 use Illuminate\Support\Facades\Gate;
+use App\Chart;
 
 class DashboardController extends Controller
 {
@@ -41,11 +42,171 @@ class DashboardController extends Controller
             $user['total_orders_price'] = 0;
             $user['total_plan'] = SubscriptionPlan::total_plan();
             $user['most_purchese_plan'] = 0;
-            $chartData = $this->getOrderChart(['duration'=>'week']);
+
+            $charts = [];
+
+            $chart_options = [
+                'chart_title' => 'Users by month',
+                'report_type' => 'group_by_date',
+                'model' => 'App\User',
+
+                'group_by_field' => 'created_at',
+                'group_by_period' => 'month',
+
+                'chart_type' => 'bar',
+                'withoutGlobalScopes',
+                // 'where_raw' => 'handle IS NOT NULL'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Task changes (last 30 days)',
+                'chart_type' => 'line',
+                'report_type' => 'group_by_date',
+                'model' => 'App\Task',
+                
+                'group_by_field' => 'updated_at',
+                'group_by_period' => 'day',       
+
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'continuous_time' => false, // show continuous timeline including dates without data
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Task changes by users (last 30 days)',
+                'chart_type' => 'bar',
+                'report_type' => 'group_by_relationship',
+                'model' => 'App\Task',
+            
+                'relationship_name' => 'company', // represents function user() on Transaction model
+                'group_by_field' => 'email', // users.name
+            
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Timesheet changes (last 30 days)',
+                'chart_type' => 'line',
+                'report_type' => 'group_by_date',
+                'model' => 'App\Timesheet',
+                
+                'group_by_field' => 'updated_at',
+                'group_by_period' => 'day',       
+
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'continuous_time' => false, // show continuous timeline including dates without data
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Timesheet changes by users (last 30 days)',
+                'chart_type' => 'bar',
+                'report_type' => 'group_by_relationship',
+                'model' => 'App\Timesheet',
+            
+                'relationship_name' => 'company', // represents function user() on Transaction model
+                'group_by_field' => 'email', // users.name
+            
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Leads changes (last 30 days)',
+                'chart_type' => 'line',
+                'report_type' => 'group_by_date',
+                'model' => 'App\Lead',
+                
+                'group_by_field' => 'updated_at',
+                'group_by_period' => 'day',       
+
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'continuous_time' => false, // show continuous timeline including dates without data
+                'where_raw' => 'name != "Sample Lead" AND name != "Exemplu de oportunitate"',
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Leads changes by users (last 30 days)',
+                'chart_type' => 'bar',
+                'report_type' => 'group_by_relationship',
+                'model' => 'App\Lead',
+            
+                'relationship_name' => 'company', // represents function user() on Transaction model
+                'group_by_field' => 'email', // users.name
+            
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'where_raw' => 'name != "Sample Lead" AND name != "Exemplu de oportunitate"',
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Invoice changes (last 30 days)',
+                'chart_type' => 'line',
+                'report_type' => 'group_by_date',
+                'model' => 'App\Invoice',
+                
+                'group_by_field' => 'updated_at',
+                'group_by_period' => 'day',       
+
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'continuous_time' => false, // show continuous timeline including dates without data
+                'where_raw' => 'number != "#INV00001"',
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
+
+            $chart_options = [
+                'chart_title' => 'Invoice changes by users (last 30 days)',
+                'chart_type' => 'bar',
+                'report_type' => 'group_by_relationship',
+                'model' => 'App\Invoice',
+            
+                'relationship_name' => 'company', // represents function user() on Transaction model
+                'group_by_field' => 'email', // users.name
+            
+                'filter_field' => 'updated_at',
+                'filter_period' => 'month', // show only transactions for this month
+                'filter_days' => 30, // show only transactions for last 30 days
+                'where_raw' => 'number != "#INV00001"',
+                'withoutGlobalScopes'
+            ];
+
+            $charts[] = new Chart($chart_options);
 
             clock()->endEvent('DashboardController');
 
-            return view('dashboard.admin',compact('user','chartData'));
+            return view('dashboard.admin',compact('user','charts'));
         }
 
 

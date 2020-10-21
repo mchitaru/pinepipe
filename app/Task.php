@@ -98,6 +98,11 @@ class Task extends Model implements HasMedia
         });
     }
 
+    public function company()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
     public function project()
     {
         return $this->belongsTo('App\Project');

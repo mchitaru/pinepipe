@@ -907,26 +907,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $project->users()->sync(array($id));
 
-        //Sample Timesheet
-        $t = Timesheet::create(
-            [
-                'project_id' => $project->id,
-                'user_id' => $id,
-                'task_id' => null,
-                'date' => Carbon::now(),
-                'rate' => 50,
-                'hours' => 8,
-                'minutes' => 0,
-                'seconds' => 0,
-                'remark' => null,
-                'created_by' => $id
-            ]
-        );
-
-        $t->user_id = $id;
-        $t->created_by = $id;
-        $t->save();
-
         //Sample Invoice
         $i = Invoice::create(
             [

@@ -88,6 +88,11 @@ class Invoice extends Model
         });
     }
 
+    public function company()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
     public function client()
     {
         return $this->hasOne('App\Client', 'id', 'client_id');

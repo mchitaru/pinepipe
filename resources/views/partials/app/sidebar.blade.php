@@ -62,7 +62,7 @@ $languages = $_user->languages();
                 {{__('Home')}}
             </a>
         </li>
-        @if(\Auth::user()->type!='super admin')
+        @if(!\Auth::user()->isSuperAdmin())
         <li class="nav-item">
             <a class="nav-link d-flex {{(Request::segment(1) == 'calendar')?' active':''}}" href="{{ route('calendar.index') }}">
                 <i class="material-icons pr-2">calendar_today</i>
@@ -70,7 +70,7 @@ $languages = $_user->languages();
             </a>
         </li>
         @endif
-        @if(\Auth::user()->type=='super admin')
+        @if(\Auth::user()->isSuperAdmin())
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/languages')}}">
                     <i class="material-icons pr-2">language</i>
@@ -84,6 +84,7 @@ $languages = $_user->languages();
                 </a>
             </li>
         @endif
+        @if(!\Auth::user()->isSuperAdmin())
         @can('viewAny', 'App\Client')
         <li class="nav-item ">
             <a class="nav-link d-flex {{(Request::segment(1) == 'clients')?' active':''}}" href="{{ route('clients.index') }}">
@@ -158,7 +159,7 @@ $languages = $_user->languages();
 
             </li>
         @endif
-        @if((Gate::check('viewAny', 'App\Invoice') || Gate::check('viewAny', 'App\Expense') || Gate::check('viewAny', 'App\Invoice') || Gate::check('viewAny', 'App\Invoice')) || \Auth::user()->type=='client')
+        @if(Gate::check('viewAny', 'App\Invoice') || Gate::check('viewAny', 'App\Expense') || Gate::check('viewAny', 'App\Invoice') || Gate::check('viewAny', 'App\Invoice'))
             <li class="nav-item">
 
                 <a class="nav-link {{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?' active':''}}" href="#" data-toggle="collapse" aria-expanded="{{(Request::segment(1) == 'invoices' || Request::segment(1) == 'expenses')?'true':'false'}}" data-target="#submenu-4" aria-controls="submenu-4">
@@ -188,7 +189,7 @@ $languages = $_user->languages();
 
             </li>
         @endif
-        @if(Gate::check('viewAny', 'App\Project') || \Auth::user()->type!='super admin')
+        @can('viewAny', 'App\Project')
             <li class="nav-item">
 
                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
@@ -207,16 +208,16 @@ $languages = $_user->languages();
                 </div>
 
             </li>
+        @endcan
         @endif
     </ul>
     <hr>
     <div class="w-100">
+        @if(!\Auth::user()->isSuperAdmin())
         <div class="d-block d-lg-none pb-2">
-            @if(\Auth::user()->type !='super admin')
             <div class="input-group input-group-light ">
                 <input type="search" class="form-control form-control-light search-element" placeholder="{{__("Search...")}}" aria-label="Search app">
             </div>
-            @endif
         </div>
         @if(Gate::check('create', 'App\Contact') ||
             Gate::check('create', 'App\Project') ||
@@ -243,6 +244,7 @@ $languages = $_user->languages();
                 @endcan
             </div>
         </div>
+        @endif
         @endif
     </div>
     </div>

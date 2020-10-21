@@ -63,6 +63,11 @@ class Timesheet extends Model
         });
     }
 
+    public function company()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
     public function project()
     {
         return $this->belongsTo('App\Project');

@@ -77,6 +77,11 @@ class Lead extends Model implements HasMedia
         });
     }
 
+    public function company()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
     public function user()
     {
         return $this->hasOne('App\User', 'id', 'user_id');

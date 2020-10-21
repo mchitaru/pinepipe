@@ -4,52 +4,16 @@
 @endpush
 
 @push('scripts')
-<script>
-    var ctx = document.getElementById('order-chart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: {!! json_encode($chartData['label']) !!},
-            datasets: [{
-                label: "{{ __('Subscriptions') }}",
-                data: {!! json_encode($chartData['data']) !!},
-                fill: false,
-                backgroundColor: "transparent",
-                borderColor: "#f36a5a",
-                borderWidth: 1
-            }]
-        },
-        options: {
-                scales: {
-                    xAxes: [{reverse: !0, gridLines: {color: "rgba(0,0,0,0.05)"}}],
-                    yAxes: [{
-                        ticks: {stepSize: 10, display: !1},
-                        min: 10,
-                        max: 100,
-                        display: !0,
-                        borderDash: [5, 5],
-                        gridLines: {color: "rgba(0,0,0,0)", fontColor: "#fff"}
-                    }]
-                },
-                responsive: true,
-                title: {
-                    display: false,
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                legend: {
-                    display: false
-                }
-            }
-    });
-</script>
-
+{!! $charts[0]->renderChartJsLibrary() !!}
+{!! $charts[0]->renderJs() !!}
+{!! $charts[1]->renderJs() !!}
+{!! $charts[2]->renderJs() !!}
+{!! $charts[3]->renderJs() !!}
+{!! $charts[4]->renderJs() !!}
+{!! $charts[5]->renderJs() !!}
+{!! $charts[6]->renderJs() !!}
+{!! $charts[7]->renderJs() !!}
+{!! $charts[8]->renderJs() !!}
 @endpush
 
 @section('page-title')
@@ -101,16 +65,18 @@
                     </a>
                 </div>
             </div>
+            @foreach($charts as $chart)
             <div class="row">
                 <div class="col">
                     <div class="card card-info">
                         <div class="card-body">
-                            <h5 class="card-title">{{__('Recent Subscriptions')}}</h5>
-                            <canvas id="order-chart" width="800" height="200"></canvas>
+                            <h1>{{ $chart->options['chart_title'] }}</h1>
+                            {!! $chart->renderHtml() !!}
                         </div>
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
     </div>
 </div>
