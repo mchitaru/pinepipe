@@ -103,9 +103,6 @@ Route::group(
         Route::get('users/{user}/refresh', 'UsersController@refresh')->name('users.refresh');
         Route::resource('users', 'UsersController');
 
-        Route::resource('roles', 'UserRolesController');
-        Route::resource('permissions', 'PermissionsController');
-
         //Clients
         Route::resource('clients', 'ClientsController');
 
