@@ -69,7 +69,7 @@ class TaskFilesController extends Controller
      */
     public function show(Task $task, Media $file)
     {
-        Gate::authorize('update', $file);
+        Gate::authorize('view', $task);
 
         return Storage::disk('s3')->download($file->getPath());
     }
