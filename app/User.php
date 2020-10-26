@@ -78,6 +78,15 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'last_login_at',
+    ];
+
+    /**
      * Boot events
      * @return void
      */

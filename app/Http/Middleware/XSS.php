@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Stevebauman\Purify\Facades\Purify;
+use Carbon\Carbon;
 
 class XSS
 {
@@ -21,6 +22,16 @@ class XSS
 
         if(\Auth::check())
         {
+            $user = \Auth::user();
+
+            if(($user->last_login_at == null) || $user->last_login_at->diffInDays(Carbon::now()->toDate()) >= 1){
+
+                $user->update([
+                    'last_login_at' => Carbon::now()->toDateTimeString(),
+                    'last_login_ip' => $request->getClientIp()
+                ]);
+            }
+    
             \App::setLocale(\Auth::user()->locale);
         }else{
 

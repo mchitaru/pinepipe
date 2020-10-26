@@ -50,6 +50,11 @@ class Activity extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function company()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
     public function getAction()
     {
         switch($this->action)
