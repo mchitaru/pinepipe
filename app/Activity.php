@@ -27,6 +27,18 @@ class Activity extends Model
             ->whereActionableType(Project::class);
     }
 
+    public function tasks()
+    {
+        return $this->belongsTo(Task::class, 'actionable_id')
+            ->whereActionableType(Task::class);
+    }
+
+    public function events()
+    {
+        return $this->belongsTo(Event::class, 'actionable_id')
+            ->whereActionableType(Event::class);
+    }
+
     public function leads()
     {
         return $this->belongsTo(Lead::class, 'actionable_id')
@@ -43,6 +55,12 @@ class Activity extends Model
     {
         return $this->belongsTo(Client::class, 'actionable_id')
             ->whereActionableType(Client::class);
+    }
+
+    public function invoices()
+    {
+        return $this->belongsTo(Invoice::class, 'actionable_id')
+            ->whereActionableType(Invoice::class);
     }
 
     public function user()
@@ -111,34 +129,56 @@ class Activity extends Model
         return false;
     }
 
+    public static function createEvent(Event $event)
+    {
+        $event->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_create_event',
+                'value' => $event->name,
+                'url'    => route('events.show', $event->id),
+            ]
+        );
+    }
+
+    public static function updateEvent(Event $event)
+    {
+        $event->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_update_event',
+                'value' => $event->name,
+                'url'    => route('events.show', $event->id),
+            ]
+        );
+    }
+
     public static function createTask(Task $task)
     {
-        if($task->project) {
-            $task->project->activities()->create(
-                [
-                    'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->created_by,
-                    'action' => 'activity_create_task',
-                    'value' => $task->title,
-                    'url'    => route('tasks.show', $task->id),
-                ]
-            );
-        }
+        $task->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_create_task',
+                'value' => $task->title,
+                'url'    => route('tasks.show', $task->id),
+            ]
+        );
     }
 
     public static function updateTask(Task $task)
     {
-        if($task->project) {
-            $task->project->activities()->create(
-                [
-                    'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->created_by,
-                    'action' => 'activity_update_task',
-                    'value' => $task->title,
-                    'url'    => route('tasks.show', $task->id),
-                ]
-            );
-        }
+        $task->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_update_task',
+                'value' => $task->title,
+                'url'    => route('tasks.show', $task->id),
+            ]
+        );
     }
 
     public static function createProject(Project $project)
@@ -182,71 +222,41 @@ class Activity extends Model
 
     public static function createTaskFile(Task $task, Media $file)
     {
-        if($task->project) {
-            $task->project->activities()->create(
-                [
-                    'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->created_by,
-                    'action' => 'activity_upload_file',
-                    'value' => $file->file_name,
-                    'url'    => route('tasks.file.download', [$task->id, $file->id]),
-                ]
-            );
-        }
+        $task->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_upload_file',
+                'value' => $file->file_name,
+                'url'    => route('tasks.file.download', [$task->id, $file->id]),
+            ]
+        );
     }    
 
     public static function createInvoice(Invoice $invoice)
     {
-        if($invoice->project) {
-            $invoice->project->activities()->create(
-                [
-                    'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->created_by,
-                    'action' => 'activity_create_invoice',
-                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
-                    'url'    => route('invoices.show', $invoice->id),
-                ]
-            );
-        }
-
-        if($invoice->client) {
-            $invoice->client->activities()->create(
-                [
-                    'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->created_by,
-                    'action' => 'activity_create_invoice',
-                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
-                    'url'    => route('invoices.show', $invoice->id),
-                ]
-            );
-        }
+        $invoice->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_create_invoice',
+                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                'url'    => route('invoices.show', $invoice->id),
+            ]
+        );
     }
 
     public static function updateInvoice(Invoice $invoice)
     {
-        if($invoice->project) {
-            $invoice->project->activities()->create(
-                [
-                    'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->created_by,
-                    'action' => 'activity_update_invoice',
-                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
-                    'url'    => route('invoices.show', $invoice->id),
-                ]
-            );
-        }
-
-        if($invoice->client) {
-            $invoice->client->activities()->create(
-                [
-                    'user_id' => \Auth::user()->id,
-                    'created_by' => \Auth::user()->created_by,
-                    'action' => 'activity_update_invoice',
-                    'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
-                    'url'    => route('invoices.show', $invoice->id),
-                ]
-            );
-        }
+        $invoice->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_update_invoice',
+                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                'url'    => route('invoices.show', $invoice->id),
+            ]
+        );
     }    
 
     public static function createLead(Lead $lead)
@@ -271,32 +281,6 @@ class Activity extends Model
                 'action' => 'activity_update_lead',
                 'value' => $lead->name,
                 'url'    => route('leads.show', $lead->id),
-            ]
-        );
-    }
-
-    public static function createLeadEvent(Lead $lead, Event $event)
-    {
-        $lead->activities()->create(
-            [
-                'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->created_by,
-                'action' => 'activity_create_event',
-                'value' => $event->name,
-                'url'    => route('events.show', $event->id),
-            ]
-        );
-    }
-
-    public static function updateLeadEvent(Lead $lead, Event $event)
-    {
-        $lead->activities()->create(
-            [
-                'user_id' => \Auth::user()->id,
-                'created_by' => \Auth::user()->created_by,
-                'action' => 'activity_update_event',
-                'value' => $event->name,
-                'url'    => route('events.show', $event->id),
             ]
         );
     }

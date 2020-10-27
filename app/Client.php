@@ -102,6 +102,11 @@ class Client extends Model implements HasMedia
         return $this->hasMany('App\Project', 'client_id', 'id');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany('App\Invoice', 'client_id', 'id');
+    }
+
     public function contacts()
     {
         return $this->hasMany('App\Contact', 'client_id', 'id');

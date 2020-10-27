@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
+use App\Traits\Actionable;
 
 use App\CompanySettings;
 
@@ -15,7 +16,7 @@ use App\Scopes\CompanyTenantScope;
 
 class Invoice extends Model
 {
-    use NullableFields, Taggable;
+    use NullableFields, Taggable, Actionable;
 
     protected $fillable = [
         'number',
@@ -85,6 +86,8 @@ class Invoice extends Model
             });
 
             $invoice->tags()->detach();
+
+            $invoice->activities()->delete();
         });
     }
 

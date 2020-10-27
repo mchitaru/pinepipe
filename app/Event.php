@@ -6,12 +6,13 @@ use App\Lead;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
+use App\Traits\Actionable;
 
 use App\Scopes\CollaboratorTenantScope;
 
 class Event extends Model
 {
-    use NullableFields, Taggable;
+    use NullableFields, Taggable, Actionable;
 
     protected $with = ['calendar'];
 
@@ -60,6 +61,8 @@ class Event extends Model
             $event->leads()->detach();
 
             $event->tags()->detach();
+
+            $event->activities()->delete();
         });
     }
 
@@ -122,12 +125,12 @@ class Event extends Model
             $event->leads()->sync($leads);
 
             $lead = $event->leads->first();
-
-            Activity::createLeadEvent($lead, $event);
         }
 
         $users = collect($post['users']);
         $event->users()->sync($users);
+
+        Activity::createEvent($event);
 
         return $event;
     }
@@ -154,9 +157,6 @@ class Event extends Model
 
         $lead = $this->leads->first();
 
-        if($lead) {
-            Activity::updateLeadEvent($lead, $this);
-        }
+        Activity::updateEvent($this);
     }
-
 }

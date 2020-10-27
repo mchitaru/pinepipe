@@ -150,79 +150,32 @@ class ClientsController extends Controller
 
         clock()->startEvent('ClientsController', "Load contacts, leads, projects");
 
-        if($user->type == 'company')
-        {
-            $contacts = $client->contacts;
-            $projects = $client->projects()
-                                ->where('archived', 0)
+        $contacts = $client->contacts;
+        $projects = $client->projects()
+                            ->where('archived', 0)
+                            ->get();
+
+        $leads = Lead::with(['client', 'user', 'stage'])
+                ->where('archived', 0)
+                ->where('client_id', '=', $client->id)
+                ->orderBy('order')
+                ->get();
+
+        $activities = Activity::where(function ($query) use($client) {
+                                    $query->where('actionable_id', $client->id)                                    
+                                            ->orWhereIn('actionable_id', $client->projects()->pluck('id'))
+                                            ->orWhereIn('actionable_id', $client->leads()->pluck('id'))
+                                            ->orWhereIn('actionable_id', $client->contacts()->pluck('id'))
+                                            ->orWhereIn('actionable_id', $client->invoices()->pluck('id'))
+                                            ->orWhereIn('actionable_id', $client->tasks()->pluck('id'));
+                                })                                
+                                ->where(function ($query) {
+                                    $query->where('created_by', \Auth::user()->created_by)                                    
+                                            ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'));
+                                })     
+                                ->limit(20)
+                                ->orderByDesc('id')
                                 ->get();
-
-            $leads = Lead::with(['client', 'user', 'stage'])
-                    ->where('archived', 0)
-                    ->where('client_id', '=', $client->id)
-                    ->orderBy('order')
-                    ->get();
-
-            $activities = Activity::whereHas('clients', function ($query) use ($client) {
-                $query->where('id', $client->id);
-            })
-            ->orWhereHas('projects', function ($query) use ($client) {
-                $query->where('client_id', $client->id);
-            })
-            ->orWhereHas('leads', function ($query) use ($client) {
-                $query->where('client_id', $client->id);
-            })
-            ->orWhereHas('contacts', function ($query) use ($client) {
-                $query->where('client_id', $client->id);
-            })
-            ->limit(20)
-            ->orderBy('id', 'desc')
-            ->get();
-
-        }else
-        {
-            $contacts = $user->contacts()
-                        ->with(['client', 'user'])
-                        ->where('client_id', '=', $client->id)
-                        ->get();
-
-            $projects = $user->projects()
-                        ->with(['client', 'users'])
-                        ->where('client_id', '=', $client->id)
-                        ->get();
-
-            $leads = $user->leads()
-                        ->with(['client', 'user', 'stage'])
-                        ->where('client_id', '=', $client->id)
-                        ->orderBy('order')
-                        ->get();
-
-            if($user->type == 'client'){
-
-                $activities = Activity::whereHas('projects', function ($query) use ($client) {
-                    $query->where('client_id', $client->id);
-                })
-                ->limit(20)
-                ->orderBy('id', 'desc')
-                ->get();
-
-            }else{
-
-                $activities = Activity::whereHas('projects', function ($query) use ($client) {
-                    $query->where('client_id', $client->id)
-                            ->whereHas('users', function ($query) {
-
-                                // tasks with the current user assigned.
-                                $query->where('users.id', \Auth::user()->id);
-
-                            });
-                })
-                ->limit(20)
-                ->orderBy('id', 'desc')
-                ->get();
-
-            }
-        }
 
         $stages = Stage::where('class', Lead::class)
                             ->where('created_by', \Auth::user()->created_by)

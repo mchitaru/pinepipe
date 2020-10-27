@@ -215,8 +215,21 @@ class LeadsController extends Controller
 
         $events = $lead->events;
         $projects = $lead->projects;
-        $activities = $lead->activities;
         $notes = $lead->notes;
+
+        $activities = Activity::where(function ($query) use($lead) {
+                                    $query->where('actionable_id', $lead->id)                                    
+                                            ->orWhereIn('actionable_id', $lead->events()->pluck('events.id'))
+                                            ->orWhereIn('actionable_id', $lead->projects()->pluck('projects.id'));
+                                })                                
+                                ->where(function ($query) {
+                                    $query->where('created_by', \Auth::user()->created_by)                                    
+                                            ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'));
+                                })     
+                                ->limit(20)
+                                ->orderByDesc('id')
+                                ->get();
+
 
         $files = [];
         foreach($lead->getMedia('leads') as $media)

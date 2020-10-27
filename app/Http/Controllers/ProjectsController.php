@@ -287,12 +287,20 @@ class ProjectsController extends Controller
             $files[] = $file;
         }
 
-        $invoices = $project->invoices;
+        $invoices = $project->invoices;        
 
         //only activities for company or from collaborators
-        $activities = $project->activities()
-                                ->where('created_by', \Auth::user()->created_by)
-                                ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
+        $activities = Activity::where(function ($query) use($project) {
+                                    $query->where('actionable_id', $project->id)                                    
+                                            ->orWhereIn('actionable_id', $project->tasks()->pluck('id'))
+                                            ->orWhereIn('actionable_id', $project->invoices()->pluck('id'));
+                                })                                
+                                ->where(function ($query) {
+                                    $query->where('created_by', \Auth::user()->created_by)                                    
+                                            ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'));
+                                })     
+                                ->limit(20)
+                                ->orderByDesc('id')
                                 ->get();
 
         if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')

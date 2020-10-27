@@ -16,12 +16,13 @@ use App\Traits\Checklistable;
 use App\Traits\Commentable;
 use App\Traits\Stageable;
 use App\Traits\Taggable;
+use App\Traits\Actionable;
 
 use App\Scopes\CollaboratorTenantScope;
 
 class Task extends Model implements HasMedia
 {
-    use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable, Taggable, Stageable;
+    use NullableFields, HasMediaTrait, Invoiceable, Checklistable, Commentable, Taggable, Stageable, Actionable;
 
     protected $fillable = [
         'title',
@@ -95,6 +96,8 @@ class Task extends Model implements HasMedia
             $task->invoiceables()->each(function($inv) {
                 $inv->delete();
             });
+
+            $task->activities()->delete();
         });
     }
 
