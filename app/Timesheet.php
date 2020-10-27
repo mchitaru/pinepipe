@@ -98,9 +98,11 @@ class Timesheet extends Model
         if(isset($post['task_id']) && !is_numeric($post['task_id'])) {
 
             //new task
-            $task = Task::create(['title' => $post['task_id'],
+            $task = Task::createTask(['title' => $post['task_id'],
                                     'project_id' => $post['project_id'],
-                                    'priority' => 1]);
+                                    'stage_id' => \Auth::user()->getFirstTaskStage()->id,
+                                    'priority' => 1,
+                                    'users' => [\Auth::user()->id]]);
 
             $post['task_id'] = $task->id;
         }
@@ -118,9 +120,11 @@ class Timesheet extends Model
         if(isset($post['task_id']) && !is_numeric($post['task_id'])) {
 
             //new task
-            $task = Task::create(['title' => $post['task_id'],
+            $task = Task::createTask(['title' => $post['task_id'],
                                     'project_id' => $post['project_id'],
-                                    'priority' => 1]);
+                                    'stage_id' => \Auth::user()->getFirstTaskStage()->id,
+                                    'priority' => 1,
+                                    'users' => [\Auth::user()->id]]);
             $post['task_id'] = $task->id;
         }
 
