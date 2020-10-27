@@ -8,6 +8,8 @@ use App\User;
 use App\Contact;
 use App\Project;
 use App\Lead;
+use App\Task;
+use App\Invoice;
 use App\Stage;
 use App\Activity;
 use Illuminate\Http\Request;
@@ -162,12 +164,30 @@ class ClientsController extends Controller
                 ->get();
 
         $activities = Activity::where(function ($query) use($client) {
-                                    $query->where('actionable_id', $client->id)                                    
-                                            ->orWhereIn('actionable_id', $client->projects()->pluck('id'))
-                                            ->orWhereIn('actionable_id', $client->leads()->pluck('id'))
-                                            ->orWhereIn('actionable_id', $client->contacts()->pluck('id'))
-                                            ->orWhereIn('actionable_id', $client->invoices()->pluck('id'))
-                                            ->orWhereIn('actionable_id', $client->tasks()->pluck('id'));
+                                    $query->where(function ($query) use($client) {
+                                            $query->where('actionable_type', Client::class)
+                                                    ->where('actionable_id', $client->id);
+                                    })
+                                    ->orWhere(function ($query) use($client) {
+                                        $query->where('actionable_type', Project::class)
+                                                ->whereIn('actionable_id', $client->projects()->pluck('id'));
+                                    })
+                                    ->orWhere(function ($query) use($client) {
+                                        $query->where('actionable_type', Lead::class)
+                                                ->whereIn('actionable_id', $client->leads()->pluck('id'));
+                                    })
+                                    ->orWhere(function ($query) use($client) {
+                                        $query->where('actionable_type', Contact::class)
+                                                ->whereIn('actionable_id', $client->contacts()->pluck('id'));
+                                    })
+                                    ->orWhere(function ($query) use($client) {
+                                        $query->where('actionable_type', Invoice::class)
+                                                ->orWhereIn('actionable_id', $client->invoices()->pluck('id'));
+                                    })
+                                    ->orWhere(function ($query) use($client) {
+                                        $query->where('actionable_type', Task::class)
+                                                ->orWhereIn('actionable_id', $client->tasks()->pluck('id'));
+                                    });
                                 })                                
                                 ->where(function ($query) {
                                     $query->where('created_by', \Auth::user()->created_by)                                    

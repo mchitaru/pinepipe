@@ -291,10 +291,19 @@ class ProjectsController extends Controller
 
         //only activities for company or from collaborators
         $activities = Activity::where(function ($query) use($project) {
-                                    $query->where('actionable_id', $project->id)                                    
-                                            ->orWhereIn('actionable_id', $project->tasks()->pluck('id'))
-                                            ->orWhereIn('actionable_id', $project->invoices()->pluck('id'));
-                                })                                
+                                    $query->where(function ($query) use($project) {
+                                            $query->where('actionable_type', Project::class)
+                                                    ->where('actionable_id', $project->id);
+                                    })
+                                    ->orWhere(function ($query) use($project) {
+                                        $query->where('actionable_type', Task::class)
+                                                ->whereIn('actionable_id', $project->tasks()->pluck('id'));
+                                    })
+                                    ->orWhere(function ($query) use($project) {
+                                        $query->where('actionable_type', Invoice::class)
+                                                ->whereIn('actionable_id', $project->invoices()->pluck('id'));
+                                    });
+                                })
                                 ->where(function ($query) {
                                     $query->where('created_by', \Auth::user()->created_by)                                    
                                             ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'));

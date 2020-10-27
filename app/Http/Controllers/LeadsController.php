@@ -9,6 +9,8 @@ use App\User;
 use App\Client;
 use App\Contact;
 use App\Activity;
+use App\Event;
+use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -218,9 +220,18 @@ class LeadsController extends Controller
         $notes = $lead->notes;
 
         $activities = Activity::where(function ($query) use($lead) {
-                                    $query->where('actionable_id', $lead->id)                                    
-                                            ->orWhereIn('actionable_id', $lead->events()->pluck('events.id'))
-                                            ->orWhereIn('actionable_id', $lead->projects()->pluck('projects.id'));
+                                    $query->where(function ($query) use($lead) {
+                                            $query->where('actionable_type', Lead::class)
+                                                    ->where('actionable_id', $lead->id);
+                                    })
+                                    ->orWhere(function ($query) use($lead) {
+                                        $query->where('actionable_type', Event::class)
+                                                ->whereIn('actionable_id', $lead->events()->pluck('events.id'));
+                                    })
+                                    ->orWhere(function ($query) use($lead) {
+                                        $query->where('actionable_type', Project::class)
+                                                ->whereIn('actionable_id', $lead->projects()->pluck('projects.id'));
+                                    });
                                 })                                
                                 ->where(function ($query) {
                                     $query->where('created_by', \Auth::user()->created_by)                                    
