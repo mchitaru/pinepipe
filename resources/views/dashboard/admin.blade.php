@@ -4,16 +4,62 @@
 @endpush
 
 @push('scripts')
-{!! $charts[0]->renderChartJsLibrary() !!}
-{!! $charts[0]->renderJs() !!}
-{!! $charts[1]->renderJs() !!}
-{!! $charts[2]->renderJs() !!}
-{!! $charts[3]->renderJs() !!}
-{!! $charts[4]->renderJs() !!}
-{!! $charts[5]->renderJs() !!}
-{!! $charts[6]->renderJs() !!}
-{!! $charts[7]->renderJs() !!}
-{!! $charts[8]->renderJs() !!}
+    <!-- Charting library -->
+    <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+    <!-- Chartisan -->
+    <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
+    <!-- Your application script -->
+    <script>
+        const newUsersChart = new Chartisan({
+            el: '#new_users_chart',
+            url: "@chart('new_users_chart')",
+            hooks: new ChartisanHooks()
+                .colors(['#007bff', '#4299E1', '#AAEE11'])
+                .tooltip({tooltips: true})
+                .datasets([{ type: 'bar', fill: false }, 'bar']),
+            loader: {
+                color: '#007bff',
+                size: [30, 30],
+                type: 'bar',
+                textColor: '#007bff',
+                text: '',
+            }        
+        });
+
+        const dailyUsersChart = new Chartisan({
+            el: '#daily_users_chart',
+            url: "@chart('daily_users_chart')",
+            hooks: new ChartisanHooks()
+                .colors(['#007bff', '#4299E1', '#AAEE11'])
+                .tooltip({tooltips: true})
+                .datasets([{ type: 'bar', fill: false }, 'bar']),
+            loader: {
+                color: '#007bff',
+                size: [30, 30],
+                type: 'bar',
+                textColor: '#007bff',
+                text: '',
+            }        
+        });
+
+        const activeUsersChart = new Chartisan({
+            el: '#active_users_chart',
+            url: "@chart('active_users_chart')",
+            hooks: new ChartisanHooks()
+                .colors(['#007bff', '#4299E1', '#AAEE11'])
+                .tooltip({tooltips: true})
+                .axis(false)
+                .datasets([{ type: 'pie', fill: false }, 'pie']),
+            loader: {
+                color: '#007bff',
+                size: [30, 30],
+                type: 'bar',
+                textColor: '#007bff',
+                text: '',
+            }        
+        });
+
+    </script>
 @endpush
 
 @section('page-title')
@@ -65,18 +111,36 @@
                     </a>
                 </div>
             </div>
-            @foreach($charts as $chart)
             <div class="row">
                 <div class="col">
                     <div class="card card-info">
                         <div class="card-body">
-                            <h1>{{ $chart->options['chart_title'] }}</h1>
-                            {!! $chart->renderHtml() !!}
+                            <h4 >{{__('New users')}}</h4>
+                            <div id="new_users_chart" style="height: 300px;"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            @endforeach
+            <div class="row">
+                <div class="col">
+                    <div class="card card-info">
+                        <div class="card-body">
+                            <h4 >{{__('Daily active users')}}</h4>
+                            <div id="daily_users_chart" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card card-info">
+                        <div class="card-body">
+                            <h4 >{{__('Most active users (last 30 days)')}}</h4>
+                            <div id="active_users_chart" style="height: 800px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
