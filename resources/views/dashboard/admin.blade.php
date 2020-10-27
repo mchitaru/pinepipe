@@ -46,7 +46,6 @@
             el: '#active_users_chart',
             url: "@chart('active_users_chart')",
             hooks: new ChartisanHooks()
-                .colors(['#007bff', '#4299E1', '#AAEE11'])
                 .tooltip({tooltips: true})
                 .axis(false)
                 .datasets([{ type: 'pie', fill: false }, 'pie']),
