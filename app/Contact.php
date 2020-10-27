@@ -92,7 +92,7 @@ class Contact extends Model
             if(!\Auth::user()->checkClientLimit()) return null;
 
             //new client
-            $client = Client::create(['name' => $post['client_id']]);
+            $client = Client::createClient(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
 

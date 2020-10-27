@@ -784,5 +784,10 @@
     "Activate your account to continue...": "Activează-ți contul pentru a continua...",
     "To activate your account, please check your email (:address) and click on the activation link.": "Pentru a-ți activa contul, te rugăm să îți verifici adresa de email (:address) și să faci click pe link-ul de activare.",
     "Filter Timesheets": "Filtrează fișe de pontaj",
-    "If you did not receive the email with the activation link": "Dacă nu ai primit email-ul cu link-ul de activare"
+    "If you did not receive the email with the activation link": "Dacă nu ai primit email-ul cu link-ul de activare",
+    "created timesheet": "a adăugat fișa de pontaj",
+    "updated timesheet": "a modificat fișa de pontaj",
+    "New users": "",
+    "Daily active users": "",
+    "Most active users (last 30 days)": ""
 }

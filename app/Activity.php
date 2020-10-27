@@ -33,6 +33,12 @@ class Activity extends Model
             ->whereActionableType(Task::class);
     }
 
+    public function timesheets()
+    {
+        return $this->belongsTo(Timesheet::class, 'actionable_id')
+            ->whereActionableType(Timesheet::class);
+    }
+
     public function events()
     {
         return $this->belongsTo(Event::class, 'actionable_id')
@@ -91,6 +97,10 @@ class Activity extends Model
                 return __('created task');
             case 'activity_update_task': 
                 return __('updated task');
+            case 'activity_create_timesheet': 
+                return __('created timesheet');
+            case 'activity_update_timesheet': 
+                return __('updated timesheet');
             case 'activity_create_project': 
                 return __('created project');
             case 'activity_update_project': 
@@ -120,6 +130,8 @@ class Activity extends Model
             case 'activity_update_event': 
             case 'activity_create_task': 
             case 'activity_update_task': 
+            case 'activity_create_timesheet': 
+            case 'activity_update_timesheet': 
             case 'activity_create_contact': 
             case 'activity_update_contact': 
             case 'activity_create_note': 
@@ -177,6 +189,32 @@ class Activity extends Model
                 'action' => 'activity_update_task',
                 'value' => $task->title,
                 'url'    => route('tasks.show', $task->id),
+            ]
+        );
+    }
+
+    public static function createTimesheet(Timesheet $timesheet)
+    {
+        $timesheet->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_create_timesheet',
+                'value' => $timesheet->task ? $timesheet->task->title:__('No title'),
+                'url'    => route('timesheets.edit', $timesheet->id),
+            ]
+        );
+    }
+
+    public static function updateTimesheet(Timesheet $timesheet)
+    {
+        $timesheet->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_update_task',
+                'value' => $timesheet->task ? $timesheet->task->title:__('No title'),
+                'url'    => route('timsheets.edit', $timesheet->id),
             ]
         );
     }

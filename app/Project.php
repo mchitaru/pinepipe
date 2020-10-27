@@ -214,14 +214,14 @@ class Project extends Model implements HasMedia
             if(!\Auth::user()->checkClientLimit()) return null;
 
             //new client
-            $client = Client::create(['name' => $post['client_id']]);
+            $client = Client::createClient(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
 
         if(isset($post['lead_id']) && !is_numeric($post['lead_id'])) {
 
             //new lead
-            $lead = Lead::create(['name' => $post['lead_id'],
+            $lead = Lead::createLead(['name' => $post['lead_id'],
                                     'stage_id' => \Auth::user()->getFirstLeadStage()->id,
                                     'client_id' => $post['client_id']]);
             $post['lead_id'] = $lead->id;
@@ -255,14 +255,14 @@ class Project extends Model implements HasMedia
         if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
             //new client
-            $client = Client::create(['name' => $post['client_id']]);
+            $client = Client::createClient(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
 
         if(isset($post['lead_id']) && !is_numeric($post['lead_id'])) {
 
             //new lead
-            $lead = Lead::create(['name' => $post['lead_id'],
+            $lead = Lead::createLead(['name' => $post['lead_id'],
                                     'stage_id' => \Auth::user()->getFirstLeadStage()->id,
                                     'client_id' => $post['client_id']]);
             $post['lead_id'] = $lead->id;

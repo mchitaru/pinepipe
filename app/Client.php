@@ -114,14 +114,10 @@ class Client extends Model implements HasMedia
 
     public function tasks()
     {
-        return Task::with(['project'])
-                        ->whereHas('project', function ($query)
-                        {
-                            $query->whereHas('client', function ($query)
-                            {
-                                $query->where('id', $this->id);
-                            });
-                        });
+        return Task::whereHas('project', function ($query) {
+
+                    $query->where('client_id', $this->id);
+                });
     }
 
     public function registerMediaConversions(BaseMedia $media = null)

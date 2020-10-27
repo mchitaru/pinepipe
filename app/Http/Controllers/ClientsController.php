@@ -182,11 +182,11 @@ class ClientsController extends Controller
                                     })
                                     ->orWhere(function ($query) use($client) {
                                         $query->where('actionable_type', Invoice::class)
-                                                ->orWhereIn('actionable_id', $client->invoices()->pluck('id'));
+                                                ->whereIn('actionable_id', $client->invoices()->pluck('id'));
                                     })
                                     ->orWhere(function ($query) use($client) {
                                         $query->where('actionable_type', Task::class)
-                                                ->orWhereIn('actionable_id', $client->tasks()->pluck('id'));
+                                                ->whereIn('actionable_id', $client->tasks()->pluck('id'));
                                     });
                                 })                                
                                 ->where(function ($query) {

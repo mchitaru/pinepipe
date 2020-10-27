@@ -114,14 +114,14 @@ class Lead extends Model implements HasMedia
             if(!\Auth::user()->checkClientLimit()) return null;
 
             //new client
-            $client = Client::create(['name' => $post['client_id']]);
+            $client = Client::createClient(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
 
         if(isset($post['contact_id']) && !is_numeric($post['contact_id'])) {
 
             //new contact
-            $contact = Contact::create(['name' => $post['contact_id'],
+            $contact = Contact::createContact(['name' => $post['contact_id'],
                                         'client_id' => $post['client_id']]);
 
             $post['contact_id'] = $contact->id;
@@ -156,14 +156,14 @@ class Lead extends Model implements HasMedia
         if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
             //new client
-            $client = Client::create(['name' => $post['client_id']]);
+            $client = Client::createClient(['name' => $post['client_id']]);
             $post['client_id'] = $client->id;
         }
 
         if(isset($post['contact_id']) && !is_numeric($post['contact_id'])) {
 
             //new contact
-            $contact = Contact::create(['name' => $post['contact_id'],
+            $contact = Contact::createContact(['name' => $post['contact_id'],
                                         'client_id' => $post['client_id']]);
 
             $post['contact_id'] = $contact->id;

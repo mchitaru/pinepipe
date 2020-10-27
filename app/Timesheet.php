@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
 use App\Traits\Invoiceable;
+use App\Traits\Actionable;
 
 use App\Scopes\CollaboratorTenantScope;
 
 class Timesheet extends Model
 {
-    use NullableFields;
-    use Invoiceable;
+    use NullableFields, Actionable, Invoiceable;
 
     protected $fillable = [
         'project_id', 
@@ -60,6 +60,8 @@ class Timesheet extends Model
             $timesheet->invoiceables()->each(function($inv) {
                 $inv->delete();
             });
+
+            $timesheet->activities()->delete();
         });
     }
 
@@ -112,6 +114,8 @@ class Timesheet extends Model
         $timeSheet->created_by = \Auth::user()->created_by;
         $timeSheet->save();
 
+        Activity::createTimesheet($timeSheet);
+
         return $timeSheet;
     }
 
@@ -129,6 +133,8 @@ class Timesheet extends Model
         }
 
         $this->update($post);
+
+        Activity::updateTimesheet($this);
     }
 
     public function computeTime()

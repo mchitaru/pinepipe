@@ -300,6 +300,10 @@ class ProjectsController extends Controller
                                                 ->whereIn('actionable_id', $project->tasks()->pluck('id'));
                                     })
                                     ->orWhere(function ($query) use($project) {
+                                        $query->where('actionable_type', Timesheet::class)
+                                                ->whereIn('actionable_id', $project->timesheets()->pluck('id'));
+                                    })
+                                    ->orWhere(function ($query) use($project) {
                                         $query->where('actionable_type', Invoice::class)
                                                 ->whereIn('actionable_id', $project->invoices()->pluck('id'));
                                     });

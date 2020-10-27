@@ -809,5 +809,10 @@
     "Unknown": "",
     "Activate your account to continue...": "",
     "To activate your account, please check your email (:address) and click on the activation link.": "",
-    "If you did not receive the email with the activation link": ""
+    "If you did not receive the email with the activation link": "",
+    "created timesheet": "",
+    "updated timesheet": "",
+    "New users": "",
+    "Daily active users": "",
+    "Most active users (last 30 days)": ""
 }
