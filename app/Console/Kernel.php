@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('event:reminders')->everyMinute()->withoutOverlapping(5);
         $schedule->job(new CurrencyRatesJob())->twiceDaily(9, 21);
         $schedule->command('app:dailyreminders')->daily();
+        $schedule->command('app:housekeeping')->daily();
 
         // $schedule->command('inspire')
         //          ->hourly();
