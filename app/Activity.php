@@ -119,6 +119,10 @@ class Activity extends Model
                 return __('created client');
             case 'activity_update_client': 
                 return __('updated client');
+            case 'activity_create_comment': 
+                return __('added comment');
+            case 'activity_update_comment': 
+                return __('updated comment');
         }
     }
 
@@ -135,6 +139,8 @@ class Activity extends Model
             case 'activity_create_contact': 
             case 'activity_update_contact': 
             case 'activity_create_note': 
+            case 'activity_create_comment': 
+            case 'activity_update_comment': 
                 return true;
         }
 
@@ -267,6 +273,32 @@ class Activity extends Model
                 'action' => 'activity_upload_file',
                 'value' => $file->file_name,
                 'url'    => route('tasks.file.download', [$task->id, $file->id]),
+            ]
+        );
+    }    
+
+    public static function createTaskComment(Task $task, Comment $comment)
+    {
+        $task->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_create_comment',
+                'value' => $comment->comment,
+                'url'    => route('tasks.show', $task->id)."/comment",
+            ]
+        );
+    }    
+
+    public static function updateTaskComment(Task $task, Comment $comment)
+    {
+        $task->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_update_comment',
+                'value' => $comment->comment,
+                'url'    => route('tasks.show', $task->id)."/comment",
             ]
         );
     }    

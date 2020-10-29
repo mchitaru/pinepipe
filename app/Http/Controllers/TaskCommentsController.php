@@ -7,6 +7,7 @@ use App\Comment;
 use App\Http\Requests\TaskCommentRequest;
 use Illuminate\Http\Request;
 use App\Traits\Taskable;
+use App\Activity;
 
 use Illuminate\Support\Facades\Gate;
 
@@ -42,6 +43,8 @@ class TaskCommentsController extends Controller
 
         $comment = $task->comments()->create($post);
 
+        Activity::createTaskComment($task, $comment);
+
         return redirect()->route('tasks.comment.index', $task->id)->with('success', __('Comment Created.'));
     }
 
@@ -60,7 +63,7 @@ class TaskCommentsController extends Controller
 
         $comment->update($post);
 
-        $text = $comment->comment;
+        Activity::updateTaskComment($task, $comment);
 
         return response()->json($comment->comment, 207);
     }

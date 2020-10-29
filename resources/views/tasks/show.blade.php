@@ -207,7 +207,7 @@ modal-lg
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#tasknotes" role="tab" aria-controls="tasknotes" aria-selected="false">{{__('Comments')}}
+                <a class="nav-link {{(request()->segment(3)=='comment')?'active':''}}" data-toggle="tab" href="#taskcomments" role="tab" aria-controls="taskcomments" aria-selected="false">{{__('Comments')}}
                     @if(!$task->comments->isEmpty())
                         <span class="badge badge-light bg-white">{{ $task->comments->count() }}</span>
                     @endif
@@ -255,7 +255,7 @@ modal-lg
                 @endcan
             </div>
             <!--end of tab-->
-            <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">
+            <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="taskcomments" role="tabpanel">
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">

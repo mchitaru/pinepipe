@@ -8,6 +8,7 @@ use App\Checklist;
 use App\Http\Requests\TaskChecklistRequest;
 use Illuminate\Http\Request;
 use App\Traits\Taskable;
+use App\Activity;
 
 use Illuminate\Support\Facades\Gate;
 
@@ -50,6 +51,8 @@ class TaskChecklistController extends Controller
             }
         }
 
+        Activity::updateTask($task);
+
         return redirect()->route('tasks.show', $task->id)->with('subtask', $subtask->id)->with('success', __('Subtask Created.'));
     }
 
@@ -77,6 +80,8 @@ class TaskChecklistController extends Controller
         }
 
         $subtask->save();
+
+        Activity::updateTask($task);
 
         return response('');
     }
