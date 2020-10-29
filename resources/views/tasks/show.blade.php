@@ -285,41 +285,41 @@ modal-lg
                     </form>
                     <div id="comments">
                     @foreach($task->comments as $comment)
-                    <div class="card card-note">
-                    <div class="card-header p-1">
-                        <div class="media align-items-center">
-                            <a href="#"  title={{$comment->user->name}}>
-                                {!!Helpers::buildUserAvatar($comment->user)!!}
-                            </a>
-
-                        <div class="media-body">
-                            <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
-                        </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                        <span data-filter-by="text">{{$comment->created_at->diffForHumans()}}</span>
-                        @can('delete', $comment)
-                            <div class="ml-1 dropdown card-options">
-                                <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    {{-- <a id="edit-comment" class="dropdown-item" href="#">{{__('Edit')}}</a> --}}
-                                    @can('delete', $comment)
-                                    <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
-                                        {{__('Delete')}}
+                        @can('view', $comment)
+                        <div class="card card-note">
+                            <div class="card-header p-1">
+                                <div class="media align-items-center">
+                                    <a href="#" title={{$comment->user->name}}>
+                                        {!!Helpers::buildUserAvatar($comment->user)!!}
                                     </a>
-                                    @endcan
+                                <div class="media-body">
+                                    <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
+                                </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                <span data-filter-by="text">{{$comment->created_at->diffForHumans()}}</span>
+                                @can('delete', $comment)
+                                    <div class="ml-1 dropdown card-options">
+                                        <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            {{-- <a id="edit-comment" class="dropdown-item" href="#">{{__('Edit')}}</a> --}}
+                                            @can('delete', $comment)
+                                            <a href="{{route('tasks.comment.destroy', [$task->id,$comment->id])}}" class="dropdown-item text-danger" data-method="delete" data-remote="true">
+                                                {{__('Delete')}}
+                                            </a>
+                                            @endcan
+                                        </div>
+                                    </div>
+                                @endcan
                                 </div>
                             </div>
-                        @endcan
+                            <div class="card-body p-1 editable" id="comment" data-filter-by="text">
+                                    {!! nl2br(e($comment->comment)) !!}
+                            </div>
                         </div>
-                    </div>
-                    {{-- <div class="card-body p-1 d-block editable" id="comment" data-url="{{route('tasks.comment.update', [$task->id, $comment->id])}}" data-type="textarea" data-method="PUT" data-ok-button="OK" data-cancel-button="Cancel" data-filter-by="text"> --}}
-                    <div class="card-body p-1 editable" id="comment" data-filter-by="text">
-                            {!! nl2br(e($comment->comment)) !!}
-                    </div>
-                    </div>
+                        @endcan
                     @endforeach
                     </div>
                 </div>
