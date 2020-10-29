@@ -286,6 +286,13 @@ class Project extends Model implements HasMedia
 
         $this->users()->sync($users);
 
+        foreach($this->tasks as $task){
+
+            $users = $task->users->intersect($this->users()->get());
+
+            $task->users()->sync($users->pluck('id'));
+        }
+
         Activity::updateProject($this);
     }
 
