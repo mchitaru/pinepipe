@@ -220,7 +220,7 @@ class Activity extends Model
                 'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_task',
                 'value' => $timesheet->task ? $timesheet->task->title:__('No title'),
-                'url'    => route('timsheets.edit', $timesheet->id),
+                'url'    => route('timesheets.edit', $timesheet->id),
             ]
         );
     }
