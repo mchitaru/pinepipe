@@ -115,6 +115,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             $user->projects()->detach();
             $user->tasks()->detach();
 
+            $user->checklists()->update(array('user_id' => null));
+            $user->comments()->update(array('user_id' => null));
+
             $user->leads()->update(array('user_id' => null));
             $user->expenses()->update(array('user_id' => null));
 
@@ -300,6 +303,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
     public function tasks()
     {
         return $this->belongsToMany('App\Task', 'user_tasks');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'user_id', 'id');
+    }
+
+    public function checklists()
+    {
+        return $this->hasMany('App\Checklist', 'user_id', 'id');
     }
 
     public function userEvents()

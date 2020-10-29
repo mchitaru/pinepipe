@@ -198,7 +198,6 @@ modal-lg
             </div>
         </div>
         </div>
-
         <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
                 <a class="nav-link {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" data-toggle="tab" href="#task" role="tab" aria-controls="task" aria-selected="true">{{__('Subtasks')}}
@@ -222,10 +221,8 @@ modal-lg
                 </a>
             </li>
         </ul>
-
         <div class="tab-content">
             <div class="tab-pane fade show {{(empty(request()->segment(3)) || request()->segment(3)=='subtask')?'active':''}}" id="task" role="tabpanel">
-
                 @can('viewAny', 'App\Task')
                 <div class="content-list">
                     <form method="POST" id="form-checklist" data-remote="true" action="{{ route('tasks.subtask.store',$task->id) }}">
@@ -241,7 +238,6 @@ modal-lg
                             </div>
                         </div>
                     </form>
-
                 <!--end of content list head-->
                 <div class="content-list-body">
                     <form class="checklist" id="checklist" data-id='sort'>
@@ -260,7 +256,6 @@ modal-lg
             </div>
             <!--end of tab-->
             <div class="tab-pane fade show {{(request()->segment(3)=='comment')?'active':''}}" id="tasknotes" role="tabpanel">
-
                 <div class="content-list">
                 <div class="row content-list-head">
                     <div class="col-auto">
@@ -288,14 +283,16 @@ modal-lg
                         @can('view', $comment)
                         <div class="card card-note">
                             <div class="card-header p-1">
+                                @if($comment->user)
                                 <div class="media align-items-center">
                                     <a href="#" title={{$comment->user->name}}>
                                         {!!Helpers::buildUserAvatar($comment->user)!!}
                                     </a>
-                                <div class="media-body">
-                                    <h6 class="mb-0" data-filter-by="text">{{$comment->user->name}}</h6>
+                                    <div class="media-body">
+                                        <h6 class="mb-0" data-filter-by="text">{{$comment->user?$comment->user->name:__('Unknown')}}</h6>
+                                    </div>
                                 </div>
-                                </div>
+                                @endif
                                 <div class="d-flex align-items-center">
                                 <span data-filter-by="text">{{$comment->created_at->diffForHumans()}}</span>
                                 @can('delete', $comment)

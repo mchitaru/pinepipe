@@ -30,8 +30,7 @@ class CommentPolicy
      */
     public function view(User $user, Comment $comment)
     {
-        return $comment->user &&
-            $user->can('view', $comment->commentable);
+        return $user->can('view', $comment->commentable);
     }
 
     /**
