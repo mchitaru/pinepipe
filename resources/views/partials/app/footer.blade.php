@@ -17,6 +17,7 @@ $timesheet = $_user?$_user->timesheets->first():null;
 
 <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
 <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/easytimer.min.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('assets/js/pace.min.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ro.js"></script>
@@ -125,6 +126,8 @@ $timesheet = $_user?$_user->timesheets->first():null;
 
 
     $(function() {
+
+        window.timerInstance = new easytimer.Timer();
 
         var id = {!! $timesheet ? $timesheet->id : 0 !!};
         var offset = {!! $timesheet&&$timesheet->isStarted() ? $timesheet->computeTime() : 0 !!};

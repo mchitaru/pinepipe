@@ -1,8 +1,3 @@
-$.getScript('../assets/js/easytimer.min.js', function()
-{
-    window.timerInstance = new easytimer.Timer();
-});
-
 function onUpdateTimer() {
     
     $('.active-timer[data-timesheet=' + window.timesheet + ']').each(function(){
