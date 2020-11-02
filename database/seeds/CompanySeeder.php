@@ -31,21 +31,5 @@ class CompanySeeder extends Seeder
         User::$SEED_COMPANY_ID = $company->id;
 
         $company->initCompanyDefaults();
-
-        factory(App\User::class, App\Client::$SEED)->create()->each(function ($user) use($company, $faker) {
-
-            $user->type = 'client';
-            $user->created_by = $company->id;
-            $user->client_id = $faker->numberBetween((User::$SEED_COMPANY_IDX-1)*Client::$SEED + 1,
-                                                        User::$SEED_COMPANY_IDX*Client::$SEED);
-            $user->save();
-        });
-
-        factory(App\User::class, App\User::$SEED_STAFF_COUNT)->create()->each(function ($user) use($company) {
-
-            $user->type = 'collaborator';
-            $user->created_by = $company->id;
-            $user->save();
-        });
     }
 }
