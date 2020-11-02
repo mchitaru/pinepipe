@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Notifications\Messages\MailMessage;
 use Carbon\Carbon;
+use App\User;
 use App\Activity;
 
 class HousekeepingJob implements ShouldQueue
@@ -32,6 +33,7 @@ class HousekeepingJob implements ShouldQueue
     public function handle()
     {
         $this->cleanupActivities();
+        $this->cleanupAccounts();
     }
 
     public function cleanupActivities()
@@ -42,6 +44,19 @@ class HousekeepingJob implements ShouldQueue
 
         $activities->each(function($activity) {
             $activity->delete();
+        });
+    }
+
+    public function cleanupAccounts()
+    {
+        $users = User::withoutGlobalScopes()
+                                ->where('email_verified_at', null)
+                                ->where('handle', null)
+                                ->where('created_at', '<', Carbon::now()->subMonths(1))
+                                ->get();
+
+        $users->each(function($user) {
+            $user->delete();
         });
     }
 }
