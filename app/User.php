@@ -404,6 +404,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return Expense::where('created_by', $this->created_by);
     }
 
+    public function companyPayments()
+    {
+        return Payment::where('created_by', $this->created_by);
+    }
+
     public function companyArticles()
     {
         return Article::where('created_by', $this->created_by);

@@ -11,6 +11,31 @@ use Carbon\Carbon;
 @endpush
 
 @push('scripts')
+
+<!-- Charting library -->
+<script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+<!-- Chartisan -->
+<script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
+<!-- Your application script -->
+<script>
+    const pnlChart = new Chartisan({
+        el: '#pnl_chart',
+        url: "@chart('pnl_chart')",
+        hooks: new ChartisanHooks()
+            .colors(['#28a745', '#dc3545', '#007bff'])
+            .tooltip(true)
+            .legend(true)            
+            .datasets(['bar', 'bar', { type: 'line', fill: false }]),
+        loader: {
+            color: '#007bff',
+            size: [30, 30],
+            type: 'bar',
+            textColor: '#007bff',
+            text: '',
+        }        
+    });
+</script>
+
 <script>
     $('.card-list .dropdown').on('show.bs.dropdown', function() {        
         $('body').append($(this).children('.dropdown-menu').css({
@@ -41,6 +66,7 @@ use Carbon\Carbon;
                     </div>
                     <h3> {{__("Let's take on the day!")}} </h3>
                     <div class="row pt-1 pb-3">
+                        @livewire('pnl', ['icon'=>'attach_money', 'income' => $income, 'expenses' => $expense])
                         @livewire('projects', ['icon'=>'folder', 'text' => __('project(s) in progress.'), 'items' => $projects])
                         @livewire('tasks', ['icon'=>'playlist_add_check', 'text' => __('important thing(s) to do.'), 'items' => $tasks])
                         @livewire('invoices', ['icon'=>'description', 'text' => __('uncollected invoice(s).'), 'items' => $invoices])

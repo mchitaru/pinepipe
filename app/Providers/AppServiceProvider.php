@@ -47,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Charts\NewUsersChart::class,
             \App\Charts\DailyUsersChart::class,
             \App\Charts\ActiveUsersChart::class,
+            \App\Charts\PnlChart::class,
         ]);
     }
 }
