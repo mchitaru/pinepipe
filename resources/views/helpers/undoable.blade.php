@@ -1,7 +1,7 @@
 @extends('layouts.modal')
 
 @section('form-start')
-{{ Form::open(array('url' => Request::url())) }}
+{{ Form::open(array('url' => Request::url(), 'method' => 'GET')) }}
 @endsection
 
 @section('title')
