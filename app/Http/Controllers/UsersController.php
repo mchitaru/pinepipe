@@ -41,12 +41,12 @@ class UsersController extends Controller
                             $query->where(function ($query) {
                                 $query->where('ends_at', null)
                                 ->orWhere('ends_at', '>=', now());
-                            })    
+                            })
                             ->whereHas('plan', function ($query) use ($request)
                             {
                                 $query->where('name','like','%'.$request['filter'].'%');
-                            });    
-                        })    
+                            });
+                        })
                         ->paginate(25, ['*'], 'user-page');
 
         return view('users.index', ['users' => $users])->render();
@@ -68,7 +68,7 @@ class UsersController extends Controller
                         {
                             $query->where('ends_at', null)
                                 ->orWhere('ends_at', '>=', now());
-                                
+
                         })->where(function ($query) use ($request) {
                             $query->where('name','like','%'.$request['filter'].'%')
                             ->orWhere('email','like','%'.$request['filter'].'%');
@@ -77,14 +77,14 @@ class UsersController extends Controller
                             $query->where(function ($query) {
                                 $query->where('ends_at', null)
                                 ->orWhere('ends_at', '>=', now());
-                            })    
+                            })
                             ->whereHas('plan', function ($query) use ($request)
                             {
                                 $query->where('name','like','%'.$request['filter'].'%');
-                            });    
-                        })    
+                            });
+                        })
                         ->paginate(25, ['*'], 'user-page');
-                        
+
         return view('users.index', ['users' => $users])->render();
     }
 
@@ -135,7 +135,6 @@ class UsersController extends Controller
 
         return view('users.edit', compact(''));
     }
-
 
     public function update(UserUpdateRequest $request, User $user)
     {
@@ -201,6 +200,19 @@ class UsersController extends Controller
         }
 
         return $this->create($request);
+    }
 
+    public function verify(Request $request, User $user)
+    {
+        Gate::authorize('delete', $user);
+
+        if($request->ajax()){
+
+            return view('helpers.undoable');
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return Redirect::to(URL::previous())->with('success', __('Verification email successfully sent.'));
     }
 }

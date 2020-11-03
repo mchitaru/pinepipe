@@ -59,7 +59,7 @@ Route::group(
     //User invite accept
     Route::get('users/invite/{user}/edit', 'UserInviteController@edit')->name('users.invite.edit');
     Route::put('users/invite/{user}', 'UserInviteController@update')->name('users.invite.update');
-        
+
     Route::get('unsubscribe/{user}', 'UserProfileController@editUnsubscribe')->name('unsubscribe.edit');
     Route::put('unsubscribe/{user}', 'UserProfileController@updateUnsubscribe')->name('unsubscribe.update');
 
@@ -101,6 +101,7 @@ Route::group(
         //Users
         Route::post('users/notifications', 'UsersController@readNotifications')->name('users.notifications');
         Route::get('users/{user}/refresh', 'UsersController@refresh')->name('users.refresh');
+        Route::get('users/{user}/verify', 'UsersController@verify')->name('users.verify');
         Route::resource('users', 'UsersController');
 
         //Clients
