@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="card-body p-1" data-filter-by="text">
-        {!! nl2br(e($note->text)) !!}
+        {!! nl2br(Helpers::purify($note->text)) !!}
     </div>
 </div>
 @endcan

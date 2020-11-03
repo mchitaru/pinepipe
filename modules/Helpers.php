@@ -203,4 +203,16 @@ class Helpers
 
         return str_replace(" ","", $spellout->formatCurrency($price, $currency)).' '.$formatter->getSymbol(\NumberFormatter::INTL_CURRENCY_SYMBOL);
     }
+
+    static function purify($text)
+    {
+        //show urls
+        $url = '@(http(s)?)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+        $text = preg_replace($url, '<a href="http$2://$4" target="_blank" title="$0">$0</a>', $text);
+
+        //remove script tags
+        $text = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $text);
+
+        return $text;
+    }
 }

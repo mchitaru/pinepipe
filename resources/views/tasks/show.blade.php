@@ -157,7 +157,7 @@ modal-lg
  <div class="row justify-content-center" data-remote="true">
     <div class="col">
         <div class="page-header pt-2">
-        <p class="lead">{!! nl2br(e($task->description)) !!}</p>
+        <p class="lead">{!! nl2br(Helpers::purify($task->description)) !!}</p>
         <div class="d-flex align-items-center justify-content-between">
             <div>
                 <ul class="avatars">
@@ -313,7 +313,7 @@ modal-lg
                                 </div>
                             </div>
                             <div class="card-body p-1 editable" id="comment" data-filter-by="text">
-                                    {!! nl2br(e($comment->comment)) !!}
+                                    {!! nl2br(Helpers::purify($comment->comment)) !!}
                             </div>
                         </div>
                         @endcan

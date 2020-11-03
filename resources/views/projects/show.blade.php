@@ -105,7 +105,7 @@ $model = $project;
                         @endif
                     </div>
                 </div>
-            <p class="lead">{!! nl2br(e($project->description)) !!}</p>
+            <p class="lead">{!! nl2br(Helpers::purify($project->description)) !!}</p>
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
                     <ul class="avatars">
