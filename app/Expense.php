@@ -12,10 +12,11 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 use App\Scopes\CompanyTenantScope;
+use App\Traits\Actionable;
 
 class Expense extends Model implements HasMedia
 {
-    use NullableFields, Taggable, Categorizable, Invoiceable, HasMediaTrait ;
+    use NullableFields, Taggable, Categorizable, Invoiceable, HasMediaTrait, Actionable;
 
     protected $fillable = [
         'amount',
@@ -82,6 +83,8 @@ class Expense extends Model implements HasMedia
 
         $expense = Expense::create($post);
 
+        Activity::createExpense($expense);
+
         return $expense;
     }
 
@@ -96,5 +99,7 @@ class Expense extends Model implements HasMedia
         }
 
         $this->update($post);
+
+        Activity::updateExpense($this);
     }
 }

@@ -69,6 +69,12 @@ class Activity extends Model
             ->whereActionableType(Invoice::class);
     }
 
+    public function expenses()
+    {
+        return $this->belongsTo(Expense::class, 'actionable_id')
+            ->whereActionableType(Expense::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -123,6 +129,10 @@ class Activity extends Model
                 return __('added comment');
             case 'activity_update_comment': 
                 return __('updated comment');
+            case 'activity_create_expense': 
+                return __('added expense');
+            case 'activity_update_expense': 
+                return __('updated expense');
         }
     }
 
@@ -141,6 +151,8 @@ class Activity extends Model
             case 'activity_create_note': 
             case 'activity_create_comment': 
             case 'activity_update_comment': 
+            case 'activity_create_expense': 
+            case 'activity_update_expense': 
                 return true;
         }
 
@@ -442,6 +454,32 @@ class Activity extends Model
                 'action' => 'activity_update_client',
                 'value' => $client->name,
                 'url'    => route('clients.show', $client->id),
+            ]
+        );
+    }
+
+    public static function createExpense(Expense $expense)
+    {
+        $expense->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_create_expense',
+                'value' => $expense->category?$expense->category->name.' ('.\Auth::user()->priceFormat($expense->amount).')':\Auth::user()->priceFormat($expense->amount),
+                'url'    => route('expenses.edit', $expense->id),
+            ]
+        );
+    }
+
+    public static function updateExpense(Expense $expense)
+    {
+        $expense->activities()->create(
+            [
+                'user_id' => \Auth::user()->id,
+                'created_by' => \Auth::user()->created_by,
+                'action' => 'activity_update_expense',
+                'value' => $expense->category?$expense->category->name.' ('.\Auth::user()->priceFormat($expense->amount).')':\Auth::user()->priceFormat($expense->amount),
+                'url'    => route('expenses.edit', $expense->id),
             ]
         );
     }
