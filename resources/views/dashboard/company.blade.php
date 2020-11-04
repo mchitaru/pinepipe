@@ -24,7 +24,7 @@ use Carbon\Carbon;
         hooks: new ChartisanHooks()
             .colors(['#28a745', '#dc3545', '#007bff'])
             .tooltip(true)
-            .legend(true)            
+            .legend(true)
             .datasets(['bar', 'bar', { type: 'line', fill: false }]),
         loader: {
             color: '#007bff',
@@ -32,12 +32,19 @@ use Carbon\Carbon;
             type: 'bar',
             textColor: '#007bff',
             text: '',
-        }        
+        }
     });
 </script>
-
 <script>
-    $('.card-list .dropdown').on('show.bs.dropdown', function() {        
+    document.addEventListener("DOMContentLoaded", () => {
+        Livewire.hook('message.processed', (message, component) => {
+            console.log('livewire');
+            LetterAvatar.transform();
+        })
+    });
+</script>
+<script>
+    $('.card-list .dropdown').on('show.bs.dropdown', function() {
         $('body').append($(this).children('.dropdown-menu').css({
             position: 'absolute',
             left: $('.dropdown-menu').offset().left,
