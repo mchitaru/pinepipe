@@ -38,7 +38,6 @@ use Carbon\Carbon;
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         Livewire.hook('message.processed', (message, component) => {
-            console.log('livewire');
             LetterAvatar.transform();
         })
     });
