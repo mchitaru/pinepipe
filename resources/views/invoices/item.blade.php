@@ -1,7 +1,12 @@
+@php
+    $progress = $invoice->getTotal()?($invoice->getPaid()/$invoice->getTotal())*100.0:0;    
+@endphp
+
 <div class="card card-task">
+    <div class="progress">
+        <div class="progress-bar bg-{{Helpers::getProgressColor($progress)}}" role="progressbar" style="width: {{$progress}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
     <div class="container row align-items-center">
-        <div class="pl-2 position-absolute">
-        </div>
         <div class="card-body">
             <div class="card-title col-sm-4">
                 @if($can_show_invoice)
