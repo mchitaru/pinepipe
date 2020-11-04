@@ -61,6 +61,9 @@
                                 </a>
                         @endif
                         @can('delete', $user)
+                            <a class="dropdown-item text-danger" href="{{ route('users.verify', $user->id) }}" data-remote="true" data-type="text">
+                                <span>{{__('Resend verification')}}</span>
+                            </a>
                             <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a>

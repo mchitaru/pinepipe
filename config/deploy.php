@@ -109,7 +109,7 @@ return [
     */
 
     'hosts' => [
-        '178.128.203.158' => [
+        '207.154.246.246' => [
             'deploy_path' => '/var/www/crm.pinepipe.com',
             'user' => 'pinepipe',
             'http_user' => 'pinepipe',
