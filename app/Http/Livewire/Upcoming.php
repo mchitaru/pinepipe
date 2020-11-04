@@ -6,12 +6,50 @@ use Livewire\Component;
 
 class Upcoming extends Component
 {
-    public $title;
-    public $tasks;
-    public $events;    
+    public $type;
+    public $ready = false;
 
+    public function load()
+    {
+        $this->ready = true;
+    }
+        
     public function render()
     {
-        return view('livewire.upcoming');
+        $title = '';
+        $tasks = [];
+        $events = [];    
+    
+        switch($this->type){
+            case 'today':
+                $title = __('Today');
+            break;
+            case 'this week':
+                $title = __('This week');
+            break;
+            case 'next week':
+                $title = __('Next week');
+            break;
+        }
+
+        // if($this->ready){
+
+            switch($this->type){
+                case 'today':
+                    $tasks = \Auth::user()->getTodayTasks();
+                    $events = \Auth::user()->getTodayEvents();
+                break;
+                case 'this week':
+                    $tasks = \Auth::user()->getThisWeekTasks();
+                    $events = \Auth::user()->getThisWeekEvents();
+                break;
+                case 'next week':
+                    $tasks = \Auth::user()->getNextWeekTasks();
+                    $events = \Auth::user()->getNextWeekEvents();
+                break;
+            }    
+        // }
+
+        return view('livewire.upcoming', compact('title', 'tasks', 'events'));
     }
 }

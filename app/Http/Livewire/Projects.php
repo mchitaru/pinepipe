@@ -6,12 +6,24 @@ use Livewire\Component;
 
 class Projects extends Component
 {
-    public $icon;
-    public $text;
-    public $items;
+    public $ready = false;
+
+    public function load()
+    {
+        $this->ready = true;
+    }
 
     public function render()
     {
-        return view('livewire.projects');
+        $items = [];
+        if($this->ready){
+
+            $items = \Auth::user()->companyUserProjects()                                    
+                                        ->where('archived', '0')
+                                        ->orderBy('due_date', 'ASC')
+                                        ->get();
+        }
+
+        return view('livewire.projects', compact('items'));
     }
 }

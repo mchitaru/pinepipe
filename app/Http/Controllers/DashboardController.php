@@ -52,75 +52,12 @@ class DashboardController extends Controller
             return view('dashboard.admin',compact('user'));
         }
 
-
         clock()->startEvent('DahsboardController', "Load dash");
 
-        $todayTasks = \Auth::user()->getTodayTasks();
-        $thisWeekTasks = \Auth::user()->getThisWeekTasks();
-        $nextWeekTasks = \Auth::user()->getNextWeekTasks();
-
-        $todayEvents = \Auth::user()->getTodayEvents();
-        $thisWeekEvents = \Auth::user()->getThisWeekEvents();
-        $nextWeekEvents = \Auth::user()->getNextWeekEvents();
-
-        $projects = \Auth::user()->companyUserProjects()                                    
-                                ->where('archived', '0')
-                                ->orderBy('due_date', 'ASC')
-                                ->get();
-
-        $invoices = \Auth::user()->companyInvoices()
-                                ->where('status', '<', '3')
-                                ->orderBy('due_date', 'ASC')
-                                ->get();
-
-        $leads = \Auth::user()->leads()
-                                ->whereHas('stage', function ($query)
-                                {
-                                    $query->where('open', 1);
-                                })
-                                ->whereDate('updated_at', '<', Carbon::now()->subDays(7))
-                                ->orderBy('order', 'ASC')
-                                ->get();
-
-        $tasks = \Auth::user()->tasks()
-                                ->whereHas('stage', function ($query)
-                                {
-                                    $query->where('open', 1);
-                                })
-                                ->where(function ($query){
-                                    $query->where('priority', 'high')
-                                            ->orWhereDate('due_date', '=', Carbon::now());
-                                })
-                                ->orderBy('priority', 'ASC')
-                                ->orderBy('due_date', 'ASC')
-                                ->get();
-
-        $payments = \Auth::user()->companyPayments()
-                            ->whereMonth('date', Carbon::now()->format('m'))
-                            ->get();
-
-        $income = 0;
-        foreach($payments as $p){
-
-            $invoice = $p->invoice()->first();
-            $income += \Helpers::priceConvert($p->amount, 1.0/$invoice->rate);
-        }
-
-        $expenses = \Auth::user()->companyExpenses()
-                            ->whereMonth ('date', Carbon::now()->format('m'))
-                            ->get();
-
-        $expense = 0;
-        foreach($expenses as $e){
-            
-            $expense += $e->amount;
-        }
 
         clock()->endEvent('DashboardController');
 
-        return view('dashboard.company', compact('todayTasks', 'thisWeekTasks', 'nextWeekTasks',
-                                                'todayEvents', 'thisWeekEvents', 'nextWeekEvents',
-                                                'projects', 'tasks', 'invoices', 'leads', 'income', 'expense'));
+        return view('dashboard.company');
     }
 
     public function getOrderChart($arrParam){
