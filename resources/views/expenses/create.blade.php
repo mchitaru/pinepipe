@@ -6,8 +6,21 @@
 
 @push('scripts')
 <script>
-    $(".avatar-input").change(function () {
-        PreviewAvatarImage(this, 60, 'rounded');
+    $(".avatar-input").change(function (e) {
+
+        $('#attachment-error').addClass('invisible');
+
+        var file = this.files[0];
+
+        if(file.size > 2048000){
+
+            $('#attachment-error').removeClass('invisible')
+            $(this).val(''); 
+            
+        }else{
+
+            PreviewAvatarImage(this, 60, 'rounded');
+        }
     });
 </script>
 @endpush
@@ -59,15 +72,18 @@
             <div class="custom-file custom-file-naked d-block mb-1">
                 <input type="file" class="custom-file-input avatar-input d-none" name="attachment" id="attachment" accept="image/*,application/pdf">
                 <label class="custom-file-label position-relative" for="attachment">
-                <span class="btn btn-primary">
-                    {{__('Upload receipt')}}
-                </span>
+                    <span class="btn btn-primary">
+                        {{__('Upload receipt')}}
+                    </span>
                 </label>
                 <label class="file-label position-relative"></label>
             </div>
             <div class="alert alert-warning text-small" role="alert">
                 <small>{{__('For best results, use an image at least 256px by 256px in either .jpg or .png format')}}</small>
             </div>
+            <span id='attachment-error' class="invalid-attachment invisible" role="alert">
+                <strong class="text-danger">{{ __('The file must be smaller than 2MB!') }}</strong>
+            </span>
         </div>
     </div>
 </div>

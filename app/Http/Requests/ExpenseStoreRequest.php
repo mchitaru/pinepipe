@@ -29,7 +29,7 @@ class ExpenseStoreRequest extends FormRequest
             'category_id' => 'nullable',
             'project_id' => 'integer|nullable',
             'user_id' => 'integer|required',
-            'attachment' => 'mimetypes:image/*,application/pdf|max:2048'
+            // 'attachment' => 'mimetypes:image/*,application/pdf|max:2048'
         ];
     }
 
