@@ -4,7 +4,7 @@
 @can('view', $timesheet)
 <div class="card card-task">
     <div class="card-body">
-    <div class="card-title col-xs-12 col-sm-4">
+    <div class="card-title col-xs-12 col-sm-7">
         @if(Gate::check('update', $timesheet))
         <a href="{{ route('timesheets.edit',$timesheet->id) }}" data-remote="true" data-type="text">
             <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timesheet->date) }}</h6>
@@ -22,7 +22,7 @@
             <span class="text-small" data-filter-by="text">{{ $timesheet->hours }}h</span>
         </div>
     </div>
-    <div class="card-title col-xs-12 col-sm-3">
+    <div class="card-title col-xs-12 col-sm-2">
         @if(!empty($timesheet->user))
         <a href="{{route('collaborators')}}" class="float-right" title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
             {!!Helpers::buildUserAvatar($timesheet->user)!!}
