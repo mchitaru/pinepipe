@@ -266,7 +266,13 @@ class ProjectsController extends Controller
 
         $project_id = $project->id;
 
-        $stages = $project->stages($request['filter'], $request['sort'], $request['dir'], [])->get();
+        if($request['tag'] == 'all'){
+            $open = [0, 1];
+        }else{
+            $open = [1];
+        }
+
+        $stages = $project->stages($request['filter'], $request['sort'], $request['dir'], [], $open)->get();
 
         $task_count = 0;
         foreach($stages as $stage)

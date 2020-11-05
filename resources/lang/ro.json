@@ -796,5 +796,10 @@
     "Profit": "Profit",
     "You collected": "Ai încasat",
     "and spent": "și ai cheltuit",
-    "this month": "luna aceasta"
+    "this month": "luna aceasta",
+    "added expense": "a adăugat cheltuiala",
+    "updated expense": "a modificat cheltuiala",
+    "Verification email successfully sent.": "Emailul de verificare a fost trimis cu succes",
+    "Open tasks": "Sarcini deschise",
+    "Resend verification": "Retrimite verificare"
 }

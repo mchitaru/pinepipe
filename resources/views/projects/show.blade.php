@@ -35,7 +35,7 @@ $model = $project;
         localStorage.setItem('sort', 'priority');
         localStorage.setItem('dir', 'asc');
         localStorage.setItem('filter', '');
-        localStorage.setItem('tag', '');
+        localStorage.setItem('tag', 'open');
 
         updateFilters();
 
@@ -242,34 +242,44 @@ $model = $project;
             <div class="tab-content">
             <div class="tab-pane fade show" id="tasks" role="tabpanel">
                 <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>{{__('Tasks')}}</h3>
-
-                    @can('create', 'App\Task')
-                        <a href="{{ route('tasks.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
-                            <i class="material-icons">add</i>
-                        </a>
-                    @endcan
+                    <div class="col-auto">
+                        <h3>{{__('Tasks')}}</h3>
+                        @can('create', 'App\Task')
+                            <a href="{{ route('tasks.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
+                                <i class="material-icons">add</i>
+                            </a>
+                        @endcan
+                    </div>
+                    <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                            </span>
+                        </div>
+                        <input type="search" class="form-control filter-input" placeholder="{{__("Filter tasks")}}" aria-label="Filter Tasks">
+                        </div>
+                    </form>    
                 </div>
-                <div class="filter-container col-auto align-items-center">
-                    <div class="filter-controls">
-                        <div>{{__('Sort')}}:</div>
+                <div class="row content-list-filter align-items-center">
+                    <div class="filter-container col-auto align-items-center">
+                        <div class="filter-controls">
+                            <div>{{__('Sort')}}:</div>
+                        </div>
+                        <div class="filter-controls">
+                            <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
+                            <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
+                        </div>
                     </div>
-                    <div class="filter-controls">
-                        <a class="order" href="#" data-sort="priority">{{__('Priority')}}</a>
-                        <a class="order" href="#" data-sort="due_date">{{__('Date')}}</a>
+                    <div class="filter-container col-auto align-items-center">
+                        <div class="filter-tags">
+                            <div>{{__('Tag')}}:</div>
+                        </div>
+                        <div class="filter-tags">
+                            <div class="tag filter" data-filter="open">{{__('Open tasks')}}</div>
+                            <div class="tag filter" data-filter="all">{{__('All Tasks')}}</div>
+                        </div>
                     </div>
-                </div>
-                <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                        </span>
-                    </div>
-                    <input type="search" class="form-control filter-input" placeholder="{{__("Filter tasks")}}" aria-label="Filter Tasks">
-                    </div>
-                </form>
                 </div>
                 <!--end of content list head-->
                 @can('viewAny', 'App\Task')
