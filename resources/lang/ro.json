@@ -801,5 +801,6 @@
     "updated expense": "a modificat cheltuiala",
     "Verification email successfully sent.": "Emailul de verificare a fost trimis cu succes",
     "Open tasks": "Sarcini deschise",
-    "Resend verification": "Retrimite verificare"
+    "Resend verification": "Retrimite verificare",
+    "The file must be smaller than 2MB!": "Fișierul trebuie să fie mai mic de 2MB!"
 }
