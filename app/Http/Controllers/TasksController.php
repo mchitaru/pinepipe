@@ -54,7 +54,7 @@ class TasksController extends Controller
         if($project_id)
         {
             $project = Project::find($project_id);
-            $stages = $project->stages($request['filter'], $request['sort']?$request['sort']:'order', $request['dir'], $users)->get();
+            $stages = $project->stages($request['filter'], $request['sort']?$request['sort']:'order', $request['dir'], $users, [0, 1])->get();
             $project_name = $project->name;
         }
         else
