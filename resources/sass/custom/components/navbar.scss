@@ -11,7 +11,18 @@
 .navbar-nav{
   .nav-link{
     font-weight: 500;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
+
+  .nav-small{
+    .nav-link{
+      font-size: .875rem;
+      padding-top: .25rem;
+      padding-bottom: .25rem;
+      font-weight: 500;
+    }
+  }  
 }
 
 .navbar-dark{
