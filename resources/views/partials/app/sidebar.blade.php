@@ -223,7 +223,7 @@ $languages = $_user->languages();
             Gate::check('create', 'App\Project') ||
             Gate::check('create tasks'))
         <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle col" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-lg btn-primary dropdown-toggle col" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{__('Add New')}}
             </button>
             <div class="dropdown-menu">
