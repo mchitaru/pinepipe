@@ -34,8 +34,6 @@ class HousekeepingJob implements ShouldQueue
     {
         $this->cleanupActivities();
         $this->cleanupAccounts();
-
-        $this->initDefaultData();
     }
 
     public function cleanupActivities()
@@ -61,16 +59,4 @@ class HousekeepingJob implements ShouldQueue
             $user->delete();
         });
     }
-
-    public function initDefaultData()
-    {
-        $users = User::withoutGlobalScopes()
-                        ->where('handle', '!=', null)
-                        ->get();
-
-        $users->each(function($user) {
-            $user->initCompanyDefaults();
-        });
-    }
-
 }
