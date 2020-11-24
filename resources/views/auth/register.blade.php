@@ -29,7 +29,11 @@
             <div class="form-group mb-0 text-center">
                 {{Form::submit(__('Sign Up'),array('class'=>'btn btn-primary btn-block','id'=>'saveBtn'))}}
             </div>
-            <small>{{ __('By clicking \'Sign Up\' you agree to our ') }}<a href={{__("https://www.pinepipe.com/privacy.html")}}>{{__('Terms of Use')}}</a>
+            <small>
+                {{__('By clicking \'Sign Up\' you agree to our ')}} <a href={{__("https://pinepipe.com/privacy-policy")}}>{{__('Privacy Policy')}}</a>
+            </small>
+            <small>
+                {{__(' and ')}} <a href={{__("https://pinepipe.com/terms-and-conditions")}}>{{__('Terms and Conditions')}}</a>
             </small>
             {{Form::close()}}
             <small>{{ __('Already Have Account?') }} <a href="{{ route('login') }}">{{ __('Log In') }}</a>

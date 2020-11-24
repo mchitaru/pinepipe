@@ -802,5 +802,9 @@
     "Verification email successfully sent.": "Emailul de verificare a fost trimis cu succes",
     "Open tasks": "Sarcini deschise",
     "Resend verification": "Retrimite verificare",
-    "The file must be smaller than 2MB!": "Fișierul trebuie să fie mai mic de 2MB!"
+    "The file must be smaller than 2MB!": "Fișierul trebuie să fie mai mic de 2MB!",
+    "https:\/\/pinepipe.com\/privacy-policy": "https:\/\/pinepipe.com\/ro\/privacy-policy",
+    " and ": "și",
+    "https:\/\/pinepipe.com\/terms-and-conditions": "https:\/\/pinepipe.com\/ro\/terms-and-conditions",
+    "Terms and Conditions": "Termenii și condițiile"
 }
