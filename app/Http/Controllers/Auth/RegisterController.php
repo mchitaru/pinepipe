@@ -101,6 +101,8 @@ class RegisterController extends Controller
         $location = geoip(\Request::ip());
         $user->setLocale($location);
 
+        $user->initCompanyDefaults();
+
         return $user;
     }
 }
