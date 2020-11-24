@@ -49,11 +49,9 @@ class VerificationController extends Controller
     {
         $user = \Auth::user();
 
-        if($user->handle == null){
-
-            $user->initCompanyDefaults();
-            $user->handle = $user->handle();
-        }
+        $user->handle = $user->handle();
+        
+        $user->initCompanyDefaults();
 
         $location = geoip($request->ip());
         

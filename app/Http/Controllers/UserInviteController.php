@@ -125,12 +125,9 @@ class UserInviteController extends Controller
             $user->name = $post['name'];
             $user->password = Hash::make($post['password']);
             $user->email_verified_at = now();
+            $user->handle = $user->handle();
 
-            if($user->handle == null){
-
-                $user->initCompanyDefaults();
-                $user->handle = $user->handle();
-            }
+            $user->initCompanyDefaults();
     
             $location = geoip($request->ip());        
             $user->setLocale($location);
