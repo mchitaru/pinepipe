@@ -6,6 +6,7 @@ use App\Event;
 use App\Category;
 use App\User;
 use App\Lead;
+use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
@@ -41,30 +42,41 @@ class EventController extends Controller
         $start = $request->start?$request->start:Carbon::now()->roundUnit('minute', 15, 'ceil');
         $end = $request->end?$request->end:Carbon::now()->roundUnit('minute', 15, 'ceil');
 
-        $users  = User::where('type', '!=', 'client')
-                        ->get()
-                        ->pluck('name', 'id')
-                        ->prepend(__('(me)'), \Auth::user()->id);
-
-        if($user->type == 'company')
-        {
-            $leads = Lead::orderBy('order')
-                            ->get()
-                            ->pluck('name', 'id');
-
-        }else
-        {
-            $leads = $user->leads()
-                        ->orderBy('order')
-                        ->get()
-                        ->pluck('name', 'id');
-        }
-
         $lead_id = null;
         if(isset($request['lead_id']))
             $lead_id = $request['lead_id'];
 
-        return view('events.create', compact('users', 'leads', 'start', 'end', 'lead_id'));
+        $project = null;
+        $project_id = null;
+        if(isset($request['project_id'])){
+
+            $project_id = $request['project_id'];
+            $project = Project::find($project_id);
+        }
+
+        if($project){
+
+            $users   = $project->users()
+                                ->get()
+                                ->pluck('name', 'id')
+                                ->prepend(__('(me)'), \Auth::user()->id);    
+        }else{
+
+            $users  = User::where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(__('(me)'), \Auth::user()->id);
+        }
+
+        $leads = Lead::orderBy('order')
+                        ->get()
+                        ->pluck('name', 'id');
+
+        $projects = $user->companyProjects()
+                            ->get()
+                            ->pluck('name', 'id');
+
+        return view('events.create', compact('users', 'leads', 'projects', 'start', 'end', 'lead_id', 'project_id'));
     }
 
     /**
@@ -98,31 +110,38 @@ class EventController extends Controller
 
         $user = \Auth::user();
 
-        $users  = User::where('type', '!=', 'client')
-                        ->get()
-                        ->pluck('name', 'id')
-                        ->prepend(__('(me)'), \Auth::user()->id);
-
-        if($user->type == 'company')
-        {
-            $leads = Lead::orderBy('order')
-                            ->get()
-                            ->pluck('name', 'id');
-
-        }else
-        {
-            $leads = $user->leads()
-                        ->orderBy('order')
+        $leads = Lead::orderBy('order')
                         ->get()
                         ->pluck('name', 'id');
-        }
 
         $lead = $event->leads->first();
         $lead_id = $lead?$lead->id:null;
 
+        $projects = $user->companyProjects()
+                            ->get()
+                            ->pluck('name', 'id');
+
+        $project = $event->projects->first();
+        $project_id = $project?$project->id:null;
+
+        if($project){
+
+            $users   = $project->users()
+                                ->get()
+                                ->pluck('name', 'id')
+                                ->prepend(__('(me)'), \Auth::user()->id);    
+        }else{
+
+            $users  = User::where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(__('(me)'), \Auth::user()->id);
+        }
+
+
         $user_id = $event->users()->get()->pluck('id');
 
-        return view('events.show', compact('event', 'users', 'user_id', 'leads', 'lead_id'));
+        return view('events.show', compact('event', 'users', 'user_id', 'leads', 'lead_id', 'projects', 'project_id'));
     }
 
     /**
@@ -131,37 +150,51 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function edit(Event $event)
+    public function edit(Request $request, Event $event)
     {
         Gate::authorize('update', $event);
 
         $user = \Auth::user();
 
-        $users  = User::where('type', '!=', 'client')
-                        ->get()
-                        ->pluck('name', 'id')
-                        ->prepend(__('(me)'), \Auth::user()->id);
-
-        if($user->type == 'company')
-        {
-            $leads = Lead::orderBy('order')
-                            ->get()
-                            ->pluck('name', 'id');
-
-        }else
-        {
-            $leads = $user->leads()
-                        ->orderBy('order')
+        $leads = Lead::orderBy('order')
                         ->get()
                         ->pluck('name', 'id');
-        }
 
         $lead = $event->leads->first();
         $lead_id = $lead?$lead->id:null;
 
+        $projects = $user->companyProjects()
+                            ->get()
+                            ->pluck('name', 'id');
+
+        if(isset($request['project_id'])){
+
+            $project_id = $request['project_id'];
+            $project = Project::find($project_id);
+
+        }else{
+
+            $project = $event->projects->first();
+            $project_id = $project?$project->id:null;
+        } 
+
+        if($project){
+
+            $users   = $project->users()
+                                ->get()
+                                ->pluck('name', 'id')
+                                ->prepend(__('(me)'), \Auth::user()->id);    
+        }else{
+
+            $users  = User::where('type', '!=', 'client')
+                            ->get()
+                            ->pluck('name', 'id')
+                            ->prepend(__('(me)'), \Auth::user()->id);
+        }
+
         $user_id = $event->users()->get()->pluck('id');
 
-        return view('events.edit', compact('event', 'users', 'user_id', 'leads', 'lead_id'));
+        return view('events.edit', compact('event', 'users', 'user_id', 'leads', 'lead_id', 'projects', 'project_id'));
     }
 
     /**
@@ -202,5 +235,19 @@ class EventController extends Controller
         $event->delete();
 
         return Redirect::to(URL::previous())->with('success', __('Event successfully deleted.'));
+    }
+
+    public function refresh(Request $request, $event_id)
+    {
+        $request->flash();
+
+        if($event_id)
+        {
+            $event = Event::find($event_id);
+
+            return $this->edit($request, $event);
+        }
+
+        return $this->create($request);
     }
 }

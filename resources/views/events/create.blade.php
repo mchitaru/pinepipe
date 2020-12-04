@@ -49,6 +49,12 @@
             {!! Form::select('lead_id', $leads, $lead_id, array('class' => 'form-control col font-style selectric',
                             'placeholder'=>'...', 'lang'=>\Auth::user()->locale)) !!}
         </div>
+        <div class="form-group row align-items-center">
+            {{ Form::label('project_id', __('Project'), array('class'=>'col-3')) }}
+            {!! Form::select('project_id', $projects, $project_id, array('class' => 'form-control col',
+                            'placeholder'=>'...',
+                            'data-refresh'=>route('events.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
+        </div>
         {{-- <hr>
         <h6>{{__('Visibility')}}</h6>
         <div class="row">

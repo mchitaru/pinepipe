@@ -13,12 +13,13 @@ use App\Notifications\ProjectAssignedAlert;
 use App\Traits\Actionable;
 use App\Traits\Notable;
 use App\Traits\Taggable;
+use App\Traits\Eventable;
 
 use App\Scopes\CollaboratorTenantScope;
 
 class Project extends Model implements HasMedia
 {
-    use NullableFields, HasMediaTrait, Actionable, Taggable, Notable;
+    use NullableFields, HasMediaTrait, Actionable, Taggable, Notable, Eventable;
 
     protected $fillable = [
         'name',

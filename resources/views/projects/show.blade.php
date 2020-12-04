@@ -227,6 +227,13 @@ $model = $project;
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">{{__('Events')}}
+                    @if(!$events->isEmpty())
+                        <span class="badge badge-light bg-white">{{ $events->count() }}</span>
+                    @endif
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">{{__('Notes')}}
                     @if(!$notes->isEmpty())
                         <span class="badge badge-light bg-white">{{ $notes->count() }}</span>
@@ -393,6 +400,30 @@ $model = $project;
                 </div>
                 <!--end of content list-->
             </div>
+            <div class="tab-pane fade show" id="events" role="tabpanel" data-filter-list="content-list-body">
+                <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>{{__('Events')}}</h3>
+                    <a href="{{ route('events.create') }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}&lead_id={{$project->lead_id}}" data-remote="true" data-type="text" >
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+                <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="{{__("Filter events")}}" aria-label="Filter events">
+                    </div>
+                </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body filter-list paginate-container" id="events-container">
+                </div>
+            </div>
+            <!--end of tab-->
             <div class="tab-pane fade show" id="notes" role="tabpanel" data-filter-list="content-list-body">
                 <div class="row content-list-head">
                 <div class="col-auto">

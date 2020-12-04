@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Lead;
+use App\Project;
 use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 use App\Traits\Taggable;
@@ -91,6 +92,11 @@ class Event extends Model
         return $this->morphedByMany('App\Lead', 'eventable');
     }
 
+    public function projects()
+    {
+        return $this->morphedByMany('App\Project', 'eventable');
+    }
+
     public function calendar()
     {
         return $this->belongsTo(Calendar::class);
@@ -127,6 +133,13 @@ class Event extends Model
             $lead = $event->leads->first();
         }
 
+        if(!empty($post['project_id'])){
+            $projects = collect($post['project_id']);
+            $event->projects()->sync($projects);
+
+            $project = $event->projects->first();
+        }
+
         $users = collect($post['users']);
         $event->users()->sync($users);
 
@@ -152,10 +165,18 @@ class Event extends Model
 
         $this->leads()->sync($leads);
 
+        if(!empty($post['project_id']))
+        {
+            $projects = collect($post['project_id']);
+        }else{
+
+            $projects = collect();
+        }
+
+        $this->projects()->sync($projects);
+
         $users = collect($post['users']);
         $this->users()->sync($users);
-
-        $lead = $this->leads->first();
 
         Activity::updateEvent($this);
     }

@@ -29,6 +29,7 @@ class EventStoreRequest extends FormRequest
             'end'=>'required|date_format:Y-m-d H:i',
             'description'=>'nullable|string',
             'lead_id'=>'nullable|integer',
+            'project_id'=>'nullable|integer',
             'users'=>'required|array',
             'allday'=>'required|boolean',
         ];

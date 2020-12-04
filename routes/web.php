@@ -86,6 +86,7 @@ Route::group(
         Route::resource('calendar', 'CalendarController');
 
         //Events
+        Route::get('events/{event}/refresh/', 'EventController@refresh')->name('events.refresh');
         Route::resource('events', 'EventController');
 
         //Events

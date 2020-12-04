@@ -18,6 +18,7 @@ use App\Timesheet;
 use App\Expense;
 use App\User;
 use App\UserProject;
+use App\Event;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Requests\ProjectDestroyRequest;
@@ -309,6 +310,7 @@ class ProjectsController extends Controller
         }
 
         $invoices = $project->invoices;        
+        $events = $project->events;
 
         //only activities for company or from collaborators
         $activities = Activity::where(function ($query) use($project) {
@@ -331,6 +333,10 @@ class ProjectsController extends Controller
                                     ->orWhere(function ($query) use($project) {
                                         $query->where('actionable_type', Invoice::class)
                                                 ->whereIn('actionable_id', $project->invoices()->pluck('id'));
+                                    })
+                                    ->orWhere(function ($query) use($project) {
+                                        $query->where('actionable_type', Event::class)
+                                                ->whereIn('actionable_id', $project->events()->pluck('events.id'));
                                     });
                                 })
                                 ->where(function ($query) {
@@ -366,12 +372,13 @@ class ProjectsController extends Controller
                 case 'timesheets-container': return view('timesheets.index', compact('timesheets'))->render();
                 case 'invoices-container': return view('invoices.index', compact('invoices'))->render();
                 case 'expenses-container': return view('expenses.index', compact('expenses'))->render();
+                case 'events-container': return view('events.index', compact('events'))->render();
                 case 'notes-container': return view('notes.index', compact('notes'))->render();
                 case 'activity-container': return view('activity.index', compact('activities'))->render();
             }                
         }
 
-        return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'notes', 'activities'));
+        return view('projects.show', compact('project', 'project_id', 'stages', 'task_count', 'timesheets', 'invoices', 'expenses', 'files', 'events', 'notes', 'activities'));
     }
 
     public function destroy(ProjectDestroyRequest $request, Project $project)
