@@ -72,8 +72,7 @@ class EventController extends Controller
                         ->get()
                         ->pluck('name', 'id');
 
-        $projects = $user->companyProjects()
-                            ->get()
+        $projects = Project::get()
                             ->pluck('name', 'id');
 
         return view('events.create', compact('users', 'leads', 'projects', 'start', 'end', 'lead_id', 'project_id'));
@@ -163,8 +162,7 @@ class EventController extends Controller
         $lead = $event->leads->first();
         $lead_id = $lead?$lead->id:null;
 
-        $projects = $user->companyProjects()
-                            ->get()
+        $projects = Project::get()
                             ->pluck('name', 'id');
 
         if(isset($request['project_id'])){
