@@ -84,6 +84,14 @@ class ProjectsController extends Controller
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
+
+        if(!\Auth::user()->checkUserLimit()){                                        
+            
+            $users = $users->reject(function ($value, $key) {
+                return \Auth::user()->collaborators->contains($key);
+            });
+        }
+
         $user_id = \Auth::user()->id;
 
         $clients = \Auth::user()->companyClients()
@@ -193,6 +201,13 @@ class ProjectsController extends Controller
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
+
+        if(!\Auth::user()->checkUserLimit()){                                        
+            
+            $users = $users->reject(function ($value, $key) {
+                return \Auth::user()->collaborators->contains($key);
+            });
+        }
 
         $client_id    = $project->client_id;
 

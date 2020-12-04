@@ -112,6 +112,13 @@ class TasksController extends Controller
             $user_id = \Auth::user()->id;
         }
 
+        if(!\Auth::user()->checkUserLimit()){                                        
+            
+            $users = $users->reject(function ($value, $key) {
+                return \Auth::user()->collaborators->contains($key);
+            });
+        }
+
         $milestones = null;
         $tags = Tag::whereHas('tasks')
                         ->get()
@@ -216,6 +223,13 @@ class TasksController extends Controller
                         ->get()
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
+        }
+
+        if(!\Auth::user()->checkUserLimit()){                                        
+            
+            $users = $users->reject(function ($value, $key) {
+                return \Auth::user()->collaborators->contains($key);
+            });
         }
 
         $user_id = $task->users()->get()->pluck('id');
