@@ -51,7 +51,9 @@ return [
             \Google_Service_Oauth2::USERINFO_EMAIL,
             
             // Managing the user's calendars and events.
-            \Google_Service_Calendar::CALENDAR,
+            \Google_Service_Calendar::CALENDAR_READONLY,
+            \Google_Service_Calendar::CALENDAR_EVENTS_READONLY,
+            \Google_Service_Calendar::CALENDAR_SETTINGS_READONLY
         ],
         
         // Enables automatic token refresh.

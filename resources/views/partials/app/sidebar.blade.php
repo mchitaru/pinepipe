@@ -253,7 +253,7 @@ $languages = $_user->languages();
     <div class="d-none d-lg-block w-100">
         <a href="{{route('subscription')}}" class="nav-link d-flex p-0">
             <i class="material-icons pr-2">card_membership</i>
-            {{__('Start free trial')}}
+            {{$_user->subscriptions->count()?__('Activate subscription'):__('Start free trial')}}
         </a>
     </div>
     @endif

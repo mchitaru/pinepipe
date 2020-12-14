@@ -64,7 +64,29 @@ class UserProfileController extends Controller
             $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
         }
 
-        $plans = SubscriptionPlan::orderBy('duration','asc')->get();
+        if($user->subscribed()){
+
+            $plans = SubscriptionPlan::where('trial', 0)
+                                        ->orWhere('paddle_id', $user->subscription()->paddle_plan)
+                                        ->orWhere('id', 1)
+                                        ->orderBy('sort','asc')
+                                        ->orderBy('duration','asc')
+                                        ->get();   
+
+        }elseif($user->subscriptions->count()){
+
+            $plans = SubscriptionPlan::where('trial', 0)
+                                        ->orWhere('id', 1)
+                                        ->orderBy('sort','asc')
+                                        ->orderBy('duration','asc')
+                                        ->get();   
+        }else{
+
+            $plans = SubscriptionPlan::where('trial', 1)
+                                        ->orWhere('id', 1)
+                                        ->orderBy('sort','asc')
+                                        ->orderBy('duration','asc')->get();
+        }
 
         $companySettings = $user->companySettings;
         $companyName = $companySettings ? $companySettings->name : null;
