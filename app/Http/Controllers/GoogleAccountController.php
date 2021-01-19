@@ -24,6 +24,11 @@ class GoogleAccountController extends Controller
     {
         Gate::authorize('create', 'App\GoogleAccount');
 
+        if(!\Auth::user()->subscribed())
+        {
+            return redirect()->route('subscription')->with('error', __('Please activate a subscription to be able to link your Google Calendar!'));
+        }
+
         if (!$request->has('code')) {
             // Send the user to the OAuth consent screen.
             return redirect($google->createAuthUrl());
