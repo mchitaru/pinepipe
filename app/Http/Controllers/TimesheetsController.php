@@ -13,6 +13,8 @@ use App\Http\Requests\TimesheetStoreRequest;
 use App\Http\Requests\TimesheetUpdateRequest;
 use App\Http\Requests\TimesheetDestroyRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Exports\TimesheetExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TimesheetsController extends Controller
 {
@@ -32,8 +34,10 @@ class TimesheetsController extends Controller
 
         clock()->startEvent('TimesheetsController', "Load expenses");
 
-        $timesheets = \Auth::user()->companyTimesheets()
-                                    ->where(function ($query) use ($request) {
+        $from = $request['from']?$request['from']:now()->firstOfMonth()->toDateString();
+        $until = $request['until']?$request['until']:now()->toDateString();
+
+        $timesheets = Timesheet::where(function ($query) use ($request) {
                                         $query->whereHas('user', function ($query) use($request) {
 
                                             $query->where('name','like','%'.$request['filter'].'%');
@@ -47,6 +51,7 @@ class TimesheetsController extends Controller
                                             $query->where('title','like','%'.$request['filter'].'%');
                                         });
                                     })
+                                    ->whereBetween('date', [$from, $until])
                                     ->orderBy($request['sort']?$request['sort']:'date', $request['dir']?$request['dir']:'desc')
                                     ->paginate(25, ['*'], 'invoice-page');
 
@@ -265,5 +270,14 @@ class TimesheetsController extends Controller
                                     'timesheet_id' => $timesheet->id,
                                     'popup' => $popup,
                                     'control' => $control]);
+    }
+
+    public function report(Request $request)
+    {
+        $from = $request['from'] ? $request['from'] : now()->firstOfMonth()->toDateString();
+        $until = $request['until'] ? $request['until'] : now()->toDateString();
+        $filter = $request['filter'] ? $request['filter'] : null;
+
+        return Excel::download(new TimesheetExport(null, null, $from, $until, $filter), __('timesheets').' ['.$from.']-['.$until.'].xlsx');        
     }
 }

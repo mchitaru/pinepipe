@@ -157,6 +157,7 @@ Route::group(
         //Timesheets
         Route::get('timesheets/{timesheet}/refresh', 'TimesheetsController@refresh')->name('timesheets.refresh');
         Route::post('timesheets/timer', 'TimesheetsController@timer')->name('timesheets.timer');
+        Route::get('timesheets/report', 'TimesheetsController@report')->name('timesheets.report');
         Route::resource('timesheets', 'TimesheetsController');
 
         //Tasks

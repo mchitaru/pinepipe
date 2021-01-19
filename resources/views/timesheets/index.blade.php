@@ -4,7 +4,7 @@
 @can('view', $timesheet)
 <div class="card card-task">
     <div class="card-body">
-    <div class="card-title col-xs-12 col-sm-7">
+    <div class="card-title col-xs-12 col-sm-3">
         @if(Gate::check('update', $timesheet))
         <a href="{{ route('timesheets.edit',$timesheet->id) }}" data-remote="true" data-type="text">
             <h6 data-filter-by="text">{{ Auth::user()->dateFormat($timesheet->date) }}</h6>
@@ -19,10 +19,22 @@
     <div class="card-title col-xs-12 col-sm-2">
         <div class="container row align-items-center">
             <i class="material-icons">access_time</i>
-            <span class="text-small" data-filter-by="text">{{ $timesheet->hours }}h</span>
+            <span class="text-small" data-filter-by="text">{{ $timesheet->formatTime() }}</span>
         </div>
     </div>
-    <div class="card-title col-xs-12 col-sm-2">
+    <div class="card-title col-xs-12 col-sm-5">        
+        <div class="row align-items-center">
+            <i class="material-icons">folder</i>
+            @if($timesheet->project)
+                <a href="{{route('projects.show',$timesheet->project->id)}}" title="{{__('Project')}}">
+                    <span data-filter-by="text" class="text-small">{{$timesheet->project->name}}</span>
+                </a>
+            @else
+                <span data-filter-by="text" class="text-small">---</span>
+            @endif
+        </div>
+    </div>
+    <div class="card-title col-xs-12 col-sm-1">
         @if(!empty($timesheet->user))
         <a href="{{route('collaborators')}}" class="float-right" title="{{!empty($timesheet->user)?$timesheet->user->name:''}}">
             {!!Helpers::buildUserAvatar($timesheet->user)!!}
