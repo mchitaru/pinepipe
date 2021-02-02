@@ -39,10 +39,14 @@ class InvoicesController extends Controller
 
         clock()->startEvent('InvoicesController', "Load invoices");
 
-        if(empty($request['tag']) || $request['tag'] == 'all'){
-            $status = array_keys(Invoice::$status);
-        }else{
+        if(empty($request['tag']) || $request['tag'] == 'unpaid'){
+            $status = array(array_search('pending', Invoice::$status),
+                            array_search('outstanding', Invoice::$status),
+                            array_search('partial payment', Invoice::$status));
+        }elseif($request['tag'] == 'paid'){
             $status = array(array_search($request['tag'], Invoice::$status));
+        }else{
+            $status = array_keys(Invoice::$status);
         }
 
         if(\Auth::user()->can('viewAny', 'App\Invoice'))
