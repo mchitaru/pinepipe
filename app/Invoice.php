@@ -197,7 +197,7 @@ class Invoice extends Model
             $total = $this->getTotal();
             $paid = $this->getPaid();
 
-            $status = 0;
+            $status = 1;
 
             if($total && ($total == $paid)){
                 $status = 3;
@@ -215,7 +215,7 @@ class Invoice extends Model
     public static function createInvoice($post)
     {
         $invoice              = Invoice::make($post);
-        $invoice->status      = 0;
+        $invoice->status      = 1;
         $invoice->discount    = 0;
         $invoice->number = \Auth::user()->invoiceNumberFormat($post['increment']);
         $invoice->save();
