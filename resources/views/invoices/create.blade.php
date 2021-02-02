@@ -10,6 +10,11 @@
 
 @section('content')
 <div class="tab-content">
+    <div class="form-group row align-items-center">
+        {{ Form::label('increment', __('Number'), array('class'=>'col-3')) }}
+        {{ Form::number('increment', $increment, array('class' => 'form-control col-3', 'required'=>'required', 'min'=>1)) }}
+    </div>
+    <hr>
     <div class="form-group row align-items-center required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...',

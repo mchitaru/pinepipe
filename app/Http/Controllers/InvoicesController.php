@@ -58,7 +58,7 @@ class InvoicesController extends Controller
                             })
                             ->orWhereHas('client', function ($query) use($request) {
                                 $query->where('name','like','%'.$request['filter'].'%');
-                            });                                
+                            });
                         })
                         ->orderBy($request['sort']?$request['sort']:'due_date', $request['dir']?$request['dir']:'asc')
                         ->paginate(25, ['*'], 'invoice-page');
@@ -86,7 +86,7 @@ class InvoicesController extends Controller
 
         $taxes    = Tax::get()
                             ->pluck('name', 'id');
-        
+
         $taxPayer = \Auth::user()->isTaxPayer();
         $tax_id = $taxPayer ? 1 : null;
 
@@ -111,9 +111,17 @@ class InvoicesController extends Controller
         $locales = ['en' => 'English', 'ro' => 'Română'];
         $locale = isset($request['locale'])?$request['locale']:\Auth::user()->locale;
 
-        $currencies = Currency::get()->pluck('code', 'code');    
+        $currencies = Currency::get()->pluck('code', 'code');
 
-        return view('invoices.create', compact('clients', 'client_id', 'projects', 'project_id', 'taxes', 'tax_id', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date'));
+        if($request->increment){
+
+            $increment = $request->increment;
+        }else{
+            $lastInvoice = Invoice::latest()->first();
+            $increment = $lastInvoice ? $lastInvoice->increment + 1 : 1;
+        }
+
+        return view('invoices.create', compact('clients', 'client_id', 'projects', 'project_id', 'taxes', 'tax_id', 'locales', 'locale', 'currencies', 'currency', 'rate', 'issue_date', 'due_date', 'increment'));
     }
 
     public function store(InvoiceStoreRequest $request)
@@ -217,12 +225,12 @@ class InvoicesController extends Controller
         $userCurrency = \Auth::user()->getCurrency();
         $invoiceCurrency = $request['currency'];
 
-        $userRate = Currency::where('code', $userCurrency)->first()->rate;            
+        $userRate = Currency::where('code', $userCurrency)->first()->rate;
         $invoiceRate = Currency::where('code', $invoiceCurrency)->first()->rate;
 
         $request['rate'] = \Helpers::ceil((float)$userRate/(float)$invoiceRate, 4);
 
-        if($invoice_id){    
+        if($invoice_id){
 
             $invoice = Invoice::find($invoice_id);
 

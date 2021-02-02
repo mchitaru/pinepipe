@@ -32,6 +32,7 @@ class InvoiceStoreRequest extends FormRequest
             'rate' => 'required_unless:currency,'.\Auth::user()->getCurrency().'|numeric',
             'locale' => 'required|string',
             'tax_id' => 'nullable|integer',
+            'increment' => 'integer'
         ];
     }
 

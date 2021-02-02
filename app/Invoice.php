@@ -57,7 +57,7 @@ class Invoice extends Model
         'badge-success',
         'badge-light',
     ];
-    
+
     /**
      * Boot events
      * @return void
@@ -185,7 +185,7 @@ class Invoice extends Model
             case 1: return __('outstanding');
             case 2: return __('partial payment');
             case 3: return __('paid');
-            case 4: return __('cancelled');    
+            case 4: return __('cancelled');
             default: return __('pending');
         }
     }
@@ -214,13 +214,10 @@ class Invoice extends Model
 
     public static function createInvoice($post)
     {
-        $last_invoice = Invoice::latest()->first();
-
         $invoice              = Invoice::make($post);
         $invoice->status      = 0;
         $invoice->discount    = 0;
-        $invoice->increment = $last_invoice ? ($last_invoice->increment + 1) : 1;
-        $invoice->number = \Auth::user()->invoiceNumberFormat($invoice->increment);
+        $invoice->number = \Auth::user()->invoiceNumberFormat($post['increment']);
         $invoice->save();
 
         Activity::createInvoice($invoice);
@@ -230,13 +227,18 @@ class Invoice extends Model
 
     public function updateInvoice($post)
     {
+        if(!empty($post['increment']) && ($post['increment'] != $this->increment)){
+
+            $post['number'] = \Auth::user()->invoiceNumberFormat($post['increment']);
+        }
+
         $this->update($post);
 
         Activity::updateInvoice($this);
     }
 
     public function priceFormat($price, $precision = 2)
-    {        
+    {
         return \Helpers::priceFormat($price, $this->getCurrency(), $precision, $this->getLocale());
     }
 
@@ -246,7 +248,7 @@ class Invoice extends Model
     }
 
     public function priceSpellout($price)
-    {        
+    {
         return \Helpers::priceSpellout($price, $this->getCurrency(), $this->getLocale());
 
     }

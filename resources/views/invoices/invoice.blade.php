@@ -1,7 +1,7 @@
 <div class="card-header">
     <div class="align-items-center">
         <div class="float-left">
-            <p>{{__('Invoice', [], $invoice->locale)}} <strong>{{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }}</strong>                        
+            <p>{{__('Invoice', [], $invoice->locale)}} <strong>{{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }}</strong>
                 <span class="d-print-none">{!! $invoice->getStatusBadge() !!}</span>
                 @if($invoice->currency && ($invoice->currency != \Auth::user()->getCurrency()))
                 <span class="pl-2 text-small d-print-none">({!! $invoice->priceFormat(1.0).' = '.\Auth::user()->priceFormat(\Helpers::priceConvert(1.0, 1.0/$invoice->rate, 4), 4) !!})</span>
@@ -18,14 +18,14 @@
                 </a>
                 <div class="dropdown-divider"></div>
                 @can('update', $invoice)
-                <a class="dropdown-item" href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
+                <a class="dropdown-item {{$invoice->payments->isEmpty()?'':'disabled'}}" href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                     <span>{{__('Add Item')}}</span>
                 </a>
                 <a class="dropdown-item" href="{{ route('invoices.payments.create',$invoice->id) }}" data-remote="true" data-type="text">
                     <span>{{__('Add Payment')}}</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
+                <a class="dropdown-item {{$invoice->payments->isEmpty()?'':'disabled'}}" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
                     <span>{{__('Edit Invoice')}}</span>
                 </a>
                 @endcan
@@ -123,9 +123,11 @@
         <div class="section-title d-print-none"><b>{{__('Order Summary', [], $invoice->locale)}}</b>
             @can('update', $invoice)
             <div class="text-right d-print-none">
+                @if($invoice->payments->isEmpty())
                 <a href="{{ route('invoices.items.create',$invoice->id) }}" data-remote="true" data-type="text">
                     <u>{{__('Add Item')}}</u>
                 </a>
+                @endif
             </div>
             @endcan
         </div>
@@ -163,6 +165,7 @@
                         </td>
                         @can('update', $invoice)
                         <td class="table-actions text-right d-print-none pl-0 pr-0">
+                            @if($invoice->payments->isEmpty())
                             <div class="dropdown float-right">
                                 <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">more_vert</i>
@@ -177,6 +180,7 @@
                                     </a>
                                 </div>
                             </div>
+                            @endif
                         </td>
                         @endcan
                     </tr>
@@ -322,7 +326,7 @@
                             <td class="text-right">{{ $payment->receipt }}</td>
                         </tr>
                         <tr>
-                            <td class="text-left">{{($companySettings&&$companySettings->city)?($companySettings->city.', '.$companySettings->state.' - '.$companySettings->zipcode):''}}</td>                                    
+                            <td class="text-left">{{($companySettings&&$companySettings->city)?($companySettings->city.', '.$companySettings->state.' - '.$companySettings->zipcode):''}}</td>
                             <td class="text-right">{{ $invoice->dateFormat($payment->date) }}</td>
                         </tr>
                         <tr>
@@ -356,7 +360,7 @@
                     </tfoot>
                 </table>
             </div>
-        </div>    
+        </div>
         @endif
     @endforeach
     {{--                    <div class="text-right">--}}

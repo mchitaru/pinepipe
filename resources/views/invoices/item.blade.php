@@ -1,5 +1,5 @@
 @php
-    $progress = $invoice->getTotal()?($invoice->getPaid()/$invoice->getTotal())*100.0:0;    
+    $progress = $invoice->getTotal()?($invoice->getPaid()/$invoice->getTotal())*100.0:0;
 @endphp
 
 <div class="card card-task">
@@ -60,7 +60,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('update', $invoice)
-                    <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
+                    <a class="dropdown-item {{$invoice->payments->isEmpty()?'':'disabled'}}" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan
