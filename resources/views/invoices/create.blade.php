@@ -12,7 +12,12 @@
 <div class="tab-content">
     <div class="form-group row align-items-center">
         {{ Form::label('increment', __('Number'), array('class'=>'col-3')) }}
-        {{ Form::number('increment', $increment, array('class' => 'form-control col-3', 'required'=>'required', 'min'=>1)) }}
+        <div class="input-group col-4 p-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text light" id="basic-addon3">{{\Auth::user()->invoicePrefix()}}</span>
+            </div>
+            {{ Form::number('increment', $increment, array('class' => 'form-control col text-right', 'required'=>'required', 'min'=>1)) }}
+        </div>
     </div>
     <hr>
     <div class="form-group row align-items-center required">

@@ -675,6 +675,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
         return Carbon::parse($date)->locale(\Auth::user()->locale)->isoFormat($long?'LL':'ll');
     }
 
+    public function invoicePrefix()
+    {
+        $settings = $this->companySettings;
+        $prefix = $settings ? $settings->invoice : '#INV';
+
+        return $prefix;
+    }
+
     public function invoiceNumberFormat($number)
     {
         $settings = $this->companySettings;
@@ -911,7 +919,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $lead->user_id = $id;
         $lead->created_by = $id;
-        $lead->save();    
+        $lead->save();
 
         //Sample Project
         $project = Project::create(
@@ -1082,7 +1090,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             $post['password']   = Hash::make($post['password']);
         }
-        
+
         $post['type'] = 'company';
 
         $user = User::create($post);
