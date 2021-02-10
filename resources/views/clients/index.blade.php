@@ -38,11 +38,11 @@
             <div class="card-meta col-2">
                 <div class="d-flex align-items-center justify-content-end">
                     <span class="badge badge-light mr-2">
-                        <i class="material-icons"  title="Projects">folder</i>
+                        <i class="material-icons"  title="{{__('Projects')}}">folder</i>
                         {{$client->projects->count()}}
                     </span>
                     <span class="badge badge-light mr-2">
-                        <i class="material-icons"  title="Leads">phone</i>
+                        <i class="material-icons"  title="{{__('Leads')}}">phone</i>
                         {{$client->leads->count()}}
                     </span>
                 </div>
