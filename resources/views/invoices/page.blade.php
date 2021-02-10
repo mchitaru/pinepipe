@@ -11,11 +11,11 @@
         localStorage.setItem('sort', 'due_date');
         localStorage.setItem('dir', 'asc');
         localStorage.setItem('filter', '');
-        localStorage.setItem('tag', 'all');
+        localStorage.setItem('tag', 'unpaid');
 
         updateFilters();
 
-        loadContent($('.paginate-container:visible'));        
+        loadContent($('.paginate-container:visible'));
     });
 
 </script>
@@ -67,11 +67,9 @@
                             <div>{{__('Tag')}}:</div>
                         </div>
                         <div class="filter-tags">
-                            <div class="tag filter" data-filter="all">{{__('All')}}</div>
-                            <div class="tag filter" data-filter="pending">{{__('Pending')}}</div>
-                            <div class="tag filter" data-filter="outstanding">{{__('Outstanding')}}</div>
-                            <div class="tag filter" data-filter="partial payment">{{__('Partial Payment')}}</div>
-                            <div class="tag filter" data-filter="paid">{{__('Paid')}}</div>
+                            <div class="tag filter" data-filter="unpaid">{{trans_choice('Outstanding', 2)}}</div>
+                            <div class="tag filter" data-filter="paid">{{trans_choice('Paid', 2)}}</div>
+                            <div class="tag filter" data-filter="all">{{trans_choice('All', 2)}}</div>
                         </div>
                     </div>
                 </div>

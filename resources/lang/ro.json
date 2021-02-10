@@ -256,8 +256,8 @@
     "Filter Invoices": "Filtrează facturile",
     "Tag": "Filtru",
     "Pending": "În așteptare",
-    "Outstanding": "Neîncasată",
-    "Paid": "Plătită",
+    "Outstanding": "Neîncasată|Neîncasate",
+    "Paid": "Încasată|Încasate",
     "Create Payment": "Adaugă încasare",
     "Payment Date": "Data încasării",
     "Payment Method": "Metoda de plată",
@@ -495,7 +495,7 @@
     "Add Invoiced Item": "Adaugă articol de facturat",
     "Expense": "Cheltuială",
     "Edit Invoiced Item": "Modifică articol facturat",
-    "All": "Tot",
+    "All": "Tot|Toate",
     "Partial Payment": "Încasare parțială",
     "Update Payment": "Modifică încasare",
     "Lead Details": "Detalii oportunitate",
@@ -668,7 +668,7 @@
     "Link": "Integrează",
     "outstanding": "neîncasată",
     "partial payment": "plată parțială",
-    "paid": "platită",
+    "paid": "încasată",
     "cancelled": "anulată",
     "pending": "în așteptare",
     "Paddle ID": "",
@@ -815,5 +815,6 @@
     "Hours": "Ore",
     "timesheets": "pontaj",
     "Download report": "Descarcă raport",
-    "Please activate a subscription to be able to link your Google Calendar!": "Te rugăm să activezi un abonament pentru a putea integra Calendarul tău Google!"
+    "Please activate a subscription to be able to link your Google Calendar!": "Te rugăm să activezi un abonament pentru a putea integra Calendarul tău Google!",
+    "Number": "Număr"
 }

@@ -1,5 +1,5 @@
 @php
-    $progress = $invoice->getTotal()?($invoice->getPaid()/$invoice->getTotal())*100.0:0;    
+    $progress = $invoice->getTotal()?($invoice->getPaid()/$invoice->getTotal())*100.0:0;
 @endphp
 
 <div class="card card-task">
@@ -12,7 +12,7 @@
                 @if($can_show_invoice)
                 <a href="{{ route('invoices.show', $invoice->id) }}">
                 @endif
-                    <h6 data-filter-by="text">{{ $invoice->dateFormat($invoice->issue_date) }}
+                    <h6 data-filter-by="text">{{ Auth::user()->dateFormat($invoice->issue_date) }}
                         {!! $invoice->getStatusBadge() !!}
                     </h6>
                 @if($can_show_invoice)
@@ -60,7 +60,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     @can('update', $invoice)
-                    <a class="dropdown-item" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
+                    <a class="dropdown-item {{$invoice->payments->isEmpty()?'':'disabled'}}" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
                         <span>{{__('Edit')}}</span>
                     </a>
                     @endcan

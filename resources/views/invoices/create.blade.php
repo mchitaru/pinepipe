@@ -10,6 +10,16 @@
 
 @section('content')
 <div class="tab-content">
+    <div class="form-group row align-items-center">
+        {{ Form::label('increment', __('Number'), array('class'=>'col-3')) }}
+        <div class="input-group col-4 p-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text light" id="basic-addon3">{{\Auth::user()->invoicePrefix()}}</span>
+            </div>
+            {{ Form::number('increment', $increment, array('class' => 'form-control col text-right', 'required'=>'required', 'min'=>1)) }}
+        </div>
+    </div>
+    <hr>
     <div class="form-group row align-items-center required">
         {{ Form::label('client_id', __('Client'), array('class'=>'col-3')) }}
         {!! Form::select('client_id', $clients, $client_id, array('class' => 'form-control col', 'required'=>'required', 'placeholder'=>'...',

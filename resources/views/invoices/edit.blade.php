@@ -11,6 +11,16 @@
 @section('content')
 <div class="tab-content">
     <div class="form-group row align-items-center">
+        {{ Form::label('increment', __('Number'), array('class'=>'col-3')) }}
+        <div class="input-group col-4 p-0">
+            <div class="input-group-prepend">
+                <span class="input-group-text light" id="basic-addon3">{{\Auth::user()->invoicePrefix()}}</span>
+            </div>
+            {{ Form::number('increment',null, array('class' => 'form-control col text-right', 'required'=>'required', 'min'=>1)) }}
+        </div>
+    </div>
+    <hr>
+    <div class="form-group row align-items-center">
         {{ Form::label('client', __('Client'), array('class'=>'col-3')) }}
         {{ Form::text('client', $invoice->client->name, array('class' => 'form-control col', 'required'=>'required', 'disabled')) }}
     </div>
@@ -42,7 +52,7 @@
     @endif
     <div class="form-group row align-items-center">
         {{Form::label('currency',__('Currency'), array('class'=>'col-3')) }}
-        {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col', 
+        {!! Form::select('currency', $currencies, $currency, array('class' => 'form-control col',
                             'data-refresh'=>route('invoices.refresh', $invoice), 'lang'=>\Auth::user()->locale)) !!}
         @if($currency != \Auth::user()->getCurrency())
         {{Form::label('rate',__('Exchange Rate'), array('class'=>'col-2')) }}
@@ -59,7 +69,7 @@
     <div class="form-group row align-items-center">
         {{Form::label('locale',__('Language'), array('class'=>'col-3')) }}
         {!! Form::select('locale', $locales, $locale, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) !!}
-    </div>    
+    </div>
 </div>
 @include('partials.errors')
 @endsection
