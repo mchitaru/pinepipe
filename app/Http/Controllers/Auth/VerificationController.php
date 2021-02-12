@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use App\Providers\RouteServiceProvider;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 use App\User;
 use Carbon\Carbon;
@@ -63,5 +65,8 @@ class VerificationController extends Controller
             'last_login_at' => Carbon::now()->toDateTimeString(),
             'last_login_ip' => $request->getClientIp()
         ]);
+
+        Mail::to($user->email)
+            ->queue(new WelcomeMail($user));
     }    
 }

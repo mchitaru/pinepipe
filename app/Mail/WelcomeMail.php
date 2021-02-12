@@ -30,6 +30,7 @@ class WelcomeMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.welcome');
+        return $this->subject(__('Welcome to Pinepipe'))
+                    ->markdown('mail.welcome');
     }
 }

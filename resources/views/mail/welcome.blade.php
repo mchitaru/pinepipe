@@ -1,12 +1,11 @@
 @component('mail::message')
-# Introduction
+<p>{{__('Hi')}} {{$user->name}},</p><br>
+<p>{{__('You just took your first step towards organizing your business process.')}}</p>
+<p>{{__('To get started with Pinepipe, you can watch a short')}} <a href="https://youtu.be/Bab_HvQbT9I">{{__('Demo Video')}}</a></p>
 
-The body of your message.
-
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::button', ['url' => route('home')])
+{{__('Take me to my account')}}
 @endcomponent
 
-Thanks,<br>
 {{ config('app.name') }}
 @endcomponent

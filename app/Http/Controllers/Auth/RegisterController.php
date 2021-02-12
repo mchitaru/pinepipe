@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Providers\RouteServiceProvider;
-use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
@@ -86,9 +85,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        Mail::to('team@pinepipe.com')
-                ->queue(new NewUserMail($data['name'], $data['email']));
-
         $user = User::create(
             [
                 'name' => $data['name'],
@@ -102,6 +98,9 @@ class RegisterController extends Controller
         $user->setLocale($location);
 
         $user->initCompanyDefaults();
+
+        Mail::to('team@pinepipe.com')
+                ->queue(new NewUserMail($data['name'], $data['email']));
 
         return $user;
     }
