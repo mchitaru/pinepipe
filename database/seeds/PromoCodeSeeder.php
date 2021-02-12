@@ -20,7 +20,7 @@ class PromoCodeSeeder extends Seeder
 
             do{
 
-                $code = Str::random(6);
+                $code = Str::random(7);
                 
             }while(array_search($code, $codes, true) != FALSE);
 

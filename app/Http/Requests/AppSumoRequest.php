@@ -27,7 +27,7 @@ class AppSumoRequest extends FormRequest
             'name' => 'required|max:120',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'code' => 'required|string|min:6|max:6',
+            'code' => 'required|string|min:7|max:7',
         ];
     }
 }
