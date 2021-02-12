@@ -25,7 +25,7 @@
         @foreach($plans as $key=>$plan)
         @if(($plan->active && $plan->name != $user_plan->name) || $user_plan->id == $plan->id)
         <div class="col-lg-12">
-            <div class="card {{$plan->deal?'bg-warning':''}} text-center {{ $plan->duration? "card-subscription":""}} {{ ($monthly && $plan->duration == 12) || (!$monthly && $plan->duration == 1) ? "d-none":""}}" style="min-height: 300px">
+            <div class="card {{$user_plan->id == $plan->id?'bg-warning':''}} text-center {{ $plan->duration? "card-subscription":""}} {{ ($monthly && $plan->duration == 12) || (!$monthly && $plan->duration == 1) ? "d-none":""}}" style="min-height: 300px">
                 <div class="card-body">
                     <div class="row">
                         <div class="col mb-4">
@@ -37,7 +37,7 @@
                             @endif
                             <br><br>
                             <span class="text-small">{{$plan->description}}</span>
-                            <h1 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?$plan->price/$plan->duration:$plan->price)}}
+                            <h1 class="mb-2 font-weight-bold">€{{str_replace('.00','',$plan->duration?\Helpers::ceil($plan->price/$plan->duration):$plan->price)}}
                                 <span class="text-small">{{($plan->price && isset($plan->duration))?'/'.__('month'):''}}</span>
                             </h1>
                             <ul class="list-unstyled">
