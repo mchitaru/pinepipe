@@ -48,7 +48,7 @@ Route::group(
     Route::get('/hshhdyw7820037lammxh29', 'SchedulerController@run')->name('scheduler.run');
 
     //AppSumo
-    Route::get('users/appsumo/{code}', 'AppSumoController@create')->name('users.appsumo.create');
+    Route::get('users/appsumo/{code?}', 'AppSumoController@create')->name('users.appsumo.create');
     Route::post('users/appsumo', 'AppSumoController@store')->name('users.appsumo.store');
 });
 
