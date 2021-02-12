@@ -35,7 +35,7 @@ class InviteUserMail extends Mailable implements ShouldQueue
      */
     public function build()
     {                
-        return $this->subject('Collaboration invite')
+        return $this->subject(__('Collaboration invite'))
                     ->markdown('mail.inviteuser');
     }
 }
