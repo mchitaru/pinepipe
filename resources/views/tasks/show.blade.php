@@ -156,7 +156,7 @@ modal-lg
 {{-- <div class="modal-body container-fluid"> --}}
  <div class="row justify-content-center" data-remote="true">
     <div class="col">
-        <div class="page-header pt-2">
+        <div class="page-header pt-2 text-break">
         <p class="lead">{!! nl2br(Helpers::purify($task->description)) !!}</p>
         <div class="d-flex align-items-center justify-content-between">
             <div>
@@ -312,7 +312,7 @@ modal-lg
                                 @endcan
                                 </div>
                             </div>
-                            <div class="card-body p-1 editable" id="comment" data-filter-by="text">
+                            <div class="card-body p-1 editable text-break" id="comment" data-filter-by="text">
                                     {!! nl2br(Helpers::purify($comment->comment)) !!}
                             </div>
                         </div>

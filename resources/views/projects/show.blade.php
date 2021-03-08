@@ -93,7 +93,7 @@ $model = $project;
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-11">
-            <div class="page-header">
+            <div class="page-header text-break">
                 <div class="d-flex align-items-center">
                     <h1>{{$project->name}}</h1>
                     <div class="pl-2">
