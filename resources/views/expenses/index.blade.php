@@ -27,7 +27,7 @@ use Carbon\Carbon;
             <div class="card-title col-sm-4">
                 <div class="container row align-items-center"  title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
-                    <span data-filter-by="text" class="text-small text-truncate">{{ !empty($expense->project)?$expense->project->name:'---' }}</span>
+                    <span data-filter-by="text" class="text-small text-truncate" style="max-width: 200px;">{{ !empty($expense->project)?$expense->project->name:'---' }}</span>
                 </div>
             </div>
             <div class="card-title col-sm-2">

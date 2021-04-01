@@ -23,7 +23,7 @@
                 </p>
 
             </div>
-            <div class="card-title col-sm-2">
+            <div class="card-title col-sm-1">
                 <div class="container row align-items-center">
                     <span data-filter-by="text" class="text-small">{{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }}</span>
                 </div>
@@ -32,12 +32,12 @@
                 @if($invoice->project)
                 <div class="container row align-items-center"  title="{{__('Project')}}">
                     <i class="material-icons">folder</i>
-                    <span data-filter-by="text" class="text-truncate text-small">{{ $invoice->project->name }}</span>
+                    <span data-filter-by="text" class="text-truncate text-small" style="max-width: 200px;">{{ $invoice->project->name }}</span>
                 </div>
                 @endif
                 <div class="container row align-items-center"  title="{{__('Client')}}">
                     <i class="material-icons">business</i>
-                    <span data-filter-by="text" class="text-small text-truncate ">
+                    <span data-filter-by="text" class="text-small text-truncate " style="max-width: 200px;">
                         @if(Gate::check('viewAny', 'App\Client') && !empty($invoice->client))
                         <a href="{{ route('clients.show', $invoice->client->id) }}" data-filter-by="text">
                             {{$invoice->client->name}}
@@ -48,7 +48,7 @@
                     </span>
                 </div>
             </div>
-            <div class="card-meta col">
+            <div class="card-title col-sm-1">
                 <div class="container row align-items-center">
                     <span data-filter-by="text" class="text-small">{{ $invoice->priceFormat($invoice->getTotal()) }}</span>
                 </div>
