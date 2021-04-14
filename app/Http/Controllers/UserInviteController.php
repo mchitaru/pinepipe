@@ -47,7 +47,7 @@ class UserInviteController extends Controller
             if($user == null){
 
                 //new user -> send email invite
-                
+
                 $name = $post['email'];
                 $name = explode('@', $name)[0];
 
@@ -62,7 +62,7 @@ class UserInviteController extends Controller
                 }
 
                 $user = User::createUser($data);
-        
+
                 Mail::to($user->email)->queue(new InviteUserMail($user, \Auth::user()));
 
                 $request->session()->flash('success', __('An invitation was sent to the email address. You can now assign the user to a project.'));
@@ -71,37 +71,40 @@ class UserInviteController extends Controller
 
                 $request->session()->flash('success', __('User successfully invited. You can now assign him/her to a project.'));
             }
-            
-            if($user != \Auth::user() && $post['role'] != 'employee' && $user->isCompany()){
 
-                \Auth::user()->collaborators()->attach($user->id, ['type' => 'collaborator']);
+            if($user != \Auth::user()){
 
-                if(\Auth::user()->companySettings &&
-                    $user->companyClients()
-                            ->where(function ($query) {
-                                $query->where('name', \Auth::user()->companySettings->name)
-                                        ->orWhere('email', \Auth::user()->companySettings->email);
-                            })->first() == null) {
+                if($post['role'] != 'employee' && $user->isCompany()){
 
-                    if($user->checkClientLimit()){
+                    \Auth::user()->collaborators()->attach($user->id, ['type' => 'collaborator']);
 
-                        //add a client for current company
-                        $client = Client::create(
-                            [
-                                'name' => \Auth::user()->companySettings->name,
-                                'email' => \Auth::user()->companySettings->email,
-                                'phone' => \Auth::user()->companySettings->phone,
-                                'address' => \Auth::user()->companySettings->getFullAddress(),
-                                'website' => \Auth::user()->companySettings->website,
-                                'tax' => \Auth::user()->companySettings->tax,
-                                'registration' =>\Auth::user()->companySettings->registration,
-                                'user_id' => $user->id,
-                                'created_by' => $user->id
-                            ]
-                        );
+                    if(\Auth::user()->companySettings &&
+                        $user->companyClients()
+                                ->where(function ($query) {
+                                    $query->where('name', \Auth::user()->companySettings->name)
+                                            ->orWhere('email', \Auth::user()->companySettings->email);
+                                })->first() == null) {
 
-                        $client->created_by = $user->id;
-                        $client->save();                        
+                        if($user->checkClientLimit()){
+
+                            //add a client for current company
+                            $client = Client::create(
+                                [
+                                    'name' => \Auth::user()->companySettings->name,
+                                    'email' => \Auth::user()->companySettings->email,
+                                    'phone' => \Auth::user()->companySettings->phone,
+                                    'address' => \Auth::user()->companySettings->getFullAddress(),
+                                    'website' => \Auth::user()->companySettings->website,
+                                    'tax' => \Auth::user()->companySettings->tax,
+                                    'registration' =>\Auth::user()->companySettings->registration,
+                                    'user_id' => $user->id,
+                                    'created_by' => $user->id
+                                ]
+                            );
+
+                            $client->created_by = $user->id;
+                            $client->save();
+                        }
                     }
                 }
 
@@ -138,17 +141,17 @@ class UserInviteController extends Controller
             $user->handle = $user->handle();
 
             $user->initCompanyDefaults();
-    
-            $location = geoip($request->ip());        
+
+            $location = geoip($request->ip());
             $user->setLocale($location);
-    
+
             $user->subscribeNewsletter();
 
             $user->update([
                 'last_login_at' => Carbon::now()->toDateTimeString(),
                 'last_login_ip' => $request->getClientIp()
             ]);
-    
+
             $user->save();
 
             auth()->login($user);
