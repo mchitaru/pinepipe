@@ -30,9 +30,9 @@
                 <i class="material-icons">more_vert</i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropzone-file dropdown-item" href="#">{{__('Download')}}</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropzone-delete dropdown-item text-danger disabled" href="#" data-method="delete" data-remote="true" data-type="text">{{__('Delete')}}</a>
+                    <a class="dropzone-file dropdown-item" href="#">{{__('Download')}}</a>
+                    <div class="dropdown-divider"></div>
+                        <a class="dropzone-delete dropdown-item text-danger disabled" href="#" data-method="delete" data-remote="true" data-type="text">{{__('Delete')}}</a>
                 </div>
             </div>
             <button class="btn btn-danger btn-sm dz-remove" data-dz-remove>
@@ -45,11 +45,13 @@
         </div>
         </li>
     </ul>
-    @can('create', ['App\Media', $model])
-    <form class="dropzone" id="{{$dz_id}}">
-        <span class="dz-message">{{__('Drop images, documents & archives here or click to upload.')}}</span>
+    <form class="dropzone {{\Auth::user()->can('create', ['App\Media', $model])?'':'dz-max-files-reached'}}" id="{{$dz_id}}">
+        @if(\Auth::user()->can('create', ['App\Media', $model]))
+            <span class="dz-message">{{__('Drop images, documents & archives here or click to upload.')}}</span>
+        @else
+            <span class="dz-message">{{__('You are not allowed to upload files.')}}</span>
+        @endif
     </form>
-    @endcan
     <ul id="{{$dz_id}}-previews" class="list-group list-group-activity dropzone-previews flex-column-reverse">
     </ul>
 </div>

@@ -30,7 +30,8 @@ class EventPolicy
      */
     public function view(User $user, Event $event)
     {
-        return $event->created_by == $user->id ||
+        return $event->user_id == $user->id ||
+                $event->created_by == $user->id ||
                 $event->users->contains($user->id);
     }
 
@@ -54,7 +55,8 @@ class EventPolicy
      */
     public function update(User $user, Event $event)
     {
-        return $event->created_by == $user->id &&
+        return $event->user_id == $user->id ||
+                $event->created_by == $user->id &&
                 $event->google_id == null;
     }
 
@@ -67,7 +69,8 @@ class EventPolicy
      */
     public function delete(User $user, Event $event)
     {
-        return $event->created_by == $user->id;
+        return $event->user_id == $user->id ||
+                $event->created_by == $user->id;
     }
 
     /**

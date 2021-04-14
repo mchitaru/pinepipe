@@ -23,7 +23,7 @@
                 </p>
 
             </div>
-            <div class="card-title col-sm-1">
+            <div class="card-title col-sm-2">
                 <div class="container row align-items-center">
                     <span data-filter-by="text" class="text-small">{{ $invoice->number ? $invoice->number : Auth::user()->invoiceNumberFormat($invoice->increment) }}</span>
                 </div>
@@ -53,26 +53,28 @@
                     <span data-filter-by="text" class="text-small">{{ $invoice->priceFormat($invoice->getTotal()) }}</span>
                 </div>
             </div>
-            @can('update', $invoice)
-            <div class="dropdown card-options">
-                <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    @can('update', $invoice)
-                    <a class="dropdown-item {{$invoice->payments->isEmpty()?'':'disabled'}}" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
-                        <span>{{__('Edit')}}</span>
-                    </a>
-                    @endcan
-                    @can('delete', $invoice)
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
-                            <span>{{__('Delete')}}</span>
+            <div class="card-meta col-1">
+                @can('update', $invoice)
+                <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @can('update', $invoice)
+                        <a class="dropdown-item {{$invoice->payments->isEmpty()?'':'disabled'}}" href="{{ route('invoices.edit',$invoice->id) }}" data-remote="true" data-type="text">
+                            <span>{{__('Edit')}}</span>
                         </a>
-                    @endcan
+                        @endcan
+                        @can('delete', $invoice)
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="{{ route('invoices.destroy', $invoice->id) }}" data-method="delete" data-remote="true" data-type="text">
+                                <span>{{__('Delete')}}</span>
+                            </a>
+                        @endcan
+                    </div>
                 </div>
+                @endcan
             </div>
-            @endcan
         </div>
     </div>
 </div>

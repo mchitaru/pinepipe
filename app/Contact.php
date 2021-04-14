@@ -114,48 +114,24 @@ class Contact extends Model
         Activity::updateContact($this);
     }
 
-    public static function contactsByUserType($order = 'name', $dir = 'asc', $filter = '')
+    public static function filterContacts($order = 'name', $dir = 'asc', $filter = '')
     {
-        if(\Auth::user()->type == 'company')
-        {
-            return Contact::with(['client', 'tags'])
-                            ->where(function ($query) use ($filter) {
-                                $query->where('name','like','%'.$filter.'%')
-                                        ->orWhere('email','like','%'.$filter.'%')
-                                        ->orWhere('phone','like','%'.$filter.'%')
-                                        ->orWhereHas('client', function ($query) use($filter) {
-            
-                                            $query->where('name','like','%'.$filter.'%');
-                                        })    
-                                        ->orWhereHas('tags', function ($query) use($filter)
-                                        {
-                                            $query->where('tags.name','like','%'.$filter.'%');
+        return Contact::with(['client', 'tags'])
+                        ->where(function ($query) use ($filter) {
+                            $query->where('name','like','%'.$filter.'%')
+                                    ->orWhere('email','like','%'.$filter.'%')
+                                    ->orWhere('phone','like','%'.$filter.'%')
+                                    ->orWhereHas('client', function ($query) use($filter) {
+        
+                                        $query->where('name','like','%'.$filter.'%');
+                                    })    
+                                    ->orWhereHas('tags', function ($query) use($filter)
+                                    {
+                                        $query->where('tags.name','like','%'.$filter.'%');
 
-                                        });
-                            })
-                            ->orderBy($order?$order:'name', $dir?$dir:'asc');
-        }else
-        {
-            return Contact::with(['client', 'tags'])
-                    ->where(function ($query)  {
-                        $query->where('user_id', \Auth::user()->id);
-                    })
-                    ->where(function ($query) use ($filter) {
-                        $query->where('name','like','%'.$filter.'%')
-                                ->orWhere('email','like','%'.$filter.'%')
-                                ->orWhere('phone','like','%'.$filter.'%')
-                                ->orWhereHas('client', function ($query) use($filter) {
-    
-                                    $query->where('name','like','%'.$filter.'%');
-                                })    
-                                ->orWhereHas('tags', function ($query) use($filter)
-                                {
-                                    $query->where('tags.name','like','%'.$filter.'%');
-
-                                });
-                    })
-                    ->orderBy($order?$order:'name', $dir?$dir:'asc');
-        }
+                                    });
+                        })
+                        ->orderBy($order?$order:'name', $dir?$dir:'asc');
     }
 
 }

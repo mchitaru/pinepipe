@@ -25,6 +25,7 @@ class InviteUserStoreRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
+            'role' => 'required|string'
         ];
     }
 }

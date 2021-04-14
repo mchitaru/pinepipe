@@ -30,7 +30,8 @@ class ExpensePolicy
      */
     public function view(User $user, Expense $expense)
     {
-        return $expense->created_by == $user->id;
+        return ($expense->created_by == $user->created_by) &&
+                ($expense->project == null || $user->can('view', $expense->project));
     }
 
     /**
@@ -41,7 +42,7 @@ class ExpensePolicy
      */
     public function create(User $user, $project = null)
     {
-        return $project == null || $user->can('update', $project);
+        return $project == null || $user->can('view', $project);
     }
 
     /**
@@ -53,8 +54,8 @@ class ExpensePolicy
      */
     public function update(User $user, Expense $expense)
     {
-        return $expense->created_by == $user->id &&
-            $expense->project == null || $user->can('update', $expense->project);
+        return $expense->user_id == $user->id || 
+                $expense->created_by == $user->id;
     }
 
     /**
@@ -66,7 +67,8 @@ class ExpensePolicy
      */
     public function delete(User $user, Expense $expense)
     {
-        return $expense->created_by == $user->id;
+        return $expense->user_id == $user->id || 
+                $expense->created_by == $user->id;
     }
 
     /**

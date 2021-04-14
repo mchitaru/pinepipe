@@ -33,7 +33,7 @@ class LeadsController extends Controller
 
         clock()->startEvent('LeadsController', "Load leads");
 
-        $stages = Stage::leadStagesByUserType($request['filter'], $request['sort'], $request['dir'], $request['tag'])->get();
+        $stages = Stage::filterLeadStages($request['filter'], $request['sort'], $request['dir'], $request['tag'])->get();
 
         clock()->endEvent('LeadsController');
 
@@ -62,7 +62,7 @@ class LeadsController extends Controller
         {
             if(is_numeric($client_id)) {
 
-                $contacts = Contact::contactsByUserType()
+                $contacts = Contact::filterContacts()
                                     ->where('client_id', '=', $client_id)
                                     ->orderBy('name', 'asc')
                                     ->get()
@@ -75,7 +75,7 @@ class LeadsController extends Controller
             }
         }else
         {
-            $contacts = Contact::contactsByUserType()
+            $contacts = Contact::filterContacts()
                                 ->orderBy('name', 'asc')
                                 ->get()
                                 ->pluck('name', 'id');
@@ -148,7 +148,7 @@ class LeadsController extends Controller
         {
             if(is_numeric($client_id)) {
 
-                $contacts = Contact::contactsByUserType()
+                $contacts = Contact::filterContacts()
                                     ->where('client_id', '=', $client_id)
                                     ->orderBy('name', 'asc')
                                     ->get()
@@ -161,7 +161,7 @@ class LeadsController extends Controller
             }
         }else
         {
-            $contacts = Contact::contactsByUserType()
+            $contacts = Contact::filterContacts()
                                 ->orderBy('name', 'asc')
                                 ->get()
                                 ->pluck('name', 'id');

@@ -100,7 +100,7 @@ Route::group(
         Route::get('sharepoint', 'SharepointController@index')->name('sharepoint');
 
         //User invite
-        Route::get('users/invite', 'UserInviteController@create')->name('users.invite.create');
+        Route::get('users/invite/{role?}', 'UserInviteController@create')->name('users.invite.create');
         Route::post('users/invite', 'UserInviteController@store')->name('users.invite.store');
 
         //Users

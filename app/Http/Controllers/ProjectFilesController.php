@@ -22,7 +22,7 @@ class ProjectFilesController extends Controller
      */
     public function store(Request $request, Project $project)
     {        
-        Gate::authorize('update', $project);
+        Gate::authorize('create', ['App\Media', $project]);
 
         $request->validate(['file' => 'required|mimetypes:image/*,text/*,font/*,application/*|max:10240']);
 
@@ -59,7 +59,7 @@ class ProjectFilesController extends Controller
      */
     public function show(Project $project, Media $file)
     {
-        Gate::authorize('view', $project);
+        Gate::authorize('view', $file);
 
         return Storage::disk('s3')->download($file->getPath());
     }
@@ -72,7 +72,7 @@ class ProjectFilesController extends Controller
      */
     public function destroy(Request $request, Project $project, Media $file)
     {
-        Gate::authorize('update', $project);
+        Gate::authorize('delete', $file);
 
         if($request->ajax()){
             

@@ -30,7 +30,8 @@ class TimesheetPolicy
      */
     public function view(User $user, Timesheet $timesheet)
     {
-        return $timesheet->created_by == $user->id||
+        return $timesheet->user_id == $user->id ||
+                $timesheet->created_by == $user->id ||
                 $timesheet->project && $timesheet->project->created_by == $user->id;
     }
 
@@ -40,9 +41,9 @@ class TimesheetPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, $project = null)
     {
-        return true;
+        return $project == null || $user->can('view', $project);;
     }
 
     /**
@@ -55,8 +56,8 @@ class TimesheetPolicy
     public function update(User $user, Timesheet $timesheet)
     {
         //is the owner of the timesheet or the project
-        return $timesheet->created_by == $user->id ||
-                $timesheet->project && $timesheet->project->created_by == $user->id;
+        return ($timesheet->user_id == $user->id || $timesheet->created_by == $user->id) &&
+                ($timesheet->project == null || $user->can('view', $timesheet->project));
     }
 
     /**
@@ -69,8 +70,8 @@ class TimesheetPolicy
     public function delete(User $user, Timesheet $timesheet)
     {
         //is the owner of the timesheet or the project
-        return $timesheet->created_by == $user->id ||
-                $timesheet->project && $timesheet->project->created_by == $user->id;
+        return ($timesheet->user_id == $user->id || $timesheet->created_by == $user->id) &&
+                ($timesheet->project == null || $user->can('view', $timesheet->project));
     }
 
     /**

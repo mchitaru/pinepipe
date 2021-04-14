@@ -14,9 +14,9 @@ use Carbon\Carbon;
             <div class="col">
                 <div class="row">
                     <h6 class="mb-1">{{$stage->name}}</h6>
-                    <span class="small count">({{ $stage->leads->count() }})</span>
+                    <span class="small count">({{ $stage->lead_count }})</span>
                 </div>
-                <span class="total" data-id={{$stage->total_amount}}>{{ \Auth::user()->priceFormat($stage->total_amount) }}</span>
+                <span class="total" data-id={{$stage->lead_total}}>{{ \Auth::user()->priceFormat($stage->lead_total) }}</span>
                 @can('update', $stage)
                 <div class="dropdown">
                     <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

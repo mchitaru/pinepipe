@@ -5,11 +5,12 @@
 @endsection
 
 @section('title')
-    {{__('Invite Collaborators')}}
+    {{__('Invite Collaborator')}}
 @endsection
 
 @section('content')
 <div class="tab-content">
+    {!! Form::hidden('role', 'collaborator') !!}
     <p>{{__('Invite a collaborator by email')}}</p>
     <div class="form-group align-items-center">
       <div class="input-group">

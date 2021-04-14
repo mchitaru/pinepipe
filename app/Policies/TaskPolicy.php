@@ -57,7 +57,8 @@ class TaskPolicy
     public function update(User $user, Task $task, $patch = false)
     {
         //the task or project was created by this company
-        return $task->created_by == $user->id ||                
+        return $task->user_id == $user->id ||
+                $task->created_by == $user->id ||                
                 $task->project && $task->project->created_by == $user->id ||
                 $patch && $task->users->contains($user->id);
     }
@@ -71,7 +72,8 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-            return $task->created_by == $user->id ||
+            return $task->user_id == $user->id ||
+                    $task->created_by == $user->id ||
                     $task->project && $task->project->created_by == $user->id;
     }
 

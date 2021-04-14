@@ -929,5 +929,22 @@
     "You are on the <b>:plan (:period)<\/b> subscription": "",
     "lifetime": "",
     "monthly": "",
-    "yearly": ""
+    "yearly": "",
+    "An invitation was sent to the email address. You can now assign the user to a project.": "",
+    "User successfully invited. You can now assign him\/her to a project.": "",
+    "This email address cannot be invited as an employee or collaborator!": "",
+    "Collaboration invite": "",
+    "People": "",
+    "Invite Collaborator": "",
+    "Invite Employee": "",
+    "Invite an employee by email": "",
+    "Invite employees with extended access.": "",
+    "Manage company clients.": "",
+    "Create & manage leads.": "",
+    "Create new projects & tasks.": "",
+    "Create expenses & invoices.": "",
+    "View or access projects & items on projects they are not assigned to.": "",
+    "Employees": "",
+    "Invite collaborator": "",
+    "Invite employee": ""
 }

@@ -1,13 +1,17 @@
 function initDropzoneLinks(file, response) 
 {
-    $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
-        $(this).attr("href", response.download);
-    });
+    if(response.download){
+        $( ".dropzone-file", $(".dz-preview").last() ).each(function() {
+            $(this).attr("href", response.download);
+        });
+    }
 
-    $( ".dropzone-delete", $(".dz-preview").last() ).each(function() {
-        $(this).attr("href", response.delete);
-        $(this).removeClass("disabled");
-    });
+    if(response.delete){
+        $( ".dropzone-delete", $(".dz-preview").last() ).each(function() {
+            $(this).attr("href", response.delete);
+            $(this).removeClass("disabled");
+        });    
+    }
 }
 
 async function initDropzone(selector, url, model_id, files)

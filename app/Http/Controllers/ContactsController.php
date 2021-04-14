@@ -30,7 +30,7 @@ class ContactsController extends Controller
 
         clock()->startEvent('ContactsController', "Load contacts");
 
-        $contacts = Contact::contactsByUserType($request['order'], $request['dir'], $request['filter'])
+        $contacts = Contact::filterContacts($request['order'], $request['dir'], $request['filter'])
                     ->paginate(25, ['*'], 'contact-page');
 
         clock()->endEvent('ContactsController');

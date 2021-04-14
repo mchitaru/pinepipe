@@ -30,7 +30,8 @@ class NotePolicy
      */
     public function view(User $user, Note $note)
     {
-        return $note->created_by == $user->id ||
+        return $note->user_id == $user->id ||
+                $note->created_by == $user->id ||
                 $note->notable && $note->notable->created_by == $user->id;
     }
 
@@ -54,7 +55,8 @@ class NotePolicy
      */
     public function update(User $user, Note $note)
     {
-        return $note->created_by == $user->id ||
+        return $note->user_id == $user->id ||
+                $note->created_by == $user->id ||
                 $note->notable && $note->notable->created_by == $user->id;
     }
 
@@ -67,7 +69,8 @@ class NotePolicy
      */
     public function delete(User $user, Note $note)
     {
-        return $note->created_by == $user->id ||
+        return $note->user_id == $user->id ||
+                $note->created_by == $user->id ||
                 $note->notable && $note->notable->created_by == $user->id;
     }
 

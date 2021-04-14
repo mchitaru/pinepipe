@@ -30,7 +30,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client)
     {
-        return $client->created_by == $user->id;
+        return $client->created_by == $user->created_by;
     }
 
     /**
@@ -53,7 +53,8 @@ class ClientPolicy
      */
     public function update(User $user, Client $client)
     {
-        return $client->created_by == $user->id;
+        return $client->user_id == $user->user_id ||
+                $client->created_by == $user->user_id;
     }
 
     /**
@@ -65,7 +66,8 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client)
     {
-        return $client->created_by == $user->id;
+        return $client->user_id == $user->user_id ||
+                $client->created_by == $user->user_id;
     }
 
     /**

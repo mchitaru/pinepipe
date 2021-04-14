@@ -16,9 +16,12 @@ use App\Http\Requests\InviteUserUpdateRequest;
 
 class UserInviteController extends Controller
 {
-    public function create()
+    public function create($role = 'collaborator')
     {
-        return view('users.invite.create');
+        if($role == 'employee')
+            return view('users.invite.employee');
+
+        return view('users.invite.collaborator');
     }
 
     public function store(InviteUserStoreRequest $request)
@@ -29,7 +32,7 @@ class UserInviteController extends Controller
                         ->where('email', $post['email'])
                         ->first();
 
-        if($user && $user->isCollaborator()){
+        if($user && ($user->isCollaborator() || $user->isEmployee())){
 
             //resend
             Mail::to($user->email)->queue(new InviteUserMail($user, \Auth::user()));
@@ -39,30 +42,37 @@ class UserInviteController extends Controller
             return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
         }
 
-        if(\Auth::user()->checkUserLimit())
-        {
+        if(\Auth::user()->checkUserLimit()){
+
             if($user == null){
 
+                //new user -> send email invite
+                
                 $name = $post['email'];
                 $name = explode('@', $name)[0];
 
-                $user = User::createCompany(
-                    [
-                        'name' => $name,
-                        'email' => $post['email']
-                    ]
-                );
+                $data = [
+                    'name' => $name,
+                    'email' => $post['email'],
+                    'type' => ($post['role'] == 'employee') ? 'employee' : 'company'
+                ];
+
+                if($post['role'] == 'employee'){
+                    $data['created_by'] = \Auth::user()->id;
+                }
+
+                $user = User::createUser($data);
         
                 Mail::to($user->email)->queue(new InviteUserMail($user, \Auth::user()));
 
-                $request->session()->flash('success', __('Invite successfully sent. You can now assign the collaborator to a project.'));
+                $request->session()->flash('success', __('An invitation was sent to the email address. You can now assign the user to a project.'));
 
-            }else{
+            }elseif($post['role'] != 'employee' && $user->isCompany()){
 
-                $request->session()->flash('success', __('Collaborator successfully invited. You can now assign him to a project.'));
+                $request->session()->flash('success', __('User successfully invited. You can now assign him/her to a project.'));
             }
             
-            if($user != \Auth::user() && $user->type == 'company'){
+            if($user != \Auth::user() && $post['role'] != 'employee' && $user->isCompany()){
 
                 \Auth::user()->collaborators()->attach($user->id, ['type' => 'collaborator']);
 
@@ -93,12 +103,12 @@ class UserInviteController extends Controller
                         $client->created_by = $user->id;
                         $client->save();                        
                     }
-                }                
+                }
 
                 return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
             }
 
-            $request->session()->flash('error', __('This email address cannot be invited as a collaborator!'));
+            $request->session()->flash('error', __('This email address cannot be invited! Please contact support for more information.'));
 
             return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
         }

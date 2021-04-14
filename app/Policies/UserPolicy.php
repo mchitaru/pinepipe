@@ -53,6 +53,7 @@ class UserPolicy
     public function update(User $user, User $model)
     {
         return $user->isSuperAdmin() || 
+                $model->id == $user->id ||
                 $model->created_by == $user->id;
     }
 

@@ -301,12 +301,19 @@ class ProjectsController extends Controller
         {
             $file = [];
 
-            $file['file_name'] = $media->file_name;
-            $file['size'] = $media->size;
-            $file['download'] = route('projects.file.download',[$project->id, $media->id]);
-            $file['delete'] = route('projects.file.delete',[$project->id, $media->id]);
+            if($user->can('view', $media)){
 
-            $files[] = $file;
+                $file['file_name'] = $media->file_name;
+                $file['size'] = $media->size;
+                $file['download'] = route('projects.file.download',[$project->id, $media->id]);                
+
+                if($user->can('delete', $media)){
+
+                    $file['delete'] = route('projects.file.delete',[$project->id, $media->id]);
+                }                
+    
+                $files[] = $file;    
+            }
         }
 
         $invoices = $project->invoices;        
@@ -347,16 +354,8 @@ class ProjectsController extends Controller
                                 ->orderByDesc('id')
                                 ->get();
 
-        if(\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
-        {
-            $timesheets = $project->timesheets;
-            $expenses = $project->expenses;
-        }
-        else
-        {
-            $timesheets = $project->timesheets()->where('user_id', '=', \Auth::user()->id)->get();
-            $expenses = $project->expenses()->where('user_id', '=', \Auth::user()->id)->get();
-        }
+        $timesheets = $project->timesheets;
+        $expenses = $project->expenses;
 
         $notes = $project->notes;
 

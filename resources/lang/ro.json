@@ -828,5 +828,22 @@
     "You are on the <b>:plan (:period)<\/b> subscription": "Ești pe abonamentul <b>:plan (:period)<\/b>",
     "lifetime": "nelimitat",
     "monthly": "lunar",
-    "yearly": "anual"
+    "yearly": "anual",
+    "An invitation was sent to the email address. You can now assign the user to a project.": "A fost trimisă o invitație la adresa de email specificată. Acum poți atribui un proiect utilizatorului.",
+    "User successfully invited. You can now assign him\/her to a project.": "Utilizatorul a fost invitat. Acum poți ii poți atribui un proiect.",
+    "This email address cannot be invited as an employee or collaborator!": "Adresa de email nu poate fi invitată ca și angajat sau colaborator.",
+    "Collaboration invite": "Invitație la colaborare",
+    "People": "Oameni",
+    "Invite Collaborator": "Invită colaborator",
+    "Invite Employee": "Invită angajat",
+    "Invite an employee by email": "Invită un angajat pe email",
+    "Invite employees with extended access.": "Invită angajați cu acces extins",
+    "Manage company clients.": "Adminstra clienții companiei.",
+    "Create & manage leads.": "Adăuga & administra oportunități.",
+    "Create new projects & tasks.": "Adăuga proiecte & activități noi.",
+    "Create expenses & invoices.": "Adăuga cheltuieli & facturi.",
+    "View or access projects & items on projects they are not assigned to.": "Vedea sau interacționa cu proiecte & documente de pe proiecte care nu le sunt atribuite.",
+    "Employees": "Angajați",
+    "Invite collaborator": "Invită colaborator",
+    "Invite employee": "Invită angajat"
 }

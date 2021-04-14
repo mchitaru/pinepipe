@@ -30,7 +30,8 @@ class ActivityPolicy
      */
     public function view(User $user, Activity $activity)
     {
-        return $activity->created_by == $user->id || 
+        return $activity->user_id == $user->id ||
+                $activity->created_by == $user->id || 
                 $activity->actionable && $activity->actionable->created_by == $user->id;
     }
 
@@ -54,7 +55,8 @@ class ActivityPolicy
      */
     public function update(User $user, Activity $activity)
     {
-        return $activity->created_by == $user->id || 
+        return $activity->user_id == $user->id ||
+                $activity->created_by == $user->id || 
                 $activity->actionable && $activity->actionable->created_by == $user->id;
     }
 

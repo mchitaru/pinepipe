@@ -43,7 +43,7 @@
                 </a>
                 @endif
             </div>
-            <div class="card-meta">
+            <div class="card-meta col">
                 @can('update', $timesheet)
                     <div class="dropdown card-options">
                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -139,11 +139,6 @@ class Lead extends Model implements HasMedia
 
         $post['order']   = $stage->leads->count();
 
-        if(\Auth::user()->type != 'company')
-        {
-            $post['user_id'] = \Auth::user()->id;
-        }
-
         $lead = Lead::create($post);
 
         Activity::createLead($lead);

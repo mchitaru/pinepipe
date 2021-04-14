@@ -29,17 +29,10 @@
                             'placeholder'=>'...',
                             'data-refresh'=>route('tasks.refresh','0'), 'lang'=>\Auth::user()->locale)) !!}
         </div>
-        @if(\Auth::user()->type == 'company')
-        <div class="form-group row align-items-center">
+        <div class="form-group row align-items-center required">
             {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
             {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
         </div>
-        @else
-        <div class="form-group row align-items-center required">
-            {{ Form::label('users', __('Assign'), array('class'=>'col-3')) }}
-            {!! Form::select('users[]', $users, $user_id, array('class' => 'form-control col', 'required'=>'true', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}
-        </div>
-        @endif
         <div class="form-group row align-items-center">
             {{ Form::label('tags', __('Labels'), array('class'=>'col-3')) }}
             {!! Form::select('tags[]', $tags, null, array('class' => 'tags form-control col', 'multiple'=>'multiple', 'lang'=>\Auth::user()->locale)) !!}

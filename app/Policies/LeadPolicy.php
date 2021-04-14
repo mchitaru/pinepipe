@@ -30,7 +30,8 @@ class LeadPolicy
      */
     public function view(User $user, Lead $lead)
     {
-        return $lead->created_by == $user->id;
+        return $lead->user_id == $user->id ||
+                $lead->created_by == $user->id;
     }
 
     /**
@@ -53,7 +54,8 @@ class LeadPolicy
      */
     public function update(User $user, Lead $lead)
     {
-        return $lead->created_by == $user->id;
+        return $lead->user_id == $user->id ||
+                $lead->created_by == $user->id;
     }
 
     /**
@@ -65,7 +67,8 @@ class LeadPolicy
      */
     public function delete(User $user, Lead $lead)
     {
-        return $lead->created_by == $user->id;
+        return $lead->user_id == $user->id ||
+                $lead->created_by == $user->id;
     }
 
     /**

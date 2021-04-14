@@ -105,7 +105,7 @@ class UsersController extends Controller
 
         if(\Auth::user()->isSuperAdmin())
         {
-            $user = User::createCompany($post);
+            $user = User::createUser($post);
 
             $request->session()->flash('success', __('User successfully created.'));
 
@@ -142,14 +142,7 @@ class UsersController extends Controller
 
         $post = $request->validated();
 
-        if(\Auth::user()->isSuperAdmin())
-        {
-            $user->updateCompany($post);
-        }
-        else
-        {
-            $user->updateUser($post);
-        }
+        $user->updateUser($post);
 
         $request->session()->flash('success', __('User successfully updated.'));
 

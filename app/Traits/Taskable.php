@@ -24,12 +24,15 @@ trait Taskable
         {
             $file = [];
             
-            $file['file_name'] = $media->file_name;
-            $file['size'] = $media->size;
-            $file['download'] = route('tasks.file.download',[$task->id, $media->id]);
-            $file['delete'] = route('tasks.file.delete', [$task->id, $media->id]);
+            if($user->can('view', $media)){
 
-            $files[] = $file;
+                $file['file_name'] = $media->file_name;
+                $file['size'] = $media->size;
+                $file['download'] = route('tasks.file.download',[$task->id, $media->id]);
+                $file['delete'] = route('tasks.file.delete', [$task->id, $media->id]);
+
+                $files[] = $file;
+            }
         }
 
         $timesheet = \Auth::user()->timesheets()->where('task_id', $task->id)->orderBy('updated_at', 'desc')->first();

@@ -3,7 +3,7 @@
 @endphp
 
 <div class="mb-4">
-    @if(!$user->subscribed())
+    @if(!$user->getCompany()->subscribed())
         <div class="alert alert-warning text-small" role="alert">
             <span>{{__('You have limited functionality on the Free plan. Please choose a subscription and start your 14 days FREE trial today!')}}</span>
         </div>

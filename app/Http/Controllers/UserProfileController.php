@@ -58,22 +58,24 @@ class UserProfileController extends Controller
     {
         Gate::authorize('update', $user);
 
-        if(!$user->subscribed()){
+        $company = $user->getCompany();
+
+        if(!$company->subscribed()){
             $user_plan = SubscriptionPlan::first();
         }else{
-            $user_plan = SubscriptionPlan::where('paddle_id', $user->subscription()->paddle_plan)->first();
+            $user_plan = SubscriptionPlan::where('paddle_id', $company->subscription()->paddle_plan)->first();
         }
 
-        if($user->subscribed()){
+        if($company->subscribed()){
 
             $plans = SubscriptionPlan::where('trial', 0)
-                                        ->orWhere('paddle_id', $user->subscription()->paddle_plan)
+                                        ->orWhere('paddle_id', $company->subscription()->paddle_plan)
                                         ->orWhere('id', 1)
                                         ->orderBy('sort','asc')
                                         ->orderBy('duration','asc')
                                         ->get();   
 
-        }elseif($user->subscriptions->count()){
+        }elseif($company->subscriptions->count()){
 
             $plans = SubscriptionPlan::where('trial', 0)
                                         ->orWhere('id', 1)
@@ -88,7 +90,7 @@ class UserProfileController extends Controller
                                         ->orderBy('duration','asc')->get();
         }
 
-        $companySettings = $user->companySettings;
+        $companySettings = $company->companySettings;
         $companyName = $companySettings ? $companySettings->name : null;
         $companyLogo = $companySettings ? $companySettings->media('logos')->first() : null;
 

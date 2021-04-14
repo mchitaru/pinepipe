@@ -39,12 +39,10 @@
         {{ Form::label('description', __('Description'), array('class'=>'col-3')) }}
         {!! Form::textarea('description', null, ['class'=>'form-control col','rows'=>'2']) !!}
     </div>
-    @if(\Auth::user()->type=='company')
     <div class="form-group row align-items-center">
         {{ Form::label('user_id', __('Owner'), array('class'=>'col-3')) }}
         {{ Form::select('user_id', $owners, null, array('class' => 'form-control col', 'lang'=>\Auth::user()->locale)) }}
     </div>
-    @endif
     <div class="form-group row avatar-container">
         <div class="d-flex flex-column avatar-preview">
             @if(!$expense->hasMedia('attachments'))

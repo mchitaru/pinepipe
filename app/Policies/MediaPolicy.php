@@ -41,7 +41,7 @@ class MediaPolicy
      */
     public function create(User $user, $model)
     {
-        return $user->can('update', [$model, true]);
+        return $user->can('view', [$model, true]);
     }
 
     /**
@@ -53,7 +53,8 @@ class MediaPolicy
      */
     public function update(User $user, Media $media)
     {
-        return $media->created_by == $user->id  ||
+        return $media->user_id == $user->id ||
+                $media->created_by == $user->id  ||
                 $user->can('update', [$media->model, false]);
     }
 
@@ -66,7 +67,8 @@ class MediaPolicy
      */
     public function delete(User $user, Media $media)
     {
-        return $media->created_by == $user->id  ||
+        return $media->user_id == $user->id ||
+                $media->created_by == $user->id  ||
                 $user->can('update', [$media->model, false]);
     }
 

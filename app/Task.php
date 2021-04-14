@@ -144,11 +144,6 @@ class Task extends Model implements HasMedia
             $users = [];
         }
 
-        if(\Auth::user()->type != 'company' && empty($users)){
-
-            $users[] = \Auth::user()->id;
-        }
-
         $task->users()->sync($users);
         $task->syncTags(isset($post['tags'])?$post['tags']:[]);
 
@@ -169,11 +164,6 @@ class Task extends Model implements HasMedia
             }else{
 
                 $users = [];
-            }
-
-            if(\Auth::user()->type != 'company' && empty($users)){
-
-                $users[] = \Auth::user()->id;
             }
 
             $this->users()->sync($users);

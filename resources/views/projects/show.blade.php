@@ -326,11 +326,11 @@ $model = $project;
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Invoices')}}</h3>
-                    @if(Gate::check('create', ['App\Invoice', $project]))
+                    @can('create', ['App\Invoice', $project])
                         <a href="{{ route('invoices.create')  }}" class="btn btn-primary btn-round" data-params="client_id={{$project->client_id}}&project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
-                    @endif
+                    @endcan
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -344,7 +344,7 @@ $model = $project;
                 </form>
                 </div>
                 <!--end of content list head-->
-                @can('update', $project)
+                @can('create', ['App\Invoice', $project])
                     <div class="content-list-body filter-list paginate-container" id="invoices-container">
                     </div>
                 @endcan
@@ -354,11 +354,11 @@ $model = $project;
                 <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>{{__('Expenses')}}</h3>
-                    @if(Gate::check('create', ['App\Expense', $project]))
+                    @can('create', ['App\Expense', $project])
                         <a href="{{ route('expenses.create')  }}" class="btn btn-primary btn-round" data-params="project_id={{$project->id}}" data-remote="true" data-type="text" >
                             <i class="material-icons">add</i>
                         </a>
-                    @endif
+                    @endcan
                 </div>
                 <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -372,7 +372,7 @@ $model = $project;
                 </form>
                 </div>
                 <!--end of content list head-->
-                @can('update', $project)
+                @can('create', ['App\Expense', $project])
                 <div class="content-list-body filter-list paginate-container" id="expenses-container">
                 </div>
                 @endcan

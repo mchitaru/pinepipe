@@ -247,11 +247,6 @@ class Project extends Model implements HasMedia
             $users = collect();
         }
 
-        if(\Auth::user()->type != 'company')
-        {
-            $users->prepend(\Auth::user()->id);
-        }
-
         $project->users()->sync($users);
 
         Activity::createProject($project);
@@ -285,12 +280,6 @@ class Project extends Model implements HasMedia
         }else{
 
             $users = collect();
-        }
-
-        if(\Auth::user()->type != 'company' &&
-            empty($users))
-        {
-            $users->prepend(\Auth::user()->id);
         }
 
         $this->users()->sync($users);

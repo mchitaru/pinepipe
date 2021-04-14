@@ -65,7 +65,7 @@ use Carbon\Carbon;
                             @endforeach
                         </ul>
                     </div>
-                    <div class="card-meta d-flex justify-content-between">
+                    <div class="card-meta col-1 d-flex justify-content-between">
                         @can('update', $project)
                         <div class="dropdown card-options">
                             @if($project->enabled)

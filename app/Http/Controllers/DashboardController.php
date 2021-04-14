@@ -32,7 +32,7 @@ class DashboardController extends Controller
 
             $user = \Auth::user();
             $user['total_user'] = User::withoutGlobalScopes()
-                                        ->where('type', '=', 'company')
+                                        ->whereIn('type', ['company', 'employee'])
                                         ->count();
 
             $user['total_paid_user'] = User::withoutGlobalScopes()
@@ -131,7 +131,7 @@ class DashboardController extends Controller
 
         //events
         $arrEvent = [];
-        $events = \Auth::user()->eventsByUserType()
+        $events = \Auth::user()->companyEvents()
                                 ->where(function ($query) use ($search) {
                                     $query->where('name','like', $search.'%');
                                 })
@@ -169,7 +169,7 @@ class DashboardController extends Controller
         $arrContact = [];
         if(\Auth::user()->can('viewAny', 'App\Contact')){
 
-            $contacts = \Auth::user()->contactsByUserType()
+            $contacts = \Auth::user()->companyContacts()
                                     ->where(function ($query) use ($search) {
                                         $query->where('name','like', $search.'%');
                                     })

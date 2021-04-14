@@ -75,7 +75,10 @@
 @endsection
 
 @section('footer')
-{{Form::submit(__('Update'), array('class'=>'btn btn-primary ', ($event->google_id?'disabled':''), 'data-disable' => 'true'))}}
+    <a class="btn btn-danger mr-auto {{($event->google_id?'disabled':'')}}" href="{{ route('events.destroy', $event->id) }}" data-method="delete" data-remote="true" data-type="text">
+        <span>{{__('Delete')}}</span>
+    </a>
+    {{Form::submit(__('Update'), array('class'=>'btn btn-primary ', ($event->google_id?'disabled':''), 'data-disable' => 'true'))}}
 @endsection
 
 @section('form-end')

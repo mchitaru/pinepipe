@@ -671,3 +671,10 @@ ol.timeline > li:before {
   ul.bad li:before {
     content: '\274C';
   }
+
+  .dz-max-files-reached {
+
+    pointer-events: none;
+    cursor: default;
+    
+  }

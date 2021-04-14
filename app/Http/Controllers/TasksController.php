@@ -35,7 +35,7 @@ class TasksController extends Controller
         if($project_id == null && !$user->companies->isEmpty()){
 
             $companies = $user->companies->pluck('name', 'id');
-            $companies->prepend($user->company->name, $user->created_by);
+            $companies->prepend($user->getCompany()->name, $user->created_by);
         }
 
         if (!$request->ajax())
@@ -63,7 +63,7 @@ class TasksController extends Controller
             $project_name = null;
             $company = !empty($request['select']) ? $request['select'] : $user->created_by;
             
-            $stages = Stage::taskStagesByUserType($request['filter'], $request['sort'], $request['dir'], $users, $company)->get();
+            $stages = Stage::filterTaskStages($request['filter'], $request['sort'], $request['dir'], $users, $company)->get();
         }
 
         clock()->endEvent('TasksController');
@@ -141,7 +141,7 @@ class TasksController extends Controller
 
         //find the company for the project to retrieve the stages
         $project = Project::find($post['project_id']);
-        $company = $project ? $project->company : \Auth::user()->company;
+        $company = $project ? $project->company : \Auth::user()->getCompany();
 
         $stage = $company->getFirstTaskStage();
 
@@ -200,7 +200,7 @@ class TasksController extends Controller
                                     ->where('archived', '0')
                                     ->pluck('name', 'id');
      
-        $company = $task->project ? $task->project->company : \Auth::user()->company;
+        $company = $task->project ? $task->project->company : \Auth::user()->getCompany();
                                     
         $stages     = Stage::where('class', Task::class)
                             ->where('created_by', $company->created_by)
@@ -267,7 +267,7 @@ class TasksController extends Controller
 
         if(!empty($post['closed'])){
 
-            $company = $task->project ? $task->project->company : \Auth::user()->company;
+            $company = $task->project ? $task->project->company : \Auth::user()->getCompany();
             $stage_done = $company->getLastTaskStage()->id;
 
             $post['stage_id'] = $stage_done;

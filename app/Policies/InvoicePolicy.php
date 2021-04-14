@@ -30,7 +30,8 @@ class InvoicePolicy
      */
     public function view(User $user, Invoice $invoice)
     {
-        return $invoice->created_by == $user->id;
+        return ($invoice->created_by == $user->created_by) &&
+                ($invoice->project == null || $user->can('view', $invoice->project));
     }
 
     /**
@@ -41,7 +42,7 @@ class InvoicePolicy
      */
     public function create(User $user, $project = null)
     {
-        return $project == null || $user->can('update', $project);
+        return $project == null || $user->can('view', $project);
     }
 
     /**
@@ -53,7 +54,8 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoice)
     {
-        return $invoice->created_by == $user->id;
+        return $invoice->user_id == $user->id || 
+                $invoice->created_by == $user->id;
     }
 
     /**
@@ -65,7 +67,8 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoice)
     {
-        return $invoice->created_by == $user->id;
+        return $invoice->user_id == $user->id || 
+                $invoice->created_by == $user->id;
     }
 
     /**

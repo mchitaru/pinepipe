@@ -1,6 +1,10 @@
 
 @foreach($users as $user)
 @can('view', $user)
+@php
+$user_role = $user->getRole();
+@endphp
+@if(!isSet($role) || $user_role == $role)
 <div class="card card-task mb-1">
     <div class="container row align-items-center">
         <div class="pl-2 position-absolute">
@@ -13,12 +17,12 @@
                 <h6 data-filter-by="text">{{$user->name}}</h6>
                 @if(\Auth::user()->isSuperAdmin())
                     <span class="badge badge-light mr-2">
-                        {{($user->subscribed()&&$user->subscription()->plan)?$user->subscription()->plan->name:''}}
+                        {{($user->getCompany()->subscribed()&&$user->getCompany()->subscription()->plan)?$user->getCompany()->subscription()->plan->name:''}}
                     </span>
                     <p class="text-small">{{$user->created_at}}</p>
                 @else
                 <span class="badge badge-light mr-2">
-                    {{__($user->getCollaboratorType())}}
+                    {{__($user_role)}}
                 </span>
                 @endif
             </div>
@@ -34,7 +38,7 @@
                 @if(\Auth::user()->type=='super admin')
                 <div class="d-flex align-items-center">
                     <span class="badge badge-light mr-2">
-                        <i class="material-icons" title={{__("Collaborators")}}>people</i>
+                        <i class="material-icons" title={{__("People")}}>people</i>
                         {{$user->totalCompanyUsers()}}
                     </span>
                     <span class="badge badge-light mr-2">
@@ -49,25 +53,27 @@
                 @endif
             </div>
             <div class="card-meta col-1 float-right">
-            @if(Gate::check('delete', $user) || $user->isCollaborator())
+            @if(\Auth::user()->isSuperAdmin() || $user->isCollaborator() || $user->isEmployee())
                 <div class="dropdown card-options">
                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @if($user->isCollaborator())
+                        @if($user->isCollaborator() || $user->isEmployee())
                             <a class="dropdown-item" href="{{ route('users.invite.store') }}" data-params="email={{$user->email}}" data-method="post" data-remote="true" data-type="text">
                                     <span>{{__('Resend invitation')}}</span>
                                 </a>
                         @endif
-                        @can('delete', $user)
+                        @if(\Auth::user()->isSuperAdmin())
                             <a class="dropdown-item text-danger" href="{{ route('users.verify', $user->id) }}" data-remote="true" data-type="text">
                                 <span>{{__('Resend verification')}}</span>
                             </a>
+                            @can('delete', $user)
                             <a class="dropdown-item text-danger" href="{{ route('users.destroy', $user->id) }}" data-method="delete" data-remote="true" data-type="text">
                                 <span>{{__('Delete')}}</span>
                             </a>
-                        @endcan
+                            @endcan
+                        @endif
                     </div>
                 </div>
             @endif
@@ -75,6 +81,7 @@
         </div>
     </div>
 </div>
+@endif
 @endcan
 @endforeach
 
