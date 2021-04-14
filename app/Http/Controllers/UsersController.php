@@ -112,7 +112,7 @@ class UsersController extends Controller
             return $request->ajax() ? response()->json(['success'], 207) : redirect()->back();
         }
 
-        if(\Auth::user()->checkUserLimit())
+        if(!\Auth::user()->hasMaxUsers())
         {
             $user = User::createUser($post);
 

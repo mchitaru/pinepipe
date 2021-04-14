@@ -72,7 +72,7 @@ class ClientsController extends Controller
 
         $post = $request->validated();
 
-        if(\Auth::user()->checkClientLimit())
+        if(!\Auth::user()->hasMaxClients())
         {
             $client = Client::createClient($post);
 

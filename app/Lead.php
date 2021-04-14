@@ -111,7 +111,7 @@ class Lead extends Model implements HasMedia
     {
         if(isset($post['client_id']) && !is_numeric($post['client_id'])) {
 
-            if(!\Auth::user()->checkClientLimit()) return null;
+            if(\Auth::user()->hasMaxClients()) return null;
 
             //new client
             $client = Client::createClient(['name' => $post['client_id']]);

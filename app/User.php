@@ -715,7 +715,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
                     ->first();
     }
 
-    public function checkProjectLimit()
+    public function hasMaxProjects()
     {
         $company = $this->getCompany();
 
@@ -729,10 +729,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $total_projects = $this->companyProjects()->count();
 
-        return $total_projects <= $max_projects;
+        return $total_projects >= $max_projects;
     }
 
-    public function checkClientLimit()
+    public function hasMaxClients()
     {
         $company = $this->getCompany();
 
@@ -746,10 +746,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $total_clients = $this->companyClients()->count();
 
-        return $total_clients <= $max_clients;
+        return $total_clients >= $max_clients;
     }
 
-    public function checkUserLimit()
+    public function hasMaxUsers($checkMore = false)
     {
         $company = $this->getCompany();
 
@@ -763,7 +763,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
         $total_users = $this->companyStaff()->count() + $this->collaborators->count();
 
-        return $total_users <= $max_users;
+        return !$checkMore ? $total_users >= $max_users : $total_users > $max_users;
     }
 
     public function initCompanyDefaults()

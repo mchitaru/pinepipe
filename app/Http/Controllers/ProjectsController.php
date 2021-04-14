@@ -86,7 +86,7 @@ class ProjectsController extends Controller
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
 
-        if(!\Auth::user()->checkUserLimit()){                                        
+        if(\Auth::user()->hasMaxUsers(true)){                                        
             
             $users = $users->reject(function ($value, $key) {
                 return \Auth::user()->collaborators->contains($key);
@@ -143,7 +143,7 @@ class ProjectsController extends Controller
 
         $post = $request->validated();
 
-        if(\Auth::user()->checkProjectLimit())
+        if(!\Auth::user()->hasMaxProjects())
         {
             if($project = Project::createProject($post))
             {
@@ -203,7 +203,7 @@ class ProjectsController extends Controller
                         ->pluck('name', 'id')
                         ->prepend(__('(myself)'), \Auth::user()->id);
 
-        if(!\Auth::user()->checkUserLimit()){                                        
+        if(\Auth::user()->hasMaxUsers(true)){                                        
             
             $users = $users->reject(function ($value, $key) {
                 return \Auth::user()->collaborators->contains($key);

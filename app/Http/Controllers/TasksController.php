@@ -112,7 +112,7 @@ class TasksController extends Controller
             $user_id = \Auth::user()->id;
         }
 
-        if(!\Auth::user()->checkUserLimit()){                                        
+        if(\Auth::user()->hasMaxUsers(true)){                                        
             
             $users = $users->reject(function ($value, $key) {
                 return \Auth::user()->collaborators->contains($key);
@@ -225,7 +225,7 @@ class TasksController extends Controller
                         ->prepend(__('(myself)'), \Auth::user()->id);
         }
 
-        if(!\Auth::user()->checkUserLimit()){                                        
+        if(\Auth::user()->hasMaxUsers(true)){                                        
             
             $users = $users->reject(function ($value, $key) {
                 return \Auth::user()->collaborators->contains($key);
