@@ -49,7 +49,7 @@ class AppSumoController extends Controller
                                                     'paddle_subscription' => $post['code'],
                                                     'paddle_plan' => $planId,
                                                     'trial_ends_at' => Carbon::now(),
-                                                    'ends_at' => null,
+                                                    'ends_at' => Carbon::now()->addMonths(12),
                                                     'max_clients' => $plan->max_clients,
                                                     'max_projects' => $plan->max_projects,
                                                     'max_users' => $plan->max_users,
