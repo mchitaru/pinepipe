@@ -725,7 +725,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             $max_projects = $company->subscription()->max_projects;
         }
 
-        if(!isset($max_projects)) return true;
+        if(!isset($max_projects)) return false;
 
         $total_projects = $this->companyProjects()->count();
 
@@ -742,7 +742,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             $max_clients = $company->subscription()->max_clients;
         }
 
-        if(!isset($max_clients)) return true;
+        if(!isset($max_clients)) return false;
 
         $total_clients = $this->companyClients()->count();
 
@@ -759,7 +759,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
             $max_users = $company->subscription()->max_users;
         }
 
-        if(!isset($max_users)) return true;
+        if(!isset($max_users)) return false;
 
         $total_users = $this->companyStaff()->count() + $this->collaborators->count();
 
@@ -1070,7 +1070,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia, HasLoca
 
             $post['password']   = Hash::make($post['password']);
         }
-        
+
         $user = User::create($post);
 
         return $user;
