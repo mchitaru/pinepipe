@@ -115,6 +115,7 @@ return [
     'uploaded' => ':attribute nu s-a încărcat cu succes.',
     'url' => 'Formatul :attribute nu este valid.',
     'uuid' => ':attribute trebuie să fie un UUID valid.',
+    'captcha' => 'Codul captcha introdus este invalid.',
 
     /*
     |--------------------------------------------------------------------------

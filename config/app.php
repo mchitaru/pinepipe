@@ -176,7 +176,7 @@ return [
         // App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         \Torann\GeoIP\GeoIPServiceProvider::class,
-
+        Mews\Captcha\CaptchaServiceProvider::class,
     ],
 
     /*
@@ -230,6 +230,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 
 ];

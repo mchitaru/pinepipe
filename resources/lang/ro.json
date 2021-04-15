@@ -845,5 +845,7 @@
     "View or access projects & items on projects they are not assigned to.": "Vedea sau interacționa cu proiecte & documente de pe proiecte care nu le sunt atribuite.",
     "Employees": "Angajați",
     "Invite collaborator": "Invită colaborator",
-    "Invite employee": "Invită angajat"
+    "Invite employee": "Invită angajat",
+    "This email address cannot be invited! Please contact support for more information.": "Această adresă de email nu poate fi invitată! Te rugăm să contactezi asistența pentru mai multe informații.",
+    "You are not allowed to upload files.": "Nu ai dreptul de a încărca fișiere."
 }

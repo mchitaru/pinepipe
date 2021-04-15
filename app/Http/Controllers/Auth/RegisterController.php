@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Mail;
+use Mews\Captcha;
 
 class RegisterController extends Controller
 {
@@ -71,6 +72,10 @@ class RegisterController extends Controller
                 'string',
                 'min:8',
                 'confirmed',
+            ],
+            'captcha' => [
+                'required',
+                'captcha'
             ],
         ]
         );

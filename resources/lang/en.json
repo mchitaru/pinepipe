@@ -946,5 +946,7 @@
     "View or access projects & items on projects they are not assigned to.": "",
     "Employees": "",
     "Invite collaborator": "",
-    "Invite employee": ""
+    "Invite employee": "",
+    "This email address cannot be invited! Please contact support for more information.": "",
+    "You are not allowed to upload files.": ""
 }
