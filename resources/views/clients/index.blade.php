@@ -47,8 +47,8 @@
                     </span>
                 </div>
             </div>
-            @can('update', $client)
-            <div class="dropdown card-options">
+            <div class="dropdown card-options col-1">
+                @can('update', $client)
                 <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons">more_vert</i>
                 </button>
@@ -75,8 +75,8 @@
                         </a>
                     @endcan
                 </div>
+                @endcan
             </div>
-            @endcan
         </div>
     </div>
 </div>

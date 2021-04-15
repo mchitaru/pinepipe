@@ -53,8 +53,8 @@ class ClientPolicy
      */
     public function update(User $user, Client $client)
     {
-        return $client->user_id == $user->user_id ||
-                $client->created_by == $user->user_id;
+        return $client->user_id == $user->id ||
+                $client->created_by == $user->id;
     }
 
     /**
@@ -66,8 +66,8 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client)
     {
-        return $client->user_id == $user->user_id ||
-                $client->created_by == $user->user_id;
+        return $client->user_id == $user->id ||
+                $client->created_by == $user->id;
     }
 
     /**
