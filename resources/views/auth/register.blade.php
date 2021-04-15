@@ -27,7 +27,7 @@
             </div>
             <div class="form-group row align-items-center justify-content-center">    
                 {!!captcha_img()!!}
-                {{Form::text('captcha',null,array('class'=>'form-control ml-1 col-1'))}}
+                {{Form::text('captcha',null,array('class'=>'form-control ml-1 col-2'))}}
             </div>
             @include('partials.errors')
             <div class="form-group mb-0 text-center">
