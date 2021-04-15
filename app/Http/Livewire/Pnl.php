@@ -19,7 +19,11 @@ class Pnl extends Component
         foreach($payments as $p){
 
             $invoice = $p->invoice()->first();
-            $income += \Helpers::priceConvert($p->amount, 1.0/$invoice->rate);
+
+            if($invoice->rate){
+
+                $income += \Helpers::priceConvert($p->amount, 1.0/$invoice->rate);
+            }
         }
 
         $exp = \Auth::user()->companyExpenses()
@@ -27,10 +31,10 @@ class Pnl extends Component
                             ->get();
 
         foreach($exp as $e){
-            
+
             $expenses += $e->amount;
         }
- 
+
         return view('livewire.pnl', compact('income', 'expenses'));
     }
 }
