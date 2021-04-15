@@ -89,49 +89,49 @@ class Activity extends Model
     {
         switch($this->action)
         {
-            case 'activity_create_note': 
+            case 'activity_create_note':
                 return __('created note');
-            case 'activity_create_event': 
+            case 'activity_create_event':
                 return __('created event');
-            case 'activity_update_event': 
+            case 'activity_update_event':
                 return __('updated event');
-            case 'activity_create_lead': 
+            case 'activity_create_lead':
                 return __('created lead');
-            case 'activity_update_lead': 
+            case 'activity_update_lead':
                 return __('updated lead');
-            case 'activity_create_task': 
+            case 'activity_create_task':
                 return __('created task');
-            case 'activity_update_task': 
+            case 'activity_update_task':
                 return __('updated task');
-            case 'activity_create_timesheet': 
+            case 'activity_create_timesheet':
                 return __('created timesheet');
-            case 'activity_update_timesheet': 
+            case 'activity_update_timesheet':
                 return __('updated timesheet');
-            case 'activity_create_project': 
+            case 'activity_create_project':
                 return __('created project');
-            case 'activity_update_project': 
+            case 'activity_update_project':
                 return __('updated project');
-            case 'activity_upload_file': 
+            case 'activity_upload_file':
                 return __('uploaded file');
-            case 'activity_create_invoice': 
+            case 'activity_create_invoice':
                 return __('created invoice');
-            case 'activity_update_invoice': 
+            case 'activity_update_invoice':
                 return __('updated invoice');
-            case 'activity_create_contact': 
+            case 'activity_create_contact':
                 return __('created contact');
-            case 'activity_update_contact': 
+            case 'activity_update_contact':
                 return __('updated contact');
-            case 'activity_create_client': 
+            case 'activity_create_client':
                 return __('created client');
-            case 'activity_update_client': 
+            case 'activity_update_client':
                 return __('updated client');
-            case 'activity_create_comment': 
+            case 'activity_create_comment':
                 return __('added comment');
-            case 'activity_update_comment': 
+            case 'activity_update_comment':
                 return __('updated comment');
-            case 'activity_create_expense': 
+            case 'activity_create_expense':
                 return __('added expense');
-            case 'activity_update_expense': 
+            case 'activity_update_expense':
                 return __('updated expense');
         }
     }
@@ -140,19 +140,19 @@ class Activity extends Model
     {
         switch($this->action)
         {
-            case 'activity_create_event': 
-            case 'activity_update_event': 
-            case 'activity_create_task': 
-            case 'activity_update_task': 
-            case 'activity_create_timesheet': 
-            case 'activity_update_timesheet': 
-            case 'activity_create_contact': 
-            case 'activity_update_contact': 
-            case 'activity_create_note': 
-            case 'activity_create_comment': 
-            case 'activity_update_comment': 
-            case 'activity_create_expense': 
-            case 'activity_update_expense': 
+            case 'activity_create_event':
+            case 'activity_update_event':
+            case 'activity_create_task':
+            case 'activity_update_task':
+            case 'activity_create_timesheet':
+            case 'activity_update_timesheet':
+            case 'activity_create_contact':
+            case 'activity_update_contact':
+            case 'activity_create_note':
+            case 'activity_create_comment':
+            case 'activity_update_comment':
+            case 'activity_create_expense':
+            case 'activity_update_expense':
                 return true;
         }
 
@@ -287,7 +287,7 @@ class Activity extends Model
                 'url'    => route('tasks.file.download', [$task->id, $file->id]),
             ]
         );
-    }    
+    }
 
     public static function createTaskComment(Task $task, Comment $comment)
     {
@@ -300,7 +300,7 @@ class Activity extends Model
                 'url'    => route('tasks.show', $task->id)."/comment",
             ]
         );
-    }    
+    }
 
     public static function updateTaskComment(Task $task, Comment $comment)
     {
@@ -313,7 +313,7 @@ class Activity extends Model
                 'url'    => route('tasks.show', $task->id)."/comment",
             ]
         );
-    }    
+    }
 
     public static function createInvoice(Invoice $invoice)
     {
@@ -322,7 +322,7 @@ class Activity extends Model
                 'user_id' => \Auth::user()->id,
                 'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_create_invoice',
-                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                'value' => \Auth::user()->invoiceNumberFormat($invoice->increment),
                 'url'    => route('invoices.show', $invoice->id),
             ]
         );
@@ -335,11 +335,11 @@ class Activity extends Model
                 'user_id' => \Auth::user()->id,
                 'created_by' => \Auth::user()->created_by,
                 'action' => 'activity_update_invoice',
-                'value' => \Auth::user()->invoiceNumberFormat($invoice->id),
+                'value' => \Auth::user()->invoiceNumberFormat($invoice->increment),
                 'url'    => route('invoices.show', $invoice->id),
             ]
         );
-    }    
+    }
 
     public static function createLead(Lead $lead)
     {
