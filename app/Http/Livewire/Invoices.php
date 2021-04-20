@@ -22,7 +22,10 @@ class Invoices extends Component
             $items = \Auth::user()->companyInvoices()
                                         ->where('status', '<', '3')
                                         ->orderBy('due_date', 'ASC')
-                                        ->get();
+                                        ->get()
+                                        ->filter(function ($invoice, $key) {
+                                            return \Auth::user()->can('view', $invoice);
+                                        });
         }
 
         return view('livewire.invoices', compact('items'));

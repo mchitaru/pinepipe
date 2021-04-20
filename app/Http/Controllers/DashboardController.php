@@ -101,10 +101,12 @@ class DashboardController extends Controller
 
             foreach($projects as $project)
             {
-                $arrProject[] = [
-                    'text' => $project->name,
-                    'link' => route('projects.show', [$project->id]),
-                ];
+                if(\Auth::user()->can('view', $project)){
+                    $arrProject[] = [
+                        'text' => $project->name,
+                        'link' => route('projects.show', [$project->id]),
+                    ];
+                }
             }
         }
 
@@ -121,11 +123,14 @@ class DashboardController extends Controller
 
             foreach($tasks as $task)
             {
-                $arrTask[] = [
-                    'text' => $task->title,
-                    'link' => route('tasks.show', [$task->id]),
-                    'param' => 'data-remote="true" data-type="text"'
-                ];
+                if(\Auth::user()->can('view', $task)){
+
+                    $arrTask[] = [
+                        'text' => $task->title,
+                        'link' => route('tasks.show', [$task->id]),
+                        'param' => 'data-remote="true" data-type="text"'
+                    ];
+                }
             }
         }
 
@@ -139,11 +144,14 @@ class DashboardController extends Controller
 
         foreach($events as $event)
         {
-            $arrEvent[] = [
-                'text' => $event->name,
-                'link' => (Gate::check('update', $event)?route('events.edit', [$event->id]):route('events.show', [$event->id])),
-                'param' => 'data-remote="true" data-type="text"'
-            ];
+            if(\Auth::user()->can('view', $event)){
+
+                $arrEvent[] = [
+                    'text' => $event->name,
+                    'link' => (Gate::check('update', $event)?route('events.edit', [$event->id]):route('events.show', [$event->id])),
+                    'param' => 'data-remote="true" data-type="text"'
+                ];
+            }
         }
 
         //clients
@@ -158,10 +166,13 @@ class DashboardController extends Controller
 
             foreach($clients as $client)
             {
-                $arrClient[] = [
-                    'text' => $client->name,
-                    'link' => route('clients.show', [$client->id]),
-                ];
+                if(\Auth::user()->can('view', $client)){
+
+                    $arrClient[] = [
+                        'text' => $client->name,
+                        'link' => route('clients.show', [$client->id]),
+                    ];
+                }
             }
         }
 
@@ -178,11 +189,14 @@ class DashboardController extends Controller
 
             foreach($contacts as $contact)
             {
-                $arrContact[] = [
-                    'text' => $contact->name,
-                    'link' => route('contacts.edit', [$contact->id]),
-                    'param' => 'data-remote="true" data-type="text"'
-                ];
+                if(\Auth::user()->can('view', $contact)){
+
+                    $arrContact[] = [
+                        'text' => $contact->name,
+                        'link' => route('contacts.edit', [$contact->id]),
+                        'param' => 'data-remote="true" data-type="text"'
+                    ];
+                }
             }
         }
 
@@ -198,10 +212,13 @@ class DashboardController extends Controller
 
             foreach($leads as $lead)
             {
-                $arrLead[] = [
-                    'text' => $lead->name,
-                    'link' => route('leads.show', [$lead->id])
-                ];
+                if(\Auth::user()->can('view', $lead)){
+
+                    $arrLead[] = [
+                        'text' => $lead->name,
+                        'link' => route('leads.show', [$lead->id])
+                    ];
+                }
             }
         }
 
@@ -218,10 +235,13 @@ class DashboardController extends Controller
 
             foreach($invoices as $invoice)
             {
-                $arrInvoice[] = [
-                    'text' => $invoice->number ? $invoice->number : \Auth::user()->invoiceNumberFormat($invoice->increment),
-                    'link' => route('invoices.show', [$invoice->id])
-                ];
+                if(\Auth::user()->can('view', $invoice)){
+
+                    $arrInvoice[] = [
+                        'text' => $invoice->number ? $invoice->number : \Auth::user()->invoiceNumberFormat($invoice->increment),
+                        'link' => route('invoices.show', [$invoice->id])
+                    ];
+                }
             }
         }
 
