@@ -33,7 +33,7 @@ class ActiveUsersChart extends BaseChart
         //                 ->get();    
 
         $activities = Activity::with(['company'])
-                        ->selectRaw('DATE_FORMAT(created_at, "%d-%M") as date, DATE_FORMAT(created_at, "%M") as month, created_by, COUNT(*) as count')
+                        ->selectRaw('DATE_FORMAT(created_at, "%d-%M-%y") as date, DATE_FORMAT(created_at, "%M-%y") as month, created_by, COUNT(*) as count')
                         ->groupByRaw('created_by')
                         ->where('created_at', '>', Carbon::now()->subMonth())
                         ->orderBy('count', 'desc')

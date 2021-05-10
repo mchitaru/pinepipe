@@ -25,7 +25,7 @@ class NewUsersChart extends BaseChart
         //                 ->where('created_at', '>', Carbon::now()->subMonth())
         //                 ->get();    
 
-        $users = User::selectRaw('DATE_FORMAT(created_at,"%M") as date, COUNT(*) as count')
+        $users = User::selectRaw('DATE_FORMAT(created_at,"%M-%y") as date, COUNT(*) as count')
                         ->groupBy('date')
                         ->where('email_verified_at', '!=', null)
                         ->where('created_at', '>', Carbon::now()->subYear())

@@ -32,7 +32,7 @@ class DailyUsersChart extends BaseChart
         //                 ->orderBy('created_at', 'asc')
         //                 ->get();    
 
-        $activities = Activity::selectRaw('DATE_FORMAT(created_at, "%d-%M") as date, DATE_FORMAT(created_at, "%M") as month, COUNT(DISTINCT created_by) as count')
+        $activities = Activity::selectRaw('DATE_FORMAT(created_at, "%d-%M-%y") as date, DATE_FORMAT(created_at, "%M-%y") as month, COUNT(DISTINCT created_by) as count')
                         ->groupBy('date')
                         ->where('created_at', '>', Carbon::now()->subYear())
                         ->orderBy('created_at', 'asc')
