@@ -10,6 +10,7 @@ use App\User;
 use App\Subscription;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 use ProtoneMedia\LaravelPaddle\Paddle;
 
@@ -44,9 +45,17 @@ class SubscriptionsController extends Controller
             'return_url' => route('checkout').'?checkout={checkout_hash}'
         ];
 
+        Log::info("Payload", array('product_id' => $plan->paddle_id,
+                                'customer_email' => \Auth::user()->email,
+                                'user_id' => \Auth::user()->id,
+                                'plan_id' => $plan->id,
+                                'return_url' => route('checkout').'?checkout={checkout_hash}'));
+
         $paddleResponse = Paddle::product()
             ->generatePayLink($payload)
             ->send();
+
+        Log::info("Response", array('response' => $paddleResponse));
 
         return Redirect::to($paddleResponse['url']);
     }
@@ -82,7 +91,7 @@ class SubscriptionsController extends Controller
             $payload = [
                 'subscription_id' => $subscription->paddle_subscription,
             ];
-    
+
             Paddle::subscription()->cancelUser($payload)->send();
 
         }else{
