@@ -13,6 +13,9 @@ use App\Http\Requests\UserProfileDestroyRequest;
 use App\Http\Requests\UserUnsubscribeRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use ProtoneMedia\LaravelPaddle\Paddle;
+
 
 use App\Currency;
 
@@ -73,7 +76,7 @@ class UserProfileController extends Controller
                                         ->orWhere('id', 1)
                                         ->orderBy('sort','asc')
                                         ->orderBy('duration','asc')
-                                        ->get();   
+                                        ->get();
 
         }elseif($company->subscriptions->count()){
 
@@ -81,7 +84,7 @@ class UserProfileController extends Controller
                                         ->orWhere('id', 1)
                                         ->orderBy('sort','asc')
                                         ->orderBy('duration','asc')
-                                        ->get();   
+                                        ->get();
         }else{
 
             $plans = SubscriptionPlan::where('trial', 1)
@@ -105,7 +108,32 @@ class UserProfileController extends Controller
                         ->orWhereIn('created_by', \Auth::user()->collaborators->pluck('id'))
                         ->paginate(25, ['*'], 'user-page');
 
-        return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url', 'users'));
+        $payLinks = [];
+
+        foreach($plans as $key => $plan){
+
+            if($key > 0 && $plan->active){
+
+                $payload = [
+                    'product_id' => $plan->paddle_id,
+                    'customer_email' => \Auth::user()->email,
+                    'passthrough' => ['user_id' => \Auth::user()->id,
+                                        'plan_id' => $plan->id],
+                    'return_url' => route('checkout').'?checkout={checkout_hash}'
+                ];
+
+                $paddleResponse = Paddle::product()
+                    ->generatePayLink($payload)
+                    ->send();
+
+                $payLinks[] = $paddleResponse['url'];
+
+            }else{
+                $payLinks[] = '';
+            }
+        }
+
+        return view('users.profile.edit', compact('user', 'user_plan', 'plans', 'companySettings', 'companyName', 'companyLogo', 'currencies', 'locales', 'url', 'users', 'payLinks'));
     }
 
     public function update(UserProfileRequest $request, User $user)

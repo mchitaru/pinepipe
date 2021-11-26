@@ -8,6 +8,10 @@ use App\SubscriptionPlan;
 @endpush
 
 @push('scripts')
+<script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+<script type="text/javascript">
+	Paddle.Setup({ vendor: 109430 });
+</script>
 <script>
 
     $(".avatar-input").change(function () {
@@ -42,14 +46,14 @@ use App\SubscriptionPlan;
 
 
     $('#toggle').change(function() {
-        
+
         $('.switch-label').each(function() {
             $(this).toggleClass('font-weight-bold font-weight-light');
-        });        
+        });
 
         $('.card-subscription').each(function() {
             $(this).toggleClass('d-none');
-        });        
+        });
     });
 
 </script>
@@ -110,10 +114,10 @@ use App\SubscriptionPlan;
                     <div class="tab-pane fade" role="tabpanel" id="subscription">@include('users.profile.partials.subscription')</div>
                     @endif
                     <div class="tab-pane fade" role="tabpanel" id="integrations">@include('users.profile.partials.integrations')</div>
-                </div>            
+                </div>
             </div>
         </div>
     </div>
-    </div>    
+    </div>
 </div>
 @endsection

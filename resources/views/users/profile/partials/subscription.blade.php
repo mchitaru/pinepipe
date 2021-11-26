@@ -17,7 +17,7 @@
         </div>
         <div class="col-lg-8 col-12 d-flex align-items-center justify-content-center">
             <label for="toggle" class="switch-label text-uppercase px-3 {{$monthly ? 'font-weight-bold':'font-weight-light'}}">{{__('MONTHLY')}}</label>
-            <input type="checkbox" id="toggle" class="checkbox" {{$monthly ? '':'checked'}}/>  
+            <input type="checkbox" id="toggle" class="checkbox" {{$monthly ? '':'checked'}}/>
             <label for="toggle" class="switch"></label>
             <label for="toggle" class="switch-label text-uppercase px-3 {{$monthly ? 'font-weight-light':'font-weight-bold'}}">{{__('YEARLY')}}</label>
         </div>
@@ -61,7 +61,7 @@
                             </ul>
                             @if($key != 0 )
                                 @if($user_plan->id != $plan->id)
-                                    <a href="{{ route('subscriptions.create', $plan->id) }}" class="btn btn-primary {{($user->subscription() && $user->subscription()->active())?'disabled':''}}">
+                                    <a href="#" data-override="{{$payLinks[$key]}}" data-theme="none" class="paddle_button btn btn-primary {{($user->subscription() && $user->subscription()->active())?'disabled':''}}">
                                         {{$plan->trial?__('Start free trial'):__('Activate')}}
                                     </a>
                                 @elseif(!$plan->deal && $user_plan->id == $plan->id)
