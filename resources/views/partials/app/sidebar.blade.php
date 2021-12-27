@@ -249,17 +249,17 @@ $languages = $_user->languages();
         @endif
     </div>
     </div>
+    {{--
     @if($_user->getCompany()->type == 'company' && !$_user->getCompany()->subscribed())
     <hr>
-    {{--
     <div class="d-none d-lg-block w-100">
         <a href="{{route('subscription')}}" class="nav-link d-flex p-0">
             <i class="material-icons pr-2">card_membership</i>
             {{$_user->getCompany()->subscriptions->count()?__('Activate subscription'):__('Start free trial')}}
         </a>
     </div>
-    --}}
     @endif
+    --}}
     <div class="d-none d-lg-block {{! Cookie::get('laravel_cookie_consent')?'pb-5':''}}">
     </div>
 </div>
